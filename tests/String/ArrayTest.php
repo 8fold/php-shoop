@@ -1,12 +1,12 @@
 <?php
 
-namespace Eightfold\String\Tests;
+namespace Eightfold\Shoop\Tests;
 
 use PHPUnit\Framework\TestCase;
 
-use Eightfold\String\Str;
+use Eightfold\Shoop\Str;
 
-use Eightfold\String\Tests\TestStrings;
+use Eightfold\Shoop\Tests\String\TestStrings;
 
 class ArrayTest extends TestCase
 {
