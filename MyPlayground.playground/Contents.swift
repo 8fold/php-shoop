@@ -1,13 +1,5 @@
 import UIKit
 
-class Human {
-    var eyeColor = "Green"
-}
+var x:Int = 20
 
-class Josh: Human {
-    override var myEyeColor = "Hazel"
-}
-
-let josh = Josh();
-
-print(josh.myEyeColor);
+x.advanced(by: 5)
