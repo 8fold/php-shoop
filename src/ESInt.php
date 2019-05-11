@@ -2,7 +2,14 @@
 
 namespace Eightfold\Shoop;
 
-class ESInt
+use Eightfold\Shoop\ESBool;
+
+use Eightfold\Shoop\Interfaces\{
+    Equatable,
+    Comparable
+};
+
+class ESInt implements Equatable, Comparable
 {
 	private $int = 0;
 
@@ -45,11 +52,9 @@ class ESInt
 
 	public function quotientAndRemainder(int $divisor): ESTuple
 	{
-		$quotient = ESInt::init($this->quotient($divisor)->int());
-		$remainder = ESInt::init($this->remainder($divisor)->int());		
 		return ESTuple::init([
-			"quotient" => $quotient,
-			"remainder" => $remainder
+			"quotient" => ESInt::init($this->quotient($divisor)->int()),
+			"remainder" => ESInt::init($this->remainder($divisor)->int())
 		]);
 	}
 
@@ -101,4 +106,31 @@ class ESInt
 	{
 		return ESInt::init($this->int() % $divisor);
 	}
+
+//-> Compare
+    public function isSameAs(Equatable $int): ESBool
+    {
+        return ESBool::init($this->int() === $int->int());
+    }
+
+    public function isNotSameAs(Equatable $int): ESBool
+    {
+        return ESBool::init($this->int() !== $int->int());
+    }
+
+    public function isLessThan(Comparable $compare, bool $orEqual = false): ESBool
+    {
+        if ($orEqual) {
+            if ($this->isLessThan($compare)->bool()) {
+                return $this->isLessThan($compare);
+            }
+            return $this->isSameAs($compare);
+        }
+        return ESBool::init($this->int() < $compare->int());
+    }
+
+    public function isGreaterThan(Comparable $compare): ESBool
+    {
+        return $this->isLessThan($compare, true)->toggle();
+    }
 }

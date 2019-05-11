@@ -2,7 +2,9 @@
 
 namespace Eightfold\Shoop;
 
-class ESBool
+use Eightfold\Shoop\Interfaces\Equatable;
+
+class ESBool implements Equatable
 {
 	private $value = true;
 
@@ -29,12 +31,12 @@ class ESBool
 	}
 
 //-> Comparing
-	public function isSameAs(ESBool $compare): ESBool
+	public function isSameAs(Equatable $compare): ESBool
 	{
 		return ESBool::init($this->bool() === $compare->bool());
 	}
 
-	public function isNotSameAs(ESBool $compare): ESBool
+	public function isNotSameAs(Equatable $compare): ESBool
 	{
 		return ESBool::init($this->bool() !== $compare->bool());
 	}
@@ -42,8 +44,7 @@ class ESBool
 //-> Transforming
 	public function toggle(): ESBool
 	{
-		$this->value = ! $this->value;
-		return $this;
+        return ESBool::init(! $this->bool());
 	}
 
 	public function not(): ESBool

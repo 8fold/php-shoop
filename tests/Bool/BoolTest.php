@@ -14,25 +14,27 @@ class BoolTest extends TestCase
         $this->assertNotNull($result);
         $this->assertTrue($result->bool());
         $this->assertEquals("true", $result->description());
-        $this->assertFalse($result->toggle()->bool());
+        $result = $result->toggle();
+        $this->assertFalse($result->bool());
 
         $compare = ESBool::init(false);
         $this->assertTrue($result->isSameAs($compare)->bool());
 
-        $compare->toggle();
+        $compare = $compare->toggle();
         $this->assertTrue($result->isNotSameAs($compare)->bool());
 
         $this->assertFalse($compare->not()->bool());
 
+        $compare = $compare->toggle();
         $this->assertFalse($result->or($compare)->bool());
 
-        $compare->toggle();
+        $compare = $compare->toggle();
         $this->assertTrue($result->or($compare)->bool());
 
-        $result->toggle();
+        $result = $result->toggle();
         $this->assertTrue($result->and($compare)->bool());
 
-        $compare->toggle();
+        $compare = $compare->toggle();
         $this->assertFalse($result->and($compare)->bool());
     }
 }

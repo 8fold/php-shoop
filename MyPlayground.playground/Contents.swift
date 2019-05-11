@@ -1,13 +1,10 @@
 import UIKit
 
-var x:Int = 1
+for i in 2...1 {
+    print("\(i)")
+}
 
-x.quotientAndRemainder(dividingBy: 4)
+class Something {}
 
-var y = 2
 
-x += y
 
-x
-
-y
