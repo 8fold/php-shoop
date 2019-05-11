@@ -1,5 +1,13 @@
 import UIKit
 
-var x:Int = 20
+var x:Int = 1
 
-x.advanced(by: 5)
+x.quotientAndRemainder(dividingBy: 4)
+
+var y = 2
+
+x += y
+
+x
+
+y

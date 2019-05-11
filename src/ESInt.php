@@ -38,10 +38,24 @@ class ESInt
 		return $this->int;
 	}
 
+	public function isMultipleOf(int $int): ESBool
+	{
+		return ESBool::init($this->remainder($int)->int() == 0);
+	}
+
+	public function quotientAndRemainder(int $divisor): ESTuple
+	{
+		$quotient = ESInt::init($this->quotient($divisor)->int());
+		$remainder = ESInt::init($this->remainder($divisor)->int());		
+		return ESTuple::init([
+			"quotient" => $quotient,
+			"remainder" => $remainder
+		]);
+	}
+
 	public function negate(): ESInt
 	{
-		$this->int = -1 * $this->int;
-		return $this;
+		return ESInt::init($this->product(-1)->int());
 	}
 
 	public function description(): string
@@ -52,18 +66,39 @@ class ESInt
 	public function distance(int $to = 0): ESInt
 	{
 		if ($to > $this->int) {
-			$this->int = $to - $this->int;
-
-		} else {
-			$this->int = -1 * ($this->int - $to);
-
+			return ESInt::init($to - $this->int);
 		}
-		return $this;
+		return ESInt::init(-1 * ($this->int - $to));
 	}
 
 	public function advanced(int $by = 0): ESInt
 	{
-		$this->int = $this->int + $by;
-		return $this;
+		return ESInt::init($this->int + $by);
+	}
+
+//-> Arithmetic
+	public function sum(int $int): ESInt
+	{
+		return ESInt::init($this->int + $int);
+	}
+
+	public function difference(int $int): ESInt
+	{
+		return ESInt::init($this->int - $int);
+	}
+
+	public function product(int $int): ESInt
+	{
+		return ESInt::init($this->int * $int);
+	}
+
+	public function quotient(int $divisor): ESInt
+	{
+		return ESInt::init(floor($this->int()/$divisor));
+	}
+
+	public function remainder(int $divisor): ESInt
+	{
+		return ESInt::init($this->int() % $divisor);
 	}
 }
