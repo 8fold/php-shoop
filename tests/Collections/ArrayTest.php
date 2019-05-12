@@ -20,5 +20,10 @@ class ArrayTest extends TestCase
 
         $compare = ESArray::wrap([3, 2, 1]);
         $this->assertTrue($result->isDifferentThan($compare)->bool());
+
+        $this->assertEquals("[1, 2, 3]", $result->description()->unwrap());
+
+        $result->random();
+        $result->shuffled();
     }
 }

@@ -4,7 +4,7 @@ namespace Eightfold\Shoop\Tests;
 
 use PHPUnit\Framework\TestCase;
 
-use Eightfold\Shoop\Str;
+use Eightfold\Shoop\ESString;
 
 use Eightfold\Shoop\Tests\String\TestStrings;
 
@@ -15,7 +15,7 @@ class MetadataTest extends TestCase
     public function testCanCountCharacters()
     {
         $expected = 9;
-        $result = Str::fromString($this->plainTextWithUnicode())->count();
+        $result = ESString::fromString($this->plainTextWithUnicode())->count();
         $this->assertEquals($expected, $result);
     }
 
@@ -23,7 +23,7 @@ class MetadataTest extends TestCase
     public function testCanCheckEquality()
     {
         $compare = $this->unicode();
-        $result = Str::fromString($compare)
+        $result = ESString::fromString($compare)
             ->isSameAs($compare);
         $this->assertTrue($result);
     }
@@ -31,7 +31,7 @@ class MetadataTest extends TestCase
     public function testCanCheckEqualityFails()
     {
         $compare = 'H';
-        $result = Str::fromString($this->unicode())
+        $result = ESString::fromString($this->unicode())
             ->isSameAs($compare);
         $this->assertFalse($result);
     }
@@ -39,7 +39,7 @@ class MetadataTest extends TestCase
     public function testCanCheckForPrefix()
     {
         $compare = $this->unicode();
-        $result = Str::fromString($compare)
+        $result = ESString::fromString($compare)
             ->startsWith('😀😇🌍');
         $this->assertTrue($result);
     }
@@ -47,7 +47,7 @@ class MetadataTest extends TestCase
     public function testCanCheckForPrefixFails()
     {
         $compare = $this->unicode();
-        $result = Str::fromString($compare)
+        $result = ESString::fromString($compare)
             ->startsWith('H');
         $this->assertFalse($result);
     }
@@ -55,7 +55,7 @@ class MetadataTest extends TestCase
     public function testCanCheckForPrefix2()
     {
         $compare = $this->unicode();
-        $result = Str::fromString($compare)
+        $result = ESString::fromString($compare)
             ->hasPrefix('😀😇🌍');
         $this->assertTrue($result);
     }
@@ -63,7 +63,7 @@ class MetadataTest extends TestCase
     public function testCanCheckForSuffix()
     {
         $compare = $this->unicode();
-        $result = Str::fromString($compare)
+        $result = ESString::fromString($compare)
             ->hasSuffix('🌍😍😌');
         $this->assertTrue($result);
     }

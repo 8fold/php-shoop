@@ -2,28 +2,45 @@
 
 namespace Eightfold\Shoop;
 
-class Str
+use Eightfold\Shoop\Interfaces\{
+    Wrappable,
+    Equatable,
+    EquatableImp
+};
+
+class ESString implements Wrappable
 {
     private $string = '';
 
-    static public function empty(): Str
+    private $value = '';
+
+    static public function wrap(array $array)
     {
-        return new Str();
+        return static::wrapString(implode('', $array));
+    }
+    static public function wrapString(string $string)
+    {
+        return static::fromString($string);
     }
 
-    static public function fromString(string $initial): Str
+    static public function empty(): ESString
     {
-        return Str::empty()->append($initial);
+        return new ESString();
     }
 
-    static public function byRepeating(string $initial, int $count): Str
+    static public function fromString(string $initial): ESString
     {
-        return Str::empty()->append($initial, $count);
+        return ESString::empty()->append($initial);
     }
 
-    static public function fromFile(string $path): Str
+    static public function byRepeating(string $initial, int $count): ESString
     {
-        return Str::empty()->appendFromFile($path);
+        return ESString::empty()->append($initial, $count);
+    }
+
+    static public function fromFile(string $path): ESString
+    {
+        return ESString::empty()->appendFromFile($path);
     }
 
     static private function bisectArray(array $array, int $at): array
@@ -34,14 +51,19 @@ class Str
         return array($left, $right);
     }
 
+    public function unwrap(): string
+    {
+        return $this->value;
+    }
+
     public function array(): array
     {
-        return preg_split('//u', $this->string, null, PREG_SPLIT_NO_EMPTY);
+        return preg_split('//u', $this->value, null, PREG_SPLIT_NO_EMPTY);
     }
 
     private function bisectedArray(int $at): array
     {
-        return Str::bisectArray($this->array(), $at);
+        return ESString::bisectArray($this->array(), $at);
     }
 
     public function split(
@@ -49,7 +71,7 @@ class Str
         int $maxSplits = 0,
         bool $removingEmptyValues = true
     ): array {
-        $array = explode($separator, $this->string);
+        $array = explode($separator, $this->value);
         if ($removingEmptyValues) {
             $unsetEmptyValues = array_filter($array);
             $reindexValues = array_values($unsetEmptyValues);
@@ -73,17 +95,17 @@ class Str
 
     public function string(): string
     {
-        return $this->string;
+        return $this->value;
     }
 
     public function lowercased(): string
     {
-        return mb_strtolower($this->string);
+        return mb_strtolower($this->value);
     }
 
     public function uppercased(): string
     {
-        return mb_strtoupper($this->string);
+        return mb_strtoupper($this->value);
     }
 
     public function first(): string
@@ -111,12 +133,12 @@ class Str
 
     public function isSameAs(string $compare): bool
     {
-        return $this->array() === Str::fromString($compare)->array();
+        return $this->array() === ESString::fromString($compare)->array();
     }
 
     public function startsWith(string $prefix): bool
     {
-        $compare = Str::fromString($prefix);
+        $compare = ESString::fromString($prefix);
         $at = $compare->count();
         list($left, $_) = $this->bisectedArray($at);
         $left = implode('', $left);
@@ -130,7 +152,7 @@ class Str
 
     public function hasSuffix(string $suffix): bool
     {
-        $compare = Str::fromString($suffix);
+        $compare = ESString::fromString($suffix);
         $at = $this->count() - $compare->count();
         list($_, $right) = $this->bisectedArray($at);
         $right = implode('', $right);
@@ -139,7 +161,7 @@ class Str
 
     public function isEmpty(): bool
     {
-        return empty($this->string);
+        return empty($this->value);
     }
 
     public function count(): int
@@ -147,33 +169,33 @@ class Str
         return count($this->array());
     }
 
-    public function append(string $value, int $count = 1): Str
+    public function append(string $value, int $count = 1): ESString
     {
-        $this->string .= str_repeat($value, $count);
+        $this->value .= str_repeat($value, $count);
         return $this;
     }
 
-    public function appendFromFile(string $path, int $count = 1): Str
+    public function appendFromFile(string $path, int $count = 1): ESString
     {
         $contents = file_get_contents($path);
         $this->append($contents, $count);
         return $this;
     }
 
-    public function insert(string $value, int $at): Str
+    public function insert(string $value, int $at): ESString
     {
         $this->replaceSubrange($value, $at);
         return $this;
     }
 
-    public function insertFromFile(string $path, int $at): Str
+    public function insertFromFile(string $path, int $at): ESString
     {
-        $insertion = Str::fromFile($path)->string();
+        $insertion = ESString::fromFile($path)->string();
         $this->insert($insertion, $at);
         return $this;
     }
 
-    public function replaceSubrange(string $value, int $at, int $length = 0): Str
+    public function replaceSubrange(string $value, int $at, int $length = 0): ESString
     {
         list($left, $right) = $this->bisectedArray($at);
 
@@ -181,11 +203,11 @@ class Str
             array_shift($right);
         }
 
-        $insertion = Str::fromString($value)->array();
+        $insertion = ESString::fromString($value)->array();
 
         $merged = array_merge($left, $insertion, $right);
 
-        $this->string = implode('', $merged);
+        $this->value = implode('', $merged);
         return $this;
     }
 
@@ -197,7 +219,7 @@ class Str
         $index = $at - 1;
         unset($array[$index]);
 
-        $this->string = implode('', $array);
+        $this->value = implode('', $array);
         return $char;
     }
 
@@ -211,7 +233,7 @@ class Str
         return $this->remove($this->count());
     }
 
-    public function removeSubrange(int $at, int $length): Str
+    public function removeSubrange(int $at, int $length): ESString
     {
         for ($i = 0; $i < $length; $i++) {
             $this->remove($at);
@@ -222,7 +244,7 @@ class Str
     public function dropFirst(int $length): string
     {
         $this->removeSubrange(1, $length);
-        return $this->string;
+        return $this->value;
     }
 
     public function dropLast(int $length): string
@@ -230,7 +252,7 @@ class Str
         for ($i = 0; $i < $length; $i++) {
             $this->remove($this->count());
         }
-        return $this->string;
+        return $this->value;
     }
 
     public function popLast(): string

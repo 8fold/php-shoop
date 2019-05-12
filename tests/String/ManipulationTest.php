@@ -4,7 +4,7 @@ namespace Eightfold\Shoop\Tests;
 
 use PHPUnit\Framework\TestCase;
 
-use Eightfold\Shoop\Str;
+use Eightfold\Shoop\ESString;
 
 use Eightfold\Shoop\Tests\String\TestStrings;
 
@@ -15,7 +15,7 @@ class ManipulationTest extends TestCase
     public function testCanAppendStringWithString()
     {
         $expected = $this->plainTextWithUnicode();
-        $result = Str::fromString('Hello')
+        $result = ESString::fromString('Hello')
             ->append(', 🌍!')
             ->string();
         $this->assertEquals($expected, $result);
@@ -26,7 +26,7 @@ class ManipulationTest extends TestCase
         $expected = 'Hello, 🌍!Hello, 🌍!';
 
         $dir = __DIR__ .'/test.txt';
-        $result = Str::fromString($this->plainTextWithUnicode())->appendFromFile($dir)->string();
+        $result = ESString::fromString($this->plainTextWithUnicode())->appendFromFile($dir)->string();
         $this->assertEquals($expected, $result);
     }
 
@@ -35,7 +35,7 @@ class ManipulationTest extends TestCase
         $expected = 'Hello, 🌍!Hello, 🌍!';
 
         $dir = __DIR__ .'/test.txt';
-        $result = Str::empty()
+        $result = ESString::empty()
             ->appendFromFile($dir, 2)
             ->string();
         $this->assertEquals($expected, $result);
@@ -44,7 +44,7 @@ class ManipulationTest extends TestCase
     public function testCanInsertCharacters()
     {
         $expected = $this->plainTextWithUnicode();
-        $string = Str::fromString('Hello 🌍!');
+        $string = ESString::fromString('Hello 🌍!');
         $this->assertEquals('Hello 🌍!', $string->string());
 
         $string->insert(',', 5);
@@ -54,7 +54,7 @@ class ManipulationTest extends TestCase
     public function testCanInsertMBChars()
     {
         $expected = '🌍,🌍,🌍,🌍,🌍';
-        $string = Str::fromString('🌍,🌍,🌍🌍,🌍');
+        $string = ESString::fromString('🌍,🌍,🌍🌍,🌍');
         $this->assertEquals('🌍,🌍,🌍🌍,🌍', $string->string());
 
         $string->insert(',', 5);
@@ -66,7 +66,7 @@ class ManipulationTest extends TestCase
         $expected = 'AHello, 🌍!Z';
 
         $dir = __DIR__ .'/test.txt';
-        $result = Str::fromString('AZ')
+        $result = ESString::fromString('AZ')
             ->insertFromFile($dir, 1)
             ->string();
         $this->assertEquals($expected, $result);
@@ -75,7 +75,7 @@ class ManipulationTest extends TestCase
     public function testCanReplaceSubrange()
     {
         $expected = 'Hello, world!';
-        $result = Str::fromString($this->plainTextWithUnicode())
+        $result = ESString::fromString($this->plainTextWithUnicode())
             ->replaceSubrange('world', 7, 1)
             ->string();
         $this->assertEquals($expected, $result);
@@ -84,7 +84,7 @@ class ManipulationTest extends TestCase
     public function testCanReplaceSubrangeReversed()
     {
         $expected = $this->plainTextWithUnicode();
-        $result = Str::fromString('Hello, world!')
+        $result = ESString::fromString('Hello, world!')
             ->replaceSubrange('🌍', 7, 5)
             ->string();
         $this->assertEquals($expected, $result);
@@ -93,7 +93,7 @@ class ManipulationTest extends TestCase
     public function testCanRemoveCharAtIndex()
     {
         $expected = ',';
-        $string = Str::fromString($this->plainText());
+        $string = ESString::fromString($this->plainText());
         $char = $string->remove(6); // H
         $str = $string->string(); // ello, World!
 
@@ -104,7 +104,7 @@ class ManipulationTest extends TestCase
     public function testCanRemoveCharFirst()
     {
         $expected = 'H';
-        $string = Str::fromString($this->plainText());
+        $string = ESString::fromString($this->plainText());
         $char = $string->removeFirst(); // H
         $str = $string->string(); // ello, World!
 
@@ -115,7 +115,7 @@ class ManipulationTest extends TestCase
     public function testCanRemoveCharLast()
     {
         $expected = '!';
-        $string = Str::fromString($this->plainText());
+        $string = ESString::fromString($this->plainText());
         $char = $string->removeLast(); // H
         $str = $string->string(); // ello, World!
 
@@ -126,7 +126,7 @@ class ManipulationTest extends TestCase
     public function testCanRemoveSubrange()
     {
         $expected = '🌍';
-        $result = Str::fromString($this->unicode())
+        $result = ESString::fromString($this->unicode())
             ->removeSubrange(1, 2)
             ->removeSubrange(2, 2)
             ->string();

@@ -4,7 +4,7 @@ namespace Eightfold\Shoop\Tests;
 
 use PHPUnit\Framework\TestCase;
 
-use Eightfold\Shoop\Str;
+use Eightfold\Shoop\ESString;
 
 use Eightfold\Shoop\Tests\String\TestStrings;
 
@@ -15,7 +15,7 @@ class MainTest extends TestCase
 //-> Initializers
     public function testCanInitializeEmptyString()
     {
-        $result = Str::empty();
+        $result = ESString::empty();
 
         $this->assertNotNull($result);
         $this->assertTrue($result->isEmpty());
@@ -24,14 +24,14 @@ class MainTest extends TestCase
     public function testCanInitializeWithString()
     {
         $expected = $this->plainTextWithUnicode();
-        $result = Str::fromString($this->plainTextWithUnicode())->string();
+        $result = ESString::fromString($this->plainTextWithUnicode())->string();
         $this->assertEquals($expected, $result);
     }
 
     public function testCanInitializeByRepeatingString()
     {
         $expected = '🌍🌍🌍';
-        $result = Str::byRepeating('🌍', 3)->string();
+        $result = ESString::byRepeating('🌍', 3)->string();
         $this->assertEquals($expected, $result);
     }
 
@@ -40,7 +40,7 @@ class MainTest extends TestCase
         $expected = $this->plainTextWithUnicode();
 
         $dir = __DIR__ .'/test.txt';
-        $result = Str::fromFile($dir)->string();
+        $result = ESString::fromFile($dir)->string();
         $this->assertEquals($expected, $result);
     }
 }
