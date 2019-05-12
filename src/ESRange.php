@@ -152,5 +152,5 @@ class ESRange implements \Iterator, \Countable, Equatable
 //-> Equatable
     public function isSameAs(Equatable $compare): ESBool {}
 
-    public function isNotSameAs(Equatable $compare): ESBool {}
+    public function isDifferentThan(Equatable $compare): ESBool {}
 }
