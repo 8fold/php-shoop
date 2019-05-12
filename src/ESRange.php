@@ -96,7 +96,7 @@ class ESRange implements \Iterator, \Countable, Equatable
     {
         if ($this->max()
             ->minus($this->min())
-            ->isGreaterThan(ESInt::init(0), true)
+            ->isGreaterThan(ESInt::init(0))
             ->bool()
         ) {
             return ESBool::init(false);

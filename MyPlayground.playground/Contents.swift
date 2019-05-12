@@ -2,10 +2,12 @@ import UIKit
 
 var range = 0...10
 
-for _ in range {
-    print("hello")
-}
+range.min()
+range.max()
 
-for i in range {
-    print("\(i)")
-}
+var string = "The quick brown fox, jumped over the seven lazy dogs."
+
+string.min()
+string.max()
+
+string.makeIterator()
