@@ -113,7 +113,7 @@ class ESInt implements Equatable, Comparable
         return ESBool::init($this->int() === $int->int());
     }
 
-    public function isNotSameAs(Equatable $int): ESBool
+    public function isDifferentThan(Equatable $int): ESBool
     {
         return ESBool::init($this->int() !== $int->int());
     }

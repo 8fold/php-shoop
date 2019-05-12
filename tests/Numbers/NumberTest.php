@@ -40,7 +40,7 @@ class IntTest extends TestCase
 
         $result = ESInt::init(25);
         $compare = ESInt::init(20);
-        $this->assertTrue($result->isNotSameAs($compare)->bool());
+        $this->assertTrue($result->isDifferentThan($compare)->bool());
     }
 
     public function testCanAcceptFloatAndDouble()

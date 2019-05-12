@@ -36,7 +36,7 @@ class ESBool implements Equatable
 		return ESBool::init($this->bool() === $compare->bool());
 	}
 
-	public function isNotSameAs(Equatable $compare): ESBool
+	public function isDifferentThan(Equatable $compare): ESBool
 	{
 		return ESBool::init($this->bool() !== $compare->bool());
 	}
