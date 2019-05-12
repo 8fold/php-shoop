@@ -1,13 +1,5 @@
 import UIKit
 
-var range = 0...10
+var base = [3, 2, 1]
 
-range.min()
-range.max()
-
-var string = "The quick brown fox, jumped over the seven lazy dogs."
-
-string.min()
-string.max()
-
-string.makeIterator()
+base.description
