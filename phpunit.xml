@@ -18,6 +18,9 @@
         <testsuite name="numbers">
             <directory suffix="Test.php">./tests/Numbers</directory>
         </testsuite>
+        <testsuite name="collections">
+            <directory suffix="Test.php">./tests/Collections</directory>
+        </testsuite>
     </testsuites>
     <filter>
         <whitelist>

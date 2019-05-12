@@ -14,7 +14,7 @@ class ESArray implements Wrappable, Equatable
 {
     use EquatableImp;
 
-    private $value = [];
+   private $value = [];
 
     static public function wrap(array $array)
     {
@@ -30,15 +30,4 @@ class ESArray implements Wrappable, Equatable
     {
         return $this->value;
     }
-
-//-> Equatable
-    // public function isSameAs(Equatable $compare): ESBool
-    // {
-    //     return ESBool::init($this->value === $compare->unwrap());
-    // }
-
-    // public function isDifferentThan(Equatable $compare): ESBool
-    // {
-    //     return $this->isSameAs($compare)->toggle();
-    // }
 }

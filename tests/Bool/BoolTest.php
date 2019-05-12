@@ -21,7 +21,7 @@ class BoolTest extends TestCase
         $this->assertTrue($result->isSameAs($compare)->bool());
 
         $compare = $compare->toggle();
-        $this->assertTrue($result->isNotSameAs($compare)->bool());
+        $this->assertTrue($result->isDifferentThan($compare)->bool());
 
         $this->assertFalse($compare->not()->bool());
 
