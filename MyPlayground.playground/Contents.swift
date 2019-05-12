@@ -1,10 +1,11 @@
 import UIKit
 
-for i in 2...1 {
-    print("\(i)")
+var range = 0...10
+
+for _ in range {
+    print("hello")
 }
 
-class Something {}
-
-
-
+for i in range {
+    print("\(i)")
+}

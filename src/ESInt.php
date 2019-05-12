@@ -45,12 +45,12 @@ class ESInt implements Equatable, Comparable
 		return $this->int;
 	}
 
-	public function isMultipleOf(int $int): ESBool
+	public function isMultipleOf(ESInt $int): ESBool
 	{
 		return ESBool::init($this->remainder($int)->int() == 0);
 	}
 
-	public function quotientAndRemainder(int $divisor): ESTuple
+	public function quotientAndRemainder(ESInt $divisor): ESTuple
 	{
 		return ESTuple::init([
 			"quotient" => ESInt::init($this->quotient($divisor)->int()),
@@ -60,7 +60,7 @@ class ESInt implements Equatable, Comparable
 
 	public function negate(): ESInt
 	{
-		return ESInt::init($this->product(-1)->int());
+		return ESInt::init($this->product(ESInt::init(-1))->int());
 	}
 
 	public function description(): string
@@ -82,29 +82,29 @@ class ESInt implements Equatable, Comparable
 	}
 
 //-> Arithmetic
-	public function sum(int $int): ESInt
+	public function plus(ESInt $int): ESInt
 	{
-		return ESInt::init($this->int + $int);
+		return ESInt::init($this->int() + $int->int());
 	}
 
-	public function difference(int $int): ESInt
+	public function minus(ESInt $int): ESInt
 	{
-		return ESInt::init($this->int - $int);
+		return ESInt::init($this->int() - $int->int());
 	}
 
-	public function product(int $int): ESInt
+	public function product(ESInt $int): ESInt
 	{
-		return ESInt::init($this->int * $int);
+		return ESInt::init($this->int() * $int->int());
 	}
 
-	public function quotient(int $divisor): ESInt
+	public function quotient(ESInt $divisor): ESInt
 	{
-		return ESInt::init(floor($this->int()/$divisor));
+		return ESInt::init(floor($this->int()/$divisor->int()));
 	}
 
-	public function remainder(int $divisor): ESInt
+	public function remainder(ESInt $divisor): ESInt
 	{
-		return ESInt::init($this->int() % $divisor);
+		return ESInt::init($this->int() % $divisor->int());
 	}
 
 //-> Compare

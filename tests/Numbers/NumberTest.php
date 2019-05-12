@@ -54,35 +54,38 @@ class IntTest extends TestCase
 
     public function testMultipleOfAndQuotient()
     {
-        $result = ESInt::init(25)->isMultipleOf(5)->bool();
+        $five = ESInt::init(5);
+        $four = $five->minus(ESInt::init(1));
+        $result = ESInt::init(25)->isMultipleOf($five)->bool();
         $this->assertTrue($result);
 
-        $result = ESInt::init(25)->isMultipleOf(6)->bool();
+        $result = ESInt::init(25)->isMultipleOf($five->plus(ESInt::init(1)))->bool();
         $this->assertFalse($result);
 
-        $result = ESInt::init(25)->quotientAndRemainder(4)->values();
+        $result = ESInt::init(25)->quotientAndRemainder($four)->values();
         $this->assertEquals(6, ($result["quotient"])->int());
         $this->assertEquals(1, ($result["remainder"])->int());
 
-        $result = ESInt::init(25)->remainder(4)->int();
+        $result = ESInt::init(25)->remainder($four)->int();
         $this->assertEquals(1, $result);
     }
 
     public function testCanDoArithmatic()
     {
-        $result = ESInt::init(25)->sum(5)->int();
+        $five = ESInt::init(5);
+        $result = ESInt::init(25)->plus($five)->int();
         $this->assertEquals(30, $result);
 
-        $result = ESInt::init(25)->difference(5)->int();
+        $result = ESInt::init(25)->minus($five)->int();
         $this->assertEquals(20, $result);
 
-        $result = ESInt::init(25)->difference(-5)->int();
+        $result = ESInt::init(25)->minus($five->negate())->int();
         $this->assertEquals(30, $result);
 
-        $result = ESInt::init(25)->product(-5)->int();
+        $result = ESInt::init(25)->product($five->negate())->int();
         $this->assertEquals(-125, $result);
 
-        $result = ESInt::init(25)->quotient(5)->int();
+        $result = ESInt::init(25)->quotient($five)->int();
         $this->assertEquals(5, $result);
     }
 
