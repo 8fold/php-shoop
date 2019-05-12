@@ -15,7 +15,7 @@ class MainTest extends TestCase
 //-> Initializers
     public function testCanInitializeEmptyString()
     {
-        $result = ESString::empty();
+        $result = ESString::wrapString();
 
         $this->assertNotNull($result);
         $this->assertTrue($result->isEmpty());
@@ -24,23 +24,14 @@ class MainTest extends TestCase
     public function testCanInitializeWithString()
     {
         $expected = $this->plainTextWithUnicode();
-        $result = ESString::fromString($this->plainTextWithUnicode())->string();
+        $result = ESString::wrapString($this->plainTextWithUnicode())->unwrap();
         $this->assertEquals($expected, $result);
     }
 
     public function testCanInitializeByRepeatingString()
     {
         $expected = '🌍🌍🌍';
-        $result = ESString::byRepeating('🌍', 3)->string();
-        $this->assertEquals($expected, $result);
-    }
-
-    public function testCanInitializeFromFile()
-    {
-        $expected = $this->plainTextWithUnicode();
-
-        $dir = __DIR__ .'/test.txt';
-        $result = ESString::fromFile($dir)->string();
+        $result = ESString::wrapString('🌍', 3)->unwrap();
         $this->assertEquals($expected, $result);
     }
 }

@@ -10,12 +10,16 @@ use Eightfold\Shoop\{
 use Eightfold\Shoop\Interfaces\{
     Wrappable,
     Equatable,
-    EquatableImp
+    Describable,
+    Randomizable,
+    EquatableImp,
+    RandomizableImp
 };
 
-class ESArray implements Wrappable, Equatable
+class ESArray implements Wrappable, Equatable, Describable, Randomizable
 {
-    use EquatableImp;
+    use EquatableImp,
+        RandomizableImp;
 
    private $value = [];
 
@@ -25,7 +29,7 @@ class ESArray implements Wrappable, Equatable
     }
 
     // TODO: Convert atring to array
-    static public function wrapString(string $string): ESString
+    static public function wrapString(string $string = "", int $count = 1): ESArray
     {
         return new ESArray([$string]);
     }
@@ -50,22 +54,5 @@ class ESArray implements Wrappable, Equatable
     {
         $valuesAsString = implode(", ", $this->value);
         return ESString::wrapString("[{$valuesAsString}]");
-    }
-
-//-> Randomizable
-    public function random()
-    {
-        // TODO: Figure out return types
-        $array = $this->array()->unwrap();
-        $shuffled = $this->shuffled();
-        $index = rand(0, count($shuffled->unwrap()) - 1);
-        return $this->value[$index];
-    }
-
-    public function shuffled()
-    {
-        $array = $this->array()->unwrap();
-        shuffle($array);
-        return ESArray::wrap($array);
     }
 }

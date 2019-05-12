@@ -18,38 +18,33 @@ class ESString implements Wrappable
     {
         return static::wrapString(implode('', $array));
     }
-    static public function wrapString(string $string)
+
+    static public function wrapString(string $string = "", int $count = 1): ESString
     {
-        return static::fromString($string);
+        return (new ESString())->append($string, $count);
     }
 
-    static public function empty(): ESString
-    {
-        return new ESString();
-    }
-
-    static public function fromString(string $initial): ESString
-    {
-        return ESString::empty()->append($initial);
-    }
-
-    static public function byRepeating(string $initial, int $count): ESString
-    {
-        return ESString::empty()->append($initial, $count);
-    }
-
-    static public function fromFile(string $path): ESString
-    {
-        return ESString::empty()->appendFromFile($path);
-    }
-
+    /**
+     * TODO: Move to ESArray
+     *
+     * @param  array  $array [description]
+     * @param  int    $at    [description]
+     * @return [type]        [description]
+     */
     static private function bisectArray(array $array, int $at): array
     {
+        // bisectAt(int $at): ESTuple
         $left = array_slice($array, 0, $at);
         $right = array_slice($array, $at);
 
         return array($left, $right);
     }
+
+    private function bisectedArray(int $at): array
+    {
+        return ESString::bisectArray($this->array(), $at);
+    }
+
 
     public function unwrap(): string
     {
@@ -59,11 +54,6 @@ class ESString implements Wrappable
     public function array(): array
     {
         return preg_split('//u', $this->value, null, PREG_SPLIT_NO_EMPTY);
-    }
-
-    private function bisectedArray(int $at): array
-    {
-        return ESString::bisectArray($this->array(), $at);
     }
 
     public function split(
@@ -91,11 +81,6 @@ class ESString implements Wrappable
         $array = $this->array();
         sort($array, SORT_STRING);
         return $array;
-    }
-
-    public function string(): string
-    {
-        return $this->value;
     }
 
     public function lowercased(): string
@@ -133,12 +118,12 @@ class ESString implements Wrappable
 
     public function isSameAs(string $compare): bool
     {
-        return $this->array() === ESString::fromString($compare)->array();
+        return $this->array() === ESString::wrapString($compare)->array();
     }
 
     public function startsWith(string $prefix): bool
     {
-        $compare = ESString::fromString($prefix);
+        $compare = ESString::wrapString($prefix);
         $at = $compare->count();
         list($left, $_) = $this->bisectedArray($at);
         $left = implode('', $left);
@@ -152,7 +137,7 @@ class ESString implements Wrappable
 
     public function hasSuffix(string $suffix): bool
     {
-        $compare = ESString::fromString($suffix);
+        $compare = ESString::wrapString($suffix);
         $at = $this->count() - $compare->count();
         list($_, $right) = $this->bisectedArray($at);
         $right = implode('', $right);
@@ -175,23 +160,9 @@ class ESString implements Wrappable
         return $this;
     }
 
-    public function appendFromFile(string $path, int $count = 1): ESString
-    {
-        $contents = file_get_contents($path);
-        $this->append($contents, $count);
-        return $this;
-    }
-
     public function insert(string $value, int $at): ESString
     {
         $this->replaceSubrange($value, $at);
-        return $this;
-    }
-
-    public function insertFromFile(string $path, int $at): ESString
-    {
-        $insertion = ESString::fromFile($path)->string();
-        $this->insert($insertion, $at);
         return $this;
     }
 
@@ -203,7 +174,7 @@ class ESString implements Wrappable
             array_shift($right);
         }
 
-        $insertion = ESString::fromString($value)->array();
+        $insertion = ESString::wrapString($value)->array();
 
         $merged = array_merge($left, $insertion, $right);
 

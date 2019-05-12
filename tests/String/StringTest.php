@@ -15,7 +15,7 @@ class StringTest extends TestCase
     public function testCanDropFirstCount()
     {
         $expected = '🌍😍😌';
-        $result = ESString::fromString($this->unicode())
+        $result = ESString::wrapString($this->unicode())
             ->dropFirst(2);
         $this->assertEquals($expected, $result);
     }
@@ -23,7 +23,7 @@ class StringTest extends TestCase
     public function testCanDropLastCount()
     {
         $expected = '😀😇🌍';
-        $result = ESString::fromString($this->unicode())
+        $result = ESString::wrapString($this->unicode())
             ->dropLast(2);
         $this->assertEquals($expected, $result);
     }
@@ -31,7 +31,7 @@ class StringTest extends TestCase
     public function testCanPopLasts()
     {
         $expected = '😀😇🌍😍';
-        $result = ESString::fromString($this->unicode())
+        $result = ESString::wrapString($this->unicode())
             ->popLast();
         $this->assertEquals($expected, $result);
     }
@@ -39,46 +39,46 @@ class StringTest extends TestCase
     public function testCanGetLowercasedString()
     {
         $expected = 'hello, 🌍!';
-        $string = ESString::fromString($this->plainTextWithUnicode());
+        $string = ESString::wrapString($this->plainTextWithUnicode());
         $result = $string->lowercased();
         $this->assertEquals($expected, $result);
-        $this->assertEquals($this->plainTextWithUnicode(), $string->string());
+        $this->assertEquals($this->plainTextWithUnicode(), $string->unwrap());
     }
 
     public function testCanGetUppercasedString()
     {
         $expected = 'HELLO, 🌍!';
-        $string = ESString::fromString($this->plainTextWithUnicode());
+        $string = ESString::wrapString($this->plainTextWithUnicode());
         $result = $string->uppercased();
         $this->assertEquals($expected, $result);
-        $this->assertEquals($this->plainTextWithUnicode(), $string->string());
+        $this->assertEquals($this->plainTextWithUnicode(), $string->unwrap());
     }
 
     public function testCanRetrieveFirstCharacterPlaintext()
     {
         $expected = 'H';
-        $result = ESString::fromString($this->plainText())->first();
+        $result = ESString::wrapString($this->plainText())->first();
         $this->assertEquals($expected, $result);
     }
 
     public function testCanRetrieveFirstCharacterUnicode()
     {
         $expected = '😀';
-        $result = ESString::fromString($this->unicode())->first();
+        $result = ESString::wrapString($this->unicode())->first();
         $this->assertEquals($expected, $result);
     }
 
     public function testCanRetrieveLastCharacterPlaintext()
     {
         $expected = '!';
-        $result = ESString::fromString($this->plainText())->last();
+        $result = ESString::wrapString($this->plainText())->last();
         $this->assertEquals($expected, $result);
     }
 
     public function testCanRetrieveLastCharacterUnicode()
     {
         $expected = '😌';
-        $result = ESString::fromString($this->unicode())->last();
+        $result = ESString::wrapString($this->unicode())->last();
         $this->assertEquals($expected, $result);
     }
 
@@ -97,7 +97,7 @@ class StringTest extends TestCase
             'o',
             '🌍'
         ];
-        $result = ESString::fromString($this->plainTextWithUnicode())->sorted();
+        $result = ESString::wrapString($this->plainTextWithUnicode())->sorted();
         $this->assertEquals($expected, $result);
     }
 }
