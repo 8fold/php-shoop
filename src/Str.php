@@ -1,6 +1,6 @@
 <?php
 
-namespace Eightfold\String;
+namespace Eightfold\Shoop;
 
 class Str
 {

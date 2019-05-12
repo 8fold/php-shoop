@@ -1,0 +1,36 @@
+{
+    "name": "8fold/shoop-php",
+    "description": "??",
+    "version": "0.0.1",
+    "type": "library",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Josh Bruce",
+            "email": "josh@8fold.pro"
+        }
+    ],
+    "require": {
+        "php": ">=7.0",
+        "illuminate/support": "^5.8"
+    },
+    "require-dev": {
+        "mockery/mockery": "^0.9.4",
+        "phpunit/phpunit": "7.5.6",
+        "phpunit/php-code-coverage": "^6.0.7"
+    },
+    "autoload": {
+        "psr-4": {
+            "Eightfold\\Shoop\\": "./src/"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "Eightfold\\Shoop\\Tests\\": "./tests/"
+        }
+    },
+    "config": {
+        "preferred-install": "dist"
+    },
+    "minimum-stability": "stable"
+}

@@ -1,13 +1,13 @@
 import UIKit
 
-class Human {
-    var eyeColor = "Green"
-}
+var range = 0...10
 
-class Josh: Human {
-    override var myEyeColor = "Hazel"
-}
+range.min()
+range.max()
 
-let josh = Josh();
+var string = "The quick brown fox, jumped over the seven lazy dogs."
 
-print(josh.myEyeColor);
+string.min()
+string.max()
+
+string.makeIterator()

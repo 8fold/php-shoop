@@ -24,3 +24,66 @@ Class methods SHOULD follow the Single Responsibility Principle (SRP) by doing o
 Class methods SHOULD be named to favor the result, rather than the command (ex. “sum” over “add”).
 
 Class methods SHOULD NOT mutate state outside of itself and MUST NOT mutate state beyond the class in which they are defined.
+
+## Possible naming convention
+
+// Prefix reserved words - further namespacing
+// (could also be all of them has the prefix)
+class ESBool {}
+
+class ESString {}
+
+class ESCharacter {}
+
+Class ESInt {}
+
+class ESDouble {}
+
+class ESFloat {}
+
+class ESRange {
+  static public function init(Int $min, Int $max, bool $includesMax = true);
+}
+
+class ESClosedRange {}
+
+class ESArray {}
+
+class ESDictionary {}
+
+class ESSet {}
+
+ // Rename classes and let the initializers handle conflicts
+class Boolean {}
+
+class Symbols {
+  static public function init() {}
+
+  static public function character() {}
+
+  static public function string() {}
+}
+
+class Number {
+  static public function init() {}
+
+  static public function int() {}
+
+  static public function double() {}
+
+  static public function float() {}
+}
+
+class Range {
+  static public function init($x, $y, true) {}
+}
+
+class Collection {
+  static public function init() {}
+  
+  static public function array() {}
+
+  static public function dictionary() {}
+
+  static public function set() {}
+}
