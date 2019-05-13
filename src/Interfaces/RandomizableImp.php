@@ -9,10 +9,12 @@ trait RandomizableImp
     public function random()
     {
         // TODO: Figure out return types
-        $array = $this->array()->unwrap();
-        $shuffled = $this->shuffled();
-        $index = rand(0, count($shuffled->unwrap()) - 1);
-        return $this->value[$index];
+        if ($this->isEmpty()->unwrap()) {
+            return;
+        }
+        $shuffled = $this->shuffled()->unwrap();
+        $index = rand(0, count($shuffled) - 1);
+        return $shuffled[$index];
     }
 
     public function shuffled(): ESArray

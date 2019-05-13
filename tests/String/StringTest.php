@@ -100,4 +100,11 @@ class StringTest extends TestCase
         $result = ESString::wrapString($this->plainTextWithUnicode())->sorted();
         $this->assertEquals($expected, $result);
     }
+
+    public function testStringContainsString()
+    {
+        $result = ESString::wrap("Hello, World!");
+        $this->assertTrue($result->contains(", ")->unwrap());
+        $this->assertFalse($result->contains("?")->unwrap());
+    }
 }

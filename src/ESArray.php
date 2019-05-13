@@ -14,14 +14,22 @@ use Eightfold\Shoop\Interfaces\{
     Equatable,
     Describable,
     Randomizable,
+    Storeable,
     EquatableImp,
-    RandomizableImp
+    RandomizableImp,
+    StoreableImp
 };
 
-class ESArray implements Wrappable, Equatable, Describable, Randomizable
+class ESArray implements
+    Wrappable,
+    Equatable,
+    Describable,
+    Randomizable,
+    Storeable
 {
     use EquatableImp,
-        RandomizableImp;
+        RandomizableImp,
+        StoreableImp;
 
     private $value = [];
 
@@ -54,12 +62,6 @@ class ESArray implements Wrappable, Equatable, Describable, Randomizable
     public function description(): ESString
     {
         $valuesAsString = implode(", ", $this->value);
-        return ESString::wrapString("[{$valuesAsString}]");
-    }
-
-//->
-    public function isEmpty(): ESBool
-    {
-        return ESBool::wrap(empty($this->value));
+        return ESString::wrap("[{$valuesAsString}]");
     }
 }

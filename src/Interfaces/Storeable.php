@@ -4,9 +4,7 @@ namespace Eightfold\Shoop\Interfaces;
 
 use Eightfold\Shoop\ESBool;
 
-interface Soreable
+interface Storeable
 {
-    public function contains(): ESBool
-    {
-    }
+    public function contains($needle): ESBool;
 }

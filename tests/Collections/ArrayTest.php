@@ -15,6 +15,11 @@ class ArrayTest extends TestCase
         $result = ESArray::wrap([1, 2, 3]);
         $this->assertEquals([1, 2, 3], $result->unwrap());
 
+        // Shoop object
+        // CustomClass
+        $this->assertTrue($result->contains(2)->unwrap());
+        $this->assertFalse($result->contains(8)->unwrap());
+
         $compare = ESArray::wrap([1, 2, 3]);
         $this->assertTrue($result->isSameAs($compare)->bool());
 

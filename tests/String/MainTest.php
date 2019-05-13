@@ -19,13 +19,16 @@ class MainTest extends TestCase
 
         $this->assertNotNull($result);
         $this->assertTrue($result->isEmpty()->unwrap());
+
+        $result->random();
     }
 
     public function testCanInitializeWithString()
     {
         $expected = $this->plainTextWithUnicode();
-        $result = ESString::wrapString($this->plainTextWithUnicode())->unwrap();
-        $this->assertEquals($expected, $result);
+        $result = ESString::wrapString($this->plainTextWithUnicode());
+        $this->assertEquals($expected, $result->unwrap());
+        $this->assertEquals($expected, $result->description()->unwrap());
     }
 
     public function testCanInitializeByRepeatingString()

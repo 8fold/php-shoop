@@ -7,12 +7,26 @@ use Eightfold\Shoop\ESBool;
 use Eightfold\Shoop\Interfaces\{
     Wrappable,
     Equatable,
-    EquatableImp
+    Storeable,
+    Describable,
+    Randomizable,
+    EquatableImp,
+    StoreableImp,
+    DescribableImp,
+    RandomizableImp
 };
 
-class ESString implements Wrappable, Equatable
+class ESString implements
+    Wrappable,
+    Equatable,
+    Storeable,
+    Describable,
+    Randomizable
 {
-    use EquatableImp;
+    use EquatableImp,
+        StoreableImp,
+        DescribableImp,
+        RandomizableImp;
 
     private $string = '';
 
@@ -37,11 +51,11 @@ class ESString implements Wrappable, Equatable
      * @param  int    $at    [description]
      * @return [type]        [description]
      */
-    static private function bisectArray(array $array, int $at): array
+    static private function bisectArray(ESArray $array, int $at): array
     {
         // bisectAt(int $at): ESTuple
-        $left = array_slice($array, 0, $at);
-        $right = array_slice($array, $at);
+        $left = array_slice($array->unwrap(), 0, $at);
+        $right = array_slice($array->unwrap(), $at);
 
         return array($left, $right);
     }
@@ -56,9 +70,9 @@ class ESString implements Wrappable, Equatable
         return $this->value;
     }
 
-    public function array(): array
+    public function array(): ESArray
     {
-        return preg_split('//u', $this->value, null, PREG_SPLIT_NO_EMPTY);
+        return ESArray::wrap(preg_split('//u', $this->value, null, PREG_SPLIT_NO_EMPTY));
     }
 
     public function split(
@@ -83,7 +97,7 @@ class ESString implements Wrappable, Equatable
 
     public function sorted(): array
     {
-        $array = $this->array();
+        $array = $this->array()->unwrap();
         sort($array, SORT_STRING);
         return $array;
     }
@@ -108,16 +122,16 @@ class ESString implements Wrappable, Equatable
         return $this->characterAt($this->count());
     }
 
-    public function randomElement(): string
-    {
-        $at = rand(1, $this->count());
-        return $this->characterAt($at);
-    }
+    // public function randomElement(): string
+    // {
+    //     $at = rand(1, $this->count());
+    //     return $this->characterAt($at);
+    // }
 
     public function characterAt(int $at): string
     {
         $index = $at - 1;
-        $array = $this->array();
+        $array = $this->array()->unwrap();
         return $array[$index];
     }
 
@@ -151,7 +165,7 @@ class ESString implements Wrappable, Equatable
 
     public function count(): int
     {
-        return count($this->array());
+        return count($this->array()->unwrap());
     }
 
     public function append(string $value, int $count = 1): ESString
@@ -174,7 +188,7 @@ class ESString implements Wrappable, Equatable
             array_shift($right);
         }
 
-        $insertion = ESString::wrapString($value)->array();
+        $insertion = ESString::wrapString($value)->array()->unwrap();
 
         $merged = array_merge($left, $insertion, $right);
 
@@ -186,7 +200,7 @@ class ESString implements Wrappable, Equatable
     {
         $char = $this->characterAt($at);
 
-        $array = $this->array();
+        $array = $this->array()->unwrap();
         $index = $at - 1;
         unset($array[$index]);
 
@@ -229,11 +243,5 @@ class ESString implements Wrappable, Equatable
     public function popLast(): string
     {
         return $this->dropLast(1);
-    }
-
-//->
-    public function isEmpty(): ESBool
-    {
-        return ESBool::wrap(empty($this->value));
     }
 }
