@@ -24,16 +24,16 @@ class MetadataTest extends TestCase
     {
         $compare = $this->unicode();
         $result = ESString::wrapString($compare)
-            ->isSameAs($compare);
-        $this->assertTrue($result);
+            ->isSameAs(ESString::wrap($compare));
+        $this->assertTrue($result->unwrap());
     }
 
     public function testCanCheckEqualityFails()
     {
-        $compare = 'H';
+        $compare = ESString::wrap('H');
         $result = ESString::wrapString($this->unicode())
             ->isSameAs($compare);
-        $this->assertFalse($result);
+        $this->assertFalse($result->unwrap());
     }
 
     public function testCanCheckForPrefix()
@@ -41,7 +41,7 @@ class MetadataTest extends TestCase
         $compare = $this->unicode();
         $result = ESString::wrapString($compare)
             ->startsWith('😀😇🌍');
-        $this->assertTrue($result);
+        $this->assertTrue($result->unwrap());
     }
 
     public function testCanCheckForPrefixFails()
@@ -49,7 +49,7 @@ class MetadataTest extends TestCase
         $compare = $this->unicode();
         $result = ESString::wrapString($compare)
             ->startsWith('H');
-        $this->assertFalse($result);
+        $this->assertFalse($result->unwrap());
     }
 
     public function testCanCheckForPrefix2()
@@ -57,7 +57,7 @@ class MetadataTest extends TestCase
         $compare = $this->unicode();
         $result = ESString::wrapString($compare)
             ->hasPrefix('😀😇🌍');
-        $this->assertTrue($result);
+        $this->assertTrue($result->unwrap());
     }
 
     public function testCanCheckForSuffix()
@@ -65,6 +65,6 @@ class MetadataTest extends TestCase
         $compare = $this->unicode();
         $result = ESString::wrapString($compare)
             ->hasSuffix('🌍😍😌');
-        $this->assertTrue($result);
+        $this->assertTrue($result->unwrap());
     }
 }

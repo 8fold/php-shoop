@@ -25,5 +25,8 @@ class ArrayTest extends TestCase
 
         $result->random();
         $result->shuffled();
+
+        $result = ESArray::wrap([]);
+        $this->assertTrue($result->isEmpty()->unwrap());
     }
 }

@@ -4,37 +4,57 @@ namespace Eightfold\Shoop;
 
 use Eightfold\Shoop\ESInt;
 
-use Eightfold\Shoop\Interfaces\Equatable;
+use Eightfold\Shoop\Interfaces\{
+    Equatable,
+    Wrappable,
+    EquatableImp
+};
 
-class ESRange implements \Iterator, \Countable, Equatable
+class ESRange implements \Iterator, \Countable, Equatable, Wrappable
 {
+    use EquatableImp;
+
     private $min;
 
     private $max;
 
     private $rangeAsValues = [];
 
-    static public function init(int $min = 0, int $max = 0, bool $includeLast = true)
+    static public function wrap(...$args): ESRange
+    {
+        $min = (isset($args[0])) ? $args[0] : 0;
+        $max = (isset($args[1])) ? $args[1] : 0;
+        $includeLast = (isset($args[2])) ? $args[2] : true;
+        return static::wrapRange($min, $max, $includeLast);
+    }
+
+    static public function wrapRange(int $min = 0, int $max = 0, bool $includeLast = true): ESRange
     {
         return new ESRange(
-            ESInt::init($min),
-            ESInt::init($max),
-            ESBool::init($includeLast)
+            ESInt::wrap($min),
+            ESInt::wrap($max),
+            ESBool::wrap($includeLast)
         );
     }
 
     public function __construct(ESInt $min, ESInt $max, ESBool $includeLast)
     {
+        // TODO: Replace with ESTuple
         if ($min->isGreaterThan($max)->bool()) {
-            $this->min = ESInt::init(0);
-            $this->max = ESInt::init(0);
+            $this->min = ESInt::wrap(0);
+            $this->max = ESInt::wrap(0);
 
         } else {
             $this->min = $min;
-            $this->max = ($includeLast->bool()) ? $max : $max->minus(ESInt::init(1));
+            $this->max = ($includeLast->bool()) ? $max : $max->minus(ESInt::wrap(1));
         }
 
-        $this->rangeAsValues = range($this->min->int(), $this->max->int());
+        $this->rangeAsValues = range($this->min->unwrap(), $this->max->unwrap());
+    }
+
+    public function unwrap()
+    {
+        return $this->rangeAsValues;
     }
 
     public function min(): ESInt
@@ -51,12 +71,12 @@ class ESRange implements \Iterator, \Countable, Equatable
     public function current(): ESInt
     {
         $current = key($this->rangeAsValues);
-        return ESInt::init($this->rangeAsValues[$current]);
+        return ESInt::wrap($this->rangeAsValues[$current]);
     }
 
     public function key(): ESInt
     {
-        return ESInt::init(key($this->rangeAsValues));
+        return ESInt::wrap(key($this->rangeAsValues));
     }
 
     public function next(): ESRange
@@ -82,13 +102,13 @@ class ESRange implements \Iterator, \Countable, Equatable
     public function first(): ESInt
     {
         $first = array_shift($this->rangeAsValues);
-        return ESInt::init($first);
+        return ESInt::wrap($first);
     }
 
     public function last(): ESInt
     {
         $last = array_pop($this->rangeAsValues);
-        return ESInt::init($last);
+        return ESInt::wrap($last);
     }
 
 //-> Inspection
@@ -96,12 +116,12 @@ class ESRange implements \Iterator, \Countable, Equatable
     {
         if ($this->max()
             ->minus($this->min())
-            ->isGreaterThan(ESInt::init(0))
+            ->isGreaterThan(ESInt::wrap(0))
             ->bool()
         ) {
-            return ESBool::init(false);
+            return ESBool::wrap(false);
         }
-        return ESBool::init(true);
+        return ESBool::wrap(true);
     }
 
     public function count(): ESInt
@@ -123,13 +143,13 @@ class ESRange implements \Iterator, \Countable, Equatable
     public function contains(ESInt $int): ESBool
     {
         // TODO: Make ESInt loopable
-        for ($i = $this->min()->int(); $i <= $this->max()->int(); $i++) {
-            $check = ESInt::init($i);
+        for ($i = $this->min()->unwrap(); $i <= $this->max()->unwrap(); $i++) {
+            $check = ESInt::wrap($i);
             if ($int->isSameAs($check)->bool()) {
-                return ESBool::init(true);
+                return ESBool::wrap(true);
             }
         }
-        return ESBool::init(false);
+        return ESBool::wrap(false);
     }
 
 //-> Clamping range
@@ -146,11 +166,14 @@ class ESRange implements \Iterator, \Countable, Equatable
         if ($this->max()->isLessThan($max)) {
             $max = $this->max();
         }
-        return ESRange::init($min->int(), $max->int());
+        return ESRange::wrap($min->unwrap(), $max->unwrap());
     }
 
 //-> Equatable
-    public function isSameAs(Equatable $compare): ESBool {}
-
-    public function isDifferentThan(Equatable $compare): ESBool {}
+    public function isSameAs(Equatable $compare): ESBool
+    {
+        $min = $this->min()->isSameAs($compare->min());
+        $max = $this->max()->isSameAs($compare->max());
+        return $min->isSameAs($max);
+    }
 }

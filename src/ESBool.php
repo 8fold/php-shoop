@@ -2,13 +2,25 @@
 
 namespace Eightfold\Shoop;
 
-use Eightfold\Shoop\Interfaces\Equatable;
+use Eightfold\Shoop\Interfaces\{
+    Equatable,
+    Wrappable,
+    EquatableImp
+};
 
-class ESBool implements Equatable
+class ESBool implements Equatable, Wrappable
 {
+    use EquatableImp;
+
 	private $value = true;
 
-	static public function init(bool $bool = true): ESBool
+    static public function wrap(...$args)
+    {
+        $bool = (isset($args[0])) ? $args[0] : true;
+        return static::wrapBool($bool);
+    }
+
+	static public function wrapBool(bool $bool = true): ESBool
 	{
 		return new ESBool($bool);
 	}
@@ -17,7 +29,7 @@ class ESBool implements Equatable
 	static public function random(): ESBool
 	{
 		$int = rand(1, 1000);
-		return ESBool::init($int % 2 == 0);
+		return ESBool::wrap($int % 2 == 0);
 	}
 
 	public function __construct(bool $bool = true)
@@ -25,26 +37,20 @@ class ESBool implements Equatable
 		$this->value = $bool;
 	}
 
+    public function unwrap(): bool
+    {
+        return $this->value;
+    }
+
 	public function bool(): bool
 	{
 		return $this->value;
 	}
 
-//-> Comparing
-	public function isSameAs(Equatable $compare): ESBool
-	{
-		return ESBool::init($this->bool() === $compare->bool());
-	}
-
-	public function isDifferentThan(Equatable $compare): ESBool
-	{
-		return ESBool::init($this->bool() !== $compare->bool());
-	}
-
 //-> Transforming
 	public function toggle(): ESBool
 	{
-        return ESBool::init(! $this->bool());
+        return ESBool::wrap(! $this->unwrap());
 	}
 
 	public function not(): ESBool
@@ -55,17 +61,17 @@ class ESBool implements Equatable
 	public function or(ESBool $bool): ESBool
 	{
 		if ($this->bool() || $bool->bool()) {
-			return ESBool::init();
+			return ESBool::wrap();
 		}
-		return ESBool::init(false);
+		return ESBool::wrap(false);
 	}
 
 	public function and(ESBool $bool): ESBool
 	{
 		if ($this->bool() && $bool->bool()) {
-			return ESBool::init();
+			return ESBool::wrap();
 		}
-		return ESBool::init(false);
+		return ESBool::wrap(false);
 	}
 
 

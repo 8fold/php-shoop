@@ -6,118 +6,96 @@ use Eightfold\Shoop\ESBool;
 
 use Eightfold\Shoop\Interfaces\{
     Equatable,
-    Comparable
+    Comparable,
+    Wrappable,
+    EquatableImp
 };
 
-class ESInt implements Equatable, Comparable
+class ESInt implements Equatable, Comparable, Wrappable
 {
-	private $int = 0;
+    use EquatableImp;
 
-	static public function init(int $int = 0): ESInt
-	{
-		return new ESInt($int);
-	}
+	private $value = 0;
 
-	static public function fromFloat(float $float = 0.0): ESInt
-	{
-		$int = floor($float);
-		return static::init($int);
-	}
-
-	static public function fromDouble(float $double = 0.0000000): ESInt
-	{
-		return static::fromFloat($double);
-	}
-
-	static public function fromString(string $string = "0"): ESInt
-	{
-		$int = (int) $string;
-		return static::init($int);
-	}
+    static public function wrap(...$args): ESInt
+    {
+        $initial = (isset($args[0])) ? floor($args[0]) : 0;
+        return new ESInt($initial);
+    }
 
 	public function __construct(int $int = 0)
 	{
-		$this->int = $int;
+        $this->value = $int;
 	}
 
-	public function int(): int
-	{
-		return $this->int;
-	}
+    public function unwrap(): int
+    {
+        return $this->value;
+    }
 
 	public function isMultipleOf(ESInt $int): ESBool
 	{
-		return ESBool::init($this->remainder($int)->int() == 0);
+		return ESBool::wrap($this->remainder($int)->unwrap() == 0);
 	}
 
 	public function quotientAndRemainder(ESInt $divisor): ESTuple
 	{
 		return ESTuple::init([
-			"quotient" => ESInt::init($this->quotient($divisor)->int()),
-			"remainder" => ESInt::init($this->remainder($divisor)->int())
+			"quotient" => ESInt::wrap($this->quotient($divisor)->unwrap()),
+			"remainder" => ESInt::wrap($this->remainder($divisor)->unwrap())
 		]);
 	}
 
 	public function negate(): ESInt
 	{
-		return ESInt::init($this->product(ESInt::init(-1))->int());
+		return ESInt::wrap($this->product(ESInt::wrap(-1))->unwrap());
 	}
 
 	public function description(): string
 	{
-		return (string) $this->int;
+		return (string) $this->value;
 	}
 
 	public function distance(int $to = 0): ESInt
 	{
-		if ($to > $this->int) {
-			return ESInt::init($to - $this->int);
+		if ($to > $this->value) {
+			return ESInt::wrap($to - $this->value);
 		}
-		return ESInt::init(-1 * ($this->int - $to));
+		return ESInt::wrap(-1 * ($this->value - $to));
 	}
 
 	public function advanced(int $by = 0): ESInt
 	{
-		return ESInt::init($this->int + $by);
+		return ESInt::wrap($this->value + $by);
 	}
 
 //-> Arithmetic
 	public function plus(ESInt $int): ESInt
 	{
-		return ESInt::init($this->int() + $int->int());
+		return ESInt::wrap($this->unwrap() + $int->unwrap());
 	}
 
 	public function minus(ESInt $int): ESInt
 	{
-		return ESInt::init($this->int() - $int->int());
+		return ESInt::wrap($this->unwrap() - $int->unwrap());
 	}
 
 	public function product(ESInt $int): ESInt
 	{
-		return ESInt::init($this->int() * $int->int());
+		return ESInt::wrap($this->unwrap() * $int->unwrap());
 	}
 
 	public function quotient(ESInt $divisor): ESInt
 	{
-		return ESInt::init(floor($this->int()/$divisor->int()));
+		return ESInt::wrap(floor($this->unwrap()/$divisor->unwrap()));
 	}
 
 	public function remainder(ESInt $divisor): ESInt
 	{
-		return ESInt::init($this->int() % $divisor->int());
+		return ESInt::wrap($this->unwrap() % $divisor->unwrap());
 	}
 
-//-> Compare
-    public function isSameAs(Equatable $int): ESBool
-    {
-        return ESBool::init($this->int() === $int->int());
-    }
-
-    public function isDifferentThan(Equatable $int): ESBool
-    {
-        return ESBool::init($this->int() !== $int->int());
-    }
-
+//-> Comparable
     public function isLessThan(Comparable $compare, bool $orEqual = false): ESBool
     {
         if ($orEqual) {
@@ -126,7 +104,7 @@ class ESInt implements Equatable, Comparable
             }
             return $this->isSameAs($compare);
         }
-        return ESBool::init($this->int() < $compare->int());
+        return ESBool::wrap($this->unwrap() < $compare->unwrap());
     }
 
     public function isGreaterThan(Comparable $compare): ESBool

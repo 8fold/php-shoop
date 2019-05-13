@@ -18,7 +18,7 @@ class MainTest extends TestCase
         $result = ESString::wrapString();
 
         $this->assertNotNull($result);
-        $this->assertTrue($result->isEmpty());
+        $this->assertTrue($result->isEmpty()->unwrap());
     }
 
     public function testCanInitializeWithString()

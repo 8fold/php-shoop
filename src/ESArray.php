@@ -2,6 +2,8 @@
 
 namespace Eightfold\Shoop;
 
+use Illuminate\Support\Arr as IlluminateArray;
+
 use Eightfold\Shoop\{
     ESString,
     ESBool
@@ -21,17 +23,16 @@ class ESArray implements Wrappable, Equatable, Describable, Randomizable
     use EquatableImp,
         RandomizableImp;
 
-   private $value = [];
+    private $value = [];
 
-    static public function wrap(array $array): ESArray
+    static public function wrap(...$args): ESArray
     {
-        return new ESArray($array);
+        return new ESArray(IlluminateArray::flatten($args));
     }
 
-    // TODO: Convert atring to array
-    static public function wrapString(string $string = "", int $count = 1): ESArray
+    static public function wrapArray(array $array): ESArray
     {
-        return new ESArray([$string]);
+        return new ESArray($array);
     }
 
     public function __construct(array $array)
@@ -54,5 +55,11 @@ class ESArray implements Wrappable, Equatable, Describable, Randomizable
     {
         $valuesAsString = implode(", ", $this->value);
         return ESString::wrapString("[{$valuesAsString}]");
+    }
+
+//->
+    public function isEmpty(): ESBool
+    {
+        return ESBool::wrap(empty($this->value));
     }
 }

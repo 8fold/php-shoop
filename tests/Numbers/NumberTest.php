@@ -10,111 +10,96 @@ class IntTest extends TestCase
 {
     public function testCanInitialize()
     {
-        $result = ESInt::init(5);
+        $result = ESInt::wrap(5);
         $this->assertNotNull($result);
-        $this->assertEquals(5, $result->int());
+        $this->assertEquals(5, $result->unwrap());
 
         $this->assertEquals("5", $result->description());
     }
 
     public function testCanDoDistanceAndAdvance()
     {
-        $result = ESInt::init(5)->distance(20)->int();
+        $result = ESInt::wrap(5)->distance(20)->unwrap();
         $this->assertEquals(15, $result);
 
-        $result = ESInt::init(20)->distance(5)->int();
+        $result = ESInt::wrap(20)->distance(5)->unwrap();
         $this->assertEquals(-15, $result);
 
-        $result = ESInt::init(20)->advanced(5)->int();
+        $result = ESInt::wrap(20)->advanced(5)->unwrap();
         $this->assertEquals(25, $result);
 
-        $result = ESInt::init(20)->advanced(-5)->int();
+        $result = ESInt::wrap(20)->advanced(-5)->unwrap();
         $this->assertEquals(15, $result);
     }
 
     public function testCanRuncomparisons()
     {
-        $result = ESInt::init(25);
-        $compare = ESInt::init(25);
+        $result = ESInt::wrap(25);
+        $compare = ESInt::wrap(25);
         $this->assertTrue($result->isSameAs($compare)->bool());
 
-        $result = ESInt::init(25);
-        $compare = ESInt::init(20);
+        $result = ESInt::wrap(25);
+        $compare = ESInt::wrap(20);
         $this->assertTrue($result->isDifferentThan($compare)->bool());
-    }
-
-    public function testCanAcceptFloatAndDouble()
-    {
-        $float = ESInt::fromFloat(5.9);
-        $this->assertEquals(5, $float->int());
-
-        $double = ESInt::fromDouble(5.8888888888888);
-        $this->assertEquals(5, $double->int());
     }
 
     public function testMultipleOfAndQuotient()
     {
-        $five = ESInt::init(5);
-        $four = $five->minus(ESInt::init(1));
-        $result = ESInt::init(25)->isMultipleOf($five)->bool();
+        $five = ESInt::wrap(5);
+        $four = $five->minus(ESInt::wrap(1));
+        $result = ESInt::wrap(25)->isMultipleOf($five)->bool();
         $this->assertTrue($result);
 
-        $result = ESInt::init(25)->isMultipleOf($five->plus(ESInt::init(1)))->bool();
+        $result = ESInt::wrap(25)->isMultipleOf($five->plus(ESInt::wrap(1)))->bool();
         $this->assertFalse($result);
 
-        $result = ESInt::init(25)->quotientAndRemainder($four)->values();
-        $this->assertEquals(6, ($result["quotient"])->int());
-        $this->assertEquals(1, ($result["remainder"])->int());
+        $result = ESInt::wrap(25)->quotientAndRemainder($four)->values();
+        $this->assertEquals(6, ($result["quotient"])->unwrap());
+        $this->assertEquals(1, ($result["remainder"])->unwrap());
 
-        $result = ESInt::init(25)->remainder($four)->int();
+        $result = ESInt::wrap(25)->remainder($four)->unwrap();
         $this->assertEquals(1, $result);
     }
 
     public function testCanDoArithmatic()
     {
-        $five = ESInt::init(5);
-        $result = ESInt::init(25)->plus($five)->int();
+        $five = ESInt::wrap(5);
+        $result = ESInt::wrap(25)->plus($five)->unwrap();
         $this->assertEquals(30, $result);
 
-        $result = ESInt::init(25)->minus($five)->int();
+        $result = ESInt::wrap(25)->minus($five)->unwrap();
         $this->assertEquals(20, $result);
 
-        $result = ESInt::init(25)->minus($five->negate())->int();
+        $result = ESInt::wrap(25)->minus($five->negate())->unwrap();
         $this->assertEquals(30, $result);
 
-        $result = ESInt::init(25)->product($five->negate())->int();
+        $result = ESInt::wrap(25)->product($five->negate())->unwrap();
         $this->assertEquals(-125, $result);
 
-        $result = ESInt::init(25)->quotient($five)->int();
+        $result = ESInt::wrap(25)->quotient($five)->unwrap();
         $this->assertEquals(5, $result);
     }
 
     public function testCanDoComparison()
     {
-        $compare = ESInt::init(25);
-        $result = ESInt::init(20);
+        $compare = ESInt::wrap(25);
+        $result = ESInt::wrap(20);
         $this->assertTrue($result->isLessThan($compare)->bool());
         $this->assertFalse($result->isGreaterThan($compare)->bool());
 
-        $compare = ESInt::init(15);
-        $result = ESInt::init(20);
+        $compare = ESInt::wrap(15);
+        $result = ESInt::wrap(20);
         $this->assertFalse($result->isLessThan($compare)->bool());
         $this->assertTrue($result->isGreaterThan($compare)->bool());
 
-        $compare = ESInt::init(20);
-        $result = ESInt::init(20);
+        $compare = ESInt::wrap(20);
+        $result = ESInt::wrap(20);
         $this->assertTrue($result->isLessThan($compare, true)->bool());
-    }
-
-    public function testInitialFromString()
-    {
-        $result = ESInt::fromString("500");
-        $this->assertEquals(500, $result->int());
     }
 
     public function testCanNegateValue()
     {
-        $result = ESInt::init(500)->negate()->int();
+        $result = ESInt::wrap(500)->negate()->unwrap();
         $this->assertEquals(-500, $result);
     }
 }

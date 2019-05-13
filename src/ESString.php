@@ -2,21 +2,27 @@
 
 namespace Eightfold\Shoop;
 
+use Eightfold\Shoop\ESBool;
+
 use Eightfold\Shoop\Interfaces\{
     Wrappable,
     Equatable,
     EquatableImp
 };
 
-class ESString implements Wrappable
+class ESString implements Wrappable, Equatable
 {
+    use EquatableImp;
+
     private $string = '';
 
     private $value = '';
 
-    static public function wrap(array $array)
+    static public function wrap(...$args): ESString
     {
-        return static::wrapString(implode('', $array));
+        $string = (isset($args[0])) ? $args[0] : "";
+        $count = (isset($args[1])) ? $args[1] : 1;
+        return static::wrapString($string, $count);
     }
 
     static public function wrapString(string $string = "", int $count = 1): ESString
@@ -44,7 +50,6 @@ class ESString implements Wrappable
     {
         return ESString::bisectArray($this->array(), $at);
     }
-
 
     public function unwrap(): string
     {
@@ -116,38 +121,33 @@ class ESString implements Wrappable
         return $array[$index];
     }
 
-    public function isSameAs(string $compare): bool
-    {
-        return $this->array() === ESString::wrapString($compare)->array();
-    }
-
-    public function startsWith(string $prefix): bool
+    public function startsWith(string $prefix): ESBool
     {
         $compare = ESString::wrapString($prefix);
         $at = $compare->count();
         list($left, $_) = $this->bisectedArray($at);
-        $left = implode('', $left);
+        $left = ESString::wrap(implode('', $left));
         return $compare->isSameAs($left);
     }
 
-    public function hasPrefix(string $prefix): bool
+    public function hasPrefix(string $prefix): ESBool
     {
         return $this->startsWith($prefix);
     }
 
-    public function hasSuffix(string $suffix): bool
+    public function hasSuffix(string $suffix): ESBool
     {
         $compare = ESString::wrapString($suffix);
         $at = $this->count() - $compare->count();
         list($_, $right) = $this->bisectedArray($at);
-        $right = implode('', $right);
+        $right = ESString::wrap(implode('', $right));
         return $compare->isSameAs($right);
     }
 
-    public function isEmpty(): bool
-    {
-        return empty($this->value);
-    }
+    // public function isEmpty(): bool
+    // {
+    //     return empty($this->value);
+    // }
 
     public function count(): int
     {
@@ -229,5 +229,11 @@ class ESString implements Wrappable
     public function popLast(): string
     {
         return $this->dropLast(1);
+    }
+
+//->
+    public function isEmpty(): ESBool
+    {
+        return ESBool::wrap(empty($this->value));
     }
 }

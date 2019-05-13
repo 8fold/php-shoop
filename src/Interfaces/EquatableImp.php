@@ -9,7 +9,7 @@ trait EquatableImp
 {
     public function isSameAs(Equatable $compare): ESBool
     {
-        return ESBool::init($this->value === $compare->unwrap());
+        return ESBool::wrap($this->value === $compare->unwrap());
     }
 
     public function isDifferentThan(Equatable $compare): ESBool
