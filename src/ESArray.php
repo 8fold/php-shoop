@@ -5,6 +5,7 @@ namespace Eightfold\Shoop;
 use Illuminate\Support\Arr as IlluminateArray;
 
 use Eightfold\Shoop\{
+    ESBaseType,
     ESString,
     ESBool
 };
@@ -20,28 +21,27 @@ use Eightfold\Shoop\Interfaces\{
     StoreableImp
 };
 
-class ESArray implements
+class ESArray extends ESBaseType implements
     Wrappable,
-    Equatable,
     Describable,
     Randomizable,
     Storeable
 {
-    use EquatableImp,
+    use
         RandomizableImp,
         StoreableImp;
 
-    private $value = [];
+    // private $value = [];
 
-    static public function wrap(...$args): ESArray
-    {
-        return new ESArray(IlluminateArray::flatten($args));
-    }
+    // static public function wrap(...$args): ESArray
+    // {
+    //     return new ESArray(IlluminateArray::flatten($args));
+    // }
 
-    static public function wrapArray(array $array): ESArray
-    {
-        return new ESArray($array);
-    }
+    // static public function wrapArray(array $array): ESArray
+    // {
+    //     return new ESArray($array);
+    // }
 
     public function __construct(array $array)
     {
@@ -63,5 +63,27 @@ class ESArray implements
     {
         $valuesAsString = implode(", ", $this->value);
         return ESString::wrap("[{$valuesAsString}]");
+    }
+
+//-> plus/minus
+    public function plus($array): ESArray
+    {
+        $suffix = $this->sanitizeTypeOrTriggerError($array, "array")->unwrap();
+        $prefix = $this->unwrap();
+        return ESArray::wrap(array_merge($prefix, $suffix));
+    }
+
+    public function minus($array): ESArray
+    {
+        $deletes = $this->sanitizeTypeOrTriggerError($array, "array")->unwrap();
+        $copy = $this->unwrap();
+        for ($i = 0; $i < count($this->unwrap()); $i++) {
+            foreach ($deletes as $check) {
+                if ($check === $copy[$i]) {
+                    unset($copy[$i]);
+                }
+            }
+        }
+        return ESArray::wrap(array_values($copy));
     }
 }

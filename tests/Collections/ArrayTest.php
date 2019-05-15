@@ -34,4 +34,15 @@ class ArrayTest extends TestCase
         $result = ESArray::wrap([]);
         $this->assertTrue($result->isEmpty()->unwrap());
     }
+
+    public function testCanDoPlusAndMinusForArray()
+    {
+        $expected = [1, 2, 3, 4, 5, 6];
+        $result = ESArray::wrap([1, 2, 3])->plus([4, 5, 6])->unwrap();
+        $this->assertEquals($expected, $result);
+
+        $expected = [1, 2, 4, 2, 1];
+        $result = ESArray::wrap([1, 2, 3, 4, 3, 2, 1])->minus([3])->unwrap();
+        $this->assertEquals($expected, $result);
+    }
 }

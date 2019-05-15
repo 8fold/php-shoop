@@ -225,4 +225,10 @@ class ESString extends ESBaseType implements
     {
         return ESString::wrap($this->unwrap() . parent::sanitizeTypeOrTriggerError($string, "string")->unwrap());
     }
+
+    public function minus($string): ESString
+    {
+        $needle = parent::sanitizeTypeOrTriggerError($string, "string")->unwrap();
+        return ESString::wrap(str_replace($needle, "", $this->unwrap()));
+    }
 }

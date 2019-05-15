@@ -112,5 +112,8 @@ class StringTest extends TestCase
     {
         $result = ESString::wrap("Hello, ")->plus("🌍!")->unwrap();
         $this->assertEquals($this->plainTextWithUnicode(), $result);
+
+        $result = ESString::wrap("Hello, World!")->minus("l")->unwrap();
+        $this->assertEquals("Heo, Word!", $result);
     }
 }
