@@ -1,4 +1,4 @@
-“Shoop,” as internet slang in this context, means Photoshopped. 
+“Shoop,” as internet slang in this context, means Photoshopped.
 
 We’re “photoshopping” the way we interact with PHP. Most notably the PHP API, which is fairly criticized regarding inconsistent patterns used (and other criticisms). Wouldn’t it be interesting if a somewhat common API could be created for various languages, which could increase accessibility to not only PHP but other languages as well. As such, Shoop is language agnostic and should be easily portable to other languages.
 
@@ -9,15 +9,27 @@ We’re “photoshopping” the way we interact with PHP. Most notably the PHP A
 | OO          |Object-oriented, specifically, encapsulation by way of namespacing.                                                           |
 | P           |Procedural, specifically, not a logical style but giving the computer a sequence of statements to be executed.                |
 
-Classes SHOULD favor composition over inheritance.
-
 Classes SHOULD be viewed only as an entry point not necessarily the result. (The return value may not be of the same type as the one starting it.)
+
+## Principles & Recommendations
+
+### Functions
+
+Functions SHOULD NOT reside in the global scope and namespace.
+
+### Clases
+
+Classes SHOULD favor composition over inheritance.
 
 Classes SHOULD follow the open-closed principle.
 
-Classes SHOULD NOT allow direct access to property members.
+Sub-classes MUST NOT override superclass implementation.
 
-Functions SHOULD NOT reside in the global scope and namespace.
+Sub-classes SHOULD inherit from the base type directly AND the inheritance hierarchy MUST NOT exceed three levels.
+
+### Class Properties & Methods
+
+Class properties MUST BE declared `protected` or `private` (preferring `private`).
 
 Class methods SHOULD follow the Single Responsibility Principle (SRP) by doing one thing.
 
@@ -42,7 +54,7 @@ class ESDouble {}
 class ESFloat {}
 
 class ESRange {
-  static public function init(Int $min, Int $max, bool $includesMax = true);
+	static public function init(Int $min, Int $max, bool $includesMax = true);
 }
 
 class ESClosedRange {}
@@ -57,33 +69,33 @@ class ESSet {}
 class Boolean {}
 
 class Symbols {
-  static public function init() {}
+	static public function init() {}
 
-  static public function character() {}
+	static public function character() {}
 
-  static public function string() {}
+	static public function string() {}
 }
 
 class Number {
-  static public function init() {}
+	static public function init() {}
 
-  static public function int() {}
+	static public function int() {}
 
-  static public function double() {}
+	static public function double() {}
 
-  static public function float() {}
+	static public function float() {}
 }
 
 class Range {
-  static public function init($x, $y, true) {}
+	static public function init($x, $y, true) {}
 }
 
 class Collection {
-  static public function init() {}
-  
-  static public function array() {}
+	static public function init() {}
 
-  static public function dictionary() {}
+	static public function array() {}
 
-  static public function set() {}
+	static public function dictionary() {}
+
+	static public function set() {}
 }
