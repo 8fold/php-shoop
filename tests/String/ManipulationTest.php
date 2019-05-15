@@ -15,7 +15,7 @@ class ManipulationTest extends TestCase
     public function testCanAppendStringWithString()
     {
         $expected = $this->plainTextWithUnicode();
-        $result = ESString::wrapString('Hello')
+        $result = ESString::wrap('Hello')
             ->append(', 🌍!')
             ->unwrap();
         $this->assertEquals($expected, $result);
@@ -24,7 +24,7 @@ class ManipulationTest extends TestCase
     public function testCanInsertCharacters()
     {
         $expected = $this->plainTextWithUnicode();
-        $string = ESString::wrapString('Hello 🌍!');
+        $string = ESString::wrap('Hello 🌍!');
         $this->assertEquals('Hello 🌍!', $string->unwrap());
 
         $string->insert(',', 5);
@@ -34,7 +34,7 @@ class ManipulationTest extends TestCase
     public function testCanInsertMBChars()
     {
         $expected = '🌍,🌍,🌍,🌍,🌍';
-        $string = ESString::wrapString('🌍,🌍,🌍🌍,🌍');
+        $string = ESString::wrap('🌍,🌍,🌍🌍,🌍');
         $this->assertEquals('🌍,🌍,🌍🌍,🌍', $string->unwrap());
 
         $string->insert(',', 5);
@@ -44,7 +44,7 @@ class ManipulationTest extends TestCase
     public function testCanReplaceSubrange()
     {
         $expected = 'Hello, world!';
-        $result = ESString::wrapString($this->plainTextWithUnicode())
+        $result = ESString::wrap($this->plainTextWithUnicode())
             ->replaceSubrange('world', 7, 1)
             ->unwrap();
         $this->assertEquals($expected, $result);
@@ -53,7 +53,7 @@ class ManipulationTest extends TestCase
     public function testCanReplaceSubrangeReversed()
     {
         $expected = $this->plainTextWithUnicode();
-        $result = ESString::wrapString('Hello, world!')
+        $result = ESString::wrap('Hello, world!')
             ->replaceSubrange('🌍', 7, 5)
             ->unwrap();
         $this->assertEquals($expected, $result);
@@ -62,7 +62,7 @@ class ManipulationTest extends TestCase
     public function testCanRemoveCharAtIndex()
     {
         $expected = ',';
-        $string = ESString::wrapString($this->plainText());
+        $string = ESString::wrap($this->plainText());
         $char = $string->remove(6); // H
         $str = $string->unwrap(); // ello, World!
 
@@ -73,7 +73,7 @@ class ManipulationTest extends TestCase
     public function testCanRemoveCharFirst()
     {
         $expected = 'H';
-        $string = ESString::wrapString($this->plainText());
+        $string = ESString::wrap($this->plainText());
         $char = $string->removeFirst(); // H
         $str = $string->unwrap(); // ello, World!
 
@@ -84,7 +84,7 @@ class ManipulationTest extends TestCase
     public function testCanRemoveCharLast()
     {
         $expected = '!';
-        $string = ESString::wrapString($this->plainText());
+        $string = ESString::wrap($this->plainText());
         $char = $string->removeLast(); // H
         $str = $string->unwrap(); // ello, World!
 
@@ -95,7 +95,7 @@ class ManipulationTest extends TestCase
     public function testCanRemoveSubrange()
     {
         $expected = '🌍';
-        $result = ESString::wrapString($this->unicode())
+        $result = ESString::wrap($this->unicode())
             ->removeSubrange(1, 2)
             ->removeSubrange(2, 2)
             ->unwrap();

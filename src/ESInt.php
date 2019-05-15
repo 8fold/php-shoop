@@ -2,7 +2,10 @@
 
 namespace Eightfold\Shoop;
 
-use Eightfold\Shoop\ESBool;
+use Eightfold\Shoop\{
+    ESBaseType,
+    ESBool
+};
 
 use Eightfold\Shoop\Interfaces\{
     Equatable,
@@ -11,28 +14,8 @@ use Eightfold\Shoop\Interfaces\{
     EquatableImp
 };
 
-class ESInt implements Equatable, Comparable, Wrappable
+class ESInt extends ESBaseType implements Comparable, Wrappable
 {
-    use EquatableImp;
-
-	private $value = 0;
-
-    static public function wrap(...$args): ESInt
-    {
-        $initial = (isset($args[0])) ? floor($args[0]) : 0;
-        return new ESInt($initial);
-    }
-
-	public function __construct(int $int = 0)
-	{
-        $this->value = $int;
-	}
-
-    public function unwrap(): int
-    {
-        return $this->value;
-    }
-
 	public function isMultipleOf(ESInt $int): ESBool
 	{
 		return ESBool::wrap($this->remainder($int)->unwrap() == 0);
@@ -70,14 +53,14 @@ class ESInt implements Equatable, Comparable, Wrappable
 	}
 
 //-> Arithmetic
-	public function plus(ESInt $int): ESInt
+	public function plus($int): ESInt
 	{
-		return ESInt::wrap($this->unwrap() + $int->unwrap());
+        return ESInt::wrap($this->unwrap() + $this->sanitizeTypeOrTriggerError($int, "integer")->unwrap());
 	}
 
-	public function minus(ESInt $int): ESInt
+	public function minus($int): ESInt
 	{
-		return ESInt::wrap($this->unwrap() - $int->unwrap());
+		return ESInt::wrap($this->unwrap() - $this->sanitizeTypeOrTriggerError($int, "integer")->unwrap());
 	}
 
 	public function product(ESInt $int): ESInt

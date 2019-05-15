@@ -15,7 +15,7 @@ class MetadataTest extends TestCase
     public function testCanCountCharacters()
     {
         $expected = 9;
-        $result = ESString::wrapString($this->plainTextWithUnicode())->count();
+        $result = ESString::wrap($this->plainTextWithUnicode())->count();
         $this->assertEquals($expected, $result);
     }
 
@@ -23,7 +23,7 @@ class MetadataTest extends TestCase
     public function testCanCheckEquality()
     {
         $compare = $this->unicode();
-        $result = ESString::wrapString($compare)
+        $result = ESString::wrap($compare)
             ->isSameAs(ESString::wrap($compare));
         $this->assertTrue($result->unwrap());
     }
@@ -31,7 +31,7 @@ class MetadataTest extends TestCase
     public function testCanCheckEqualityFails()
     {
         $compare = ESString::wrap('H');
-        $result = ESString::wrapString($this->unicode())
+        $result = ESString::wrap($this->unicode())
             ->isSameAs($compare);
         $this->assertFalse($result->unwrap());
     }
@@ -39,7 +39,7 @@ class MetadataTest extends TestCase
     public function testCanCheckForPrefix()
     {
         $compare = $this->unicode();
-        $result = ESString::wrapString($compare)
+        $result = ESString::wrap($compare)
             ->startsWith('😀😇🌍');
         $this->assertTrue($result->unwrap());
     }
@@ -47,7 +47,7 @@ class MetadataTest extends TestCase
     public function testCanCheckForPrefixFails()
     {
         $compare = $this->unicode();
-        $result = ESString::wrapString($compare)
+        $result = ESString::wrap($compare)
             ->startsWith('H');
         $this->assertFalse($result->unwrap());
     }
@@ -55,7 +55,7 @@ class MetadataTest extends TestCase
     public function testCanCheckForPrefix2()
     {
         $compare = $this->unicode();
-        $result = ESString::wrapString($compare)
+        $result = ESString::wrap($compare)
             ->hasPrefix('😀😇🌍');
         $this->assertTrue($result->unwrap());
     }
@@ -63,7 +63,7 @@ class MetadataTest extends TestCase
     public function testCanCheckForSuffix()
     {
         $compare = $this->unicode();
-        $result = ESString::wrapString($compare)
+        $result = ESString::wrap($compare)
             ->hasSuffix('🌍😍😌');
         $this->assertTrue($result->unwrap());
     }

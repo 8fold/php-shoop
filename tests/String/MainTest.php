@@ -13,28 +13,21 @@ class MainTest extends TestCase
     use TestStrings;
 
 //-> Initializers
-    public function testCanInitializeEmptyString()
-    {
-        $result = ESString::wrapString();
+    // public function testCanInitializeEmptyString()
+    // {
+    //     $result = ESString::wrap();
 
-        $this->assertNotNull($result);
-        $this->assertTrue($result->isEmpty()->unwrap());
+    //     $this->assertNotNull($result);
+    //     $this->assertTrue($result->isEmpty()->unwrap());
 
-        $result->random();
-    }
+    //     $result->random();
+    // }
 
     public function testCanInitializeWithString()
     {
         $expected = $this->plainTextWithUnicode();
-        $result = ESString::wrapString($this->plainTextWithUnicode());
+        $result = ESString::wrap($this->plainTextWithUnicode());
         $this->assertEquals($expected, $result->unwrap());
         $this->assertEquals($expected, $result->description()->unwrap());
-    }
-
-    public function testCanInitializeByRepeatingString()
-    {
-        $expected = '🌍🌍🌍';
-        $result = ESString::wrapString('🌍', 3)->unwrap();
-        $this->assertEquals($expected, $result);
     }
 }

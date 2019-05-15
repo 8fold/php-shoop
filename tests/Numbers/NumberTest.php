@@ -102,4 +102,19 @@ class IntTest extends TestCase
         $result = ESInt::wrap(500)->negate()->unwrap();
         $this->assertEquals(-500, $result);
     }
+
+    public function testPlusAndMinus()
+    {
+        $result = ESInt::wrap(3)->plus(5)->unwrap();
+        $this->assertEquals(8, $result);
+
+        $result = ESInt::wrap(3)->plus(ESInt::wrap(5))->unwrap();
+        $this->assertEquals(8, $result);
+
+        $result = ESInt::wrap(3)->minus(5)->unwrap();
+        $this->assertEquals(-2, $result);
+
+        $result = ESInt::wrap(3)->minus(ESInt::wrap(5))->unwrap();
+        $this->assertEquals(-2, $result);
+    }
 }

@@ -2,7 +2,10 @@
 
 namespace Eightfold\Shoop;
 
-use Eightfold\Shoop\ESBool;
+use Eightfold\Shoop\{
+    ESBaseType,
+    ESBool
+};
 
 use Eightfold\Shoop\Interfaces\{
     Wrappable,
@@ -16,33 +19,16 @@ use Eightfold\Shoop\Interfaces\{
     RandomizableImp
 };
 
-class ESString implements
+class ESString extends ESBaseType implements
     Wrappable,
-    Equatable,
     Storeable,
     Describable,
     Randomizable
 {
-    use EquatableImp,
+    use
         StoreableImp,
         DescribableImp,
         RandomizableImp;
-
-    private $string = '';
-
-    private $value = '';
-
-    static public function wrap(...$args): ESString
-    {
-        $string = (isset($args[0])) ? $args[0] : "";
-        $count = (isset($args[1])) ? $args[1] : 1;
-        return static::wrapString($string, $count);
-    }
-
-    static public function wrapString(string $string = "", int $count = 1): ESString
-    {
-        return (new ESString())->append($string, $count);
-    }
 
     /**
      * TODO: Move to ESArray
@@ -122,12 +108,6 @@ class ESString implements
         return $this->characterAt($this->count());
     }
 
-    // public function randomElement(): string
-    // {
-    //     $at = rand(1, $this->count());
-    //     return $this->characterAt($at);
-    // }
-
     public function characterAt(int $at): string
     {
         $index = $at - 1;
@@ -137,7 +117,7 @@ class ESString implements
 
     public function startsWith(string $prefix): ESBool
     {
-        $compare = ESString::wrapString($prefix);
+        $compare = ESString::wrap($prefix);
         $at = $compare->count();
         list($left, $_) = $this->bisectedArray($at);
         $left = ESString::wrap(implode('', $left));
@@ -151,17 +131,12 @@ class ESString implements
 
     public function hasSuffix(string $suffix): ESBool
     {
-        $compare = ESString::wrapString($suffix);
+        $compare = ESString::wrap($suffix);
         $at = $this->count() - $compare->count();
         list($_, $right) = $this->bisectedArray($at);
         $right = ESString::wrap(implode('', $right));
         return $compare->isSameAs($right);
     }
-
-    // public function isEmpty(): bool
-    // {
-    //     return empty($this->value);
-    // }
 
     public function count(): int
     {
@@ -188,7 +163,7 @@ class ESString implements
             array_shift($right);
         }
 
-        $insertion = ESString::wrapString($value)->array()->unwrap();
+        $insertion = ESString::wrap($value)->array()->unwrap();
 
         $merged = array_merge($left, $insertion, $right);
 
@@ -243,5 +218,11 @@ class ESString implements
     public function popLast(): string
     {
         return $this->dropLast(1);
+    }
+
+//-> plus/minus
+    public function plus($string): ESString
+    {
+        return ESString::wrap($this->unwrap() . parent::sanitizeTypeOrTriggerError($string, "string")->unwrap());
     }
 }
