@@ -4,6 +4,7 @@ namespace Eightfold\Shoop;
 
 use Eightfold\Shoop\{
     ESBaseType,
+    ESInt,
     ESBool
 };
 
@@ -46,8 +47,9 @@ class ESString extends ESBaseType implements
         return array($left, $right);
     }
 
-    private function bisectedArray(int $at): array
+    private function bisectedArray($at): array
     {
+        $at = parent::sanitizeTypeOrTriggerError($at, "integer", ESInt::class)->unwrap();
         return ESString::bisectArray($this->enumerated(), $at);
     }
 
@@ -59,6 +61,11 @@ class ESString extends ESBaseType implements
     public function enumerated(): ESArray
     {
         return ESArray::wrap(preg_split('//u', $this->value, null, PREG_SPLIT_NO_EMPTY));
+    }
+
+    public function count(): ESInt
+    {
+        return $this->enumerated()->count();
     }
 
     public function split(
@@ -108,8 +115,9 @@ class ESString extends ESBaseType implements
         return $this->characterAt($this->count());
     }
 
-    public function characterAt(int $at): string
+    public function characterAt($at): string
     {
+        $at = parent::sanitizeTypeOrTriggerError($at, "integer", ESInt::class)->unwrap();
         $index = $at - 1;
         $array = $this->enumerated()->unwrap();
         return $array[$index];
@@ -132,15 +140,10 @@ class ESString extends ESBaseType implements
     public function hasSuffix(string $suffix): ESBool
     {
         $compare = ESString::wrap($suffix);
-        $at = $this->count() - $compare->count();
+        $at = $this->count()->unwrap() - $compare->count()->unwrap();
         list($_, $right) = $this->bisectedArray($at);
         $right = ESString::wrap(implode('', $right));
         return $compare->isSameAs($right);
-    }
-
-    public function count(): int
-    {
-        return count($this->enumerated()->unwrap());
     }
 
     public function append(string $value, int $count = 1): ESString
@@ -171,8 +174,9 @@ class ESString extends ESBaseType implements
         return $this;
     }
 
-    public function remove(int $at): string
+    public function remove($at): string
     {
+        $at = parent::sanitizeTypeOrTriggerError($at, "integer", ESInt::class)->unwrap();
         $char = $this->characterAt($at);
 
         $array = $this->enumerated()->unwrap();

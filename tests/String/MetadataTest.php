@@ -15,7 +15,7 @@ class MetadataTest extends TestCase
     public function testCanCountCharacters()
     {
         $expected = 9;
-        $result = ESString::wrap($this->plainTextWithUnicode())->count();
+        $result = ESString::wrap($this->plainTextWithUnicode())->count()->unwrap();
         $this->assertEquals($expected, $result);
     }
 

@@ -32,7 +32,7 @@ class RangeTest extends TestCase
         $this->assertFalse($result->isEmpty()->bool());
 
         $result = ESRange::wrap(5, 10);
-        $this->assertEquals(5, $result->count()->unwrap());
+        $this->assertEquals(6, $result->count()->unwrap());
         $this->assertEquals(5, $result->lowerBound()->unwrap());
         $this->assertEquals(10, $result->upperBound()->unwrap());
 
@@ -84,5 +84,17 @@ class RangeTest extends TestCase
         $expected = [0, 1, 2, 3, 4, 5];
         $result = ESRange::wrap(0, 5)->enumerated()->unwrap();
         $this->assertEquals($expected, $result);
+        $this->assertEquals(count($expected), count($result));
+    }
+
+    public function testCanCountContents()
+    {
+        $range = ESRange::wrap(1, 5);
+        $enumerated = $range->enumerated();
+        $this->assertEquals([1, 2, 3, 4, 5], $enumerated->unwrap());
+        $this->assertEquals(5, count($enumerated->unwrap()));
+
+        $result = $range->count()->unwrap();
+        $this->assertEquals(5, $range->count()->unwrap());
     }
 }

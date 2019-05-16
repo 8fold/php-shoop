@@ -7,6 +7,7 @@ use Illuminate\Support\Arr as IlluminateArray;
 use Eightfold\Shoop\{
     ESBaseType,
     ESString,
+    ESInt,
     ESBool
 };
 
@@ -56,6 +57,11 @@ class ESArray extends ESBaseType implements
     private function enumerated(): ESArray
     {
         return ESArray::wrap(array_values($this->value));
+    }
+
+    public function count(): ESInt
+    {
+        return ESInt::wrap(count($this->enumerated()->unwrap()));
     }
 
 //-> Describable

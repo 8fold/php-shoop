@@ -80,6 +80,11 @@ class ESRange extends ESBaseType implements
         return ESArray::wrap(range($this->min->unwrap(), $this->max->unwrap()));
     }
 
+    public function count(): ESInt
+    {
+        return $this->enumerated()->count();
+    }
+
 //-> Iterator
     public function current(): ESInt
     {
@@ -139,11 +144,6 @@ class ESRange extends ESBaseType implements
             return ESBool::wrap(false);
         }
         return ESBool::wrap(true);
-    }
-
-    public function count(): ESInt
-    {
-        return $this->max()->minus($this->min());
     }
 
     public function lowerBound(): ESInt

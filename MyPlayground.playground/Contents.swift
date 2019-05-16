@@ -1,5 +1,10 @@
 import UIKit
 
+var range = 1...5
+
+
+range.count
+
 var base = [3, 2, 1]
 
 var string = "Hello, " + "World!"

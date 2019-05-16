@@ -116,4 +116,13 @@ class StringTest extends TestCase
         $result = ESString::wrap("Hello, World!")->minus("l")->unwrap();
         $this->assertEquals("Heo, Word!", $result);
     }
+
+    public function testCanCountContents()
+    {
+        $result = ESString::wrap("Hello!")->count()->unwrap();
+        $this->assertEquals(6, $result);
+
+        $result = ESString::wrap("Hello!")->enumerated()->count()->unwrap();
+        $this->assertEquals(6, $result);
+    }
 }
