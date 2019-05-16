@@ -19,7 +19,7 @@ trait RandomizableImp
 
     public function shuffled(): ESArray
     {
-        $array = $this->array()->unwrap();
+        $array = $this->enumerated()->unwrap();
         shuffle($array);
         return ESArray::wrap($array);
     }

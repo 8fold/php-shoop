@@ -53,9 +53,9 @@ class ESArray extends ESBaseType implements
         return $this->value;
     }
 
-    private function array(): ESArray
+    private function enumerated(): ESArray
     {
-        return ESArray::wrap($this->value);
+        return ESArray::wrap(array_values($this->value));
     }
 
 //-> Describable

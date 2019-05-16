@@ -48,7 +48,7 @@ class ESString extends ESBaseType implements
 
     private function bisectedArray(int $at): array
     {
-        return ESString::bisectArray($this->array(), $at);
+        return ESString::bisectArray($this->enumerated(), $at);
     }
 
     public function unwrap(): string
@@ -56,7 +56,7 @@ class ESString extends ESBaseType implements
         return $this->value;
     }
 
-    public function array(): ESArray
+    public function enumerated(): ESArray
     {
         return ESArray::wrap(preg_split('//u', $this->value, null, PREG_SPLIT_NO_EMPTY));
     }
@@ -83,7 +83,7 @@ class ESString extends ESBaseType implements
 
     public function sorted(): array
     {
-        $array = $this->array()->unwrap();
+        $array = $this->enumerated()->unwrap();
         sort($array, SORT_STRING);
         return $array;
     }
@@ -111,7 +111,7 @@ class ESString extends ESBaseType implements
     public function characterAt(int $at): string
     {
         $index = $at - 1;
-        $array = $this->array()->unwrap();
+        $array = $this->enumerated()->unwrap();
         return $array[$index];
     }
 
@@ -140,7 +140,7 @@ class ESString extends ESBaseType implements
 
     public function count(): int
     {
-        return count($this->array()->unwrap());
+        return count($this->enumerated()->unwrap());
     }
 
     public function append(string $value, int $count = 1): ESString
@@ -163,7 +163,7 @@ class ESString extends ESBaseType implements
             array_shift($right);
         }
 
-        $insertion = ESString::wrap($value)->array()->unwrap();
+        $insertion = ESString::wrap($value)->enumerated()->unwrap();
 
         $merged = array_merge($left, $insertion, $right);
 
@@ -175,7 +175,7 @@ class ESString extends ESBaseType implements
     {
         $char = $this->characterAt($at);
 
-        $array = $this->array()->unwrap();
+        $array = $this->enumerated()->unwrap();
         $index = $at - 1;
         unset($array[$index]);
 

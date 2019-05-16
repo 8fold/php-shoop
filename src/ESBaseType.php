@@ -41,19 +41,23 @@ class ESBaseType
         return ESBool::wrap($result);
     }
 
-    final protected function sanitizeTypeOrTriggerError($sanitize, $desiredPhpType)
+    final protected function sanitizeTypeOrTriggerError($varToSanitize, $desiredPhpType, $class = null)
     {
-        $sanitizeType = gettype($sanitize);
-        $sanitizeTypeIsDesiredType = $sanitizeType === $desiredPhpType;
-        if (!($sanitizeTypeIsDesiredType || is_a($sanitize, static::class))) {
+        $class = ($class === null)
+            ? static::class
+            : $class;
+
+        if (is_a($varToSanitize, $class)) {
+            return $varToSanitize;
+        }
+
+        $sanitizeType = gettype($varToSanitize);
+        if ($sanitizeType !== $desiredPhpType) {
             list($_, $caller) = debug_backtrace(false);
             $this->invalidTypeError($desiredPhpType, $sanitizeType, $caller);
         }
 
-        $sanitize = ($sanitizeTypeIsDesiredType)
-            ? static::wrap($sanitize)
-            : $sanitize;
-        return $sanitize;
+        return $class::wrap($varToSanitize);
     }
 
     private function invalidTypeError($desiredPhpType, $sanitizeType, $caller)

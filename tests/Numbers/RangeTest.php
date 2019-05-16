@@ -13,9 +13,6 @@ class RangeTest extends TestCase
 {
     public function testCanInitialize()
     {
-        $result = ESRange::wrap();
-        $this->assertNotNull($result);
-
         $result = ESRange::wrap(1, 5);
         $this->assertEquals(1, $result->min()->unwrap());
         $this->assertEquals(5, $result->max()->unwrap());
@@ -28,7 +25,7 @@ class RangeTest extends TestCase
         $this->assertEquals(1, $result->min()->unwrap());
         $this->assertEquals(4, $result->max()->unwrap());
 
-        $result = ESRange::wrap();
+        $result = ESRange::wrap(0, 0);
         $this->assertTrue($result->isEmpty()->bool());
 
         $result = ESRange::wrap(5, 10);
@@ -80,5 +77,12 @@ class RangeTest extends TestCase
         $this->assertTrue($range->isSameAs($compare)->unwrap());
 
         $this->assertFalse($range->isDifferentThan($compare)->unwrap());
+    }
+
+    public function testCanBeEnumerated()
+    {
+        $expected = [0, 1, 2, 3, 4, 5];
+        $result = ESRange::wrap(0, 5)->enumerated()->unwrap();
+        $this->assertEquals($expected, $result);
     }
 }
