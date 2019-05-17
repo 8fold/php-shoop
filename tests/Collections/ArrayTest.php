@@ -28,9 +28,6 @@ class ArrayTest extends TestCase
 
         $this->assertEquals("[1, 2, 3]", $result->description()->unwrap());
 
-        $result->random();
-        $result->shuffled();
-
         $result = ESArray::wrap([]);
         $this->assertTrue($result->isEmpty()->unwrap());
     }
@@ -50,5 +47,51 @@ class ArrayTest extends TestCase
     {
         $result = ESArray::wrap([1, 2, 3])->count()->unwrap();
         $this->assertEquals(3, $result);
+    }
+
+    public function testCanSortAnArray()
+    {
+        $expected = [1, 2, 3, 4, 5];
+        $result = ESArray::wrap([4, 2, 3, 1, 5])->sorted()->unwrap();
+        $this->assertEquals($expected, $result);
+
+        $shuffled = ESArray::wrap($expected)->shuffled()->unwrap();
+        $this->assertNotEquals($expected, $shuffled);
+    }
+
+    public function testCanReverseArrayAndPutItBack()
+    {
+        $expected = [5, 4, 3, 2, 1];
+        $original = [1, 2, 3, 4, 5];
+        $result = ESArray::wrap($original);
+        $reversed = $result->toggle();
+        $this->assertEquals($expected, $reversed->unwrap());
+
+        $orig = $reversed->toggle();
+        $this->assertEquals($original, $orig->unwrap());
+    }
+
+    public function testCanGetFirstAndLastViaMinAndMax()
+    {
+        $result = ESArray::wrap([1, 2, 3, 4, 5]);
+        $this->assertEquals(1, $result->min()->unwrap());
+        $this->assertEquals(5, $result->max()->unwrap());
+        $this->assertEquals(1, $result->first()->unwrap());
+        $this->assertEquals(5, $result->last()->unwrap());
+
+        $result = ESArray::wrap([]);
+        $this->assertEquals([], $result->min()->unwrap());
+        $this->assertEquals([], $result->max()->unwrap());
+    }
+
+    public function testDropFirstAndLast()
+    {
+        $expected = [3, 4, 5];
+        $result = ESArray::wrap([1, 2, 3, 4, 5])->dropFirst(2)->unwrap();
+        $this->assertEquals($expected, $result);
+
+        $expected = [1, 2, 3];
+        $result = ESArray::wrap([1, 2, 3, 4, 5])->dropLast(2)->unwrap();
+        $this->assertEquals($expected, $result);
     }
 }

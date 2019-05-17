@@ -52,6 +52,11 @@ class ESInt extends ESBaseType implements Comparable, Wrappable
 		return ESInt::wrap($this->value + $by);
 	}
 
+    public function toggle(): ESInt
+    {
+        return ESInt::wrap(-1 * $this->unwrap());
+    }
+
 //-> Arithmetic
 	public function plus($int): ESInt
 	{

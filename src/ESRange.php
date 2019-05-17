@@ -86,35 +86,54 @@ class ESRange extends ESBaseType implements
     }
 
 //-> Iterator
+    private function rangeAsValues(): array
+    {
+        if (count($this->rangeAsValues) === 0) {
+            $this->rangeAsValues = $this->enumerated()->unwrap();
+        }
+        return $this->rangeAsValues;
+    }
+
     public function current(): ESInt
     {
         if (count($this->rangeAsValues) === 0) {
             $this->rangeAsValues = $this->enumerated()->unwrap();
         }
-
         $current = key($this->rangeAsValues);
         return ESInt::wrap($this->rangeAsValues[$current]);
     }
 
     public function key(): ESInt
     {
+        if (count($this->rangeAsValues) === 0) {
+            $this->rangeAsValues = $this->enumerated()->unwrap();
+        }
         return ESInt::wrap(key($this->rangeAsValues));
     }
 
     public function next(): ESRange
     {
+        if (count($this->rangeAsValues) === 0) {
+            $this->rangeAsValues = $this->enumerated()->unwrap();
+        }
         next($this->rangeAsValues);
         return $this;
     }
 
     public function rewind(): ESRange
     {
+        if (count($this->rangeAsValues) === 0) {
+            $this->rangeAsValues = $this->enumerated()->unwrap();
+        }
         reset($this->rangeAsValues);
         return $this;
     }
 
     public function valid(): bool
     {
+        if (count($this->rangeAsValues) === 0) {
+            $this->rangeAsValues = $this->enumerated()->unwrap();
+        }
         $key = key($this->rangeAsValues);
         $var = ($key !== null && $key !== false);
         return $var;
@@ -123,12 +142,18 @@ class ESRange extends ESBaseType implements
 //-> Accessing elements
     public function first(): ESInt
     {
+        if (count($this->rangeAsValues) === 0) {
+            $this->rangeAsValues = $this->enumerated()->unwrap();
+        }
         $first = array_shift($this->rangeAsValues);
         return ESInt::wrap($first);
     }
 
     public function last(): ESInt
     {
+        if (count($this->rangeAsValues) === 0) {
+            $this->rangeAsValues = $this->enumerated()->unwrap();
+        }
         $last = array_pop($this->rangeAsValues);
         return ESInt::wrap($last);
     }

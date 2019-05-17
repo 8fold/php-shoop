@@ -117,4 +117,16 @@ class IntTest extends TestCase
         $result = ESInt::wrap(3)->minus(ESInt::wrap(5))->unwrap();
         $this->assertEquals(-2, $result);
     }
+
+    public function testCanMakeNegativeNumberPositiveAgain()
+    {
+        $result = ESInt::wrap(10);
+        $negative = $result->toggle();
+        $this->assertEquals(-10, $negative->unwrap());
+
+        $positive = $negative->toggle();
+        $this->assertEquals(10, $positive->unwrap());
+
+        $this->assertEquals(10, $result->unwrap());
+    }
 }

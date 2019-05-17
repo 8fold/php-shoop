@@ -23,13 +23,11 @@ use Eightfold\Shoop\Interfaces\{
 class ESString extends ESBaseType implements
     Wrappable,
     Storeable,
-    Describable,
-    Randomizable
+    Describable
 {
     use
         StoreableImp,
-        DescribableImp,
-        RandomizableImp;
+        DescribableImp;
 
     /**
      * TODO: Move to ESArray
@@ -68,6 +66,57 @@ class ESString extends ESBaseType implements
         return $this->enumerated()->count();
     }
 
+    private function join(array $array): ESString
+    {
+        return ESString::wrap(implode('', $array));
+    }
+
+    public function sorted(): ESString
+    {
+        return $this->join($this->enumerated()->sorted()->unwrap());
+    }
+
+    public function shuffled(): ESString
+    {
+        return $this->join($this->enumerated()->shuffled()->unwrap());
+    }
+
+    public function toggle(): ESString
+    {
+        return $this->join($this->enumerated()->toggle()->unwrap());
+    }
+
+    public function min(): ESString
+    {
+        return $this->enumerated()->min();
+    }
+
+    public function first(): ESString
+    {
+        return $this->min();
+    }
+
+    public function max(): ESString
+    {
+        return $this->enumerated()->max();
+    }
+
+    public function last(): ESString
+    {
+        return $this->max();
+    }
+
+
+    public function dropFirst($length): ESString
+    {
+        return $this->join($this->enumerated()->dropFirst($length)->unwrap());
+    }
+
+    public function dropLast($length): ESString
+    {
+        return $this->join($this->enumerated()->dropLast($length)->unwrap());
+    }
+
     public function split(
         string $separator,
         int $maxSplits = 0,
@@ -88,13 +137,6 @@ class ESString extends ESBaseType implements
         return $array;
     }
 
-    public function sorted(): array
-    {
-        $array = $this->enumerated()->unwrap();
-        sort($array, SORT_STRING);
-        return $array;
-    }
-
     public function lowercased(): string
     {
         return mb_strtolower($this->value);
@@ -103,16 +145,6 @@ class ESString extends ESBaseType implements
     public function uppercased(): string
     {
         return mb_strtoupper($this->value);
-    }
-
-    public function first(): string
-    {
-        return $this->characterAt(1);
-    }
-
-    public function last(): string
-    {
-        return $this->characterAt($this->count());
     }
 
     public function characterAt($at): string
@@ -203,25 +235,6 @@ class ESString extends ESBaseType implements
             $this->remove($at);
         }
         return $this;
-    }
-
-    public function dropFirst(int $length): string
-    {
-        $this->removeSubrange(1, $length);
-        return $this->value;
-    }
-
-    public function dropLast(int $length): string
-    {
-        for ($i = 0; $i < $length; $i++) {
-            $this->remove($this->count());
-        }
-        return $this->value;
-    }
-
-    public function popLast(): string
-    {
-        return $this->dropLast(1);
     }
 
 //-> plus/minus
