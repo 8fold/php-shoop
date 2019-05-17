@@ -146,6 +146,26 @@ class ESArray extends ESBaseType implements
         return $this->enumerated()->toggle()->dropFirst($length)->toggle()->enumerated();
     }
 
+    public function startsWith($compare): ESBool
+    {
+        $compare = $this->sanitizeTypeOrTriggerError($compare, "array", ESArray::class);
+        $length = $compare->count()->unwrap();
+        $array = ESArray::wrap(array_slice($this->enumerated()->unwrap(), 0, $length));
+        return $array->isSameAs($compare);
+    }
+
+    public function endsWith($compare)
+    {
+        $compare = $this->sanitizeTypeOrTriggerError($compare, "array", ESArray::class)->toggle();
+        $reversed = $this->toggle();
+        return $reversed->startsWith($compare);
+    }
+
+    public function removeEmptyValues(): ESArray
+    {
+        return ESArray::wrap(array_filter($this->unwrap()))->enumerated();
+    }
+
 //-> Describable
     public function description(): ESString
     {

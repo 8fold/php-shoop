@@ -73,10 +73,10 @@ class IntTest extends TestCase
         $result = ESInt::wrap(25)->minus($five->negate())->unwrap();
         $this->assertEquals(30, $result);
 
-        $result = ESInt::wrap(25)->product($five->negate())->unwrap();
+        $result = ESInt::wrap(25)->multipliedBy($five->negate())->unwrap();
         $this->assertEquals(-125, $result);
 
-        $result = ESInt::wrap(25)->quotient($five)->unwrap();
+        $result = ESInt::wrap(25)->dividedBy($five)->unwrap();
         $this->assertEquals(5, $result);
     }
 
@@ -128,5 +128,11 @@ class IntTest extends TestCase
         $this->assertEquals(10, $positive->unwrap());
 
         $this->assertEquals(10, $result->unwrap());
+    }
+
+    public function testCanDoMultiplication()
+    {
+        $result = ESInt::wrap(3)->multipliedBy(3)->unwrap();
+        $this->assertEquals(9, $result);
     }
 }

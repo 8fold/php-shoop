@@ -117,23 +117,30 @@ class ESString extends ESBaseType implements
         return $this->join($this->enumerated()->dropLast($length)->unwrap());
     }
 
-    public function split(
-        string $separator,
-        int $maxSplits = 0,
-        bool $removingEmptyValues = true
-    ): array {
-        $array = explode($separator, $this->value);
-        if ($removingEmptyValues) {
-            $unsetEmptyValues = array_filter($array);
-            $reindexValues = array_values($unsetEmptyValues);
-            $array = $reindexValues;
-        }
+    public function startsWith($compare): ESBool
+    {
+        $compare = parent::sanitizeTypeOrTriggerError($compare, "string", ESString::class)
+            ->enumerated();
+        return $this->enumerated()->startsWith($compare);
+    }
 
-        if ($maxSplits > 0) {
-            list($left, $right) = $this->bisectArray($array, $maxSplits);
-            $right = implode($separator, $right);
-            $array = empty($right) ? $left : array_merge($left, [$right]);
-        }
+    public function endsWith($compare): ESBool
+    {
+        $compare = parent::sanitizeTypeOrTriggerError($compare, "string", ESString::class)
+            ->toggle();
+        return $this->toggle()->startsWith($compare);
+    }
+
+    public function multipliedBy($multiplier): ESString
+    {
+        $multiplier = parent::sanitizeTypeOrTriggerError($multiplier, "integer", ESInt::class);
+        return ESString::wrap(str_repeat($this->unwrap(), $multiplier->unwrap()));
+    }
+
+    public function dividedBy($delimiter): ESArray
+    {
+        $separator = parent::sanitizeTypeOrTriggerError($delimiter, "string", ESString::class);
+        $array = ESArray::wrap(explode($delimiter, $this->unwrap()))->removeEmptyValues();
         return $array;
     }
 
@@ -153,35 +160,6 @@ class ESString extends ESBaseType implements
         $index = $at - 1;
         $array = $this->enumerated()->unwrap();
         return $array[$index];
-    }
-
-    public function startsWith(string $prefix): ESBool
-    {
-        $compare = ESString::wrap($prefix);
-        $at = $compare->count();
-        list($left, $_) = $this->bisectedArray($at);
-        $left = ESString::wrap(implode('', $left));
-        return $compare->isSameAs($left);
-    }
-
-    public function hasPrefix(string $prefix): ESBool
-    {
-        return $this->startsWith($prefix);
-    }
-
-    public function hasSuffix(string $suffix): ESBool
-    {
-        $compare = ESString::wrap($suffix);
-        $at = $this->count()->unwrap() - $compare->count()->unwrap();
-        list($_, $right) = $this->bisectedArray($at);
-        $right = ESString::wrap(implode('', $right));
-        return $compare->isSameAs($right);
-    }
-
-    public function append(string $value, int $count = 1): ESString
-    {
-        $this->value .= str_repeat($value, $count);
-        return $this;
     }
 
     public function insert(string $value, int $at): ESString

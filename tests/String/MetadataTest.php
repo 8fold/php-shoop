@@ -43,28 +43,4 @@ class MetadataTest extends TestCase
             ->startsWith('😀😇🌍');
         $this->assertTrue($result->unwrap());
     }
-
-    public function testCanCheckForPrefixFails()
-    {
-        $compare = $this->unicode();
-        $result = ESString::wrap($compare)
-            ->startsWith('H');
-        $this->assertFalse($result->unwrap());
-    }
-
-    public function testCanCheckForPrefix2()
-    {
-        $compare = $this->unicode();
-        $result = ESString::wrap($compare)
-            ->hasPrefix('😀😇🌍');
-        $this->assertTrue($result->unwrap());
-    }
-
-    public function testCanCheckForSuffix()
-    {
-        $compare = $this->unicode();
-        $result = ESString::wrap($compare)
-            ->hasSuffix('🌍😍😌');
-        $this->assertTrue($result->unwrap());
-    }
 }

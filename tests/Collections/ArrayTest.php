@@ -94,4 +94,15 @@ class ArrayTest extends TestCase
         $result = ESArray::wrap([1, 2, 3, 4, 5])->dropLast(2)->unwrap();
         $this->assertEquals($expected, $result);
     }
+
+    public function testStartsWithAndEndsWith()
+    {
+        $compare = [1, 2, 3];
+        $result = ESArray::wrap([1, 2, 3, 4, 5])->startsWith($compare)->unwrap();
+        $this->assertTrue($result);
+
+        $compare = [3, 4, 5];
+        $result = ESArray::wrap([1, 2, 3, 4, 5])->endsWith($compare)->unwrap();
+        $this->assertTrue($result);
+    }
 }

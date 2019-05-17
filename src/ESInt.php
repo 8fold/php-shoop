@@ -24,14 +24,14 @@ class ESInt extends ESBaseType implements Comparable, Wrappable
 	public function quotientAndRemainder(ESInt $divisor): ESTuple
 	{
 		return ESTuple::init([
-			"quotient" => ESInt::wrap($this->quotient($divisor)->unwrap()),
+			"quotient" => ESInt::wrap($this->dividedBy($divisor)->unwrap()),
 			"remainder" => ESInt::wrap($this->remainder($divisor)->unwrap())
 		]);
 	}
 
 	public function negate(): ESInt
 	{
-		return ESInt::wrap($this->product(ESInt::wrap(-1))->unwrap());
+		return ESInt::wrap($this->multipliedBy(ESInt::wrap(-1))->unwrap());
 	}
 
 	public function description(): string
@@ -68,14 +68,16 @@ class ESInt extends ESBaseType implements Comparable, Wrappable
 		return ESInt::wrap($this->unwrap() - $this->sanitizeTypeOrTriggerError($int, "integer")->unwrap());
 	}
 
-	public function product(ESInt $int): ESInt
+	public function multipliedBy($int): ESInt
 	{
-		return ESInt::wrap($this->unwrap() * $int->unwrap());
+        return ESInt::wrap($this->unwrap() * $this->sanitizeTypeOrTriggerError($int, "integer")->unwrap());
 	}
 
-	public function quotient(ESInt $divisor): ESInt
+	public function dividedBy($int): ESInt
 	{
-		return ESInt::wrap(floor($this->unwrap()/$divisor->unwrap()));
+        $enumerator = $this->unwrap();
+        $divisor = $this->sanitizeTypeOrTriggerError($int, "integer")->unwrap();
+		return ESInt::wrap(floor($enumerator/$divisor));
 	}
 
 	public function remainder(ESInt $divisor): ESInt

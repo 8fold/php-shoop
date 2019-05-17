@@ -4,7 +4,10 @@ namespace Eightfold\Shoop\Tests;
 
 use PHPUnit\Framework\TestCase;
 
-use Eightfold\Shoop\ESString;
+use Eightfold\Shoop\{
+    ESString,
+    ESArray
+};
 
 use Eightfold\Shoop\Tests\String\TestStrings;
 
@@ -132,5 +135,26 @@ class StringTest extends TestCase
 
         $result = ESString::wrap("Hello!")->dropLast(4)->unwrap();
         $this->assertEquals("He", $result);
+    }
+
+    public function testStartWithAndEndsWith()
+    {
+        $compare = "He";
+        $result = ESString::wrap("Hello!")->startsWith($compare)->unwrap();
+        $this->assertTrue($result);
+
+        $compare = "o!";
+        $result = ESString::wrap("Hello!")->endsWith($compare)->unwrap();
+        $this->assertTrue($result);
+    }
+
+    public function testCanBeDvidedBy()
+    {
+        $compare = ESArray::wrap(["He", "o, Wor", "d!"]);
+        $result = ESString::wrap("Hello, World!")
+            ->dividedBy("l");
+        var_dump($result);
+        $this->assertEquals($compare->unwrap(), $result->unwrap());
+        $this->assertTrue($result->isSameAs($compare)->unwrap());
     }
 }
