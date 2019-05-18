@@ -155,6 +155,14 @@ class StringTest extends TestCase
             ->dividedBy("l");
         $this->assertEquals($compare->unwrap(), $result->unwrap());
         $this->assertTrue($result->isSameAs($compare)->unwrap());
+
+        $result = ESString::wrap("Hello, World!")
+            ->split("l");
+        $compare = ESString::wrap("Heo, Word!");
+        $this->assertEquals($compare->unwrap(), $result->joined()->unwrap());
+
+        $compare = ESString::wrap("Heto, Wortd!");
+        $this->assertEquals($compare->unwrap(), $result->joined("t")->unwrap());
     }
 
     public function testCanCompareStringOrdering()

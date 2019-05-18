@@ -97,4 +97,14 @@ class RangeTest extends TestCase
         $result = $range->count()->unwrap();
         $this->assertEquals(5, $range->count()->unwrap());
     }
+
+    public function testCanCheckForOverlap()
+    {
+        $result = ESRange::wrap(15, 20, false);
+        $this->assertTrue($result->overlaps(19, 25)->unwrap());
+        $this->assertTrue($result->overlaps(13, 19)->unwrap());
+        $this->assertTrue($result->overlaps(ESRange::wrap(16, 25))->unwrap());
+        $this->assertFalse($result->overlaps(1, 10)->unwrap());
+        $this->assertFalse($result->overlaps(21, 30)->unwrap());
+    }
 }

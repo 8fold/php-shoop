@@ -3,44 +3,21 @@
 namespace Eightfold\Shoop;
 
 use Eightfold\Shoop\{
+    ESTypeMap,
     ESBaseType,
     ESArray,
     ESInt
 };
 
-use Eightfold\Shoop\Interfaces\{
-    Equatable,
-    Wrappable,
-    EquatableImp
-};
-
 class ESRange extends ESBaseType implements
     \Iterator,
-    \Countable,
-    Wrappable
+    \Countable
 {
     private $min;
 
     private $max;
 
     private $rangeAsValues = [];
-
-    // static public function wrap(...$args): ESRange
-    // {
-    //     $min = (isset($args[0])) ? $args[0] : 0;
-    //     $max = (isset($args[1])) ? $args[1] : 0;
-    //     $includeLast = (isset($args[2])) ? $args[2] : true;
-    //     return static::wrapRange($min, $max, $includeLast);
-    // }
-
-    // static public function wrapRange(int $min = 0, int $max = 0, bool $includeLast = true): ESRange
-    // {
-    //     return new ESRange(
-    //         ESInt::wrap($min),
-    //         ESInt::wrap($max),
-    //         ESBool::wrap($includeLast)
-    //     );
-    // }
 
     public function __construct($min, $max, $includeLast = true)
     {
@@ -179,6 +156,28 @@ class ESRange extends ESBaseType implements
     public function upperBound(): ESInt
     {
         return $this->max();
+    }
+
+    public function overlaps($min, $max = null, $includeLast = true): ESBool
+    {
+        if (is_a($min, ESRange::class)) {
+            $compare = $min;
+
+        } else {
+            $min = parent::sanitizeTypeOrTriggerError($min, "integer", ESInt::class);
+            $max = parent::sanitizeTypeOrTriggerError($max, "integer", ESInt::class);
+            $includeLast = parent::sanitizeTypeOrTriggerError($includeLast, "boolean", ESBool::class);
+            $compare = ESRange::wrap($min, $max, $includeLast);
+        }
+
+        // max1 >= min2
+        // max2 >= min1
+        // 20 ?? 10
+        // 10 ?? 1
+
+        $result = $this->min()->isLessThan($compare->max(), true)->unwrap() &&
+            $this->max()->isGreaterThan($compare->min(), true)->unwrap();
+        return ESBool::wrap($result);
     }
 
 //-> Checking for containment

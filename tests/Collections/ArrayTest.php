@@ -133,4 +133,10 @@ class ArrayTest extends TestCase
 
         $this->assertEquals([1, 2, 4, 5], $result->removeAtIndex(2)->unwrap());
     }
+
+    public function testCanJoinStringArray()
+    {
+        $result = ESArray::wrap(["a", "b", "c"])->joined()->unwrap();
+        $this->assertEquals("abc", $result);
+    }
 }

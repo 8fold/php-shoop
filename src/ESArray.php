@@ -225,6 +225,16 @@ class ESArray extends ESBaseType implements
         return array($left, $right);
     }
 
+    public function joined($delimiter = ""): ESString
+    {
+        $delimiter = $this->sanitizeTypeOrTriggerError(
+                $delimiter,
+                "string",
+                ESString::class
+            )->unwrap();
+        return ESString::wrap(implode($delimiter, $this->unwrap()));
+    }
+
     public function removeAtIndex($int): ESArray
     {
         $int = $this->sanitizeTypeOrTriggerError(

@@ -122,6 +122,11 @@ class ESString extends ESBaseType implements
         return $array;
     }
 
+    public function split($delimiter): ESArray
+    {
+        return $this->dividedBy($delimiter);
+    }
+
     public function lowercased(): string
     {
         return mb_strtolower($this->value);

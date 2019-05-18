@@ -7,16 +7,19 @@ use Eightfold\Shoop\ESString;
 class ESTypeMap
 {
     public const TYPE_MAP = [
+            // PHP Types
             "boolean" => ESBool::class,
             "integer" => ESInt::class,
             "string" => ESString::class,
-            "array" => ESArray::class
+            "array" => ESArray::class,
             //"double" (for historical reasons "double" is returned in case of a float, and not simply "float")
             // "object"
             // "resource"
             // "resource (closed)" as of PHP 7.2.0
             // "NULL"
             // "unknown type"
+            // Custom types
+            "range" => ESRange::class
         ];
 
     private $isClassName = false;
