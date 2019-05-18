@@ -21,44 +21,6 @@ class ManipulationTest extends TestCase
         $this->assertEquals($expected, $result);
     }
 
-    public function testCanInsertCharacters()
-    {
-        $expected = $this->plainTextWithUnicode();
-        $string = ESString::wrap('Hello 🌍!');
-        $this->assertEquals('Hello 🌍!', $string->unwrap());
-
-        $string->insert(',', 5);
-        $this->assertEquals($expected, $string->unwrap());
-    }
-
-    public function testCanInsertMBChars()
-    {
-        $expected = '🌍,🌍,🌍,🌍,🌍';
-        $string = ESString::wrap('🌍,🌍,🌍🌍,🌍');
-        $this->assertEquals('🌍,🌍,🌍🌍,🌍', $string->unwrap());
-
-        $string->insert(',', 5);
-        $this->assertEquals($expected, $string->unwrap());
-    }
-
-    public function testCanReplaceSubrange()
-    {
-        $expected = 'Hello, world!';
-        $result = ESString::wrap($this->plainTextWithUnicode())
-            ->replaceSubrange('world', 7, 1)
-            ->unwrap();
-        $this->assertEquals($expected, $result);
-    }
-
-    public function testCanReplaceSubrangeReversed()
-    {
-        $expected = $this->plainTextWithUnicode();
-        $result = ESString::wrap('Hello, world!')
-            ->replaceSubrange('🌍', 7, 5)
-            ->unwrap();
-        $this->assertEquals($expected, $result);
-    }
-
     public function testCanRemoveCharAtIndex()
     {
         $expected = ',';

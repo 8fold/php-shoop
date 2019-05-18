@@ -105,4 +105,21 @@ class ArrayTest extends TestCase
         $result = ESArray::wrap([1, 2, 3, 4, 5])->endsWith($compare)->unwrap();
         $this->assertTrue($result);
     }
+
+    public function testCanMultiplyAndDivide()
+    {
+        $expected = [1, 2, 3, 1, 2, 3, 1, 2, 3];
+        $result = ESArray::wrap([1, 2, 3])->multipliedBy(3)->unwrap();
+        $this->assertEquals($expected, $result);
+
+        $result = ESArray::wrap([1, 2, 3, 4, 5, 6])->dividedBy(3);
+        $lhs = $result->lhs();
+        $rhs = $result->rhs();
+        $this->assertEquals([1, 2, 3], $lhs->unwrap());
+        $this->assertEquals([4, 5, 6], $rhs->unwrap());
+
+        $result = ESArray::wrap([1, 2, 3, 4]);
+        $this->assertEquals([1, 3], $result->evens()->unwrap());
+        $this->assertEquals([2, 4], $result->odds()->unwrap());
+    }
 }

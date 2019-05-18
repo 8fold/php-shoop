@@ -10,14 +10,10 @@ use Eightfold\Shoop\{
 
 use Eightfold\Shoop\Interfaces\{
     Wrappable,
-    Equatable,
     Storeable,
     Describable,
-    Randomizable,
-    EquatableImp,
     StoreableImp,
-    DescribableImp,
-    RandomizableImp
+    DescribableImp
 };
 
 class ESString extends ESBaseType implements
@@ -29,26 +25,10 @@ class ESString extends ESBaseType implements
         StoreableImp,
         DescribableImp;
 
-    /**
-     * TODO: Move to ESArray
-     *
-     * @param  array  $array [description]
-     * @param  int    $at    [description]
-     * @return [type]        [description]
-     */
-    static private function bisectArray(ESArray $array, int $at): array
-    {
-        // bisectAt(int $at): ESTuple
-        $left = array_slice($array->unwrap(), 0, $at);
-        $right = array_slice($array->unwrap(), $at);
-
-        return array($left, $right);
-    }
-
-    private function bisectedArray($at): array
+    private function bisectedArray($at): ESTuple
     {
         $at = parent::sanitizeTypeOrTriggerError($at, "integer", ESInt::class)->unwrap();
-        return ESString::bisectArray($this->enumerated(), $at);
+        return $this->enumerated()->dividedBy($at);
     }
 
     public function unwrap(): string
@@ -106,7 +86,6 @@ class ESString extends ESBaseType implements
         return $this->max();
     }
 
-
     public function dropFirst($length): ESString
     {
         return $this->join($this->enumerated()->dropFirst($length)->unwrap());
@@ -162,28 +141,6 @@ class ESString extends ESBaseType implements
         return $array[$index];
     }
 
-    public function insert(string $value, int $at): ESString
-    {
-        $this->replaceSubrange($value, $at);
-        return $this;
-    }
-
-    public function replaceSubrange(string $value, int $at, int $length = 0): ESString
-    {
-        list($left, $right) = $this->bisectedArray($at);
-
-        for ($i = 0; $i < $length; $i++) {
-            array_shift($right);
-        }
-
-        $insertion = ESString::wrap($value)->enumerated()->unwrap();
-
-        $merged = array_merge($left, $insertion, $right);
-
-        $this->value = implode('', $merged);
-        return $this;
-    }
-
     public function remove($at): string
     {
         $at = parent::sanitizeTypeOrTriggerError($at, "integer", ESInt::class)->unwrap();
@@ -225,5 +182,31 @@ class ESString extends ESBaseType implements
     {
         $needle = parent::sanitizeTypeOrTriggerError($string, "string")->unwrap();
         return ESString::wrap(str_replace($needle, "", $this->unwrap()));
+    }
+
+//-> Comparable
+    public function isGreaterThan($compare, $orEqualTo = false): ESBool
+    {
+        return $this->compare(true, $compare, $orEqualTo);
+    }
+
+    public function isLessThan($compare, $orEqualTo = false): ESBool
+    {
+        return $this->compare(false, $compare, $orEqualTo);
+    }
+
+    private function compare(bool $greaterThan, $compare, $orEqualTo = false): ESBool
+    {
+        // TODO: Consider moving to trait
+        $compare = $this->sanitizeTypeOrTriggerError($compare, "string")->unwrap();
+        $orEqualTo = $this->sanitizeTypeOrTriggerError($orEqualTo, "boolean", ESBool::class)->unwrap();
+        if ($greaterThan) {
+            return ($orEqualTo)
+                ? ESBool::wrap($this->unwrap() >= $compare)
+                : ESBool::wrap($this->unwrap() > $compare);
+        }
+        return ($orEqualTo)
+            ? ESBool::wrap($this->unwrap() <= $compare)
+            : ESBool::wrap($this->unwrap() < $compare);
     }
 }

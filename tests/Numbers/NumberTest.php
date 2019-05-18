@@ -53,9 +53,9 @@ class IntTest extends TestCase
         $result = ESInt::wrap(25)->isMultipleOf($five->plus(ESInt::wrap(1)))->bool();
         $this->assertFalse($result);
 
-        $result = ESInt::wrap(25)->quotientAndRemainder($four)->values();
-        $this->assertEquals(6, ($result["quotient"])->unwrap());
-        $this->assertEquals(1, ($result["remainder"])->unwrap());
+        // $result = ESInt::wrap(25)->quotientAndRemainder($four);
+        // $this->assertEquals(6, $result->quotient()->unwrap());
+        // $this->assertEquals(1, $result->remainder()->unwrap());
 
         $result = ESInt::wrap(25)->remainder($four)->unwrap();
         $this->assertEquals(1, $result);

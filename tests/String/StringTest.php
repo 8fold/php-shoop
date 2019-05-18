@@ -153,8 +153,24 @@ class StringTest extends TestCase
         $compare = ESArray::wrap(["He", "o, Wor", "d!"]);
         $result = ESString::wrap("Hello, World!")
             ->dividedBy("l");
-        var_dump($result);
         $this->assertEquals($compare->unwrap(), $result->unwrap());
         $this->assertTrue($result->isSameAs($compare)->unwrap());
+    }
+
+    public function testCanCompareStringOrdering()
+    {
+        $result = ESString::wrap("a");
+        $compare = ESString::wrap("z");
+        $this->assertTrue($result->isLessThan($compare)->bool());
+        $this->assertFalse($result->isGreaterThan($compare)->bool());
+
+        $result = ESString::wrap("de");
+        $compare = ESString::wrap("da");
+        $this->assertFalse($result->isLessThan($compare)->bool());
+        $this->assertTrue($result->isGreaterThan($compare)->bool());
+
+        $result = ESString::wrap("20");
+        $compare = ESString::wrap("20");
+        $this->assertTrue($result->isLessThan($compare, true)->bool());
     }
 }

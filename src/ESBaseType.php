@@ -41,6 +41,29 @@ class ESBaseType
         return ESBool::wrap($result);
     }
 
+    protected function baseTypeForValue($value)
+    {
+        $typeMap = [
+            "boolean" => ESBool::class,
+            "integer" => ESInt::class,
+            "string" => ESString::class,
+            "array" => ESArray::class
+            //"double" (for historical reasons "double" is returned in case of a float, and not simply "float")
+            // "object"
+            // "resource"
+            // "resource (closed)" as of PHP 7.2.0
+            // "NULL"
+            // "unknown type"
+        ];
+
+        $type = gettype($value);
+        if (array_key_exists($type, $typeMap) && $value !== null) {
+            $class = $typeMap[$type];
+            return $class::wrap($value);
+        }
+        return $this;
+    }
+
     final protected function sanitizeTypeOrTriggerError($varToSanitize, $desiredPhpType, $class = null)
     {
         $class = ($class === null)

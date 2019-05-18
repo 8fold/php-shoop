@@ -15,6 +15,9 @@
         <testsuite name="string">
             <directory suffix="Test.php">./tests/String</directory>
         </testsuite>
+        <testsuite name="tuple">
+            <directory suffix="Test.php">./tests/Suple</directory>
+        </testsuite>
         <testsuite name="bool">
             <directory suffix="Test.php">./tests/Bool</directory>
         </testsuite>

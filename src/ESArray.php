@@ -8,6 +8,7 @@ use Eightfold\Shoop\{
     ESBaseType,
     ESString,
     ESRange,
+    ESTuple,
     ESInt,
     ESBool
 };
@@ -82,34 +83,34 @@ class ESArray extends ESBaseType implements
         return ESArray::wrap(array_reverse($this->enumerated()->unwrap()))->enumerated();
     }
 
-    private function minMax($value)
-    {
-        $typeMap = [
-            "boolean" => ESBool::class,
-            "integer" => ESInt::class,
-            "string" => ESString::class,
-            "array" => ESArray::class
-            //"double" (for historical reasons "double" is returned in case of a float, and not simply "float")
-            // "object"
-            // "resource"
-            // "resource (closed)" as of PHP 7.2.0
-            // "NULL"
-            // "unknown type"
-        ];
+    // private function minMax($value)
+    // {
+    //     $typeMap = [
+    //         "boolean" => ESBool::class,
+    //         "integer" => ESInt::class,
+    //         "string" => ESString::class,
+    //         "array" => ESArray::class
+    //         //"double" (for historical reasons "double" is returned in case of a float, and not simply "float")
+    //         // "object"
+    //         // "resource"
+    //         // "resource (closed)" as of PHP 7.2.0
+    //         // "NULL"
+    //         // "unknown type"
+    //     ];
 
-        $type = gettype($value);
-        if (array_key_exists($type, $typeMap) && $value !== null) {
-            $class = $typeMap[$type];
-            return $class::wrap($value);
-        }
-        return $this;
-    }
+    //     $type = gettype($value);
+    //     if (array_key_exists($type, $typeMap) && $value !== null) {
+    //         $class = $typeMap[$type];
+    //         return $class::wrap($value);
+    //     }
+    //     return $this;
+    // }
 
     public function min()
     {
         $array = $this->enumerated()->unwrap();
         $value = array_shift($array);
-        return $this->minMax($value);
+        return parent::baseTypeForValue($value);
     }
 
     public function first()
@@ -121,7 +122,7 @@ class ESArray extends ESBaseType implements
     {
         $array = $this->enumerated()->unwrap();
         $value = array_pop($array);
-        return $this->minMax($value);
+        return parent::baseTypeForValue($value);
     }
 
     public function last()
@@ -181,6 +182,20 @@ class ESArray extends ESBaseType implements
         return ESArray::wrap(array_merge($prefix, $suffix));
     }
 
+    public function multipliedBy($multiplier): ESArray
+    {
+        $multiplier = $this->sanitizeTypeOrTriggerError(
+                $multiplier,
+                "integer",
+                ESInt::class
+            )->unwrap();
+        $build = ESArray::wrap([]);
+        for ($i = 1; $i <= $multiplier; $i++) {
+            $build = $build->plus($this);
+        }
+        return $build;
+    }
+
     public function minus($array): ESArray
     {
         $deletes = $this->sanitizeTypeOrTriggerError($array, "array")->unwrap();
@@ -193,5 +208,44 @@ class ESArray extends ESBaseType implements
             }
         }
         return ESArray::wrap(array_values($copy));
+    }
+
+    public function dividedBy($divisor): ESTuple
+    {
+        $divisor = $this->sanitizeTypeOrTriggerError(
+                $divisor,
+                "integer",
+                ESInt::class
+            )->unwrap();
+
+        $left = array_slice($this->unwrap(), 0, $divisor);
+        $right = array_slice($this->unwrap(), $divisor);
+
+        return ESTuple::wrap("lhs", $left, "rhs", $right);
+        return array($left, $right);
+    }
+
+    public function evens(): ESArray
+    {
+        $array = $this->unwrap();
+        $build = [];
+        foreach ($array as $key => $value) {
+            if ($key % 2 === 0) {
+                $build[] = $value;
+            }
+        }
+        return ESArray::wrap($build)->enumerated();
+    }
+
+    public function odds(): ESArray
+    {
+        $array = $this->unwrap();
+        $build = [];
+        foreach ($array as $key => $value) {
+            if ($key % 2 != 0) {
+                $build[] = $value;
+            }
+        }
+        return ESArray::wrap($build)->enumerated();
     }
 }
