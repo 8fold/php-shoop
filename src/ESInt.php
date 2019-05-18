@@ -4,31 +4,17 @@ namespace Eightfold\Shoop;
 
 use Eightfold\Shoop\{
     ESBaseType,
+    ESTypeMap,
     ESBool
 };
 
 use Eightfold\Shoop\Interfaces\{
-    Comparable,
-    Wrappable
+    ComparableImp
 };
 
-class ESInt extends ESBaseType implements Comparable, Wrappable
+class ESInt extends ESBaseType
 {
-	public function isMultipleOf(ESInt $int): ESBool
-	{
-		return ESBool::wrap($this->remainder($int)->unwrap() == 0);
-	}
-
-// NumberTest: 56
-	// public function quotientAndRemainder(ESInt $divisor): ESTuple
-	// {
-	// 	return ESTuple::wrap(
- //            "quotient",
- //            ESInt::wrap($this->dividedBy($divisor)->unwrap()),
-	// 		"remainder",
- //            ESInt::wrap($this->remainder($divisor)->unwrap())
-	// 	);
-	// }
+    use ComparableImp;
 
 	public function negate(): ESInt
 	{
@@ -78,37 +64,17 @@ class ESInt extends ESBaseType implements Comparable, Wrappable
 	{
         $enumerator = $this->unwrap();
         $divisor = $this->sanitizeTypeOrTriggerError($int, "integer")->unwrap();
-		return ESInt::wrap(floor($enumerator/$divisor));
+		return ESInt::wrap((int) floor($enumerator/$divisor));
 	}
 
-	public function remainder(ESInt $divisor): ESInt
+    public function isFactorOf($int): ESBool
+    {
+        return ESBool::wrap($this->remainder($int)->unwrap() == 0);
+    }
+
+	public function remainder($divisor): ESInt
 	{
+        $divisor = $this->sanitizeTypeOrTriggerError($divisor, "integer");
 		return ESInt::wrap($this->unwrap() % $divisor->unwrap());
 	}
-
-//-> Comparable
-    public function isGreaterThan($compare, $orEqualTo = false): ESBool
-    {
-        return $this->compare(true, $compare, $orEqualTo);
-    }
-
-    public function isLessThan($compare, $orEqualTo = false): ESBool
-    {
-        return $this->compare(false, $compare, $orEqualTo);
-    }
-
-    private function compare(bool $greaterThan, $compare, $orEqualTo = false): ESBool
-    {
-        // TODO: Consider moving to trait
-        $compare = $this->sanitizeTypeOrTriggerError($compare, "integer")->unwrap();
-        $orEqualTo = $this->sanitizeTypeOrTriggerError($orEqualTo, "boolean", ESBool::class)->unwrap();
-        if ($greaterThan) {
-            return ($orEqualTo)
-                ? ESBool::wrap($this->unwrap() >= $compare)
-                : ESBool::wrap($this->unwrap() > $compare);
-        }
-        return ($orEqualTo)
-            ? ESBool::wrap($this->unwrap() <= $compare)
-            : ESBool::wrap($this->unwrap() < $compare);
-    }
 }

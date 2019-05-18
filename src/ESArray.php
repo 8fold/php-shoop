@@ -225,6 +225,37 @@ class ESArray extends ESBaseType implements
         return array($left, $right);
     }
 
+    public function removeAtIndex($int): ESArray
+    {
+        $int = $this->sanitizeTypeOrTriggerError(
+                $int,
+                "integer",
+                ESInt::class
+            )->unwrap();
+        $array = $this->unwrap();
+        unset($array[$int]);
+        return ESArray::wrap($array)->enumerated();
+    }
+
+    public function insertAtIndex($value, $int): ESArray
+    {
+        $int = $this->sanitizeTypeOrTriggerError(
+                $int,
+                "integer",
+                ESInt::class
+            )->unwrap();
+
+        $value = $this->sanitizeTypeOrTriggerError(
+                $value,
+                "array",
+                ESArray::class
+            )->unwrap();
+        $bisected = $this->dividedBy($int);
+        $lhs = $bisected->lhs()->unwrap();
+        $rhs = $bisected->rhs()->unwrap();
+        return ESArray::wrap(array_merge($lhs, $value, $rhs))->enumerated();
+    }
+
     public function evens(): ESArray
     {
         $array = $this->unwrap();

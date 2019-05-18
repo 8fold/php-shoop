@@ -122,4 +122,15 @@ class ArrayTest extends TestCase
         $this->assertEquals([1, 3], $result->evens()->unwrap());
         $this->assertEquals([2, 4], $result->odds()->unwrap());
     }
+
+    public function testCanInsertValueAtIndex()
+    {
+        $expected = [1, 2, 3, "Hello", "World", 4, 5];
+        $result = ESArray::wrap([1, 2, 3, 4, 5]);
+        $testResult = $result->insertAtIndex(["Hello", "World"], 3)
+            ->unwrap();
+        $this->assertEquals($expected, $testResult);
+
+        $this->assertEquals([1, 2, 4, 5], $result->removeAtIndex(2)->unwrap());
+    }
 }

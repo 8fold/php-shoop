@@ -47,18 +47,18 @@ class IntTest extends TestCase
     {
         $five = ESInt::wrap(5);
         $four = $five->minus(ESInt::wrap(1));
-        $result = ESInt::wrap(25)->isMultipleOf($five)->bool();
+        $result = ESInt::wrap(25)->isFactorOf($five)->bool();
         $this->assertTrue($result);
 
-        $result = ESInt::wrap(25)->isMultipleOf($five->plus(ESInt::wrap(1)))->bool();
+        $result = ESInt::wrap(25)->isFactorOf($five->plus(ESInt::wrap(1)))->bool();
         $this->assertFalse($result);
 
-        // $result = ESInt::wrap(25)->quotientAndRemainder($four);
-        // $this->assertEquals(6, $result->quotient()->unwrap());
-        // $this->assertEquals(1, $result->remainder()->unwrap());
+        $result = ESInt::wrap(26)->remainder(4)->unwrap();
+        $this->assertEquals(2, $result);
 
-        $result = ESInt::wrap(25)->remainder($four)->unwrap();
-        $this->assertEquals(1, $result);
+        $result = ESInt::wrap(25);
+        $this->assertEquals(1, $result->remainder($four)->unwrap());
+        $this->assertTrue($result->isFactorOf(5)->unwrap());
     }
 
     public function testCanDoArithmatic()

@@ -9,19 +9,18 @@ use Eightfold\Shoop\{
 };
 
 use Eightfold\Shoop\Interfaces\{
-    Wrappable,
     Storeable,
     Describable,
     StoreableImp,
-    DescribableImp
+    DescribableImp,
+    ComparableImp
 };
 
 class ESString extends ESBaseType implements
-    Wrappable,
     Storeable,
     Describable
 {
-    use
+    use ComparableImp,
         StoreableImp,
         DescribableImp;
 
@@ -141,38 +140,6 @@ class ESString extends ESBaseType implements
         return $array[$index];
     }
 
-    public function remove($at): string
-    {
-        $at = parent::sanitizeTypeOrTriggerError($at, "integer", ESInt::class)->unwrap();
-        $char = $this->characterAt($at);
-
-        $array = $this->enumerated()->unwrap();
-        $index = $at - 1;
-        unset($array[$index]);
-
-        $this->value = implode('', $array);
-        return $char;
-    }
-
-    public function removeFirst(): string
-    {
-        return $this->remove(1);
-    }
-
-    public function removeLast(): string
-    {
-        return $this->remove($this->count());
-    }
-
-    public function removeSubrange(int $at, int $length): ESString
-    {
-        for ($i = 0; $i < $length; $i++) {
-            $this->remove($at);
-        }
-        return $this;
-    }
-
-//-> plus/minus
     public function plus($string): ESString
     {
         return ESString::wrap($this->unwrap() . parent::sanitizeTypeOrTriggerError($string, "string")->unwrap());
@@ -182,31 +149,5 @@ class ESString extends ESBaseType implements
     {
         $needle = parent::sanitizeTypeOrTriggerError($string, "string")->unwrap();
         return ESString::wrap(str_replace($needle, "", $this->unwrap()));
-    }
-
-//-> Comparable
-    public function isGreaterThan($compare, $orEqualTo = false): ESBool
-    {
-        return $this->compare(true, $compare, $orEqualTo);
-    }
-
-    public function isLessThan($compare, $orEqualTo = false): ESBool
-    {
-        return $this->compare(false, $compare, $orEqualTo);
-    }
-
-    private function compare(bool $greaterThan, $compare, $orEqualTo = false): ESBool
-    {
-        // TODO: Consider moving to trait
-        $compare = $this->sanitizeTypeOrTriggerError($compare, "string")->unwrap();
-        $orEqualTo = $this->sanitizeTypeOrTriggerError($orEqualTo, "boolean", ESBool::class)->unwrap();
-        if ($greaterThan) {
-            return ($orEqualTo)
-                ? ESBool::wrap($this->unwrap() >= $compare)
-                : ESBool::wrap($this->unwrap() > $compare);
-        }
-        return ($orEqualTo)
-            ? ESBool::wrap($this->unwrap() <= $compare)
-            : ESBool::wrap($this->unwrap() < $compare);
     }
 }
