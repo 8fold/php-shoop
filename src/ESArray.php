@@ -13,55 +13,18 @@ use Eightfold\Shoop\{
     ESBool
 };
 
-use Eightfold\Shoop\Interfaces\{
-    Wrappable,
-    Equatable,
-    Describable,
-    Randomizable,
-    Storeable,
-    EquatableImp,
-    RandomizableImp,
-    StoreableImp
-};
-
 class ESArray extends ESBaseType implements
-    Wrappable,
-    Describable,
-    Storeable
+    \Countable
 {
-    use
-        StoreableImp;
-
-    // private $value = [];
-
-    // static public function wrap(...$args): ESArray
-    // {
-    //     return new ESArray(IlluminateArray::flatten($args));
-    // }
-
-    // static public function wrapArray(array $array): ESArray
-    // {
-    //     return new ESArray($array);
-    // }
-
-    public function __construct(array $array)
+    public function description(): ESString
     {
-        $this->value = $array;
-    }
-
-    public function unwrap(): array
-    {
-        return $this->value;
+        $valuesAsString = implode(", ", $this->value);
+        return ESString::wrap("[{$valuesAsString}]");
     }
 
     private function enumerated(): ESArray
     {
         return ESArray::wrap(array_values($this->value));
-    }
-
-    public function count(): ESInt
-    {
-        return ESInt::wrap(count($this->enumerated()->unwrap()));
     }
 
     public function sorted(): ESArray
@@ -83,57 +46,28 @@ class ESArray extends ESBaseType implements
         return ESArray::wrap(array_reverse($this->enumerated()->unwrap()))->enumerated();
     }
 
-    // private function minMax($value)
-    // {
-    //     $typeMap = [
-    //         "boolean" => ESBool::class,
-    //         "integer" => ESInt::class,
-    //         "string" => ESString::class,
-    //         "array" => ESArray::class
-    //         //"double" (for historical reasons "double" is returned in case of a float, and not simply "float")
-    //         // "object"
-    //         // "resource"
-    //         // "resource (closed)" as of PHP 7.2.0
-    //         // "NULL"
-    //         // "unknown type"
-    //     ];
-
-    //     $type = gettype($value);
-    //     if (array_key_exists($type, $typeMap) && $value !== null) {
-    //         $class = $typeMap[$type];
-    //         return $class::wrap($value);
-    //     }
-    //     return $this;
-    // }
-
-    public function min()
+    public function first()
     {
         $array = $this->enumerated()->unwrap();
         $value = array_shift($array);
         return parent::baseTypeForValue($value);
     }
 
-    public function first()
-    {
-        return $this->min();
-    }
-
-    public function max()
+    public function last()
     {
         $array = $this->enumerated()->unwrap();
         $value = array_pop($array);
         return parent::baseTypeForValue($value);
     }
 
-    public function last()
-    {
-        return $this->max();
-    }
-
     public function dropFirst($length = 1): ESArray
     {
         $length = $this->sanitizeTypeOrTriggerError($length, "integer", ESInt::class)->unwrap();
 
+        // TODO:
+        // $this->enumerated()->for(1, $length, function(&$array) {
+        //  array_shift($array);
+        // });
         $array = $this->enumerated()->unwrap();
         $range = ESRange::wrap(1, $length);
         foreach ($range as $i) {
@@ -144,22 +78,8 @@ class ESArray extends ESBaseType implements
 
     public function dropLast($length = 1): ESArray
     {
+        $length = $this->sanitizeTypeOrTriggerError($length, "integer", ESInt::class)->unwrap();
         return $this->enumerated()->toggle()->dropFirst($length)->toggle()->enumerated();
-    }
-
-    public function startsWith($compare): ESBool
-    {
-        $compare = $this->sanitizeTypeOrTriggerError($compare, "array", ESArray::class);
-        $length = $compare->count()->unwrap();
-        $array = ESArray::wrap(array_slice($this->enumerated()->unwrap(), 0, $length));
-        return $array->isSameAs($compare);
-    }
-
-    public function endsWith($compare)
-    {
-        $compare = $this->sanitizeTypeOrTriggerError($compare, "array", ESArray::class)->toggle();
-        $reversed = $this->toggle();
-        return $reversed->startsWith($compare);
     }
 
     public function removeEmptyValues(): ESArray
@@ -167,14 +87,6 @@ class ESArray extends ESBaseType implements
         return ESArray::wrap(array_filter($this->unwrap()))->enumerated();
     }
 
-//-> Describable
-    public function description(): ESString
-    {
-        $valuesAsString = implode(", ", $this->value);
-        return ESString::wrap("[{$valuesAsString}]");
-    }
-
-//-> plus/minus
     public function plus($array): ESArray
     {
         $suffix = $this->sanitizeTypeOrTriggerError($array, "array")->unwrap();
@@ -266,27 +178,8 @@ class ESArray extends ESBaseType implements
         return ESArray::wrap(array_merge($lhs, $value, $rhs))->enumerated();
     }
 
-    public function evens(): ESArray
+    public function count(): ESInt
     {
-        $array = $this->unwrap();
-        $build = [];
-        foreach ($array as $key => $value) {
-            if ($key % 2 === 0) {
-                $build[] = $value;
-            }
-        }
-        return ESArray::wrap($build)->enumerated();
-    }
-
-    public function odds(): ESArray
-    {
-        $array = $this->unwrap();
-        $build = [];
-        foreach ($array as $key => $value) {
-            if ($key % 2 != 0) {
-                $build[] = $value;
-            }
-        }
-        return ESArray::wrap($build)->enumerated();
+        return ESInt::wrap(count($this->enumerated()->unwrap()));
     }
 }

@@ -15,16 +15,11 @@ class ArrayTest extends TestCase
         $result = ESArray::wrap([1, 2, 3]);
         $this->assertEquals([1, 2, 3], $result->unwrap());
 
-        // Shoop object
-        // CustomClass
-        $this->assertTrue($result->contains(2)->unwrap());
-        $this->assertFalse($result->contains(8)->unwrap());
-
         $compare = ESArray::wrap([1, 2, 3]);
-        $this->assertTrue($result->isSameAs($compare)->bool());
+        $this->assertTrue($result->isSameAs($compare)->unwrap());
 
         $compare = ESArray::wrap([3, 2, 1]);
-        $this->assertTrue($result->isDifferentThan($compare)->bool());
+        $this->assertTrue($result->isDifferentThan($compare)->unwrap());
 
         $this->assertEquals("[1, 2, 3]", $result->description()->unwrap());
 
@@ -74,14 +69,12 @@ class ArrayTest extends TestCase
     public function testCanGetFirstAndLastViaMinAndMax()
     {
         $result = ESArray::wrap([1, 2, 3, 4, 5]);
-        $this->assertEquals(1, $result->min()->unwrap());
-        $this->assertEquals(5, $result->max()->unwrap());
         $this->assertEquals(1, $result->first()->unwrap());
         $this->assertEquals(5, $result->last()->unwrap());
 
         $result = ESArray::wrap([]);
-        $this->assertEquals([], $result->min()->unwrap());
-        $this->assertEquals([], $result->max()->unwrap());
+        $this->assertEquals([], $result->first()->unwrap());
+        $this->assertEquals([], $result->last()->unwrap());
     }
 
     public function testDropFirstAndLast()
@@ -95,17 +88,6 @@ class ArrayTest extends TestCase
         $this->assertEquals($expected, $result);
     }
 
-    public function testStartsWithAndEndsWith()
-    {
-        $compare = [1, 2, 3];
-        $result = ESArray::wrap([1, 2, 3, 4, 5])->startsWith($compare)->unwrap();
-        $this->assertTrue($result);
-
-        $compare = [3, 4, 5];
-        $result = ESArray::wrap([1, 2, 3, 4, 5])->endsWith($compare)->unwrap();
-        $this->assertTrue($result);
-    }
-
     public function testCanMultiplyAndDivide()
     {
         $expected = [1, 2, 3, 1, 2, 3, 1, 2, 3];
@@ -117,10 +99,6 @@ class ArrayTest extends TestCase
         $rhs = $result->rhs();
         $this->assertEquals([1, 2, 3], $lhs->unwrap());
         $this->assertEquals([4, 5, 6], $rhs->unwrap());
-
-        $result = ESArray::wrap([1, 2, 3, 4]);
-        $this->assertEquals([1, 3], $result->evens()->unwrap());
-        $this->assertEquals([2, 4], $result->odds()->unwrap());
     }
 
     public function testCanInsertValueAtIndex()

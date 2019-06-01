@@ -26,28 +26,22 @@ class RangeTest extends TestCase
         $this->assertEquals(4, $result->max()->unwrap());
 
         $result = ESRange::wrap(0, 0);
-        $this->assertTrue($result->isEmpty()->bool());
+        $this->assertTrue($result->isEmpty()->unwrap());
 
         $result = ESRange::wrap(5, 10);
-        $this->assertFalse($result->isEmpty()->bool());
+        $this->assertFalse($result->isEmpty()->unwrap());
 
         $result = ESRange::wrap(5, 10);
         $this->assertEquals(6, $result->count()->unwrap());
-        $this->assertEquals(5, $result->lowerBound()->unwrap());
-        $this->assertEquals(10, $result->upperBound()->unwrap());
 
-        $this->assertTrue($result->contains(ESInt::wrap(8))->bool());
-        $this->assertFalse($result->contains(ESInt::wrap(2))->bool());
-
-        $clamped = $result->clampedTo(ESRange::wrap(8, 500));
-        $this->assertEquals(8, $clamped->min()->unwrap());
-        $this->assertEquals(10, $clamped->max()->unwrap());
+        // $this->assertTrue($result->contains(ESInt::wrap(8))->unwrap());
+        // $this->assertFalse($result->contains(ESInt::wrap(2))->unwrap());
     }
 
     public function testMaxMustBeGreaterThanMin()
     {
         $result = ESRange::wrap(5, 0);
-        $this->assertFalse($result->max()->isGreaterThan($result->min())->bool());
+        $this->assertFalse($result->max()->isGreaterThan($result->min())->unwrap());
     }
 
     public function testCanIterate()
@@ -106,5 +100,11 @@ class RangeTest extends TestCase
         $this->assertTrue($result->overlaps(ESRange::wrap(16, 25))->unwrap());
         $this->assertFalse($result->overlaps(1, 10)->unwrap());
         $this->assertFalse($result->overlaps(21, 30)->unwrap());
+    }
+
+    public function testCanGetRandomInRange()
+    {
+        $result = ESRange::wrap(10, 10);
+        $this->assertEquals(10, $result->random()->unwrap());
     }
 }

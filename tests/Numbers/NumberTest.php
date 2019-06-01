@@ -36,21 +36,21 @@ class IntTest extends TestCase
     {
         $result = ESInt::wrap(25);
         $compare = ESInt::wrap(25);
-        $this->assertTrue($result->isSameAs($compare)->bool());
+        $this->assertTrue($result->isSameAs($compare)->unwrap());
 
         $result = ESInt::wrap(25);
         $compare = ESInt::wrap(20);
-        $this->assertTrue($result->isDifferentThan($compare)->bool());
+        $this->assertTrue($result->isDifferentThan($compare)->unwrap());
     }
 
     public function testMultipleOfAndQuotient()
     {
         $five = ESInt::wrap(5);
         $four = $five->minus(ESInt::wrap(1));
-        $result = ESInt::wrap(25)->isFactorOf($five)->bool();
+        $result = ESInt::wrap(25)->isFactorOf($five)->unwrap();
         $this->assertTrue($result);
 
-        $result = ESInt::wrap(25)->isFactorOf($five->plus(ESInt::wrap(1)))->bool();
+        $result = ESInt::wrap(25)->isFactorOf($five->plus(ESInt::wrap(1)))->unwrap();
         $this->assertFalse($result);
 
         $result = ESInt::wrap(26)->remainder(4)->unwrap();
@@ -84,17 +84,17 @@ class IntTest extends TestCase
     {
         $compare = ESInt::wrap(25);
         $result = ESInt::wrap(20);
-        $this->assertTrue($result->isLessThan($compare)->bool());
-        $this->assertFalse($result->isGreaterThan($compare)->bool());
+        $this->assertTrue($result->isLessThan($compare)->unwrap());
+        $this->assertFalse($result->isGreaterThan($compare)->unwrap());
 
         $compare = ESInt::wrap(15);
         $result = ESInt::wrap(20);
-        $this->assertFalse($result->isLessThan($compare)->bool());
-        $this->assertTrue($result->isGreaterThan($compare)->bool());
+        $this->assertFalse($result->isLessThan($compare)->unwrap());
+        $this->assertTrue($result->isGreaterThan($compare)->unwrap());
 
         $compare = ESInt::wrap(20);
         $result = ESInt::wrap(20);
-        $this->assertTrue($result->isLessThan($compare, true)->bool());
+        $this->assertTrue($result->isLessThan($compare, true)->unwrap());
     }
 
     public function testCanNegateValue()

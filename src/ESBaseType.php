@@ -4,18 +4,6 @@ namespace Eightfold\Shoop;
 
 use Eightfold\Shoop\ESBool;
 
-/**
- * "boolean"
-"integer"
-"double" (for historical reasons "double" is returned in case of a float, and not simply "float")
-"string"
-"array"
-"object"
-"resource"
-"resource (closed)" as of PHP 7.2.0
-"NULL"
-"unknown type"
- */
 class ESBaseType
 {
     protected $value;
@@ -46,8 +34,8 @@ class ESBaseType
         $typeMap = [
             "boolean" => ESBool::class,
             "integer" => ESInt::class,
-            "string" => ESString::class,
-            "array" => ESArray::class
+            "string"  => ESString::class,
+            "array"   => ESArray::class
             //"double" (for historical reasons "double" is returned in case of a float, and not simply "float")
             // "object"
             // "resource"
@@ -105,6 +93,11 @@ class ESBaseType
     final public function isDifferentThan(ESBaseType $compare): ESBool
     {
         return $this->isSameAs($compare)->toggle();
+    }
+
+    final public function isNot(ESBaseType $compare): ESBool
+    {
+        return $this->isDifferentThan($compare);
     }
 
 //-> Randomizer

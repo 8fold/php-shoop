@@ -8,28 +8,8 @@ use Eightfold\Shoop\{
     ESBool
 };
 
-use Eightfold\Shoop\Interfaces\{
-    Storeable,
-    Describable,
-    StoreableImp,
-    DescribableImp,
-    ComparableImp
-};
-
-class ESString extends ESBaseType implements
-    Storeable,
-    Describable
+class ESString extends ESBaseType
 {
-    use ComparableImp,
-        StoreableImp,
-        DescribableImp;
-
-    private function bisectedArray($at): ESTuple
-    {
-        $at = parent::sanitizeTypeOrTriggerError($at, "integer", ESInt::class)->unwrap();
-        return $this->enumerated()->dividedBy($at);
-    }
-
     public function unwrap(): string
     {
         return $this->value;
@@ -45,68 +25,14 @@ class ESString extends ESBaseType implements
         return $this->enumerated()->count();
     }
 
-    private function join(array $array): ESString
+    public function description(): ESString
     {
-        return ESString::wrap(implode('', $array));
+        return $this;
     }
 
-    public function sorted(): ESString
+    public function plus($string): ESString
     {
-        return $this->join($this->enumerated()->sorted()->unwrap());
-    }
-
-    public function shuffled(): ESString
-    {
-        return $this->join($this->enumerated()->shuffled()->unwrap());
-    }
-
-    public function toggle(): ESString
-    {
-        return $this->join($this->enumerated()->toggle()->unwrap());
-    }
-
-    public function min(): ESString
-    {
-        return $this->enumerated()->min();
-    }
-
-    public function first(): ESString
-    {
-        return $this->min();
-    }
-
-    public function max(): ESString
-    {
-        return $this->enumerated()->max();
-    }
-
-    public function last(): ESString
-    {
-        return $this->max();
-    }
-
-    public function dropFirst($length): ESString
-    {
-        return $this->join($this->enumerated()->dropFirst($length)->unwrap());
-    }
-
-    public function dropLast($length): ESString
-    {
-        return $this->join($this->enumerated()->dropLast($length)->unwrap());
-    }
-
-    public function startsWith($compare): ESBool
-    {
-        $compare = parent::sanitizeTypeOrTriggerError($compare, "string", ESString::class)
-            ->enumerated();
-        return $this->enumerated()->startsWith($compare);
-    }
-
-    public function endsWith($compare): ESBool
-    {
-        $compare = parent::sanitizeTypeOrTriggerError($compare, "string", ESString::class)
-            ->toggle();
-        return $this->toggle()->startsWith($compare);
+        return ESString::wrap($this->unwrap() . parent::sanitizeTypeOrTriggerError($string, "string")->unwrap());
     }
 
     public function multipliedBy($multiplier): ESString
@@ -115,44 +41,20 @@ class ESString extends ESBaseType implements
         return ESString::wrap(str_repeat($this->unwrap(), $multiplier->unwrap()));
     }
 
-    public function dividedBy($delimiter): ESArray
-    {
-        $separator = parent::sanitizeTypeOrTriggerError($delimiter, "string", ESString::class);
-        $array = ESArray::wrap(explode($delimiter, $this->unwrap()))->removeEmptyValues();
-        return $array;
-    }
-
-    public function split($delimiter): ESArray
-    {
-        return $this->dividedBy($delimiter);
-    }
-
-    public function lowercased(): string
-    {
-        return mb_strtolower($this->value);
-    }
-
-    public function uppercased(): string
-    {
-        return mb_strtoupper($this->value);
-    }
-
-    public function characterAt($at): string
-    {
-        $at = parent::sanitizeTypeOrTriggerError($at, "integer", ESInt::class)->unwrap();
-        $index = $at - 1;
-        $array = $this->enumerated()->unwrap();
-        return $array[$index];
-    }
-
-    public function plus($string): ESString
-    {
-        return ESString::wrap($this->unwrap() . parent::sanitizeTypeOrTriggerError($string, "string")->unwrap());
-    }
-
     public function minus($string): ESString
     {
         $needle = parent::sanitizeTypeOrTriggerError($string, "string")->unwrap();
         return ESString::wrap(str_replace($needle, "", $this->unwrap()));
+    }
+
+    public function dividedBy($delimiter): ESArray
+    {
+        return $this->split($delimiter);
+    }
+
+    public function split($delimiter): ESArray
+    {
+        $separator = parent::sanitizeTypeOrTriggerError($delimiter, "string", ESString::class);
+        return ESArray::wrap(explode($delimiter, $this->unwrap()))->removeEmptyValues();
     }
 }

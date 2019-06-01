@@ -26,6 +26,7 @@ class BaseTypeTest extends TestCase
 
         $this->assertFalse($first->isSameAs($second)->unwrap());
         $this->assertTrue($first->isDifferentThan($second)->unwrap());
+        $this->assertTrue($first->isNot($second)->unwrap());
     }
 
     public function testCanTestForEmpty()

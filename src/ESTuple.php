@@ -21,27 +21,32 @@ class ESTuple extends ESBaseType
             );
         }
 
-        $keys = ESArray::wrap($args)->evens()->unwrap();
         $sanitizedKeys = [];
-        foreach ($keys as $key) {
-            $sanitizedKeys[] = $this->sanitizeTypeOrTriggerError(
-                    $key,
+        $values = [];
+        foreach ($args as $index => $value) {
+            if ($index === 0 || $index % 2 === 0) {
+                $sanitizedKeys[] = $this->sanitizeTypeOrTriggerError(
+                    $value,
                     "string",
                     ESString::class
                 )->unwrap();
+
+            } else {
+                $values[] = $value;
+
+            }
         }
-        $values = ESArray::wrap($args)->odds()->unwrap();
         $this->values = array_combine($sanitizedKeys, $values);
 	}
-
-    public function __call($name, $args)
-    {
-        return parent::baseTypeForValue($this->values[$name]);
-    }
 
     private function isValidCount(array $args): ESBool
     {
         return ESBool::wrap(count($args) % 2 === 0);
+    }
+
+    public function __call($name, $args)
+    {
+        return parent::baseTypeForValue($this->values[$name]);
     }
 
 	public function values(): array

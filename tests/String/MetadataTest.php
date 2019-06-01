@@ -35,12 +35,4 @@ class MetadataTest extends TestCase
             ->isSameAs($compare);
         $this->assertFalse($result->unwrap());
     }
-
-    public function testCanCheckForPrefix()
-    {
-        $compare = $this->unicode();
-        $result = ESString::wrap($compare)
-            ->startsWith('😀😇🌍');
-        $this->assertTrue($result->unwrap());
-    }
 }
