@@ -45,9 +45,16 @@ class MainTest extends TestCase
         $result = Shoop::array(1, 2, 3, 4, 5)->unwrap();
         $this->assertEquals([1, 2, 3, 4, 5], $result);
 
-        $result = Shoop::range(1, 5)->unwrap();
+        $result = Shoop::range(1, 5)->enumerated()->unwrap();
         $this->assertEquals([1, 2, 3, 4, 5], $result);
 
+        $result = Shoop::range(1, 5)->unwrap();
+        $expected = Shoop::tuple(
+            "min", Shoop::int(1),
+            "max", Shoop::int(5),
+            "closed", Shoop::bool(true)
+        );
+        $this->assertEquals($expected, $result);
         $result = Shoop::bool(false)->unwrap();
         $this->assertFalse($result);
     }

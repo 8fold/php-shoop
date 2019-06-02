@@ -37,13 +37,6 @@ class IntTest extends TestCase
 
         $result = ESInt::wrap(25)->isFactorOf($five->plus(ESInt::wrap(1)))->unwrap();
         $this->assertFalse($result);
-
-        $result = ESInt::wrap(26)->remainder(4)->unwrap();
-        $this->assertEquals(2, $result);
-
-        $result = ESInt::wrap(25);
-        $this->assertEquals(1, $result->remainder($four)->unwrap());
-        $this->assertTrue($result->isFactorOf(5)->unwrap());
     }
 
     public function testCanDoArithmatic()

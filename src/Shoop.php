@@ -24,6 +24,11 @@ class Shoop
         return ESDictionary::wrap(...$values);
     }
 
+    static public function tuple(...$values)
+    {
+        return ESTuple::wrap(...$values);
+    }
+
     static public function range($min, $max, $includeLast = true): ESRange
     {
         return ESRange::wrap($min, $max, $includeLast);

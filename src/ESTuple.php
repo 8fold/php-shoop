@@ -2,12 +2,6 @@
 
 namespace Eightfold\Shoop;
 
-use Eightfold\Shoop\{
-    ESBaseType,
-    ESString,
-    ESBool
-};
-
 class ESTuple extends ESBaseType
 {
 	public function __construct(...$args)

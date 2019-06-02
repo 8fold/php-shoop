@@ -2,12 +2,6 @@
 
 namespace Eightfold\Shoop;
 
-use Eightfold\Shoop\{
-    ESBaseType,
-    ESArray,
-    ESInt
-};
-
 class ESRange extends ESBaseType implements
     \Iterator,
     \Countable
@@ -16,6 +10,8 @@ class ESRange extends ESBaseType implements
 
     private $max;
 
+    private $includeLast;
+
     private $enumerated;
 
     public function __construct($min, $max, $includeLast = true)
@@ -23,6 +19,7 @@ class ESRange extends ESBaseType implements
         $min = parent::sanitizeTypeOrTriggerError($min, "integer", ESInt::class);
         $max = parent::sanitizeTypeOrTriggerError($max, "integer", ESInt::class);
         $includeLast = parent::sanitizeTypeOrTriggerError($includeLast, "boolean", ESBool::class);
+        $this->includeLast = $includeLast;
 
         if ($min->isGreaterThan($max)->unwrap()) {
             $this->min = ESInt::wrap(0);
@@ -33,24 +30,35 @@ class ESRange extends ESBaseType implements
             $this->max = ($includeLast->unwrap())
                 ? $max
                 : $max->minus(ESInt::wrap(1));
+
         }
     }
 
     public function isEmpty(): ESBool
     {
-        if ($this->max()
-            ->minus($this->min())
-            ->isGreaterThan(ESInt::wrap(0))
-            ->unwrap()
-        ) {
-            return ESBool::wrap(false);
+        return $this->spanIsGreaterThanZero();
+    }
+
+    private function spanIsGreaterThanZero()
+    {
+        if ($this->min()->unwrap() === 0 && $this->max()->unwrap() === 0) {
+            return Shoop::bool(true);
+
+        } elseif ($this->span()->unwrap() <= 0) {
+            return Shoop::bool(true);
+
         }
-        return ESBool::wrap(true);
+        return Shoop::bool(false);
+    }
+
+    public function span(): ESInt
+    {
+        return $this->max()->minus($this->min());
     }
 
     public function unwrap()
     {
-        return $this->rangeAsValues()->unwrap();
+        return Shoop::tuple("min", $this->min(), "max", $this->max(), "closed", $this->includeLast);
     }
 
     public function min(): ESInt
@@ -73,6 +81,13 @@ class ESRange extends ESBaseType implements
         return ESArray::wrap(...range($this->min->unwrap(), $this->max->unwrap()));
     }
 
+    /**
+     * [overlaps description]
+     * @param  [type]  $min         int|ESInt|ESRange
+     * @param  [type]  $max         optional if min is ESRange
+     * @param  boolean $includeLast optional if min is ESRange
+     * @return [type]               [description]
+     */
     public function overlaps($min, $max = null, $includeLast = true): ESBool
     {
         if (is_a($min, ESRange::class)) {
@@ -85,14 +100,18 @@ class ESRange extends ESBaseType implements
             $compare = ESRange::wrap($min, $max, $includeLast);
         }
 
-        // max1 >= min2
-        // max2 >= min1
-        // 20 ?? 10
-        // 10 ?? 1
-
         $result = $this->min()->isLessThan($compare->max(), true)->unwrap() &&
             $this->max()->isGreaterThan($compare->min(), true)->unwrap();
         return ESBool::wrap($result);
+    }
+
+//-> Comparable
+    public function isSameAs($compare): ESBool
+    {
+        return Shoop::bool(
+            $this->min()->unwrap() === $compare->min()->unwrap() &&
+            $this->max()->unwrap() === $compare->max()->unwrap()
+        );
     }
 
 //-> Countable

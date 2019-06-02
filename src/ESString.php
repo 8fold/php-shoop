@@ -2,12 +2,6 @@
 
 namespace Eightfold\Shoop;
 
-use Eightfold\Shoop\{
-    ESBaseType,
-    ESInt,
-    ESBool
-};
-
 class ESString extends ESBaseType
 {
     public function unwrap(): string

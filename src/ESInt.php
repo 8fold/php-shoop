@@ -2,12 +2,6 @@
 
 namespace Eightfold\Shoop;
 
-use Eightfold\Shoop\{
-    ESBaseType,
-    ESTypeMap,
-    ESBool
-};
-
 class ESInt extends ESBaseType
 {
 	public function description(): string
@@ -20,20 +14,19 @@ class ESInt extends ESBaseType
         return $this->multipliedBy(-1);
     }
 
-//-> Arithmetic
 	public function plus($int): ESInt
 	{
         return ESInt::wrap($this->unwrap() + $this->sanitizeTypeOrTriggerError($int, "integer")->unwrap());
 	}
 
+    public function multipliedBy($int): ESInt
+    {
+        return ESInt::wrap($this->unwrap() * $this->sanitizeTypeOrTriggerError($int, "integer")->unwrap());
+    }
+
 	public function minus($int): ESInt
 	{
 		return ESInt::wrap($this->unwrap() - $this->sanitizeTypeOrTriggerError($int, "integer")->unwrap());
-	}
-
-	public function multipliedBy($int): ESInt
-	{
-        return ESInt::wrap($this->unwrap() * $this->sanitizeTypeOrTriggerError($int, "integer")->unwrap());
 	}
 
 	public function dividedBy($int): ESInt
@@ -45,14 +38,9 @@ class ESInt extends ESBaseType
 
     public function isFactorOf($int): ESBool
     {
-        return ESBool::wrap($this->remainder($int)->unwrap() == 0);
+        $int = $this->sanitizeTypeOrTriggerError($int, "integer");
+        return Shoop::bool($this->unwrap() % $int->unwrap() == 0);
     }
-
-	public function remainder($divisor): ESInt
-	{
-        $divisor = $this->sanitizeTypeOrTriggerError($divisor, "integer");
-		return ESInt::wrap($this->unwrap() % $divisor->unwrap());
-	}
 
     public function isGreaterThan($compare, $orEqualTo = false): ESBool
     {
@@ -66,7 +54,7 @@ class ESInt extends ESBaseType
 
     private function compare(bool $greaterThan, $compare, $orEqualTo = false): ESBool
     {
-        $compare = $this->sanitizeTypeOrTriggerError($compare, "int");
+        $compare = $this->sanitizeTypeOrTriggerError($compare, "int", ESInt::class);
         $orEqualTo = $this->sanitizeTypeOrTriggerError(
             $orEqualTo,
             "boolean",

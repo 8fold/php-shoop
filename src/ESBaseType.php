@@ -109,7 +109,7 @@ class ESBaseType
     }
 
 //-> Comparison
-    final public function isSameAs(ESBaseType $compare): ESBool
+    public function isSameAs($compare): ESBool
     {
         return Shoop::bool($this->unwrap() === $compare->unwrap());
     }
