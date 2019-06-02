@@ -16,7 +16,7 @@ class ESRange extends ESBaseType implements
 
     private $max;
 
-    private $rangeAsValues = [];
+    private $enumerated;
 
     public function __construct($min, $max, $includeLast = true)
     {
@@ -50,7 +50,7 @@ class ESRange extends ESBaseType implements
 
     public function unwrap()
     {
-        return $this->rangeAsValues();
+        return $this->rangeAsValues()->unwrap();
     }
 
     public function min(): ESInt
@@ -70,25 +70,7 @@ class ESRange extends ESBaseType implements
 
     public function enumerated(): ESArray
     {
-        return ESArray::wrap(range($this->min->unwrap(), $this->max->unwrap()));
-    }
-
-    public function first(): ESInt
-    {
-        if (count($this->rangeAsValues) === 0) {
-            $this->rangeAsValues = $this->enumerated()->unwrap();
-        }
-        $first = array_shift($this->rangeAsValues);
-        return ESInt::wrap($first);
-    }
-
-    public function last(): ESInt
-    {
-        if (count($this->rangeAsValues) === 0) {
-            $this->rangeAsValues = $this->enumerated()->unwrap();
-        }
-        $last = array_pop($this->rangeAsValues);
-        return ESInt::wrap($last);
+        return ESArray::wrap(...range($this->min->unwrap(), $this->max->unwrap()));
     }
 
     public function overlaps($min, $max = null, $includeLast = true): ESBool
@@ -120,45 +102,40 @@ class ESRange extends ESBaseType implements
     }
 
 //-> Iterator
-    private function rangeAsValues(): array
+    private function rangeAsValues(): ESArray
     {
-        if (count($this->rangeAsValues) > 0) {
+        if (isset($this->rangeAsValues) && $this->rangeAsValues->count()->unwrap() > 0) {
             return $this->rangeAsValues;
         }
-        $this->rangeAsValues = $this->enumerated()->unwrap();
+
+        $this->rangeAsValues = $this->enumerated();
         return $this->rangeAsValues();
     }
 
     public function current(): ESInt
     {
-        $values = $this->rangeAsValues();
-        $current = key($values);
-        return ESInt::wrap($values[$current]);
+        return $this->rangeAsValues()->current();
     }
 
     public function key(): ESInt
     {
-        return ESInt::wrap(key($this->rangeAsValues()));
+        return $this->rangeAsValues()->key();
     }
 
     public function next(): ESRange
     {
-        $this->rangeAsValues();
-        next($this->rangeAsValues);
+        $this->rangeAsValues()->next();
         return $this;
     }
 
     public function rewind(): ESRange
     {
-        $this->rangeAsValues();
-        reset($this->rangeAsValues);
+        $this->rangeAsValues()->rewind();
         return $this;
     }
 
     public function valid(): bool
     {
-        $key = key($this->rangeAsValues());
-        $var = ($key !== null && $key !== false);
-        return $var;
+        return $this->rangeAsValues()->valid();
     }
 }

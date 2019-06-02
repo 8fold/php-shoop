@@ -17,7 +17,7 @@ class ESString extends ESBaseType
 
     public function enumerated(): ESArray
     {
-        return ESArray::wrap(preg_split('//u', $this->value, null, PREG_SPLIT_NO_EMPTY));
+        return ESArray::wrap(...preg_split('//u', $this->value, null, PREG_SPLIT_NO_EMPTY));
     }
 
     public function count(): ESInt
@@ -55,6 +55,7 @@ class ESString extends ESBaseType
     public function split($delimiter): ESArray
     {
         $separator = parent::sanitizeTypeOrTriggerError($delimiter, "string", ESString::class);
-        return ESArray::wrap(explode($delimiter, $this->unwrap()))->removeEmptyValues();
+        $exploded = explode($delimiter, $this->unwrap());
+        return ESArray::wrap(...$exploded)->removeEmptyValues();
     }
 }

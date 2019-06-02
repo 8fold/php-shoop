@@ -47,12 +47,18 @@ class ESBaseType
         $type = gettype($value);
         if (array_key_exists($type, $typeMap) && $value !== null) {
             $class = $typeMap[$type];
-            return $class::wrap($value);
+            return ($type === "array")
+                ? $class::wrap(...$value)
+                : $class::wrap($value);
         }
         return $this;
     }
 
-    final protected function sanitizeTypeOrTriggerError($varToSanitize, $desiredPhpType, $class = null)
+    final protected function sanitizeTypeOrTriggerError(
+        $varToSanitize,
+        $desiredPhpType,
+        $class = null,
+        $multipleArgs = false)
     {
         $class = ($class === null)
             ? static::class
@@ -68,7 +74,9 @@ class ESBaseType
             $this->invalidTypeError($desiredPhpType, $sanitizeType, $caller);
         }
 
-        return $class::wrap($varToSanitize);
+        return ($multipleArgs)
+            ? $class::wrap(...$varToSanitize)
+            : $class::wrap($varToSanitize);
     }
 
     private function invalidTypeError($desiredPhpType, $sanitizeType, $caller)
@@ -81,7 +89,6 @@ class ESBaseType
             E_USER_ERROR
         );
     }
-
 
 //-> Comparison
     final public function isSameAs(ESBaseType $compare): ESBool

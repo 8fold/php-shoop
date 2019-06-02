@@ -10,8 +10,6 @@ use Eightfold\Shoop\{
 
 class ESTuple extends ESBaseType
 {
-	private $values = [];
-
 	public function __construct(...$args)
 	{
         if ($this->isValidCount($args)->toggle()->unwrap()) {
@@ -36,7 +34,7 @@ class ESTuple extends ESBaseType
 
             }
         }
-        $this->values = array_combine($sanitizedKeys, $values);
+        $this->value = array_combine($sanitizedKeys, $values);
 	}
 
     private function isValidCount(array $args): ESBool
@@ -46,11 +44,6 @@ class ESTuple extends ESBaseType
 
     public function __call($name, $args)
     {
-        return parent::baseTypeForValue($this->values[$name]);
+        return parent::baseTypeForValue($this->value[$name]);
     }
-
-	public function values(): array
-	{
-		return $this->values;
-	}
 }

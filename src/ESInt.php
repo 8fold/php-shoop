@@ -8,40 +8,16 @@ use Eightfold\Shoop\{
     ESBool
 };
 
-use Eightfold\Shoop\Interfaces\{
-    ComparableImp
-};
-
 class ESInt extends ESBaseType
 {
-    use ComparableImp;
-
-	public function negate(): ESInt
-	{
-		return ESInt::wrap($this->multipliedBy(ESInt::wrap(-1))->unwrap());
-	}
-
 	public function description(): string
 	{
 		return (string) $this->value;
 	}
 
-	public function distance(int $to = 0): ESInt
-	{
-		if ($to > $this->value) {
-			return ESInt::wrap($to - $this->value);
-		}
-		return ESInt::wrap(-1 * ($this->value - $to));
-	}
-
-	public function advanced(int $by = 0): ESInt
-	{
-		return ESInt::wrap($this->value + $by);
-	}
-
     public function toggle(): ESInt
     {
-        return ESInt::wrap(-1 * $this->unwrap());
+        return $this->multipliedBy(-1);
     }
 
 //-> Arithmetic
@@ -77,4 +53,37 @@ class ESInt extends ESBaseType
         $divisor = $this->sanitizeTypeOrTriggerError($divisor, "integer");
 		return ESInt::wrap($this->unwrap() % $divisor->unwrap());
 	}
+
+    public function isGreaterThan($compare, $orEqualTo = false): ESBool
+    {
+        return $this->compare(true, $compare, $orEqualTo);
+    }
+
+    public function isLessThan($compare, $orEqualTo = false): ESBool
+    {
+        return $this->compare(false, $compare, $orEqualTo);
+    }
+
+    private function compare(bool $greaterThan, $compare, $orEqualTo = false): ESBool
+    {
+        $compare = $this->sanitizeTypeOrTriggerError($compare, "int");
+        $orEqualTo = $this->sanitizeTypeOrTriggerError(
+            $orEqualTo,
+            "boolean",
+            ESBool::class
+        )->unwrap();
+        if ($greaterThan && $orEqualTo) {
+            return ESBool::wrap($this->unwrap() >= $compare->unwrap());
+
+        } elseif ($greaterThan) {
+            return ESBool::wrap($this->unwrap() > $compare->unwrap());
+
+        } elseif ($orEqualTo) {
+            return ESBool::wrap($this->unwrap() <= $compare->unwrap());
+
+        } else {
+            return ESBool::wrap($this->unwrap() < $compare->unwrap());
+
+        }
+    }
 }

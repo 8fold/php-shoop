@@ -58,10 +58,6 @@ class RangeTest extends TestCase
         }
         $this->assertTrue($x > 0);
         $this->assertEquals(96, $x);
-
-        $this->assertEquals(5, $range->first()->unwrap());
-        $this->assertEquals(100, $range->last()->unwrap());
-
     }
 
     public function testEquatable()

@@ -14,8 +14,14 @@ use Eightfold\Shoop\{
 };
 
 class ESArray extends ESBaseType implements
+    \Iterator,
     \Countable
 {
+    public function __construct(...$values)
+    {
+        $this->value = $values;
+    }
+
     public function description(): ESString
     {
         $valuesAsString = implode(", ", $this->value);
@@ -24,26 +30,26 @@ class ESArray extends ESBaseType implements
 
     private function enumerated(): ESArray
     {
-        return ESArray::wrap(array_values($this->value));
+        return ESArray::wrap(...array_values($this->value));
     }
 
     public function sorted(): ESArray
     {
         $array = $this->enumerated()->unwrap();
         natsort($array);
-        return ESArray::wrap($array)->enumerated();
+        return ESArray::wrap(...$array)->enumerated();
     }
 
     public function shuffled(): ESArray
     {
         $array = $this->enumerated()->unwrap();
         shuffle($array);
-        return ESArray::wrap($array)->enumerated();
+        return ESArray::wrap(...$array)->enumerated();
     }
 
     public function toggle(): ESArray
     {
-        return ESArray::wrap(array_reverse($this->enumerated()->unwrap()))->enumerated();
+        return ESArray::wrap(...array_reverse($this->enumerated()->unwrap()))->enumerated();
     }
 
     public function first()
@@ -73,7 +79,7 @@ class ESArray extends ESBaseType implements
         foreach ($range as $i) {
             array_shift($array);
         }
-        return ESArray::wrap($array)->enumerated();
+        return ESArray::wrap(...$array)->enumerated();
     }
 
     public function dropLast($length = 1): ESArray
@@ -84,14 +90,15 @@ class ESArray extends ESBaseType implements
 
     public function removeEmptyValues(): ESArray
     {
-        return ESArray::wrap(array_filter($this->unwrap()))->enumerated();
+        return ESArray::wrap(...array_filter($this->unwrap()))->enumerated();
     }
 
-    public function plus($array): ESArray
+    public function plus(...$values): ESArray
     {
-        $suffix = $this->sanitizeTypeOrTriggerError($array, "array")->unwrap();
+        $suffix = $this->sanitizeTypeOrTriggerError($values, "array", ESArray::class, true)->unwrap();
         $prefix = $this->unwrap();
-        return ESArray::wrap(array_merge($prefix, $suffix));
+        $merged = array_merge($prefix, $suffix);
+        return ESArray::wrap(...$merged);
     }
 
     public function multipliedBy($multiplier): ESArray
@@ -101,16 +108,21 @@ class ESArray extends ESBaseType implements
                 "integer",
                 ESInt::class
             )->unwrap();
-        $build = ESArray::wrap([]);
+        $build = ESArray::wrap();
         for ($i = 1; $i <= $multiplier; $i++) {
-            $build = $build->plus($this);
+            $build = $build->plus(...$this->unwrap());
         }
         return $build;
     }
 
-    public function minus($array): ESArray
+    public function minus(...$values): ESArray
     {
-        $deletes = $this->sanitizeTypeOrTriggerError($array, "array")->unwrap();
+        $deletes = $this->sanitizeTypeOrTriggerError(
+            $values,
+            "array",
+            ESArray::class,
+            true
+        )->unwrap();
         $copy = $this->unwrap();
         for ($i = 0; $i < count($this->unwrap()); $i++) {
             foreach ($deletes as $check) {
@@ -119,7 +131,7 @@ class ESArray extends ESBaseType implements
                 }
             }
         }
-        return ESArray::wrap(array_values($copy));
+        return ESArray::wrap(...array_values($copy));
     }
 
     public function dividedBy($divisor): ESTuple
@@ -134,7 +146,6 @@ class ESArray extends ESBaseType implements
         $right = array_slice($this->unwrap(), $divisor);
 
         return ESTuple::wrap("lhs", $left, "rhs", $right);
-        return array($left, $right);
     }
 
     public function joined($delimiter = ""): ESString
@@ -156,7 +167,7 @@ class ESArray extends ESBaseType implements
             )->unwrap();
         $array = $this->unwrap();
         unset($array[$int]);
-        return ESArray::wrap($array)->enumerated();
+        return ESArray::wrap(...$array)->enumerated();
     }
 
     public function insertAtIndex($value, $int): ESArray
@@ -170,16 +181,52 @@ class ESArray extends ESBaseType implements
         $value = $this->sanitizeTypeOrTriggerError(
                 $value,
                 "array",
-                ESArray::class
+                ESArray::class,
+                true
             )->unwrap();
         $bisected = $this->dividedBy($int);
         $lhs = $bisected->lhs()->unwrap();
         $rhs = $bisected->rhs()->unwrap();
-        return ESArray::wrap(array_merge($lhs, $value, $rhs))->enumerated();
+        $merged = array_merge($lhs, $value, $rhs);
+        return ESArray::wrap(...$merged)->enumerated();
     }
 
     public function count(): ESInt
     {
         return ESInt::wrap(count($this->enumerated()->unwrap()));
+    }
+
+//-> Iterator
+    public function current(): ESInt
+    {
+        $current = key($this->value);
+        return ESInt::wrap($this->value[$current]);
+    }
+
+    public function key(): ESInt
+    {
+        return ESInt::wrap(key($this->value));
+    }
+
+    public function next(): ESArray
+    {
+        next($this->value);
+        return $this;
+    }
+
+    public function rewind(): ESArray
+    {
+        reset($this->value);
+        return $this;
+    }
+
+    /**
+     * @return bool Must be bool for sake of PHP
+     */
+    public function valid(): bool
+    {
+        $key = key($this->value);
+        $var = ($key !== null && $key !== false);
+        return $var;
     }
 }

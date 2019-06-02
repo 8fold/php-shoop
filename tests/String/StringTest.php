@@ -37,7 +37,7 @@ class StringTest extends TestCase
 
     public function testCanBeDvidedBy()
     {
-        $compare = ESArray::wrap(["He", "o, Wor", "d!"]);
+        $compare = ESArray::wrap("He", "o, Wor", "d!");
         $result = ESString::wrap("Hello, World!")
             ->dividedBy("l");
         $this->assertEquals($compare->unwrap(), $result->unwrap());

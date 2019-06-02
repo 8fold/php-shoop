@@ -17,21 +17,6 @@ class IntTest extends TestCase
         $this->assertEquals("5", $result->description());
     }
 
-    public function testCanDoDistanceAndAdvance()
-    {
-        $result = ESInt::wrap(5)->distance(20)->unwrap();
-        $this->assertEquals(15, $result);
-
-        $result = ESInt::wrap(20)->distance(5)->unwrap();
-        $this->assertEquals(-15, $result);
-
-        $result = ESInt::wrap(20)->advanced(5)->unwrap();
-        $this->assertEquals(25, $result);
-
-        $result = ESInt::wrap(20)->advanced(-5)->unwrap();
-        $this->assertEquals(15, $result);
-    }
-
     public function testCanRuncomparisons()
     {
         $result = ESInt::wrap(25);
@@ -70,12 +55,6 @@ class IntTest extends TestCase
         $result = ESInt::wrap(25)->minus($five)->unwrap();
         $this->assertEquals(20, $result);
 
-        $result = ESInt::wrap(25)->minus($five->negate())->unwrap();
-        $this->assertEquals(30, $result);
-
-        $result = ESInt::wrap(25)->multipliedBy($five->negate())->unwrap();
-        $this->assertEquals(-125, $result);
-
         $result = ESInt::wrap(25)->dividedBy($five)->unwrap();
         $this->assertEquals(5, $result);
     }
@@ -95,12 +74,6 @@ class IntTest extends TestCase
         $compare = ESInt::wrap(20);
         $result = ESInt::wrap(20);
         $this->assertTrue($result->isLessThan($compare, true)->unwrap());
-    }
-
-    public function testCanNegateValue()
-    {
-        $result = ESInt::wrap(500)->negate()->unwrap();
-        $this->assertEquals(-500, $result);
     }
 
     public function testPlusAndMinus()
