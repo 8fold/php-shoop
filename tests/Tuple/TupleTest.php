@@ -16,7 +16,9 @@ class TupleTest extends TestCase
 
     public function testCanUnwrapTuple()
     {
-        $result = ESTuple::wrap("left", 1, "right", 2)->unwrap();
-        $this->assertEquals(["left" => 1, "right" => 2], $result);
+        $result = ESTuple::wrap("left", 1, "right", 2);
+        $this->assertEquals(["left" => 1, "right" => 2], $result->unwrap());
+
+        $this->assertEquals(1, $result->left()->unwrap());
     }
 }
