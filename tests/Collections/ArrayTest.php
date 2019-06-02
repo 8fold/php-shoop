@@ -22,7 +22,7 @@ class ArrayTest extends TestCase
         $compare = ESArray::wrap(3, 2, 1);
         $this->assertTrue($result->isDifferentThan($compare)->unwrap());
 
-        $this->assertEquals("[1, 2, 3]", $result->description()->unwrap());
+        $this->assertEquals("[0 => 1, 1 => 2, 2 => 3]", $result->description()->unwrap());
 
         $result = ESArray::wrap();
         $this->assertTrue($result->isEmpty()->unwrap());

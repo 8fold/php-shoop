@@ -2,27 +2,8 @@
 
 namespace Eightfold\Shoop;
 
-use Eightfold\Shoop\{
-    ESBaseType,
-    ESString,
-    ESRange
-};
-
 class ESBool extends ESBaseType
 {
-
-//-> Random
-	static public function random(): ESBool
-	{
-		return ESRange::wrap(1, 1000)->random()->isFactorOf(2);
-	}
-
-	public function __construct(bool $bool = true)
-	{
-		$this->value = $bool;
-	}
-
-//-> Transforming
 	public function toggle(): ESBool
 	{
         return ESBool::wrap(! $this->unwrap());
@@ -33,24 +14,18 @@ class ESBool extends ESBaseType
 		return $this->toggle();
 	}
 
-	public function or(ESBool $bool): ESBool
+	public function or($bool): ESBool
 	{
-		if ($this->unwrap() || $bool->unwrap()) {
-			return ESBool::wrap();
-		}
-		return ESBool::wrap(false);
+        $bool = parent::sanitizeTypeOrTriggerError($bool, "boolean");
+        return Shoop::bool($this->unwrap() || $bool->unwrap());
 	}
 
-	public function and(ESBool $bool): ESBool
+	public function and($bool): ESBool
 	{
-		if ($this->unwrap() && $bool->unwrap()) {
-			return ESBool::wrap();
-		}
-		return ESBool::wrap(false);
+        $bool = parent::sanitizeTypeOrTriggerError($bool, "boolean");
+        return Shoop::bool($this->unwrap() && $bool->unwrap());
 	}
 
-
-//-> Describing
 	public function description(): ESString
 	{
         return ($this->value)

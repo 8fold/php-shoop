@@ -2,8 +2,6 @@
 
 namespace Eightfold\Shoop;
 
-use Eightfold\Shoop\ESBool;
-
 class ESBaseType
 {
     protected $value;
@@ -29,29 +27,44 @@ class ESBaseType
         return ESBool::wrap($result);
     }
 
-    protected function baseTypeForValue($value)
+    protected function instanceFromValue($value)
     {
-        $typeMap = [
-            "boolean" => ESBool::class,
-            "integer" => ESInt::class,
-            "string"  => ESString::class,
-            "array"   => ESArray::class
+        if ($this->hasTypeForValue($value)->toggle()->unwrap()) {
+            return $this;
+        }
+        $class = $this->typeMap()->valueForKey($this->typeForValue($value));
+        return ($this->typeForValue($value) === "array")
+            ? $class::wrap(...$value)
+            : $class::wrap($value);
+    }
+
+    private function hasTypeForValue($value): ESBool
+    {
+        if ($value === null) {
+            return Shoop::bool(false);
+        }
+        return $this->typeMap()->hasKey($this->typeForValue($value));
+    }
+
+    private function typeForValue($value)
+    {
+        return gettype($value);
+    }
+
+    private function typeMap(): ESDictionary
+    {
+        return Shoop::dictionary(
+            "boolean", ESBool::class,
+            "integer", ESInt::class,
+            "string", ESString::class,
+            "array", ESArray::class,
             //"double" (for historical reasons "double" is returned in case of a float, and not simply "float")
             // "object"
             // "resource"
             // "resource (closed)" as of PHP 7.2.0
-            // "NULL"
+            "NULL", null
             // "unknown type"
-        ];
-
-        $type = gettype($value);
-        if (array_key_exists($type, $typeMap) && $value !== null) {
-            $class = $typeMap[$type];
-            return ($type === "array")
-                ? $class::wrap(...$value)
-                : $class::wrap($value);
-        }
-        return $this;
+        );
     }
 
     final protected function sanitizeTypeOrTriggerError(
@@ -68,15 +81,20 @@ class ESBaseType
             return $varToSanitize;
         }
 
-        $sanitizeType = gettype($varToSanitize);
-        if ($sanitizeType !== $desiredPhpType) {
-            list($_, $caller) = debug_backtrace(false);
-            $this->invalidTypeError($desiredPhpType, $sanitizeType, $caller);
-        }
+        $this->isDesiredTypeOrTriggerError($desiredPhpType, $varToSanitize);
 
         return ($multipleArgs)
             ? $class::wrap(...$varToSanitize)
             : $class::wrap($varToSanitize);
+    }
+
+    private function isDesiredTypeOrTriggerError($desiredPhpType, $variable)
+    {
+        $sanitizeType = $this->typeForValue($variable);
+        if ($sanitizeType !== $desiredPhpType) {
+            list($_, $caller) = debug_backtrace(false);
+            $this->invalidTypeError($desiredPhpType, $sanitizeType, $caller);
+        }
     }
 
     private function invalidTypeError($desiredPhpType, $sanitizeType, $caller)
@@ -93,23 +111,16 @@ class ESBaseType
 //-> Comparison
     final public function isSameAs(ESBaseType $compare): ESBool
     {
-        $result = $this->unwrap() === $compare->unwrap();
-        return ESBool::wrap($result);
+        return Shoop::bool($this->unwrap() === $compare->unwrap());
     }
 
     final public function isDifferentThan(ESBaseType $compare): ESBool
     {
-        return $this->isSameAs($compare)->toggle();
+        return $this->isNot($compare);
     }
 
     final public function isNot(ESBaseType $compare): ESBool
     {
-        return $this->isDifferentThan($compare);
-    }
-
-//-> Randomizer
-    final public function randomWithMethod(\Closure $method)
-    {
-        return $method($this);
+        return $this->isSameAs($compare)->toggle();
     }
 }

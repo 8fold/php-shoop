@@ -10,7 +10,7 @@ class BoolTest extends TestCase
 {
     public function testCanInitialize()
     {
-        $result = ESBool::wrap();
+        $result = ESBool::wrap(true);
         $this->assertNotNull($result);
         $this->assertTrue($result->unwrap());
         $this->assertEquals("true", $result->description()->unwrap());
@@ -26,7 +26,7 @@ class BoolTest extends TestCase
         $this->assertFalse($compare->not()->unwrap());
 
         $compare = $compare->toggle();
-        $this->assertFalse($result->or($compare)->unwrap());
+        $this->assertFalse($result->or(false)->unwrap());
 
         $compare = $compare->toggle();
         $this->assertTrue($result->or($compare)->unwrap());

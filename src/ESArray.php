@@ -2,21 +2,12 @@
 
 namespace Eightfold\Shoop;
 
-use Illuminate\Support\Arr as IlluminateArray;
-
-use Eightfold\Shoop\{
-    ESBaseType,
-    ESString,
-    ESRange,
-    ESTuple,
-    ESInt,
-    ESBool
-};
-
 class ESArray extends ESBaseType implements
     \Iterator,
     \Countable
 {
+    // TODO: Implement ArrayAccess??
+
     public function __construct(...$values)
     {
         $this->value = $values;
@@ -24,8 +15,14 @@ class ESArray extends ESBaseType implements
 
     public function description(): ESString
     {
-        $valuesAsString = implode(", ", $this->value);
-        return ESString::wrap("[{$valuesAsString}]");
+        // TODO: Use base types
+        $strings = [];
+        for ($i = 0; $i < $this->count()->unwrap(); $i++) {
+            $key = $i;
+            $value = $this->value[$i];
+            $strings[] = "{$key} => {$value}";
+        }
+        return Shoop::string("[". implode(", ", $strings) ."]");
     }
 
     private function enumerated(): ESArray
@@ -56,14 +53,14 @@ class ESArray extends ESBaseType implements
     {
         $array = $this->enumerated()->unwrap();
         $value = array_shift($array);
-        return parent::baseTypeForValue($value);
+        return parent::instanceFromValue($value);
     }
 
     public function last()
     {
         $array = $this->enumerated()->unwrap();
         $value = array_pop($array);
-        return parent::baseTypeForValue($value);
+        return parent::instanceFromValue($value);
     }
 
     public function dropFirst($length = 1): ESArray

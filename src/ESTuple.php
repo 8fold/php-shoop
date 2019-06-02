@@ -44,6 +44,6 @@ class ESTuple extends ESBaseType
 
     public function __call($name, $args)
     {
-        return parent::baseTypeForValue($this->value[$name]);
+        return parent::instanceFromValue($this->value[$name]);
     }
 }
