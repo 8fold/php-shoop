@@ -38,6 +38,4 @@ class Shoop
     {
         return ESBool::wrap($bool);
     }
-
-
 }
