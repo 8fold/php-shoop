@@ -52,4 +52,10 @@ class ESString extends ESBaseType
         $exploded = explode($delimiter, $this->unwrap());
         return ESArray::wrap(...$exploded)->removeEmptyValues();
     }
+
+    public function beginsWith($string): ESBool
+    {
+        $len = strlen($string);
+        return ESBool::wrap(substr($string, 0, $len) === $string);
+    }
 }
