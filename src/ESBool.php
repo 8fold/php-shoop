@@ -4,12 +4,15 @@ namespace Eightfold\Shoop;
 
 use Eightfold\Shoop\Traits\{
     Foldable,
-    Convertable
+    Convertable,
+    Checks
 };
 
-class ESBool extends ESBaseType
+use Eightfold\Shoop\Interfaces\Shooped;
+
+class ESBool implements Shooped
 {
-    use Foldable, Convertable;
+    use Foldable, Convertable, Checks;
 
     public function __construct($bool)
     {

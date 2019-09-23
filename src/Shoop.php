@@ -2,6 +2,8 @@
 
 namespace Eightfold\Shoop;
 
+use Eightfold\Shoop\Interfaces\Shooped;
+
 class Shoop
 {
     static public function int($int): ESInt
@@ -34,6 +36,18 @@ class Shoop
         return ESBool::fold($bool);
     }
 
+    static public function instanceFromValue($value)
+    {
+        $map = Shoop::typeMap();
+        $type = Shoop::typeForValue($value);
+        if (! array_key_exists($type, $map) || $value === null) {
+            $compareString = var_dump($compare);
+            trigger_error("{$compareString} is not a supported type in Shoop. Please submit an issue or PR through GitHub: 8fold/php-shoop");
+        }
+        $class = $map[$type];
+        return $class::fold($value);
+    }
+
     static public function typeMap(): array
     {
         return [
@@ -42,8 +56,56 @@ class Shoop
             "int"     => ESInt::class,
             "string"  => ESString::class,
             "array"   => ESArray::class,
-            "object"  => ESBaseType::class,
+            // "object"  => ESBaseType::class,
             "NULL"    => null
         ];
     }
+
+    static public function typeForValue($value)
+    {
+        $type = gettype($value);
+        if ($type === "integer") {
+            $type = "int";
+        }
+        return $type;
+    }
+
+    static public function valueIsShooped($potential): bool
+    {
+        return $potential instanceOf Shooped;
+    }
+
+    static public function valueisSubclass($value, string $className)
+    {
+        # code...
+    }
+
+    static public function valueisNotSubclass($value, string $className)
+    {
+        # code...
+    }
+
+    static public function valueIsClass($value, string $className)
+    {
+        # code...
+    }
+
+    static public function valueIsNotClass($value, string $className)
+    {
+        # code...
+    }
+
+    static public function valueIsArray($value)
+    {
+        return is_array($value) || (self::valueIsShooped($value) && is_a($value, ESArray::class));
+    }
+
+    static public function valueIsDictionary($value): bool
+    {
+        if (is_array($value)) {
+            return array_keys($value) !== range(0, count($value) - 1);
+        }
+        return false;
+    }
+
 }

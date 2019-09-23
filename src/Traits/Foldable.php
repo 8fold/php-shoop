@@ -2,6 +2,8 @@
 
 namespace Eightfold\Shoop\Traits;
 
+use Eightfold\Shoop\Shoop;
+
 trait Foldable
 {
     protected $value;
@@ -10,8 +12,6 @@ trait Foldable
     {
         return new static($args);
     }
-
-    abstract public function __construct($initial);
 
     public function unfold()
     {
@@ -23,10 +23,7 @@ trait Foldable
     {
         $call = $this->callFromName($name);
         $result = $this->{$call}(...$args);
-        if ($result === null) {
-            return null;
-
-        } elseif (static::isShoop($result)) {
+        if (Shoop::valueIsShooped($result)) {
             return $result->unfold();
 
         }

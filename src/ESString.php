@@ -5,12 +5,15 @@ namespace Eightfold\Shoop;
 use Eightfold\Shoop\Traits\{
     Foldable,
     Convertable,
-    Enumerable
+    Enumerable,
+    Checks
 };
 
-class ESString extends ESBaseType
+use Eightfold\Shoop\Interfaces\Shooped;
+
+class ESString implements Shooped
 {
-    use Foldable, Convertable, Enumerable;
+    use Foldable, Convertable, Enumerable, Checks;
 
     public function __construct($string)
     {

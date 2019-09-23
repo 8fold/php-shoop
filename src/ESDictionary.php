@@ -8,15 +8,18 @@ use Eightfold\Shoop\Traits\{
     Enumerable
 };
 
-class ESDictionary extends ESBasetype implements
+use Eightfold\Shoop\Interfaces\Shooped;
+
+class ESDictionary implements
     \ArrayAccess,
-    \Iterator
+    \Iterator,
+    Shooped
 {
     use Foldable, Convertable;
 
     public function __construct($dictionary)
     {
-        if (is_array($dictionary) && static::isAssociativeArray($dictionary)) {
+        if (is_array($dictionary) && Shoop::valueIsDictionary($dictionary)) {
             $this->value = $dictionary;
 
         } elseif (is_a($dictionary, ESDictionary::class)) {
