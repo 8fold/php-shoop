@@ -40,7 +40,7 @@ class StringTest extends TestCase
         $result = $string->count()->unfold();
         $this->assertEquals(6, $result);
 
-        $result = $string->enumerated()->count()->unfold();
+        $result = $string->enumerate()->count()->unfold();
         $this->assertEquals(6, $result);
 
         $result = $string->countIsGreaterThanUnfolded(0);

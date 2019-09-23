@@ -4,7 +4,8 @@ namespace Eightfold\Shoop;
 
 use Eightfold\Shoop\Traits\{
     Foldable,
-    Convertable
+    Convertable,
+    Enumerable
 };
 
 class ESDictionary extends ESBasetype implements
@@ -27,7 +28,7 @@ class ESDictionary extends ESBasetype implements
         }
     }
 
-    public function enumerated()
+    public function enumerate()
     {
         return Shoop::array(array_values($this->value));
     }

@@ -4,12 +4,13 @@ namespace Eightfold\Shoop;
 
 use Eightfold\Shoop\Traits\{
     Foldable,
-    Convertable
+    Convertable,
+    Enumerable
 };
 
 class ESString extends ESBaseType
 {
-    use Foldable, Convertable;
+    use Foldable, Convertable, Enumerable;
 
     public function __construct($string)
     {
@@ -42,7 +43,7 @@ class ESString extends ESBaseType
         return $this->split($delimiter);
     }
 
-    public function enumerated()
+    public function enumerate(): ESArray
     {
         return Shoop::array(preg_split('//u', $this->value, null, PREG_SPLIT_NO_EMPTY));
     }

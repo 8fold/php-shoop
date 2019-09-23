@@ -8,7 +8,7 @@ use Eightfold\Shoop\Shoop;
  * Attention maintainers: Do not use Shoop classess and methods
  * within this class as it can cause memory overflow exceptions.
  */
-class ESBaseType implements \Countable
+class ESBaseType
 {
 //-> Comparison safer to use Shoop
     static public function isShoop($potential): bool
@@ -86,36 +86,36 @@ class ESBaseType implements \Countable
     }
 
 //-> Enumerable
-    public function count()
-    {
-        return Shoop::int(count($this->enumerated()->unfold()));
-    }
+    // public function count()
+    // {
+    //     return Shoop::int(count($this->enumerated()->unfold()));
+    // }
 
-    public function countIsGreaterThan($value)
-    {
-        $value = $this->sanitizeType($value, "int", ESInt::class)
-            ->unfold();
-        return $this->count()->isGreaterthan($value);
-    }
+    // public function countIsGreaterThan($value)
+    // {
+    //     $value = $this->sanitizeType($value, "int", ESInt::class)
+    //         ->unfold();
+    //     return $this->count()->isGreaterthan($value);
+    // }
 
-    public function countIsNotGreaterThan($value)
-    {
-        $value = $this->sanitizeType($value, "int", ESInt::class, false)
-            ->unfold();
-        return $this->count()->isNotGreaterThan($value);
-    }
+    // public function countIsNotGreaterThan($value)
+    // {
+    //     $value = $this->sanitizeType($value, "int", ESInt::class, false)
+    //         ->unfold();
+    //     return $this->count()->isNotGreaterThan($value);
+    // }
 
-    public function countIsLessThan($value)
-    {
-        $value = $this->sanitizeType($value, "int", ESInt::class, false)
-            ->unfold();
-        return $this->count()->isLessThan($value);
-    }
+    // public function countIsLessThan($value)
+    // {
+    //     $value = $this->sanitizeType($value, "int", ESInt::class, false)
+    //         ->unfold();
+    //     return $this->count()->isLessThan($value);
+    // }
 
-    public function countIsNotLessThan($value)
-    {
-        $value = $this->sanitizeType($value, "int", ESInt::class, false)
-            ->unfold();
-        return $this->count()->isNotLessThan($value);
-    }
+    // public function countIsNotLessThan($value)
+    // {
+    //     $value = $this->sanitizeType($value, "int", ESInt::class, false)
+    //         ->unfold();
+    //     return $this->count()->isNotLessThan($value);
+    // }
 }

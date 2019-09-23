@@ -4,13 +4,14 @@ namespace Eightfold\Shoop;
 
 use Eightfold\Shoop\Traits\{
     Foldable,
-    Convertable
+    Convertable,
+    Enumerable
 };
 
 class ESArray extends ESBaseType implements
     \Iterator
 {
-    use Foldable, Convertable;
+    use Foldable, Convertable, Enumerable;
 
     public function __construct($array = [])
     {
@@ -22,26 +23,26 @@ class ESArray extends ESBaseType implements
 
     public function sorted(): ESArray
     {
-        $array = $this->enumerated()->unfold();
+        $array = $this->enumerate()->unfold();
         natsort($array);
-        return Shoop::array($array)->enumerated();
+        return Shoop::array($array)->enumerate();
     }
 
     public function shuffle(): ESArray
     {
-        $array = $this->enumerated()->unfold();
+        $array = $this->enumerate()->unfold();
         shuffle($array);
-        return Shoop::array($array)->enumerated();
+        return Shoop::array($array)->enumerate();
     }
 
     public function toggle(): ESArray
     {
-        return Shoop::array(array_reverse($this->enumerated()->unfold()))->enumerated();
+        return Shoop::array(array_reverse($this->enumerate()->unfold()))->enumerate();
     }
 
     public function first(bool $makeShoop = true)
     {
-        $array = $this->enumerated()->unfold();
+        $array = $this->enumerate()->unfold();
         $value = array_shift($array);
         if ($value === null && $makeShoop) {
             return Shoop::array([]);
@@ -66,24 +67,24 @@ class ESArray extends ESBaseType implements
 
         $length = $this->sanitizeType($length, "int", ESInt::class)->unfold();
 
-        $array = $this->enumerated()->unfold();
+        $array = $this->enumerate()->unfold();
         for ($i = 0; $i < $length; $i++) {
             array_shift($array);
         }
-        return Shoop::array($array)->enumerated();
+        return Shoop::array($array)->enumerate();
     }
 
     public function dropLast($length = 1): ESArray
     {
-        return $this->enumerated()->toggle()->dropFirst($length)->toggle()->enumerated();
+        return $this->enumerate()->toggle()->dropFirst($length)->toggle()->enumerate();
     }
 
     public function removeEmptyValues(): ESArray
     {
-        return Shoop::array(array_filter($this->unfold()))->enumerated();
+        return Shoop::array(array_filter($this->unfold()))->enumerate();
     }
 
-    public function enumerated()
+    public function enumerate()
     {
         return Shoop::array(array_values($this->value));
     }
@@ -145,7 +146,7 @@ class ESArray extends ESBaseType implements
             )->unfold();
         $array = $this->unfold();
         unset($array[$int]);
-        return Shoop::array($array)->enumerated();
+        return Shoop::array($array)->enumerate();
     }
 
     public function insertAtIndex($value, $int): ESArray
@@ -156,7 +157,7 @@ class ESArray extends ESBaseType implements
         $lhs = array_slice($this->unfold(), 0, $int);
         $rhs = array_slice($this->unfold(), $int);
         $merged = array_merge($lhs, $value, $rhs);
-        return Shoop::array($merged)->enumerated();
+        return Shoop::array($merged)->enumerate();
     }
 
     public function hasValue($value): ESBool

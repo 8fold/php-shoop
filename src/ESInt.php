@@ -4,12 +4,13 @@ namespace Eightfold\Shoop;
 
 use Eightfold\Shoop\Traits\{
     Foldable,
-    Convertable
+    Convertable,
+    Enumerable
 };
 
 class ESInt extends ESBaseType
 {
-    use Foldable, Convertable;
+    use Foldable, Convertable, Enumerable;
 
     public function __construct($int)
     {
@@ -30,7 +31,7 @@ class ESInt extends ESBaseType
         return $this->multipliedBy(-1);
     }
 
-    public function enumerated(): ESArray
+    public function enumerate(): ESArray
     {
         return Shoop::array(range(0, $this->value));
     }
