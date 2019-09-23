@@ -12,19 +12,6 @@ class ESBaseType implements \Countable
 {
     protected $value;
 
-    static public function typeMap(): array
-    {
-        return [
-            "boolean" => ESBool::class,
-            "integer" => ESInt::class,
-            "int"     => ESInt::class,
-            "string"  => ESString::class,
-            "array"   => ESArray::class,
-            "object"  => ESBaseType::class,
-            "NULL"    => null
-        ];
-    }
-
     static public function fold($args): ESBaseType
     {
         return new static($args);
@@ -81,7 +68,7 @@ class ESBaseType implements \Countable
 
     private function hasType($value)
     {
-        return array_key_exists($this->typeForValue($value), static::typeMap());
+        return array_key_exists($this->typeForValue($value), Shoop::typeMap());
     }
 
 //-> Comparison safer to use Shoop
@@ -166,7 +153,7 @@ class ESBaseType implements \Countable
             return null;
 
         } elseif ($this->hasType($value)) {
-            $map = static::typeMap();
+            $map = Shoop::typeMap();
             $class = $map[$this->typeForValue($value)];
             return $class::fold($value);
 

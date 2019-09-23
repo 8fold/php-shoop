@@ -33,4 +33,17 @@ class Shoop
     {
         return ESBool::fold($bool);
     }
+
+    static public function typeMap(): array
+    {
+        return [
+            "boolean" => ESBool::class,
+            "integer" => ESInt::class,
+            "int"     => ESInt::class,
+            "string"  => ESString::class,
+            "array"   => ESArray::class,
+            "object"  => ESBaseType::class,
+            "NULL"    => null
+        ];
+    }
 }
