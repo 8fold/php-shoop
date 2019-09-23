@@ -21,6 +21,10 @@ class ESArray implements
     {
         if (is_a($array, ESArray::class)) {
             $array = $array->unfold();
+
+        } elseif (! is_array($array)) {
+            $array = [$array];
+
         }
         $this->value = $array;
     }
@@ -95,8 +99,9 @@ class ESArray implements
 
     public function plus($values)
     {
-        $values = $this->sanitizeType($values, "array", ESArray::class)
-            ->unfold();
+        if (! is_array($values)) {
+            $values = [$values];
+        }
         return Shoop::array(array_merge($this->unfold(), $values));
     }
 
