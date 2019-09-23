@@ -22,6 +22,11 @@ class ESBaseType implements \Countable
         $this->value = $args[0];
     }
 
+    public function unfold()
+    {
+        return $this->value;
+    }
+
 //-> Getters
     public function __call(string $name, array $args = [])
     {
@@ -59,16 +64,6 @@ class ESBaseType implements \Countable
         $end = strlen($haystack);
         $len = strlen($needle);
         return substr($haystack, $start, $len) === $needle;
-    }
-
-    public function unfold()
-    {
-        return $this->value;
-    }
-
-    private function hasType($value)
-    {
-        return array_key_exists($this->typeForValue($value), Shoop::typeMap());
     }
 
 //-> Comparison safer to use Shoop
@@ -152,7 +147,7 @@ class ESBaseType implements \Countable
         if ($value === null) {
             return null;
 
-        } elseif ($this->hasType($value)) {
+        } elseif (array_key_exists($this->typeForValue($value), Shoop::typeMap())) {
             $map = Shoop::typeMap();
             $class = $map[$this->typeForValue($value)];
             return $class::fold($value);
