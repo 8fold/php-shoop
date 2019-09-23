@@ -34,19 +34,11 @@ trait Checks
 
     public function isSame($compare): ESBool
     {
-        if (shoop::valueIsShooped($compare)) {
-            return Shoop::bool($this->unfold() === $compare->unfold());
+        if (Shoop::valueIsNotShooped($compare)) {
+            $compare = Shoop::instanceFromValue($compare);
 
         }
-        return Shoop::instanceFromValue($compare);
-        // $map = Shoop::typeMap();
-        // $type = Shoop::typeForValue($value);
-        // if (! array_key_exists($type, $map) || $compare === null) {
-        //     $compareString = var_dump($compare);
-        //     trigger_error("{$compareString} is not a supported type in Shoop. Please submit an issue or PR through GitHub: 8fold/php-shoop");
-        // }
-        // $class = $map[$type];
-        // return $class::fold($value);
+        return Shoop::bool($this->unfold() === $compare->unfold());
     }
 
     public function isNot($compare): ESBool

@@ -75,6 +75,11 @@ class Shoop
         return $potential instanceOf Shooped;
     }
 
+    static public function valueIsNotShooped($potential): bool
+    {
+        return ! self::valueIsShooped($potential);
+    }
+
     static public function valueisSubclass($value, string $className)
     {
         # code...
