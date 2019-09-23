@@ -6,43 +6,62 @@ class ESDictionary extends ESBasetype implements
     \ArrayAccess,
     \Iterator
 {
-    public function __construct(...$args)
+    public function __construct($args)
     {
-        if (Shoop::array(...$args)->count()->isFactorOf(2)->toggle()->unwrap()) {
+        if ($args === null) {
+            $this->value = [];
+
+        } elseif (static::isAssociativeArray($args)) {
+            $this->value = $args;
+
+        } else {
+            trigger_error("ESDictionary must begin with PHP associative array.");
+
+        }
+    }
+
+    public function enumerated()
+    {
+        return Shoop::array(array_values($this->value));
+    }
+
+    public function plus($key, $values)
+    {
+        $key = $this->sanitizeType($key, "string", ESString::class)
+            ->unfold();
+        $values = $this->sanitizeType($values, "array", ESArray::class)
+            ->unfold();
+
+        $dict = $this->unfold();
+        $dict[$key] = $values;
+        return Shoop::dictionary($dict);
+    }
+
+    private function validateCounts(array $args)
+    {
+        $keyCount = Shoop::array(array_keys($args))->count();
+        $valueCount = Shoop::array(array_values($args))->count();
+        if ($keyCount->isNot($valueCount)->unfold()) {
             trigger_error(
-                "ESDict expects an even number of arguments wherein zero and even arguments are members and odd arguments are values.",
+                "ESDictionary expects an even number of arguments. Using 0 index, 0 and even arguments are members (keys) while odd arguments are values. {$keyCount->unfold()} items were found.",
                 E_USER_ERROR
             );
         }
-
-        $sanitizedKeys = [];
-        $values = [];
-        foreach ($args as $index => $value) {
-            if ($index === 0 || $index % 2 === 0) {
-                $sanitizedKeys[] = $this->sanitizeTypeOrTriggerError(
-                    $value,
-                    "string",
-                    ESString::class
-                )->unwrap();
-
-            } else {
-                $values[] = $value;
-
-            }
-        }
-        $this->value = array_combine($sanitizedKeys, $values);
     }
 
     public function hasKey($key): ESBool
     {
-        $key = $this->sanitizeTypeOrTriggerError($key, "string", ESString::class)->unwrap();
+        $key = $this->sanitizeType($key, "string", ESString::class)->unfold();
         return Shoop::bool($this->offsetExists($key));
     }
 
     public function valueForKey($key)
     {
-        $key = $this->sanitizeTypeOrTriggerError($key, "string", ESString::class)->unwrap();
-        return $this->offsetGet($key);
+        $key = $this->sanitizeType($key, "string", ESString::class)->unfold();
+        if (array_key_exists($key, $this->value)) {
+            return $this->value[$key];
+        }
+        return null;
     }
 
 //-> ArrayAccess
@@ -72,12 +91,12 @@ class ESDictionary extends ESBasetype implements
     public function current(): ESInt
     {
         $current = key($this->value);
-        return ESInt::wrap($this->value[$current]);
+        return ESInt::fold($this->value[$current]);
     }
 
     public function key(): ESInt
     {
-        return ESInt::wrap(key($this->value));
+        return ESInt::fold(key($this->value));
     }
 
     public function next(): ESDictionary
@@ -92,9 +111,6 @@ class ESDictionary extends ESBasetype implements
         return $this;
     }
 
-    /**
-     * @return bool Must be bool for sake of PHP
-     */
     public function valid(): bool
     {
         $key = key($this->value);

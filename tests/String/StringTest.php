@@ -19,36 +19,67 @@ class StringTest extends TestCase
 
     public function testCanDoPlusAndMinus()
     {
-        $result = ESString::wrap("Hello, ")->plus("🌍!")->unwrap();
+        $hello = ESString::fold("Hello, ");
+        $helloWorld = ESString::fold("Hello, World!");
+        $result = $hello->plus("🌍!")->unfold();
         $this->assertEquals($this->plainTextWithUnicode(), $result);
 
-        $result = ESString::wrap("Hello, World!")->minus("l")->unwrap();
+        $result = $helloWorld->minus("l")->unfold();
         $this->assertEquals("Heo, Word!", $result);
+
+        $result = $hello->append("World!");
+        $this->assertEquals($helloWorld, $result);
+
+        $result = ESString::fold(", World!")->prependUnfolded("Hello");
+        $this->assertEquals($helloWorld, $result);
     }
 
     public function testCanCountContents()
     {
-        $result = ESString::wrap("Hello!")->count()->unwrap();
+        $string = ESString::fold("Hello!");
+        $result = $string->count()->unfold();
         $this->assertEquals(6, $result);
 
-        $result = ESString::wrap("Hello!")->enumerated()->count()->unwrap();
+        $result = $string->enumerated()->count()->unfold();
         $this->assertEquals(6, $result);
+
+        $result = $string->countIsGreaterThanUnfolded(0);
+        $this->assertTrue($result);
+
+        $result = $string->countIsNotGreaterThan(8)->unfold();
+        $this->assertTrue($result);
+
+        $result = $string->countIsLessThanUnfolded(5);
+        $this->assertFalse($result);
+
+        $result = $string->countIsNotLessThanUnfolded(7);
+        $this->assertFalse($result);
     }
 
     public function testCanBeDvidedBy()
     {
-        $compare = ESArray::wrap("He", "o, Wor", "d!");
-        $result = ESString::wrap("Hello, World!")
+        $compare = ESArray::fold(["He", "o, Wor", "d!"]);
+        $result = ESString::fold("Hello, World!")
             ->dividedBy("l");
-        $this->assertEquals($compare->unwrap(), $result->unwrap());
-        $this->assertTrue($result->isSameAs($compare)->unwrap());
+        $this->assertEquals($compare->unfold(), $result->unfold());
+        $this->assertTrue($result->isSame($compare)->unfold());
 
-        $result = ESString::wrap("Hello, World!")
+        $result = ESString::fold("Hello, World!")
             ->split("l");
-        $compare = ESString::wrap("Heo, Word!");
-        $this->assertEquals($compare->unwrap(), $result->joined()->unwrap());
+        $compare = ESString::fold("Heo, Word!");
+        $this->assertEquals($compare->unfold(), $result->join());
 
-        $compare = ESString::wrap("Heto, Wortd!");
-        $this->assertEquals($compare->unwrap(), $result->joined("t")->unwrap());
+        $compare = ESString::fold("Heto, Wortd!");
+        $this->assertEquals($compare->unfold(), $result->join("t")->unfold());
+    }
+
+    public function testDoesBeginOrEndWith()
+    {
+        $helloWorld = ESString::fold("Hello, World!");
+        $result = $helloWorld->beginsWithUnfolded("Hello");
+        $this->assertTrue($result);
+
+        $result = $helloWorld->endsWithUnfolded("World!");
+        $this->assertTrue($result);
     }
 }

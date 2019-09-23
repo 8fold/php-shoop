@@ -15,7 +15,7 @@ class MetadataTest extends TestCase
     public function testCanCountCharacters()
     {
         $expected = 9;
-        $result = ESString::wrap($this->plainTextWithUnicode())->count()->unwrap();
+        $result = ESString::fold($this->plainTextWithUnicode())->count()->unfold();
         $this->assertEquals($expected, $result);
     }
 
@@ -23,16 +23,16 @@ class MetadataTest extends TestCase
     public function testCanCheckEquality()
     {
         $compare = $this->unicode();
-        $result = ESString::wrap($compare)
-            ->isSameAs(ESString::wrap($compare));
-        $this->assertTrue($result->unwrap());
+        $result = ESString::fold($compare)
+            ->isSame(ESString::fold($compare));
+        $this->assertTrue($result->unfold());
     }
 
     public function testCanCheckEqualityFails()
     {
-        $compare = ESString::wrap('H');
-        $result = ESString::wrap($this->unicode())
-            ->isSameAs($compare);
-        $this->assertFalse($result->unwrap());
+        $compare = ESString::fold('H');
+        $result = ESString::fold($this->unicode())
+            ->isSame($compare);
+        $this->assertFalse($result->unfold());
     }
 }

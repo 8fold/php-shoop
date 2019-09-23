@@ -2,13 +2,32 @@
 
 namespace Eightfold\Shoop;
 
-class ESBaseType
+use Eightfold\Shoop\Shoop;
+
+/**
+ * Attention maintainers: Do not use Shoop classess and methods
+ * within this class as it can cause memory overflow exceptions.
+ */
+class ESBaseType implements \Countable
 {
     protected $value;
 
-    static public function wrap(...$args): ESBaseType
+    static public function typeMap(): array
     {
-        return new static(...$args);
+        return [
+            "boolean" => ESBool::class,
+            "integer" => ESInt::class,
+            "int"     => ESInt::class,
+            "string"  => ESString::class,
+            "array"   => ESArray::class,
+            "object"  => ESBaseType::class,
+            "NULL"    => null
+        ];
+    }
+
+    static public function fold($args): ESBaseType
+    {
+        return new static($args);
     }
 
     public function __construct(...$args)
@@ -16,76 +35,163 @@ class ESBaseType
         $this->value = $args[0];
     }
 
-    public function unwrap()
+//-> Getters
+    public function __call(string $name, array $args = [])
+    {
+        $call = $this->callFromName($name);
+        $result = $this->{$call}(...$args);
+        if ($result === null) {
+            return null;
+
+        } elseif (static::isShoop($result)) {
+            return $result->unfold();
+
+        }
+        return $result;
+    }
+
+    private function callFromName(string $name)
+    {
+        $call = "";
+        $start = strlen($name) - strlen("Unfolded");
+        $isFolded = $this->methodNameContains("Unfolded", $name, $start);
+        if ($isFolded) {
+            $call = lcfirst(substr_replace($name, "", $start, strlen($name) - $start));
+        }
+
+        if (strlen($call) === 0) {
+            $className = static::class;
+            trigger_error("{$name} is an invalid method on {$className}", E_USER_ERROR);
+        }
+        return $call;
+    }
+
+    private function methodNameContains(string $needle, string $haystack, int $start)
+    {
+        $needle = $needle;
+        $end = strlen($haystack);
+        $len = strlen($needle);
+        return substr($haystack, $start, $len) === $needle;
+    }
+
+    public function unfold()
     {
         return $this->value;
     }
 
+    private function hasType($value)
+    {
+        return array_key_exists($this->typeForValue($value), static::typeMap());
+    }
+
+//-> Comparison safer to use Shoop
+    static public function isShoop($potential): bool
+    {
+        return is_subclass_of($potential, ESBaseType::class);
+    }
+
+    static protected function isAssociativeArray($value): bool
+    {
+        if (is_array($value)) {
+            return array_keys($value) !== range(0, count($value) - 1);
+        }
+        return false;
+    }
+
     public function isEmpty(): ESBool
     {
-        $result = empty($this->unwrap());
-        return ESBool::wrap($result);
+        $result = empty($this->unfold());
+        return Shoop::bool($result);
+    }
+
+    public function isSame($compare): ESBool
+    {
+        $isSub = is_subclass_of($compare, ESBaseType::class);
+        $isNotSub = Shoop::bool($isSub)->toggle()->unfold();
+        if ($isNotSub) {
+            $compare = $this->instanceFromValue($compare);
+        }
+        return Shoop::bool($this->unfold() === $compare->unfold());
+    }
+
+    static public function valueisSubclass($value, string $className)
+    {
+        # code...
+    }
+
+    static public function valueisNotSubclass($value, string $className)
+    {
+        # code...
+    }
+
+    static public function valueIsClass($value, string $className)
+    {
+        # code...
+    }
+
+    static public function valueIsNotClass($value, string $className)
+    {
+        # code...
+    }
+
+    static public function valueIsArray($value)
+    {
+        return is_array($value) || (self::isShoop($value) && is_a($value, ESArray::class));
+    }
+
+    static public function valueIsNotArray($value)
+    {
+        return ! self::valueIsArray($value);
+    }
+
+    public function isArray()
+    {
+        return is_array($this->unfold());
+    }
+
+    public function isNotArray()
+    {
+        return ! $this->isArray();
+    }
+
+    final public function isNot($compare): ESBool
+    {
+        return $this->isSame($compare)->toggle();
     }
 
     protected function instanceFromValue($value)
     {
-        if ($this->hasTypeForValue($value)->toggle()->unwrap()) {
-            return $this;
+        // Get Shoop from PHP data type
+        if ($value === null) {
+            return null;
+
+        } elseif ($this->hasType($value)) {
+            $map = static::typeMap();
+            $class = $map[$this->typeForValue($value)];
+            return $class::fold($value);
+
         }
-        $class = $this->typeMap()->valueForKey($this->typeForValue($value));
-        return ($this->typeForValue($value) === "array")
-            ? $class::wrap(...$value)
-            : $class::wrap($value);
+        return $this;
     }
 
-    private function hasTypeForValue($value): ESBool
+    final protected function sanitizeType($toSanitize, string $desiredPhpType, string $shoopClass)
     {
-        if ($value === null) {
-            return Shoop::bool(false);
+        if (is_a($toSanitize, $shoopClass)) {
+            return $toSanitize;
         }
-        return $this->typeMap()->hasKey($this->typeForValue($value));
+
+        $this->isDesiredTypeOrTriggerError($desiredPhpType, $toSanitize);
+
+        return $shoopClass::fold($toSanitize);
     }
 
     private function typeForValue($value)
     {
-        return gettype($value);
-    }
-
-    private function typeMap(): ESDictionary
-    {
-        return Shoop::dictionary(
-            "boolean", ESBool::class,
-            "integer", ESInt::class,
-            "string", ESString::class,
-            "array", ESArray::class,
-            //"double" (for historical reasons "double" is returned in case of a float, and not simply "float")
-            // "object"
-            // "resource"
-            // "resource (closed)" as of PHP 7.2.0
-            "NULL", null
-            // "unknown type"
-        );
-    }
-
-    final protected function sanitizeTypeOrTriggerError(
-        $varToSanitize,
-        $desiredPhpType,
-        $class = null,
-        $multipleArgs = false)
-    {
-        $class = ($class === null)
-            ? static::class
-            : $class;
-
-        if (is_a($varToSanitize, $class)) {
-            return $varToSanitize;
+        $type = gettype($value);
+        if ($type === "integer") {
+            $type = "int";
         }
-
-        $this->isDesiredTypeOrTriggerError($desiredPhpType, $varToSanitize);
-
-        return ($multipleArgs)
-            ? $class::wrap(...$varToSanitize)
-            : $class::wrap($varToSanitize);
+        return $type;
     }
 
     private function isDesiredTypeOrTriggerError($desiredPhpType, $variable)
@@ -108,19 +214,37 @@ class ESBaseType
         );
     }
 
-//-> Comparison
-    public function isSameAs(ESBaseType $compare): ESBool
+//-> Enumerable
+    public function count()
     {
-        return Shoop::bool($this->unwrap() === $compare->unwrap());
+        return Shoop::int(count($this->enumerated()->unfold()));
     }
 
-    final public function isDifferentThan(ESBaseType $compare): ESBool
+    public function countIsGreaterThan($value)
     {
-        return $this->isNot($compare);
+        $value = $this->sanitizeType($value, "int", ESInt::class)
+            ->unfold();
+        return $this->count()->isGreaterthan($value);
     }
 
-    final public function isNot(ESBaseType $compare): ESBool
+    public function countIsNotGreaterThan($value)
     {
-        return $this->isSameAs($compare)->toggle();
+        $value = $this->sanitizeType($value, "int", ESInt::class, false)
+            ->unfold();
+        return $this->count()->isNotGreaterThan($value);
+    }
+
+    public function countIsLessThan($value)
+    {
+        $value = $this->sanitizeType($value, "int", ESInt::class, false)
+            ->unfold();
+        return $this->count()->isLessThan($value);
+    }
+
+    public function countIsNotLessThan($value)
+    {
+        $value = $this->sanitizeType($value, "int", ESInt::class, false)
+            ->unfold();
+        return $this->count()->isNotLessThan($value);
     }
 }

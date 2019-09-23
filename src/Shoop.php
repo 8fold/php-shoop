@@ -6,36 +6,31 @@ class Shoop
 {
     static public function int($int): ESInt
     {
-        return ESInt::wrap($int);
+        return ESInt::fold($int);
     }
 
     static public function string($string): ESString
     {
-        return ESString::wrap($string);
+        return ESString::fold($string);
     }
 
-    static public function array(...$values): ESArray
+    static public function array($array): ESArray
     {
-        return ESArray::wrap(...$values);
+        return ESArray::fold($array);
     }
 
-    static public function dictionary(...$values)
+    static public function dictionary($assocArray)
     {
-        return ESDictionary::wrap(...$values);
-    }
-
-    static public function tuple(...$values)
-    {
-        return ESTuple::wrap(...$values);
+        return ESDictionary::fold($assocArray);
     }
 
     static public function range($min, $max, $includeLast = true): ESRange
     {
-        return ESRange::wrap($min, $max, $includeLast);
+        return ESRange::fold($min, $max, $includeLast);
     }
 
     static public function bool($bool): ESBool
     {
-        return ESBool::wrap($bool);
+        return ESBool::fold($bool);
     }
 }

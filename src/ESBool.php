@@ -6,7 +6,7 @@ class ESBool extends ESBaseType
 {
 	public function toggle(): ESBool
 	{
-        return ESBool::wrap(! $this->unwrap());
+        return ESBool::fold(! $this->unfold());
 	}
 
 	public function not(): ESBool
@@ -16,20 +16,20 @@ class ESBool extends ESBaseType
 
 	public function or($bool): ESBool
 	{
-        $bool = parent::sanitizeTypeOrTriggerError($bool, "boolean");
-        return Shoop::bool($this->unwrap() || $bool->unwrap());
+        $bool = parent::sanitizeType($bool, "boolean", ESBool::class);
+        return Shoop::bool($this->unfold() || $bool->unfold());
 	}
 
 	public function and($bool): ESBool
 	{
-        $bool = parent::sanitizeTypeOrTriggerError($bool, "boolean");
-        return Shoop::bool($this->unwrap() && $bool->unwrap());
+        $bool = parent::sanitizeType($bool, "boolean", ESBool::class);
+        return Shoop::bool($this->unfold() && $bool->unfold());
 	}
 
 	public function description(): ESString
 	{
         return ($this->value)
-            ? ESString::wrap("true")
-            : ESString::wrap("false");
+            ? ESString::fold("true")
+            : ESString::fold("false");
 	}
 }

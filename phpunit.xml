@@ -12,20 +12,17 @@
         <testsuite name="base">
             <directory suffix="Test.php">./tests/</directory>
         </testsuite>
-        <testsuite name="string">
-            <directory suffix="Test.php">./tests/String</directory>
-        </testsuite>
-        <testsuite name="tuple">
-            <directory suffix="Test.php">./tests/Suple</directory>
-        </testsuite>
         <testsuite name="bool">
             <directory suffix="Test.php">./tests/Bool</directory>
+        </testsuite>
+        <testsuite name="collections">
+            <directory suffix="Test.php">./tests/Collections</directory>
         </testsuite>
         <testsuite name="numbers">
             <directory suffix="Test.php">./tests/Numbers</directory>
         </testsuite>
-        <testsuite name="collections">
-            <directory suffix="Test.php">./tests/Collections</directory>
+        <testsuite name="string">
+            <directory suffix="Test.php">./tests/String</directory>
         </testsuite>
     </testsuites>
     <filter>

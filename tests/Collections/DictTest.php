@@ -5,12 +5,14 @@ namespace Eightfold\Shoop\Tests;
 use PHPUnit\Framework\TestCase;
 
 use Eightfold\Shoop\Shoop;
+use Eightfold\Shoop\ESDictionary;
+use Eightfold\Shoop\ESArray;
 
 class DictTest extends TestCase
 {
-    public function testCanInitialize()
+    public function testCanInitializeDict()
     {
-        $result = Shoop::dictionary("key", "value");
+        $result = Shoop::dictionary(["key" => "value"]);
         $this->assertNotNull($result);
 
         $this->assertEquals("value", $result["key"]);
@@ -18,8 +20,8 @@ class DictTest extends TestCase
 
     public function testCanIterateDictionary()
     {
-        $dict = Shoop::dictionary("key", "value", "key2", "value2");
-        $this->assertEquals(["key" => "value", "key2" => "value2"], $dict->unwrap());
+        $dict = Shoop::dictionary(["key" => "value", "key2" => "value2"]);
+        $this->assertEquals(["key" => "value", "key2" => "value2"], $dict->unfold());
         $count = 1;
         foreach($dict as $key => $value) {
             if ($key === "key") {
@@ -36,8 +38,8 @@ class DictTest extends TestCase
 
     public function testCanCheckForKey()
     {
-        $result = Shoop::dictionary("key", "value")
+        $result = Shoop::dictionary(["key" => "value"])
             ->hasKey("key");
-        $this->assertTrue($result->unwrap());
+        $this->assertTrue($result->unfold());
     }
 }

@@ -4,41 +4,16 @@ namespace Eightfold\Shoop;
 
 class ESString extends ESBaseType
 {
-    public function unwrap(): string
-    {
-        return $this->value;
-    }
-
-    public function enumerated(): ESArray
-    {
-        return ESArray::wrap(...preg_split('//u', $this->value, null, PREG_SPLIT_NO_EMPTY));
-    }
-
-    public function count(): ESInt
-    {
-        return $this->enumerated()->count();
-    }
-
-    public function description(): ESString
-    {
-        return $this;
-    }
-
-    public function plus($string): ESString
-    {
-        return ESString::wrap($this->unwrap() . parent::sanitizeTypeOrTriggerError($string, "string")->unwrap());
-    }
-
     public function multipliedBy($multiplier): ESString
     {
-        $multiplier = parent::sanitizeTypeOrTriggerError($multiplier, "integer", ESInt::class);
-        return ESString::wrap(str_repeat($this->unwrap(), $multiplier->unwrap()));
+        $multiplier = parent::sanitizeType($multiplier, "int", ESInt::class);
+        return Shoop::string(str_repeat($this->unfold(), $multiplier->unfold()));
     }
 
     public function minus($string): ESString
     {
-        $needle = parent::sanitizeTypeOrTriggerError($string, "string")->unwrap();
-        return ESString::wrap(str_replace($needle, "", $this->unwrap()));
+        $needle = parent::sanitizeType($string, "string", ESString::class)->unfold();
+        return Shoop::string(str_replace($needle, "", $this->unfold()));
     }
 
     public function dividedBy($delimiter): ESArray
@@ -46,16 +21,70 @@ class ESString extends ESBaseType
         return $this->split($delimiter);
     }
 
-    public function split($delimiter): ESArray
+    public function enumerated()
     {
-        $separator = parent::sanitizeTypeOrTriggerError($delimiter, "string", ESString::class);
-        $exploded = explode($delimiter, $this->unwrap());
-        return ESArray::wrap(...$exploded)->removeEmptyValues();
+        return Shoop::array(preg_split('//u', $this->value, null, PREG_SPLIT_NO_EMPTY));
     }
 
+    public function plus($values)
+        {
+            $values = $this->sanitizeType($values, "string", ESString::class)
+                ->unfold();
+            return Shoop::string($this->unfold() . $values);
+        }
+
+    public function append($value)
+    {
+        return $this->plus($value);
+    }
+
+    public function prepend($value)
+    {
+        $value = parent::sanitizeType($value, "string", ESString::class);
+        return Shoop::string($value . $this->unfold());
+    }
+
+    public function split($delimiter): ESArray
+    {
+        $delimiter = parent::sanitizeType($delimiter, "string", ESString::class);
+        $exploded = explode($delimiter, $this->unfold());
+        return Shoop::array($exploded)->removeEmptyValues();
+    }
+
+    public function lowerFirst(): ESString
+    {
+        return Shoop::string(lcfirst($this->value));
+    }
+
+//-> Checks
     public function beginsWith($string): ESBool
     {
-        $len = strlen($string);
-        return ESBool::wrap(substr($string, 0, $len) === $string);
+        $string = parent::sanitizeType($string, "string", ESString::class);
+        return $this->endsOrBeginsWith($string, 0);
+    }
+
+    public function doesNotBeginWith($string)
+    {
+        return $this->beginsWith($string)->toggle();
+    }
+
+    public function endsWith($string)
+    {
+        $string = parent::sanitizeType($string, "string", ESString::class);
+        return $this->endsOrBeginsWith($string, $this->countUnfolded() - $string->countUnfolded());
+    }
+
+    private function endsOrBeginsWith($needle, int $start)
+    {
+        $return = Shoop::bool(
+            substr($this->unfold(), $start, $needle->countUnfolded()) === $needle->unfold()
+        );
+        return $return;
+    }
+
+//-> String access
+    public function __toString()
+    {
+        return $this->unfold();
     }
 }

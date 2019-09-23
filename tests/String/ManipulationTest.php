@@ -15,9 +15,9 @@ class ManipulationTest extends TestCase
     public function testCanAppendStringWithString()
     {
         $expected = '🌍,🌍,🌍,🌍,🌍,';
-        $result = ESString::wrap('🌍,')
+        $result = ESString::fold('🌍,')
             ->multipliedBy(5)
-            ->unwrap();
+            ->unfold();
         $this->assertEquals($expected, $result);
     }
 

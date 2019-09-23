@@ -3,206 +3,182 @@
 namespace Eightfold\Shoop;
 
 class ESArray extends ESBaseType implements
-    \Iterator,
-    \Countable
+    \Iterator
 {
-    // TODO: Implement ArrayAccess??
-
-    public function __construct(...$values)
+    public function __construct($array = [])
     {
-        $this->value = $values;
-    }
-
-    public function description(): ESString
-    {
-        // TODO: Use base types
-        $strings = [];
-        for ($i = 0; $i < $this->count()->unwrap(); $i++) {
-            $key = $i;
-            $value = $this->value[$i];
-            $strings[] = "{$key} => {$value}";
+        if (is_a($array, ESArray::class)) {
+            $array = $array->unfold();
         }
-        return Shoop::string("[". implode(", ", $strings) ."]");
-    }
-
-    private function enumerated(): ESArray
-    {
-        return ESArray::wrap(...array_values($this->value));
+        $this->value = $array;
     }
 
     public function sorted(): ESArray
     {
-        $array = $this->enumerated()->unwrap();
+        $array = $this->enumerated()->unfold();
         natsort($array);
-        return ESArray::wrap(...$array)->enumerated();
+        return Shoop::array($array)->enumerated();
     }
 
-    public function shuffled(): ESArray
+    public function shuffle(): ESArray
     {
-        $array = $this->enumerated()->unwrap();
+        $array = $this->enumerated()->unfold();
         shuffle($array);
-        return ESArray::wrap(...$array)->enumerated();
+        return Shoop::array($array)->enumerated();
     }
 
     public function toggle(): ESArray
     {
-        return ESArray::wrap(...array_reverse($this->enumerated()->unwrap()))->enumerated();
+        return Shoop::array(array_reverse($this->enumerated()->unfold()))->enumerated();
     }
 
-    public function first()
+    public function first(bool $makeShoop = true)
     {
-        $array = $this->enumerated()->unwrap();
+        $array = $this->enumerated()->unfold();
         $value = array_shift($array);
-        return parent::instanceFromValue($value);
+        if ($value === null && $makeShoop) {
+            return Shoop::array([]);
+
+        } elseif ($value === null) {
+            return [];
+
+        } elseif ($makeShoop) {
+            return parent::instanceFromValue($value);
+
+        }
+        return $value;
     }
 
-    public function last()
+    public function last(bool $makeShoop = true)
     {
-        $array = $this->enumerated()->unwrap();
-        $value = array_pop($array);
-        return parent::instanceFromValue($value);
+        return $this->toggle()->first($makeShoop);
     }
 
     public function dropFirst($length = 1): ESArray
     {
-        $length = $this->sanitizeTypeOrTriggerError($length, "integer", ESInt::class)->unwrap();
 
-        // TODO:
-        // $this->enumerated()->for(1, $length, function(&$array) {
-        //  array_shift($array);
-        // });
-        $array = $this->enumerated()->unwrap();
-        $range = ESRange::wrap(1, $length);
-        foreach ($range as $i) {
+        $length = $this->sanitizeType($length, "int", ESInt::class)->unfold();
+
+        $array = $this->enumerated()->unfold();
+        for ($i = 0; $i < $length; $i++) {
             array_shift($array);
         }
-        return ESArray::wrap(...$array)->enumerated();
+        return Shoop::array($array)->enumerated();
     }
 
     public function dropLast($length = 1): ESArray
     {
-        $length = $this->sanitizeTypeOrTriggerError($length, "integer", ESInt::class)->unwrap();
         return $this->enumerated()->toggle()->dropFirst($length)->toggle()->enumerated();
     }
 
     public function removeEmptyValues(): ESArray
     {
-        return ESArray::wrap(...array_filter($this->unwrap()))->enumerated();
+        return Shoop::array(array_filter($this->unfold()))->enumerated();
     }
 
-    public function plus(...$values): ESArray
+    public function enumerated()
     {
-        $suffix = $this->sanitizeTypeOrTriggerError($values, "array", ESArray::class, true)->unwrap();
-        $prefix = $this->unwrap();
-        $merged = array_merge($prefix, $suffix);
-        return ESArray::wrap(...$merged);
+        return Shoop::array(array_values($this->value));
     }
 
-    public function multipliedBy($multiplier): ESArray
+    public function plus($values)
     {
-        $multiplier = $this->sanitizeTypeOrTriggerError(
-                $multiplier,
-                "integer",
-                ESInt::class
-            )->unwrap();
-        $build = ESArray::wrap();
-        for ($i = 1; $i <= $multiplier; $i++) {
-            $build = $build->plus(...$this->unwrap());
+        $values = $this->sanitizeType($values, "array", ESArray::class)
+            ->unfold();
+        return Shoop::array(array_merge($this->unfold(), $values));
+    }
+
+    public function minus($values): ESArray
+    {
+        if (static::valueIsNotArray($values)) {
+            $values = [$values];
         }
-        return $build;
-    }
-
-    public function minus(...$values): ESArray
-    {
-        $deletes = $this->sanitizeTypeOrTriggerError(
-            $values,
-            "array",
-            ESArray::class,
-            true
-        )->unwrap();
-        $copy = $this->unwrap();
-        for ($i = 0; $i < count($this->unwrap()); $i++) {
+        $deletes = $this->sanitizeType($values, "array", ESArray::class)->unfold();
+        $copy = $this->unfold();
+        for ($i = 0; $i < count($this->unfold()); $i++) {
             foreach ($deletes as $check) {
                 if ($check === $copy[$i]) {
                     unset($copy[$i]);
                 }
             }
         }
-        return ESArray::wrap(...array_values($copy));
+        return Shoop::array(array_values($copy));
     }
 
     public function dividedBy($divisor): ESTuple
     {
-        $divisor = $this->sanitizeTypeOrTriggerError(
+        $divisor = $this->sanitizeType(
                 $divisor,
-                "integer",
+                "int",
                 ESInt::class
-            )->unwrap();
+            )->unfold();
 
-        $left = array_slice($this->unwrap(), 0, $divisor);
-        $right = array_slice($this->unwrap(), $divisor);
+        $left = array_slice($this->unfold(), 0, $divisor);
+        $right = array_slice($this->unfold(), $divisor);
 
-        return ESTuple::wrap("lhs", $left, "rhs", $right);
+        return Shoop::dictionary(["lhs" => $left, "rhs" => $right]);
     }
 
-    public function joined($delimiter = ""): ESString
+    public function join($delimiter = ""): ESString
     {
-        $delimiter = $this->sanitizeTypeOrTriggerError(
+        $delimiter = $this->sanitizeType(
                 $delimiter,
                 "string",
                 ESString::class
-            )->unwrap();
-        return ESString::wrap(implode($delimiter, $this->unwrap()));
+            )->unfold();
+        return Shoop::string(implode($delimiter, $this->unfold()));
     }
 
     public function removeAtIndex($int): ESArray
     {
-        $int = $this->sanitizeTypeOrTriggerError(
+        $int = $this->sanitizeType(
                 $int,
-                "integer",
+                "int",
                 ESInt::class
-            )->unwrap();
-        $array = $this->unwrap();
+            )->unfold();
+        $array = $this->unfold();
         unset($array[$int]);
-        return ESArray::wrap(...$array)->enumerated();
+        return Shoop::array($array)->enumerated();
     }
 
     public function insertAtIndex($value, $int): ESArray
     {
-        $int = $this->sanitizeTypeOrTriggerError(
-                $int,
-                "integer",
-                ESInt::class
-            )->unwrap();
+        $int = $this->sanitizeType($int, "int", ESInt::class)->unfold();
+        $value = $this->sanitizeType($value, "array", ESArray::class)->unfold();
 
-        $value = $this->sanitizeTypeOrTriggerError(
-                $value,
-                "array",
-                ESArray::class,
-                true
-            )->unwrap();
-        $bisected = $this->dividedBy($int);
-        $lhs = $bisected->lhs()->unwrap();
-        $rhs = $bisected->rhs()->unwrap();
+        $lhs = array_slice($this->unfold(), 0, $int);
+        $rhs = array_slice($this->unfold(), $int);
         $merged = array_merge($lhs, $value, $rhs);
-        return ESArray::wrap(...$merged)->enumerated();
+        return Shoop::array($merged)->enumerated();
     }
 
-    public function count(): ESInt
+    public function hasValue($value): ESBool
     {
-        return ESInt::wrap(count($this->enumerated()->unwrap()));
+        return Shoop::bool(in_array($value, $this->value));
+    }
+
+    public function each(\Closure $closure): ESArray
+    {
+        $build = [];
+        foreach ($this->value as $key => $value) {
+            $consider = $closure($value, $key = "");
+            if ($consider !== null) {
+                $build[] = $consider;
+            }
+        }
+        return Shoop::array($build);
     }
 
 //-> Iterator
     public function current(): ESInt
     {
         $current = key($this->value);
-        return ESInt::wrap($this->value[$current]);
+        return Shoop::int($this->value[$current]);
     }
 
     public function key(): ESInt
     {
-        return ESInt::wrap(key($this->value));
+        return Shoop::int(key($this->value));
     }
 
     public function next(): ESArray

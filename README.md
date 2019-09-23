@@ -99,3 +99,7 @@ class Collection {
 
 	static public function set() {}
 }
+
+## Governance
+
+- Higher the number, higher the priority (labels on issues)

@@ -11,123 +11,126 @@ use Eightfold\Shoop\{
 
 class ArrayTest extends TestCase
 {
-    public function testCanInitialize()
+    public function testCanInitializeArr()
     {
-        $result = ESArray::wrap(1, 2, 3);
-        $this->assertEquals([1, 2, 3], $result->unwrap());
+        $result = ESArray::fold([1, 2, 3]);
+        $this->assertEquals([1, 2, 3], $result->unfold());
 
-        $compare = ESArray::wrap(1, 2, 3);
-        $this->assertTrue($result->isSameAs($compare)->unwrap());
+        // $compare = ESArray::fold([1, 2, 3]);
+        // $this->assertTrue($result->isSameAs($compare)->unfold());
 
-        $compare = ESArray::wrap(3, 2, 1);
-        $this->assertTrue($result->isDifferentThan($compare)->unwrap());
+        // $compare = ESArray::fold([3, 2, 1]);
+        // $this->assertTrue($result->isNotUnfolded($compare));
 
-        $this->assertEquals("[0 => 1, 1 => 2, 2 => 3]", $result->description()->unwrap());
-
-        $result = ESArray::wrap();
-        $this->assertTrue($result->isEmpty()->unwrap());
+        // $result = ESArray::fold();
+        // $this->assertTrue($result->isEmpty()->unfold());
     }
 
     public function testCanDoPlusAndMinusForArray()
     {
         $expected = [1, 2, 3, 4, 5, 6];
-        $result = ESArray::wrap(1, 2, 3)->plus(4, 5, 6)->unwrap();
+        $result = ESArray::fold([1, 2, 3])->plus([4, 5, 6])->unfold();
         $this->assertEquals($expected, $result);
 
         $expected = [1, 2, 4, 2, 1];
-        $result = ESArray::wrap(1, 2, 3, 4, 3, 2, 1)->minus(3)->unwrap();
+        $result = ESArray::fold([1, 2, 3, 4, 3, 2, 1])->minus(3)->unfold();
         $this->assertEquals($expected, $result);
     }
 
     public function testCanCountContents()
     {
-        $result = ESArray::wrap(1, 2, 3)->count()->unwrap();
+        $array = ESArray::fold([1, 2, 3]);
+        $result = $array->count()->unfold();
         $this->assertEquals(3, $result);
+
+        $this->assertTrue($array->countIsLessThanUnfolded(4));
+        $this->assertTrue($array->countIsNotLessThanUnfolded(3));
+        $this->assertTrue($array->countIsGreaterThanUnfolded(0));
+        $this->assertTrue($array->countIsNotGreaterThanUnfolded(4));
     }
 
     public function testCanSortAnArray()
     {
         $expected = [1, 2, 3, 4, 5];
-        $result = ESArray::wrap(4, 2, 3, 1, 5)->sorted()->unwrap();
+        $result = ESArray::fold([4, 2, 3, 1, 5])->sorted()->unfold();
         $this->assertEquals($expected, $result);
-
-        $shuffled = ESArray::wrap(...$expected)->shuffled()->unwrap();
-        $this->assertNotEquals($expected, $shuffled);
     }
 
     public function testCanReverseArrayAndPutItBack()
     {
         $expected = [5, 4, 3, 2, 1];
         $original = [1, 2, 3, 4, 5];
-        $result = ESArray::wrap(...$original);
+        $result = ESArray::fold($original);
         $reversed = $result->toggle();
-        $this->assertEquals($expected, $reversed->unwrap());
+        $this->assertEquals($expected, $reversed->unfold());
 
         $orig = $reversed->toggle();
-        $this->assertEquals($original, $orig->unwrap());
+        $this->assertEquals($original, $orig->unfold());
     }
 
     public function testCanGetFirstAndLastViaMinAndMax()
     {
-        $result = ESArray::wrap(1, 2, 3, 4, 5);
-        $this->assertEquals(1, $result->first()->unwrap());
-        $this->assertEquals(5, $result->last()->unwrap());
+        $result = ESArray::fold([1, 2, 3, 4, 5]);
+        $this->assertEquals(1, $result->firstUnfolded());
+        $this->assertEquals(5, $result->lastUnfolded());
 
-        $result = ESArray::wrap();
-        $this->assertEquals([], $result->first()->unwrap());
-        $this->assertEquals([], $result->last()->unwrap());
+        $result = ESArray::fold([]);
+        $this->assertEquals([], $result->first()->unfold());
+        $this->assertEquals([], $result->last()->unfold());
     }
 
     public function testDropFirstAndLast()
     {
         $expected = [3, 4, 5];
-        $result = ESArray::wrap(1, 2, 3, 4, 5)->dropFirst(2)->unwrap();
+        $result = ESArray::fold([1, 2, 3, 4, 5])->dropFirst(2)->unfold();
         $this->assertEquals($expected, $result);
 
         $expected = [1, 2, 3];
-        $result = ESArray::wrap(1, 2, 3, 4, 5)->dropLast(2)->unwrap();
+        $result = ESArray::fold([1, 2, 3, 4, 5])->dropLast(2)->unfold();
         $this->assertEquals($expected, $result);
     }
 
-    public function testCanMultiplyAndDivide()
-    {
-        $expected = [1, 2, 3, 1, 2, 3, 1, 2, 3];
-        $result = ESArray::wrap(1, 2, 3)->multipliedBy(3)->unwrap();
-        $this->assertEquals($expected, $result);
+    // public function testCanMultiplyAndDivide()
+    // {
+    //     $expected = [1, 2, 3, 1, 2, 3, 1, 2, 3];
+    //     $result = ESArray::fold([1, 2, 3])->multipliedBy(3)->unfold();
+    //     $this->assertEquals($expected, $result);
 
-        $result = ESArray::wrap(1, 2, 3, 4, 5, 6)->dividedBy(3);
-        $lhs = $result->lhs();
-        $rhs = $result->rhs();
-        $this->assertEquals([1, 2, 3], $lhs->unwrap());
-        $this->assertEquals([4, 5, 6], $rhs->unwrap());
-    }
+    //     $result = ESArray::fold([1, 2, 3, 4, 5, 6])->dividedBy(3);
+    //     $lhs = $result->lhs();
+    //     $rhs = $result->rhs();
+    //     $this->assertEquals([1, 2, 3], $lhs->unfold());
+    //     $this->assertEquals([4, 5, 6], $rhs->unfold());
+    // }
 
     public function testCanInsertValueAtIndex()
     {
         $expected = [1, 2, 3, "Hello", "World", 4, 5];
-        $result = ESArray::wrap(1, 2, 3, 4, 5);
+        $result = ESArray::fold([1, 2, 3, 4, 5]);
         $testResult = $result->insertAtIndex(["Hello", "World"], 3)
-            ->unwrap();
+            ->unfold();
         $this->assertEquals($expected, $testResult);
 
-        $this->assertEquals([1, 2, 4, 5], $result->removeAtIndex(2)->unwrap());
+        $this->assertEquals([1, 2, 4, 5], $result->removeAtIndex(2)->unfold());
     }
 
     public function testCanJoinStringArray()
     {
-        $result = ESArray::wrap("a", "b", "c")->joined()->unwrap();
+        $result = ESArray::fold(["a", "b", "c"])->join()->unfold();
         $this->assertEquals("abc", $result);
     }
 
     public function testCanBeIteratedOver()
     {
-        $array = Shoop::array(1, 2, 3, 4, 5);
-        $this->assertEquals([1, 2, 3, 4, 5], $array->unwrap());
+        $array = Shoop::array([1, 2, 3, 4, 5]);
+        $this->assertEquals([1, 2, 3, 4, 5], $array->unfold());
         $count = 1;
         foreach ($array as $int) {
-            $this->assertEquals($count, $int->unwrap());
+            $this->assertEquals($count, $int->unfold());
             $count++;
         }
         $this->assertTrue($count > 1);
     }
+
+
 }
