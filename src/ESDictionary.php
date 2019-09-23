@@ -2,13 +2,16 @@
 
 namespace Eightfold\Shoop;
 
-use Eightfold\Shoop\Traits\Foldable;
+use Eightfold\Shoop\Traits\{
+    Foldable,
+    Convertable
+};
 
 class ESDictionary extends ESBasetype implements
     \ArrayAccess,
     \Iterator
 {
-    use Foldable;
+    use Foldable, Convertable;
 
     public function __construct($dictionary)
     {

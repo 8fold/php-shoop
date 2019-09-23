@@ -2,11 +2,14 @@
 
 namespace Eightfold\Shoop;
 
-use Eightfold\Shoop\Traits\Foldable;
+use Eightfold\Shoop\Traits\{
+    Foldable,
+    Convertable
+};
 
 class ESString extends ESBaseType
 {
-    use Foldable;
+    use Foldable, Convertable;
 
     public function __construct($string)
     {
@@ -24,13 +27,13 @@ class ESString extends ESBaseType
 
     public function multipliedBy($multiplier): ESString
     {
-        $multiplier = parent::sanitizeType($multiplier, "int", ESInt::class);
+        $multiplier = $this->sanitizeType($multiplier, "int", ESInt::class);
         return Shoop::string(str_repeat($this->unfold(), $multiplier->unfold()));
     }
 
     public function minus($string): ESString
     {
-        $needle = parent::sanitizeType($string, "string", ESString::class)->unfold();
+        $needle = $this->sanitizeType($string, "string", ESString::class)->unfold();
         return Shoop::string(str_replace($needle, "", $this->unfold()));
     }
 
@@ -58,13 +61,13 @@ class ESString extends ESBaseType
 
     public function prepend($value)
     {
-        $value = parent::sanitizeType($value, "string", ESString::class);
+        $value = $this->sanitizeType($value, "string", ESString::class);
         return Shoop::string($value . $this->unfold());
     }
 
     public function split($delimiter): ESArray
     {
-        $delimiter = parent::sanitizeType($delimiter, "string", ESString::class);
+        $delimiter = $this->sanitizeType($delimiter, "string", ESString::class);
         $exploded = explode($delimiter, $this->unfold());
         return Shoop::array($exploded)->removeEmptyValues();
     }
@@ -77,7 +80,7 @@ class ESString extends ESBaseType
 //-> Checks
     public function beginsWith($string): ESBool
     {
-        $string = parent::sanitizeType($string, "string", ESString::class);
+        $string = $this->sanitizeType($string, "string", ESString::class);
         return $this->endsOrBeginsWith($string, 0);
     }
 
@@ -88,7 +91,7 @@ class ESString extends ESBaseType
 
     public function endsWith($string)
     {
-        $string = parent::sanitizeType($string, "string", ESString::class);
+        $string = $this->sanitizeType($string, "string", ESString::class);
         return $this->endsOrBeginsWith($string, $this->countUnfolded() - $string->countUnfolded());
     }
 

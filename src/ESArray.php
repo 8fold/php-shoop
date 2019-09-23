@@ -2,12 +2,15 @@
 
 namespace Eightfold\Shoop;
 
-use Eightfold\Shoop\Traits\Foldable;
+use Eightfold\Shoop\Traits\{
+    Foldable,
+    Convertable
+};
 
 class ESArray extends ESBaseType implements
     \Iterator
 {
-    use Foldable;
+    use Foldable, Convertable;
 
     public function __construct($array = [])
     {
@@ -47,7 +50,7 @@ class ESArray extends ESBaseType implements
             return [];
 
         } elseif ($makeShoop) {
-            return parent::instanceFromValue($value);
+            return $this->instanceFromValue($value);
 
         }
         return $value;

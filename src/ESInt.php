@@ -2,11 +2,14 @@
 
 namespace Eightfold\Shoop;
 
-use Eightfold\Shoop\Traits\Foldable;
+use Eightfold\Shoop\Traits\{
+    Foldable,
+    Convertable
+};
 
 class ESInt extends ESBaseType
 {
-    use Foldable;
+    use Foldable, Convertable;
 
     public function __construct($int)
     {

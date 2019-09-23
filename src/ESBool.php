@@ -2,11 +2,14 @@
 
 namespace Eightfold\Shoop;
 
-use Eightfold\Shoop\Traits\Foldable;
+use Eightfold\Shoop\Traits\{
+    Foldable,
+    Convertable
+};
 
 class ESBool extends ESBaseType
 {
-    use Foldable;
+    use Foldable, Convertable;
 
     public function __construct($bool)
     {
@@ -33,13 +36,13 @@ class ESBool extends ESBaseType
 
 	public function or($bool): ESBool
 	{
-        $bool = parent::sanitizeType($bool, "boolean", ESBool::class);
+        $bool = $this->sanitizeType($bool, "boolean", ESBool::class);
         return Shoop::bool($this->unfold() || $bool->unfold());
 	}
 
 	public function and($bool): ESBool
 	{
-        $bool = parent::sanitizeType($bool, "boolean", ESBool::class);
+        $bool = $this->sanitizeType($bool, "boolean", ESBool::class);
         return Shoop::bool($this->unfold() && $bool->unfold());
 	}
 
