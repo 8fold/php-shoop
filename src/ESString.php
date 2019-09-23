@@ -2,8 +2,23 @@
 
 namespace Eightfold\Shoop;
 
+use Eightfold\Shoop\Traits\Foldable;
+
 class ESString extends ESBaseType
 {
+    use Foldable;
+
+    public function __construct($string)
+    {
+        if (is_string($string) || is_a($string, ESString::class)) {
+            $this->value = $initial;
+
+        } else {
+            $this->value = Shoop::string("");
+
+        }
+    }
+
     public function multipliedBy($multiplier): ESString
     {
         $multiplier = parent::sanitizeType($multiplier, "int", ESInt::class);
