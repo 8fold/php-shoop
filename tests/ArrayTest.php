@@ -16,14 +16,14 @@ class ArrayTest extends TestCase
         $result = ESArray::fold([1, 2, 3]);
         $this->assertEquals([1, 2, 3], $result->unfold());
 
-        // $compare = ESArray::fold([1, 2, 3]);
-        // $this->assertTrue($result->isSameAs($compare)->unfold());
+        $compare = ESArray::fold([1, 2, 3]);
+        $this->assertTrue($result->isSame($compare)->unfold());
 
-        // $compare = ESArray::fold([3, 2, 1]);
-        // $this->assertTrue($result->isNotUnfolded($compare));
+        $compare = ESArray::fold([3, 2, 1]);
+        $this->assertTrue($result->isNotUnfolded($compare));
 
-        // $result = ESArray::fold();
-        // $this->assertTrue($result->isEmpty()->unfold());
+        $result = ESArray::fold([]);
+        $this->assertTrue($result->isEmpty()->unfold());
     }
 
     public function testCanDoPlusAndMinusForArray()

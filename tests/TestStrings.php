@@ -1,6 +1,6 @@
 <?php
 
-namespace Eightfold\Shoop\Tests\String;
+namespace Eightfold\Shoop\Tests;
 
 trait TestStrings
 {
