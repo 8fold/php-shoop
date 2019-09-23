@@ -2,20 +2,24 @@
 
 namespace Eightfold\Shoop;
 
+use Eightfold\Shoop\Traits\Foldable;
+
 class ESDictionary extends ESBasetype implements
     \ArrayAccess,
     \Iterator
 {
-    public function __construct($args)
-    {
-        if ($args === null) {
-            $this->value = [];
+    use Foldable;
 
-        } elseif (static::isAssociativeArray($args)) {
-            $this->value = $args;
+    public function __construct($dictionary)
+    {
+        if (is_array($dictionary) && static::isAssociativeArray($dictionary)) {
+            $this->value = $dictionary;
+
+        } elseif (is_a($dictionary, ESDictionary::class)) {
+            $this->value = $dictionary->unfold();
 
         } else {
-            trigger_error("ESDictionary must begin with PHP associative array.");
+            $this->value = [];
 
         }
     }

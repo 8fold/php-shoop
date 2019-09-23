@@ -2,8 +2,26 @@
 
 namespace Eightfold\Shoop;
 
+use Eightfold\Shoop\Traits\Foldable;
+
 class ESInt extends ESBaseType
 {
+    use Foldable;
+
+    public function __construct($int)
+    {
+        if (is_int($int)) {
+            $this->value = $int;
+
+        } elseif (is_a($int, ESInt::class)) {
+            $this->value = $int->unfold();
+
+        } else {
+            $this->value = 0;
+
+        }
+    }
+
     public function toggle(): ESInt
     {
         return $this->multipliedBy(-1);

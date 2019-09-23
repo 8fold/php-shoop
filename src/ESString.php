@@ -10,11 +10,14 @@ class ESString extends ESBaseType
 
     public function __construct($string)
     {
-        if (is_string($string) || is_a($string, ESString::class)) {
-            $this->value = $initial;
+        if (is_string($string)) {
+            $this->value = $string;
+
+        } elseif (is_a($string, ESString::class)) {
+            $this->value = $string->unfold();
 
         } else {
-            $this->value = Shoop::string("");
+            $this->value = "";
 
         }
     }
@@ -100,6 +103,9 @@ class ESString extends ESBaseType
 //-> String access
     public function __toString()
     {
-        return $this->unfold();
+        if (is_string($this->value)) {
+            return $this->value;
+        }
+        return "";
     }
 }

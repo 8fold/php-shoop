@@ -2,9 +2,13 @@
 
 namespace Eightfold\Shoop;
 
+use Eightfold\Shoop\Traits\Foldable;
+
 class ESArray extends ESBaseType implements
     \Iterator
 {
+    use Foldable;
+
     public function __construct($array = [])
     {
         if (is_a($array, ESArray::class)) {

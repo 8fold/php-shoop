@@ -2,8 +2,25 @@
 
 namespace Eightfold\Shoop;
 
+use Eightfold\Shoop\Traits\Foldable;
+
 class ESBool extends ESBaseType
 {
+    use Foldable;
+
+    public function __construct($bool)
+    {
+        if (is_bool($bool)) {
+            $this->value = $bool;
+
+        } elseif (is_a($bool, ESBool::class)) {
+            $this->value = $bool->unfold();
+
+        } else {
+            $this->value = false;
+
+        }
+    }
 	public function toggle(): ESBool
 	{
         return ESBool::fold(! $this->unfold());
