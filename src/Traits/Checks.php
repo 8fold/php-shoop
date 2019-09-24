@@ -17,19 +17,14 @@ trait Checks
         return Shoop::bool($result);
     }
 
-    static public function valueIsNotArray($value)
-    {
-        return ! Shoop::valueIsArray($value);
-    }
-
     public function isArray()
     {
-        return is_array($this->unfold());
+        return Shoop::valueIsArray($this->unfold());
     }
 
     public function isNotArray()
     {
-        return ! $this->isArray();
+        return Shoop::valueIsNotArray($this->unfold());
     }
 
     public function isSame($compare): ESBool

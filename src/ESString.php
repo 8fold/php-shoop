@@ -52,11 +52,10 @@ class ESString implements Shooped
     }
 
     public function plus($values)
-        {
-            $values = $this->sanitizeType($values, "string", ESString::class)
-                ->unfold();
-            return Shoop::string($this->unfold() . $values);
-        }
+    {
+        $values = $this->sanitizeType($values, "string", ESString::class);
+        return Shoop::string($this->unfold() . $values)->unfold();
+    }
 
     public function append($value)
     {
@@ -96,13 +95,19 @@ class ESString implements Shooped
     public function endsWith($string)
     {
         $string = $this->sanitizeType($string, "string", ESString::class);
-        return $this->endsOrBeginsWith($string, $this->countUnfolded() - $string->countUnfolded());
+        return $this->endsOrBeginsWith(
+            $string,
+            $this->countUnfolded() - $string->countUnfolded()
+        );
     }
 
     private function endsOrBeginsWith($needle, int $start)
     {
         $return = Shoop::bool(
-            substr($this->unfold(), $start, $needle->countUnfolded()) === $needle->unfold()
+            substr(
+                $this->unfold(),
+                $start,
+                $needle->countUnfolded()) === $needle->unfold()
         );
         return $return;
     }

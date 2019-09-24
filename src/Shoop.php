@@ -80,12 +80,12 @@ class Shoop
         return ! self::valueIsShooped($potential);
     }
 
-    static public function valueisSubclass($value, string $className)
+    static public function valueIsSubclass($value, string $className)
     {
         # code...
     }
 
-    static public function valueisNotSubclass($value, string $className)
+    static public function valueIsNotSubclass($value, string $className)
     {
         # code...
     }
@@ -105,6 +105,11 @@ class Shoop
         return is_array($value) || (self::valueIsShooped($value) && is_a($value, ESArray::class));
     }
 
+    static public function valueIsNotArray($value)
+    {
+        return ! self::valueIsArray($value);
+    }
+
     static public function valueIsDictionary($value): bool
     {
         if (is_array($value)) {
@@ -112,5 +117,4 @@ class Shoop
         }
         return false;
     }
-
 }

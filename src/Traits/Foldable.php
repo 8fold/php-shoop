@@ -8,9 +8,9 @@ trait Foldable
 {
     protected $value;
 
-    static public function fold($args): self
+    static public function fold($value): self
     {
-        return new static($args);
+        return new static($value);
     }
 
     public function unfold()
@@ -21,16 +21,15 @@ trait Foldable
 //-> Getters
     public function __call(string $name, array $args = [])
     {
-        $call = $this->callFromName($name);
+        $call = $this->knownMethodFromUnknownName($name);
         $result = $this->{$call}(...$args);
         if (Shoop::valueIsShooped($result)) {
             return $result->unfold();
-
         }
         return $result;
     }
 
-    private function callFromName(string $name)
+    private function knownMethodFromUnknownName(string $name)
     {
         $call = "";
         $start = strlen($name) - strlen("Unfolded");

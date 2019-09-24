@@ -107,7 +107,7 @@ class ESArray implements
 
     public function minus($values): ESArray
     {
-        if (static::valueIsNotArray($values)) {
+        if (Shoop::valueIsNotArray($values)) {
             $values = [$values];
         }
         $deletes = $this->sanitizeType($values, "array", ESArray::class)->unfold();
@@ -138,21 +138,13 @@ class ESArray implements
 
     public function join($delimiter = ""): ESString
     {
-        $delimiter = $this->sanitizeType(
-                $delimiter,
-                "string",
-                ESString::class
-            )->unfold();
-        return Shoop::string(implode($delimiter, $this->unfold()));
+        $delimiter = $this->sanitizeType($delimiter, "string",ESString::class);
+        return Shoop::string(implode($delimiter->unfold(), $this->unfold()));
     }
 
     public function removeAtIndex($int): ESArray
     {
-        $int = $this->sanitizeType(
-                $int,
-                "int",
-                ESInt::class
-            )->unfold();
+        $int = $this->sanitizeType($int, "int", ESInt::class)->unfold();
         $array = $this->unfold();
         unset($array[$int]);
         return Shoop::array($array)->enumerate();
@@ -165,6 +157,7 @@ class ESArray implements
 
         $lhs = array_slice($this->unfold(), 0, $int);
         $rhs = array_slice($this->unfold(), $int);
+
         $merged = array_merge($lhs, $value, $rhs);
         return Shoop::array($merged)->enumerate();
     }
@@ -211,7 +204,7 @@ class ESArray implements
     }
 
     /**
-     * @return bool Must be bool for sake of PHP
+     * @return bool Must return bool for sake of PHP
      */
     public function valid(): bool
     {

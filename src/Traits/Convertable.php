@@ -6,18 +6,7 @@ use Eightfold\Shoop\Shoop;
 
 trait Convertable
 {
-    // protected function instanceFromValue($value)
-    // {
-    //     if (array_key_exists($this->typeForValue($value), Shoop::typeMap())) {
-    //         $map = Shoop::typeMap();
-    //         $class = $map[$this->typeForValue($value)];
-    //         return $class::fold($value);
-
-    //     }
-    //     return $this;
-    // }
-
-    final protected function sanitizeType($toSanitize, string $desiredPhpType, string $shoopClass)
+    private function sanitizeType($toSanitize, string $desiredPhpType, string $shoopClass)
     {
         if (is_a($toSanitize, $shoopClass)) {
             return $toSanitize;

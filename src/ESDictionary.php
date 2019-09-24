@@ -66,6 +66,11 @@ class ESDictionary implements
         return Shoop::bool($this->offsetExists($key));
     }
 
+    public function doesNotHaveKey($key): ESBool
+    {
+        return $this->hasKey($key)->toggle();
+    }
+
     public function valueForKey($key)
     {
         $key = $this->sanitizeType($key, "string", ESString::class)->unfold();
@@ -76,7 +81,8 @@ class ESDictionary implements
     }
 
 //-> ArrayAccess
-    public function offsetSet($offset, $value) {
+    public function offsetSet($offset, $value)
+    {
         if (is_null($offset)) {
             $this->value[] = $value;
         } else {
@@ -84,15 +90,18 @@ class ESDictionary implements
         }
     }
 
-    public function offsetExists($offset) {
+    public function offsetExists($offset): bool
+    {
         return isset($this->value[$offset]);
     }
 
-    public function offsetUnset($offset) {
+    public function offsetUnset($offset)
+    {
         unset($this->value[$offset]);
     }
 
-    public function offsetGet($offset) {
+    public function offsetGet($offset)
+    {
         return ($this->offsetExists($offset))
             ? $this->value[$offset]
             : null;

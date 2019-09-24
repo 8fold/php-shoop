@@ -27,6 +27,7 @@ class ESBool implements Shooped
 
         }
     }
+
 	public function toggle(): ESBool
 	{
         return ESBool::fold(! $this->unfold());
