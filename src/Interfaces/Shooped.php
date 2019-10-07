@@ -8,5 +8,7 @@ interface Shooped
 
     static public function fold($args);
 
+    // static public function phpType(Shooped $value);
+
     public function unfold();
 }

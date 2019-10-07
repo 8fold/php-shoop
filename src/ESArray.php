@@ -48,11 +48,11 @@ class ESArray implements
         return Shoop::array(array_reverse($this->enumerate()->unfold()))->enumerate();
     }
 
-    public function first(bool $makeShoop = true)
+    public function first()
     {
         $array = $this->enumerate()->unfold();
         $value = array_shift($array);
-        if ($value === null && $makeShoop) {
+        if ($value === null) {
             return Shoop::array([]);
 
         } elseif ($value === null) {
@@ -62,9 +62,9 @@ class ESArray implements
         return $this->sanitizeType($value);
     }
 
-    public function last(bool $makeShoop = true)
+    public function last()
     {
-        return $this->toggle()->first($makeShoop);
+        return $this->toggle()->first();
     }
 
     public function dropFirst($length = 1): ESArray

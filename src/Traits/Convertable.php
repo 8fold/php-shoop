@@ -2,19 +2,19 @@
 
 namespace Eightfold\Shoop\Traits;
 
-use Eightfold\Shoop\Shoop;
+use Eightfold\Shoop\Helpers\Type;
 
 trait Convertable
 {
     private function sanitizeType($toSanitize, string $shoopType = "")
     {
-        if (Shoop::valueIsShooped($toSanitize)) {
+        if (Type::isShooped($toSanitize)) {
             return $toSanitize;
         }
 
-        if (Shoop::valueIsPhpType($toSanitize) && strlen($shoopType) === 0) {
-            $desiredPhpType = Shoop::phpTypeForValue($toSanitize);
-            $shoopType = Shoop::shoopTypeForValue($toSanitize);
+        if (Type::isPhp($toSanitize) && strlen($shoopType) === 0) {
+            $desiredPhpType = Type::for($toSanitize);
+            $shoopType = Type::phpToShoop($toSanitize);
         }
 
         if (isset($desiredPhpType)) {
@@ -26,7 +26,7 @@ trait Convertable
 
     private function isDesiredTypeOrTriggerError($desiredPhpType, $variable)
     {
-        $sanitizeType = Shoop::phpTypeForValue($variable);
+        $sanitizeType = Type::for($variable);
         if ($sanitizeType !== $desiredPhpType) {
             list($_, $caller) = debug_backtrace(false);
             $this->invalidTypeError($desiredPhpType, $sanitizeType, $caller);

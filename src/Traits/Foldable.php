@@ -3,6 +3,7 @@
 namespace Eightfold\Shoop\Traits;
 
 use Eightfold\Shoop\Shoop;
+use Eightfold\Shoop\Helpers\Type;
 
 trait Foldable
 {
@@ -23,7 +24,7 @@ trait Foldable
     {
         $call = $this->knownMethodFromUnknownName($name);
         $result = $this->{$call}(...$args);
-        if (Shoop::valueIsShooped($result)) {
+        if (Type::isShooped($result)) {
             return $result->unfold();
         }
         return $result;
