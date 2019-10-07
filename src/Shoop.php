@@ -36,38 +36,71 @@ class Shoop
         return ESBool::fold($bool);
     }
 
-    static public function instanceFromValue($value)
+    // static public function instanceFromValue($value)
+    // {
+    //     $map = Shoop::typeMap();
+    //     $type = Shoop::typeForValue($value);
+
+    //     if (! array_key_exists($type, $map) || $value === null) {
+    //         $compareString = var_dump($value);
+    //         trigger_error("{$compareString} is not a supported type in Shoop. Please submit an issue or PR through GitHub: 8fold/php-shoop");
+    //     }
+
+    //     $class = $map[$type];
+    //     return $class::fold($value);
+    // }
+
+    static public function phpTypeForShoopType(string $shoopType): string
     {
-        $map = Shoop::typeMap();
-        $type = Shoop::typeForValue($value);
-        if (! array_key_exists($type, $map) || $value === null) {
-            $compareString = var_dump($compare);
-            trigger_error("{$compareString} is not a supported type in Shoop. Please submit an issue or PR through GitHub: 8fold/php-shoop");
+        $types = static::typeMap();
+        if (array_key_exists($shoopType, static::typeMap())) {
+            return $types[$shoopType];
         }
-        $class = $map[$type];
-        return $class::fold($value);
+        return "";
     }
 
     static public function typeMap(): array
     {
         return [
-            "boolean" => ESBool::class,
-            "integer" => ESInt::class,
-            "int"     => ESInt::class,
-            "string"  => ESString::class,
-            "array"   => ESArray::class,
-            // "object"  => ESBaseType::class,
-            "NULL"    => null
+            ESBool::class   => "boolean",
+            ESInt::class    => "integer",
+            ESInt::class    => "int",
+            ESString::class => "string",
+            ESArray::class  => "array",
+            ESObject::class => "object"
         ];
     }
 
-    static public function typeForValue($value)
+    static public function shoopTypeForValue($value)
+    {
+        if (Shoop::valueIsShooped($value)) {
+            return get_class($value);
+        }
+        $phpTypes = array_flip(static::typeMap());
+        $phpType = static::phpTypeForValue($value);
+        return $phpTypes[$phpType];
+    }
+
+    static public function phpTypeForValue($value)
     {
         $type = gettype($value);
         if ($type === "integer") {
             $type = "int";
         }
         return $type;
+    }
+
+    static public function valueIsPhpType($potential): bool
+    {
+        if (Shoop::valueIsShooped($potential)) {
+            return false;
+        }
+
+        $types = static::typeMap();
+        $phpTypes = array_values($types);
+        $phpType = Shoop::phpTypeForValue($potential);
+
+        return in_array($phpType, $phpTypes);
     }
 
     static public function valueIsShooped($potential): bool

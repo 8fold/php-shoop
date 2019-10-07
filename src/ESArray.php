@@ -58,11 +58,8 @@ class ESArray implements
         } elseif ($value === null) {
             return [];
 
-        } elseif ($makeShoop) {
-            return Shoop::instanceFromValue($value);
-
         }
-        return $value;
+        return $this->sanitizeType($value);
     }
 
     public function last(bool $makeShoop = true)
@@ -72,8 +69,7 @@ class ESArray implements
 
     public function dropFirst($length = 1): ESArray
     {
-
-        $length = $this->sanitizeType($length, "int", ESInt::class)->unfold();
+        $length = $this->sanitizeType($length, ESInt::class)->unfold();
 
         $array = $this->enumerate()->unfold();
         for ($i = 0; $i < $length; $i++) {
@@ -110,7 +106,7 @@ class ESArray implements
         if (Shoop::valueIsNotArray($values)) {
             $values = [$values];
         }
-        $deletes = $this->sanitizeType($values, "array", ESArray::class)->unfold();
+        $deletes = $this->sanitizeType($values, ESArray::class)->unfold();
         $copy = $this->unfold();
         for ($i = 0; $i < count($this->unfold()); $i++) {
             foreach ($deletes as $check) {
@@ -136,15 +132,28 @@ class ESArray implements
         return Shoop::dictionary(["lhs" => $left, "rhs" => $right]);
     }
 
+    // public function append($values)
+    // {
+    //     return $this->plus($values);
+    // }
+
+    // public function prepend($value)
+    // {
+    //     if (! is_array($values)) {
+    //         $values = [$values];
+    //     }
+    //     return Shoop::array(array_merge($values, $this->unfold());
+    // }
+
     public function join($delimiter = ""): ESString
     {
-        $delimiter = $this->sanitizeType($delimiter, "string",ESString::class);
+        $delimiter = $this->sanitizeType($delimiter, ESString::class);
         return Shoop::string(implode($delimiter->unfold(), $this->unfold()));
     }
 
     public function removeAtIndex($int): ESArray
     {
-        $int = $this->sanitizeType($int, "int", ESInt::class)->unfold();
+        $int = $this->sanitizeType($int, ESInt::class)->unfold();
         $array = $this->unfold();
         unset($array[$int]);
         return Shoop::array($array)->enumerate();
@@ -152,8 +161,8 @@ class ESArray implements
 
     public function insertAtIndex($value, $int): ESArray
     {
-        $int = $this->sanitizeType($int, "int", ESInt::class)->unfold();
-        $value = $this->sanitizeType($value, "array", ESArray::class)->unfold();
+        $int = $this->sanitizeType($int, ESInt::class)->unfold();
+        $value = $this->sanitizeType($value, ESArray::class)->unfold();
 
         $lhs = array_slice($this->unfold(), 0, $int);
         $rhs = array_slice($this->unfold(), $int);

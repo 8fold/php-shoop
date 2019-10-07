@@ -6,20 +6,27 @@ use Eightfold\Shoop\Shoop;
 
 trait Convertable
 {
-    private function sanitizeType($toSanitize, string $desiredPhpType, string $shoopClass)
+    private function sanitizeType($toSanitize, string $shoopType = "")
     {
-        if (is_a($toSanitize, $shoopClass)) {
+        if (Shoop::valueIsShooped($toSanitize)) {
             return $toSanitize;
         }
 
-        $this->isDesiredTypeOrTriggerError($desiredPhpType, $toSanitize);
+        if (Shoop::valueIsPhpType($toSanitize) && strlen($shoopType) === 0) {
+            $desiredPhpType = Shoop::phpTypeForValue($toSanitize);
+            $shoopType = Shoop::shoopTypeForValue($toSanitize);
+        }
 
-        return $shoopClass::fold($toSanitize);
+        if (isset($desiredPhpType)) {
+            $this->isDesiredTypeOrTriggerError($desiredPhpType, $toSanitize);
+        }
+
+        return $shoopType::fold($toSanitize);
     }
 
     private function isDesiredTypeOrTriggerError($desiredPhpType, $variable)
     {
-        $sanitizeType = Shoop::typeForValue($variable);
+        $sanitizeType = Shoop::phpTypeForValue($variable);
         if ($sanitizeType !== $desiredPhpType) {
             list($_, $caller) = debug_backtrace(false);
             $this->invalidTypeError($desiredPhpType, $sanitizeType, $caller);

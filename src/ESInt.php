@@ -41,19 +41,18 @@ class ESInt implements Shooped
 
 	public function plus($values): ESInt
 	{
-        $values = $this->sanitizeType($values, "int", ESInt::class)
-            ->unfold();
+        $values = $this->sanitizeType($values, ESInt::class)->unfold();
         return Shoop::int($this->unfold() + $values);
 	}
 
     public function multipliedBy($int): ESInt
     {
-        return ESInt::fold($this->unfold() * $this->sanitizeType($int, "int", ESInt::class)->unfold());
+        return ESInt::fold($this->unfold() * $this->sanitizeType($int, ESInt::class)->unfold());
     }
 
 	public function minus($int): ESInt
 	{
-		return ESInt::fold($this->unfold() - $this->sanitizeType($int, "int", ESInt::class)->unfold());
+		return ESInt::fold($this->unfold() - $this->sanitizeType($int, ESInt::class)->unfold());
 	}
 
 	public function dividedBy($int): ESInt
@@ -91,12 +90,8 @@ class ESInt implements Shooped
 
     private function compare(bool $greaterThan, $compare, $orEqualTo = false): ESBool
     {
-        $compare = $this->sanitizeType($compare, "int", ESInt::class);
-        $orEqualTo = $this->sanitizeType(
-            $orEqualTo,
-            "boolean",
-            ESBool::class
-        )->unfold();
+        $compare = $this->sanitizeType($compare, ESInt::class);
+        $orEqualTo = $this->sanitizeType($orEqualTo, ESBool::class)->unfold();
         if ($greaterThan && $orEqualTo) {
             return ESBool::fold($this->unfold() >= $compare->unfold());
 

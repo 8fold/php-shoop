@@ -40,7 +40,7 @@ class ESBool implements Shooped
 
 	public function or($bool): ESBool
 	{
-        $bool = $this->sanitizeType($bool, "boolean", ESBool::class);
+        $bool = $this->sanitizeType($bool, ESBool::class);
         return Shoop::bool($this->unfold() || $bool->unfold());
 	}
 

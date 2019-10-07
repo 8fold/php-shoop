@@ -31,13 +31,13 @@ class ESString implements Shooped
 
     public function multipliedBy($multiplier): ESString
     {
-        $multiplier = $this->sanitizeType($multiplier, "int", ESInt::class);
+        $multiplier = $this->sanitizeType($multiplier, ESInt::class);
         return Shoop::string(str_repeat($this->unfold(), $multiplier->unfold()));
     }
 
     public function minus($string): ESString
     {
-        $needle = $this->sanitizeType($string, "string", ESString::class)->unfold();
+        $needle = $this->sanitizeType($string, ESString::class)->unfold();
         return Shoop::string(str_replace($needle, "", $this->unfold()));
     }
 
@@ -51,26 +51,26 @@ class ESString implements Shooped
         return Shoop::array(preg_split('//u', $this->value, null, PREG_SPLIT_NO_EMPTY));
     }
 
-    public function plus($values)
+    public function plus($values): ESString
     {
-        $values = $this->sanitizeType($values, "string", ESString::class);
-        return Shoop::string($this->unfold() . $values)->unfold();
+        $values = $this->sanitizeType($values, ESString::class);
+        return Shoop::string($this->unfold() . $values);
     }
 
-    public function append($value)
+    public function append($value): ESString
     {
         return $this->plus($value);
     }
 
-    public function prepend($value)
+    public function prepend($value): ESString
     {
-        $value = $this->sanitizeType($value, "string", ESString::class);
+        $value = $this->sanitizeType($value, ESString::class);
         return Shoop::string($value . $this->unfold());
     }
 
     public function split($delimiter): ESArray
     {
-        $delimiter = $this->sanitizeType($delimiter, "string", ESString::class);
+        $delimiter = $this->sanitizeType($delimiter, ESString::class);
         $exploded = explode($delimiter, $this->unfold());
         return Shoop::array($exploded)->removeEmptyValues();
     }
@@ -80,10 +80,15 @@ class ESString implements Shooped
         return Shoop::string(lcfirst($this->value));
     }
 
+    public function uppercase(): ESString
+    {
+        return Shoop::string(strtoupper($this->value));
+    }
+
 //-> Checks
     public function beginsWith($string): ESBool
     {
-        $string = $this->sanitizeType($string, "string", ESString::class);
+        $string = $this->sanitizeType($string, ESString::class);
         return $this->endsOrBeginsWith($string, 0);
     }
 
@@ -94,7 +99,7 @@ class ESString implements Shooped
 
     public function endsWith($string)
     {
-        $string = $this->sanitizeType($string, "string", ESString::class);
+        $string = $this->sanitizeType($string, ESString::class);
         return $this->endsOrBeginsWith(
             $string,
             $this->countUnfolded() - $string->countUnfolded()

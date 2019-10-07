@@ -18,29 +18,26 @@ trait Enumerable
 
     public function countIsGreaterThan($value)
     {
-        $value = $this->sanitizeType($value, "int", ESInt::class)
+        $value = $this->sanitizeType($value, ESInt::class)
             ->unfold();
         return $this->count()->isGreaterthan($value);
     }
 
     public function countIsNotGreaterThan($value)
     {
-        $value = $this->sanitizeType($value, "int", ESInt::class, false)
-            ->unfold();
+        $value = $this->sanitizeType($value, ESInt::class)->unfold();
         return $this->count()->isNotGreaterThan($value);
     }
 
     public function countIsLessThan($value)
     {
-        $value = $this->sanitizeType($value, "int", ESInt::class, false)
-            ->unfold();
+        $value = $this->sanitizeType($value, ESInt::class)->unfold();
         return $this->count()->isLessThan($value);
     }
 
     public function countIsNotLessThan($value)
     {
-        $value = $this->sanitizeType($value, "int", ESInt::class, false)
-            ->unfold();
+        $value = $this->sanitizeType($value, ESInt::class)->unfold();
         return $this->count()->isNotLessThan($value);
     }
 }

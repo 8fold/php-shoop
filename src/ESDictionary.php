@@ -38,10 +38,7 @@ class ESDictionary implements
 
     public function plus($key, $values)
     {
-        $key = $this->sanitizeType($key, "string", ESString::class)
-            ->unfold();
-        $values = $this->sanitizeType($values, "array", ESArray::class)
-            ->unfold();
+        $key = $this->sanitizeType($key, ESString::class)->unfold();
 
         $dict = $this->unfold();
         $dict[$key] = $values;
@@ -62,7 +59,7 @@ class ESDictionary implements
 
     public function hasKey($key): ESBool
     {
-        $key = $this->sanitizeType($key, "string", ESString::class)->unfold();
+        $key = $this->sanitizeType($key, ESString::class)->unfold();
         return Shoop::bool($this->offsetExists($key));
     }
 
@@ -73,9 +70,9 @@ class ESDictionary implements
 
     public function valueForKey($key)
     {
-        $key = $this->sanitizeType($key, "string", ESString::class)->unfold();
+        $key = $this->sanitizeType($key, ESString::class)->unfold();
         if (array_key_exists($key, $this->value)) {
-            return $this->value[$key];
+            return $this->sanitizeType($this->value[$key]);
         }
         return null;
     }
