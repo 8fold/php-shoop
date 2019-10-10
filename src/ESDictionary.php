@@ -2,24 +2,101 @@
 
 namespace Eightfold\Shoop;
 
-use Eightfold\Shoop\Traits\{
-    Foldable,
-    Convertable,
-    Enumerable
-};
+use Eightfold\Shoop\Traits\ShoopedImp;
 
 use Eightfold\Shoop\Interfaces\Shooped;
+use Eightfold\Shoop\Helpers\Type;
 
+// TODO: get($key) - ESArray, ESDictionary
 class ESDictionary implements
     \ArrayAccess,
     \Iterator,
     Shooped
 {
-    use Foldable, Convertable;
+    use ShoopedImp;
+
+    public function isGreaterThan($compare): ESBool {}
+
+    public function isGreaterThanOrEqual($compare): ESBool {}
+
+    public function isLessThan($compare): ESBool {}
+
+    public function isLessThanOrEqual($compare): ESBool {}
+
+    public function multiply($int) {}
+
+    // TODO: Test + possibly write combine()
+    public function toggle()
+    {
+        $values = $this->enumerate()->toggle();
+        $keys = $this->enumerateKeys()->toggle();
+        $combined = array_combine($keys, $values);
+        return Shoop::array($combined);
+    }
+
+    private function enumerateKeys(): ESArray
+    {
+        return Shoop::array(array_keys($this->value));
+    }
+
+    public function plus(...$args)
+    {
+        if (Shoop::array($args)->count()->isNotUnfolded(2)) {
+            $className = ESDictionary::class;
+            $count = Shoop::array($args)->count();
+            trigger_error(
+                "{$className}::plus() expects two arguments. {$count} given."
+            );
+        }
+
+        $key = $this->sanitizeType($args[0], ESString::class)->unfold();
+
+        $dict = $this->unfold();
+        $dict[$key] = $args[1];
+        return Shoop::dictionary($dict);
+    }
+
+    public function minus($value)
+    {
+        $key = Type::sanitizeType($value, ESString::class);
+        unset($this[$key]);
+        return Shoop::dictionary($this->unfold());
+    }
+
+    public function divide($value = null)
+    {
+        $keys = $this->enumerateKeys();
+        $values = $this->enumerate();
+        return Shoop::dictionary(["keys" => $keys, "values" => $values]);
+    }
+
+    public function isDivisible($value): ESBool
+    {
+        return Shoop::bool(count(array_keys($this->unfold())) > 0)
+            ->and(count(array_values($this->unfold())) > 0);
+    }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
     public function __construct($dictionary)
     {
-        if (is_array($dictionary) && Shoop::valueIsDictionary($dictionary)) {
+        if (is_array($dictionary) && Type::isDictionary($dictionary)) {
             $this->value = $dictionary;
 
         } elseif (is_a($dictionary, ESDictionary::class)) {
@@ -31,18 +108,9 @@ class ESDictionary implements
         }
     }
 
-    public function enumerate()
+    public function enumerate(): ESArray
     {
         return Shoop::array(array_values($this->value));
-    }
-
-    public function plus($key, $values)
-    {
-        $key = $this->sanitizeType($key, ESString::class)->unfold();
-
-        $dict = $this->unfold();
-        $dict[$key] = $values;
-        return Shoop::dictionary($dict);
     }
 
     private function validateCounts(array $args)
@@ -77,6 +145,19 @@ class ESDictionary implements
         return null;
     }
 
+    public function setValueForKey($key, $value): ESDictionary
+    {
+        $key = $this->sanitizeType($key, ESString::class)->unfold();
+        $this[$key] = $value;
+        return $this;
+    }
+
+    // public function removeKey($key): ESDictionary
+    // {
+    //     unset($this[$key]);
+    //     return $this;
+    // }
+
 //-> ArrayAccess
     public function offsetSet($offset, $value)
     {
@@ -103,6 +184,12 @@ class ESDictionary implements
             ? $this->value[$offset]
             : null;
     }
+
+    public function toObject(): \stdClass
+    {
+        return (object) $this->value;
+    }
+
 
 //-> Iterator
     public function current(): ESInt

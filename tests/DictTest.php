@@ -5,6 +5,7 @@ namespace Eightfold\Shoop\Tests;
 use PHPUnit\Framework\TestCase;
 
 use Eightfold\Shoop\Shoop;
+use Eightfold\Shoop\Helpers\Type;
 use Eightfold\Shoop\ESDictionary;
 use Eightfold\Shoop\ESArray;
 
@@ -77,7 +78,7 @@ class DictTest extends TestCase
             )
         );
 
-        $this->assertTrue(Shoop::valueIsShooped(
+        $this->assertTrue(Type::isShooped(
             // TODO: Possibly remove "Unfolded" suffix shorthand
             $dict->valueForKey("four")
         ));

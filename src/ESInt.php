@@ -2,18 +2,14 @@
 
 namespace Eightfold\Shoop;
 
-use Eightfold\Shoop\Traits\{
-    Foldable,
-    Convertable,
-    Enumerable,
-    Checks
-};
+use Eightfold\Shoop\Traits\ShoopedImp;
 
+use Eightfold\Shoop\Helpers\Type;
 use Eightfold\Shoop\Interfaces\Shooped;
 
 class ESInt implements Shooped
 {
-    use Foldable, Convertable, Enumerable, Checks;
+    use ShoopedImp;
 
     public function __construct($int)
     {
@@ -29,81 +25,102 @@ class ESInt implements Shooped
         }
     }
 
-    public function toggle(): ESInt
-    {
-        return $this->multipliedBy(-1);
-    }
-
     public function enumerate(): ESArray
     {
         return Shoop::array(range(0, $this->value));
     }
 
-	public function plus($values): ESInt
-	{
-        $values = $this->sanitizeType($values, ESInt::class)->unfold();
-        return Shoop::int($this->unfold() + $values);
-	}
-
-    public function multipliedBy($int): ESInt
+    public function plus(...$args)
     {
-        return ESInt::fold($this->unfold() * $this->sanitizeType($int, ESInt::class)->unfold());
-    }
-
-	public function minus($int): ESInt
-	{
-		return ESInt::fold($this->unfold() - $this->sanitizeType($int, ESInt::class)->unfold());
-	}
-
-	public function dividedBy($int): ESInt
-	{
-        $enumerator = $this->unfold();
-        $divisor = $this->sanitizeType($int, "int", ESInt::class)->unfold();
-		return ESInt::fold((int) floor($enumerator/$divisor));
-	}
-
-    public function isFactorOf($int): ESBool
-    {
-        $int = $this->sanitizeType($int, "int", ESInt::class);
-        return Shoop::bool($this->unfold() % $int->unfold() == 0);
-    }
-
-    public function isGreaterThan($compare, $orEqualTo = false): ESBool
-    {
-        return $this->compare(true, $compare, $orEqualTo);
-    }
-
-    public function isNotGreaterThan($compare)
-    {
-        return $this->isLessThan($compare, true);
-    }
-
-    public function isLessThan($compare, $orEqualTo = false): ESBool
-    {
-        return $this->compare(false, $compare, $orEqualTo);
-    }
-
-    public function isNotLessThan($compare)
-    {
-        return $this->isGreaterThan($compare, true);
-    }
-
-    private function compare(bool $greaterThan, $compare, $orEqualTo = false): ESBool
-    {
-        $compare = $this->sanitizeType($compare, ESInt::class);
-        $orEqualTo = $this->sanitizeType($orEqualTo, ESBool::class)->unfold();
-        if ($greaterThan && $orEqualTo) {
-            return ESBool::fold($this->unfold() >= $compare->unfold());
-
-        } elseif ($greaterThan) {
-            return ESBool::fold($this->unfold() > $compare->unfold());
-
-        } elseif ($orEqualTo) {
-            return ESBool::fold($this->unfold() <= $compare->unfold());
-
-        } else {
-            return ESBool::fold($this->unfold() < $compare->unfold());
-
+        $terms = $args;
+        $terms = $args;
+        $total = $this->value;
+        foreach ($terms as $term) {
+            $term = $this->sanitizeType($term, ESInt::class)->unfold();
+            $total += $term;
         }
+
+        return Shoop::int($total);
+    }
+
+    public function append(...$args)
+    {
+        $intString = (string) $this->unfold();
+        foreach ($terms as $term) {
+            $term = (string) $this->sanitizeType($term, ESInt::class)->unfold();
+            $intString .= $term;
+        }
+        $intInt = (integer) $intString;
+        return Shoop::int($intInt);
+    }
+
+    public function prepend(...$args)
+    {
+        $intString = (string) $this->unfold();
+        foreach ($terms as $term) {
+            $term = (string) $this->sanitizeType($term, ESInt::class)->unfold();
+            $intString = $term . $intString;
+        }
+        $intInt = (integer) $intString;
+        return Shoop::int($intInt);
+    }
+
+    public function minus($value)
+    {
+        $term = Type::sanitizeType($value)->unfold();
+        return ESInt::fold($this->unfold() - $term);
+    }
+
+    public function multiply($int)
+    {
+        $int = Type::sanitizeType($int, ESInt::class)->unfold();
+        return ESInt::fold($this->unfold() * $int);
+    }
+
+    public function divide($value = null)
+    {
+        if ($value === null) {
+            return $this;
+        }
+
+        $divisor = Type::sanitizeType($value, ESInt::class)->unfold();
+        $enumerator = $this->unfold();
+        return ESInt::fold((int) floor($enumerator/$divisor));
+    }
+
+    public function toggle(): ESInt
+    {
+        return $this->multiply(-1);
+    }
+
+    public function isGreaterThan($compare): ESBool
+    {
+        $compare = Type::sanitizeType($compare)->unfold();
+        return Shoop::bool($this->unfold() > $compare);
+    }
+
+    public function isGreaterThanOrEqual($compare): ESBool
+    {
+        $compare = Type::sanitizeType($compare)->unfold();
+        return Shoop::bool($this->isGreaterThan($compare)->or($this->isSame($compare)));
+    }
+
+    public function isLessThan($compare): ESBool
+    {
+        $compare = Type::sanitizeType($compare)->unfold();
+        return Shoop::bool($this->unfold() < $compare);
+    }
+
+    public function isLessThanOrEqual($compare): ESBool
+    {
+        $compare = Type::sanitizeType($compare)->unfold();
+        return Shoop::bool($this->isLessThan($compare)->or($this->isSame($compare)));
+    }
+
+    // TODO: verify used by something other tests
+    public function isDivisible($value): ESBool
+    {
+        $divisor = $this->sanitizeType($value, ESInt::class);
+        return Shoop::bool($this->unfold() % $divisor->unfold() == 0);
     }
 }

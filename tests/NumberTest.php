@@ -30,10 +30,10 @@ class IntTest extends TestCase
     {
         $five = ESInt::fold(5);
         $four = $five->minus(ESInt::fold(1));
-        $result = ESInt::fold(25)->isFactorOf($five)->unfold();
+        $result = ESInt::fold(25)->isDivisible($five)->unfold();
         $this->assertTrue($result);
 
-        $result = ESInt::fold(25)->isFactorOf($five->plus(ESInt::fold(1)))->unfold();
+        $result = ESInt::fold(25)->isDivisible($five->plus(ESInt::fold(1)))->unfold();
         $this->assertFalse($result);
     }
 
@@ -46,7 +46,7 @@ class IntTest extends TestCase
         $result = ESInt::fold(25)->minus($five)->unfold();
         $this->assertEquals(20, $result);
 
-        $result = ESInt::fold(25)->dividedBy($five)->unfold();
+        $result = ESInt::fold(25)->divide($five)->unfold();
         $this->assertEquals(5, $result);
     }
 
@@ -64,7 +64,7 @@ class IntTest extends TestCase
 
         $compare = ESInt::fold(20);
         $result = ESInt::fold(20);
-        $this->assertTrue($result->isLessThan($compare, true)->unfold());
+        $this->assertTrue($result->isLessThanOrEqual($compare)->unfold());
     }
 
     public function testPlusAndMinus()
@@ -96,31 +96,31 @@ class IntTest extends TestCase
 
     public function testCanDoMultiplication()
     {
-        $result = ESInt::fold(3)->multipliedBy(3)->unfold();
+        $result = ESInt::fold(3)->multiply(3)->unfold();
         $this->assertEquals(9, $result);
     }
 
     public function testCanVerifyIsNotLessThan()
     {
-        $result = ESInt::fold(10)->isNotLessThanUnfolded(10);
+        $result = ESInt::fold(10)->isGreaterThanOrEqualUnfolded(10);
         $this->assertTrue($result);
 
-        $result = ESInt::fold(10)->isNotLessThanUnfolded(9);
+        $result = ESInt::fold(10)->isGreaterThanOrEqualUnfolded(9);
         $this->assertTrue($result);
 
-        $result = ESInt::fold(10)->isNotLessThanUnfolded(11);
+        $result = ESInt::fold(10)->isGreaterThanOrEqualUnfolded(11);
         $this->assertFalse($result);
     }
 
     public function testCanVerifyIsNotGreaterThan()
     {
-        $result = ESInt::fold(10)->isNotGreaterThanUnfolded(10);
+        $result = ESInt::fold(10)->isLessThanOrEqualUnfolded(10);
         $this->assertTrue($result);
 
-        $result = ESInt::fold(10)->isNotGreaterThanUnfolded(11);
+        $result = ESInt::fold(10)->isLessThanOrEqualUnfolded(11);
         $this->assertTrue($result);
 
-        $result = ESInt::fold(10)->isNotGreaterThanUnfolded(9);
+        $result = ESInt::fold(10)->isLessThanOrEqualUnfolded(9);
         $this->assertFalse($result);
     }
 }

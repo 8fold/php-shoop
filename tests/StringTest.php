@@ -39,7 +39,7 @@ class StringTest extends TestCase
     {
         $expected = '🌍,🌍,🌍,🌍,🌍,';
         $result = ESString::fold('🌍,')
-            ->multipliedBy(5)
+            ->multiply(5)
             ->unfold();
         $this->assertEquals($expected, $result);
     }
@@ -110,9 +110,9 @@ class StringTest extends TestCase
 
     public function testCanBeDvidedBy()
     {
-        $compare = ESArray::fold(["He", "o, Wor", "d!"]);
+        $compare = ESArray::fold(["He", "lo, World!"]);
         $result = ESString::fold("Hello, World!")
-            ->dividedBy("l");
+            ->divide("l");
         // $this->assertEquals($compare->unfold(), $result->unfold());
         $this->assertTrue($result->isSame($compare)->unfold());
 

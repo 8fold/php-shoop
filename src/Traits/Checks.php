@@ -7,7 +7,8 @@ use Eightfold\Shoop\{
     ESBool
 };
 
-use Eightfold\Interfaces\Shooped;
+use Eightfold\Shoop\Interfaces\Shooped;
+use Eightfold\Shoop\Helpers\Type;
 
 trait Checks
 {
@@ -17,20 +18,20 @@ trait Checks
         return Shoop::bool($result);
     }
 
-    public function isArray()
+    public function isArray(): ESBool
     {
-        return Shoop::valueIsArray($this->unfold());
+        return Type::isArray($this);
     }
 
-    public function isNotArray()
+    public function isNotArray(): ESBool
     {
-        return Shoop::valueIsNotArray($this->unfold());
+        return Type::isNotArray($this);
     }
 
     public function isSame($compare): ESBool
     {
-        if (Shoop::valueIsNotShooped($compare)) {
-            $compare = Shoop::instanceFromValue($compare);
+        if (Type::isNotShooped($compare)) {
+            $compare = $this->sanitizeType($compare);
 
         }
         return Shoop::bool($this->unfold() === $compare->unfold());

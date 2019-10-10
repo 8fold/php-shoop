@@ -2,17 +2,69 @@
 
 namespace Eightfold\Shoop;
 
-use Eightfold\Shoop\Traits\{
-    Foldable,
-    Convertable,
-    Checks
-};
+use Eightfold\Shoop\Traits\ShoopedImp;
 
 use Eightfold\Shoop\Interfaces\Shooped;
 
 class ESBool implements Shooped
 {
-    use Foldable, Convertable, Checks;
+    use ShoopedImp;
+
+// TODO: Could be a stretch
+    public function enumerate(): ESArray
+    {
+        $first = $this->value;
+        $second = ! $first;
+        return Shoop::array([$first, $second]);
+    }
+
+    public function plus(...$args)
+    {
+        // can be implemented
+    }
+
+    public function prepend(...$args) {}
+
+    public function divide($value = null) {}
+
+    public function isDivisible($value): ESBool {}
+
+    public function minus($value) {}
+
+    public function multiply($int) {}
+
+    public function isGreaterThan($compare): ESBool
+    {
+        // TODO: rename cast()
+        $compare = Type::sanitizeType($compare, ESBool::class)->unfold();
+        return (integer) $this->value > (integer) $compare;
+    }
+
+    public function isGreaterThanOrEqual($compare): ESBool
+    {
+        $compare = Type::sanitizeType($compare, ESBool::class)->unfold();
+        return $this->unfold() >= $compare;
+    }
+
+    public function isLessThan($compare): ESBool
+    {
+        $compare = Type::sanitizeType($compare, ESBool::class)->unfold();
+        return $this->unfold() < $compare;
+    }
+
+    public function isLessThanOrEqual($compare): ESBool
+    {
+        $compare = Type::sanitizeType($compare, ESBool::class)->unfold();
+        return $this->unfold() <= $compare;
+    }
+
+
+
+
+
+
+
+
 
     public function __construct($bool)
     {

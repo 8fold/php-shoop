@@ -2,12 +2,9 @@
 
 namespace Eightfold\Shoop;
 
-use Eightfold\Shoop\Traits\{
-    Foldable,
-    Convertable,
-    Enumerable,
-    Checks
-};
+use Eightfold\Shoop\Helpers\Type;
+
+use Eightfold\Shoop\Traits\ShoopedImp;
 
 use Eightfold\Shoop\Interfaces\Shooped;
 
@@ -15,7 +12,15 @@ class ESArray implements
     \Iterator,
     Shooped
 {
-    use Foldable, Convertable, Enumerable, Checks;
+    use ShoopedImp;
+
+    public function isGreaterThan($compare): ESBool {}
+
+    public function isGreaterThanOrEqual($compare): ESBool {}
+
+    public function isLessThan($compare): ESBool {}
+
+    public function isLessThanOrEqual($compare): ESBool {}
 
     public function __construct($array = [])
     {
@@ -43,7 +48,7 @@ class ESArray implements
         return Shoop::array($array)->enumerate();
     }
 
-    public function toggle(): ESArray
+    public function toggle() // 7.4 : self
     {
         return Shoop::array(array_reverse($this->enumerate()->unfold()))->enumerate();
     }
@@ -55,11 +60,8 @@ class ESArray implements
         if ($value === null) {
             return Shoop::array([]);
 
-        } elseif ($value === null) {
-            return [];
-
         }
-        return $this->sanitizeType($value);
+        return Type::sanitizeType($value);
     }
 
     public function last()
@@ -88,22 +90,37 @@ class ESArray implements
         return Shoop::array(array_filter($this->unfold()))->enumerate();
     }
 
-    public function enumerate()
+    public function enumerate(): ESArray
     {
         return Shoop::array(array_values($this->value));
     }
 
-    public function plus($values)
+    public function plus(...$args)
     {
-        if (! is_array($values)) {
-            $values = [$values];
+        $args = Type::sanitizeType($args, ESArray::class)->unfold();
+        return Shoop::array(array_merge($this->unfold(), $args[0]));
+    }
+
+    public function prepend(...$args)
+    {
+        $args = Type::sanitizeType($args, ESArray::class)->unfold();
+        return Shoop::array(array_merge($args[0], $this->unfold()));
+    }
+
+    // TODO: Test!!!!!
+    public function multiply($int)
+    {
+        $int = Type::sanitizeType($int, ESInt::class)->unfold();
+        $catch;
+        for ($i = 0; $i < $int; $i++) {
+            $catch = $this->plus($this);
         }
-        return Shoop::array(array_merge($this->unfold(), $values));
+        return $catch;
     }
 
     public function minus($values): ESArray
     {
-        if (Shoop::valueIsNotArray($values)) {
+        if (Type::isNotArray($values)) {
             $values = [$values];
         }
         $deletes = $this->sanitizeType($values, ESArray::class)->unfold();
@@ -118,18 +135,20 @@ class ESArray implements
         return Shoop::array(array_values($copy));
     }
 
-    public function dividedBy($divisor): ESTuple
+    public function divide($value = null)
     {
-        $divisor = $this->sanitizeType(
-                $divisor,
-                "int",
-                ESInt::class
-            )->unfold();
+        $index = Type::sanitizeType($value, ESInt::class)->unfold();
 
-        $left = array_slice($this->unfold(), 0, $divisor);
-        $right = array_slice($this->unfold(), $divisor);
+        $left = array_slice($this->unfold(), 0, $index);
+        $right = array_slice($this->unfold(), $index);
 
-        return Shoop::dictionary(["lhs" => $left, "rhs" => $right]);
+        return Shoop::array([$left, $right]);
+    }
+
+    public function isDivisible($value): ESBool
+    {
+        $index = Type::sanitizeType($value, ESInt::class)->unfold();
+        return $index >= $this->count();
     }
 
     // public function append($values)
