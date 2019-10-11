@@ -97,8 +97,23 @@ class ESArray implements
 
     public function plus(...$args)
     {
-        $args = Type::sanitizeType($args, ESArray::class)->unfold();
-        return Shoop::array(array_merge($this->unfold(), $args[0]));
+        $count = count($args);
+        switch ($count) {
+            case 0:
+                return Shoop::array($this->unfold());
+                break;
+
+            case 1:
+                $args = Type::sanitizeType($args[0], ESArray::class)->unfold();
+                $merged = array_merge($this->unfold(), $args);
+                return Shoop::array($merged);
+                break;
+            
+            default:
+                $merged = array_merge($this->unfold(), $args);
+                return Shoop::array($merged);
+                break;
+        }
     }
 
     public function prepend(...$args)

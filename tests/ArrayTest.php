@@ -32,6 +32,10 @@ class ArrayTest extends TestCase
         $result = ESArray::fold([1, 2, 3])->plus([4, 5, 6])->unfold();
         $this->assertEquals($expected, $result);
 
+        $expected = [1, 2, 3, 4];
+        $result = ESArray::fold([1, 2])->plus(3, 4)->unfold();
+        $this->assertEquals($expected, $result);
+        
         $expected = [1, 2, 4, 2, 1];
         $result = ESArray::fold([1, 2, 3, 4, 3, 2, 1])->minus(3)->unfold();
         $this->assertEquals($expected, $result);
