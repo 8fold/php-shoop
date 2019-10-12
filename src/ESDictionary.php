@@ -76,6 +76,16 @@ class ESDictionary implements
             ->and(count(array_values($this->unfold())) > 0);
     }
 
+    public function __toString()
+    {
+        $printed = print_r($this->unfold(), true);
+        $oneLine = preg_replace('/\s+/', ' ', $printed);
+        $commas = str_replace(
+            [" [", " ) ", " (, "], 
+            [", [", ")", "("], 
+            $oneLine);
+        return $commas;
+    }
 
 
 

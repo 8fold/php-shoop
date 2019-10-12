@@ -123,4 +123,11 @@ class IntTest extends TestCase
         $result = ESInt::fold(10)->isLessThanOrEqualUnfolded(9);
         $this->assertFalse($result);
     }
+
+    public function testCanBeUsedAsPhpString()
+    {
+        $expected = "1";
+        $result = (string) ESInt::fold(1);
+        $this->assertEquals($expected, $result);
+    }
 }

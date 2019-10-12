@@ -136,5 +136,10 @@ class ArrayTest extends TestCase
         $this->assertTrue($count > 1);
     }
 
-
+    public function testCanBeUsedAsPhpString()
+    {
+        $expected = "Array([0] => 0, [1] => 1, [2] => 2, [3] => 3)";
+        $result = (string) ESArray::fold([0,1,2,3]);
+        $this->assertEquals($expected, $result);
+    }
 }

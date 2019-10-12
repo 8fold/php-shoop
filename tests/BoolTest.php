@@ -48,4 +48,15 @@ class BoolTest extends TestCase
         $this->assertFalse($result->isSame($compare)->unfold());
         $this->assertTrue($result->isNotUnfolded($compare));
     }
+
+    public function testCanBeUsedAsPhpString()
+    {
+        $expected = "1";
+        $result = (string) ESBool::fold(true);
+        $this->assertEquals($expected, $result);
+
+        $expected = "";
+        $result = (string) ESBool::fold(false);
+        $this->assertEquals($expected, $result);
+    }
 }

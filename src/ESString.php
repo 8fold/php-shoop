@@ -178,11 +178,8 @@ class ESString implements Shooped
     }
 
 //-> String access
-    public function __toString()
-    {
-        if (is_string($this->value)) {
-            return $this->value;
-        }
-        return "";
-    }
+    // public function __toString()
+    // {
+    //     return (string) $this->unfold();
+    // }
 }

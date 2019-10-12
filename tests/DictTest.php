@@ -90,4 +90,11 @@ class DictTest extends TestCase
             )
         );
     }
+
+    public function testCanBeUsedAsPhpString()
+    {
+        $expected = "Array([zero] => 0, [one] => 1)";
+        $result = (string) ESDictionary::fold(["zero" => 0, "one" => 1]);
+        $this->assertEquals($expected, $result);        
+    }
 }

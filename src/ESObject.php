@@ -68,6 +68,16 @@ class ESObject implements Shooped
         return Shoop::dictionary(["properties" => $initial["keys"], "values" => $initial["values"]]);
     }
 
+    public function __toString()
+    {
+        $array = (array) $this->unfold();
+        return (string) Shoop::dictionary($array);
+    }
+
+
+
+
+
 
 
 

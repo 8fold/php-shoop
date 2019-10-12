@@ -134,4 +134,11 @@ class StringTest extends TestCase
         $result = $helloWorld->endsWithUnfolded("World!");
         $this->assertTrue($result);
     }
+
+    public function testCanUseESStringAsPhpString()
+    {
+        $hello = ESString::fold("Hello");
+        $helloWorld = $hello .", World!";
+        $this->assertEquals("Hello, World!", $helloWorld);
+    }
 }

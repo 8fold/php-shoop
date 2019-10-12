@@ -255,4 +255,16 @@ class ESArray implements
         $var = ($key !== null && $key !== false);
         return $var;
     }
+
+//-> String
+    public function __toString()
+    {
+        $printed = print_r($this->unfold(), true);
+        $oneLine = preg_replace('/\s+/', ' ', $printed);
+        $commas = str_replace(
+            [" [", " ) ", " (, "], 
+            [", [", ")", "("], 
+            $oneLine);
+        return $commas;
+    }
 }

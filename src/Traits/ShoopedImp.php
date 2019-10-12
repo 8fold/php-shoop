@@ -30,6 +30,12 @@ trait ShoopedImp
         return $this->value;
     }
 
+//-> Conversions
+    public function __toString()
+    {
+        return (string) $this->unfold();
+    }
+        
 //-> Getters
     public function __call(string $name, array $args = [])
     {
