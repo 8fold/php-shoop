@@ -56,7 +56,7 @@ class ArrayTest extends TestCase
     public function testCanSortAnArray()
     {
         $expected = [1, 2, 3, 4, 5];
-        $result = ESArray::fold([4, 2, 3, 1, 5])->sorted()->unfold();
+        $result = ESArray::fold([4, 2, 3, 1, 5])->sort()->unfold();
         $this->assertEquals($expected, $result);
     }
 

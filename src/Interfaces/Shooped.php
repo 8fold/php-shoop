@@ -16,6 +16,12 @@ interface Shooped
 
     public function unfold();
 
+    public function __toString();
+
+    public function string();
+
+    public function join($glue = ""): ESString;
+
 // sketch - enumerable
     // TODO: Move Convertable methods to Type and convert to static
     // private function sanitizeType($toSanitize, string $shoopType = "");
@@ -59,6 +65,8 @@ interface Shooped
     public function minus($value); // 7.4 : self;
 
     // ESBool, ESDictionary, ESObject not implemented
+    // 
+    // Shoop::object($object)->multiply(3) -> ESArray 3 object (almost like instantiation) ??
     public function multiply($int); // 7.4 : self;
 
     // ESBool not implemented
@@ -76,4 +84,8 @@ interface Shooped
     public function isLessThan($compare): ESBool;
 
     public function isLessThanOrEqual($compare): ESBool;
+
+    public function sort(); // 7.4 : self;
+
+    public function shuffle(); // 7.4 : self;
 }

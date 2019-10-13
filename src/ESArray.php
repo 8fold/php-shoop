@@ -22,79 +22,6 @@ class ESArray implements
 
     public function isLessThanOrEqual($compare): ESBool {}
 
-    public function __construct($array = [])
-    {
-        if (is_a($array, ESArray::class)) {
-            $array = $array->unfold();
-
-        } elseif (! is_array($array)) {
-            $array = [$array];
-
-        }
-        $this->value = $array;
-    }
-
-    public function sorted(): ESArray
-    {
-        $array = $this->enumerate()->unfold();
-        natsort($array);
-        return Shoop::array($array)->enumerate();
-    }
-
-    public function shuffle(): ESArray
-    {
-        $array = $this->enumerate()->unfold();
-        shuffle($array);
-        return Shoop::array($array)->enumerate();
-    }
-
-    public function toggle() // 7.4 : self
-    {
-        return Shoop::array(array_reverse($this->enumerate()->unfold()))->enumerate();
-    }
-
-    public function first()
-    {
-        $array = $this->enumerate()->unfold();
-        $value = array_shift($array);
-        if ($value === null) {
-            return Shoop::array([]);
-
-        }
-        return Type::sanitizeType($value);
-    }
-
-    public function last()
-    {
-        return $this->toggle()->first();
-    }
-
-    public function dropFirst($length = 1): ESArray
-    {
-        $length = $this->sanitizeType($length, ESInt::class)->unfold();
-
-        $array = $this->enumerate()->unfold();
-        for ($i = 0; $i < $length; $i++) {
-            array_shift($array);
-        }
-        return Shoop::array($array)->enumerate();
-    }
-
-    public function dropLast($length = 1): ESArray
-    {
-        return $this->enumerate()->toggle()->dropFirst($length)->toggle()->enumerate();
-    }
-
-    public function removeEmptyValues(): ESArray
-    {
-        return Shoop::array(array_filter($this->unfold()))->enumerate();
-    }
-
-    public function enumerate(): ESArray
-    {
-        return Shoop::array(array_values($this->value));
-    }
-
     public function plus(...$args)
     {
         $count = count($args);
@@ -114,6 +41,16 @@ class ESArray implements
                 return Shoop::array($merged);
                 break;
         }
+    }
+
+    public function enumerate(): ESArray
+    {
+        return Shoop::array(array_values($this->value));
+    }
+
+    public function toggle() // 7.4 : self
+    {
+        return Shoop::array(array_reverse($this->enumerate()->unfold()))->enumerate();
     }
 
     public function prepend(...$args)
@@ -166,20 +103,74 @@ class ESArray implements
         return $index >= $this->count();
     }
 
-    // public function append($values)
-    // {
-    //     return $this->plus($values);
-    // }
 
-    // public function prepend($value)
-    // {
-    //     if (! is_array($values)) {
-    //         $values = [$values];
-    //     }
-    //     return Shoop::array(array_merge($values, $this->unfold());
-    // }
 
-    public function join($delimiter = ""): ESString
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    public function __construct($array = [])
+    {
+        if (is_a($array, ESArray::class)) {
+            $array = $array->unfold();
+
+        } elseif (! is_array($array)) {
+            $array = [$array];
+
+        }
+        $this->value = $array;
+    }
+
+    public function first()
+    {
+        $array = $this->enumerate()->unfold();
+        $value = array_shift($array);
+        if ($value === null) {
+            return Shoop::array([]);
+
+        }
+        return Type::sanitizeType($value);
+    }
+
+    public function last()
+    {
+        return $this->toggle()->first();
+    }
+
+    public function dropFirst($length = 1): ESArray
+    {
+        $length = $this->sanitizeType($length, ESInt::class)->unfold();
+
+        $array = $this->enumerate()->unfold();
+        for ($i = 0; $i < $length; $i++) {
+            array_shift($array);
+        }
+        return Shoop::array($array)->enumerate();
+    }
+
+    public function dropLast($length = 1): ESArray
+    {
+        return $this->enumerate()->toggle()->dropFirst($length)->toggle()->enumerate();
+    }
+
+    public function removeEmptyValues(): ESArray
+    {
+        return Shoop::array(array_filter($this->unfold()))->enumerate();
+    }
+
+    public function join($delimiter = ""): ESString <--- This is where you left off
     {
         $delimiter = $this->sanitizeType($delimiter, ESString::class);
         return Shoop::string(implode($delimiter->unfold(), $this->unfold()));

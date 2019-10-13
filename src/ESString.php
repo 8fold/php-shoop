@@ -16,6 +16,20 @@ class ESString implements Shooped
         return Shoop::array(preg_split('//u', $this->value, null, PREG_SPLIT_NO_EMPTY));
     }
 
+    public function sort()
+    {
+        $array = $this->enumerate()->unfold();
+        natsort($array);
+        return Shoop::array($array)->enumerate()->join("");
+    }
+
+    public function shuffle()
+    {
+        $array = $this->enumerate()->unfold();
+        shuffle($array);
+        return Shoop::array($array)->enumerate()->join("");
+    }
+
     // TODO: Test
     public function toggle()
     {
@@ -44,16 +58,6 @@ class ESString implements Shooped
     {
         $int = Type::sanitizeType($int, ESInt::class)->unfold();
         return Shoop::string(str_repeat($this->unfold(), $int));
-    }
-
-    public function divide($value = null)
-    {
-        if ($value === null) {
-            return $this;
-        }
-
-        $value = Type::sanitizeType($value, ESString::class)->unfold();
-        return Shoop::array(explode($value, $this->unfold(), 2));
     }
 
     public function isDivisible($value): ESBool
@@ -92,6 +96,22 @@ class ESString implements Shooped
         return Shoop::string($total . $this->unfold());
     }
 
+    public function divide($value = null)
+    {
+        if ($value === null) {
+            return $this;
+        }
+
+        $value = Type::sanitizeType($value, ESString::class)->unfold();
+        return Shoop::array(explode($value, $this->unfold(), 2));
+    }
+
+    public function split($delimiter): ESArray
+    {
+        $delimiter = $this->sanitizeType($delimiter, ESString::class);
+        $exploded = explode($delimiter, $this->unfold());
+        return Shoop::array($exploded)->removeEmptyValues();
+    }
 
 
 
@@ -102,7 +122,7 @@ class ESString implements Shooped
 
 
 
-
+    // TODO: create bisect as alias of divide
 
 
     public function __construct($string)
@@ -117,13 +137,6 @@ class ESString implements Shooped
             $this->value = "";
 
         }
-    }
-
-    public function split($delimiter): ESArray
-    {
-        $delimiter = $this->sanitizeType($delimiter, ESString::class);
-        $exploded = explode($delimiter, $this->unfold());
-        return Shoop::array($exploded)->removeEmptyValues();
     }
 
     public function lowerFirst(): ESString
@@ -176,10 +189,4 @@ class ESString implements Shooped
         }
         return Shoop::string("");
     }
-
-//-> String access
-    // public function __toString()
-    // {
-    //     return (string) $this->unfold();
-    // }
 }

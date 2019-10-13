@@ -26,6 +26,25 @@ class ESDictionary implements
     public function multiply($int) {}
 
     // TODO: Test + possibly write combine()
+    public function enumerate(): ESArray
+    {
+        return Shoop::array(array_values($this->value));
+    }
+
+    public function sort()
+    {
+        $array = $this->unfold();
+        natsort($array);
+        return Shoop::dictionary($array);
+    }
+
+    public function shuffle()
+    {
+        $array = $this->unfold();
+        shuffle($array);
+        return Shoop::dictionary($array);
+    }
+
     public function toggle()
     {
         $values = $this->enumerate()->toggle();
@@ -116,11 +135,6 @@ class ESDictionary implements
             $this->value = [];
 
         }
-    }
-
-    public function enumerate(): ESArray
-    {
-        return Shoop::array(array_values($this->value));
     }
 
     private function validateCounts(array $args)

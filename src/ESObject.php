@@ -36,6 +36,22 @@ class ESObject implements Shooped
         return Shoop::dictionary($array)->enumerate();
     }
 
+    public function sort()
+    {
+        $array = $this->unfold();
+        natsort($array);
+        $object = (object) $array;
+        return Shoop::object($object);
+    }
+
+    public function shuffle()
+    {
+        $array = $this->unfold();
+        shuffle($array);
+        $object = (object) $array;
+        return Shoop::object($object);
+    }
+
     public function plus(...$args)
     {
         // TODO: Need to figure out more about how stdClass works re adding props
@@ -66,6 +82,11 @@ class ESObject implements Shooped
     {
         $initial = Shoop::dictionary($this->unfold())->divide();
         return Shoop::dictionary(["properties" => $initial["keys"], "values" => $initial["values"]]);
+    }
+
+    public function isDivisible($value): ESBool
+    {
+        return true;
     }
 
     public function __toString()

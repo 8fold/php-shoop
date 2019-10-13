@@ -35,6 +35,12 @@ trait ShoopedImp
     {
         return (string) $this->unfold();
     }
+
+    public function string()
+    {
+        $string = (string) $this->unfold();
+        return Shoop::string($string);
+    }
         
 //-> Getters
     public function __call(string $name, array $args = [])
@@ -72,6 +78,20 @@ trait ShoopedImp
     }
 
 //-> Enumerable
+    public function sort()
+    {
+        $array = $this->enumerate()->unfold();
+        natsort($array);
+        return Shoop::array($array)->enumerate();
+    }
+
+    public function shuffle()
+    {
+        $array = $this->enumerate()->unfold();
+        shuffle($array);
+        return Shoop::array($array)->enumerate();
+    }
+    
     public function count(): ESInt
     {
         return Shoop::int(count($this->enumerate()->unfold()));
