@@ -1,6 +1,6 @@
 8fold Shoop creates a near ubiquitous API for interacting with and manipulating PHP primitives and a bit beyond. While the implementations are language specific, the underlying concepts are language agnostic.
 
-Shoop has many meanings, in this context it is most akin to "photoshopping" (and we thought it was catchier than "Foops"). Shoop is also a song by Salt-N-Pepa released in 1993 (and a [Deadpool favorite](https://youtu.be/FOJWJmlYxlE)).
+Shoop has many meanings, in this context it is most akin to "photoshopping" (and we thought it was catchier than "Foops"). Shoop is also a song by Salt-N-Pepa released in 1993 (and [Deadpool favorite](https://youtu.be/FOJWJmlYxlE)).
 
 For our purposes, Shoop is also an acronym turned proper noun standing for Swift, Haskell, Object-Oriented, and Procedural (or Functional, Object-Oriented, Procedural, and Swift, which could be interpreted as f*cking oops as though this library was an accident or poorly designed - one might argue the latter).
 
@@ -9,13 +9,13 @@ We’re “photoshopping” the way we interact with PHP primitives (and more). 
 8fold Shoop is inspired by:
 
 - the basic data types, APIs, and protocol-oriented nature of Swift;
-- the desire of functional programming to favor immutability and keep side-effects local to a given scope;
+- the desire of functional programming to favor immutability and keeping side-effects local to a given scope;
 - the encapsulation, composition, and communication of object-oriented programming; and
 - the step-by-step sequence style of procedural programming compared to something like logical programming.
 
 ## Usage
 
-We have done our best to ensure Shoop types work seamlessly within the standard PHP environment. ESString (and all other types), for example, is (are) recognized as a normal PHP string. This makes for some interesting possibilities.
+We have done our best to ensure Shoop types work seamlessly within the standard PHP environment. All Shoop types, for example, can be interacted with as native strings and arrays. They can also be type juggled to any other type...yes, even arrays directly to strings (speaking of API complaints). 
 
 ```php
 // Just a regular string.
@@ -46,7 +46,7 @@ $result = $shoop[0];
 print($result); // Results in "H" for all of the above.
 ```
 
-All Shoop types can be interpolated as native strings and arrays. They can also be type juggled to any other type...yes, even arrays directly to strings (speaking of API complaints). Of course, something that has been made simple by PHP itself isn't why we enjoy using Shoop.
+Of course, something that has been made simple by PHP 5.3+ itself isn't why we enjoy using Shoop.
 
 One other, simple exmaple would be to go from one file path (string) to another in one shot.
 
