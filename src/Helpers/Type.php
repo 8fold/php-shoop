@@ -15,36 +15,57 @@ use Eightfold\Shoop\{
 
 class Type
 {
-    static public function map(): array
+    static public function sanitizeType($toSanitize, string $shoopType = "")
     {
-        return [
-            "bool"    => ESBool::class,
-            "boolean" => ESBool::class,
-            "int"     => ESInt::class,
-            "integer" => ESInt::class,
-            "string"  => ESString::class,
-            "array"   => ESArray::class,
-            "object"  => ESObject::class
-        ];
+        if (Type::isShooped($toSanitize)) {
+            return $toSanitize;
+        }
+
+        if (Type::isPhp($toSanitize) && strlen($shoopType) === 0) {
+            $desiredPhpType = Type::for($toSanitize);
+            $shoopType = Type::phpToShoop($desiredPhpType);
+        }
+
+        if (isset($desiredPhpType)) {
+            self::isDesiredTypeOrTriggerError($desiredPhpType, $toSanitize);
+
+        } elseif (strlen($shoopType) === 0) {
+            $shoopType = Type::phpToShoop(Type::for($toSanitize));
+
+        }
+        return $shoopType::fold($toSanitize);
     }
 
-    static public function phpToShoop(string $phpType): string
+    static private function isDesiredTypeOrTriggerError($desiredPhpType, $variable)
     {
-        $map = static::map();
-        if (array_key_exists($phpType, $map)) {
-            return $map[$phpType];
+        $sanitizeType = Type::for($variable);
+        if ($sanitizeType !== $desiredPhpType) {
+            list($_, $caller) = debug_backtrace(false);
+            self::invalidTypeError($desiredPhpType, $sanitizeType, $caller);
         }
-        return "";
     }
 
-    static public function shoopToPhp(string $shoopType): string
+    static private function invalidTypeError($desiredPhpType, $sanitizeType, $caller)
     {
-        $map = static::map();
-        if (in_array($shoopType, $map)) {
-            $value = array_search($shoopType, $map);
-            return $value;
+        $className = $caller['class'];
+        $functionName = $caller['function'];
+        $myClass = static::class;
+        trigger_error(
+            "Argument 1 passed to {$functionName} in {$className} must be of type {$desiredPhpType} or an instance of {$myClass} received {$sanitizeType} instead",
+            E_USER_ERROR
+        );
+    }
+
+// - Check types
+    static public function is($potential, string ...$types): bool
+    {
+        $potentialType = self::for($potential);
+        foreach ($types as $type) {
+            if ($potentialType === $type) {
+                return true;
+            }
         }
-        return "";
+        return false;
     }
 
     static public function for($potential): string
@@ -69,7 +90,6 @@ class Type
         if (static::isShooped($potential)) {
             return get_class($potential);
         }
-
         return self::phpToShoop(self::for($potential));
     }
 
@@ -85,11 +105,9 @@ class Type
 
     static public function isPhp($potential): bool
     {
-        if (static::isShooped($potential)) {
-            return false;
-        }
-
-        return array_key_exists(static::for($potential), static::map());
+        return (static::isShooped($potential))
+            ? false
+            : array_key_exists(static::for($potential), static::map());
     }
 
     static public function isNotPhp($potential): bool
@@ -115,46 +133,35 @@ class Type
         }
     }
 
-    static public function sanitizeType($toSanitize, string $shoopType = "")
+// - Type metadata
+    static public function map(): array
     {
-        if (Type::isShooped($toSanitize)) {
-            return $toSanitize;
-        }
-
-        if (Type::isPhp($toSanitize) && strlen($shoopType) === 0) {
-            $desiredPhpType = Type::for($toSanitize);
-            $shoopType = Type::phpToShoop($desiredPhpType);
-
-        }
-
-        if (isset($desiredPhpType)) {
-            self::isDesiredTypeOrTriggerError($desiredPhpType, $toSanitize);
-
-        } elseif (strlen($shoopType) === 0) {
-            $shoopType = Type::phpToShoop(Type::for($toSanitize));
-
-        }
-
-        return $shoopType::fold($toSanitize);
+        return [
+            "bool"    => ESBool::class,
+            "boolean" => ESBool::class,
+            "int"     => ESInt::class,
+            "integer" => ESInt::class,
+            "string"  => ESString::class,
+            "array"   => ESArray::class,
+            "object"  => ESObject::class
+        ];
     }
 
-    static private function isDesiredTypeOrTriggerError($desiredPhpType, $variable)
+    static public function phpToShoop(string $phpType): string
     {
-        $sanitizeType = Type::for($variable);
-        if ($sanitizeType !== $desiredPhpType) {
-            list($_, $caller) = debug_backtrace(false);
-            self::invalidTypeError($desiredPhpType, $sanitizeType, $caller);
-        }
+        $map = static::map();
+        return (array_key_exists($phpType, $map))
+            ? $map[$phpType]
+            : "";
     }
 
-    static private function invalidTypeError($desiredPhpType, $sanitizeType, $caller)
+    static public function shoopToPhp(string $shoopType): string
     {
-        $className = $caller['class'];
-        $functionName = $caller['function'];
-        $myClass = static::class;
-        trigger_error(
-            "Argument 1 passed to {$functionName} in {$className} must be of type {$desiredPhpType} or an instance of {$myClass} received {$sanitizeType} instead",
-            E_USER_ERROR
-        );
+        $map = static::map();
+        if (in_array($shoopType, $map)) {
+            $value = array_search($shoopType, $map);
+            return $value;
+        }
+        return "";
     }
 }

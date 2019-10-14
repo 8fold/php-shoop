@@ -2,9 +2,12 @@
 
 namespace Eightfold\Shoop;
 
-use Eightfold\Shoop\Traits\ShoopedImp;
+use Eightfold\Shoop\ESString;
 
 use Eightfold\Shoop\Helpers\Type;
+
+use Eightfold\Shoop\Traits\ShoopedImp;
+
 use Eightfold\Shoop\Interfaces\Shooped;
 
 class ESInt implements Shooped
@@ -25,9 +28,93 @@ class ESInt implements Shooped
         }
     }
 
+    public function array(): ESArray
+    {
+        // TODO: ?? allow user to set range bottom or top
+        return Shoop::array(range(0, $this->value));
+    }
+
+    /**
+     * @deprecated
+     */
     public function enumerate(): ESArray
     {
-        return Shoop::array(range(0, $this->value));
+        return $this->array();
+    }
+
+    public function int(): ESInt
+    {
+        return $this;
+    }
+
+    public function isGreaterThan($compare): ESBool
+    {
+        $compare = Type::sanitizeType($compare, ESInt::class);
+        $result = $this->unfold() > $compare->unfold();
+        return Shoop::bool($result);
+    }
+
+    public function isGreaterThanOrEqual($compare): ESBool
+    {
+        $compare = Type::sanitizeType($compare, ESInt::class);
+        $result = $this->unfold() >= $compare->unfold();
+        return Shoop::bool($result);
+    }
+
+    public function isLessThan($compare): ESBool
+    {
+        $compare = Type::sanitizeType($compare, ESInt::class);
+        $result = $this->unfold() < $compare->unfold();
+        return Shoop::bool($result);
+    }
+
+    public function isLessThanOrEqual($compare): ESBool
+    {
+        $compare = Type::sanitizeType($compare, ESInt::class);
+        $result = $this->unfold() <= $compare->unfold();
+        return Shoop::bool($result);
+    }
+
+    public function toggle(): ESInt
+    {
+        return $this->multiply(-1);
+    }
+
+    public function startsWith($needle): ESBool
+    {
+        $needle = Type::sanitizeType($needle)->string();
+        return $this->string()->startsWith($needle);
+    }
+
+    public function endsWith($needle): ESBool
+    {
+        $needle = Type::sanitizeType($needle)->string()->toggle();
+        $reversed = $this->string()->toggle();
+        return $reversed->startsWith($needle);
+    }
+
+    public function start(...$prefixes)
+    {
+        $prefixes = implode('', $prefixes);
+        $cast = (int) $this->string()->start($prefixes)->unfold();
+        return Shoop::int($cast);
+    }
+
+    public function divide($value = null)
+    {
+        if ($value === null) {
+            return $this;
+        }
+
+        $divisor = Type::sanitizeType($value, ESInt::class)->unfold();
+        $enumerator = $this->unfold();
+        return ESInt::fold((int) floor($enumerator/$divisor));
+    }
+
+    public function minus($value)
+    {
+        $term = Type::sanitizeType($value)->unfold();
+        return ESInt::fold($this->unfold() - $term);
     }
 
     public function plus(...$args)
@@ -36,12 +123,42 @@ class ESInt implements Shooped
         $terms = $args;
         $total = $this->value;
         foreach ($terms as $term) {
-            $term = $this->sanitizeType($term, ESInt::class)->unfold();
+            $term = Type::sanitizeType($term, ESInt::class)->unfold();
             $total += $term;
         }
 
         return Shoop::int($total);
     }
+
+    public function multiply($int)
+    {
+        $int = Type::sanitizeType($int, ESInt::class)->unfold();
+        return ESInt::fold($this->unfold() * $int);
+    }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
     public function append(...$args)
     {
@@ -63,64 +180,5 @@ class ESInt implements Shooped
         }
         $intInt = (integer) $intString;
         return Shoop::int($intInt);
-    }
-
-    public function minus($value)
-    {
-        $term = Type::sanitizeType($value)->unfold();
-        return ESInt::fold($this->unfold() - $term);
-    }
-
-    public function multiply($int)
-    {
-        $int = Type::sanitizeType($int, ESInt::class)->unfold();
-        return ESInt::fold($this->unfold() * $int);
-    }
-
-    public function divide($value = null)
-    {
-        if ($value === null) {
-            return $this;
-        }
-
-        $divisor = Type::sanitizeType($value, ESInt::class)->unfold();
-        $enumerator = $this->unfold();
-        return ESInt::fold((int) floor($enumerator/$divisor));
-    }
-
-    public function toggle(): ESInt
-    {
-        return $this->multiply(-1);
-    }
-
-    public function isGreaterThan($compare): ESBool
-    {
-        $compare = Type::sanitizeType($compare)->unfold();
-        return Shoop::bool($this->unfold() > $compare);
-    }
-
-    public function isGreaterThanOrEqual($compare): ESBool
-    {
-        $compare = Type::sanitizeType($compare)->unfold();
-        return Shoop::bool($this->isGreaterThan($compare)->or($this->isSame($compare)));
-    }
-
-    public function isLessThan($compare): ESBool
-    {
-        $compare = Type::sanitizeType($compare)->unfold();
-        return Shoop::bool($this->unfold() < $compare);
-    }
-
-    public function isLessThanOrEqual($compare): ESBool
-    {
-        $compare = Type::sanitizeType($compare)->unfold();
-        return Shoop::bool($this->isLessThan($compare)->or($this->isSame($compare)));
-    }
-
-    // TODO: verify used by something other tests
-    public function isDivisible($value): ESBool
-    {
-        $divisor = $this->sanitizeType($value, ESInt::class);
-        return Shoop::bool($this->unfold() % $divisor->unfold() == 0);
     }
 }

@@ -11,59 +11,31 @@ class ESString implements Shooped
 {
     use ShoopedImp;
 
-    public function enumerate(): ESArray
+    public function __construct($string)
+    {
+        if (is_string($string)) {
+            $this->value = $string;
+
+        } elseif (is_a($string, ESString::class)) {
+            $this->value = $string->unfold();
+
+        } else {
+            $this->value = "";
+
+        }
+    }
+
+    public function array(): ESArray
     {
         return Shoop::array(preg_split('//u', $this->value, null, PREG_SPLIT_NO_EMPTY));
     }
 
-    public function sort()
+    /**
+     * @deprecated
+     */
+    public function enumerate(): ESArray
     {
-        $array = $this->enumerate()->unfold();
-        natsort($array);
-        return Shoop::array($array)->enumerate()->join("");
-    }
-
-    public function shuffle()
-    {
-        $array = $this->enumerate()->unfold();
-        shuffle($array);
-        return Shoop::array($array)->enumerate()->join("");
-    }
-
-    // TODO: Test
-    public function toggle()
-    {
-        return $this->enumerate()->toggle()->join("");
-    }
-
-    public function plus(...$args)
-    {
-        $total = $this->value;
-        $terms = $args;
-        foreach ($terms as $term) {
-            $term = $this->sanitizeType($term, ESString::class)->unfold();
-            $total .= $term;
-        }
-
-        return Shoop::string($total);
-    }
-
-    public function minus($string): ESString
-    {
-        $needle = $this->sanitizeType($string, ESString::class)->unfold();
-        return Shoop::string(str_replace($needle, "", $this->unfold()));
-    }
-
-    public function multiply($int)
-    {
-        $int = Type::sanitizeType($int, ESInt::class)->unfold();
-        return Shoop::string(str_repeat($this->unfold(), $int));
-    }
-
-    public function isDivisible($value): ESBool
-    {
-        $splitter = $this->sanitizeType($value, ESString::class);
-        return Shoop::bool(count(explode($splitter, $this->unfold())) > 0);
+        return $this->array();
     }
 
     public function isGreaterThan($compare): ESBool
@@ -90,53 +62,117 @@ class ESString implements Shooped
         return $this->unfold() <= $compare;
     }
 
+    // TODO: Test
+    public function toggle()
+    {
+        return $this->array()->toggle()->join("");
+    }
+
+    public function sort()
+    {
+        $array = $this->array()->unfold();
+        natsort($array);
+        return Shoop::array($array)->join("");
+    }
+
+    public function shuffle()
+    {
+        $array = $this->array()->unfold();
+        shuffle($array);
+        return Shoop::array($array)->join("");
+    }
+
+    public function start(...$prefixes)
+    {
+        $combined = implode('', $prefixes);
+        return Shoop::string($combined . $this->unfold());
+    }
+
+    public function startsWith($needle): ESBool
+    {
+        $needle = Type::sanitizeType($needle, ESString::class);
+        $substring = substr($this->unfold(), 0, $needle->countUnfolded());
+        return Shoop::bool($substring === $needle->unfold());
+    }
+
+    /**
+     * @deprecated
+     */
+    public function beginsWith($string): ESBool
+    {
+        return $this->startsWith($string);
+    }
+
+    /**
+     * @deprecated
+     */
+    public function doesNotBeginWith($string)
+    {
+        return $this->doesNotStartWith($string);
+    }
+
+    public function plus(...$args)
+    {
+        $total = $this->value;
+        $terms = $args;
+        foreach ($terms as $term) {
+            $term = Type::sanitizeType($term, ESString::class)->unfold();
+            $total .= $term;
+        }
+
+        return Shoop::string($total);
+    }
+
+    public function endsWith($needle): ESBool
+    {
+        $needle = Type::sanitizeType($needle, ESString::class)->toggle();
+        $reversed = $this->toggle();
+        return $reversed->startsWith($needle);
+    }
+
+    /**
+     * @deprecated
+     */
     public function prepend(...$args)
     {
-        $total = implode('', $args);
-        return Shoop::string($total . $this->unfold());
+        return $this->start(...$args);
     }
 
-    public function divide($value = null)
+    public function minus($string): ESString
     {
-        if ($value === null) {
-            return $this;
+        $needle = Type::sanitizeType($string, ESString::class)->unfold();
+        return Shoop::string(str_replace($needle, "", $this->unfold()));
+    }
+
+    public function multiply($int)
+    {
+        $int = Type::sanitizeType($int, ESInt::class)->unfold();
+        return Shoop::string(str_repeat($this->unfold(), $int));
+    }
+
+    public function divide($divisor = null, $removeEmpties = true)
+    {
+        if ($divisor === null) {
+            return Shoop::array([]);
         }
 
-        $value = Type::sanitizeType($value, ESString::class)->unfold();
-        return Shoop::array(explode($value, $this->unfold(), 2));
-    }
+        $divisor = Type::sanitizeType($divisor, ESString::class);
+        $removeEmpties = Type::sanitizeType($removeEmpties);
 
-    public function split($delimiter): ESArray
-    {
-        $delimiter = $this->sanitizeType($delimiter, ESString::class);
-        $exploded = explode($delimiter, $this->unfold());
-        return Shoop::array($exploded)->removeEmptyValues();
-    }
+        $exploded = explode($divisor, $this);
+        $shooped = Shoop::array($exploded);
 
-
-
-
-
-
-
-
-
-
-    // TODO: create bisect as alias of divide
-
-
-    public function __construct($string)
-    {
-        if (is_string($string)) {
-            $this->value = $string;
-
-        } elseif (is_a($string, ESString::class)) {
-            $this->value = $string->unfold();
-
-        } else {
-            $this->value = "";
-
+        if ($removeEmpties->unfold()) {
+            $shooped = $shooped->removeEmptyValues();
         }
+        return $shooped;
+    }
+
+    public function split($splitter, $splits = 2): ESArray
+    {
+        $splitter = Type::sanitizeType($splitter, ESString::class)->unfold();
+        $splits = Type::sanitizeType($splits, ESInt::class)->unfold();
+        return Shoop::array(explode($splitter, $this->unfold(), $splits));
     }
 
     public function lowerFirst(): ESString
@@ -149,44 +185,42 @@ class ESString implements Shooped
         return Shoop::string(strtoupper($this->value));
     }
 
-//-> Checks
-    public function beginsWith($string): ESBool
-    {
-        $string = $this->sanitizeType($string, ESString::class);
-        return $this->endsOrBeginsWith($string, 0);
-    }
-
-    public function doesNotBeginWith($string)
-    {
-        return $this->beginsWith($string)->toggle();
-    }
-
-    public function endsWith($string)
-    {
-        $string = $this->sanitizeType($string, ESString::class);
-        return $this->endsOrBeginsWith(
-            $string,
-            $this->countUnfolded() - $string->countUnfolded()
-        );
-    }
-
-    private function endsOrBeginsWith($needle, int $start)
-    {
-        $return = Shoop::bool(
-            substr(
-                $this->unfold(),
-                $start,
-                $needle->countUnfolded()) === $needle->unfold()
-        );
-        return $return;
-    }
-
     public function pathContent()
     {
+        // rename fileContents()
+        //        saveFileContents($path)
         // dd($this->unfold());
         if (is_file($this->unfold())) {
             return Shoop::string(file_get_contents($this->unfold()));
         }
         return Shoop::string("");
     }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 }

@@ -2,10 +2,19 @@
 
 namespace Eightfold\Shoop;
 
+use Eightfold\Shoop\Helpers\Type;
+
 use Eightfold\Shoop\Interfaces\Shooped;
 
 class Shoop
 {
+    // TODO: create universal single entry point
+    // Shoop::this($whatever)
+    // static public function this($potential)
+    // {
+    //     return Type::sanitizeType($potential);
+    // }
+
     static public function int($int): ESInt
     {
         return ESInt::fold($int);
@@ -26,9 +35,9 @@ class Shoop
         return ESDictionary::fold($assocArray);
     }
 
-    static public function range($min, $max, $includeLast = true): ESRange
+    static public function object($object): ESObject
     {
-        return ESRange::fold($min, $max, $includeLast);
+        return ESObject::fold($object);
     }
 
     static public function bool($bool): ESBool

@@ -5,10 +5,17 @@ namespace Eightfold\Shoop\Interfaces;
 use Eightfold\Shoop\{
     ESArray,
     ESInt,
-    ESBool
+    ESBool,
+    ESString,
+    ESObject,
+    ESDictionary
 };
 
-interface Shooped
+interface Shooped extends
+    \Countable,
+    \ArrayAccess,
+    \Iterator
+    // Serializable ??
 {
     public function __construct($initial);
 
@@ -16,67 +23,59 @@ interface Shooped
 
     public function unfold();
 
-    public function __toString();
+    public function string(): ESString;
 
-    public function string();
+    public function array(): ESArray;
 
-    public function join($glue = ""): ESString;
-
-// sketch - enumerable
-    // TODO: Move Convertable methods to Type and convert to static
-    // private function sanitizeType($toSanitize, string $shoopType = "");
-
+    /**
+     * @deprecated
+     */
     public function enumerate(): ESArray;
 
-    public function toggle(); // 7.4 : self;
+    public function dictionary(): ESDictionary;
 
+    public function object(): ESObject;
+
+    public function int(): ESInt;
+
+    public function bool(): ESBool;
+
+// - PHP single-method interfaces
     public function count(): ESInt;
 
-    public function countIsGreaterThan($value): ESBool;
+    public function __toString();
 
-    public function countIsNotGreaterThan($value): ESBool;
+// - Defines what it means to be Shooped
+    public function toggle(); // 7.4 : self;
 
-    public function countIsLessThan($value): ESBool;
+    public function sort(); // 7.4 : self;
 
-    public function countIsNotLessThan($value): ESBool;
+    public function shuffle(); // 7.4 : self;
 
-// Checks
-    public function isEmpty(): ESBool;
+    public function contains($needle): ESBool;
 
-    public function isArray(): ESBool;
+    public function start(...$prefixes); // 7.4 : self;
 
-    public function isNotArray(): ESBool;
-    // TODO: consider is() instead of isSame()
-    public function isSame($compare): ESBool;
+    public function startsWith($needle): ESBool;
 
-    public function isNot($compare): ESBool;
+    public function doesNotStartWith($needle): ESBool;
 
-// Other
-    // ESBool not implemented
+    public function end(...$suffixes); // 7.4 : self;
+
     public function plus(...$args); // 7.4 : self;
 
-    // ESBool not implemented
-    public function append(...$args); // 7.4 : self;
-
-    // ESBool not implemented
-    public function prepend(...$args); // 7.4 : self;
-
-    // ESBool not implemented
-    public function minus($value); // 7.4 : self;
-
-    // ESBool, ESDictionary, ESObject not implemented
-    // 
-    // Shoop::object($object)->multiply(3) -> ESArray 3 object (almost like instantiation) ??
     public function multiply($int); // 7.4 : self;
 
-    // ESBool not implemented
+    public function endsWith($needle): ESBool;
+
+    public function doesNotEndWith($needle): ESBool;
+
+    public function minus($value); // 7.4 : self;
+
     public function divide($value = null);
 
-    // TODO: Verify this is actually used by AMOS
-    // ESBool, ESObject not implemented
-    public function isDivisible($value): ESBool; // Left off here....
+    public function split($splitter, $splits = 2): ESArray;
 
-    // ESArray, ESDictionary, ESObject not implemented
     public function isGreaterThan($compare): ESBool;
 
     public function isGreaterThanOrEqual($compare): ESBool;
@@ -85,7 +84,7 @@ interface Shooped
 
     public function isLessThanOrEqual($compare): ESBool;
 
-    public function sort(); // 7.4 : self;
+    public function is($compare): ESBool;
 
-    public function shuffle(); // 7.4 : self;
+    public function isNot($compare): ESBool;
 }

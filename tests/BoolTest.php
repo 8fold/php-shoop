@@ -49,14 +49,17 @@ class BoolTest extends TestCase
         $this->assertTrue($result->isNotUnfolded($compare));
     }
 
-    public function testCanBeUsedAsPhpString()
+    public function testCanCheckForContains()
     {
-        $expected = "1";
-        $result = (string) ESBool::fold(true);
-        $this->assertEquals($expected, $result);
+        $bool = true;
+        $shoopBool = ESBool::fold($bool);
+        $result = $shoopBool->contains(false);
+        $this->assertFalse($result->unfold());
 
-        $expected = "";
-        $result = (string) ESBool::fold(false);
-        $this->assertEquals($expected, $result);
+        $result = $shoopBool->startsWith("t");
+        $this->assertTrue($result->unfold());
+
+        $result = $shoopBool->endsWith("se");
+        $this->assertFalse($result->unfold());
     }
 }

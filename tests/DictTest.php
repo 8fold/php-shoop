@@ -95,6 +95,17 @@ class DictTest extends TestCase
     {
         $expected = "Array([zero] => 0, [one] => 1)";
         $result = (string) ESDictionary::fold(["zero" => 0, "one" => 1]);
-        $this->assertEquals($expected, $result);        
+        $this->assertEquals($expected, $result);
+    }
+
+    public function testCanCheckForContains()
+    {
+        $base = ["one" => 1, "two" => 2];
+        $shoopDict = Shoop::dictionary($base);
+        $result = $shoopDict->contains(1);
+        $this->assertTrue($result->unfold());
+
+        $result = $shoopDict->startsWith([1, 2]);
+        $this->assertTrue($result->unfold());
     }
 }

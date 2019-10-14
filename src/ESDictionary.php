@@ -7,28 +7,66 @@ use Eightfold\Shoop\Traits\ShoopedImp;
 use Eightfold\Shoop\Interfaces\Shooped;
 use Eightfold\Shoop\Helpers\Type;
 
+use Eightfold\Shoop\ESInt;
+
 // TODO: get($key) - ESArray, ESDictionary
 class ESDictionary implements
-    \ArrayAccess,
     \Iterator,
     Shooped
 {
     use ShoopedImp;
 
-    public function isGreaterThan($compare): ESBool {}
+    public function __construct($dictionary)
+    {
+        if (is_array($dictionary) && Type::isDictionary($dictionary)) {
+            $this->value = $dictionary;
 
-    public function isGreaterThanOrEqual($compare): ESBool {}
+        } elseif (is_a($dictionary, ESDictionary::class)) {
+            $this->value = $dictionary->unfold();
 
-    public function isLessThan($compare): ESBool {}
+        } else {
+            $this->value = [];
 
-    public function isLessThanOrEqual($compare): ESBool {}
-
-    public function multiply($int) {}
+        }
+    }
 
     // TODO: Test + possibly write combine()
-    public function enumerate(): ESArray
+    // TODO: Alias called values
+    public function array(): ESArray
     {
         return Shoop::array(array_values($this->value));
+    }
+
+   /**
+     * @deprecated
+     */
+    public function enumerate(): ESArray
+    {
+        return $this->array();
+    }
+
+    public function dictionary(): ESDictionary
+    {
+        return $this;
+    }
+
+    public function __toString()
+    {
+        $printed = print_r($this->unfold(), true);
+        $oneLine = preg_replace('/\s+/', ' ', $printed);
+        $commas = str_replace(
+            [" [", " ) ", " (, "],
+            [", [", ")", "("],
+            $oneLine);
+        return $commas;
+    }
+
+    public function toggle()
+    {
+        $values = $this->array()->toggle();
+        $keys = $this->keys()->toggle();
+        $combined = array_combine($keys, $values);
+        return Shoop::array($combined);
     }
 
     public function sort()
@@ -45,17 +83,40 @@ class ESDictionary implements
         return Shoop::dictionary($array);
     }
 
-    public function toggle()
+    public function startsWith($needle): ESBool
     {
-        $values = $this->enumerate()->toggle();
-        $keys = $this->enumerateKeys()->toggle();
-        $combined = array_combine($keys, $values);
-        return Shoop::array($combined);
+        $needle = Type::sanitizeType($needle, ESArray::class)->unfold();
+        $count = 0;
+        foreach ($needle as $val) {
+            if ($this->contains($val)->toggleUnfolded()) {
+                return Shoop::bool(false);
+            }
+        }
+        return Shoop::bool(true);
     }
 
-    private function enumerateKeys(): ESArray
+    public function endsWith($needle): ESBool
     {
-        return Shoop::array(array_keys($this->value));
+        return $this->startsWith($needle);
+    }
+
+    public function start(...$prefixes)
+    {
+        return $this->plus(...$prefixes);
+    }
+
+    public function divide($value = null)
+    {
+        $keys = $this->enumerateKeys();
+        $values = $this->enumerate();
+        return Shoop::dictionary(["keys" => $keys, "values" => $values]);
+    }
+
+    public function minus($value)
+    {
+        $key = Type::sanitizeType($value, ESString::class);
+        unset($this[$key]);
+        return Shoop::dictionary($this->unfold());
     }
 
     public function plus(...$args)
@@ -75,67 +136,77 @@ class ESDictionary implements
         return Shoop::dictionary($dict);
     }
 
-    public function minus($value)
+    // Todo: Test
+    public function multiply($int)
     {
-        $key = Type::sanitizeType($value, ESString::class);
-        unset($this[$key]);
-        return Shoop::dictionary($this->unfold());
-    }
-
-    public function divide($value = null)
-    {
-        $keys = $this->enumerateKeys();
-        $values = $this->enumerate();
-        return Shoop::dictionary(["keys" => $keys, "values" => $values]);
-    }
-
-    public function isDivisible($value): ESBool
-    {
-        return Shoop::bool(count(array_keys($this->unfold())) > 0)
-            ->and(count(array_values($this->unfold())) > 0);
-    }
-
-    public function __toString()
-    {
-        $printed = print_r($this->unfold(), true);
-        $oneLine = preg_replace('/\s+/', ' ', $printed);
-        $commas = str_replace(
-            [" [", " ) ", " (, "], 
-            [", [", ")", "("], 
-            $oneLine);
-        return $commas;
-    }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-    public function __construct($dictionary)
-    {
-        if (is_array($dictionary) && Type::isDictionary($dictionary)) {
-            $this->value = $dictionary;
-
-        } elseif (is_a($dictionary, ESDictionary::class)) {
-            $this->value = $dictionary->unfold();
-
-        } else {
-            $this->value = [];
-
+        $int = Type::sanitizeType($int, ESInt::class)->unfold();
+        $array = Shoop::array([]);
+        for ($i = 0; $i < $int; $i++) {
+            $array[] = $this;
         }
+        return $array;
     }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    private function keys(): ESArray
+    {
+        return Shoop::array(array_keys($this->value));
+    }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
     private function validateCounts(array $args)
     {
@@ -151,7 +222,7 @@ class ESDictionary implements
 
     public function hasKey($key): ESBool
     {
-        $key = $this->sanitizeType($key, ESString::class)->unfold();
+        $key = Type::sanitizeType($key, ESString::class)->unfold();
         return Shoop::bool($this->offsetExists($key));
     }
 
@@ -162,9 +233,9 @@ class ESDictionary implements
 
     public function valueForKey($key)
     {
-        $key = $this->sanitizeType($key, ESString::class)->unfold();
+        $key = Type::sanitizeType($key, ESString::class)->unfold();
         if (array_key_exists($key, $this->value)) {
-            return $this->sanitizeType($this->value[$key]);
+            return Type::sanitizeType($this->value[$key]);
         }
         return null;
     }
@@ -174,75 +245,5 @@ class ESDictionary implements
         $key = $this->sanitizeType($key, ESString::class)->unfold();
         $this[$key] = $value;
         return $this;
-    }
-
-    // public function removeKey($key): ESDictionary
-    // {
-    //     unset($this[$key]);
-    //     return $this;
-    // }
-
-//-> ArrayAccess
-    public function offsetSet($offset, $value)
-    {
-        if (is_null($offset)) {
-            $this->value[] = $value;
-        } else {
-            $this->value[$offset] = $value;
-        }
-    }
-
-    public function offsetExists($offset): bool
-    {
-        return isset($this->value[$offset]);
-    }
-
-    public function offsetUnset($offset)
-    {
-        unset($this->value[$offset]);
-    }
-
-    public function offsetGet($offset)
-    {
-        return ($this->offsetExists($offset))
-            ? $this->value[$offset]
-            : null;
-    }
-
-    public function toObject(): \stdClass
-    {
-        return (object) $this->value;
-    }
-
-
-//-> Iterator
-    public function current(): ESInt
-    {
-        $current = key($this->value);
-        return ESInt::fold($this->value[$current]);
-    }
-
-    public function key(): ESInt
-    {
-        return ESInt::fold(key($this->value));
-    }
-
-    public function next(): ESDictionary
-    {
-        next($this->value);
-        return $this;
-    }
-
-    public function rewind(): ESDictionary
-    {
-        reset($this->value);
-        return $this;
-    }
-
-    public function valid(): bool
-    {
-        $key = key($this->value);
-        $var = ($key !== null && $key !== false);
-        return $var;
     }
 }

@@ -21,9 +21,6 @@ class ArrayTest extends TestCase
 
         $compare = ESArray::fold([3, 2, 1]);
         $this->assertTrue($result->isNotUnfolded($compare));
-
-        $result = ESArray::fold([]);
-        $this->assertTrue($result->isEmpty()->unfold());
     }
 
     public function testCanDoPlusAndMinusForArray()
@@ -35,7 +32,7 @@ class ArrayTest extends TestCase
         $expected = [1, 2, 3, 4];
         $result = ESArray::fold([1, 2])->plus(3, 4)->unfold();
         $this->assertEquals($expected, $result);
-        
+
         $expected = [1, 2, 4, 2, 1];
         $result = ESArray::fold([1, 2, 3, 4, 3, 2, 1])->minus(3)->unfold();
         $this->assertEquals($expected, $result);
@@ -47,10 +44,10 @@ class ArrayTest extends TestCase
         $result = $array->count()->unfold();
         $this->assertEquals(3, $result);
 
-        $this->assertTrue($array->countIsLessThanUnfolded(4));
-        $this->assertTrue($array->countIsNotLessThanUnfolded(3));
-        $this->assertTrue($array->countIsGreaterThanUnfolded(0));
-        $this->assertTrue($array->countIsNotGreaterThanUnfolded(4));
+        $this->assertTrue($array->isLessThanUnfolded(4));
+        $this->assertTrue($array->isGreaterThanOrEqualUnfolded(3));
+        $this->assertTrue($array->isGreaterThanUnfolded(0));
+        $this->assertTrue($array->isLessThanOrEqualUnfolded(4));
     }
 
     public function testCanSortAnArray()
@@ -136,10 +133,17 @@ class ArrayTest extends TestCase
         $this->assertTrue($count > 1);
     }
 
-    public function testCanBeUsedAsPhpString()
+    public function testCanCheckForContains()
     {
-        $expected = "Array([0] => 0, [1] => 1, [2] => 2, [3] => 3)";
-        $result = (string) ESArray::fold([0,1,2,3]);
-        $this->assertEquals($expected, $result);
+        $array = [1, 2, 3];
+        $shoopArray = Shoop::array($array);
+        $result = $shoopArray->contains(2);
+        $this->assertTrue($result->unfold());
+
+        $result = $shoopArray->startsWith([1, 2]);
+        $this->assertTrue($result->unfold());
+
+        $result = $shoopArray->endsWith([2, 3]);
+        $this->assertTrue($result->unfold());
     }
 }

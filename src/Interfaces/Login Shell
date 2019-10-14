@@ -1,0 +1,1091 @@
+josh@Joshs-MacBook-Pro laravel-amos % cd ./base               
+josh@Joshs-MacBook-Pro base % ./vendor/bin/phpunit --testsuite​‌​
+=shoop                                                        
+PHPUnit 8.3.5 by Sebastian Bergmann and contributors.
+
+.......................................                       ​‌​
+    39 / 39 (100%)
+Warning: file_put_contents(/Users/alex/Public/8fold/laravel-am​‌​
+os/base/.phpunit.result.cache): failed to open stream: Permiss​‌​
+ion denied in /Users/alex/Public/8fold/laravel-amos/base/vendo​‌​
+r/phpunit/phpunit/src/Runner/DefaultTestResultCache.php on lin​‌​
+e 108
+
+
+Time: 98 ms, Memory: 6.00 MB
+
+OK (39 tests, 115 assertions)
+josh@Joshs-MacBook-Pro base % ./vendor/bin/phpunit --testsuite​‌​
+=shoop --filter=testCanUseESStringAsPhpString                 
+PHPUnit 8.3.5 by Sebastian Bergmann and contributors.
+
+.                                                             ​‌​
+      1 / 1 (100%)
+Warning: file_put_contents(/Users/alex/Public/8fold/laravel-am
+os/base/.phpunit.result.cache): failed to open stream: Permiss
+ion denied in /Users/alex/Public/8fold/laravel-amos/base/vendo
+r/phpunit/phpunit/src/Runner/DefaultTestResultCache.php on lin
+e 108
+
+
+Time: 45 ms, Memory: 6.00 MB
+
+OK (1 test, 1 assertion)
+josh@Joshs-MacBook-Pro base % ./vendor/bin/phpunit --testsuite=shoop                     
+PHPUnit 8.3.5 by Sebastian Bergmann and contributors.                         
+
+.......................................                           39 / 39 (100​‌​
+%)
+Warning: file_put_contents(/Users/alex/Public/8fold/laravel-amos/base/.phpunit​‌​
+.result.cache): failed to open stream: Permission denied in /Users/alex/Public​‌​
+/8fold/laravel-amos/base/vendor/phpunit/phpunit/src/Runner/DefaultTestResultCa​‌​
+che.php on line 108
+
+
+Time: 43 ms, Memory: 6.00 MB
+
+OK (39 tests, 115 assertions)
+josh@Joshs-MacBook-Pro base % ./vendor/bin/phpunit --testsuite=shoop          
+PHPUnit 8.3.5 by Sebastian Bergmann and contributors.
+
+.......................................                           39 / 39 (100​‌​
+%)
+Warning: file_put_contents(/Users/alex/Public/8fold/laravel-amos/base/.phpunit​‌​
+.result.cache): failed to open stream: Permission denied in /Users/alex/Public​‌​
+/8fold/laravel-amos/base/vendor/phpunit/phpunit/src/Runner/DefaultTestResultCa​‌​
+che.php on line 108
+
+
+Time: 134 ms, Memory: 6.00 MB
+
+OK (39 tests, 115 assertions)
+josh@Joshs-MacBook-Pro base % ./vendor/bin/phpunit --testsuite=shoop --filter=​‌​
+testCanUseESStringAsPhpString                                                 
+PHPUnit 8.3.5 by Sebastian Bergmann and contributors.
+
+F                                                                   1 / 1 (100​‌​
+%)
+Warning: file_put_contents(/Users/alex/Public/8fold/laravel-amos/base/.phpunit​‌​
+.result.cache): failed to open stream: Permission denied in /Users/alex/Public​‌​
+/8fold/laravel-amos/base/vendor/phpunit/phpunit/src/Runner/DefaultTestResultCa​‌​
+che.php on line 108
+
+
+Time: 47 ms, Memory: 6.00 MB
+
+There was 1 failure:
+
+1) Eightfold\Shoop\Tests\StringTest::testCanUseESStringAsPhpString
+Failed asserting that two strings are equal.
+--- Expected
++++ Actual
+@@ @@
+-'Hello, World!'
++'Array, World!'
+
+/Users/alex/Public/8fold/php-shoop/tests/StringTest.php:146
+
+FAILURES!
+Tests: 1, Assertions: 2, Failures: 1.
+josh@Joshs-MacBook-Pro base % ./vendor/bin/phpunit --testsuite=shoop --filter=​‌​
+testCanUseESStringAsPhpString                                                 
+PHPUnit 8.3.5 by Sebastian Bergmann and contributors.
+
+.                                                                   1 / 1 (100​‌​
+%)
+Warning: file_put_contents(/Users/alex/Public/8fold/laravel-amos/base/.phpunit​‌​
+.result.cache): failed to open stream: Permission denied in /Users/alex/Public​‌​
+/8fold/laravel-amos/base/vendor/phpunit/phpunit/src/Runner/DefaultTestResultCa​‌​
+che.php on line 108
+
+
+Time: 114 ms, Memory: 6.00 MB
+
+OK (1 test, 1 assertion)
+josh@Joshs-MacBook-Pro base % ./vendor/bin/phpunit --testsuite=shoop --filter=​‌​
+testCanUseESStringAsPhpString                                                 
+PHPUnit 8.3.5 by Sebastian Bergmann and contributors.
+
+.                                                                   1 / 1 (100​‌​
+%)
+Warning: file_put_contents(/Users/alex/Public/8fold/laravel-amos/base/.phpunit​‌​
+.result.cache): failed to open stream: Permission denied in /Users/alex/Public​‌​
+/8fold/laravel-amos/base/vendor/phpunit/phpunit/src/Runner/DefaultTestResultCa​‌​
+che.php on line 108
+
+
+Time: 38 ms, Memory: 6.00 MB
+
+OK (1 test, 1 assertion)
+josh@Joshs-MacBook-Pro base % ./vendor/bin/phpunit --testsuite=shoop          
+PHPUnit 8.3.5 by Sebastian Bergmann and contributors.                         
+
+............F............................                         41 / 41 (100​‌​
+%)
+Warning: file_put_contents(/Users/alex/Public/8fold/laravel-amos/base/.phpunit​‌​
+.result.cache): failed to open stream: Permission denied in /Users/alex/Public​‌​
+/8fold/laravel-amos/base/vendor/phpunit/phpunit/src/Runner/DefaultTestResultCa​‌​
+che.php on line 108
+
+
+Time: 44 ms, Memory: 6.00 MB
+
+There was 1 failure:
+
+1) Eightfold\Shoop\Tests\BoolTest::testCanBeUsedAsPhpString
+Failed asserting that two strings are equal.
+--- Expected
++++ Actual
+@@ @@
+-'0'
++''
+
+/Users/alex/Public/8fold/php-shoop/tests/BoolTest.php:60
+
+FAILURES!
+Tests: 41, Assertions: 118, Failures: 1.
+josh@Joshs-MacBook-Pro base % ./vendor/bin/phpunit --testsuite=shoop          
+PHPUnit 8.3.5 by Sebastian Bergmann and contributors.
+
+.........................................                         41 / 41 (100​‌​
+%)
+Warning: file_put_contents(/Users/alex/Public/8fold/laravel-amos/base/.phpunit​‌​
+.result.cache): failed to open stream: Permission denied in /Users/alex/Public​‌​
+/8fold/laravel-amos/base/vendor/phpunit/phpunit/src/Runner/DefaultTestResultCa​‌​
+che.php on line 108
+
+
+Time: 122 ms, Memory: 6.00 MB
+
+OK (41 tests, 118 assertions)
+josh@Joshs-MacBook-Pro base % ./vendor/bin/phpunit --testsuite=shoop          
+PHPUnit 8.3.5 by Sebastian Bergmann and contributors.
+
+..........F...............................                        42 / 42 (100​‌​
+%)
+Warning: file_put_contents(/Users/alex/Public/8fold/laravel-amos/base/.phpunit​‌​
+.result.cache): failed to open stream: Permission denied in /Users/alex/Public​‌​
+/8fold/laravel-amos/base/vendor/phpunit/phpunit/src/Runner/DefaultTestResultCa​‌​
+che.php on line 108
+
+
+Time: 105 ms, Memory: 6.00 MB
+
+There was 1 failure:
+
+1) Eightfold\Shoop\Tests\ArrayTest::testCanBeUsedAsPhpString
+Failed asserting that two strings are equal.
+--- Expected
++++ Actual
+@@ @@
+-''
++'Array'
+
+/Users/alex/Public/8fold/php-shoop/tests/ArrayTest.php:143
+
+FAILURES!
+Tests: 42, Assertions: 119, Failures: 1.
+josh@Joshs-MacBook-Pro base % ./vendor/bin/phpunit --testsuite=shoop --filter=​‌​
+testCanBeUsedAsPhpString                                                      
+PHPUnit 8.3.5 by Sebastian Bergmann and contributors.
+
+F..                                                                 3 / 3 (100​‌​
+%)
+Warning: file_put_contents(/Users/alex/Public/8fold/laravel-amos/base/.phpunit​‌​
+.result.cache): failed to open stream: Permission denied in /Users/alex/Public​‌​
+/8fold/laravel-amos/base/vendor/phpunit/phpunit/src/Runner/DefaultTestResultCa​‌​
+che.php on line 108
+
+
+Time: 41 ms, Memory: 6.00 MB
+
+There was 1 failure:
+
+1) Eightfold\Shoop\Tests\ArrayTest::testCanBeUsedAsPhpString
+Failed asserting that two strings are equal.
+--- Expected
++++ Actual
+@@ @@
+-''
++'Array\n
++(\n
++    [0] => 0\n
++    [1] => 1\n
++    [2] => 2\n
++    [3] => 3\n
++)\n
++'
+
+/Users/alex/Public/8fold/php-shoop/tests/ArrayTest.php:143
+
+FAILURES!
+Tests: 3, Assertions: 4, Failures: 1.
+josh@Joshs-MacBook-Pro base % ./vendor/bin/phpunit --testsuite=shoop --filter=​‌​
+testCanBeUsedAsPhpString                                                      
+PHPUnit 8.3.5 by Sebastian Bergmann and contributors.
+
+F..                                                                 3 / 3 (100​‌​
+%)
+Warning: file_put_contents(/Users/alex/Public/8fold/laravel-amos/base/.phpunit​‌​
+.result.cache): failed to open stream: Permission denied in /Users/alex/Public​‌​
+/8fold/laravel-amos/base/vendor/phpunit/phpunit/src/Runner/DefaultTestResultCa​‌​
+che.php on line 108
+
+
+Time: 123 ms, Memory: 6.00 MB
+
+There was 1 failure:
+
+1) Eightfold\Shoop\Tests\ArrayTest::testCanBeUsedAsPhpString
+Failed asserting that two strings are equal.
+--- Expected
++++ Actual
+@@ @@
+-''
++'Array ( [0] => 0 [1] => 1 [2] => 2 [3] => 3 ) '
+
+/Users/alex/Public/8fold/php-shoop/tests/ArrayTest.php:143
+
+FAILURES!
+Tests: 3, Assertions: 4, Failures: 1.
+josh@Joshs-MacBook-Pro base % ./vendor/bin/phpunit --testsuite=shoop --filter=​‌​
+testCanBeUsedAsPhpString                                                      
+PHPUnit 8.3.5 by Sebastian Bergmann and contributors.
+
+F..                                                                 3 / 3 (100​‌​
+%)
+Warning: file_put_contents(/Users/alex/Public/8fold/laravel-amos/base/.phpunit​‌​
+.result.cache): failed to open stream: Permission denied in /Users/alex/Public​‌​
+/8fold/laravel-amos/base/vendor/phpunit/phpunit/src/Runner/DefaultTestResultCa​‌​
+che.php on line 108
+
+
+Time: 135 ms, Memory: 6.00 MB
+
+There was 1 failure:
+
+1) Eightfold\Shoop\Tests\ArrayTest::testCanBeUsedAsPhpString
+Failed asserting that two strings are equal.
+--- Expected
++++ Actual
+@@ @@
+-''
++'Array (, [0] => 0, [1] => 1, [2] => 2, [3] => 3)'
+
+/Users/alex/Public/8fold/php-shoop/tests/ArrayTest.php:143
+
+FAILURES!
+Tests: 3, Assertions: 4, Failures: 1.
+josh@Joshs-MacBook-Pro base % ./vendor/bin/phpunit --testsuite=shoop --filter=​‌​
+testCanBeUsedAsPhpString                                                      
+PHPUnit 8.3.5 by Sebastian Bergmann and contributors.
+
+F..                                                                 3 / 3 (100​‌​
+%)
+Warning: file_put_contents(/Users/alex/Public/8fold/laravel-amos/base/.phpunit​‌​
+.result.cache): failed to open stream: Permission denied in /Users/alex/Public​‌​
+/8fold/laravel-amos/base/vendor/phpunit/phpunit/src/Runner/DefaultTestResultCa​‌​
+che.php on line 108
+
+
+Time: 125 ms, Memory: 6.00 MB
+
+There was 1 failure:
+
+1) Eightfold\Shoop\Tests\ArrayTest::testCanBeUsedAsPhpString
+Failed asserting that two strings are equal.
+--- Expected
++++ Actual
+@@ @@
+-''
++'Array([0] => 0, [1] => 1, [2] => 2, [3] => 3)'
+
+/Users/alex/Public/8fold/php-shoop/tests/ArrayTest.php:143
+
+FAILURES!
+Tests: 3, Assertions: 4, Failures: 1.
+josh@Joshs-MacBook-Pro base % ./vendor/bin/phpunit --testsuite=shoop --filter=​‌​
+testCanBeUsedAsPhpString                                                      
+PHPUnit 8.3.5 by Sebastian Bergmann and contributors.
+
+...                                                                 3 / 3 (100​‌​
+%)
+Warning: file_put_contents(/Users/alex/Public/8fold/laravel-amos/base/.phpunit​‌​
+.result.cache): failed to open stream: Permission denied in /Users/alex/Public​‌​
+/8fold/laravel-amos/base/vendor/phpunit/phpunit/src/Runner/DefaultTestResultCa​‌​
+che.php on line 108
+
+
+Time: 41 ms, Memory: 6.00 MB
+
+OK (3 tests, 4 assertions)
+josh@Joshs-MacBook-Pro base % ./vendor/bin/phpunit --testsuite=shoop --filter=​‌​
+testCanBeUsedAsPhpString                                                      
+PHPUnit 8.3.5 by Sebastian Bergmann and contributors.
+
+..F.                                                                4 / 4 (100​‌​
+%)
+Warning: file_put_contents(/Users/alex/Public/8fold/laravel-amos/base/.phpunit​‌​
+.result.cache): failed to open stream: Permission denied in /Users/alex/Public​‌​
+/8fold/laravel-amos/base/vendor/phpunit/phpunit/src/Runner/DefaultTestResultCa​‌​
+che.php on line 108
+
+
+Time: 42 ms, Memory: 6.00 MB
+
+There was 1 failure:
+
+1) Eightfold\Shoop\Tests\DictTest::testCanBeUsedAsPhpString
+Failed asserting that two strings are equal.
+--- Expected
++++ Actual
+@@ @@
+-''
++'Array([zero] => 0, [one] => 1)'
+
+/Users/alex/Public/8fold/php-shoop/tests/DictTest.php:98
+
+FAILURES!
+Tests: 4, Assertions: 5, Failures: 1.
+josh@Joshs-MacBook-Pro base % ./vendor/bin/phpunit --testsuite=shoop --filter=​‌​
+testCanBeUsedAsPhpString                                                      
+PHPUnit 8.3.5 by Sebastian Bergmann and contributors.
+
+....                                                                4 / 4 (100​‌​
+%)
+Warning: file_put_contents(/Users/alex/Public/8fold/laravel-amos/base/.phpunit
+.result.cache): failed to open stream: Permission denied in /Users/alex/Public
+/8fold/laravel-amos/base/vendor/phpunit/phpunit/src/Runner/DefaultTestResultCa
+che.php on line 108
+
+
+Time: 40 ms, Memory: 6.00 MB
+
+OK (4 tests, 5 assertions)
+josh@Joshs-MacBook-Pro base % ./vendor/bin/phpunit --testsuite=shoop          ​‌​
+--filter=testCanBeUsedAsPhpString                                    
+PHPUnit 8.3.5 by Sebastian Bergmann and contributors.
+
+....                                                                4​‌​
+ / 4 (100%)
+Warning: file_put_contents(/Users/alex/Public/8fold/laravel-amos/base​‌​
+/.phpunit.result.cache): failed to open stream: Permission denied in ​‌​
+/Users/alex/Public/8fold/laravel-amos/base/vendor/phpunit/phpunit/src​‌​
+/Runner/DefaultTestResultCache.php on line 108
+
+
+Time: 111 ms, Memory: 6.00 MB
+
+OK (4 tests, 5 assertions)
+josh@Joshs-MacBook-Pro base % ./vendor/bin/phpunit --testsuite=shoop ​‌​
+--filter=testCanBeUsedAsPhpString                                    
+PHPUnit 8.3.5 by Sebastian Bergmann and contributors.
+
+....                                                                4​‌​
+ / 4 (100%)
+Warning: file_put_contents(/Users/alex/Public/8fold/laravel-amos/base​‌​
+/.phpunit.result.cache): failed to open stream: Permission denied in ​‌​
+/Users/alex/Public/8fold/laravel-amos/base/vendor/phpunit/phpunit/src​‌​
+/Runner/DefaultTestResultCache.php on line 108
+
+
+Time: 108 ms, Memory: 6.00 MB
+
+OK (4 tests, 5 assertions)
+josh@Joshs-MacBook-Pro base % ./vendor/bin/phpunit --testsuite=shoop ​‌​
+--filter=testCanUseObjectAsPhpString                                 
+PHPUnit 8.3.5 by Sebastian Bergmann and contributors.
+
+E                                                                   1​‌​
+ / 1 (100%)
+Warning: file_put_contents(/Users/alex/Public/8fold/laravel-amos/base​‌​
+/.phpunit.result.cache): failed to open stream: Permission denied in ​‌​
+/Users/alex/Public/8fold/laravel-amos/base/vendor/phpunit/phpunit/src​‌​
+/Runner/DefaultTestResultCache.php on line 108
+
+
+Time: 44 ms, Memory: 6.00 MB
+
+There was 1 error:
+
+1) Eightfold\Shoop\Tests\ShoopTest::testCanUseObjectAsPhpString
+Error: Class 'Eightfold\Shoop\Tests\ESBool' not found
+
+/Users/alex/Public/8fold/php-shoop/tests/ShoopTest.php:28
+
+ERRORS!
+Tests: 1, Assertions: 0, Errors: 1.
+josh@Joshs-MacBook-Pro base % ./vendor/bin/phpunit --testsuite=shoop ​‌​
+--filter=testCanUseObjectAsPhpString                                 
+PHPUnit 8.3.5 by Sebastian Bergmann and contributors.
+
+E                                                                   1​‌​
+ / 1 (100%)
+Warning: file_put_contents(/Users/alex/Public/8fold/laravel-amos/base​‌​
+/.phpunit.result.cache): failed to open stream: Permission denied in ​‌​
+/Users/alex/Public/8fold/laravel-amos/base/vendor/phpunit/phpunit/src​‌​
+/Runner/DefaultTestResultCache.php on line 108
+
+
+Time: 115 ms, Memory: 6.00 MB
+
+There was 1 error:
+
+1) Eightfold\Shoop\Tests\ShoopTest::testCanUseObjectAsPhpString
+Method Eightfold\Shoop\ESObject::__toString() must return a string va​‌​
+lue
+
+/Users/alex/Public/8fold/php-shoop/tests/ShoopTest.php:28
+
+ERRORS!
+Tests: 1, Assertions: 0, Errors: 1.
+josh@Joshs-MacBook-Pro base % ./vendor/bin/phpunit --testsuite=shoop ​‌​
+--filter=testCanUseObjectAsPhpString                                 
+PHPUnit 8.3.5 by Sebastian Bergmann and contributors.
+
+F                                                                   1​‌​
+ / 1 (100%)
+Warning: file_put_contents(/Users/alex/Public/8fold/laravel-amos/base​‌​
+/.phpunit.result.cache): failed to open stream: Permission denied in ​‌​
+/Users/alex/Public/8fold/laravel-amos/base/vendor/phpunit/phpunit/src​‌​
+/Runner/DefaultTestResultCache.php on line 108
+
+
+Time: 93 ms, Memory: 6.00 MB
+
+There was 1 failure:
+
+1) Eightfold\Shoop\Tests\ShoopTest::testCanUseObjectAsPhpString
+Failed asserting that two strings are equal.
+--- Expected
++++ Actual
+@@ @@
+-'Array([zero] => 0, [one] => 1)'
++'Array ()'
+
+/Users/alex/Public/8fold/php-shoop/tests/ShoopTest.php:29
+
+FAILURES!
+Tests: 1, Assertions: 1, Failures: 1.
+josh@Joshs-MacBook-Pro base % ./vendor/bin/phpunit --testsuite=shoop ​‌​
+--filter=testCanUseObjectAsPhpString                                 
+PHPUnit 8.3.5 by Sebastian Bergmann and contributors.
+
+object(stdClass)#397 (2) {
+  ["zero"]=>
+  int(0)
+  ["one"]=>
+  int(1)
+}
+josh@Joshs-MacBook-Pro base % ./vendor/bin/phpunit --testsuite=shoop ​‌​
+--filter=testCanUseObjectAsPhpString                                 
+PHPUnit 8.3.5 by Sebastian Bergmann and contributors.
+
+.                                                                   1​‌​
+ / 1 (100%)
+Warning: file_put_contents(/Users/alex/Public/8fold/laravel-amos/base​‌​
+/.phpunit.result.cache): failed to open stream: Permission denied in ​‌​
+/Users/alex/Public/8fold/laravel-amos/base/vendor/phpunit/phpunit/src​‌​
+/Runner/DefaultTestResultCache.php on line 108
+
+
+Time: 104 ms, Memory: 6.00 MB
+
+OK (1 test, 1 assertion)
+josh@Joshs-MacBook-Pro base % ./vendor/bin/phpunit --testsuite=shoop ​‌​
+--filter=testCanUseObjectAsPhpString                                 
+PHPUnit 8.3.5 by Sebastian Bergmann and contributors.
+
+.                                                                   1​‌​
+ / 1 (100%)
+
+Time: 144 ms, Memory: 6.00 MB
+
+OK (1 test, 1 assertion)
+josh@Joshs-MacBook-Pro base % ./vendor/bin/phpunit --testsuite=shoop ​‌​
+PHPUnit 8.3.5 by Sebastian Bergmann and contributors.                
+
+............................................                      44 ​‌​
+/ 44 (100%)
+
+Time: 55 ms, Memory: 6.00 MB
+
+OK (44 tests, 121 assertions)
+josh@Joshs-MacBook-Pro base % 
+josh@Joshs-MacBook-Pro laravel-amos % cd ./base                      
+josh@Joshs-MacBook-Pro base % ./vendor/bin/phpunit --testsuite=shoop 
+PHPUnit 8.3.5 by Sebastian Bergmann and contributors.
+
+............................................                      44 ​‌​
+/ 44 (100%)
+
+Time: 91 ms, Memory: 6.00 MB
+
+OK (44 tests, 121 assertions)
+josh@Joshs-MacBook-Pro base % ./vendor/bin/phpunit --testsuite=shoop 
+PHPUnit 8.3.5 by Sebastian Bergmann and contributors.
+
+
+Fatal error: Class Eightfold\Shoop\ESBool contains 1 abstract method ​‌​
+and must therefore be declared abstract or implement the remaining me​‌​
+thods (Eightfold\Shoop\Interfaces\Shooped::sorted) in /Users/alex/Pub
+lic/8fold/php-shoop/src/ESBool.php on line 9
+josh@Joshs-MacBook-Pro base % ./vendor/bin/phpunit --testsuite=shoop 
+PHPUnit 8.3.5 by Sebastian Bergmann and contributors.
+
+..
+Fatal error: Class Eightfold\Shoop\ESInt contains 1 abstract method a
+nd must therefore be declared abstract or implement the remaining met
+hods (Eightfold\Shoop\Interfaces\Shooped::sorted) in /Users/alex/Publ
+ic/8fold/php-shoop/src/ESInt.php on line 10
+josh@Joshs-MacBook-Pro base % ./vendor/bin/phpunit --testsuite=shoop          
+PHPUnit 8.3.5 by Sebastian Bergmann and contributors.
+
+........
+Fatal error: Class Eightfold\Shoop\ESString contains 1 abstract method and mus​‌​
+t therefore be declared abstract or implement the remaining methods (Eightfold​‌​
+\Shoop\Interfaces\Shooped::sorted) in /Users/alex/Public/8fold/php-shoop/src/E​‌​
+SString.php on line 10
+josh@Joshs-MacBook-Pro base % ./vendor/bin/phpunit --testsuite=shoop          
+PHPUnit 8.3.5 by Sebastian Bergmann and contributors.
+
+..............
+Fatal error: Class Eightfold\Shoop\ESDictionary contains 1 abstract method and​‌​
+ must therefore be declared abstract or implement the remaining methods (Eight​‌​
+fold\Shoop\Interfaces\Shooped::sorted) in /Users/alex/Public/8fold/php-shoop/s​‌​
+rc/ESDictionary.php on line 11
+josh@Joshs-MacBook-Pro base % ./vendor/bin/phpunit --testsuite=shoop          
+PHPUnit 8.3.5 by Sebastian Bergmann and contributors.
+
+.................
+Fatal error: Class Eightfold\Shoop\ESObject contains 1 abstract method and mus​‌​
+t therefore be declared abstract or implement the remaining methods (Eightfold​‌​
+\Shoop\Interfaces\Shooped::sorted) in /Users/alex/Public/8fold/php-shoop/src/E​‌​
+SObject.php on line 9
+josh@Joshs-MacBook-Pro base % ./vendor/bin/phpunit --testsuite=shoop          
+PHPUnit 8.3.5 by Sebastian Bergmann and contributors.
+
+.................
+Fatal error: Class Eightfold\Shoop\ESObject contains 1 abstract method and mus​‌​
+t therefore be declared abstract or implement the remaining methods (Eightfold​‌​
+\Shoop\Interfaces\Shooped::sorted) in /Users/alex/Public/8fold/php-shoop/src/E​‌​
+SObject.php on line 9
+josh@Joshs-MacBook-Pro base % ./vendor/bin/phpunit --testsuite=shoop          
+PHPUnit 8.3.5 by Sebastian Bergmann and contributors.
+
+
+Fatal error: Class Eightfold\Shoop\ESArray contains 1 abstract method and must​‌​
+ therefore be declared abstract or implement the remaining methods (Eightfold\​‌​
+Shoop\Interfaces\Shooped::sort) in /Users/alex/Public/8fold/php-shoop/src/ESAr​‌​
+ray.php on line 11
+josh@Joshs-MacBook-Pro base % ./vendor/bin/phpunit --testsuite=shoop          
+PHPUnit 8.3.5 by Sebastian Bergmann and contributors.
+
+
+Fatal error: Class Eightfold\Shoop\ESBool contains 1 abstract method and must ​‌​
+therefore be declared abstract or implement the remaining methods (Eightfold\S​‌​
+hoop\Interfaces\Shooped::sort) in /Users/alex/Public/8fold/php-shoop/src/ESBoo​‌​
+l.php on line 9
+josh@Joshs-MacBook-Pro base % ./vendor/bin/phpunit --testsuite=shoop          
+PHPUnit 8.3.5 by Sebastian Bergmann and contributors.
+
+..
+Fatal error: Class Eightfold\Shoop\ESInt contains 1 abstract method and must t​‌​
+herefore be declared abstract or implement the remaining methods (Eightfold\Sh​‌​
+oop\Interfaces\Shooped::sort) in /Users/alex/Public/8fold/php-shoop/src/ESInt.​‌​
+php on line 10
+josh@Joshs-MacBook-Pro base % ./vendor/bin/phpunit --testsuite=shoop          
+PHPUnit 8.3.5 by Sebastian Bergmann and contributors.
+
+...E....
+Fatal error: Class Eightfold\Shoop\ESString contains 1 abstract method and mus​‌​
+t therefore be declared abstract or implement the remaining methods (Eightfold​‌​
+\Shoop\Interfaces\Shooped::sort) in /Users/alex/Public/8fold/php-shoop/src/ESS​‌​
+tring.php on line 10
+josh@Joshs-MacBook-Pro base % ./vendor/bin/phpunit --testsuite=shoop          
+PHPUnit 8.3.5 by Sebastian Bergmann and contributors.
+
+...E..........
+Fatal error: Class Eightfold\Shoop\ESDictionary contains 1 abstract method and​‌​
+ must therefore be declared abstract or implement the remaining methods (Eight​‌​
+fold\Shoop\Interfaces\Shooped::sort) in /Users/alex/Public/8fold/php-shoop/src​‌​
+/ESDictionary.php on line 11
+josh@Joshs-MacBook-Pro base % ./vendor/bin/phpunit --testsuite=shoop          
+PHPUnit 8.3.5 by Sebastian Bergmann and contributors.
+
+...E.............
+Fatal error: Class Eightfold\Shoop\ESObject contains 1 abstract method and mus​‌​
+t therefore be declared abstract or implement the remaining methods (Eightfold​‌​
+\Shoop\Interfaces\Shooped::sort) in /Users/alex/Public/8fold/php-shoop/src/ESO​‌​
+bject.php on line 9
+josh@Joshs-MacBook-Pro base % ./vendor/bin/phpunit --testsuite=shoop          
+PHPUnit 8.3.5 by Sebastian Bergmann and contributors.
+
+...E........................................                      44 / 44 (100​‌​
+%)
+
+Time: 123 ms, Memory: 6.00 MB
+
+There was 1 error:
+
+1) Eightfold\Shoop\Tests\ArrayTest::testCanSortAnArray
+sorted is an invalid method on Eightfold\Shoop\ESArray
+
+/Users/alex/Public/8fold/php-shoop/src/Traits/ShoopedImp.php:67
+/Users/alex/Public/8fold/php-shoop/src/Traits/ShoopedImp.php:48
+/Users/alex/Public/8fold/php-shoop/tests/ArrayTest.php:59
+
+ERRORS!
+Tests: 44, Assertions: 120, Errors: 1.
+josh@Joshs-MacBook-Pro base % ./vendor/bin/phpunit --testsuite=shoop          
+PHPUnit 8.3.5 by Sebastian Bergmann and contributors.
+
+............................................                      44 / 44 (100​‌​
+%)
+
+Time: 126 ms, Memory: 6.00 MB
+
+OK (44 tests, 121 assertions)
+josh@Joshs-MacBook-Pro base % ./vendor/bin/phpunit --testsuite=shoop          
+PHPUnit 8.3.5 by Sebastian Bergmann and contributors.
+
+............................................                      44 / 44 (100​‌​
+%)
+
+Time: 46 ms, Memory: 6.00 MB
+
+OK (44 tests, 121 assertions)
+josh@Joshs-MacBook-Pro base % ./vendor/bin/phpunit --testsuite=shoop          
+PHPUnit 8.3.5 by Sebastian Bergmann and contributors.
+
+..............
+Fatal error: Cannot redeclare Eightfold\Shoop\ESDictionary::sort() in /Users/a​‌​
+lex/Public/8fold/php-shoop/src/ESDictionary.php on line 41
+josh@Joshs-MacBook-Pro base % ./vendor/bin/phpunit --testsuite=shoop          
+PHPUnit 8.3.5 by Sebastian Bergmann and contributors.
+
+............................................                      44 / 44 (100​‌​
+%)
+
+Time: 130 ms, Memory: 6.00 MB
+
+OK (44 tests, 121 assertions)
+josh@Joshs-MacBook-Pro base % ./vendor/bin/phpunit --testsuite=shoop          
+PHPUnit 8.3.5 by Sebastian Bergmann and contributors.
+
+............................................                      44 / 44 (100​‌​
+%)
+
+Time: 115 ms, Memory: 6.00 MB
+
+OK (44 tests, 121 assertions)
+josh@Joshs-MacBook-Pro base % ./vendor/bin/phpunit --testsuite=shoop          
+PHPUnit 8.3.5 by Sebastian Bergmann and contributors.
+
+EEEEEEEEEEE......E.............
+Fatal error: Cannot redeclare Eightfold\Shoop\ESObject::isDivisible() in /User
+s/alex/Public/8fold/php-shoop/src/ESObject.php on line 87
+josh@Joshs-MacBook-Pro base % ./vendor/bin/phpunit --testsuite=shoop          
+PHPUnit 8.3.5 by Sebastian Bergmann and contributors.
+
+EEEEEEEEEEE
+Fatal error: Class Eightfold\Shoop\ESBool contains 1 abstract method and must ​‌​
+therefore be declared abstract or implement the remaining methods (Eightfold\S​‌​
+hoop\Interfaces\Shooped::join) in /Users/alex/Public/8fold/php-shoop/src/ESBoo​‌​
+l.php on line 9
+josh@Joshs-MacBook-Pro base % ./vendor/bin/phpunit --testsuite=shoop          
+PHPUnit 8.3.5 by Sebastian Bergmann and contributors.
+
+EEEEEEEEEEE
+Fatal error: Class Eightfold\Shoop\ESBool contains 1 abstract method and must ​‌​
+therefore be declared abstract or implement the remaining methods (Eightfold\S​‌​
+hoop\Interfaces\Shooped::join) in /Users/alex/Public/8fold/php-shoop/src/ESBoo​‌​
+l.php on line 9
+josh@Joshs-MacBook-Pro base % ./vendor/bin/phpunit --testsuite=shoop          
+PHPUnit 8.3.5 by Sebastian Bergmann and contributors.
+
+EEEEEEEEEEE
+Fatal error: Class Eightfold\Shoop\ESBool contains 2 abstract methods and must​‌​
+ therefore be declared abstract or implement the remaining methods (Eightfold\​‌​
+Shoop\Interfaces\Shooped::array, Eightfold\Shoop\Interfaces\Shooped::join) in ​‌​
+/Users/alex/Public/8fold/php-shoop/src/ESBool.php on line 9
+josh@Joshs-MacBook-Pro base % ./vendor/bin/phpunit --testsuite=shoop          
+PHPUnit 8.3.5 by Sebastian Bergmann and contributors.
+
+EEEEEEEEEEE
+Fatal error: Declaration of Eightfold\Shoop\ESBool::string() must be compatibl​‌​
+e with Eightfold\Shoop\Interfaces\Shooped::string(): Eightfold\Shoop\Interface​‌​
+s\ESString in /Users/alex/Public/8fold/php-shoop/src/ESBool.php on line 9
+josh@Joshs-MacBook-Pro base % ./vendor/bin/phpunit --testsuite=shoop          
+PHPUnit 8.3.5 by Sebastian Bergmann and contributors.
+
+EEEEEEEEEEE
+Fatal error: Declaration of Eightfold\Shoop\ESBool::string(): Eightfold\Shoop\​‌​
+Traits\ESString must be compatible with Eightfold\Shoop\Interfaces\Shooped::st​‌​
+ring(): Eightfold\Shoop\Interfaces\ESString in /Users/alex/Public/8fold/php-sh​‌​
+oop/src/ESBool.php on line 9
+josh@Joshs-MacBook-Pro base % ./vendor/bin/phpunit --testsuite=shoop          
+PHPUnit 8.3.5 by Sebastian Bergmann and contributors.
+
+EEEEEEEEEEE
+Fatal error: Declaration of Eightfold\Shoop\ESString::string(): Eightfold\Shoo​‌​
+p\ESString must be compatible with Eightfold\Shoop\Interfaces\Shooped::string(​‌​
+): Eightfold\Shoop\Interfaces\ESString in /Users/alex/Public/8fold/php-shoop/s​‌​
+rc/ESString.php on line 10
+josh@Joshs-MacBook-Pro base % ./vendor/bin/phpunit --testsuite=shoop          
+PHPUnit 8.3.5 by Sebastian Bergmann and contributors.
+
+EEEEEEEEEEE
+Fatal error: Class Eightfold\Shoop\ESBool contains 1 abstract method and must ​‌​
+therefore be declared abstract or implement the remaining methods (Eightfold\S​‌​
+hoop\Interfaces\Shooped::join) in /Users/alex/Public/8fold/php-shoop/src/ESBoo​‌​
+l.php on line 9
+josh@Joshs-MacBook-Pro base % ./vendor/bin/phpunit --testsuite=shoop          
+PHPUnit 8.3.5 by Sebastian Bergmann and contributors.
+
+EEEEEEEEEEE
+Fatal error: Class Eightfold\Shoop\ESString contains 1 abstract method and mus​‌​
+t therefore be declared abstract or implement the remaining methods (Eightfold​‌​
+\Shoop\Interfaces\Shooped::array) in /Users/alex/Public/8fold/php-shoop/src/ES​‌​
+String.php on line 10
+josh@Joshs-MacBook-Pro base % ./vendor/bin/phpunit --testsuite=shoop          
+PHPUnit 8.3.5 by Sebastian Bergmann and contributors.
+
+EEEEEEEEEEE...
+Fatal error: Class Eightfold\Shoop\ESDictionary contains 1 abstract method and​‌​
+ must therefore be declared abstract or implement the remaining methods (Eight​‌​
+fold\Shoop\Interfaces\Shooped::array) in /Users/alex/Public/8fold/php-shoop/sr​‌​
+c/ESDictionary.php on line 11
+josh@Joshs-MacBook-Pro base % ./vendor/bin/phpunit --testsuite=shoop          
+PHPUnit 8.3.5 by Sebastian Bergmann and contributors.
+
+EEEEEEEEEEE....
+Fatal error: Class Eightfold\Shoop\ESInt contains 1 abstract method and must t​‌​
+herefore be declared abstract or implement the remaining methods (Eightfold\Sh​‌​
+oop\Interfaces\Shooped::array) in /Users/alex/Public/8fold/php-shoop/src/ESInt​‌​
+.php on line 10
+josh@Joshs-MacBook-Pro base % ./vendor/bin/phpunit --testsuite=shoop          
+PHPUnit 8.3.5 by Sebastian Bergmann and contributors.
+
+EEEEEEEEEEE......E.............
+Fatal error: Cannot redeclare Eightfold\Shoop\ESObject::isDivisible() in /User​‌​
+s/alex/Public/8fold/php-shoop/src/ESObject.php on line 87
+josh@Joshs-MacBook-Pro base % ./vendor/bin/phpunit --testsuite=shoop          
+PHPUnit 8.3.5 by Sebastian Bergmann and contributors.
+
+EEEEEEEEEEE......E.............
+Fatal error: Class Eightfold\Shoop\ESObject contains 1 abstract method and mus​‌​
+t therefore be declared abstract or implement the remaining methods (Eightfold​‌​
+\Shoop\Interfaces\Shooped::array) in /Users/alex/Public/8fold/php-shoop/src/ES​‌​
+Object.php on line 9
+josh@Joshs-MacBook-Pro base % ./vendor/bin/phpunit --testsuite=shoop          
+PHPUnit 8.3.5 by Sebastian Bergmann and contributors.
+
+EEEEEEEEEEE......E...............E.E...EEE..                      44 / 44 (100​‌​
+%)
+
+Time: 141 ms, Memory: 8.00 MB
+
+There were 17 errors:
+
+1) Eightfold\Shoop\Tests\ArrayTest::testCanInitializeArr
+ParseError: syntax error, unexpected '<', expecting ';' or '{'
+
+/Users/alex/Public/8fold/php-shoop/src/ESArray.php:173
+/Users/alex/Public/8fold/php-shoop/tests/ArrayTest.php:16
+
+2) Eightfold\Shoop\Tests\ArrayTest::testCanDoPlusAndMinusForArray
+ParseError: syntax error, unexpected '<', expecting ';' or '{'
+
+/Users/alex/Public/8fold/php-shoop/src/ESArray.php:173
+/Users/alex/Public/8fold/php-shoop/tests/ArrayTest.php:32
+
+3) Eightfold\Shoop\Tests\ArrayTest::testCanCountContents
+ParseError: syntax error, unexpected '<', expecting ';' or '{'
+
+/Users/alex/Public/8fold/php-shoop/src/ESArray.php:173
+/Users/alex/Public/8fold/php-shoop/tests/ArrayTest.php:46
+
+4) Eightfold\Shoop\Tests\ArrayTest::testCanSortAnArray
+ParseError: syntax error, unexpected '<', expecting ';' or '{'
+
+/Users/alex/Public/8fold/php-shoop/src/ESArray.php:173
+/Users/alex/Public/8fold/php-shoop/tests/ArrayTest.php:59
+
+5) Eightfold\Shoop\Tests\ArrayTest::testCanReverseArrayAndPutItBack
+ParseError: syntax error, unexpected '<', expecting ';' or '{'
+
+/Users/alex/Public/8fold/php-shoop/src/ESArray.php:173
+/Users/alex/Public/8fold/php-shoop/tests/ArrayTest.php:67
+
+6) Eightfold\Shoop\Tests\ArrayTest::testCanGetFirstAndLastViaMinAndMax
+ParseError: syntax error, unexpected '<', expecting ';' or '{'
+
+/Users/alex/Public/8fold/php-shoop/src/ESArray.php:173
+/Users/alex/Public/8fold/php-shoop/tests/ArrayTest.php:77
+
+7) Eightfold\Shoop\Tests\ArrayTest::testDropFirstAndLast
+ParseError: syntax error, unexpected '<', expecting ';' or '{'
+
+/Users/alex/Public/8fold/php-shoop/src/ESArray.php:173
+/Users/alex/Public/8fold/php-shoop/tests/ArrayTest.php:89
+
+8) Eightfold\Shoop\Tests\ArrayTest::testCanInsertValueAtIndex
+ParseError: syntax error, unexpected '<', expecting ';' or '{'
+
+/Users/alex/Public/8fold/php-shoop/src/ESArray.php:173
+/Users/alex/Public/8fold/php-shoop/tests/ArrayTest.php:113
+
+9) Eightfold\Shoop\Tests\ArrayTest::testCanJoinStringArray
+ParseError: syntax error, unexpected '<', expecting ';' or '{'
+
+/Users/alex/Public/8fold/php-shoop/src/ESArray.php:173
+/Users/alex/Public/8fold/php-shoop/tests/ArrayTest.php:123
+
+10) Eightfold\Shoop\Tests\ArrayTest::testCanBeIteratedOver
+ParseError: syntax error, unexpected '<', expecting ';' or '{'
+
+/Users/alex/Public/8fold/php-shoop/src/ESArray.php:173
+/Users/alex/Public/8fold/php-shoop/src/Shoop.php:21
+/Users/alex/Public/8fold/php-shoop/tests/ArrayTest.php:129
+
+11) Eightfold\Shoop\Tests\ArrayTest::testCanBeUsedAsPhpString
+ParseError: syntax error, unexpected '<', expecting ';' or '{'
+
+/Users/alex/Public/8fold/php-shoop/src/ESArray.php:173
+/Users/alex/Public/8fold/php-shoop/tests/ArrayTest.php:142
+
+12) Eightfold\Shoop\Tests\DictTest::testCanGetValueForKey
+ParseError: syntax error, unexpected '<', expecting ';' or '{'
+
+/Users/alex/Public/8fold/php-shoop/src/ESArray.php:173
+/Users/alex/Public/8fold/php-shoop/src/Shoop.php:21
+/Users/alex/Public/8fold/php-shoop/tests/DictTest.php:58
+
+13) Eightfold\Shoop\Tests\StringTest::testCanCreateBasicDataTypes
+ParseError: syntax error, unexpected '<', expecting ';' or '{'
+
+/Users/alex/Public/8fold/php-shoop/src/ESArray.php:173
+/Users/alex/Public/8fold/php-shoop/src/Shoop.php:21
+/Users/alex/Public/8fold/php-shoop/tests/StringTest.php:34
+
+14) Eightfold\Shoop\Tests\StringTest::testCanCountCharacters
+ParseError: syntax error, unexpected '<', expecting ';' or '{'
+
+/Users/alex/Public/8fold/php-shoop/src/ESArray.php:173
+/Users/alex/Public/8fold/php-shoop/src/Shoop.php:21
+/Users/alex/Public/8fold/php-shoop/src/ESString.php:16
+/Users/alex/Public/8fold/php-shoop/src/ESString.php:24
+/Users/alex/Public/8fold/php-shoop/src/Traits/ShoopedImp.php:98
+/Users/alex/Public/8fold/php-shoop/tests/StringTest.php:50
+
+15) Eightfold\Shoop\Tests\StringTest::testCanCountContents
+ParseError: syntax error, unexpected '<', expecting ';' or '{'
+
+/Users/alex/Public/8fold/php-shoop/src/ESArray.php:173
+/Users/alex/Public/8fold/php-shoop/src/Shoop.php:21
+/Users/alex/Public/8fold/php-shoop/src/ESString.php:16
+/Users/alex/Public/8fold/php-shoop/src/ESString.php:24
+/Users/alex/Public/8fold/php-shoop/src/Traits/ShoopedImp.php:98
+/Users/alex/Public/8fold/php-shoop/tests/StringTest.php:92
+
+16) Eightfold\Shoop\Tests\StringTest::testCanBeDvidedBy
+ParseError: syntax error, unexpected '<', expecting ';' or '{'
+
+/Users/alex/Public/8fold/php-shoop/src/ESArray.php:173
+/Users/alex/Public/8fold/php-shoop/tests/StringTest.php:113
+
+17) Eightfold\Shoop\Tests\StringTest::testDoesBeginOrEndWith
+ParseError: syntax error, unexpected '<', expecting ';' or '{'
+
+/Users/alex/Public/8fold/php-shoop/src/ESArray.php:173
+/Users/alex/Public/8fold/php-shoop/src/Shoop.php:21
+/Users/alex/Public/8fold/php-shoop/src/ESString.php:16
+/Users/alex/Public/8fold/php-shoop/src/ESString.php:24
+/Users/alex/Public/8fold/php-shoop/src/Traits/ShoopedImp.php:98
+/Users/alex/Public/8fold/php-shoop/src/Traits/ShoopedImp.php:50
+/Users/alex/Public/8fold/php-shoop/src/ESString.php:187
+/Users/alex/Public/8fold/php-shoop/src/ESString.php:164
+/Users/alex/Public/8fold/php-shoop/src/Traits/ShoopedImp.php:50
+/Users/alex/Public/8fold/php-shoop/tests/StringTest.php:131
+
+ERRORS!
+Tests: 44, Assertions: 73, Errors: 17.
+josh@Joshs-MacBook-Pro base % ./vendor/bin/phpunit --testsuite=shoop          
+PHPUnit 8.3.5 by Sebastian Bergmann and contributors.
+
+
+Fatal error: Class Eightfold\Shoop\ESArray contains 1 abstract method and must​‌​
+ therefore be declared abstract or implement the remaining methods (Eightfold\​‌​
+Shoop\Interfaces\Shooped::array) in /Users/alex/Public/8fold/php-shoop/src/ESA​‌​
+rray.php on line 11
+josh@Joshs-MacBook-Pro base % ./vendor/bin/phpunit --testsuite=shoop          
+PHPUnit 8.3.5 by Sebastian Bergmann and contributors.
+
+............................................                      44 / 44 (100​‌​
+%)
+
+Time: 145 ms, Memory: 6.00 MB
+
+OK (44 tests, 121 assertions)
+josh@Joshs-MacBook-Pro base % ./vendor/bin/phpunit --testsuite=shoop          
+PHPUnit 8.3.5 by Sebastian Bergmann and contributors.
+
+
+Fatal error: Class Eightfold\Shoop\ESArray contains 1 abstract method and must​‌​
+ therefore be declared abstract or implement the remaining methods (Eightfold\​‌​
+Shoop\Interfaces\Shooped::object) in /Users/alex/Public/8fold/php-shoop/src/ES​‌​
+Array.php on line 11
+josh@Joshs-MacBook-Pro base % ./vendor/bin/phpunit --testsuite=shoop          
+PHPUnit 8.3.5 by Sebastian Bergmann and contributors.
+
+
+Fatal error: Declaration of Eightfold\Shoop\ESObject::object(): Eightfold\Shoo​‌​
+p\Traits\ESObject must be compatible with Eightfold\Shoop\Interfaces\Shooped::​‌​
+object(): Eightfold\Shoop\ESObject in /Users/alex/Public/8fold/php-shoop/src/E​‌​
+SObject.php on line 9
+josh@Joshs-MacBook-Pro base % ./vendor/bin/phpunit --testsuite=shoop          
+PHPUnit 8.3.5 by Sebastian Bergmann and contributors.
+
+...........................................E.                     45 / 45 (100​‌​
+%)
+
+Time: 120 ms, Memory: 6.00 MB
+
+There was 1 error:
+
+1) Eightfold\Shoop\Tests\StringTest::testCanUseAsPhpObject
+Error: Call to undefined method Eightfold\Shoop\Shoop::object()
+
+/Users/alex/Public/8fold/php-shoop/src/Traits/ShoopedImp.php:50
+/Users/alex/Public/8fold/php-shoop/src/Traits/ShoopedImp.php:57
+/Users/alex/Public/8fold/php-shoop/tests/StringTest.php:148
+
+ERRORS!
+Tests: 45, Assertions: 121, Errors: 1.
+josh@Joshs-MacBook-Pro base % ./vendor/bin/phpunit --testsuite=shoop          
+PHPUnit 8.3.5 by Sebastian Bergmann and contributors.
+
+...........................................E.                     45 / 45 (100​‌​
+%)
+
+Time: 117 ms, Memory: 6.00 MB
+
+There was 1 error:
+
+1) Eightfold\Shoop\Tests\StringTest::testCanUseAsPhpObject
+TypeError: Argument 1 passed to Eightfold\Shoop\Shoop::object() must be an ins​‌​
+tance of stdClass, null given, called in /Users/alex/Public/8fold/php-shoop/sr​‌​
+c/Traits/ShoopedImp.php on line 50
+
+/Users/alex/Public/8fold/php-shoop/src/Shoop.php:29
+/Users/alex/Public/8fold/php-shoop/src/Traits/ShoopedImp.php:50
+/Users/alex/Public/8fold/php-shoop/src/Traits/ShoopedImp.php:57
+/Users/alex/Public/8fold/php-shoop/tests/StringTest.php:148
+
+ERRORS!
+Tests: 45, Assertions: 121, Errors: 1.
+josh@Joshs-MacBook-Pro base % ./vendor/bin/phpunit --testsuite=shoop          
+PHPUnit 8.3.5 by Sebastian Bergmann and contributors.
+
+...........................................E.                     45 / 45 (100​‌​
+%)
+
+Time: 140 ms, Memory: 6.00 MB
+
+There was 1 error:
+
+1) Eightfold\Shoop\Tests\StringTest::testCanUseAsPhpObject
+TypeError: Argument 1 passed to Eightfold\Shoop\Shoop::object() must be an ins​‌​
+tance of stdClass, null given, called in /Users/alex/Public/8fold/php-shoop/sr​‌​
+c/Traits/ShoopedImp.php on line 50
+
+/Users/alex/Public/8fold/php-shoop/src/Shoop.php:29
+/Users/alex/Public/8fold/php-shoop/src/Traits/ShoopedImp.php:50
+/Users/alex/Public/8fold/php-shoop/src/Traits/ShoopedImp.php:57
+/Users/alex/Public/8fold/php-shoop/tests/StringTest.php:148
+
+ERRORS!
+Tests: 45, Assertions: 121, Errors: 1.
+josh@Joshs-MacBook-Pro base % cd ./base                                       
+cd: no such file or directory: ./base
+josh@Joshs-MacBook-Pro base % ./vendor/bin/phpunit --testsuite=shoop          
+PHPUnit 8.3.5 by Sebastian Bergmann and contributors.
+
+...........................................F.                     45 / 45 (100​‌​
+%)
+
+Time: 52 ms, Memory: 6.00 MB
+
+There was 1 failure:
+
+1) Eightfold\Shoop\Tests\StringTest::testCanUseAsPhpObject
+Failed asserting that two objects are equal.
+--- Expected
++++ Actual
+@@ @@
+ stdClass Object (
+-    'scalar' => 'hello'
+ )
+
+/Users/alex/Public/8fold/php-shoop/tests/StringTest.php:149
+
+FAILURES!
+Tests: 45, Assertions: 122, Failures: 1.
+josh@Joshs-MacBook-Pro base % ./vendor/bin/phpunit --testsuite=shoop          
+PHPUnit 8.3.5 by Sebastian Bergmann and contributors.
+
+...........................................F.                     45 / 45 (100​‌​
+%)
+
+Time: 140 ms, Memory: 6.00 MB
+
+There was 1 failure:
+
+1) Eightfold\Shoop\Tests\StringTest::testCanUseAsPhpObject
+Failed asserting that two objects are equal.
+--- Expected
++++ Actual
+@@ @@
+ stdClass Object (
+-    'scalar' => 'hello'
+ )
+
+/Users/alex/Public/8fold/php-shoop/tests/StringTest.php:149
+
+FAILURES!
+Tests: 45, Assertions: 122, Failures: 1.
+josh@Joshs-MacBook-Pro base % ./vendor/bin/phpunit --testsuite=shoop          
+PHPUnit 8.3.5 by Sebastian Bergmann and contributors.
+
+...........................................object(stdClass)#434 (1) {
+  ["scalar"]=>
+  string(5) "hello"
+}
+josh@Joshs-MacBook-Pro base % ./vendor/bin/phpunit --testsuite=shoop          
+PHPUnit 8.3.5 by Sebastian Bergmann and contributors.
+
+.............................................                     45 / 45 (100​‌​
+%)
+
+Time: 129 ms, Memory: 6.00 MB
+
+OK (45 tests, 122 assertions)
+josh@Joshs-MacBook-Pro base % ./vendor/bin/phpunit --testsuite=shoop          
+PHPUnit 8.3.5 by Sebastian Bergmann and contributors.
+
+..............................................                    46 / 46 (100​‌​
+%)
+
+Time: 141 ms, Memory: 6.00 MB
+
+OK (46 tests, 123 assertions)
+josh@Joshs-MacBook-Pro base % ./vendor/bin/phpunit --testsuite=shoop          
+PHPUnit 8.3.5 by Sebastian Bergmann and contributors.
+
+
+Fatal error: Class Eightfold\Shoop\ESArray contains 1 abstract method and must​‌​
+ therefore be declared abstract or implement the remaining methods (Eightfold\​‌​
+Shoop\Interfaces\Shooped::dictionary) in /Users/alex/Public/8fold/php-shoop/sr​‌​
+c/ESArray.php on line 11
+josh@Joshs-MacBook-Pro base % 

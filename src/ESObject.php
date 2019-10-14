@@ -10,30 +10,54 @@ class ESObject implements Shooped
 {
     use ShoopedImp;
 
-    public function isGreaterThan($compare): ESBool {}
+    public function __construct($object)
+    {
+        if (is_object($object)) {
+            $this->value = $object;
 
-    public function isGreaterThanOrEqual($compare): ESBool {}
+        } elseif (is_a($object, ESObject::class)) {
+            $this->value = $object->unfold();
 
-    public function isLessThan($compare): ESBool {}
+        } else {
+            $this->value = new \stdClass();
 
-    public function isLessThanOrEqual($compare): ESBool {}
+        }
+    }
 
-    public function multiply($int) {}
+    public function array(): ESArray
+    {
+        $array = (array) $this->value;
+        return Shoop::dictionary($array)->enumerate();
+    }
 
-    public function isDivisible($value): ESBool {}
+    /**
+     * @deprecated
+     */
+    public function enumerate(): ESArray
+    {
+        return $this->array();
+    }
+
+    // TODO: ?? This could be a truly universal implementation
+    public function bool(): ESBool
+    {
+        return Shoop::array((array) $this->unfold())
+            ->isGreaterThan(0);
+    }
+
+    public function __toString()
+    {
+        $array = (array) $this->unfold();
+        return (string) Shoop::dictionary($array);
+    }
 
 // TODO: Tests!!!!!!
 //  Really starting to reconsider...
     public function toggle()
     {
-        return $this->enumerate()->toggle()->objectUnfolded();
-    }
-
-    // Starting to reconsider
-    public function enumerate(): ESArray
-    {
-        $array = (array) $this->value;
-        return Shoop::dictionary($array)->enumerate();
+        return $this->dictionary()
+            ->toggle()
+            ->objectUnfolded();
     }
 
     public function sort()
@@ -50,6 +74,42 @@ class ESObject implements Shooped
         shuffle($array);
         $object = (object) $array;
         return Shoop::object($object);
+    }
+
+    public function startsWith($needle): ESBool
+    {
+        $needle = Type::sanitizeType($needle, ESArray::class)->unfold();
+        $count = 0;
+        foreach ($needle as $val) {
+            if ($this->contains($val)->toggleUnfolded()) {
+                return Shoop::bool(false);
+            }
+        }
+        return Shoop::bool(true);
+    }
+
+    public function endsWith($needle): ESBool
+    {
+        return $this->startsWith($needle);
+    }
+
+    public function start(...$prefixes)
+    {
+        return $this->plus(...$prefixes);
+    }
+
+    // TODO: Test
+    public function divide($value = null)
+    {
+        $initial = Shoop::dictionary($this->unfold())->divide();
+        return Shoop::dictionary(["properties" => $initial["keys"], "values" => $initial["values"]]);
+    }
+
+    public function minus($value)
+    {
+        $key = Type::sanitizeType($value, ESString::class);
+        unset($this->{$key});
+        return Shoop::object($this->unfold());
     }
 
     public function plus(...$args)
@@ -70,56 +130,32 @@ class ESObject implements Shooped
         return Shoop::dictionary($dict);
     }
 
-    public function minus($value)
+    // Todo: Test
+    public function multiply($int)
     {
-        $key = Type::sanitizeType($value, ESString::class);
-        unset($this->{$key});
-        return Shoop::object($this->unfold());
-    }
-
-    // TODO: Test
-    public function divide($value = null)
-    {
-        $initial = Shoop::dictionary($this->unfold())->divide();
-        return Shoop::dictionary(["properties" => $initial["keys"], "values" => $initial["values"]]);
-    }
-
-    public function isDivisible($value): ESBool
-    {
-        return true;
-    }
-
-    public function __toString()
-    {
-        $array = (array) $this->unfold();
-        return (string) Shoop::dictionary($array);
-    }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-    public function __construct($object)
-    {
-        if (is_object($object)) {
-            $this->value = $object;
-
-        } elseif (is_a($object, ESObject::class)) {
-            $this->value = $object->unfold();
-
-        } else {
-            $this->value = new \stdClass();
-
+        $int = Type::sanitizeType($int, ESInt::class)->unfold();
+        $array = Shoop::array([]);
+        for ($i = 0; $i < $int; $i++) {
+            $array[] = $this;
         }
+        return $array;
+    }
+
+    public function __get (string $name)
+    {
+        if (isset($this->value->{$name})) {
+            return $this->value->{$name};
+        }
+        return null;
+    }
+
+    public function __isset(string $name): bool
+    {
+        return isset($this->value->{$name});
+    }
+
+    public function __unset(string $name)
+    {
+        unset($this->value->{$name});
     }
 }

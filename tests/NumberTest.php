@@ -26,17 +26,6 @@ class IntTest extends TestCase
         $this->assertTrue($result->isNot($compare)->unfold());
     }
 
-    public function testMultipleOfAndQuotient()
-    {
-        $five = ESInt::fold(5);
-        $four = $five->minus(ESInt::fold(1));
-        $result = ESInt::fold(25)->isDivisible($five)->unfold();
-        $this->assertTrue($result);
-
-        $result = ESInt::fold(25)->isDivisible($five->plus(ESInt::fold(1)))->unfold();
-        $this->assertFalse($result);
-    }
-
     public function testCanDoArithmatic()
     {
         $five = ESInt::fold(5);
@@ -129,5 +118,25 @@ class IntTest extends TestCase
         $expected = "1";
         $result = (string) ESInt::fold(1);
         $this->assertEquals($expected, $result);
+    }
+
+    public function testCanCheckForContainsNumber()
+    {
+        $int = 1234;
+        $shoopInt = ESInt::fold($int);
+        $result = $shoopInt->startsWith(12);
+        $this->assertTrue($result->unfold());
+
+        $result = $shoopInt->startsWith(78);
+        $this->assertFalse($result->unfold());
+
+        $result = $shoopInt->endsWith(34);
+        $this->assertTrue($result->unfold());
+
+        $result = $shoopInt->doesNotEndWith(34);
+        $this->assertFalse($result->unfold());
+
+        $result = $shoopInt->start(1, 0);
+        $this->assertEquals(101234, $result->unfold());
     }
 }
