@@ -9,13 +9,13 @@ We’re “photoshopping” the way we interact with PHP primitives (and more). 
 8fold Shoop is inspired by:
 
 - the basic data types, APIs, and protocol-oriented nature of Swift;
-- the desire of functional programming to favor immutability and keep side-effects local to a given scope;
+- the desire of functional programming to favor immutability and keeping side-effects local to a given scope;
 - the encapsulation, composition, and communication of object-oriented programming; and
 - the step-by-step sequence style of procedural programming compared to something like logical programming.
 
 ## Usage
 
-We have done our best to ensure Shoop types work seamlessly within the standard PHP environment. ESString (and all other types), for example, is (are) recognized as a normal PHP string. This makes for some interesting possibilities.
+We have done our best to ensure Shoop types work seamlessly within the standard PHP environment. All Shoop types, for example, can be interacted with as native strings and arrays. They can also be type juggled to any other type...yes, even arrays directly to strings (speaking of API complaints). 
 
 ```php
 // Just a regular string.
@@ -46,7 +46,7 @@ $result = $shoop[0];
 print($result); // Results in "H" for all of the above.
 ```
 
-All Shoop types can be interpolated as native strings and arrays. They can also be type juggled to any other type...yes, even arrays directly to strings (speaking of API complaints). Of course, something that has been made simple by PHP itself isn't why we enjoy using Shoop.
+Of course, something that has been made simple by PHP 5.3+ itself isn't why we enjoy using Shoop.
 
 One other, simple exmaple would be to go from one file path (string) to another in one shot.
 
