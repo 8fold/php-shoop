@@ -80,7 +80,7 @@ trait ShoopedImp
         return (string) $this->unfold();
     }
 
-// - Rearrange
+// - Manipulate
     public function toggle()
     {
         return $this->array()->toggle();
@@ -93,25 +93,6 @@ trait ShoopedImp
         return Shoop::array(array_values($array));
     }
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
     public function shuffle()
     {
         $array = $this->array()->unfold();
@@ -119,7 +100,103 @@ trait ShoopedImp
         return Shoop::array($array);
     }
 
-// - comparisons
+    public function start(...$prefixes)
+    {
+        $prefixes = Type::sanitizeType($prefixes)->unfold();
+        $merged = array_merge($prefixes, $this->unfold());
+        return Shoop::array($merged);
+    }
+
+    public function end(...$suffixes) // 7.4 : self;
+    {
+        return $this->plus(...$suffixes);
+    }
+
+// - Search
+    public function contains($value): ESBool
+    {
+        $value = Type::sanitizeType($value);
+        $bool = in_array($value->unfold(), $this->array()->unfold());
+        return Shoop::bool($bool);
+    }
+
+    public function doesNotStartWith($needle): ESBool
+    {
+        $needle = Type::sanitizeType($needle);
+        return $this->startsWith($needle)->toggle();
+    }
+
+    public function doesNotEndWith($needle): ESBool
+    {
+        $needle = Type::sanitizeType($needle);
+        return $this->endsWith($needle)->toggle();
+    }
+
+// - Math language
+    public function plus(...$args)
+    {
+        $terms = $args;
+        $terms = $args;
+        $total = $this->value;
+        foreach ($terms as $term) {
+            $term = Type::sanitizeType($term, ESInt::class)->unfold();
+            $total += $term;
+        }
+        return Shoop::int($total);
+    }
+
+    public function minus(...$args): ESInt
+    {
+        $total = $this->unfold();
+        foreach ($args as $term) {
+            $term = Type::sanitizeType($term, ESInt::class)->unfold();
+            $total -= $term;
+        }
+        return ESInt::fold($total);
+    }
+
+    public function multiply($int)
+    {
+        $int = Type::sanitizeType($int, ESInt::class)->unfold();
+        return ESInt::fold($this->unfold() * $int);
+    }
+
+    public function divide($value = null)
+    {
+        if ($value === null) {
+            return $this;
+        }
+
+        $divisor = Type::sanitizeType($value, ESInt::class)->unfold();
+        $enumerator = $this->unfold();
+        return ESInt::fold((int) floor($enumerator/$divisor));
+    }
+
+    public function split($splitter, $splits = 2)
+    {
+        return $this->divide($splitter);
+    }
+
+// - Comparison
+    public function is($compare): ESBool
+    {
+        if (Type::isNotShooped($compare)) {
+            $compare = Type::sanitizeType($compare);
+        }
+        $result = $this->unfold() === $compare->unfold();
+        return Shoop::bool($result);
+    }
+
+    public function isNot($compare): ESBool
+    {
+        return $this->isSame($compare)->toggle();
+    }
+
+    public function isEmpty(): ESBool
+    {
+        return Type::isEmpty($this);
+    }
+
     public function isGreaterThan($compare): ESBool
     {
         $compare = Type::sanitizeType($compare, ESInt::class);
@@ -148,53 +225,12 @@ trait ShoopedImp
         return Shoop::bool($result);
     }
 
-    public function is($compare): ESBool
-    {
-        if (Type::isNotShooped($compare)) {
-            $compare = $this->sanitizeType($compare);
-        }
-        $result = $this->unfold() === $compare->unfold();
-        return Shoop::bool($result);
-    }
-
-    public function isNot($compare): ESBool
-    {
-        return $this->isSame($compare)->toggle();
-    }
-
-// - search & replace
-    public function contains($value): ESBool
-    {
-        $bool = in_array($value, $this->array()->unfold());
-        return Shoop::bool($bool);
-    }
-
-    public function doesNotStartWith($needle): ESBool
-    {
-        return $this->startsWith($needle)->toggle();
-    }
-
-    public function end(...$suffixes) // 7.4 : self;
-    {
-        return $this->plus(...$suffixes);
-    }
-
-    public function doesNotEndWith($needle): ESBool
-    {
-        return $this->endsWith($needle)->toggle();
-    }
-
     /**
      * @deprecated
      */
     public function isSame($compare): ESBool
     {
         return $this->is($compare);
-    }
-
-    public function split($splitter, $splits = 2): ESArray
-    {
-        return $this->divide($splitter);
     }
 
 //-> Getters

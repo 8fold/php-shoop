@@ -138,9 +138,9 @@ class ESString implements Shooped
         return $this->start(...$args);
     }
 
-    public function minus($string): ESString
+    public function minus(...$args): ESString
     {
-        $needle = Type::sanitizeType($string, ESString::class)->unfold();
+        $needle = Type::sanitizeType($args[0], ESString::class)->unfold();
         return Shoop::string(str_replace($needle, "", $this->unfold()));
     }
 

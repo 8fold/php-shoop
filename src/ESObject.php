@@ -105,10 +105,12 @@ class ESObject implements Shooped
         return Shoop::dictionary(["properties" => $initial["keys"], "values" => $initial["values"]]);
     }
 
-    public function minus($value)
+    public function minus(...$args): ESObject
     {
-        $key = Type::sanitizeType($value, ESString::class);
-        unset($this->{$key});
+        foreach ($args as $delete) {
+            $member = Type::sanitizeType($delete, ESString::class);
+            unset($this->{$member});
+        }
         return Shoop::object($this->unfold());
     }
 

@@ -133,6 +133,13 @@ class Type
         }
     }
 
+    static public function isEmpty($check)
+    {
+        $check = Type::sanitizeType($check)->unfold();
+        $empty = empty($check);
+        return Shoop::bool($empty);
+    }
+
 // - Type metadata
     static public function map(): array
     {

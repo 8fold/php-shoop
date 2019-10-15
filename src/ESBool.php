@@ -114,7 +114,7 @@ class ESBool implements Shooped
         return ESBool::fold(! $this->unfold());
     }
 
-    public function minus($value)
+    public function minus(...$args): ESBool
     {
         return $this->toggle();
     }

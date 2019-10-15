@@ -112,10 +112,12 @@ class ESDictionary implements
         return Shoop::dictionary(["keys" => $keys, "values" => $values]);
     }
 
-    public function minus($value)
+    public function minus(...$args): ESDictionary
     {
-        $key = Type::sanitizeType($value, ESString::class);
-        unset($this[$key]);
+        foreach ($args as $delete) {
+            $member = Type::sanitizeType($delete, ESString::class);
+            unset($this[$member]);
+        }
         return Shoop::dictionary($this->unfold());
     }
 

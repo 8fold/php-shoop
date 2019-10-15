@@ -85,8 +85,9 @@ class ESArray implements Shooped
 
     public function start(...$prefixes)
     {
-        $prefixes = Type::sanitizeType($prefixes);
-        $merged = array_merge($prefixes, $this);
+        $prefixes = Type::sanitizeType($prefixes)->unfold();
+        $merged = array_merge($prefixes, $this->unfold());
+        return Shoop::array($merged);
     }
 
     public function divide($value = null)
@@ -99,12 +100,12 @@ class ESArray implements Shooped
         return Shoop::array([$left, $right]);
     }
 
-    public function minus($values): ESArray
+    public function minus(...$args): ESArray
     {
         if (Type::isNotArray($values)) {
             $values = [$values];
         }
-        $deletes = Type::sanitizeType($values, ESArray::class)->unfold();
+        $deletes = Type::sanitizeType($args, ESArray::class)->unfold();
         $copy = $this->unfold();
         for ($i = 0; $i < count($this->unfold()); $i++) {
             foreach ($deletes as $check) {

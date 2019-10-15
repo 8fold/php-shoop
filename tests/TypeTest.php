@@ -61,6 +61,9 @@ class TypeTest extends TestCase
 
         $result = Type::isArray(Shoop::array($array));
         $this->assertTrue($result);
+
+        $result = Type::isEmpty(Shoop::array([]));
+        $this->assertTrue($result->unfold());
     }
 
     public function testCanGetTypeFromType()

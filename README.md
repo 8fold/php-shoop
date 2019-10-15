@@ -15,7 +15,7 @@ We’re “photoshopping” the way we interact with PHP primitives (and more). 
 
 ## Usage
 
-We have done our best to ensure Shoop types work seamlessly within the standard PHP environment. All Shoop types, for example, can be interacted with as native strings and arrays. They can also be type juggled to any other type...yes, even arrays directly to strings (speaking of API complaints). 
+We have done our best to ensure Shoop types work seamlessly within the standard PHP environment. All Shoop types, for example, can be interacted with as native strings and arrays. They can also be type juggled to any other type...yes, even arrays directly to strings (speaking of API complaints).
 
 ```php
 // Just a regular string.
@@ -71,9 +71,12 @@ $parts[] = "SecretSubfolder";
 $path = "/". implode("/", $parts);
 
 // Shoop
-$path = Shoop::string($path)->divide("/")->dropLast(4)
+$path = Shoop::string($path)
+	->divide("/")
+	->dropLast(4)
 	->plus("Documents", "ProjectMaxEffort", "SecretFolder", "SecretSubfolder")
-	->join("/")->start("/");
+	->join("/")
+	->start("/");
 
 print($path); // both should be: /Users/josh/Documents/ProjectMaxEffort/SecretFolder/SecretSubfolder
 ```

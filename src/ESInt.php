@@ -100,43 +100,6 @@ class ESInt implements Shooped
         return Shoop::int($cast);
     }
 
-    public function divide($value = null)
-    {
-        if ($value === null) {
-            return $this;
-        }
-
-        $divisor = Type::sanitizeType($value, ESInt::class)->unfold();
-        $enumerator = $this->unfold();
-        return ESInt::fold((int) floor($enumerator/$divisor));
-    }
-
-    public function minus($value)
-    {
-        $term = Type::sanitizeType($value)->unfold();
-        return ESInt::fold($this->unfold() - $term);
-    }
-
-    public function plus(...$args)
-    {
-        $terms = $args;
-        $terms = $args;
-        $total = $this->value;
-        foreach ($terms as $term) {
-            $term = Type::sanitizeType($term, ESInt::class)->unfold();
-            $total += $term;
-        }
-
-        return Shoop::int($total);
-    }
-
-    public function multiply($int)
-    {
-        $int = Type::sanitizeType($int, ESInt::class)->unfold();
-        return ESInt::fold($this->unfold() * $int);
-    }
-
-
 
 
 
