@@ -69,7 +69,7 @@ trait ShoopedImp
         return Shoop::bool($bool);
     }
 
-// - Php single-method interfaces
+// - PHP single-method interfaces
     public function count(): ESInt
     {
         return $this->int();

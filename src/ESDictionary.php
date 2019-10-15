@@ -30,11 +30,16 @@ class ESDictionary implements
         }
     }
 
-    // TODO: Test + possibly write combine()
+// - Type Juggling
     // TODO: Alias called values
     public function array(): ESArray
     {
         return Shoop::array(array_values($this->value));
+    }
+
+    public function dictionary(): ESDictionary
+    {
+        return Shoop::dictionary($this->unfold());
     }
 
    /**
@@ -45,11 +50,7 @@ class ESDictionary implements
         return $this->array();
     }
 
-    public function dictionary(): ESDictionary
-    {
-        return $this;
-    }
-
+// - PHP single-method interfaces
     public function __toString()
     {
         $printed = print_r($this->unfold(), true);
@@ -61,10 +62,11 @@ class ESDictionary implements
         return $commas;
     }
 
+// - Manipulate
     public function toggle()
     {
-        $values = $this->array()->toggle();
-        $keys = $this->keys()->toggle();
+        $values = $this->array()->toggleUnfolded();
+        $keys = $this->keys()->toggleUnfolded();
         $combined = array_combine($keys, $values);
         return Shoop::array($combined);
     }
@@ -83,6 +85,12 @@ class ESDictionary implements
         return Shoop::dictionary($array);
     }
 
+    public function start(...$prefixes)
+    {
+        return $this->plus(...$prefixes);
+    }
+
+// - Search
     public function startsWith($needle): ESBool
     {
         $needle = Type::sanitizeType($needle, ESArray::class)->unfold();
@@ -100,27 +108,7 @@ class ESDictionary implements
         return $this->startsWith($needle);
     }
 
-    public function start(...$prefixes)
-    {
-        return $this->plus(...$prefixes);
-    }
-
-    public function divide($value = null)
-    {
-        $keys = $this->enumerateKeys();
-        $values = $this->enumerate();
-        return Shoop::dictionary(["keys" => $keys, "values" => $values]);
-    }
-
-    public function minus(...$args): ESDictionary
-    {
-        foreach ($args as $delete) {
-            $member = Type::sanitizeType($delete, ESString::class);
-            unset($this[$member]);
-        }
-        return Shoop::dictionary($this->unfold());
-    }
-
+// - Math language
     public function plus(...$args)
     {
         if (Shoop::array($args)->count()->isNotUnfolded(2)) {
@@ -131,11 +119,21 @@ class ESDictionary implements
             );
         }
 
-        $key = $this->sanitizeType($args[0], ESString::class)->unfold();
+        $key = Type::sanitizeType($args[0], ESString::class)->unfold();
 
         $dict = $this->unfold();
         $dict[$key] = $args[1];
         return Shoop::dictionary($dict);
+    }
+
+    public function minus(...$args): ESDictionary
+    {
+        foreach ($args as $delete) {
+            $member = Type::sanitizeType($delete, ESString::class)->unfold();
+            // dd($member);
+            unset($this[$member]);
+        }
+        return Shoop::dictionary($this->unfold());
     }
 
     // Todo: Test
@@ -148,6 +146,30 @@ class ESDictionary implements
         }
         return $array;
     }
+
+
+
+
+
+
+
+
+
+
+
+
+    public function divide($value = null)
+    {
+        $keys = $this->enumerateKeys();
+        $values = $this->enumerate();
+        return Shoop::dictionary(["keys" => $keys, "values" => $values]);
+    }
+
+
+
+
+
+
 
 
 
