@@ -17,6 +17,31 @@ class ShoopedTest extends TestCase
         $this->assertEquals(12, $result->unfold());
     }
 
+    public function testFoldAndUnfold()
+    {
+        $result = TestObject::fold(12);
+        $this->assertNotNull($result);
+        $this->assertEquals(12, $result->unfold());
+
+        // fold -> from PHP to Shoop
+        // unfold -> from Shoop to PHP
+        $object = (object) ["one" => 1, "two" => 2];
+        $expected = [
+            [4, 5],
+            ["one" => 1, "two" => 2],
+            $object
+        ];
+        $result = Shoop::array([
+            Shoop::array([
+                Shoop::int(4),
+                5
+            ]),
+            Shoop::dictionary(["one" => 1, "two" => 2]),
+            Shoop::object($object)
+        ])->unfold();
+        $this->assertEquals($expected, $result);
+    }
+
     public function testCanTypeJuggle()
     {
         $base = TestObject::fold(3);

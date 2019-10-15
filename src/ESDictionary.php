@@ -66,7 +66,7 @@ class ESDictionary implements
     public function toggle()
     {
         $values = $this->array()->toggleUnfolded();
-        $keys = $this->keys()->toggleUnfolded();
+        $keys = $this->members()->toggleUnfolded();
         $combined = array_combine($keys, $values);
         return Shoop::array($combined);
     }
@@ -136,7 +136,6 @@ class ESDictionary implements
         return Shoop::dictionary($this->unfold());
     }
 
-    // Todo: Test
     public function multiply($int)
     {
         $int = Type::sanitizeType($int, ESInt::class)->unfold();
@@ -147,127 +146,43 @@ class ESDictionary implements
         return $array;
     }
 
-
-
-
-
-
-
-
-
-
-
-
     public function divide($value = null)
     {
-        $keys = $this->enumerateKeys();
-        $values = $this->enumerate();
+        $keys = $this->members();
+        $values = $this->array();
         return Shoop::dictionary(["keys" => $keys, "values" => $values]);
     }
 
+// - Comparison
+// - Other
+    public function get($member)
+    {
+        $member = Type::sanitizeType($member, ESString::class)->unfold();
+        if ($this->hasMember($member)) {
+            return Shoop::this($this[$member]);
+        }
+        trigger_error("Undefined index or memember.");
+    }
 
+    // TODO: Promote to ShoopedImp, with custom for ESString
+    public function hasMember($member): ESBool
+    {
+        $member = Type::sanitizeType($member, ESString::class)->unfold();
+        return Shoop::bool($this->offsetExists($member));
+    }
 
+    public function doesNotHaveMember($member): ESBool
+    {
+        return $this->hasMember($member)->toggle();
+    }
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-    private function keys(): ESArray
+    private function members(): ESArray
     {
         return Shoop::array(array_keys($this->value));
     }
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-    private function validateCounts(array $args)
+    public function values(): ESArray
     {
-        $keyCount = Shoop::array(array_keys($args))->count();
-        $valueCount = Shoop::array(array_values($args))->count();
-        if ($keyCount->isNot($valueCount)->unfold()) {
-            trigger_error(
-                "ESDictionary expects an even number of arguments. Using 0 index, 0 and even arguments are members (keys) while odd arguments are values. {$keyCount->unfold()} items were found.",
-                E_USER_ERROR
-            );
-        }
-    }
-
-    public function hasKey($key): ESBool
-    {
-        $key = Type::sanitizeType($key, ESString::class)->unfold();
-        return Shoop::bool($this->offsetExists($key));
-    }
-
-    public function doesNotHaveKey($key): ESBool
-    {
-        return $this->hasKey($key)->toggle();
-    }
-
-    public function valueForKey($key)
-    {
-        $key = Type::sanitizeType($key, ESString::class)->unfold();
-        if (array_key_exists($key, $this->value)) {
-            return Type::sanitizeType($this->value[$key]);
-        }
-        return null;
-    }
-
-    public function setValueForKey($key, $value): ESDictionary
-    {
-        $key = $this->sanitizeType($key, ESString::class)->unfold();
-        $this[$key] = $value;
-        return $this;
+        return $this->array();
     }
 }

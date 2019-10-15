@@ -13,6 +13,14 @@ use Eightfold\Shoop\Tests\TestObject;
 
 class DictTest extends TestCase
 {
+    public function testCanInitializeDict()
+    {
+        $result = Shoop::dictionary(["key" => "value"]);
+        $this->assertNotNull($result);
+
+        $this->assertEquals("value", $result["key"]);
+    }
+
     public function testCanTypeJuggle()
     {
         $expected = [1, 2];
@@ -60,6 +68,7 @@ class DictTest extends TestCase
 
         $result = ESDictionary::fold($expected)->minusUnfolded("zero");
         $this->assertEquals(["one" => 1], $result);
+
         $base = ["one" => 1, "two" => 2];
         $expected = [
             $base,
@@ -68,23 +77,61 @@ class DictTest extends TestCase
         ];
         $result = ESDictionary::fold($base)->multiplyUnfolded(3);
         $this->assertEquals($expected, $result);
+
+        $result = Shoop::dictionary($base)->divide();
+        $expected = [
+            "keys" => ["one", "two"],
+            "values" => [1, 2]
+        ];
+        $this->assertEquals($expected, $result->unfold());
     }
 
-
-
-
-
-
-
-
-
-    public function testCanInitializeDict()
+    public function testCanGetValueForKey()
     {
-        $result = Shoop::dictionary(["key" => "value"]);
-        $this->assertNotNull($result);
+        $assoc = [
+            "one" => 1,
+            "two" => [1, 2],
+            "three" => (object) [
+                "one" => 1,
+                "two" => 2
+            ],
+            "four" => Shoop::array([1, 2]),
+            "five" => (new TestObject)
+        ];
 
-        $this->assertEquals("value", $result["key"]);
+        $dict = Shoop::dictionary($assoc);
+        $this->assertEquals(1, $dict->getUnfolded("one"));
+
+        $this->assertTrue(
+            is_array(
+                $dict->getUnfolded("two")
+            )
+        );
+
+        $this->assertTrue(
+            is_a(
+                $dict->getUnfolded("three"),
+                \stdClass::class
+            )
+        );
+
+        $this->assertTrue(Type::isShooped($dict->get("four")));
+
+        $this->assertTrue(
+            is_a(
+                $dict->getUnfolded("five"),
+                TestObject::class
+            )
+        );
     }
+
+
+
+
+
+
+
+
 
     public function testCanIterateDictionary()
     {
@@ -104,57 +151,9 @@ class DictTest extends TestCase
         $this->assertTrue($count > 1);
     }
 
-    public function testCanCheckForKey()
-    {
-        $result = Shoop::dictionary(["key" => "value"])
-            ->hasKey("key");
-        $this->assertTrue($result->unfold());
-    }
 
-    public function testCanGetValueForKey()
-    {
-        $assoc = [
-            "one" => 1,
-            "two" => [1, 2],
-            "three" => (object) [
-                "one" => 1,
-                "two" => 2
-            ],
-            "four" => Shoop::array([1, 2]),
-            "five" => (new TestObject)
-        ];
 
-        $dict = Shoop::dictionary($assoc);
-        $this->assertEquals(
-            1,
-            $dict->valueForKeyUnfolded("one")
-        );
 
-        $this->assertTrue(
-            is_array(
-                $dict->valueForKeyUnfolded("two")
-            )
-        );
-
-        $this->assertTrue(
-            is_a(
-                $dict->valueForKeyUnfolded("three"),
-                \stdClass::class
-            )
-        );
-
-        $this->assertTrue(Type::isShooped(
-            // TODO: Possibly remove "Unfolded" suffix shorthand
-            $dict->valueForKey("four")
-        ));
-
-        $this->assertTrue(
-            is_a(
-                $dict->valueForKeyUnfolded("five"),
-                TestObject::class
-            )
-        );
-    }
 
 
 

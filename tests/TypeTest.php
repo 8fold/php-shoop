@@ -64,6 +64,36 @@ class TypeTest extends TestCase
 
         $result = Type::isEmpty(Shoop::array([]));
         $this->assertTrue($result->unfold());
+
+        $result = Type::isDictionary(
+            Shoop::dictionary(["one" => 1, "two" => 2])
+        );
+        $this->assertTrue($result);
+
+        $result = Type::isDictionary(
+            Shoop::array([1, 2])
+        );
+        $this->assertFalse($result);
+
+        $result = Type::isDictionary(
+            ["one" => 1, "two" => 2]
+        );
+        $this->assertTrue($result);
+
+        $result = Type::isDictionary(
+            [1, 2]
+        );
+        $this->assertFalse($result);
+
+        $result = Type::isDictionary(
+            Shoop::string("Hello!")
+        );
+        $this->assertFalse($result);
+
+        $result = Type::isDictionary(
+            "Hello!"
+        );
+        $this->assertFalse($result);
     }
 
     public function testCanGetTypeFromType()

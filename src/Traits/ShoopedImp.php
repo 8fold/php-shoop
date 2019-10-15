@@ -26,7 +26,21 @@ trait ShoopedImp
 
     public function unfold()
     {
-        return $this->value;
+        // Preserve Shoop internally: unfold($preserve = false)
+        // only implement if needed; otherwise, we're good.
+        $return = $this->value;
+        if (Type::isArray($return) || Type::isDictionary($return)) {
+            $array = $return;
+            $return = [];
+            foreach ($array as $key => $value) {
+                // preserve if (! $preserve && Type::isShooped($value)) {
+                if (Type::isShooped($value)) {
+                    $value = $value->unfold();
+                }
+                $return[$key] = $value;
+            }
+        }
+        return $return;
     }
 
 // - Type Juggling

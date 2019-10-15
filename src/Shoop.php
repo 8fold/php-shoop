@@ -10,10 +10,10 @@ class Shoop
 {
     // TODO: create universal single entry point
     // Shoop::this($whatever)
-    // static public function this($potential)
-    // {
-    //     return Type::sanitizeType($potential);
-    // }
+    static public function this($potential)
+    {
+        return Type::sanitizeType($potential);
+    }
 
     static public function int($int): ESInt
     {

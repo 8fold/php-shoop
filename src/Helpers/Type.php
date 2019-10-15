@@ -128,9 +128,16 @@ class Type
 
     static public function isDictionary($potential): bool
     {
-        if (static::isArray($potential)) {
+        if (Type::isShooped($potential)) {
+            $potential = $potential->unfold();
+        }
+
+        if (Type::isArray($potential)) {
+            // https://stackoverflow.com/questions/173400
             return array_keys($potential) !== range(0, count($potential) - 1);
         }
+
+        return false;
     }
 
     static public function isEmpty($check)
