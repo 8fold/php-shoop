@@ -26,6 +26,11 @@ class ESString implements Shooped
     }
 
 // - Type Juggling
+    public function string(): ESString
+    {
+        return Shoop::string($this->value);
+    }
+
     public function array(): ESArray
     {
         return Shoop::array(preg_split('//u', $this->value, null, PREG_SPLIT_NO_EMPTY));
@@ -37,6 +42,12 @@ class ESString implements Shooped
     public function enumerate(): ESArray
     {
         return $this->array();
+    }
+
+// - PHP single-method interfaces
+    public function __toString()
+    {
+        return $this->unfold();
     }
 
 // - Manipulate

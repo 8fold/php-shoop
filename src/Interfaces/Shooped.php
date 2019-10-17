@@ -50,33 +50,35 @@ interface Shooped extends
     public function __toString();
 
 // - Manipulate
+    // Does not make sense on ESObject
     public function toggle($preserveMembers = true); // 7.4 : self;
 
+    // Does not make sense on ESObject, ESDictionary
     public function shuffle(); // 7.4 : self;
 
-    // Does not make sense on ESBool, ESInt
+    // Does not make sense on ESBool, ESInt, ESObject, ESDictionary
     public function sort($caseSensitive = true); // 7.4 : self;
 
-    // Does not make sense on ESBool
+    // Does not make sense on ESBool, ESInt, ESObject, ESDictionary
     public function start(...$prefixes); // 7.4 : self;
 
-    // Does not make sense on ESBool
+    // Does not make sense on ESBool, ESInt, ESObject, ESDictionary
     public function end(...$suffixes); // 7.4 : self;
 
 // - Search
     // Does not make sense on ESBool
     public function has($needle): ESBool;
 
-    // Does not make sense on ESBool
+    // Does not make sense on ESBool, ESInt, ESObject, ESDictionary
     public function startsWith($needle): ESBool;
 
-    // Does not make sense on ESBool
+    // Does not make sense on ESBool, ESInt, ESObject, ESDictionary
     public function doesNotStartWith($needle): ESBool;
 
-    // Does not make sense on ESBool
+    // Does not make sense on ESBool, ESInt, ESObject, ESDictionary
     public function endsWith($needle): ESBool;
 
-    // Does not make sense on ESBool
+    // Does not make sense on ESBool, ESInt, ESObject, ESDictionary
     public function doesNotEndWith($needle): ESBool;
 
 // - Math language
@@ -91,11 +93,12 @@ interface Shooped extends
     // Does not make sense on ESBool
     public function divide($value = null);
 
-    // Does not make sense on ESBool
+    // Does not make sense on ESBool, ESInt (remainder of % 2),
+    //      ESObject, ESDictionary
     public function split($splitter = 1, $splits = 2);
 
 // - Getters
-    // Does not make sense on ESBool
+    // Does not make sense on ESBool, ESInt, ESObject, ESDictionary
     public function first();
 
 // - Comparison
@@ -105,11 +108,15 @@ interface Shooped extends
 
     public function isEmpty(): ESBool;
 
+    // Does not make sense on ESObject, ESDictionary
     public function isGreaterThan($compare): ESBool;
 
+    // Does not make sense on ESObject, ESDictionary
     public function isGreaterThanOrEqual($compare): ESBool;
 
+    // Does not make sense on ESObject, ESDictionary
     public function isLessThan($compare): ESBool;
 
+    // Does not make sense on ESObject, ESDictionary
     public function isLessThanOrEqual($compare): ESBool;
 }

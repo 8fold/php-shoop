@@ -29,6 +29,11 @@ class ESInt implements Shooped
     }
 
 // - Type Juggling
+    public function string(): ESString
+    {
+        return Shoop::string((string) $this->unfold());
+    }
+
     public function array(): ESArray
     {
         return Shoop::array($this->range(0));

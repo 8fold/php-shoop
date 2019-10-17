@@ -25,6 +25,17 @@ class ESArray implements Shooped
     }
 
 // - Type Juggling
+    public function string(): ESString
+    {
+        $printed = print_r($this->unfold(), true);
+        $oneLine = preg_replace('/\s+/', ' ', $printed);
+        $commas = str_replace(
+            [" [", " ) ", " (, "],
+            [", [", ")", "("],
+            $oneLine);
+        return Shoop::string($commas);
+    }
+
     public function array(): ESArray
     {
         return Shoop::array(array_values($this->value));
@@ -49,39 +60,7 @@ class ESArray implements Shooped
     }
 
 // - PHP single-method interfaces
-    public function __toString()
-    {
-        $printed = print_r($this->unfold(), true);
-        $oneLine = preg_replace('/\s+/', ' ', $printed);
-        $commas = str_replace(
-            [" [", " ) ", " (, "],
-            [", [", ")", "("],
-            $oneLine);
-        return $commas;
-    }
-
 // - Manipulate
-    public function toggle($preserveMembers = true) // 7.4 : self
-    {
-        $array = $this->arrayUnfolded();
-        $reversed = array_reverse($array);
-        return Shoop::array($reversed)->enumerate();
-    }
-
-    public function sort($caseSensitive = true)
-    {
-        $caseSensitive = Type::sanitizeType($caseSensitive, ESBool::class)->unfold();
-        $array = $this->array()->unfold();
-        if ($caseSensitive) {
-            natsort($array);
-
-        } else {
-            natcasesort($array);
-
-        }
-        return Shoop::array(array_values($array));
-    }
-
     public function start(...$prefixes)
     {
         $prefixes = Type::sanitizeType($prefixes)->unfold();
@@ -140,7 +119,7 @@ class ESArray implements Shooped
         }
         $deletes = Type::sanitizeType($args, ESArray::class)->unfold();
         $copy = $this->unfold();
-        for ($i = 0; $i < count($this->unfold()); $i++) {
+        for ($i = 0; $i < $this->countUnfolded(); $i++) {
             foreach ($deletes as $check) {
                 if ($check === $copy[$i]) {
                     unset($copy[$i]);

@@ -31,7 +31,17 @@ class ESDictionary implements
     }
 
 // - Type Juggling
-    // TODO: Alias called values
+    public function string(): ESString
+    {
+        $printed = print_r($this->unfold(), true);
+        $oneLine = preg_replace('/\s+/', ' ', $printed);
+        $commas = str_replace(
+            [" [", " ) ", " (, "],
+            [", [", ")", "("],
+            $oneLine);
+        return Shoop::string($commas);
+    }
+
     public function array(): ESArray
     {
         return Shoop::array(array_values($this->value));
@@ -51,24 +61,18 @@ class ESDictionary implements
     }
 
 // - PHP single-method interfaces
-    public function __toString()
-    {
-        $printed = print_r($this->unfold(), true);
-        $oneLine = preg_replace('/\s+/', ' ', $printed);
-        $commas = str_replace(
-            [" [", " ) ", " (, "],
-            [", [", ")", "("],
-            $oneLine);
-        return $commas;
-    }
-
 // - Manipulate
     public function toggle($preserveMembers = true): ESDictionary
     {
-        // TODO: Array flip
-        $preserveMembers = Type::sanitizeType($preserveMembers, ESBool::class)->unfold();
-        $array = array_reverse($this->unfold(), $preserveMembers);
+        $array = array_flip($this->unfold());
         return static::fold($array);
+    }
+
+    public function shuffle(): ESDictionary
+    {
+        $array = $this->unfold();
+        shuffle($array);
+        return Shoop::dictionary($array);
     }
 
     public function sort($caseSensitive = true): ESDictionary
@@ -82,13 +86,6 @@ class ESDictionary implements
             natcasesort($array);
 
         }
-        return Shoop::dictionary($array);
-    }
-
-    public function shuffle(): ESDictionary
-    {
-        $array = $this->unfold();
-        shuffle($array);
         return Shoop::dictionary($array);
     }
 
@@ -116,6 +113,16 @@ class ESDictionary implements
     }
 
 // - Math language
+    public function multiply($int)
+    {
+        $int = Type::sanitizeType($int, ESInt::class)->unfold();
+        $array = [];
+        for ($i = 0; $i < $int; $i++) {
+            $array[] = $this;
+        }
+        return Shoop::array($array);
+    }
+
     public function plus(...$args)
     {
         if (Shoop::array($args)->count()->isNotUnfolded(2)) {
@@ -141,16 +148,6 @@ class ESDictionary implements
             unset($stash[$member]);
         }
         return Shoop::dictionary($stash);
-    }
-
-    public function multiply($int)
-    {
-        $int = Type::sanitizeType($int, ESInt::class)->unfold();
-        $array = [];
-        for ($i = 0; $i < $int; $i++) {
-            $array[] = $this;
-        }
-        return Shoop::array($array);
     }
 
     public function divide($value = null)

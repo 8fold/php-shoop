@@ -19,6 +19,11 @@ class TestObject
     }
 
 // - Type Juggling
+    public function string()
+    {
+        $string = (string) $this->value;
+        return Shoop::string($string);
+    }
     public function int(): ESInt
     {
         if (is_int($this->value)) {

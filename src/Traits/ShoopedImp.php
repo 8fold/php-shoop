@@ -44,11 +44,11 @@ trait ShoopedImp
     }
 
 // - Type Juggling
-    public function string(): ESString
-    {
-        $string = (string) $this;
-        return Shoop::string($string);
-    }
+    // public function string(): ESString
+    // {
+    //     $string = (string) $this;
+    //     return Shoop::string($string);
+    // }
 
     public function array(): ESArray
     {
@@ -91,33 +91,30 @@ trait ShoopedImp
 
     public function __toString()
     {
-        return (string) $this->unfold();
+        return $this->string()->unfold();
     }
 
 // - Manipulate
-    // public function toggle($preserveMembers = true)
-    // {
-    //     $array = $this->array()->unfold();
-    //     if (Type::isDictionary($this->value)) {
-    //         $array = $this->value;
-    //     }
-    //     $array = array_reverse($array, $preserveMembers);
-    //     return $this->array()->toggle();
-    // }
+    public function toggle($preserveMembers = true) // 7.4 : self
+    {
+        $array = $this->arrayUnfolded();
+        $reversed = array_reverse($array);
+        return Shoop::array($reversed)->enumerate();
+    }
 
-    // public function sort($caseSensitive = true)
-    // {
-    //     $caseSensitive = Type::Type::sanitizeType($needle)($caseSensitive, ESBool::class)->unfold();
-    //     $array = $this->array()->unfold();
-    //     if ($caseSensitive) {
-    //         natsort($array);
+    public function sort($caseSensitive = true)
+    {
+        $caseSensitive = Type::sanitizeType($caseSensitive, ESBool::class)->unfold();
+        $array = $this->array()->unfold();
+        if ($caseSensitive) {
+            natsort($array);
 
-    //     } else {
-    //         natcasesort($array);
+        } else {
+            natcasesort($array);
 
-    //     }
-    //     return Shoop::array(array_values($array));
-    // }
+        }
+        return Shoop::array(array_values($array));
+    }
 
     public function shuffle()
     {

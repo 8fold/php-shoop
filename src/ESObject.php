@@ -27,6 +27,11 @@ class ESObject implements Shooped
     }
 
 // - Type Juggling
+    public function string(): ESString
+    {
+        return $this->dictionary()->string();
+    }
+
     public function array(): ESArray
     {
         $array = (array) $this->value;
@@ -48,11 +53,6 @@ class ESObject implements Shooped
     }
 
 // - PHP single-method interfaces
-    public function __toString()
-    {
-        return (string) $this->dictionary();
-    }
-
 // - Manipulate
     public function toggle($preserveMembers = true): ESObject
     {
@@ -61,17 +61,17 @@ class ESObject implements Shooped
             ->object();
     }
 
-    public function sort($caseSensitive = true): ESObject
-    {
-        return $this->dictionary()->sort($caseSensitive)->object();
-    }
-
     public function shuffle()
     {
         $array = (array) $this->unfold();
         shuffle($array);
         $object = (object) $array;
         return Shoop::object($object);
+    }
+
+    public function sort($caseSensitive = true): ESObject
+    {
+        return $this->dictionary()->sort($caseSensitive)->object();
     }
 
     public function start(...$prefixes)
@@ -98,6 +98,16 @@ class ESObject implements Shooped
     }
 
 // - Math language
+    public function multiply($int)
+    {
+        $int = Type::sanitizeType($int, ESInt::class)->unfold();
+        $array = [];
+        for ($i = 0; $i < $int; $i++) {
+            $array[] = $this;
+        }
+        return Shoop::array($array);
+    }
+
     public function plus(...$args)
     {
         if (Shoop::array($args)->count()->isNotUnfolded(2)) {
@@ -123,19 +133,11 @@ class ESObject implements Shooped
         return Shoop::object((object) $stash);
     }
 
-    public function multiply($int)
-    {
-        $int = Type::sanitizeType($int, ESInt::class)->unfold();
-        $array = [];
-        for ($i = 0; $i < $int; $i++) {
-            $array[] = $this;
-        }
-        return Shoop::array($array);
-    }
-
     public function divide($value = null)
     {
-        return $this->dictionary()->divide()->object()
+        return $this->dictionary()
+            ->divide()
+            ->object()
             ->rename("keys", "members");
     }
 
