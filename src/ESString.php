@@ -25,6 +25,7 @@ class ESString implements Shooped
         }
     }
 
+// - Type Juggling
     public function array(): ESArray
     {
         return Shoop::array(preg_split('//u', $this->value, null, PREG_SPLIT_NO_EMPTY));
@@ -38,41 +39,15 @@ class ESString implements Shooped
         return $this->array();
     }
 
-    public function isGreaterThan($compare): ESBool
-    {
-        $compare = Type::sanitizeType($compare, ESString::class)->unfold();
-        return $this->unfold() > $compare;
-    }
-
-    public function isGreaterThanOrEqual($compare): ESBool
-    {
-        $compare = Type::sanitizeType($compare, ESString::class)->unfold();
-        return $this->unfold() >= $compare;
-    }
-
-    public function isLessThan($compare): ESBool
-    {
-        $compare = Type::sanitizeType($compare, ESString::class)->unfold();
-        return $this->unfold() < $compare;
-    }
-
-    public function isLessThanOrEqual($compare): ESBool
-    {
-        $compare = Type::sanitizeType($compare, ESString::class)->unfold();
-        return $this->unfold() <= $compare;
-    }
-
-    // TODO: Test
-    public function toggle()
+// - Manipulate
+    public function toggle($preserveMembers = true)
     {
         return $this->array()->toggle()->join("");
     }
 
-    public function sort()
+    public function sort($caseSensitive = true)
     {
-        $array = $this->array()->unfold();
-        natsort($array);
-        return Shoop::array($array)->join("");
+        return $this->array()->sort($caseSensitive)->join("");
     }
 
     public function shuffle()
@@ -88,11 +63,27 @@ class ESString implements Shooped
         return Shoop::string($combined . $this->unfold());
     }
 
+    /**
+     * @deprecated
+     */
+    public function prepend(...$args)
+    {
+        return $this->start(...$args);
+    }
+
+// - Search
     public function startsWith($needle): ESBool
     {
         $needle = Type::sanitizeType($needle, ESString::class);
         $substring = substr($this->unfold(), 0, $needle->countUnfolded());
         return Shoop::bool($substring === $needle->unfold());
+    }
+
+    public function endsWith($needle): ESBool
+    {
+        $needle = Type::sanitizeType($needle, ESString::class)->toggle();
+        $reversed = $this->toggle();
+        return $reversed->startsWith($needle);
     }
 
     /**
@@ -111,6 +102,7 @@ class ESString implements Shooped
         return $this->doesNotStartWith($string);
     }
 
+// - Math language
     public function plus(...$args)
     {
         $total = $this->value;
@@ -121,21 +113,6 @@ class ESString implements Shooped
         }
 
         return Shoop::string($total);
-    }
-
-    public function endsWith($needle): ESBool
-    {
-        $needle = Type::sanitizeType($needle, ESString::class)->toggle();
-        $reversed = $this->toggle();
-        return $reversed->startsWith($needle);
-    }
-
-    /**
-     * @deprecated
-     */
-    public function prepend(...$args)
-    {
-        return $this->start(...$args);
     }
 
     public function minus(...$args): ESString
@@ -163,20 +140,22 @@ class ESString implements Shooped
         $shooped = Shoop::array($exploded);
 
         if ($removeEmpties->unfold()) {
-            $shooped = $shooped->removeEmptyValues();
+            $shooped = $shooped->noEmpties();
         }
         return $shooped;
     }
 
-    public function split($splitter, $splits = 2): ESArray
+    public function split($splitter = 1, $splits = 2): ESArray
     {
         $splitter = Type::sanitizeType($splitter, ESString::class)->unfold();
         $splits = Type::sanitizeType($splits, ESInt::class)->unfold();
         return Shoop::array(explode($splitter, $this->unfold(), $splits));
     }
 
+// - Other
     public function lowerFirst(): ESString
     {
+        // lower(1, 3, 4) : lower("even") : lower("odd")
         return Shoop::string(lcfirst($this->value));
     }
 
@@ -187,40 +166,9 @@ class ESString implements Shooped
 
     public function pathContent()
     {
-        // rename fileContents()
-        //        saveFileContents($path)
-        // dd($this->unfold());
         if (is_file($this->unfold())) {
             return Shoop::string(file_get_contents($this->unfold()));
         }
         return Shoop::string("");
     }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 }

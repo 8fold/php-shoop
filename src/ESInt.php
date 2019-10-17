@@ -28,10 +28,15 @@ class ESInt implements Shooped
         }
     }
 
+// - Type Juggling
     public function array(): ESArray
     {
-        // TODO: ?? allow user to set range bottom or top
-        return Shoop::array(range(0, $this->value));
+        return Shoop::array($this->range(0));
+    }
+
+    public function int(): ESInt
+    {
+        return ESInt::fold($this->unfold());
     }
 
     /**
@@ -42,106 +47,74 @@ class ESInt implements Shooped
         return $this->array();
     }
 
-    public function int(): ESInt
-    {
-        return $this;
-    }
-
-    public function isGreaterThan($compare): ESBool
-    {
-        $compare = Type::sanitizeType($compare, ESInt::class);
-        $result = $this->unfold() > $compare->unfold();
-        return Shoop::bool($result);
-    }
-
-    public function isGreaterThanOrEqual($compare): ESBool
-    {
-        $compare = Type::sanitizeType($compare, ESInt::class);
-        $result = $this->unfold() >= $compare->unfold();
-        return Shoop::bool($result);
-    }
-
-    public function isLessThan($compare): ESBool
-    {
-        $compare = Type::sanitizeType($compare, ESInt::class);
-        $result = $this->unfold() < $compare->unfold();
-        return Shoop::bool($result);
-    }
-
-    public function isLessThanOrEqual($compare): ESBool
-    {
-        $compare = Type::sanitizeType($compare, ESInt::class);
-        $result = $this->unfold() <= $compare->unfold();
-        return Shoop::bool($result);
-    }
-
-    public function toggle(): ESInt
+// - Manipulate
+    public function toggle($preserveMembers = true): ESInt
     {
         return $this->multiply(-1);
     }
 
+    public function sort($caseSensitive = true): ESInt
+    {
+        $int = (int) $this->string()->sort($caseSensitive)->unfold();
+        return ESInt::fold($int);
+    }
+
+    public function start(...$prefixes)
+    {
+        $prefixes = implode("", $prefixes);
+        $cast = (int) $this->string()->start($prefixes)->unfold();
+        return Shoop::int($cast);
+    }
+
+    public function end(...$suffixes)
+    {
+        $prefixes = implode("", $suffixes);
+        $cast = (int) $this->string()->end($prefixes)->unfold();
+        return Shoop::int($cast);
+    }
+
+    /**
+     * @deprecated
+     */
+    public function append(...$args)
+    {
+        return $this->end(...$args);
+    }
+
+    /**
+     * @deprecated
+     */
+    public function prepend(...$args)
+    {
+        return $this->start(...$args);
+    }
+
+// - Search
     public function startsWith($needle): ESBool
     {
-        $needle = Type::sanitizeType($needle)->string();
+        $needle = Type::sanitizeType($needle, ESInt::class)
+            ->string()->unfold();
         return $this->string()->startsWith($needle);
     }
 
     public function endsWith($needle): ESBool
     {
-        $needle = Type::sanitizeType($needle)->string()->toggle();
+        $needle = Type::sanitizeType($needle, ESInt::class)
+            ->string()->toggle()->unfold();
         $reversed = $this->string()->toggle();
         return $reversed->startsWith($needle);
     }
 
-    public function start(...$prefixes)
+// - Math language
+// - Getters
+// - Comparison
+// - Other
+    public function range($int)
     {
-        $prefixes = implode('', $prefixes);
-        $cast = (int) $this->string()->start($prefixes)->unfold();
-        return Shoop::int($cast);
-    }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-    public function append(...$args)
-    {
-        $intString = (string) $this->unfold();
-        foreach ($terms as $term) {
-            $term = (string) $this->sanitizeType($term, ESInt::class)->unfold();
-            $intString .= $term;
+        $int = Type::sanitizeType($int, ESInt::class)->unfold();
+        if ($int > $this->unfold()) {
+            return Shoop::this(range($this->unfold(), $int));
         }
-        $intInt = (integer) $intString;
-        return Shoop::int($intInt);
-    }
-
-    public function prepend(...$args)
-    {
-        $intString = (string) $this->unfold();
-        foreach ($terms as $term) {
-            $term = (string) $this->sanitizeType($term, ESInt::class)->unfold();
-            $intString = $term . $intString;
-        }
-        $intInt = (integer) $intString;
-        return Shoop::int($intInt);
+        return Shoop::this(range($int, $this->unfold()));
     }
 }

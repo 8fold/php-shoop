@@ -25,32 +25,23 @@ class ESBool implements Shooped
         }
     }
 
-    public function array($value=''): ESArray
+// - Type Juggling
+    public function string(): ESString
+    {
+        $string = ($this->unfold()) ? "true" : "";
+        return ESString::fold($string);
+    }
+
+    public function array(): ESArray
     {
         return Shoop::array([$this->unfold()]);
     }
 
-    /**
-     * @deprecated
-     */
-    public function enumerate(): ESArray
-    {
-        return $this->array();
-    }
-
     public function dictionary(): ESDictionary
     {
-        // <input required> => <input required=required>
-        if ($this->unfold() === true) {
-            return Shoop::dictionary([
-                "true" => true,
-                "false" => false
-            ]);
-        }
-        return Shoop::dictionary([
-            "true" => false,
-            "false" => true
-        ]);
+        return ($this->unfold() === true)
+            ? Shoop::dictionary(["true" => true, "false" => false])
+            : Shoop::dictionary(["true" => false, "false" => true]);
     }
 
     public function object(): ESObject
@@ -65,38 +56,36 @@ class ESBool implements Shooped
         return Shoop::int($int);
     }
 
-    public function divide($value = null)
+    /**
+     * @deprecated
+     */
+    public function enumerate(): ESArray
     {
-        return $this;
+        return $this->array();
     }
 
-    public function split($splitter, $splits = 2): ESArray
-    {
-        return Shoop::array([
-            Shoop::bool(true),
-            Shoop::bool(false)
-        ]);
-    }
-
+// - PHP single-method interfaces
     public function __toString()
     {
-        if ($this->unfold() === true) {
-            return "true";
-        }
-        return "";
+        return $this->string()->unfold();
     }
 
-    public function startsWith($needle): ESBool
+// - Manipulate
+    public function toggle($preserveMembers = true): ESBool
     {
-        $needle = Type::sanitizeType($needle)->string();
-        return $this->string()->startsWith($needle);
+        return ESBool::fold(! $this->unfold());
     }
 
-    public function endsWith($needle): ESBool
+    public function shuffle()
     {
-        $needle = Type::sanitizeType($needle)->string()->toggle();
-        $reversed = $this->string()->toggle();
-        return $reversed->startsWith($needle);
+        $random = rand(0, 1000);
+        $isEven = $random % 2 === 0;
+        return ESBool::fold($isEven);
+    }
+
+    public function sort($caseSensitive = true): ESBool
+    {
+        return ESBool::fold($this->unfold());
     }
 
     public function start(...$prefixes)
@@ -104,97 +93,80 @@ class ESBool implements Shooped
         return Shoop::bool(true);
     }
 
-    public function plus(...$args)
+    public function end(...$suffixes)
     {
         return Shoop::bool(false);
     }
 
-    public function toggle(): ESBool
+// - Search
+    public function startsWith($needle): ESBool
     {
-        return ESBool::fold(! $this->unfold());
+        $needle = Type::sanitizeType($needle)->unfold();
+        return $this->string()->startsWith($needle);
+    }
+
+    public function endsWith($needle): ESBool
+    {
+        if ($this->unfold()) {
+            $needle = Type::sanitizeType($needle)->string()->toggle();
+            $reversed = $this->string()->toggle();
+            return $reversed->startsWith($needle);
+        }
+        return ESBool::fold(false);
+    }
+
+// - Math language
+    public function multiply($int): ESArray
+    {
+        $range = Type::sanitizeType($int, ESInt::class)
+            ->array()->dropLast()->unfold();
+        $array = [];
+        foreach ($range as $int) {
+            $array[] = $this;
+        }
+        return Shoop::array($array);
+    }
+
+    public function plus(...$args): ESBool
+    {
+        return Shoop::bool(true);
     }
 
     public function minus(...$args): ESBool
     {
-        return $this->toggle();
+        return Shoop::bool(false);
     }
 
+    public function divide($value = null)
+    {
+        return $this;
+    }
+
+    public function split($splitter = 1, $splits = 2): ESArray
+    {
+        return Shoop::array([
+            Shoop::bool(true),
+            Shoop::bool(false)
+        ]);
+    }
+
+// - Getters
+// - Comparison
+// - Other
     public function not(): ESBool
     {
         return $this->toggle();
     }
 
-
-
-
-// TODO: Could be a stretch
-
-
-
-
-    public function multiply($int) {}
-
-    public function isGreaterThan($compare): ESBool
+    public function or($bool): ESBool
     {
-        // TODO: rename cast()
-        $compare = Type::sanitizeType($compare, ESBool::class)->unfold();
-        return (integer) $this->value > (integer) $compare;
-    }
-
-    public function isGreaterThanOrEqual($compare): ESBool
-    {
-        $compare = Type::sanitizeType($compare, ESBool::class)->unfold();
-        return $this->unfold() >= $compare;
-    }
-
-    public function isLessThan($compare): ESBool
-    {
-        $compare = Type::sanitizeType($compare, ESBool::class)->unfold();
-        return $this->unfold() < $compare;
-    }
-
-    public function isLessThanOrEqual($compare): ESBool
-    {
-        $compare = Type::sanitizeType($compare, ESBool::class)->unfold();
-        return $this->unfold() <= $compare;
-    }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-	public function or($bool): ESBool
-	{
         $bool = Type::sanitizeType($bool, ESBool::class);
         return Shoop::bool($this->unfold() || $bool->unfold());
-	}
+    }
 
-	public function and($bool): ESBool
-	{
-        $bool = Type::sanitizeType($bool, "boolean", ESBool::class);
+    public function and($bool): ESBool
+    {
+        $bool = Type::sanitizeType($bool, ESBool::class);
         return Shoop::bool($this->unfold() && $bool->unfold());
-	}
-
-	public function description(): ESString
-	{
-        return ($this->value)
-            ? ESString::fold("true")
-            : ESString::fold("false");
-	}
+    }
 }

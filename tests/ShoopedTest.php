@@ -48,7 +48,7 @@ class ShoopedTest extends TestCase
 
         $this->assertEquals("3", $base->string());
         $this->assertEquals([3], $base->array()->unfold());
-        $this->assertEquals([], $base->dictionary()->unfold());
+        $this->assertEquals(['i0' => 3], $base->dictionary()->unfold());
         $this->assertEquals(3, $base->object()->unfold()->scalar);
         $this->assertEquals(3, $base->intUnfolded());
         $this->assertTrue($base->boolUnfolded());
@@ -96,7 +96,7 @@ class ShoopedTest extends TestCase
     public function testCanSearch()
     {
         $base = [1, 2, 3];
-        $result = TestObject::fold($base)->contains(2);
+        $result = TestObject::fold($base)->has(2);
         $this->assertTrue($result->unfold());
 
         $result = TestObject::fold($base)->doesNotStartWith([1, 2]);

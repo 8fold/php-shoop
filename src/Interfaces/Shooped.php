@@ -14,6 +14,7 @@ use Eightfold\Shoop\{
 interface Shooped extends
     \Countable,
     \ArrayAccess,
+    // ?? ObjectAccess = __unset, __isset, __get, __set
     \Iterator
     // Serializable ??
 {
@@ -42,42 +43,60 @@ interface Shooped extends
     public function enumerate(): ESArray;
 
 // - PHP single-method interfaces
+    // Does not make sense on ESBool
     public function count(): ESInt;
 
+    // Does not make sense on ESBool
     public function __toString();
 
 // - Manipulate
-    public function toggle(); // 7.4 : self;
-
-    public function sort(); // 7.4 : self;
+    public function toggle($preserveMembers = true); // 7.4 : self;
 
     public function shuffle(); // 7.4 : self;
 
+    // Does not make sense on ESBool, ESInt
+    public function sort($caseSensitive = true); // 7.4 : self;
+
+    // Does not make sense on ESBool
     public function start(...$prefixes); // 7.4 : self;
 
+    // Does not make sense on ESBool
     public function end(...$suffixes); // 7.4 : self;
 
 // - Search
-    public function contains($needle): ESBool;
+    // Does not make sense on ESBool
+    public function has($needle): ESBool;
 
+    // Does not make sense on ESBool
     public function startsWith($needle): ESBool;
 
+    // Does not make sense on ESBool
     public function doesNotStartWith($needle): ESBool;
 
+    // Does not make sense on ESBool
     public function endsWith($needle): ESBool;
 
+    // Does not make sense on ESBool
     public function doesNotEndWith($needle): ESBool;
 
 // - Math language
-    public function plus(...$args); // 7.4 : self;
-
-    public function minus(...$args); // 7.4 : self;
-
     public function multiply($int); // 7.4 : self;
 
+    // Does not make sense on ESBool
+    public function plus(...$args); // 7.4 : self;
+
+    // Does not make sense on ESBool
+    public function minus(...$args); // 7.4 : self;
+
+    // Does not make sense on ESBool
     public function divide($value = null);
 
-    public function split($splitter, $splits = 2);
+    // Does not make sense on ESBool
+    public function split($splitter = 1, $splits = 2);
+
+// - Getters
+    // Does not make sense on ESBool
+    public function first();
 
 // - Comparison
     public function is($compare): ESBool;

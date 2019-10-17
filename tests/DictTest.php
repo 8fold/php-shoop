@@ -42,18 +42,18 @@ class DictTest extends TestCase
     public function testCanManipulate()
     {
         $dict = ["zero" => 0, "one" => 1];
-        $result = ESDictionary::fold($dict)->toggle();
-        $this->assertEquals(["one" => 1, "zero" => 0], $result->unfold());
+        $actual = ESDictionary::fold($dict)->toggle();
+        $this->assertEquals(["one" => 1, "zero" => 0], $actual->unfold());
 
-        $result = $result->sort();
-        $this->assertEquals([0, 1], $result->unfold());
+        $actual = $actual->sort();
+        $this->assertEquals(["zero" => 0, "one" => 1], $actual->unfold());
     }
 
     public function testSearch()
     {
         $base = ["one" => 1, "two" => 2];
         $shoopDict = Shoop::dictionary($base);
-        $result = $shoopDict->contains(1);
+        $result = $shoopDict->has(1);
         $this->assertTrue($result->unfold());
 
         $result = $shoopDict->startsWith([1, 2]);

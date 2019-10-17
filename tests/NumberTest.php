@@ -5,73 +5,22 @@ namespace Eightfold\Shoop\Tests;
 use PHPUnit\Framework\TestCase;
 
 use Eightfold\Shoop\ESInt;
+use Eightfold\Shoop\Shoop;
 
-class IntTest extends TestCase
+class NumberTest extends TestCase
 {
-    public function testCanInitialize()
+    public function testTypeJuggling()
     {
-        $result = ESInt::fold(5);
-        $this->assertNotNull($result);
-        $this->assertEquals(5, $result->unfold());
+        $expected = [0, 1, 2, 3];
+        $actual = Shoop::this(3)->array();
+        $this->assertEquals($expected, $actual->unfold());
+
+        $expected = 3;
+        $actual = Shoop::this(3)->int();
+        $this->assertEquals($expected, $actual->unfold());
     }
 
-    public function testCanRuncomparisons()
-    {
-        $result = ESInt::fold(25);
-        $compare = ESInt::fold(25);
-        $this->assertTrue($result->isSame($compare)->unfold());
-
-        $result = ESInt::fold(25);
-        $compare = ESInt::fold(20);
-        $this->assertTrue($result->isNot($compare)->unfold());
-    }
-
-    public function testCanDoArithmatic()
-    {
-        $five = ESInt::fold(5);
-        $result = ESInt::fold(25)->plus($five)->unfold();
-        $this->assertEquals(30, $result);
-
-        $result = ESInt::fold(25)->minus($five)->unfold();
-        $this->assertEquals(20, $result);
-
-        $result = ESInt::fold(25)->divide($five)->unfold();
-        $this->assertEquals(5, $result);
-    }
-
-    public function testCanDoComparison()
-    {
-        $compare = ESInt::fold(25);
-        $result = ESInt::fold(20);
-        $this->assertTrue($result->isLessThan($compare)->unfold());
-        $this->assertFalse($result->isGreaterThan($compare)->unfold());
-
-        $compare = ESInt::fold(15);
-        $result = ESInt::fold(20);
-        $this->assertFalse($result->isLessThan($compare)->unfold());
-        $this->assertTrue($result->isGreaterThan($compare)->unfold());
-
-        $compare = ESInt::fold(20);
-        $result = ESInt::fold(20);
-        $this->assertTrue($result->isLessThanOrEqual($compare)->unfold());
-    }
-
-    public function testPlusAndMinus()
-    {
-        $result = ESInt::fold(3)->plus(5)->unfold();
-        $this->assertEquals(8, $result);
-
-        $result = ESInt::fold(3)->plus(ESInt::fold(5))->unfold();
-        $this->assertEquals(8, $result);
-
-        $result = ESInt::fold(3)->minus(5)->unfold();
-        $this->assertEquals(-2, $result);
-
-        $result = ESInt::fold(3)->minus(ESInt::fold(5))->unfold();
-        $this->assertEquals(-2, $result);
-    }
-
-    public function testCanMakeNegativeNumberPositiveAgain()
+    public function testManipulate()
     {
         $result = ESInt::fold(10);
         $negative = $result->toggle();
@@ -80,50 +29,25 @@ class IntTest extends TestCase
         $positive = $negative->toggle();
         $this->assertEquals(10, $positive->unfold());
 
-        $this->assertEquals(10, $result->unfold());
+        $expected = 123;
+        $actual = Shoop::this(213)->sort();
+        $this->assertEquals($expected, $actual->unfold());
+
+        $int = 1234;
+        $shoopInt = ESInt::fold($int);
+
+        $result = $shoopInt->start(1, 0);
+        $this->assertEquals(101234, $result->unfold());
+
+        $actual = $shoopInt->end(1, 0);
+        $this->assertEquals(123410, $actual->unfold());
     }
 
-    public function testCanDoMultiplication()
-    {
-        $result = ESInt::fold(3)->multiply(3)->unfold();
-        $this->assertEquals(9, $result);
-    }
-
-    public function testCanVerifyIsNotLessThan()
-    {
-        $result = ESInt::fold(10)->isGreaterThanOrEqualUnfolded(10);
-        $this->assertTrue($result);
-
-        $result = ESInt::fold(10)->isGreaterThanOrEqualUnfolded(9);
-        $this->assertTrue($result);
-
-        $result = ESInt::fold(10)->isGreaterThanOrEqualUnfolded(11);
-        $this->assertFalse($result);
-    }
-
-    public function testCanVerifyIsNotGreaterThan()
-    {
-        $result = ESInt::fold(10)->isLessThanOrEqualUnfolded(10);
-        $this->assertTrue($result);
-
-        $result = ESInt::fold(10)->isLessThanOrEqualUnfolded(11);
-        $this->assertTrue($result);
-
-        $result = ESInt::fold(10)->isLessThanOrEqualUnfolded(9);
-        $this->assertFalse($result);
-    }
-
-    public function testCanBeUsedAsPhpString()
-    {
-        $expected = "1";
-        $result = (string) ESInt::fold(1);
-        $this->assertEquals($expected, $result);
-    }
-
-    public function testCanCheckForContainsNumber()
+    public function testSearch()
     {
         $int = 1234;
         $shoopInt = ESInt::fold($int);
+
         $result = $shoopInt->startsWith(12);
         $this->assertTrue($result->unfold());
 
@@ -132,11 +56,18 @@ class IntTest extends TestCase
 
         $result = $shoopInt->endsWith(34);
         $this->assertTrue($result->unfold());
+    }
 
-        $result = $shoopInt->doesNotEndWith(34);
-        $this->assertFalse($result->unfold());
+    public function testOther()
+    {
+        $int = Shoop::this(34);
 
-        $result = $shoopInt->start(1, 0);
-        $this->assertEquals(101234, $result->unfold());
+        $expected = [34, 35, 36];
+        $actual = $int->range(36);
+        $this->assertEquals($expected, $actual->unfold());
+
+        $expected = [30, 31, 32, 33, 34];
+        $actual = $int->range(30);
+        $this->assertEquals($expected, $actual->unfold());
     }
 }

@@ -24,9 +24,20 @@ class ESArray implements Shooped
         $this->value = $array;
     }
 
+// - Type Juggling
     public function array(): ESArray
     {
         return Shoop::array(array_values($this->value));
+    }
+
+    public function dictionary(): ESDictionary
+    {
+        $build = [];
+        foreach ($this->value as $key => $value) {
+            $key = "i". $key;
+            $build[$key] = $value;
+        }
+        return Shoop::dictionary($build);
     }
 
     /**
@@ -37,13 +48,7 @@ class ESArray implements Shooped
         return $this->array();
     }
 
-    public function dictionary(): ESDictionary
-    {
-        // TODO: Figure out string-based keys problem
-        //      "index" . 0 = "index0" ??
-        return Shoop::dictionary([]);
-    }
-
+// - PHP single-method interfaces
     public function __toString()
     {
         $printed = print_r($this->unfold(), true);
@@ -55,13 +60,36 @@ class ESArray implements Shooped
         return $commas;
     }
 
-    public function toggle() // 7.4 : self
+// - Manipulate
+    public function toggle($preserveMembers = true) // 7.4 : self
     {
         $array = $this->arrayUnfolded();
         $reversed = array_reverse($array);
         return Shoop::array($reversed)->enumerate();
     }
 
+    public function sort($caseSensitive = true)
+    {
+        $caseSensitive = Type::sanitizeType($caseSensitive, ESBool::class)->unfold();
+        $array = $this->array()->unfold();
+        if ($caseSensitive) {
+            natsort($array);
+
+        } else {
+            natcasesort($array);
+
+        }
+        return Shoop::array(array_values($array));
+    }
+
+    public function start(...$prefixes)
+    {
+        $prefixes = Type::sanitizeType($prefixes)->unfold();
+        $merged = array_merge($prefixes, $this->unfold());
+        return Shoop::array($merged);
+    }
+
+// - Search
     public function startsWith($needle): ESBool
     {
         $needle = Type::sanitizeType($needle, ESArray::class)->unfold();
@@ -83,40 +111,7 @@ class ESArray implements Shooped
         return $reversed->startsWith($needle);
     }
 
-    public function start(...$prefixes)
-    {
-        $prefixes = Type::sanitizeType($prefixes)->unfold();
-        $merged = array_merge($prefixes, $this->unfold());
-        return Shoop::array($merged);
-    }
-
-    public function divide($value = null)
-    {
-        $index = Type::sanitizeType($value, ESInt::class)->unfold();
-
-        $left = array_slice($this->unfold(), 0, $index);
-        $right = array_slice($this->unfold(), $index);
-
-        return Shoop::array([$left, $right]);
-    }
-
-    public function minus(...$args): ESArray
-    {
-        if (Type::isNotArray($values)) {
-            $values = [$values];
-        }
-        $deletes = Type::sanitizeType($args, ESArray::class)->unfold();
-        $copy = $this->unfold();
-        for ($i = 0; $i < count($this->unfold()); $i++) {
-            foreach ($deletes as $check) {
-                if ($check === $copy[$i]) {
-                    unset($copy[$i]);
-                }
-            }
-        }
-        return Shoop::array(array_values($copy));
-    }
-
+// - Math language
     public function plus(...$args)
     {
         $count = count($args);
@@ -138,15 +133,86 @@ class ESArray implements Shooped
         }
     }
 
-    // TODO: Test!!!!!
+    public function minus(...$args): ESArray
+    {
+        if (Type::isNotArray($values)) {
+            $values = [$values];
+        }
+        $deletes = Type::sanitizeType($args, ESArray::class)->unfold();
+        $copy = $this->unfold();
+        for ($i = 0; $i < count($this->unfold()); $i++) {
+            foreach ($deletes as $check) {
+                if ($check === $copy[$i]) {
+                    unset($copy[$i]);
+                }
+            }
+        }
+        return Shoop::array(array_values($copy));
+    }
+
     public function multiply($int)
     {
         $int = Type::sanitizeType($int, ESInt::class)->unfold();
         $catch;
         for ($i = 0; $i < $int; $i++) {
-            $catch = $this->plus($this);
+            if ($catch === null) {
+                $catch = $this->plus(...$this->unfold());
+
+            } else {
+                $catch = $catch->plus(...$this->unfold());
+
+            }
         }
         return $catch;
+    }
+
+    public function divide($value = null)
+    {
+        $index = Type::sanitizeType($value, ESInt::class)->unfold();
+
+        $left = array_slice($this->unfold(), 0, $index);
+        $right = array_slice($this->unfold(), $index);
+
+        return Shoop::array([$left, $right]);
+    }
+
+// - Comparison
+// - Getters
+    public function get($member)
+    {
+        $member = Type::sanitizeType($member, ESInt::class)->unfold();
+        if ($this->hasMember($member)) {
+            return Shoop::this($this[$member]);
+        }
+        trigger_error("Undefined index or memember.");
+    }
+
+    private function members(): ESArray
+    {
+        return Shoop::array(array_keys($this->value));
+    }
+
+    public function values(): ESArray
+    {
+        return $this->array();
+    }
+
+    public function last()
+    {
+        return $this->toggle()->first();
+    }
+
+// - Other
+    // TODO: Promote to ShoopedImp, with custom for ESString
+    public function hasMember($member): ESBool
+    {
+        $member = Type::sanitizeType($member, ESInt::class)->unfold();
+        return Shoop::bool($this->offsetExists($member));
+    }
+
+    public function doesNotHaveMember($member): ESBool
+    {
+        return $this->hasMember($member)->toggle();
     }
 
     public function join($delimiter = ""): ESString
@@ -155,50 +221,24 @@ class ESArray implements Shooped
         return Shoop::string(implode($delimiter->unfold(), $this->unfold()));
     }
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-    public function prepend(...$args)
+    public function insertAt($value, $int)
     {
-        $args = Type::sanitizeType($args, ESArray::class)->unfold();
-        return Shoop::array(array_merge($args[0], $this->unfold()));
+        $int = Type::sanitizeType($int, ESInt::class)->unfold();
+        $value = Type::sanitizeType($value, ESArray::class)->unfold();
+
+        $lhs = array_slice($this->unfold(), 0, $int);
+        $rhs = array_slice($this->unfold(), $int);
+
+        $merged = array_merge($lhs, $value, $rhs);
+        return Shoop::array($merged)->enumerate();
     }
 
-
-
-    public function last()
+    public function drop($int)
     {
-        return $this->toggle()->first();
+        $int = Type::sanitizeType($int, ESInt::class)->unfold();
+        $array = $this->unfold();
+        unset($array[$int]);
+        return Shoop::array($array)->enumerate();
     }
 
     public function dropFirst($length = 1): ESArray
@@ -217,34 +257,9 @@ class ESArray implements Shooped
         return $this->enumerate()->toggle()->dropFirst($length)->toggle()->enumerate();
     }
 
-    public function removeEmptyValues(): ESArray
+    public function noEmpties(): ESArray
     {
         return Shoop::array(array_filter($this->unfold()))->enumerate();
-    }
-
-    public function removeAtIndex($int): ESArray
-    {
-        $int = Type::sanitizeType($int, ESInt::class)->unfold();
-        $array = $this->unfold();
-        unset($array[$int]);
-        return Shoop::array($array)->enumerate();
-    }
-
-    public function insertAtIndex($value, $int): ESArray
-    {
-        $int = Type::sanitizeType($int, ESInt::class)->unfold();
-        $value = Type::sanitizeType($value, ESArray::class)->unfold();
-
-        $lhs = array_slice($this->unfold(), 0, $int);
-        $rhs = array_slice($this->unfold(), $int);
-
-        $merged = array_merge($lhs, $value, $rhs);
-        return Shoop::array($merged)->enumerate();
-    }
-
-    public function hasValue($value): ESBool
-    {
-        return Shoop::bool(in_array($value, $this->value));
     }
 
     public function each(\Closure $closure): ESArray
@@ -257,39 +272,5 @@ class ESArray implements Shooped
             }
         }
         return Shoop::array($build);
-    }
-
-//-> Iterator
-    public function current(): ESInt
-    {
-        $current = key($this->value);
-        return Shoop::int($this->value[$current]);
-    }
-
-    public function key(): ESInt
-    {
-        return Shoop::int(key($this->value));
-    }
-
-    public function next(): ESArray
-    {
-        next($this->value);
-        return $this;
-    }
-
-    public function rewind(): ESArray
-    {
-        reset($this->value);
-        return $this;
-    }
-
-    /**
-     * @return bool Must return bool for sake of PHP
-     */
-    public function valid(): bool
-    {
-        $key = key($this->value);
-        $var = ($key !== null && $key !== false);
-        return $var;
     }
 }

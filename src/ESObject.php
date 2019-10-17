@@ -6,6 +6,8 @@ use Eightfold\Shoop\Traits\ShoopedImp;
 
 use Eightfold\Shoop\Interfaces\Shooped;
 
+use Eightfold\Shoop\Helpers\Type;
+
 class ESObject implements Shooped
 {
     use ShoopedImp;
@@ -24,10 +26,17 @@ class ESObject implements Shooped
         }
     }
 
+// - Type Juggling
     public function array(): ESArray
     {
         $array = (array) $this->value;
-        return Shoop::dictionary($array)->enumerate();
+        return Shoop::dictionary($array)->array();
+    }
+
+    // TODO: ?? This could be a truly universal implementation
+    public function bool(): ESBool
+    {
+        return Type::isEmpty($this->array())->toggle();
     }
 
     /**
@@ -38,50 +47,45 @@ class ESObject implements Shooped
         return $this->array();
     }
 
-    // TODO: ?? This could be a truly universal implementation
-    public function bool(): ESBool
-    {
-        return Shoop::array((array) $this->unfold())
-            ->isGreaterThan(0);
-    }
-
+// - PHP single-method interfaces
     public function __toString()
     {
-        $array = (array) $this->unfold();
-        return (string) Shoop::dictionary($array);
+        return (string) $this->dictionary();
     }
 
-// TODO: Tests!!!!!!
-//  Really starting to reconsider...
-    public function toggle()
+// - Manipulate
+    public function toggle($preserveMembers = true): ESObject
     {
         return $this->dictionary()
             ->toggle()
-            ->objectUnfolded();
+            ->object();
     }
 
-    public function sort()
+    public function sort($caseSensitive = true): ESObject
     {
-        $array = $this->unfold();
-        natsort($array);
-        $object = (object) $array;
-        return Shoop::object($object);
+        return $this->dictionary()->sort($caseSensitive)->object();
     }
 
     public function shuffle()
     {
-        $array = $this->unfold();
+        $array = (array) $this->unfold();
         shuffle($array);
         $object = (object) $array;
         return Shoop::object($object);
     }
 
+    public function start(...$prefixes)
+    {
+        return $this->plus(...$prefixes);
+    }
+
+// - Search
     public function startsWith($needle): ESBool
     {
         $needle = Type::sanitizeType($needle, ESArray::class)->unfold();
         $count = 0;
         foreach ($needle as $val) {
-            if ($this->contains($val)->toggleUnfolded()) {
+            if ($this->has($val)->toggleUnfolded()) {
                 return Shoop::bool(false);
             }
         }
@@ -93,54 +97,61 @@ class ESObject implements Shooped
         return $this->startsWith($needle);
     }
 
-    public function start(...$prefixes)
-    {
-        return $this->plus(...$prefixes);
-    }
-
-    // TODO: Test
-    public function divide($value = null)
-    {
-        $initial = Shoop::dictionary($this->unfold())->divide();
-        return Shoop::dictionary(["properties" => $initial["keys"], "values" => $initial["values"]]);
-    }
-
-    public function minus(...$args): ESObject
-    {
-        foreach ($args as $delete) {
-            $member = Type::sanitizeType($delete, ESString::class);
-            unset($this->{$member});
-        }
-        return Shoop::object($this->unfold());
-    }
-
+// - Math language
     public function plus(...$args)
     {
-        // TODO: Need to figure out more about how stdClass works re adding props
         if (Shoop::array($args)->count()->isNotUnfolded(2)) {
-            $className = ESDictionary::class;
+            $className = ESObject::class;
             $count = Shoop::array($args)->count();
             trigger_error(
                 "{$className}::plus() expects two arguments. {$count} given."
             );
         }
 
-        $key = $this->sanitizeType($args[0], ESString::class)->unfold();
-
-        $dict = $this->unfold();
-        $dict[$key] = $args[1];
-        return Shoop::dictionary($dict);
+        $key = Type::sanitizeType($args[0], ESString::class)->unfold();
+        $this->{$key} = $args[1];
+        return Shoop::object($this->unfold());
     }
 
-    // Todo: Test
+    public function minus(...$args): ESObject
+    {
+        $stash = (array) $this->value;
+        foreach ($args as $delete) {
+            $member = Type::sanitizeType($delete, ESString::class)->unfold();
+            unset($stash[$member]);
+        }
+        return Shoop::object((object) $stash);
+    }
+
     public function multiply($int)
     {
         $int = Type::sanitizeType($int, ESInt::class)->unfold();
-        $array = Shoop::array([]);
+        $array = [];
         for ($i = 0; $i < $int; $i++) {
             $array[] = $this;
         }
-        return $array;
+        return Shoop::array($array);
+    }
+
+    public function divide($value = null)
+    {
+        return $this->dictionary()->divide()->object()
+            ->rename("keys", "members");
+    }
+
+    private function rename(string $member, string $new)
+    {
+        $value = $this->{$member};
+        $this->{$new} = $value;
+        unset($this->{$member});
+        return $this;
+    }
+
+// - Setters/Getters
+    public function __set($name, $value)
+    {
+        $name = Type::sanitizeType($name, ESString::class)->unfold();
+        $this->value->{$name} = $value;
     }
 
     public function __get (string $name)

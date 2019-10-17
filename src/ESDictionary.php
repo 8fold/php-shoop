@@ -63,22 +63,29 @@ class ESDictionary implements
     }
 
 // - Manipulate
-    public function toggle()
+    public function toggle($preserveMembers = true): ESDictionary
     {
-        $values = $this->array()->toggleUnfolded();
-        $keys = $this->members()->toggleUnfolded();
-        $combined = array_combine($keys, $values);
-        return Shoop::array($combined);
+        // TODO: Array flip
+        $preserveMembers = Type::sanitizeType($preserveMembers, ESBool::class)->unfold();
+        $array = array_reverse($this->unfold(), $preserveMembers);
+        return static::fold($array);
     }
 
-    public function sort()
+    public function sort($caseSensitive = true): ESDictionary
     {
-        $array = $this->unfold();
-        natsort($array);
+        $caseSensitive = Type::sanitizeType($caseSensitive, ESBool::class)->unfold();
+        $array = $this->value;
+        if ($caseSensitive) {
+            natsort($array);
+
+        } else {
+            natcasesort($array);
+
+        }
         return Shoop::dictionary($array);
     }
 
-    public function shuffle()
+    public function shuffle(): ESDictionary
     {
         $array = $this->unfold();
         shuffle($array);
@@ -96,7 +103,7 @@ class ESDictionary implements
         $needle = Type::sanitizeType($needle, ESArray::class)->unfold();
         $count = 0;
         foreach ($needle as $val) {
-            if ($this->contains($val)->toggleUnfolded()) {
+            if ($this->has($val)->toggleUnfolded()) {
                 return Shoop::bool(false);
             }
         }
@@ -128,22 +135,22 @@ class ESDictionary implements
 
     public function minus(...$args): ESDictionary
     {
+        $stash = $this->value;
         foreach ($args as $delete) {
             $member = Type::sanitizeType($delete, ESString::class)->unfold();
-            // dd($member);
-            unset($this[$member]);
+            unset($stash[$member]);
         }
-        return Shoop::dictionary($this->unfold());
+        return Shoop::dictionary($stash);
     }
 
     public function multiply($int)
     {
         $int = Type::sanitizeType($int, ESInt::class)->unfold();
-        $array = Shoop::array([]);
+        $array = [];
         for ($i = 0; $i < $int; $i++) {
             $array[] = $this;
         }
-        return $array;
+        return Shoop::array($array);
     }
 
     public function divide($value = null)

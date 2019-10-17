@@ -18,6 +18,7 @@ class TestObject
         $this->value = $args;
     }
 
+// - Type Juggling
     public function int(): ESInt
     {
         if (is_int($this->value)) {
@@ -27,6 +28,18 @@ class TestObject
         return Shoop::int($count);
     }
 
+// - PHP single-method interfaces
+// - Manipulate
+    public function toggle($preserveMembers = true)
+    {
+        return Shoop::array($this->unfold())->toggle($preserveMembers);
+    }
+
+    public function sort($caseSensitive = true)
+    {
+        return Shoop::array($this->unfold())->sort($caseSensitive);
+    }
+// - Search
     public function startsWith($needle): ESBool
     {
         $cheat = ESArray::fold($this->value);
@@ -39,6 +52,7 @@ class TestObject
         return $cheat->endsWith($needle);
     }
 
+// - Math language
     public function plus(...$args)
     {
         $cheat = ESArray::fold($this->value);

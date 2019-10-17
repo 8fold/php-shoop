@@ -6,24 +6,62 @@ use PHPUnit\Framework\TestCase;
 
 use Eightfold\Shoop\{
     Shoop,
-    ESArray
+    ESArray,
+    Helpers\Type
 };
 
 class ArrayTest extends TestCase
 {
-    public function testCanInitializeArr()
+    public function testTypeJuggling()
     {
-        $result = ESArray::fold([1, 2, 3]);
-        $this->assertEquals([1, 2, 3], $result->unfold());
+        $base = [1, 2];
+        $array = Shoop::array($base);
 
-        $compare = ESArray::fold([1, 2, 3]);
-        $this->assertTrue($result->isSame($compare)->unfold());
+        $result = $array->offsetUnset(0);
+        $this->assertEquals(2, $result->getUnfolded(1));
 
-        $compare = ESArray::fold([3, 2, 1]);
-        $this->assertTrue($result->isNotUnfolded($compare));
+        $result = $result->array();
+        $this->assertEquals(2, $result->getUnfolded(0));
+
+        $result = $array->dictionary();
+        $this->assertTrue(Type::isDictionary($result));
+        $this->assertEquals(["i0" => 1, "i1" => 2], $result->unfold());
     }
 
-    public function testCanDoPlusAndMinusForArray()
+    public function testPhpInterfaces()
+    {
+        $expected = "Array([0] => 1)";
+        $actual = (string) Shoop::array([1]);
+        $this->assertEquals($expected, $actual);
+    }
+
+    public function testManipulations()
+    {
+        $expected = [3, 2, 1];
+        $expected2 = [1, 2, 3];
+        $actual = Shoop::array($expected2)->toggle();
+        $this->assertEquals($expected, $actual->unfold());
+
+        $actual = Shoop::array($expected)->sort();
+        $this->assertEquals($expected2, $actual->unfold());
+
+        $actual = Shoop::array([2, 1])->start(3);
+        $this->assertEquals($expected, $actual->unfold());
+    }
+
+    public function testSearch()
+    {
+        $array = [1, 2, 3];
+        $shoopArray = Shoop::array($array);
+
+        $result = $shoopArray->startsWith([1, 2]);
+        $this->assertTrue($result->unfold());
+
+        $result = $shoopArray->endsWith([2, 3]);
+        $this->assertTrue($result->unfold());
+    }
+
+    public function testMathLanguage()
     {
         $expected = [1, 2, 3, 4, 5, 6];
         $result = ESArray::fold([1, 2, 3])->plus([4, 5, 6])->unfold();
@@ -34,42 +72,22 @@ class ArrayTest extends TestCase
         $this->assertEquals($expected, $result);
 
         $expected = [1, 2, 4, 2, 1];
-        $result = ESArray::fold([1, 2, 3, 4, 3, 2, 1])->minus(3)->unfold();
-        $this->assertEquals($expected, $result);
+        $result = ESArray::fold([1, 2, 3, 4, 3, 2, 1])->minus(3);
+        $this->assertEquals($expected, $result->unfold());
+
+        $expected = [1, 1, 1, 1, 1];
+        $actual = ESArray::fold([1])->multiply(4);
+        $this->assertEquals($expected, $actual->unfold());
+
+        $expected = [
+            [1, 2, 4],
+            [2, 1]
+        ];
+        $actual = ESArray::fold([1, 2, 4, 2, 1])->divide(3);
+        $this->assertEquals($expected, $actual->unfold());
     }
 
-    public function testCanCountContents()
-    {
-        $array = ESArray::fold([1, 2, 3]);
-        $result = $array->count()->unfold();
-        $this->assertEquals(3, $result);
-
-        $this->assertTrue($array->isLessThanUnfolded(4));
-        $this->assertTrue($array->isGreaterThanOrEqualUnfolded(3));
-        $this->assertTrue($array->isGreaterThanUnfolded(0));
-        $this->assertTrue($array->isLessThanOrEqualUnfolded(4));
-    }
-
-    public function testCanSortAnArray()
-    {
-        $expected = [1, 2, 3, 4, 5];
-        $result = ESArray::fold([4, 2, 3, 1, 5])->sort()->unfold();
-        $this->assertEquals($expected, $result);
-    }
-
-    public function testCanReverseArrayAndPutItBack()
-    {
-        $expected = [5, 4, 3, 2, 1];
-        $original = [1, 2, 3, 4, 5];
-        $result = ESArray::fold($original);
-        $reversed = $result->toggle();
-        $this->assertEquals($expected, $reversed->unfold());
-
-        $orig = $reversed->toggle();
-        $this->assertEquals($original, $orig->unfold());
-    }
-
-    public function testCanGetFirstAndLastViaMinAndMax()
+    public function testGetters()
     {
         $result = ESArray::fold([1, 2, 3, 4, 5]);
         $this->assertEquals(1, $result->firstUnfolded());
@@ -80,8 +98,11 @@ class ArrayTest extends TestCase
         $this->assertEquals([], $result->last()->unfold());
     }
 
-    public function testDropFirstAndLast()
+    public function testOther()
     {
+        $result = ESArray::fold(["a", "b", "c"])->join()->unfold();
+        $this->assertEquals("abc", $result);
+
         $expected = [3, 4, 5];
         $result = ESArray::fold([1, 2, 3, 4, 5])->dropFirst(2)->unfold();
         $this->assertEquals($expected, $result);
@@ -89,40 +110,21 @@ class ArrayTest extends TestCase
         $expected = [1, 2, 3];
         $result = ESArray::fold([1, 2, 3, 4, 5])->dropLast(2)->unfold();
         $this->assertEquals($expected, $result);
-    }
 
-    // public function testCanMultiplyAndDivide()
-    // {
-    //     $expected = [1, 2, 3, 1, 2, 3, 1, 2, 3];
-    //     $result = ESArray::fold([1, 2, 3])->multipliedBy(3)->unfold();
-    //     $this->assertEquals($expected, $result);
-
-    //     $result = ESArray::fold([1, 2, 3, 4, 5, 6])->dividedBy(3);
-    //     $lhs = $result->lhs();
-    //     $rhs = $result->rhs();
-    //     $this->assertEquals([1, 2, 3], $lhs->unfold());
-    //     $this->assertEquals([4, 5, 6], $rhs->unfold());
-    // }
-
-    public function testCanInsertValueAtIndex()
-    {
         $expected = [1, 2, 3, "Hello", "World", 4, 5];
         $result = ESArray::fold([1, 2, 3, 4, 5]);
-        $testResult = $result->insertAtIndex(["Hello", "World"], 3)
+        $testResult = $result->insertAt(["Hello", "World"], 3)
             ->unfold();
         $this->assertEquals($expected, $testResult);
 
-        $this->assertEquals([1, 2, 4, 5], $result->removeAtIndex(2)->unfold());
-    }
+        $this->assertEquals([1, 2, 4, 5], $result->drop(2)->unfold());
 
-    public function testCanJoinStringArray()
-    {
-        $result = ESArray::fold(["a", "b", "c"])->join()->unfold();
-        $this->assertEquals("abc", $result);
-    }
+        $expected = [2, 3, 4];
+        $actual = Shoop::array([1, 2, 3])->each(function ($value) {
+            return $value + 1;
+        });
+        $this->assertEquals($expected, $actual->unfold());
 
-    public function testCanBeIteratedOver()
-    {
         $array = Shoop::array([1, 2, 3, 4, 5]);
         $this->assertEquals([1, 2, 3, 4, 5], $array->unfold());
         $count = 1;
@@ -131,19 +133,5 @@ class ArrayTest extends TestCase
             $count++;
         }
         $this->assertTrue($count > 1);
-    }
-
-    public function testCanCheckForContains()
-    {
-        $array = [1, 2, 3];
-        $shoopArray = Shoop::array($array);
-        $result = $shoopArray->contains(2);
-        $this->assertTrue($result->unfold());
-
-        $result = $shoopArray->startsWith([1, 2]);
-        $this->assertTrue($result->unfold());
-
-        $result = $shoopArray->endsWith([2, 3]);
-        $this->assertTrue($result->unfold());
     }
 }

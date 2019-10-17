@@ -95,17 +95,29 @@ trait ShoopedImp
     }
 
 // - Manipulate
-    public function toggle()
-    {
-        return $this->array()->toggle();
-    }
+    // public function toggle($preserveMembers = true)
+    // {
+    //     $array = $this->array()->unfold();
+    //     if (Type::isDictionary($this->value)) {
+    //         $array = $this->value;
+    //     }
+    //     $array = array_reverse($array, $preserveMembers);
+    //     return $this->array()->toggle();
+    // }
 
-    public function sort()
-    {
-        $array = $this->array()->unfold();
-        natsort($array);
-        return Shoop::array(array_values($array));
-    }
+    // public function sort($caseSensitive = true)
+    // {
+    //     $caseSensitive = Type::Type::sanitizeType($needle)($caseSensitive, ESBool::class)->unfold();
+    //     $array = $this->array()->unfold();
+    //     if ($caseSensitive) {
+    //         natsort($array);
+
+    //     } else {
+    //         natcasesort($array);
+
+    //     }
+    //     return Shoop::array(array_values($array));
+    // }
 
     public function shuffle()
     {
@@ -127,22 +139,22 @@ trait ShoopedImp
     }
 
 // - Search
-    public function contains($value): ESBool
+    public function has($value): ESBool
     {
-        $value = Type::sanitizeType($value);
-        $bool = in_array($value->unfold(), $this->array()->unfold());
+        $value = Type::sanitizeType($value)->unfold();
+        $bool = in_array($value, $this->array()->unfold());
         return Shoop::bool($bool);
     }
 
     public function doesNotStartWith($needle): ESBool
     {
-        $needle = Type::sanitizeType($needle);
+        $needle = Type::sanitizeType($needle)->unfold();
         return $this->startsWith($needle)->toggle();
     }
 
     public function doesNotEndWith($needle): ESBool
     {
-        $needle = Type::sanitizeType($needle);
+        $needle = Type::sanitizeType($needle)->unfold();
         return $this->endsWith($needle)->toggle();
     }
 
@@ -186,7 +198,7 @@ trait ShoopedImp
         return ESInt::fold((int) floor($enumerator/$divisor));
     }
 
-    public function split($splitter, $splits = 2)
+    public function split($splitter = 1, $splits = 2)
     {
         return $this->divide($splitter);
     }
@@ -197,8 +209,8 @@ trait ShoopedImp
         if (Type::isNotShooped($compare)) {
             $compare = Type::sanitizeType($compare);
         }
-        $result = $this->unfold() === $compare->unfold();
-        return Shoop::bool($result);
+        $bool = $this->unfold() === $compare->unfold();
+        return Shoop::bool($bool);
     }
 
     public function isNot($compare): ESBool
@@ -213,29 +225,30 @@ trait ShoopedImp
 
     public function isGreaterThan($compare): ESBool
     {
-        $compare = Type::sanitizeType($compare, ESInt::class);
-        $result = $this->countUnfolded() > $compare->countUnfolded();
+        $compare = Type::sanitizeType($compare, ESInt::class)
+            ->unfold();
+        $result = $this->unfold() > $compare;
         return Shoop::bool($result);
     }
 
     public function isGreaterThanOrEqual($compare): ESBool
     {
-        $compare = Type::sanitizeType($compare);
-        $result = $this->countUnfolded() >= $compare->countUnfolded();
+        $compare = Type::sanitizeType($compare)->unfold();
+        $result = $this->unfold() >= $compare;
         return Shoop::bool($result);
     }
 
     public function isLessThan($compare): ESBool
     {
-        $compare = Type::sanitizeType($compare);
-        $result = $this->countUnfolded() < $compare->countUnfolded();
+        $compare = Type::sanitizeType($compare)->unfold();
+        $result = $this->unfold() < $compare;
         return Shoop::bool($result);
     }
 
     public function isLessThanOrEqual($compare): ESBool
     {
-        $compare = Type::sanitizeType($compare);
-        $result = $this->countUnfolded() <= $compare->countUnfolded();
+        $compare = Type::sanitizeType($compare)->unfold();
+        $result = $this->unfold() <= $compare;
         return Shoop::bool($result);
     }
 
@@ -255,7 +268,7 @@ trait ShoopedImp
         if ($value === null) {
             return Shoop::array([]);
         }
-        return Type::sanitizeType($this[0]);
+        return Type::sanitizeType($this[0])->unfold();
     }
 
     public function __call(string $name, array $args = [])
@@ -307,37 +320,43 @@ trait ShoopedImp
 
     public function offsetSet($offset, $value)
     {
+        $stash = $this->value;
         if (is_null($offset)) {
-            $this->value[] = $value;
+            $stash = $value;
+
         } else {
-            $this->value[$offset] = $value;
+            $stash[$offset] = $value;
+
         }
+        return static::fold($stash);
     }
 
     public function offsetUnset($offset)
     {
-        unset($this->value[$offset]);
+        $stash = $this->value;
+        unset($stash[$offset]);
+        return static::fold($stash);
     }
 
 //-> Iterator
-    public function current(): ESInt
+    public function current()
     {
         $current = key($this->value);
         return ESInt::fold($this->value[$current]);
     }
 
-    public function key(): ESInt
+    public function key()
     {
         return ESInt::fold(key($this->value));
     }
 
-    public function next(): ESDictionary
+    public function next()
     {
         next($this->value);
         return $this;
     }
 
-    public function rewind(): ESDictionary
+    public function rewind()
     {
         reset($this->value);
         return $this;
