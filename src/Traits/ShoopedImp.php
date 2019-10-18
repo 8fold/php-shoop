@@ -84,10 +84,10 @@ trait ShoopedImp
     }
 
 // - PHP single-method interfaces
-    public function count(): ESInt
-    {
-        return $this->int();
-    }
+    // public function count(): ESInt
+    // {
+    //     return $this->int();
+    // }
 
     public function __toString()
     {
@@ -95,110 +95,99 @@ trait ShoopedImp
     }
 
 // - Manipulate
-    public function toggle($preserveMembers = true) // 7.4 : self
-    {
-        $array = $this->arrayUnfolded();
-        $reversed = array_reverse($array);
-        return Shoop::array($reversed)->enumerate();
-    }
+    // public function toggle($preserveMembers = true) // 7.4 : self
+    // {
+    //     $array = $this->arrayUnfolded();
+    //     $reversed = array_reverse($array);
+    //     return Shoop::array($reversed)->enumerate();
+    // }
 
-    public function sort($caseSensitive = true)
-    {
-        $caseSensitive = Type::sanitizeType($caseSensitive, ESBool::class)->unfold();
-        $array = $this->array()->unfold();
-        if ($caseSensitive) {
-            natsort($array);
+    // public function sort($caseSensitive = true)
+    // {
+    //     $caseSensitive = Type::sanitizeType($caseSensitive, ESBool::class)->unfold();
+    //     $array = $this->array()->unfold();
+    //     if ($caseSensitive) {
+    //         natsort($array);
 
-        } else {
-            natcasesort($array);
+    //     } else {
+    //         natcasesort($array);
 
-        }
-        return Shoop::array(array_values($array));
-    }
+    //     }
+    //     return Shoop::array(array_values($array));
+    // }
 
-    public function shuffle()
-    {
-        $array = $this->array()->unfold();
-        shuffle($array);
-        return Shoop::array($array);
-    }
+    // public function shuffle()
+    // {
+    //     $array = $this->array()->unfold();
+    //     shuffle($array);
+    //     return Shoop::array($array);
+    // }
 
-    public function start(...$prefixes)
-    {
-        $prefixes = Type::sanitizeType($prefixes)->unfold();
-        $merged = array_merge($prefixes, $this->unfold());
-        return Shoop::array($merged);
-    }
-
-    public function end(...$suffixes) // 7.4 : self;
-    {
-        return $this->plus(...$suffixes);
-    }
 
 // - Search
-    public function has($value): ESBool
-    {
-        $value = Type::sanitizeType($value)->unfold();
-        $bool = in_array($value, $this->array()->unfold());
-        return Shoop::bool($bool);
-    }
+    // public function has($value): ESBool
+    // {
+    //     $value = Type::sanitizeType($value)->unfold();
+    //     $bool = in_array($value, $this->array()->unfold());
+    //     return Shoop::bool($bool);
+    // }
 
-    public function doesNotStartWith($needle): ESBool
-    {
-        $needle = Type::sanitizeType($needle)->unfold();
-        return $this->startsWith($needle)->toggle();
-    }
+    // public function doesNotStartWith($needle): ESBool
+    // {
+    //     $needle = Type::sanitizeType($needle)->unfold();
+    //     return $this->startsWith($needle)->toggle();
+    // }
 
-    public function doesNotEndWith($needle): ESBool
-    {
-        $needle = Type::sanitizeType($needle)->unfold();
-        return $this->endsWith($needle)->toggle();
-    }
+    // public function doesNotEndWith($needle): ESBool
+    // {
+    //     $needle = Type::sanitizeType($needle)->unfold();
+    //     return $this->endsWith($needle)->toggle();
+    // }
 
 // - Math language
-    public function plus(...$args)
-    {
-        $terms = $args;
-        $terms = $args;
-        $total = $this->value;
-        foreach ($terms as $term) {
-            $term = Type::sanitizeType($term, ESInt::class)->unfold();
-            $total += $term;
-        }
-        return Shoop::int($total);
-    }
+    // public function plus(...$args)
+    // {
+    //     $terms = $args;
+    //     $terms = $args;
+    //     $total = $this->value;
+    //     foreach ($terms as $term) {
+    //         $term = Type::sanitizeType($term, ESInt::class)->unfold();
+    //         $total += $term;
+    //     }
+    //     return Shoop::int($total);
+    // }
 
-    public function minus(...$args): ESInt
-    {
-        $total = $this->unfold();
-        foreach ($args as $term) {
-            $term = Type::sanitizeType($term, ESInt::class)->unfold();
-            $total -= $term;
-        }
-        return ESInt::fold($total);
-    }
+    // public function minus(...$args): ESInt
+    // {
+    //     $total = $this->unfold();
+    //     foreach ($args as $term) {
+    //         $term = Type::sanitizeType($term, ESInt::class)->unfold();
+    //         $total -= $term;
+    //     }
+    //     return ESInt::fold($total);
+    // }
 
-    public function multiply($int)
-    {
-        $int = Type::sanitizeType($int, ESInt::class)->unfold();
-        return ESInt::fold($this->unfold() * $int);
-    }
+    // public function multiply($int)
+    // {
+    //     $int = Type::sanitizeType($int, ESInt::class)->unfold();
+    //     return ESInt::fold($this->unfold() * $int);
+    // }
 
-    public function divide($value = null)
-    {
-        if ($value === null) {
-            return $this;
-        }
+    // public function divide($value = null)
+    // {
+    //     if ($value === null) {
+    //         return $this;
+    //     }
 
-        $divisor = Type::sanitizeType($value, ESInt::class)->unfold();
-        $enumerator = $this->unfold();
-        return ESInt::fold((int) floor($enumerator/$divisor));
-    }
+    //     $divisor = Type::sanitizeType($value, ESInt::class)->unfold();
+    //     $enumerator = $this->unfold();
+    //     return ESInt::fold((int) floor($enumerator/$divisor));
+    // }
 
-    public function split($splitter = 1, $splits = 2)
-    {
-        return $this->divide($splitter);
-    }
+    // public function split($splitter = 1, $splits = 2)
+    // {
+    //     return $this->divide($splitter);
+    // }
 
 // - Comparison
     public function is($compare): ESBool
@@ -220,34 +209,34 @@ trait ShoopedImp
         return Type::isEmpty($this);
     }
 
-    public function isGreaterThan($compare): ESBool
-    {
-        $compare = Type::sanitizeType($compare, ESInt::class)
-            ->unfold();
-        $result = $this->unfold() > $compare;
-        return Shoop::bool($result);
-    }
+    // public function isGreaterThan($compare): ESBool
+    // {
+    //     $compare = Type::sanitizeType($compare, ESInt::class)
+    //         ->unfold();
+    //     $result = $this->unfold() > $compare;
+    //     return Shoop::bool($result);
+    // }
 
-    public function isGreaterThanOrEqual($compare): ESBool
-    {
-        $compare = Type::sanitizeType($compare)->unfold();
-        $result = $this->unfold() >= $compare;
-        return Shoop::bool($result);
-    }
+    // public function isGreaterThanOrEqual($compare): ESBool
+    // {
+    //     $compare = Type::sanitizeType($compare)->unfold();
+    //     $result = $this->unfold() >= $compare;
+    //     return Shoop::bool($result);
+    // }
 
-    public function isLessThan($compare): ESBool
-    {
-        $compare = Type::sanitizeType($compare)->unfold();
-        $result = $this->unfold() < $compare;
-        return Shoop::bool($result);
-    }
+    // public function isLessThan($compare): ESBool
+    // {
+    //     $compare = Type::sanitizeType($compare)->unfold();
+    //     $result = $this->unfold() < $compare;
+    //     return Shoop::bool($result);
+    // }
 
-    public function isLessThanOrEqual($compare): ESBool
-    {
-        $compare = Type::sanitizeType($compare)->unfold();
-        $result = $this->unfold() <= $compare;
-        return Shoop::bool($result);
-    }
+    // public function isLessThanOrEqual($compare): ESBool
+    // {
+    //     $compare = Type::sanitizeType($compare)->unfold();
+    //     $result = $this->unfold() <= $compare;
+    //     return Shoop::bool($result);
+    // }
 
     /**
      * @deprecated
@@ -258,15 +247,7 @@ trait ShoopedImp
     }
 
 //-> Getters
-    public function first()
-    {
-        $array = $this->array()->unfold();
-        $value = array_shift($array);
-        if ($value === null) {
-            return Shoop::array([]);
-        }
-        return Type::sanitizeType($this[0])->unfold();
-    }
+
 
     public function __call(string $name, array $args = [])
     {

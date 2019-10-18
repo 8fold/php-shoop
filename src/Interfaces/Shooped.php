@@ -12,7 +12,6 @@ use Eightfold\Shoop\{
 };
 
 interface Shooped extends
-    \Countable,
     \ArrayAccess,
     // ?? ObjectAccess = __unset, __isset, __get, __set
     \Iterator
@@ -43,63 +42,10 @@ interface Shooped extends
     public function enumerate(): ESArray;
 
 // - PHP single-method interfaces
-    // Does not make sense on ESBool
-    public function count(): ESInt;
-
-    // Does not make sense on ESBool
     public function __toString();
-
-// - Manipulate
-    // Does not make sense on ESObject
-    public function toggle($preserveMembers = true); // 7.4 : self;
-
-    // Does not make sense on ESObject, ESDictionary
-    public function shuffle(); // 7.4 : self;
-
-    // Does not make sense on ESBool, ESInt, ESObject, ESDictionary
-    public function sort($caseSensitive = true); // 7.4 : self;
-
-    // Does not make sense on ESBool, ESInt, ESObject, ESDictionary
-    public function start(...$prefixes); // 7.4 : self;
-
-    // Does not make sense on ESBool, ESInt, ESObject, ESDictionary
-    public function end(...$suffixes); // 7.4 : self;
-
-// - Search
-    // Does not make sense on ESBool
-    public function has($needle): ESBool;
-
-    // Does not make sense on ESBool, ESInt, ESObject, ESDictionary
-    public function startsWith($needle): ESBool;
-
-    // Does not make sense on ESBool, ESInt, ESObject, ESDictionary
-    public function doesNotStartWith($needle): ESBool;
-
-    // Does not make sense on ESBool, ESInt, ESObject, ESDictionary
-    public function endsWith($needle): ESBool;
-
-    // Does not make sense on ESBool, ESInt, ESObject, ESDictionary
-    public function doesNotEndWith($needle): ESBool;
 
 // - Math language
     public function multiply($int); // 7.4 : self;
-
-    // Does not make sense on ESBool
-    public function plus(...$args); // 7.4 : self;
-
-    // Does not make sense on ESBool
-    public function minus(...$args); // 7.4 : self;
-
-    // Does not make sense on ESBool
-    public function divide($value = null);
-
-    // Does not make sense on ESBool, ESInt (remainder of % 2),
-    //      ESObject, ESDictionary
-    public function split($splitter = 1, $splits = 2);
-
-// - Getters
-    // Does not make sense on ESBool, ESInt, ESObject, ESDictionary
-    public function first();
 
 // - Comparison
     public function is($compare): ESBool;
@@ -107,16 +53,4 @@ interface Shooped extends
     public function isNot($compare): ESBool;
 
     public function isEmpty(): ESBool;
-
-    // Does not make sense on ESObject, ESDictionary
-    public function isGreaterThan($compare): ESBool;
-
-    // Does not make sense on ESObject, ESDictionary
-    public function isGreaterThanOrEqual($compare): ESBool;
-
-    // Does not make sense on ESObject, ESDictionary
-    public function isLessThan($compare): ESBool;
-
-    // Does not make sense on ESObject, ESDictionary
-    public function isLessThanOrEqual($compare): ESBool;
 }

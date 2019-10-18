@@ -3,13 +3,24 @@
 namespace Eightfold\Shoop;
 
 use Eightfold\Shoop\Helpers\Type;
-use Eightfold\Shoop\Traits\ShoopedImp;
 
-use Eightfold\Shoop\Interfaces\Shooped;
+use Eightfold\Shoop\Interfaces\{
+    Shooped,
+    Toggle,
+    Shuffle,
+    Compare
+};
 
-class ESBool implements Shooped
+use Eightfold\Shoop\Traits\{
+    ShoopedImp,
+    ToggleImp,
+    ShuffleImp,
+    CompareImp
+};
+
+class ESBool implements Shooped, Toggle, Shuffle, Compare
 {
-    use ShoopedImp;
+    use ShoopedImp, ToggleImp, ShuffleImp, CompareImp;
 
     public function __construct($bool)
     {

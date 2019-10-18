@@ -2,17 +2,30 @@
 
 namespace Eightfold\Shoop;
 
+use Eightfold\Shoop\Interfaces\{
+    Shooped,
+    Countable,
+    Toggle,
+    Shuffle,
+    Compare
+};
+
+use Eightfold\Shoop\Traits\{
+    ShoopedImp,
+    CountableImp,
+    ToggleImp,
+    ShuffleImp,
+    CompareImp
+};
+
 use Eightfold\Shoop\ESString;
 
 use Eightfold\Shoop\Helpers\Type;
 
-use Eightfold\Shoop\Traits\ShoopedImp;
 
-use Eightfold\Shoop\Interfaces\Shooped;
-
-class ESInt implements Shooped
+class ESInt implements Shooped, Countable, Toggle, Shuffle
 {
-    use ShoopedImp;
+    use ShoopedImp, CountableImp, ToggleImp, ShuffleImp, CompareImp;
 
     public function __construct($int)
     {
@@ -111,6 +124,46 @@ class ESInt implements Shooped
     }
 
 // - Math language
+    public function plus(...$args)
+    {
+        $terms = $args;
+        $terms = $args;
+        $total = $this->value;
+        foreach ($terms as $term) {
+            $term = Type::sanitizeType($term, ESInt::class)
+                ->unfold();
+            $total += $term;
+        }
+        return Shoop::int($total);
+    }
+
+    public function minus(...$args): ESInt
+    {
+        $total = $this->unfold();
+        foreach ($args as $term) {
+            $term = Type::sanitizeType($term, ESInt::class)->unfold();
+            $total -= $term;
+        }
+        return ESInt::fold($total);
+    }
+
+    public function multiply($int)
+    {
+        $int = Type::sanitizeType($int, ESInt::class)->unfold();
+        return ESInt::fold($this->unfold() * $int);
+    }
+
+    public function divide($value = null)
+    {
+        if ($value === null) {
+            return $this;
+        }
+
+        $divisor = Type::sanitizeType($value, ESInt::class)->unfold();
+        $enumerator = $this->unfold();
+        return ESInt::fold((int) floor($enumerator/$divisor));
+    }
+
 // - Getters
 // - Comparison
 // - Other

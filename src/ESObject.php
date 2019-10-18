@@ -2,15 +2,25 @@
 
 namespace Eightfold\Shoop;
 
-use Eightfold\Shoop\Traits\ShoopedImp;
+use Eightfold\Shoop\Interfaces\{
+    Shooped,
+    Countable,
+    Has
+};
 
-use Eightfold\Shoop\Interfaces\Shooped;
+use Eightfold\Shoop\Traits\{
+    ShoopedImp,
+    CountableImp,
+    HasImp
+};
+
+
 
 use Eightfold\Shoop\Helpers\Type;
 
-class ESObject implements Shooped
+class ESObject implements Shooped, Countable, Has
 {
-    use ShoopedImp;
+    use ShoopedImp, CountableImp, HasImp;
 
     public function __construct($object)
     {

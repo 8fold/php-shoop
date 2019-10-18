@@ -4,13 +4,38 @@ namespace Eightfold\Shoop;
 
 use Eightfold\Shoop\Helpers\Type;
 
-use Eightfold\Shoop\Traits\ShoopedImp;
+use Eightfold\Shoop\Interfaces\{
+    Shooped,
+    Countable,
+    Toggle,
+    Shuffle,
+    Wrap,
+    Sort,
+    Split,
+    Has
+};
 
-use Eightfold\Shoop\Interfaces\Shooped;
+use Eightfold\Shoop\Traits\{
+    ShoopedImp,
+    CountableImp,
+    ToggleImp,
+    ShuffleImp,
+    WrapImp,
+    SortImp,
+    HasImp
+};
 
-class ESArray implements Shooped
+class ESArray implements
+    Shooped,
+    Countable,
+    Toggle,
+    Shuffle,
+    Wrap,
+    Sort,
+    Split,
+    Has
 {
-    use ShoopedImp;
+    use ShoopedImp, CountableImp, ToggleImp, ShuffleImp, WrapImp, SortImp, HasImp;
 
     public function __construct($array = [])
     {
@@ -68,7 +93,7 @@ class ESArray implements Shooped
         return Shoop::array($merged);
     }
 
-// - Search
+// - Wrap
     public function startsWith($needle): ESBool
     {
         $needle = Type::sanitizeType($needle, ESArray::class)->unfold();
@@ -153,6 +178,11 @@ class ESArray implements Shooped
         $right = array_slice($this->unfold(), $index);
 
         return Shoop::array([$left, $right]);
+    }
+
+    public function split($splitter = 1, $splits = 2)
+    {
+        return $this->divide($splitter);
     }
 
 // - Comparison

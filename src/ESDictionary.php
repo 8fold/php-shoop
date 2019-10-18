@@ -2,19 +2,33 @@
 
 namespace Eightfold\Shoop;
 
-use Eightfold\Shoop\Traits\ShoopedImp;
-
-use Eightfold\Shoop\Interfaces\Shooped;
 use Eightfold\Shoop\Helpers\Type;
+
+use Eightfold\Shoop\Interfaces\{
+    Shooped,
+    Countable,
+    Toggle,
+    Has
+};
+
+use Eightfold\Shoop\Traits\{
+    ShoopedImp,
+    CountableImp,
+    ToggleImp,
+    HasImp
+};
 
 use Eightfold\Shoop\ESInt;
 
 // TODO: get($key) - ESArray, ESDictionary
 class ESDictionary implements
     \Iterator,
-    Shooped
+    Shooped,
+    Countable,
+    Toggle,
+    Has
 {
-    use ShoopedImp;
+    use ShoopedImp, CountableImp, ToggleImp, HasImp;
 
     public function __construct($dictionary)
     {

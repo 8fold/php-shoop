@@ -2,14 +2,43 @@
 
 namespace Eightfold\Shoop;
 
-use Eightfold\Shoop\Traits\ShoopedImp;
+use Eightfold\Shoop\Interfaces\{
+    Shooped,
+    Countable,
+    Toggle,
+    Shuffle,
+    Wrap,
+    Sort,
+    Split,
+    Has,
+    Compare
+};
 
-use Eightfold\Shoop\Interfaces\Shooped;
+use Eightfold\Shoop\Traits\{
+    ShoopedImp,
+    CountableImp,
+    ToggleImp,
+    ShuffleImp,
+    WrapImp,
+    SortImp,
+    HasImp,
+    CompareImp
+};
+
 use Eightfold\Shoop\Helpers\Type;
 
-class ESString implements Shooped
+class ESString implements
+    Shooped,
+    Countable,
+    Toggle,
+    Shuffle,
+    Wrap,
+    Sort,
+    Split,
+    Has,
+    Compare
 {
-    use ShoopedImp;
+    use ShoopedImp, CountableImp, ToggleImp, ShuffleImp, WrapImp, SortImp, HasImp, CompareImp;
 
     public function __construct($string)
     {
@@ -45,20 +74,10 @@ class ESString implements Shooped
     }
 
 // - PHP single-method interfaces
-    public function __toString()
-    {
-        return $this->unfold();
-    }
-
 // - Manipulate
     public function toggle($preserveMembers = true)
     {
         return $this->array()->toggle()->join("");
-    }
-
-    public function sort($caseSensitive = true)
-    {
-        return $this->array()->sort($caseSensitive)->join("");
     }
 
     public function shuffle()
@@ -66,6 +85,11 @@ class ESString implements Shooped
         $array = $this->array()->unfold();
         shuffle($array);
         return Shoop::array($array)->join("");
+    }
+
+    public function sort($caseSensitive = true)
+    {
+        return $this->array()->sort($caseSensitive)->join("");
     }
 
     public function start(...$prefixes)
@@ -82,7 +106,7 @@ class ESString implements Shooped
         return $this->start(...$args);
     }
 
-// - Search
+// - Wrap
     public function startsWith($needle): ESBool
     {
         $needle = Type::sanitizeType($needle, ESString::class);
@@ -114,6 +138,12 @@ class ESString implements Shooped
     }
 
 // - Math language
+    public function multiply($int)
+    {
+        $int = Type::sanitizeType($int, ESInt::class)->unfold();
+        return Shoop::string(str_repeat($this->unfold(), $int));
+    }
+
     public function plus(...$args)
     {
         $total = $this->value;
@@ -130,12 +160,6 @@ class ESString implements Shooped
     {
         $needle = Type::sanitizeType($args[0], ESString::class)->unfold();
         return Shoop::string(str_replace($needle, "", $this->unfold()));
-    }
-
-    public function multiply($int)
-    {
-        $int = Type::sanitizeType($int, ESInt::class)->unfold();
-        return Shoop::string(str_repeat($this->unfold(), $int));
     }
 
     public function divide($divisor = null, $removeEmpties = true)
@@ -162,6 +186,9 @@ class ESString implements Shooped
         $splits = Type::sanitizeType($splits, ESInt::class)->unfold();
         return Shoop::array(explode($splitter, $this->unfold(), $splits));
     }
+
+// - Replace
+
 
 // - Other
     public function lowerFirst(): ESString

@@ -108,24 +108,9 @@ class ShoopedTest extends TestCase
 
     public function testCanMath()
     {
-        $expected = [5, 4, 1];
-        $result = TestObject::fold(5)->plus(4, 1);
-        $this->assertEquals($expected, $result->unfold());
-
-        $expected = [5];
-        $result = TestObject::fold([1, 1, 1, 5, 2, 2, 2])->minus(1)->minus(2);
-        $this->assertEquals($expected, $result->unfold());
-
-        $expected = 25;
-        $result = TestObject::fold(5)->multiply(5);
-        $this->assertEquals($expected, $result->unfold());
-
-        $expected = 4;
-        $result = TestObject::fold(28)->divide(7);
-        $this->assertEquals($expected, $result->unfold());
-
-        $result = TestObject::fold(8)->split(2);
-        $this->assertEquals($expected, $result->unfold());
+        $expected = 16;
+        $actual = TestObject::fold(8)->multiply(2);
+        $this->assertEquals($expected, $actual->unfold());
     }
 
     public function testCanCompare()

@@ -2,7 +2,15 @@
 
 namespace Eightfold\Shoop\Tests;
 
-use Eightfold\Shoop\Traits\ShoopedImp;
+use Eightfold\Shoop\Helpers\Type;
+
+use Eightfold\Shoop\Traits\{
+    ShoopedImp,
+    CountableImp,
+    WrapImp,
+    HasImp,
+    CompareImp
+};
 
 use Eightfold\Shoop\Shoop;
 use Eightfold\Shoop\ESInt;
@@ -11,7 +19,7 @@ use Eightfold\Shoop\ESArray;
 
 class TestObject
 {
-    use ShoopedImp;
+    use ShoopedImp, CountableImp, WrapImp, HasImp, CompareImp;
 
     public function __construct($args = null)
     {
@@ -24,6 +32,7 @@ class TestObject
         $string = (string) $this->value;
         return Shoop::string($string);
     }
+
     public function int(): ESInt
     {
         if (is_int($this->value)) {
@@ -44,6 +53,7 @@ class TestObject
     {
         return Shoop::array($this->unfold())->sort($caseSensitive);
     }
+
 // - Search
     public function startsWith($needle): ESBool
     {
@@ -69,5 +79,11 @@ class TestObject
     {
         $cheat = ESArray::fold($this->value);
         return $cheat->minus(...$args);
+    }
+
+    public function multiply($int)
+    {
+        $int = Type::sanitizeType($int, ESInt::class)->unfold();
+        return TestObject::fold($this->value * $int);
     }
 }
