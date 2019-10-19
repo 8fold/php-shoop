@@ -26,6 +26,9 @@ class ArrayTest extends TestCase
         $result = $array->dictionary();
         $this->assertTrue(Type::isDictionary($result));
         $this->assertEquals(["i0" => 1, "i1" => 2], $result->unfold());
+
+        $actual = $array->json();
+        $this->assertEquals('{"0":1,"1":2}', $actual->unfold());
     }
 
     public function testPhpInterfaces()

@@ -10,7 +10,9 @@ use Eightfold\Shoop\{
     ESInt,
     ESString,
     ESArray,
-    ESObject
+    ESDictionary,
+    ESObject,
+    ESJson
 };
 
 class Type
@@ -21,18 +23,8 @@ class Type
             return $toSanitize;
         }
 
-        if (Type::isPhp($toSanitize) && strlen($shoopType) === 0) {
-            $desiredPhpType = Type::for($toSanitize);
-            $shoopType = Type::phpToShoop($desiredPhpType);
-        }
+        $shoopType = (strlen($shoopType) === 0) ? Type::shoopFor($toSanitize) : $shoopType;
 
-        if (isset($desiredPhpType)) {
-            self::isDesiredTypeOrTriggerError($desiredPhpType, $toSanitize);
-
-        } elseif (strlen($shoopType) === 0) {
-            $shoopType = Type::phpToShoop(Type::for($toSanitize));
-
-        }
         return $shoopType::fold($toSanitize);
     }
 
@@ -80,6 +72,12 @@ class Type
 
         } elseif ($type === "boolean") {
             $type = "bool";
+
+        } elseif (Type::isJson($potential)) {
+            $type = "json";
+
+        } elseif ($type === "array" && Type::isDictionary($potential)) {
+            $type = "dictionary";
 
         }
         return $type;
@@ -140,9 +138,23 @@ class Type
         return false;
     }
 
-    static public function isEmpty($check)
+    static public function isJson($potential)
     {
-        $check = Type::sanitizeType($check)->unfold();
+        $isString = is_string($potential);
+        if ($isString) {
+            $potential = trim($potential);
+            $isDecodable = is_array(json_decode($potential, true));
+            $noJsonError = (json_last_error() == JSON_ERROR_NONE);
+
+            $startsWithBrace = ESString::fold($potential)->startsWith("{")->unfold();
+            $endsWithBrace = ESString::fold($potential)->endsWith("}")->unfold();
+        }
+        return ($isString && $isDecodable && $noJsonError && $startsWithBrace && $endsWithBrace);
+    }
+
+    static public function isEmpty(Shooped $check)
+    {
+        $check = Type::sanitizeType($check, get_class($check))->unfold();
         $empty = empty($check);
         return Shoop::bool($empty);
     }
@@ -151,13 +163,15 @@ class Type
     static public function map(): array
     {
         return [
-            "bool"    => ESBool::class,
-            "boolean" => ESBool::class,
-            "int"     => ESInt::class,
-            "integer" => ESInt::class,
-            "string"  => ESString::class,
-            "array"   => ESArray::class,
-            "object"  => ESObject::class
+            "bool"       => ESBool::class,
+            "boolean"    => ESBool::class,
+            "int"        => ESInt::class,
+            "integer"    => ESInt::class,
+            "string"     => ESString::class,
+            "array"      => ESArray::class,
+            "dictionary" => ESDictionary::class,
+            "object"     => ESObject::class,
+            "json"       => ESJson::class
         ];
     }
 

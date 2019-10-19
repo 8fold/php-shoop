@@ -14,8 +14,6 @@ use Eightfold\Shoop\Traits\{
     HasImp
 };
 
-
-
 use Eightfold\Shoop\Helpers\Type;
 
 class ESObject implements Shooped, Countable, Has
@@ -48,65 +46,30 @@ class ESObject implements Shooped, Countable, Has
         return Shoop::dictionary($array)->array();
     }
 
-    // TODO: ?? This could be a truly universal implementation
+    public function dictionary(): ESDictionary
+    {
+        $array = (array) $this->unfold();
+        return Shoop::dictionary($array);
+    }
+
+    public function object(): ESObject
+    {
+        return Shoop::object($this->unfold());
+    }
+
     public function bool(): ESBool
     {
         return Type::isEmpty($this->array())->toggle();
     }
 
-    /**
-     * @deprecated
-     */
-    public function enumerate(): ESArray
+    public function json(): ESJson
     {
-        return $this->array();
+        return Shoop::json(json_encode($this->unfold()));
     }
 
 // - PHP single-method interfaces
 // - Manipulate
-    public function toggle($preserveMembers = true): ESObject
-    {
-        return $this->dictionary()
-            ->toggle()
-            ->object();
-    }
-
-    public function shuffle()
-    {
-        $array = (array) $this->unfold();
-        shuffle($array);
-        $object = (object) $array;
-        return Shoop::object($object);
-    }
-
-    public function sort($caseSensitive = true): ESObject
-    {
-        return $this->dictionary()->sort($caseSensitive)->object();
-    }
-
-    public function start(...$prefixes)
-    {
-        return $this->plus(...$prefixes);
-    }
-
 // - Search
-    public function startsWith($needle): ESBool
-    {
-        $needle = Type::sanitizeType($needle, ESArray::class)->unfold();
-        $count = 0;
-        foreach ($needle as $val) {
-            if ($this->has($val)->toggleUnfolded()) {
-                return Shoop::bool(false);
-            }
-        }
-        return Shoop::bool(true);
-    }
-
-    public function endsWith($needle): ESBool
-    {
-        return $this->startsWith($needle);
-    }
-
 // - Math language
     public function multiply($int)
     {
@@ -120,16 +83,16 @@ class ESObject implements Shooped, Countable, Has
 
     public function plus(...$args)
     {
-        if (Shoop::array($args)->count()->isNotUnfolded(2)) {
-            $className = ESObject::class;
-            $count = Shoop::array($args)->count();
+        $className = ESObject::class;
+        $count = Shoop::array($args)->count();
+        if ($count->isNotUnfolded(2)) {
             trigger_error(
-                "{$className}::plus() expects two arguments. {$count} given."
+                "{$className}::plus() expects two arguments. {$count->unfold()} given."
             );
         }
 
         $key = Type::sanitizeType($args[0], ESString::class)->unfold();
-        $this->{$key} = $args[1];
+        $this->value->{$key} = $args[1];
         return Shoop::object($this->unfold());
     }
 
@@ -157,6 +120,11 @@ class ESObject implements Shooped, Countable, Has
         $this->{$new} = $value;
         unset($this->{$member});
         return $this;
+    }
+
+    public function get($member)
+    {
+        return Type::sanitizeType($this->unfold()->{$member});
     }
 
 // - Setters/Getters

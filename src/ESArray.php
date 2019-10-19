@@ -76,23 +76,14 @@ class ESArray implements
         return Shoop::dictionary($build);
     }
 
-    /**
-     * @deprecated
-     */
-    public function enumerate(): ESArray
+    public function json(): ESJson
     {
-        return $this->array();
+        $obj = $this->object();
+        return Shoop::json(json_encode($obj->unfold()));
     }
 
 // - PHP single-method interfaces
 // - Manipulate
-    public function start(...$prefixes)
-    {
-        $prefixes = Type::sanitizeType($prefixes)->unfold();
-        $merged = array_merge($prefixes, $this->unfold());
-        return Shoop::array($merged);
-    }
-
 // - Wrap
     public function startsWith($needle): ESBool
     {
@@ -196,32 +187,12 @@ class ESArray implements
         trigger_error("Undefined index or memember.");
     }
 
-    private function members(): ESArray
-    {
-        return Shoop::array(array_keys($this->value));
-    }
-
-    public function values(): ESArray
-    {
-        return $this->array();
-    }
-
-    public function last()
-    {
-        return $this->toggle()->first();
-    }
-
 // - Other
     // TODO: Promote to ShoopedImp, with custom for ESString
     public function hasMember($member): ESBool
     {
         $member = Type::sanitizeType($member, ESInt::class)->unfold();
         return Shoop::bool($this->offsetExists($member));
-    }
-
-    public function doesNotHaveMember($member): ESBool
-    {
-        return $this->hasMember($member)->toggle();
     }
 
     public function join($delimiter = ""): ESString
@@ -232,6 +203,7 @@ class ESArray implements
 
     public function insertAt($value, $int)
     {
+        // TODO: Consider making plus an alias of this
         $int = Type::sanitizeType($int, ESInt::class)->unfold();
         $value = Type::sanitizeType($value, ESArray::class)->unfold();
 
@@ -239,7 +211,7 @@ class ESArray implements
         $rhs = array_slice($this->unfold(), $int);
 
         $merged = array_merge($lhs, $value, $rhs);
-        return Shoop::array($merged)->enumerate();
+        return Shoop::array($merged)->array();
     }
 
     public function drop($int)
@@ -247,28 +219,29 @@ class ESArray implements
         $int = Type::sanitizeType($int, ESInt::class)->unfold();
         $array = $this->unfold();
         unset($array[$int]);
-        return Shoop::array($array)->enumerate();
+        return Shoop::array($array)->array();
     }
 
     public function dropFirst($length = 1): ESArray
     {
         $length = Type::sanitizeType($length, ESInt::class)->unfold();
 
-        $array = $this->enumerate()->unfold();
+        $array = $this->array()->unfold();
         for ($i = 0; $i < $length; $i++) {
             array_shift($array);
         }
-        return Shoop::array($array)->enumerate();
+        return Shoop::array($array)->array();
     }
 
     public function dropLast($length = 1): ESArray
     {
-        return $this->enumerate()->toggle()->dropFirst($length)->toggle()->enumerate();
+        return $this->array()
+            ->toggle()->dropFirst($length)->toggle()->array();
     }
 
     public function noEmpties(): ESArray
     {
-        return Shoop::array(array_filter($this->unfold()))->enumerate();
+        return Shoop::array(array_filter($this->unfold()))->array();
     }
 
     public function each(\Closure $closure): ESArray

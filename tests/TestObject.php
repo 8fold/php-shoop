@@ -33,6 +33,21 @@ class TestObject
         return Shoop::string($string);
     }
 
+    public function array()
+    {
+        $array = (array) $this->value;
+        return Shoop::array($array);
+    }
+
+    public function dictionary()
+    {
+        if (Type::is($this, ESDictionary::class)) {
+            return Shoop::dictionary($this->unfold());
+        }
+        $array = (array) $this->value;
+        return Shoop::array($array)->dictionary();
+    }
+
     public function int(): ESInt
     {
         if (is_int($this->value)) {

@@ -8,7 +8,8 @@ use Eightfold\Shoop\{
     ESBool,
     ESString,
     ESObject,
-    ESDictionary
+    ESDictionary,
+    ESJson
 };
 
 interface Shooped extends
@@ -36,16 +37,12 @@ interface Shooped extends
 
     public function bool(): ESBool;
 
-    /**
-     * @deprecated
-     */
-    public function enumerate(): ESArray;
+    // Does not make sense for ESInt
+    public function json(): ESJson;
 
 // - PHP single-method interfaces
-    public function __toString();
-
 // - Math language
-    public function multiply($int); // 7.4 : self;
+    public function multiply($int);
 
 // - Comparison
     public function is($compare): ESBool;

@@ -18,7 +18,11 @@ trait WrapImp
         if ($value === null) {
             return Shoop::array([]);
         }
-        return Type::sanitizeType($this[0])->unfold();
+
+        if (Type::isShooped($value)) {
+            return $value;
+        }
+        return Type::sanitizeType($value);
     }
 
     public function last()

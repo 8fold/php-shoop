@@ -30,6 +30,9 @@ class DictTest extends TestCase
 
         $result = ESDictionary::fold($dict)->dictionary();
         $this->assertEquals($dict, $result->unfold());
+
+        $actual = ESDictionary::fold($dict)->json();
+        $this->assertEquals('{"one":1,"two":2}', $actual->unfold());
     }
 
     public function testPHPSingleMethodInterfaces()
@@ -45,9 +48,6 @@ class DictTest extends TestCase
         $expected = [];
         $actual = ESDictionary::fold($dict)->toggle();
         $this->assertEquals($expected, $actual->unfold());
-
-        // $actual = $actual->sort();
-        // $this->assertEquals(["zero" => 0, "one" => 1], $actual->unfold());
     }
 
     public function testSearch()
@@ -55,9 +55,6 @@ class DictTest extends TestCase
         $base = ["one" => 1, "two" => 2];
         $shoopDict = Shoop::dictionary($base);
         $result = $shoopDict->has(1);
-        $this->assertTrue($result->unfold());
-
-        $result = $shoopDict->startsWith([1, 2]);
         $this->assertTrue($result->unfold());
     }
 
@@ -126,14 +123,6 @@ class DictTest extends TestCase
         );
     }
 
-
-
-
-
-
-
-
-
     public function testCanIterateDictionary()
     {
         $dict = Shoop::dictionary(["key" => "value", "key2" => "value2"]);
@@ -151,11 +140,4 @@ class DictTest extends TestCase
         }
         $this->assertTrue($count > 1);
     }
-
-
-
-
-
-
-
 }

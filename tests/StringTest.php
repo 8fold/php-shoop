@@ -35,6 +35,10 @@ class StringTest extends TestCase
         $expected = ["H", "e", "l", "l", "o", "!"];
         $actual = Shoop::string($string)->array();
         $this->assertEquals($expected, $actual->unfold());
+
+        $string = '{"one":2}';
+        $actual = Shoop::string($string)->json();
+        $this->assertEquals($string, $actual->unfold());
     }
 
     public function testManipulate()
@@ -81,7 +85,7 @@ class StringTest extends TestCase
         $this->assertEquals("Heo, Word!", $result);
 
         $expected = "HelloHelloHello";
-        $actual = Shoop::this("Hello")->multiply(3);
+        $actual = Shoop::this("Hello", ESString::class)->multiply(3);
         $this->assertEquals($expected, $actual->unfold());
 
         $compare = ESArray::fold(["He", "o, Wor", "d!"]);
@@ -89,11 +93,11 @@ class StringTest extends TestCase
         $this->assertTrue($actual->is($compare)->unfold());
 
         $compare = ESArray::fold(["He", "lo, World!"]);
-        $result = Shoop::this("Hello, World!")->split("l");
+        $result = Shoop::this("Hello, World!", ESString::class)->split("l");
         $this->assertTrue($result->countUnfolded() == 2);
 
         $compare = ESArray::fold(["He", "o, World!"]);
-        $result = Shoop::this("Hello, World!")->split("l", 3);
+        $result = Shoop::this("Hello, World!", ESString::class)->split("l", 3);
         $this->assertTrue($result->countUnfolded() == 3);
     }
 
@@ -101,13 +105,13 @@ class StringTest extends TestCase
     {
         $string1 = "abc";
         $string2 = "cab";
-        $actual = Shoop::this($string1)->isLessThanUnfolded($string2);
+        $actual = Shoop::this($string1, ESString::class)->isLessThanUnfolded($string2);
         $this->assertTrue($actual);
 
         $string1 = "a";
         $string2 = "b";
         $string3 = "c";
-        $actual = Shoop::this($string1)->isLessThan($string2)->and(Shoop::this($string2)->isLessThan($string3));
+        $actual = Shoop::this($string1, ESString::class)->isLessThan($string2)->and(Shoop::this($string2, ESString::class)->isLessThan($string3));
         $this->assertTrue($actual->unfold());
     }
 
@@ -115,15 +119,15 @@ class StringTest extends TestCase
     {
         $base = "HELLO!";
         $expected = "hELLO!";
-        $actual = Shoop::this($base)->lowerFirst();
+        $actual = Shoop::this($base, ESString::class)->lowerFirst();
         $this->assertEquals($expected, $actual->unfold());
 
         $expected = $base;
-        $actual = Shoop::this("hello!")->uppercase();
+        $actual = Shoop::this("hello!", ESString::class)->uppercase();
         $this->assertEquals($expected, $actual->unfold());
 
         $expected = "Hello, 🌍!";
-        $actual = Shoop::this(__DIR__)
+        $actual = Shoop::this(__DIR__, ESString::class)
             ->divide("/")
             ->plus("test.txt")
             ->join("/")

@@ -1,0 +1,22 @@
+{
+    "@context": "http://schema.org",
+    "@type": "LocalBusiness",
+    "member": [
+        {
+            "@type": "Person",
+            "memberOf": {
+                "@type": "ProgramMembership",
+                "programName": "Practitioner",
+                "membershipPointsEarned": 11510
+            }
+        },
+        {
+            "@type": "Person",
+            "memberOf": {
+                "@type": "ProgramMembership",
+                "programName": "Practitioner",
+                "membershipPointsEarned": 5292
+            }
+        }
+    ]
+}

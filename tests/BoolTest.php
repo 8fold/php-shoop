@@ -37,40 +37,13 @@ class BoolTest extends TestCase
     {
         $actual = Shoop::this(true)->toggle();
         $this->assertFalse($actual->unfold());
-
-        $this->assertFalse($actual->sort()->unfold());
-
-        $this->assertTrue(Shoop::this(true)->start()->unfold());
-        $this->assertFalse(Shoop::this(true)->end()->unfold());
-    }
-
-    public function testSearch()
-    {
-        $actual = Shoop::this(true)->startsWith("t");
-        $this->assertTrue($actual->unfold());
-
-        $actual = Shoop::this(false)->endsWith("se");
-        $this->assertFalse($actual->unfold());
     }
 
     public function testMathLanguage()
     {
-        $actual = Shoop::this(true);
-        $this->assertTrue($actual->plus()->unfold());
-
-        $actual = Shoop::this(true);
-        $this->assertFalse($actual->minus()->unfold());
-
         $expected = [true, true, true];
         $actual = Shoop::this(true)->multiply(3);
         $this->assertEquals($expected, $actual->unfold());
-
-        $expected = true;
-        $actual = Shoop::this(true)->divide(3);
-        $this->assertEquals($expected, $actual->unfold());
-
-        $expected = [true, false];
-        $actual = Shoop::this(true)->split();
     }
 
     public function testComparison()

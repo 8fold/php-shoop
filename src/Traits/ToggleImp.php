@@ -10,6 +10,6 @@ trait ToggleImp
     {
         $array = $this->arrayUnfolded();
         $reversed = array_reverse($array);
-        return Shoop::array($reversed)->enumerate();
+        return Shoop::array($reversed)->array();
     }
 }

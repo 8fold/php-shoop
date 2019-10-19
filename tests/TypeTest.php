@@ -11,7 +11,8 @@ use Eightfold\Shoop\{
     ESBool,
     ESInt,
     ESString,
-    ESArray
+    ESArray,
+    ESJson
 };
 
 class TypeTest extends TestCase
@@ -19,7 +20,7 @@ class TypeTest extends TestCase
     public function testCanSanitizeTypes()
     {
         $expected = ESInt::class;
-        $result = get_class(Type::sanitizeType(10));
+        $result = get_class(Type::sanitizeType(10, ESInt::class));
         $this->assertEquals($expected, $result);
 
         $expected = ESString::class;
@@ -28,6 +29,10 @@ class TypeTest extends TestCase
 
         $expected = ESArray::class;
         $result = get_class(Type::sanitizeType(10, ESArray::class));
+        $this->assertEquals($expected, $result);
+
+        $expected = ESJson::class;
+        $result = get_class(Type::sanitizeType('{"@context": "http://schema.org"}', ESJson::class));
         $this->assertEquals($expected, $result);
     }
 
@@ -113,5 +118,14 @@ class TypeTest extends TestCase
 
         $result = Type::shoopToPhp($shoop);
         $this->assertEquals($php, $result);
+    }
+
+    public function testCanCheckStringIsJson()
+    {
+        $actual = Type::isJson("");
+        $this->assertFalse($actual);
+
+        $actual = Type::isJson("{");
+        $this->assertFalse($actual);
     }
 }

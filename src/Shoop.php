@@ -8,40 +8,43 @@ use Eightfold\Shoop\Interfaces\Shooped;
 
 class Shoop
 {
-    // TODO: create universal single entry point
-    // Shoop::this($whatever)
-    static public function this($potential)
+    static public function this($potential, string $shoopType = "")
     {
-        return Type::sanitizeType($potential);
+        return Type::sanitizeType($potential, $shoopType);
     }
 
     static public function int($int): ESInt
     {
-        return ESInt::fold($int);
+        return static::this($int, ESInt::class);
     }
 
     static public function string($string): ESString
     {
-        return ESString::fold($string);
+        return static::this($string, ESString::class);
     }
 
     static public function array($array): ESArray
     {
-        return ESArray::fold($array);
+        return static::this($array, ESArray::class);
     }
 
-    static public function dictionary($assocArray)
+    static public function dictionary($assocArray): ESDictionary
     {
-        return ESDictionary::fold($assocArray);
+        return static::this($assocArray, ESDictionary::class);
     }
 
     static public function object($object): ESObject
     {
-        return ESObject::fold($object);
+        return static::this($object, ESObject::class);
     }
 
     static public function bool($bool): ESBool
     {
-        return ESBool::fold($bool);
+        return static::this($bool, ESBool::class);
+    }
+
+    static public function json($json): ESJson
+    {
+        return static::this($json, ESJson::class);
     }
 }

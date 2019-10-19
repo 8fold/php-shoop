@@ -66,12 +66,9 @@ class ESDictionary implements
         return Shoop::dictionary($this->unfold());
     }
 
-   /**
-     * @deprecated
-     */
-    public function enumerate(): ESArray
+    public function json(): ESJson
     {
-        return $this->array();
+        return Shoop::json(json_encode($this->unfold()));
     }
 
 // - PHP single-method interfaces
@@ -82,50 +79,7 @@ class ESDictionary implements
         return static::fold($array);
     }
 
-    public function shuffle(): ESDictionary
-    {
-        $array = $this->unfold();
-        shuffle($array);
-        return Shoop::dictionary($array);
-    }
-
-    public function sort($caseSensitive = true): ESDictionary
-    {
-        $caseSensitive = Type::sanitizeType($caseSensitive, ESBool::class)->unfold();
-        $array = $this->value;
-        if ($caseSensitive) {
-            natsort($array);
-
-        } else {
-            natcasesort($array);
-
-        }
-        return Shoop::dictionary($array);
-    }
-
-    public function start(...$prefixes)
-    {
-        return $this->plus(...$prefixes);
-    }
-
 // - Search
-    public function startsWith($needle): ESBool
-    {
-        $needle = Type::sanitizeType($needle, ESArray::class)->unfold();
-        $count = 0;
-        foreach ($needle as $val) {
-            if ($this->has($val)->toggleUnfolded()) {
-                return Shoop::bool(false);
-            }
-        }
-        return Shoop::bool(true);
-    }
-
-    public function endsWith($needle): ESBool
-    {
-        return $this->startsWith($needle);
-    }
-
 // - Math language
     public function multiply($int)
     {
@@ -189,18 +143,8 @@ class ESDictionary implements
         return Shoop::bool($this->offsetExists($member));
     }
 
-    public function doesNotHaveMember($member): ESBool
-    {
-        return $this->hasMember($member)->toggle();
-    }
-
     private function members(): ESArray
     {
         return Shoop::array(array_keys($this->value));
-    }
-
-    public function values(): ESArray
-    {
-        return $this->array();
     }
 }

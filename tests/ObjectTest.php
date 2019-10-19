@@ -5,6 +5,7 @@ namespace Eightfold\Shoop\Tests;
 use PHPUnit\Framework\TestCase;
 
 use Eightfold\Shoop\Shoop;
+use Eightfold\Shoop\ESObject;
 
 class ObjectTest extends TestCase
 {
@@ -20,6 +21,10 @@ class ObjectTest extends TestCase
 
         $actual = Shoop::this((new \stdClass()))->bool();
         $this->assertFalse($actual->unfold());
+
+        $json = Shoop::this((new \stdClass()));
+        $actual = $json->json();
+        $this->assertEquals(json_encode($json), $actual->unfold());
     }
 
     public function testPhpInterfaces()
@@ -27,28 +32,6 @@ class ObjectTest extends TestCase
         $base = ["one" => 1];
         $actual = (string) Shoop::this((object) $base);
         $this->assertEquals("Array([one] => 1)", $actual);
-    }
-
-    public function testManipulations()
-    {
-        $base = ["one" => 1, "two" => 2];
-        $expected = (object) [1 => "one", 2 => "two"];
-        $actual = Shoop::this((object) $base)->toggle();
-        $this->assertEquals($expected, $actual->unfold());
-
-        $actual = Shoop::this((object) $base)->toggle()->sort();
-        $this->assertEquals($expected, $actual->unfold());
-
-        // $actual = Shoop::this((object) ["one" => 1])
-        //     ->start("two", 2);
-        // $this->assertEquals($expected, $actual->unfold());
-    }
-
-    public function testSearch()
-    {
-        $base = ["one" => 1, "two" => 2];
-        $actual = Shoop::this((object) $base)->startsWith([2]);
-        $this->assertTrue($actual->unfold());
     }
 
     public function testMathLanguage()

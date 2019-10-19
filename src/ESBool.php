@@ -61,69 +61,16 @@ class ESBool implements Shooped, Toggle, Shuffle, Compare
         return Shoop::object($object);
     }
 
-    public function int(): ESInt
+    public function json(): ESJson
     {
-        $int = (integer) $this->unfold();
-        return Shoop::int($int);
-    }
-
-    /**
-     * @deprecated
-     */
-    public function enumerate(): ESArray
-    {
-        return $this->array();
+        return Shoop::json(json_encode($this->string()->unfold()));
     }
 
 // - PHP single-method interfaces
-    public function __toString()
-    {
-        return $this->string()->unfold();
-    }
-
 // - Manipulate
     public function toggle($preserveMembers = true): ESBool
     {
         return ESBool::fold(! $this->unfold());
-    }
-
-    public function shuffle()
-    {
-        $random = rand(0, 1000);
-        $isEven = $random % 2 === 0;
-        return ESBool::fold($isEven);
-    }
-
-    public function sort($caseSensitive = true): ESBool
-    {
-        return ESBool::fold($this->unfold());
-    }
-
-    public function start(...$prefixes)
-    {
-        return Shoop::bool(true);
-    }
-
-    public function end(...$suffixes)
-    {
-        return Shoop::bool(false);
-    }
-
-// - Search
-    public function startsWith($needle): ESBool
-    {
-        $needle = Type::sanitizeType($needle)->unfold();
-        return $this->string()->startsWith($needle);
-    }
-
-    public function endsWith($needle): ESBool
-    {
-        if ($this->unfold()) {
-            $needle = Type::sanitizeType($needle)->string()->toggle();
-            $reversed = $this->string()->toggle();
-            return $reversed->startsWith($needle);
-        }
-        return ESBool::fold(false);
     }
 
 // - Math language
@@ -136,29 +83,6 @@ class ESBool implements Shooped, Toggle, Shuffle, Compare
             $array[] = $this;
         }
         return Shoop::array($array);
-    }
-
-    public function plus(...$args): ESBool
-    {
-        return Shoop::bool(true);
-    }
-
-    public function minus(...$args): ESBool
-    {
-        return Shoop::bool(false);
-    }
-
-    public function divide($value = null)
-    {
-        return $this;
-    }
-
-    public function split($splitter = 1, $splits = 2): ESArray
-    {
-        return Shoop::array([
-            Shoop::bool(true),
-            Shoop::bool(false)
-        ]);
     }
 
 // - Getters

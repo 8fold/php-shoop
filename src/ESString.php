@@ -65,78 +65,17 @@ class ESString implements
         return Shoop::array(preg_split('//u', $this->value, null, PREG_SPLIT_NO_EMPTY));
     }
 
-    /**
-     * @deprecated
-     */
-    public function enumerate(): ESArray
+    public function dictionary(): ESDictionary
     {
-        return $this->array();
+        return $this->array()->dictionary();
+    }
+
+    public function json(): ESJson
+    {
+        return Shoop::json($this->unfold());
     }
 
 // - PHP single-method interfaces
-// - Manipulate
-    public function toggle($preserveMembers = true)
-    {
-        return $this->array()->toggle()->join("");
-    }
-
-    public function shuffle()
-    {
-        $array = $this->array()->unfold();
-        shuffle($array);
-        return Shoop::array($array)->join("");
-    }
-
-    public function sort($caseSensitive = true)
-    {
-        return $this->array()->sort($caseSensitive)->join("");
-    }
-
-    public function start(...$prefixes)
-    {
-        $combined = implode('', $prefixes);
-        return Shoop::string($combined . $this->unfold());
-    }
-
-    /**
-     * @deprecated
-     */
-    public function prepend(...$args)
-    {
-        return $this->start(...$args);
-    }
-
-// - Wrap
-    public function startsWith($needle): ESBool
-    {
-        $needle = Type::sanitizeType($needle, ESString::class);
-        $substring = substr($this->unfold(), 0, $needle->countUnfolded());
-        return Shoop::bool($substring === $needle->unfold());
-    }
-
-    public function endsWith($needle): ESBool
-    {
-        $needle = Type::sanitizeType($needle, ESString::class)->toggle();
-        $reversed = $this->toggle();
-        return $reversed->startsWith($needle);
-    }
-
-    /**
-     * @deprecated
-     */
-    public function beginsWith($string): ESBool
-    {
-        return $this->startsWith($string);
-    }
-
-    /**
-     * @deprecated
-     */
-    public function doesNotBeginWith($string)
-    {
-        return $this->doesNotStartWith($string);
-    }
-
 // - Math language
     public function multiply($int)
     {
@@ -169,7 +108,7 @@ class ESString implements
         }
 
         $divisor = Type::sanitizeType($divisor, ESString::class);
-        $removeEmpties = Type::sanitizeType($removeEmpties);
+        $removeEmpties = Type::sanitizeType($removeEmpties, ESBool::class);
 
         $exploded = explode($divisor, $this);
         $shooped = Shoop::array($exploded);
@@ -180,6 +119,40 @@ class ESString implements
         return $shooped;
     }
 
+// - Comparison
+// - Manipulate
+    public function toggle($preserveMembers = true)
+    {
+        return $this->array()->toggle()->join("");
+    }
+
+    public function sort($caseSensitive = true)
+    {
+        return $this->array()->sort($caseSensitive)->join("");
+    }
+
+    public function start(...$prefixes)
+    {
+        $combined = implode('', $prefixes);
+        return Shoop::string($combined . $this->unfold());
+    }
+
+// - Wrap
+    public function startsWith($needle): ESBool
+    {
+        $needle = Type::sanitizeType($needle, ESString::class);
+        $substring = substr($this->unfold(), 0, $needle->countUnfolded());
+        return Shoop::bool($substring === $needle->unfold());
+    }
+
+    public function endsWith($needle): ESBool
+    {
+        $needle = Type::sanitizeType($needle, ESString::class)->toggle();
+        $reversed = $this->toggle();
+        return $reversed->startsWith($needle);
+    }
+
+// - Split
     public function split($splitter = 1, $splits = 2): ESArray
     {
         $splitter = Type::sanitizeType($splitter, ESString::class)->unfold();
@@ -188,12 +161,10 @@ class ESString implements
     }
 
 // - Replace
-
-
 // - Other
     public function lowerFirst(): ESString
     {
-        // lower(1, 3, 4) : lower("even") : lower("odd")
+        // ?? lower(1, 3, 4) : lower("even") : lower("odd")
         return Shoop::string(lcfirst($this->value));
     }
 

@@ -12,7 +12,6 @@ trait HasImp
 {
     public function has($needle): ESBool
     {
-        $needle = Type::sanitizeType($needle)->unfold();
         $bool = in_array($needle, $this->array()->unfold());
         return Shoop::bool($bool);
     }

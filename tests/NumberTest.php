@@ -18,6 +18,10 @@ class NumberTest extends TestCase
         $expected = 3;
         $actual = Shoop::this(3)->int();
         $this->assertEquals($expected, $actual->unfold());
+
+        $expected = '{"json":3}';
+        $actual = Shoop::int(3)->json();
+        $this->assertEquals($expected, $actual->unfold());
     }
 
     public function testManipulate()
@@ -28,34 +32,6 @@ class NumberTest extends TestCase
 
         $positive = $negative->toggle();
         $this->assertEquals(10, $positive->unfold());
-
-        $expected = 123;
-        $actual = Shoop::this(213)->sort();
-        $this->assertEquals($expected, $actual->unfold());
-
-        $int = 1234;
-        $shoopInt = ESInt::fold($int);
-
-        $result = $shoopInt->start(1, 0);
-        $this->assertEquals(101234, $result->unfold());
-
-        $actual = $shoopInt->end(1, 0);
-        $this->assertEquals(123410, $actual->unfold());
-    }
-
-    public function testSearch()
-    {
-        $int = 1234;
-        $shoopInt = ESInt::fold($int);
-
-        $result = $shoopInt->startsWith(12);
-        $this->assertTrue($result->unfold());
-
-        $result = $shoopInt->startsWith(78);
-        $this->assertFalse($result->unfold());
-
-        $result = $shoopInt->endsWith(34);
-        $this->assertTrue($result->unfold());
     }
 
     public function testOther()
