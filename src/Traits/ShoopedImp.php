@@ -5,7 +5,11 @@ namespace Eightfold\Shoop\Traits;
 use Eightfold\Shoop\{
     Shoop,
     ESBool,
-    ESInt
+    ESInt,
+    ESString,
+    ESObject,
+    ESArray,
+    ESDictionary
 };
 
 use Eightfold\Shoop\Interfaces\Shooped;
@@ -13,29 +17,80 @@ use Eightfold\Shoop\Helpers\Type;
 
 trait ShoopedImp
 {
-    private function sanitizeType($toSanitize, string $shoopType = "")
-    {
-        return Type::sanitizeType($toSanitize, $shoopType);
-    }
-
     protected $value;
 
-    static public function fold($value): self
+    static public function fold($args)
     {
-        return new static($value);
+        return new static($args);
     }
 
     public function unfold()
     {
-        return $this->value;
+        // Preserve Shoop internally: unfold($preserve = false)
+        // only implement if needed; otherwise, we're good.
+        $return = $this->value;
+        if (Type::isArray($return) || Type::isDictionary($return)) {
+            $array = $return;
+            $return = [];
+            foreach ($array as $key => $value) {
+                // preserve if (! $preserve && Type::isShooped($value)) {
+                if (Type::isShooped($value)) {
+                    $value = $value->unfold();
+                }
+                $return[$key] = $value;
+            }
+        }
+        return $return;
     }
 
-//-> Conversions
+// - Type Juggling
+    // TODO: Verify these are being used by someone
+    public function object(): ESObject
+    {
+        $object = (object) $this->unfold();
+        return Shoop::object($object);
+    }
+
+    public function int(): ESInt
+    {
+        $count = count($this->arrayUnfolded());
+        return Shoop::int($count);
+    }
+
+    public function bool(): ESBool
+    {
+        $bool = (bool) $this->unfold();
+        return Shoop::bool($bool);
+    }
+
+// - PHP single-method interfaces
     public function __toString()
     {
-        return (string) $this->unfold();
+        return $this->string()->unfold();
     }
-        
+
+// - Manipulateg
+// - Math language
+// - Comparison
+    public function is($compare): ESBool
+    {
+        if (Type::isNotShooped($compare)) {
+            $compare = Type::sanitizeType($compare, static::class);
+        }
+        $bool = $this->unfold() === $compare->unfold();
+        return Shoop::bool($bool);
+    }
+
+    public function isNot($compare): ESBool
+    {
+        return $this->is($compare)->toggle();
+    }
+
+    public function isEmpty(): ESBool
+    {
+        return Shoop::bool(empty($this));
+    }
+
 //-> Getters
     public function __call(string $name, array $args = [])
     {
@@ -71,78 +126,67 @@ trait ShoopedImp
         return substr($haystack, $start, $len) === $needle;
     }
 
-//-> Enumerable
-    public function count(): ESInt
+// -> Array Access
+    public function offsetExists($offset): bool
     {
-        return Shoop::int(count($this->enumerate()->unfold()));
+        return isset($this->value[$offset]);
     }
 
-    public function countIsGreaterThan($value): ESBool
+    public function offsetGet($offset)
     {
-        $value = $this->sanitizeType($value, ESInt::class)
-            ->unfold();
-        return $this->count()->isGreaterthan($value);
+        return ($this->offsetExists($offset))
+            ? $this->value[$offset]
+            : null;
     }
 
-    public function countIsNotGreaterThan($value): ESBool
+    public function offsetSet($offset, $value)
     {
-        $value = $this->sanitizeType($value, ESInt::class)->unfold();
-        return $this->count()->isLessThanOrEqual($value);
-    }
+        $stash = $this->value;
+        if (is_null($offset)) {
+            $stash = $value;
 
-    public function countIsLessThan($value): ESBool
-    {
-        $value = $this->sanitizeType($value, ESInt::class)->unfold();
-        return $this->count()->isLessThan($value);
-    }
-
-    public function countIsNotLessThan($value): ESBool
-    {
-        $value = $this->sanitizeType($value, ESInt::class)->unfold();
-        return $this->count()->isGreaterThanOrEqual($value);
-    }
-
-//-> Checks
-    public function isEmpty(): ESBool
-    {
-        $result = empty($this->unfold());
-        return Shoop::bool($result);
-    }
-
-    public function isArray(): ESBool
-    {
-        return Type::isArray($this);
-    }
-
-    public function isNotArray(): ESBool
-    {
-        return Type::isNotArray($this);
-    }
-
-    public function isSame($compare): ESBool
-    {
-        if (Type::isNotShooped($compare)) {
-            $compare = $this->sanitizeType($compare);
+        } else {
+            $stash[$offset] = $value;
 
         }
-        return Shoop::bool($this->unfold() === $compare->unfold());
+        return static::fold($stash);
     }
 
-    public function isNot($compare): ESBool
+    public function offsetUnset($offset)
     {
-        return $this->isSame($compare)->toggle();
+        $stash = $this->value;
+        unset($stash[$offset]);
+        return static::fold($stash);
     }
 
-//-> Other
-    // TODO: test
-    public function append(...$args)
+// //-> Iterator
+    public function current()
     {
-        return $this->plus(...$args);
+        $current = key($this->value);
+        return ESInt::fold($this->value[$current]);
     }
 
-    public function prepend(...$args)
+    public function key()
     {
-        return $this->plus(...$ags);
+        return ESInt::fold(key($this->value));
     }
 
+    public function next()
+    {
+        next($this->value);
+        return $this;
+    }
+
+    public function rewind()
+    {
+        reset($this->value);
+        return $this;
+    }
+
+    public function valid(): bool
+    {
+        $key = key($this->value);
+        $var = ($key !== null && $key !== false);
+        return $var;
+    }
 }

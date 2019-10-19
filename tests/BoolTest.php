@@ -5,58 +5,67 @@ namespace Eightfold\Shoop\Tests;
 use PHPUnit\Framework\TestCase;
 
 use Eightfold\Shoop\ESBool;
+use Eightfold\Shoop\Shoop;
 
 class BoolTest extends TestCase
 {
-    public function testCanInitialize()
+    public function testTypeJuggling()
     {
-        $result = ESBool::fold(true);
-        $this->assertNotNull($result);
-        $this->assertTrue($result->unfold());
-        $this->assertEquals("true", $result->description()->unfold());
-        $result = $result->toggle();
-        $this->assertFalse($result->unfold());
+        $actual = Shoop::this(true)->array();
+        $this->assertTrue(true, $actual->first());
 
-        $compare = ESBool::fold(false);
-        $this->assertTrue($result->isSame($compare)->unfold());
+        $actual = Shoop::this(false)->dictionary();
+        $this->assertFalse($actual->get("true")->unfold());
 
-        $compare = $compare->toggle();
-        $this->assertTrue($result->isNot($compare)->unfold());
+        $actual = Shoop::this(true)->dictionary();
+        $this->assertTrue($actual->get("true")->unfold());
 
-        $this->assertFalse($compare->not()->unfold());
+        $actual = Shoop::this(true)->object();
+        $this->assertTrue($actual->unfold()->true);
 
-        $compare = $compare->toggle();
-        $this->assertFalse($result->or(false)->unfold());
-
-        $compare = $compare->toggle();
-        $this->assertTrue($result->or($compare)->unfold());
-
-        $result = $result->toggle();
-        $this->assertTrue($result->and($compare)->unfold());
-
-        $compare = $compare->toggle();
-        $this->assertFalse($result->and($compare)->unfold());
+        $actual = Shoop::this(true)->int();
+        $this->assertEquals(1, $actual->unfold());
     }
 
-    public function testEquatable()
+    public function testPhpSingleMethodInterfaces()
     {
-        $result = ESBool::fold(true);
-        $compare = ESBool::fold(true);
-        $this->assertTrue($result->isSame($compare)->unfold());
-
-        $compare = $compare->toggle();
-        $this->assertFalse($result->isSame($compare)->unfold());
-        $this->assertTrue($result->isNotUnfolded($compare));
+        $actual = Shoop::this(true);
+        $this->assertEquals("true", (string) $actual);
     }
 
-    public function testCanBeUsedAsPhpString()
+    public function testManipulations()
     {
-        $expected = "1";
-        $result = (string) ESBool::fold(true);
-        $this->assertEquals($expected, $result);
+        $actual = Shoop::this(true)->toggle();
+        $this->assertFalse($actual->unfold());
+    }
 
-        $expected = "";
-        $result = (string) ESBool::fold(false);
-        $this->assertEquals($expected, $result);
+    public function testMathLanguage()
+    {
+        $expected = [true, true, true];
+        $actual = Shoop::this(true)->multiply(3);
+        $this->assertEquals($expected, $actual->unfold());
+    }
+
+    public function testComparison()
+    {
+        $true = Shoop::this(true);
+        $false = Shoop::this(false);
+
+        $this->assertFalse($true->is($false)->unfold());
+
+        $this->assertTrue($true->isGreaterThan($false)->unfold());
+
+        $this->assertFalse($true->isLessThan($false)->unfold());
+    }
+
+    public function testOther()
+    {
+        $this->assertFalse(Shoop::this(true)->not()->unfold());
+
+        $this->assertTrue(Shoop::this(true)->or(false)->unfold());
+        $this->assertFalse(Shoop::this(false)->or(false)->unfold());
+
+        $this->assertTrue(Shoop::this(true)->and(true)->unfold());
+        $this->assertFalse(Shoop::this(true)->and(false)->unfold());
     }
 }

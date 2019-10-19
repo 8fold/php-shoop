@@ -14,62 +14,67 @@ use Eightfold\Shoop\Tests\TestStrings;
 
 class StringTest extends TestCase
 {
-    use TestStrings;
-
-    public function testCanInitializeWithString()
+    private function plainText(): string
     {
-        $expected = $this->plainTextWithUnicode();
-        $result = ESString::fold($this->plainTextWithUnicode());
-        $this->assertEquals($expected, $result->unfold());
+        return 'Hello, World!';
     }
 
-    public function testCanCreateBasicDataTypes()
+    private function unicode(): string
     {
-        $result = Shoop::int(1)->unfold();
-        $this->assertEquals(1, $result);
-
-        $result = Shoop::string("Hello!")->unfold();
-        $this->assertEquals("Hello!", $result);
-
-        $result = Shoop::array([1, 2, 3, 4, 5])->unfold();
-        $this->assertEquals([1, 2, 3, 4, 5], $result);
+        return '😀😇🌍😍😌';
     }
 
-    public function testCanAppendStringWithString()
+    private function plainTextWithUnicode(): string
     {
-        $expected = '🌍,🌍,🌍,🌍,🌍,';
-        $result = ESString::fold('🌍,')
-            ->multiply(5)
-            ->unfold();
-        $this->assertEquals($expected, $result);
+        return 'Hello, 🌍!';
     }
 
-    public function testCanCountCharacters()
+    public function testTypeJuggling()
     {
-        $expected = 9;
-        $result = ESString::fold($this->plainTextWithUnicode())->count()->unfold();
-        $this->assertEquals($expected, $result);
+        $string = "Hello!";
+        $expected = ["H", "e", "l", "l", "o", "!"];
+        $actual = Shoop::string($string)->array();
+        $this->assertEquals($expected, $actual->unfold());
+
+        $string = '{"one":2}';
+        $actual = Shoop::string($string)->json();
+        $this->assertEquals($string, $actual->unfold());
     }
 
-    public function testCanCheckEquality()
+    public function testManipulate()
     {
-        $compare = $this->unicode();
-        $result = ESString::fold($compare)
-            ->isSame(ESString::fold($compare));
+        $string = "Hello!";
+        $expected = "!olleH";
+        $actual = Shoop::string($string)->toggle();
+        $this->assertEquals($expected, $actual->unfold());
+
+        $expected = "!Hello";
+        $string = Shoop::string($string);
+        $actual = $string->sort();
+        $this->assertEquals($expected, $actual->unfold());
+
+        $expected = "!eHllo";
+        $actual = $string->sort(true);
+
+        $string = "heLLo";
+        $shoopString = Shoop::string($string);
+        $result = $shoopString->start("W", "o", "W, ");
+        $this->assertEquals("WoW, heLLo", $result->unfold());
+    }
+
+    public function testSearch()
+    {
+        $string = "heLLo";
+        $shoopString = Shoop::string($string);
+
+        $actual = $shoopString->startsWith("heL");
+        $this->assertTrue($actual->unfold());
+
+        $result = $shoopString->endsWith("Lo");
         $this->assertTrue($result->unfold());
     }
 
-    public function testCanCheckEqualityFails()
-    {
-        $compare = ESString::fold('H');
-        $result = ESString::fold($this->unicode())
-            ->isSame($compare);
-        $this->assertFalse($result->unfold());
-    }
-
-    // TODO: Write tests for random character
-
-    public function testCanDoPlusAndMinus()
+    public function testMathLanguage()
     {
         $hello = ESString::fold("Hello, ");
         $helloWorld = ESString::fold("Hello, World!");
@@ -79,66 +84,55 @@ class StringTest extends TestCase
         $result = $helloWorld->minus("l")->unfold();
         $this->assertEquals("Heo, Word!", $result);
 
-        $result = $hello->append("World!");
-        $this->assertEquals($helloWorld, $result);
+        $expected = "HelloHelloHello";
+        $actual = Shoop::this("Hello", ESString::class)->multiply(3);
+        $this->assertEquals($expected, $actual->unfold());
 
-        $result = ESString::fold(", World!")->prependUnfolded("Hello");
-        $this->assertEquals($helloWorld, $result);
-    }
+        $compare = ESArray::fold(["He", "o, Wor", "d!"]);
+        $actual = ESString::fold("Hello, World!")->divide("l");
+        $this->assertTrue($actual->is($compare)->unfold());
 
-    public function testCanCountContents()
-    {
-        $string = ESString::fold("Hello!");
-        $result = $string->count()->unfold();
-        $this->assertEquals(6, $result);
-
-        $result = $string->enumerate()->count()->unfold();
-        $this->assertEquals(6, $result);
-
-        $result = $string->countIsGreaterThanUnfolded(0);
-        $this->assertTrue($result);
-
-        $result = $string->countIsNotGreaterThan(8)->unfold();
-        $this->assertTrue($result);
-
-        $result = $string->countIsLessThanUnfolded(5);
-        $this->assertFalse($result);
-
-        $result = $string->countIsNotLessThanUnfolded(7);
-        $this->assertFalse($result);
-    }
-
-    public function testCanBeDvidedBy()
-    {
         $compare = ESArray::fold(["He", "lo, World!"]);
-        $result = ESString::fold("Hello, World!")
-            ->divide("l");
-        // $this->assertEquals($compare->unfold(), $result->unfold());
-        $this->assertTrue($result->isSame($compare)->unfold());
+        $result = Shoop::this("Hello, World!", ESString::class)->split("l");
+        $this->assertTrue($result->countUnfolded() == 2);
 
-        // $result = ESString::fold("Hello, World!")
-        //     ->split("l");
-        // $compare = ESString::fold("Heo, Word!");
-        // $this->assertEquals($compare->unfold(), $result->join());
-
-        // $compare = ESString::fold("Heto, Wortd!");
-        // $this->assertEquals($compare->unfold(), $result->join("t")->unfold());
+        $compare = ESArray::fold(["He", "o, World!"]);
+        $result = Shoop::this("Hello, World!", ESString::class)->split("l", 3);
+        $this->assertTrue($result->countUnfolded() == 3);
     }
 
-    public function testDoesBeginOrEndWith()
+    public function testComparison()
     {
-        $helloWorld = ESString::fold("Hello, World!");
-        $result = $helloWorld->beginsWithUnfolded("Hello");
-        $this->assertTrue($result);
+        $string1 = "abc";
+        $string2 = "cab";
+        $actual = Shoop::this($string1, ESString::class)->isLessThanUnfolded($string2);
+        $this->assertTrue($actual);
 
-        $result = $helloWorld->endsWithUnfolded("World!");
-        $this->assertTrue($result);
+        $string1 = "a";
+        $string2 = "b";
+        $string3 = "c";
+        $actual = Shoop::this($string1, ESString::class)->isLessThan($string2)->and(Shoop::this($string2, ESString::class)->isLessThan($string3));
+        $this->assertTrue($actual->unfold());
     }
 
-    public function testCanUseESStringAsPhpString()
+    public function testOther()
     {
-        $hello = ESString::fold("Hello");
-        $helloWorld = $hello .", World!";
-        $this->assertEquals("Hello, World!", $helloWorld);
+        $base = "HELLO!";
+        $expected = "hELLO!";
+        $actual = Shoop::this($base, ESString::class)->lowerFirst();
+        $this->assertEquals($expected, $actual->unfold());
+
+        $expected = $base;
+        $actual = Shoop::this("hello!", ESString::class)->uppercase();
+        $this->assertEquals($expected, $actual->unfold());
+
+        $expected = "Hello, 🌍!";
+        $actual = Shoop::this(__DIR__, ESString::class)
+            ->divide("/")
+            ->plus("test.txt")
+            ->join("/")
+            ->start("/")
+            ->pathContent();
+        $this->assertEquals($expected, $actual->unfold());
     }
 }

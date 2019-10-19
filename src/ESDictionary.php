@@ -2,107 +2,33 @@
 
 namespace Eightfold\Shoop;
 
-use Eightfold\Shoop\Traits\ShoopedImp;
-
-use Eightfold\Shoop\Interfaces\Shooped;
 use Eightfold\Shoop\Helpers\Type;
+
+use Eightfold\Shoop\Interfaces\{
+    Shooped,
+    Countable,
+    Toggle,
+    Has
+};
+
+use Eightfold\Shoop\Traits\{
+    ShoopedImp,
+    CountableImp,
+    ToggleImp,
+    HasImp
+};
+
+use Eightfold\Shoop\ESInt;
 
 // TODO: get($key) - ESArray, ESDictionary
 class ESDictionary implements
-    \ArrayAccess,
     \Iterator,
-    Shooped
+    Shooped,
+    Countable,
+    Toggle,
+    Has
 {
-    use ShoopedImp;
-
-    public function isGreaterThan($compare): ESBool {}
-
-    public function isGreaterThanOrEqual($compare): ESBool {}
-
-    public function isLessThan($compare): ESBool {}
-
-    public function isLessThanOrEqual($compare): ESBool {}
-
-    public function multiply($int) {}
-
-    // TODO: Test + possibly write combine()
-    public function toggle()
-    {
-        $values = $this->enumerate()->toggle();
-        $keys = $this->enumerateKeys()->toggle();
-        $combined = array_combine($keys, $values);
-        return Shoop::array($combined);
-    }
-
-    private function enumerateKeys(): ESArray
-    {
-        return Shoop::array(array_keys($this->value));
-    }
-
-    public function plus(...$args)
-    {
-        if (Shoop::array($args)->count()->isNotUnfolded(2)) {
-            $className = ESDictionary::class;
-            $count = Shoop::array($args)->count();
-            trigger_error(
-                "{$className}::plus() expects two arguments. {$count} given."
-            );
-        }
-
-        $key = $this->sanitizeType($args[0], ESString::class)->unfold();
-
-        $dict = $this->unfold();
-        $dict[$key] = $args[1];
-        return Shoop::dictionary($dict);
-    }
-
-    public function minus($value)
-    {
-        $key = Type::sanitizeType($value, ESString::class);
-        unset($this[$key]);
-        return Shoop::dictionary($this->unfold());
-    }
-
-    public function divide($value = null)
-    {
-        $keys = $this->enumerateKeys();
-        $values = $this->enumerate();
-        return Shoop::dictionary(["keys" => $keys, "values" => $values]);
-    }
-
-    public function isDivisible($value): ESBool
-    {
-        return Shoop::bool(count(array_keys($this->unfold())) > 0)
-            ->and(count(array_values($this->unfold())) > 0);
-    }
-
-    public function __toString()
-    {
-        $printed = print_r($this->unfold(), true);
-        $oneLine = preg_replace('/\s+/', ' ', $printed);
-        $commas = str_replace(
-            [" [", " ) ", " (, "], 
-            [", [", ")", "("], 
-            $oneLine);
-        return $commas;
-    }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+    use ShoopedImp, CountableImp, ToggleImp, HasImp;
 
     public function __construct($dictionary)
     {
@@ -118,117 +44,107 @@ class ESDictionary implements
         }
     }
 
-    public function enumerate(): ESArray
+// - Type Juggling
+    public function string(): ESString
+    {
+        $printed = print_r($this->unfold(), true);
+        $oneLine = preg_replace('/\s+/', ' ', $printed);
+        $commas = str_replace(
+            [" [", " ) ", " (, "],
+            [", [", ")", "("],
+            $oneLine);
+        return Shoop::string($commas);
+    }
+
+    public function array(): ESArray
     {
         return Shoop::array(array_values($this->value));
     }
 
-    private function validateCounts(array $args)
+    public function dictionary(): ESDictionary
     {
-        $keyCount = Shoop::array(array_keys($args))->count();
-        $valueCount = Shoop::array(array_values($args))->count();
-        if ($keyCount->isNot($valueCount)->unfold()) {
+        return Shoop::dictionary($this->unfold());
+    }
+
+    public function json(): ESJson
+    {
+        return Shoop::json(json_encode($this->unfold()));
+    }
+
+// - PHP single-method interfaces
+// - Manipulate
+    public function toggle($preserveMembers = true): ESDictionary
+    {
+        $array = array_flip($this->unfold());
+        return static::fold($array);
+    }
+
+// - Search
+// - Math language
+    public function multiply($int)
+    {
+        $int = Type::sanitizeType($int, ESInt::class)->unfold();
+        $array = [];
+        for ($i = 0; $i < $int; $i++) {
+            $array[] = $this;
+        }
+        return Shoop::array($array);
+    }
+
+    public function plus(...$args)
+    {
+        if (Shoop::array($args)->count()->isNotUnfolded(2)) {
+            $className = ESDictionary::class;
+            $count = Shoop::array($args)->count();
             trigger_error(
-                "ESDictionary expects an even number of arguments. Using 0 index, 0 and even arguments are members (keys) while odd arguments are values. {$keyCount->unfold()} items were found.",
-                E_USER_ERROR
+                "{$className}::plus() expects two arguments. {$count} given."
             );
         }
+
+        $key = Type::sanitizeType($args[0], ESString::class)->unfold();
+
+        $dict = $this->unfold();
+        $dict[$key] = $args[1];
+        return Shoop::dictionary($dict);
     }
 
-    public function hasKey($key): ESBool
+    public function minus(...$args): ESDictionary
     {
-        $key = $this->sanitizeType($key, ESString::class)->unfold();
-        return Shoop::bool($this->offsetExists($key));
-    }
-
-    public function doesNotHaveKey($key): ESBool
-    {
-        return $this->hasKey($key)->toggle();
-    }
-
-    public function valueForKey($key)
-    {
-        $key = $this->sanitizeType($key, ESString::class)->unfold();
-        if (array_key_exists($key, $this->value)) {
-            return $this->sanitizeType($this->value[$key]);
+        $stash = $this->value;
+        foreach ($args as $delete) {
+            $member = Type::sanitizeType($delete, ESString::class)->unfold();
+            unset($stash[$member]);
         }
-        return null;
+        return Shoop::dictionary($stash);
     }
 
-    public function setValueForKey($key, $value): ESDictionary
+    public function divide($value = null)
     {
-        $key = $this->sanitizeType($key, ESString::class)->unfold();
-        $this[$key] = $value;
-        return $this;
+        $keys = $this->members();
+        $values = $this->array();
+        return Shoop::dictionary(["keys" => $keys, "values" => $values]);
     }
 
-    // public function removeKey($key): ESDictionary
-    // {
-    //     unset($this[$key]);
-    //     return $this;
-    // }
-
-//-> ArrayAccess
-    public function offsetSet($offset, $value)
+// - Comparison
+// - Other
+    public function get($member)
     {
-        if (is_null($offset)) {
-            $this->value[] = $value;
-        } else {
-            $this->value[$offset] = $value;
+        $member = Type::sanitizeType($member, ESString::class)->unfold();
+        if ($this->hasMember($member)) {
+            return Shoop::this($this[$member]);
         }
+        trigger_error("Undefined index or memember.");
     }
 
-    public function offsetExists($offset): bool
+    // TODO: Promote to ShoopedImp, with custom for ESString
+    public function hasMember($member): ESBool
     {
-        return isset($this->value[$offset]);
+        $member = Type::sanitizeType($member, ESString::class)->unfold();
+        return Shoop::bool($this->offsetExists($member));
     }
 
-    public function offsetUnset($offset)
+    private function members(): ESArray
     {
-        unset($this->value[$offset]);
-    }
-
-    public function offsetGet($offset)
-    {
-        return ($this->offsetExists($offset))
-            ? $this->value[$offset]
-            : null;
-    }
-
-    public function toObject(): \stdClass
-    {
-        return (object) $this->value;
-    }
-
-
-//-> Iterator
-    public function current(): ESInt
-    {
-        $current = key($this->value);
-        return ESInt::fold($this->value[$current]);
-    }
-
-    public function key(): ESInt
-    {
-        return ESInt::fold(key($this->value));
-    }
-
-    public function next(): ESDictionary
-    {
-        next($this->value);
-        return $this;
-    }
-
-    public function rewind(): ESDictionary
-    {
-        reset($this->value);
-        return $this;
-    }
-
-    public function valid(): bool
-    {
-        $key = key($this->value);
-        $var = ($key !== null && $key !== false);
-        return $var;
+        return Shoop::array(array_keys($this->value));
     }
 }

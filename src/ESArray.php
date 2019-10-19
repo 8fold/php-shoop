@@ -4,23 +4,38 @@ namespace Eightfold\Shoop;
 
 use Eightfold\Shoop\Helpers\Type;
 
-use Eightfold\Shoop\Traits\ShoopedImp;
+use Eightfold\Shoop\Interfaces\{
+    Shooped,
+    Countable,
+    Toggle,
+    Shuffle,
+    Wrap,
+    Sort,
+    Split,
+    Has
+};
 
-use Eightfold\Shoop\Interfaces\Shooped;
+use Eightfold\Shoop\Traits\{
+    ShoopedImp,
+    CountableImp,
+    ToggleImp,
+    ShuffleImp,
+    WrapImp,
+    SortImp,
+    HasImp
+};
 
 class ESArray implements
-    \Iterator,
-    Shooped
+    Shooped,
+    Countable,
+    Toggle,
+    Shuffle,
+    Wrap,
+    Sort,
+    Split,
+    Has
 {
-    use ShoopedImp;
-
-    public function isGreaterThan($compare): ESBool {}
-
-    public function isGreaterThanOrEqual($compare): ESBool {}
-
-    public function isLessThan($compare): ESBool {}
-
-    public function isLessThanOrEqual($compare): ESBool {}
+    use ShoopedImp, CountableImp, ToggleImp, ShuffleImp, WrapImp, SortImp, HasImp;
 
     public function __construct($array = [])
     {
@@ -34,67 +49,64 @@ class ESArray implements
         $this->value = $array;
     }
 
-    public function sorted(): ESArray
+// - Type Juggling
+    public function string(): ESString
     {
-        $array = $this->enumerate()->unfold();
-        natsort($array);
-        return Shoop::array($array)->enumerate();
+        $printed = print_r($this->unfold(), true);
+        $oneLine = preg_replace('/\s+/', ' ', $printed);
+        $commas = str_replace(
+            [" [", " ) ", " (, "],
+            [", [", ")", "("],
+            $oneLine);
+        return Shoop::string($commas);
     }
 
-    public function shuffle(): ESArray
-    {
-        $array = $this->enumerate()->unfold();
-        shuffle($array);
-        return Shoop::array($array)->enumerate();
-    }
-
-    public function toggle() // 7.4 : self
-    {
-        return Shoop::array(array_reverse($this->enumerate()->unfold()))->enumerate();
-    }
-
-    public function first()
-    {
-        $array = $this->enumerate()->unfold();
-        $value = array_shift($array);
-        if ($value === null) {
-            return Shoop::array([]);
-
-        }
-        return Type::sanitizeType($value);
-    }
-
-    public function last()
-    {
-        return $this->toggle()->first();
-    }
-
-    public function dropFirst($length = 1): ESArray
-    {
-        $length = $this->sanitizeType($length, ESInt::class)->unfold();
-
-        $array = $this->enumerate()->unfold();
-        for ($i = 0; $i < $length; $i++) {
-            array_shift($array);
-        }
-        return Shoop::array($array)->enumerate();
-    }
-
-    public function dropLast($length = 1): ESArray
-    {
-        return $this->enumerate()->toggle()->dropFirst($length)->toggle()->enumerate();
-    }
-
-    public function removeEmptyValues(): ESArray
-    {
-        return Shoop::array(array_filter($this->unfold()))->enumerate();
-    }
-
-    public function enumerate(): ESArray
+    public function array(): ESArray
     {
         return Shoop::array(array_values($this->value));
     }
 
+    public function dictionary(): ESDictionary
+    {
+        $build = [];
+        foreach ($this->value as $key => $value) {
+            $key = "i". $key;
+            $build[$key] = $value;
+        }
+        return Shoop::dictionary($build);
+    }
+
+    public function json(): ESJson
+    {
+        $obj = $this->object();
+        return Shoop::json(json_encode($obj->unfold()));
+    }
+
+// - PHP single-method interfaces
+// - Manipulate
+// - Wrap
+    public function startsWith($needle): ESBool
+    {
+        $needle = Type::sanitizeType($needle, ESArray::class)->unfold();
+        $count = 0;
+        foreach ($needle as $val) {
+            $array = $this->unfold();
+            if (isset($array[$count]) && $array[$count] !== $val) {
+                return Shoop::bool(false);
+            }
+            $count++;
+        }
+        return Shoop::bool(true);
+    }
+
+    public function endsWith($needle): ESBool
+    {
+        $needle = Type::sanitizeType($needle, ESArray::class)->toggle();
+        $reversed = $this->toggle();
+        return $reversed->startsWith($needle);
+    }
+
+// - Math language
     public function plus(...$args)
     {
         $count = count($args);
@@ -108,7 +120,7 @@ class ESArray implements
                 $merged = array_merge($this->unfold(), $args);
                 return Shoop::array($merged);
                 break;
-            
+
             default:
                 $merged = array_merge($this->unfold(), $args);
                 return Shoop::array($merged);
@@ -116,31 +128,14 @@ class ESArray implements
         }
     }
 
-    public function prepend(...$args)
-    {
-        $args = Type::sanitizeType($args, ESArray::class)->unfold();
-        return Shoop::array(array_merge($args[0], $this->unfold()));
-    }
-
-    // TODO: Test!!!!!
-    public function multiply($int)
-    {
-        $int = Type::sanitizeType($int, ESInt::class)->unfold();
-        $catch;
-        for ($i = 0; $i < $int; $i++) {
-            $catch = $this->plus($this);
-        }
-        return $catch;
-    }
-
-    public function minus($values): ESArray
+    public function minus(...$args): ESArray
     {
         if (Type::isNotArray($values)) {
             $values = [$values];
         }
-        $deletes = $this->sanitizeType($values, ESArray::class)->unfold();
+        $deletes = Type::sanitizeType($args, ESArray::class)->unfold();
         $copy = $this->unfold();
-        for ($i = 0; $i < count($this->unfold()); $i++) {
+        for ($i = 0; $i < $this->countUnfolded(); $i++) {
             foreach ($deletes as $check) {
                 if ($check === $copy[$i]) {
                     unset($copy[$i]);
@@ -148,6 +143,22 @@ class ESArray implements
             }
         }
         return Shoop::array(array_values($copy));
+    }
+
+    public function multiply($int)
+    {
+        $int = Type::sanitizeType($int, ESInt::class)->unfold();
+        $catch;
+        for ($i = 0; $i < $int; $i++) {
+            if ($catch === null) {
+                $catch = $this->plus(...$this->unfold());
+
+            } else {
+                $catch = $catch->plus(...$this->unfold());
+
+            }
+        }
+        return $catch;
     }
 
     public function divide($value = null)
@@ -160,54 +171,77 @@ class ESArray implements
         return Shoop::array([$left, $right]);
     }
 
-    public function isDivisible($value): ESBool
+    public function split($splitter = 1, $splits = 2)
     {
-        $index = Type::sanitizeType($value, ESInt::class)->unfold();
-        return $index >= $this->count();
+        return $this->divide($splitter);
     }
 
-    // public function append($values)
-    // {
-    //     return $this->plus($values);
-    // }
+// - Comparison
+// - Getters
+    public function get($member)
+    {
+        $member = Type::sanitizeType($member, ESInt::class)->unfold();
+        if ($this->hasMember($member)) {
+            return Shoop::this($this[$member]);
+        }
+        trigger_error("Undefined index or memember.");
+    }
 
-    // public function prepend($value)
-    // {
-    //     if (! is_array($values)) {
-    //         $values = [$values];
-    //     }
-    //     return Shoop::array(array_merge($values, $this->unfold());
-    // }
+// - Other
+    // TODO: Promote to ShoopedImp, with custom for ESString
+    public function hasMember($member): ESBool
+    {
+        $member = Type::sanitizeType($member, ESInt::class)->unfold();
+        return Shoop::bool($this->offsetExists($member));
+    }
 
     public function join($delimiter = ""): ESString
     {
-        $delimiter = $this->sanitizeType($delimiter, ESString::class);
+        $delimiter = Type::sanitizeType($delimiter, ESString::class);
         return Shoop::string(implode($delimiter->unfold(), $this->unfold()));
     }
 
-    public function removeAtIndex($int): ESArray
+    public function insertAt($value, $int)
     {
-        $int = $this->sanitizeType($int, ESInt::class)->unfold();
-        $array = $this->unfold();
-        unset($array[$int]);
-        return Shoop::array($array)->enumerate();
-    }
-
-    public function insertAtIndex($value, $int): ESArray
-    {
-        $int = $this->sanitizeType($int, ESInt::class)->unfold();
-        $value = $this->sanitizeType($value, ESArray::class)->unfold();
+        // TODO: Consider making plus an alias of this
+        $int = Type::sanitizeType($int, ESInt::class)->unfold();
+        $value = Type::sanitizeType($value, ESArray::class)->unfold();
 
         $lhs = array_slice($this->unfold(), 0, $int);
         $rhs = array_slice($this->unfold(), $int);
 
         $merged = array_merge($lhs, $value, $rhs);
-        return Shoop::array($merged)->enumerate();
+        return Shoop::array($merged)->array();
     }
 
-    public function hasValue($value): ESBool
+    public function drop($int)
     {
-        return Shoop::bool(in_array($value, $this->value));
+        $int = Type::sanitizeType($int, ESInt::class)->unfold();
+        $array = $this->unfold();
+        unset($array[$int]);
+        return Shoop::array($array)->array();
+    }
+
+    public function dropFirst($length = 1): ESArray
+    {
+        $length = Type::sanitizeType($length, ESInt::class)->unfold();
+
+        $array = $this->array()->unfold();
+        for ($i = 0; $i < $length; $i++) {
+            array_shift($array);
+        }
+        return Shoop::array($array)->array();
+    }
+
+    public function dropLast($length = 1): ESArray
+    {
+        return $this->array()
+            ->toggle()->dropFirst($length)->toggle()->array();
+    }
+
+    public function noEmpties(): ESArray
+    {
+        return Shoop::array(array_filter($this->unfold()))->array();
     }
 
     public function each(\Closure $closure): ESArray
@@ -220,51 +254,5 @@ class ESArray implements
             }
         }
         return Shoop::array($build);
-    }
-
-//-> Iterator
-    public function current(): ESInt
-    {
-        $current = key($this->value);
-        return Shoop::int($this->value[$current]);
-    }
-
-    public function key(): ESInt
-    {
-        return Shoop::int(key($this->value));
-    }
-
-    public function next(): ESArray
-    {
-        next($this->value);
-        return $this;
-    }
-
-    public function rewind(): ESArray
-    {
-        reset($this->value);
-        return $this;
-    }
-
-    /**
-     * @return bool Must return bool for sake of PHP
-     */
-    public function valid(): bool
-    {
-        $key = key($this->value);
-        $var = ($key !== null && $key !== false);
-        return $var;
-    }
-
-//-> String
-    public function __toString()
-    {
-        $printed = print_r($this->unfold(), true);
-        $oneLine = preg_replace('/\s+/', ' ', $printed);
-        $commas = str_replace(
-            [" [", " ) ", " (, "], 
-            [", [", ")", "("], 
-            $oneLine);
-        return $commas;
     }
 }

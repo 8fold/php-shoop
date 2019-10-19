@@ -2,69 +2,25 @@
 
 namespace Eightfold\Shoop;
 
-use Eightfold\Shoop\Traits\ShoopedImp;
+use Eightfold\Shoop\Helpers\Type;
 
-use Eightfold\Shoop\Interfaces\Shooped;
+use Eightfold\Shoop\Interfaces\{
+    Shooped,
+    Toggle,
+    Shuffle,
+    Compare
+};
 
-class ESBool implements Shooped
+use Eightfold\Shoop\Traits\{
+    ShoopedImp,
+    ToggleImp,
+    ShuffleImp,
+    CompareImp
+};
+
+class ESBool implements Shooped, Toggle, Shuffle, Compare
 {
-    use ShoopedImp;
-
-// TODO: Could be a stretch
-    public function enumerate(): ESArray
-    {
-        $first = $this->value;
-        $second = ! $first;
-        return Shoop::array([$first, $second]);
-    }
-
-    public function plus(...$args)
-    {
-        // can be implemented
-    }
-
-    public function prepend(...$args) {}
-
-    public function divide($value = null) {}
-
-    public function isDivisible($value): ESBool {}
-
-    public function minus($value) {}
-
-    public function multiply($int) {}
-
-    public function isGreaterThan($compare): ESBool
-    {
-        // TODO: rename cast()
-        $compare = Type::sanitizeType($compare, ESBool::class)->unfold();
-        return (integer) $this->value > (integer) $compare;
-    }
-
-    public function isGreaterThanOrEqual($compare): ESBool
-    {
-        $compare = Type::sanitizeType($compare, ESBool::class)->unfold();
-        return $this->unfold() >= $compare;
-    }
-
-    public function isLessThan($compare): ESBool
-    {
-        $compare = Type::sanitizeType($compare, ESBool::class)->unfold();
-        return $this->unfold() < $compare;
-    }
-
-    public function isLessThanOrEqual($compare): ESBool
-    {
-        $compare = Type::sanitizeType($compare, ESBool::class)->unfold();
-        return $this->unfold() <= $compare;
-    }
-
-
-
-
-
-
-
-
+    use ShoopedImp, ToggleImp, ShuffleImp, CompareImp;
 
     public function __construct($bool)
     {
@@ -80,32 +36,72 @@ class ESBool implements Shooped
         }
     }
 
-	public function toggle(): ESBool
-	{
+// - Type Juggling
+    public function string(): ESString
+    {
+        $string = ($this->unfold()) ? "true" : "";
+        return ESString::fold($string);
+    }
+
+    public function array(): ESArray
+    {
+        return Shoop::array([$this->unfold()]);
+    }
+
+    public function dictionary(): ESDictionary
+    {
+        return ($this->unfold() === true)
+            ? Shoop::dictionary(["true" => true, "false" => false])
+            : Shoop::dictionary(["true" => false, "false" => true]);
+    }
+
+    public function object(): ESObject
+    {
+        $object = (object) $this->dictionary()->unfold();
+        return Shoop::object($object);
+    }
+
+    public function json(): ESJson
+    {
+        return Shoop::json(json_encode($this->string()->unfold()));
+    }
+
+// - PHP single-method interfaces
+// - Manipulate
+    public function toggle($preserveMembers = true): ESBool
+    {
         return ESBool::fold(! $this->unfold());
-	}
+    }
 
-	public function not(): ESBool
-	{
-		return $this->toggle();
-	}
+// - Math language
+    public function multiply($int): ESArray
+    {
+        $range = Type::sanitizeType($int, ESInt::class)
+            ->array()->dropLast()->unfold();
+        $array = [];
+        foreach ($range as $int) {
+            $array[] = $this;
+        }
+        return Shoop::array($array);
+    }
 
-	public function or($bool): ESBool
-	{
-        $bool = $this->sanitizeType($bool, ESBool::class);
+// - Getters
+// - Comparison
+// - Other
+    public function not(): ESBool
+    {
+        return $this->toggle();
+    }
+
+    public function or($bool): ESBool
+    {
+        $bool = Type::sanitizeType($bool, ESBool::class);
         return Shoop::bool($this->unfold() || $bool->unfold());
-	}
+    }
 
-	public function and($bool): ESBool
-	{
-        $bool = $this->sanitizeType($bool, "boolean", ESBool::class);
+    public function and($bool): ESBool
+    {
+        $bool = Type::sanitizeType($bool, ESBool::class);
         return Shoop::bool($this->unfold() && $bool->unfold());
-	}
-
-	public function description(): ESString
-	{
-        return ($this->value)
-            ? ESString::fold("true")
-            : ESString::fold("false");
-	}
+    }
 }

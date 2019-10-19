@@ -21,29 +21,67 @@ class DictTest extends TestCase
         $this->assertEquals("value", $result["key"]);
     }
 
-    public function testCanIterateDictionary()
+    public function testCanTypeJuggle()
     {
-        $dict = Shoop::dictionary(["key" => "value", "key2" => "value2"]);
-        $this->assertEquals(["key" => "value", "key2" => "value2"], $dict->unfold());
-        $count = 1;
-        foreach($dict as $key => $value) {
-            if ($key === "key") {
-                $this->assertEquals("value", $value);
+        $expected = [1, 2];
+        $dict = ["one" => 1, "two" => 2];
+        $result = ESDictionary::fold($dict)->array();
+        $this->assertEquals($expected, $result->unfold());
 
-            } elseif ($key === "key2") {
-                $this->assertEquals("value2", $value);
+        $result = ESDictionary::fold($dict)->dictionary();
+        $this->assertEquals($dict, $result->unfold());
 
-            }
-            $count++;
-        }
-        $this->assertTrue($count > 1);
+        $actual = ESDictionary::fold($dict)->json();
+        $this->assertEquals('{"one":1,"two":2}', $actual->unfold());
     }
 
-    public function testCanCheckForKey()
+    public function testPHPSingleMethodInterfaces()
     {
-        $result = Shoop::dictionary(["key" => "value"])
-            ->hasKey("key");
+        $expected = "Array([zero] => 0, [one] => 1)";
+        $result = (string) ESDictionary::fold(["zero" => 0, "one" => 1]);
+        $this->assertEquals($expected, $result);
+    }
+
+    public function testCanManipulate()
+    {
+        $dict = ["zero" => 0, "one" => 1];
+        $expected = [];
+        $actual = ESDictionary::fold($dict)->toggle();
+        $this->assertEquals($expected, $actual->unfold());
+    }
+
+    public function testSearch()
+    {
+        $base = ["one" => 1, "two" => 2];
+        $shoopDict = Shoop::dictionary($base);
+        $result = $shoopDict->has(1);
         $this->assertTrue($result->unfold());
+    }
+
+    public function testDictionaryCanMath()
+    {
+        $expected = ["zero" => 0, "one" => 1];
+        $result = ESDictionary::fold(["zero" => 0])->plusUnfolded("one", 1);
+        $this->assertEquals($expected, $result);
+
+        $result = ESDictionary::fold($expected)->minusUnfolded("zero");
+        $this->assertEquals(["one" => 1], $result);
+
+        $base = ["one" => 1, "two" => 2];
+        $expected = [
+            $base,
+            $base,
+            $base
+        ];
+        $result = ESDictionary::fold($base)->multiplyUnfolded(3);
+        $this->assertEquals($expected, $result);
+
+        $result = Shoop::dictionary($base)->divide();
+        $expected = [
+            "keys" => ["one", "two"],
+            "values" => [1, 2]
+        ];
+        $this->assertEquals($expected, $result->unfold());
     }
 
     public function testCanGetValueForKey()
@@ -60,41 +98,46 @@ class DictTest extends TestCase
         ];
 
         $dict = Shoop::dictionary($assoc);
-        $this->assertEquals(
-            1,
-            $dict->valueForKeyUnfolded("one")
-        );
+        $this->assertEquals(1, $dict->getUnfolded("one"));
 
         $this->assertTrue(
             is_array(
-                $dict->valueForKeyUnfolded("two")
+                $dict->getUnfolded("two")
             )
         );
 
         $this->assertTrue(
             is_a(
-                $dict->valueForKeyUnfolded("three"),
+                $dict->getUnfolded("three"),
                 \stdClass::class
             )
         );
 
-        $this->assertTrue(Type::isShooped(
-            // TODO: Possibly remove "Unfolded" suffix shorthand
-            $dict->valueForKey("four")
-        ));
+        $this->assertTrue(Type::isShooped($dict->get("four")));
 
         $this->assertTrue(
             is_a(
-                $dict->valueForKeyUnfolded("five"),
+                $dict->getUnfolded("five"),
                 TestObject::class
             )
         );
     }
 
-    public function testCanBeUsedAsPhpString()
+    public function testCanIterateDictionary()
     {
-        $expected = "Array([zero] => 0, [one] => 1)";
-        $result = (string) ESDictionary::fold(["zero" => 0, "one" => 1]);
-        $this->assertEquals($expected, $result);        
+        $dict = Shoop::dictionary(["key" => "value", "key2" => "value2"]);
+        $this->assertEquals(["key" => "value", "key2" => "value2"], $dict->unfold());
+        $count = 1;
+        foreach($dict as $key => $value) {
+            if ($key === "key") {
+                $this->assertEquals("value", $value);
+
+            } elseif ($key === "key2") {
+                $this->assertEquals("value2", $value);
+
+            }
+            $count++;
+        }
+        $this->assertTrue($count > 1);
     }
 }

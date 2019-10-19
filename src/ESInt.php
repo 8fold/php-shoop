@@ -2,14 +2,33 @@
 
 namespace Eightfold\Shoop;
 
-use Eightfold\Shoop\Traits\ShoopedImp;
+use Eightfold\Shoop\Interfaces\{
+    Shooped,
+    Countable,
+    Toggle,
+    Shuffle,
+    Compare
+};
+
+use Eightfold\Shoop\Traits\{
+    ShoopedImp,
+    CountableImp,
+    ToggleImp,
+    ShuffleImp,
+    CompareImp
+};
+
+use Eightfold\Shoop\{
+    ESString,
+    ESJson
+};
 
 use Eightfold\Shoop\Helpers\Type;
-use Eightfold\Shoop\Interfaces\Shooped;
 
-class ESInt implements Shooped
+
+class ESInt implements Shooped, Countable, Toggle, Shuffle
 {
-    use ShoopedImp;
+    use ShoopedImp, CountableImp, ToggleImp, ShuffleImp, CompareImp;
 
     public function __construct($int)
     {
@@ -25,9 +44,44 @@ class ESInt implements Shooped
         }
     }
 
-    public function enumerate(): ESArray
+// - Type Juggling
+    public function string(): ESString
     {
-        return Shoop::array(range(0, $this->value));
+        return Shoop::string((string) $this->unfold());
+    }
+
+    public function array(): ESArray
+    {
+        return Shoop::array($this->range(0));
+    }
+
+    public function dictionary(): ESDictionary
+    {
+        return $this->array()->dictionary();
+    }
+
+    public function int(): ESInt
+    {
+        return ESInt::fold($this->unfold());
+    }
+
+    public function json(): ESJson
+    {
+        return Shoop::object((object) ["json" => $this->unfold()])->json();
+    }
+
+// - Manipulate
+    public function toggle($preserveMembers = true): ESInt
+    {
+        return $this->multiply(-1);
+    }
+
+// - Search
+// - Math language
+    public function multiply($int)
+    {
+        $int = Type::sanitizeType($int, ESInt::class)->unfold();
+        return ESInt::fold($this->unfold() * $int);
     }
 
     public function plus(...$args)
@@ -36,45 +90,21 @@ class ESInt implements Shooped
         $terms = $args;
         $total = $this->value;
         foreach ($terms as $term) {
-            $term = $this->sanitizeType($term, ESInt::class)->unfold();
+            $term = Type::sanitizeType($term, ESInt::class)
+                ->unfold();
             $total += $term;
         }
-
         return Shoop::int($total);
     }
 
-    public function append(...$args)
+    public function minus(...$args): ESInt
     {
-        $intString = (string) $this->unfold();
-        foreach ($terms as $term) {
-            $term = (string) $this->sanitizeType($term, ESInt::class)->unfold();
-            $intString .= $term;
+        $total = $this->unfold();
+        foreach ($args as $term) {
+            $term = Type::sanitizeType($term, ESInt::class)->unfold();
+            $total -= $term;
         }
-        $intInt = (integer) $intString;
-        return Shoop::int($intInt);
-    }
-
-    public function prepend(...$args)
-    {
-        $intString = (string) $this->unfold();
-        foreach ($terms as $term) {
-            $term = (string) $this->sanitizeType($term, ESInt::class)->unfold();
-            $intString = $term . $intString;
-        }
-        $intInt = (integer) $intString;
-        return Shoop::int($intInt);
-    }
-
-    public function minus($value)
-    {
-        $term = Type::sanitizeType($value)->unfold();
-        return ESInt::fold($this->unfold() - $term);
-    }
-
-    public function multiply($int)
-    {
-        $int = Type::sanitizeType($int, ESInt::class)->unfold();
-        return ESInt::fold($this->unfold() * $int);
+        return ESInt::fold($total);
     }
 
     public function divide($value = null)
@@ -88,39 +118,15 @@ class ESInt implements Shooped
         return ESInt::fold((int) floor($enumerator/$divisor));
     }
 
-    public function toggle(): ESInt
+// - Getters
+// - Comparison
+// - Other
+    public function range($int)
     {
-        return $this->multiply(-1);
-    }
-
-    public function isGreaterThan($compare): ESBool
-    {
-        $compare = Type::sanitizeType($compare)->unfold();
-        return Shoop::bool($this->unfold() > $compare);
-    }
-
-    public function isGreaterThanOrEqual($compare): ESBool
-    {
-        $compare = Type::sanitizeType($compare)->unfold();
-        return Shoop::bool($this->isGreaterThan($compare)->or($this->isSame($compare)));
-    }
-
-    public function isLessThan($compare): ESBool
-    {
-        $compare = Type::sanitizeType($compare)->unfold();
-        return Shoop::bool($this->unfold() < $compare);
-    }
-
-    public function isLessThanOrEqual($compare): ESBool
-    {
-        $compare = Type::sanitizeType($compare)->unfold();
-        return Shoop::bool($this->isLessThan($compare)->or($this->isSame($compare)));
-    }
-
-    // TODO: verify used by something other tests
-    public function isDivisible($value): ESBool
-    {
-        $divisor = $this->sanitizeType($value, ESInt::class);
-        return Shoop::bool($this->unfold() % $divisor->unfold() == 0);
+        $int = Type::sanitizeType($int, ESInt::class)->unfold();
+        if ($int > $this->unfold()) {
+            return Shoop::this(range($this->unfold(), $int));
+        }
+        return Shoop::this(range($int, $this->unfold()), ESArray::class);
     }
 }
