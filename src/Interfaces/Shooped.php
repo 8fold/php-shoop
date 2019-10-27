@@ -50,4 +50,24 @@ interface Shooped extends
     public function isNot($compare): ESBool;
 
     public function isEmpty(): ESBool;
+
+// - Array Access
+    public function offsetExists($offset): bool;
+
+    public function offsetGet($offset);
+
+    public function offsetSet($offset, $value): void;
+
+    public function offsetUnset($offset): void;
+
+// - Iterator
+    public function rewind(): void;
+
+    public function valid(): bool;
+
+    public function current();
+
+    public function key();
+
+    public function next(): void;
 }

@@ -6,16 +6,22 @@ use Eightfold\Shoop\Helpers\Type;
 
 use Eightfold\Shoop\Shoop;
 
-use Eightfold\Shoop\Interfaces\Shooped;
+use Eightfold\Shoop\Interfaces\{
+    Shooped,
+    Has
+};
 
-use Eightfold\Shoop\Traits\ShoopedImp;
+use Eightfold\Shoop\Traits\{
+    ShoopedImp,
+    HasImp
+};
 
 use Eightfold\Shoop\ESDictionary;
 
 // TODO: Need to be able to handle the path
-class ESJson implements Shooped, \JsonSerializable
+class ESJson implements Shooped, Has, \JsonSerializable
 {
-    use ShoopedImp;
+    use ShoopedImp, HasImp;
 
     // TODO: How to store path ??
     protected $path = "";
@@ -88,9 +94,20 @@ class ESJson implements Shooped, \JsonSerializable
     }
 
 // - Other
+    public function has($member): ESBool
+    {
+        return $this->hasMember($member);
+    }
+
+    public function hasMember($member): ESBool
+    {
+        return $this->object()->hasMember($member);
+    }
+
     public function get($member)
     {
-        return Type::sanitizeType($this->object()->get($member));
+        $member = Type::sanitizeType($member, ESString::class)->unfold();
+        return $this->object()->get($member);
     }
 
     public function path(): ESString
@@ -104,4 +121,62 @@ class ESJson implements Shooped, \JsonSerializable
         $this->path = $path;
         return $this;
     }
+
+// -> Array Access
+    public function offsetExists($offset): bool
+    {
+        return isset($this->value[$offset]);
+    }
+
+    public function offsetGet($offset)
+    {
+        return ($this->offsetExists($offset))
+            ? $this->value[$offset]
+            : null;
+    }
+
+    public function offsetSet($offset, $value): void
+    {
+        $stash = $this->value;
+        if (! is_null($offset)) {
+            $stash[$offset] = $value;
+        }
+    }
+
+    public function offsetUnset($offset): void
+    {
+        $stash = $this->value;
+        unset($stash[$offset]);
+    }
+
+// // //-> Iterator
+//     public function current()
+//     {
+//         $current = key($this->value);
+//         return $this->value[$current];
+//     }
+
+//     public function key()
+//     {
+//         return key($this->value);
+//     }
+
+//     public function next()
+//     {
+//         next($this->value);
+//         return $this;
+//     }
+
+//     public function rewind()
+//     {
+//         reset($this->value);
+//         return $this;
+//     }
+
+//     public function valid(): bool
+//     {
+//         $key = key($this->value);
+//         $var = ($key !== null && $key !== false);
+//         return $var;
+//     }
 }

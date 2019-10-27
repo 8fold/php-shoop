@@ -4,11 +4,12 @@ namespace Eightfold\Shoop\Traits;
 
 use Eightfold\Shoop\{
     Shoop,
+    ESArray,
     ESBool,
     ESInt,
     ESString,
     ESObject,
-    ESArray,
+    ESJson,
     ESDictionary
 };
 
@@ -18,6 +19,8 @@ use Eightfold\Shoop\Helpers\Type;
 trait ShoopedImp
 {
     protected $value;
+
+    protected $dictionary;
 
     static public function fold($args)
     {
@@ -63,13 +66,7 @@ trait ShoopedImp
         return Shoop::bool($bool);
     }
 
-// - PHP single-method interfaces
-    public function __toString()
-    {
-        return $this->string()->unfold();
-    }
-
-// - Manipulateg
+// - Manipulating
 // - Math language
 // - Comparison
     public function is($compare): ESBool
@@ -91,102 +88,189 @@ trait ShoopedImp
         return Shoop::bool(empty($this));
     }
 
-//-> Getters
-    public function __call(string $name, array $args = [])
+// - Setters/Getters
+// - Callers
+    public function __call($name, $args = [])
     {
-        $call = $this->knownMethodFromUnknownName($name);
-        $result = $this->{$call}(...$args);
-        if (Type::isShooped($result)) {
-            return $result->unfold();
+        $startsWithSet = substr($name, 0, strlen("set")) === "set";
+        $startsWithGet = substr($name, 0, strlen("get")) === "get";
+        $endsWithUnfolded = substr($name, -(strlen("Unfolded"))) === "Unfolded";
+        $name = Shoop::string($name)->unfold();
+        if ($name === "getUnfolded") {
+            $name = str_replace("Unfolded", "", $name);
+            return $this->handleGetUnfolded($name, $args);
+
+        } elseif ($startsWithSet) {
+            $name = lcfirst(str_replace("set", "", $name));
+            return $this->handleSet($name, $args);
+
+        } elseif ($startsWithGet) {
+            $name = lcfirst(str_replace("get", "", $name));
+            return $this->get($name, $args);
+
+        } elseif ($endsWithUnfolded) {
+            $name = str_replace("Unfolded", "", $name);
+            $value = $this->{$name}(...$args);
+            return (Type::isShooped($value))
+                ? $value->unfold()
+                : $value;
+
         }
-        return $result;
+        $value = $this->get($name);
+        $return = (isset($value) && Type::isShooped($value))
+            ? $value->unfold()
+            : $value;
+        return $return;
     }
 
-    private function knownMethodFromUnknownName(string $name)
+    private function handleSet($name, $args)
     {
-        $call = "";
-        $start = strlen($name) - strlen("Unfolded");
-        $isFolded = $this->methodNameContains("Unfolded", $name, $start);
-        if ($isFolded) {
-            $call = lcfirst(substr_replace($name, "", $start, strlen($name) - $start));
-        }
+        $name = lcfirst(str_replace("set", "", $name));
+        $overwrite = (isset($args[1])) ? $args[1] : true;
+        $value = (isset($args[0])) ? $args[0] : null;
 
-        if (strlen($call) === 0) {
+        return $this->set($name, $value, $overwrite);
+    }
+
+    private function handleGetUnfolded($name, $args)
+    {
+        $value;
+        if (! method_exists($this, $name)) {
             $className = static::class;
             trigger_error("{$name} is an invalid method on {$className}", E_USER_ERROR);
+
+        } elseif ($name === "plus" || $name === "minus") {
+            $value = $this->{$name}(...$args);
+
+        } else {
+            $value = $this->{$name}($args[0]);
+
         }
-        return $call;
+        return (Type::isShooped($value)) ? $value->unfold() : $value;
     }
 
-    private function methodNameContains(string $needle, string $haystack, int $start)
+// - PHP single-method interfaces
+    public function __toString()
     {
-        $needle = $needle;
-        $end = strlen($haystack);
-        $len = strlen($needle);
-        return substr($haystack, $start, $len) === $needle;
+        $v = $this->unfold();
+        if (is_string($v)) {
+            return $v;
+
+        } elseif (is_bool($v)) {
+            return $this->string()->unfold();
+
+        }
+
+        $initial = print_r($v, true);
+        $oneLine = preg_replace('/\s+/', ' ', $initial);
+        $commas = str_replace(
+            [" [", " ) ", " (, "],
+            [", [", ")", "("],
+            $oneLine);
+
+        if (Type::is($this, ESDictionary::class)) {
+            $commas = str_replace("Array", "Dictionary", $commas);
+        }
+
+        return trim($commas);
     }
 
 // -> Array Access
     public function offsetExists($offset): bool
     {
-        return isset($this->value[$offset]);
+        $v = $this->unfold();
+        if (is_a($v, \stdClass::class)) {
+            $v = (array) $v;
+        }
+        return isset($v[$offset]);
     }
 
     public function offsetGet($offset)
     {
-        return ($this->offsetExists($offset))
-            ? $this->value[$offset]
-            : null;
+        $v = $this->unfold();
+        if (is_a($v, \stdClass::class)) {
+            $v = (array) $v;
+        }
+        return $v[$offset];
     }
 
-    public function offsetSet($offset, $value)
+    public function offsetSet($offset, $value): void
     {
-        $stash = $this->value;
-        if (is_null($offset)) {
-            $stash = $value;
+        $v = $this->unfold();
+        if (is_a($v, \stdClass::class)) {
+            $v = (array) $v;
+        }
+        $v[$offset] = $value;
+        $this->value = $v;
+    }
+
+    public function offsetUnset($offset): void
+    {
+        $v = $this->unfold();
+        if (is_a($v, \stdClass::class)) {
+            $v = (array) $v;
+        }
+        unset($v[$offset]);
+        $this->value = $v;
+    }
+
+//-> Iterator
+    private $temp;
+
+    /**
+     * rewind() -> valid() -> current() -> key() -> next() -> valid()...repeat
+     *
+     * Same implementation for Object, Dictionary, JSON
+     *
+     * @return [type] [description]
+     */
+    public function rewind(): void
+    {
+        if (Type::is($this, ESObject::class, ESDictionary::class, ESJson::class)) {
+            $this->temp = $this->dictionary()->unfold();
 
         } else {
-            $stash[$offset] = $value;
+            $this->temp = $this->array()->unfold();
 
         }
-        return static::fold($stash);
-    }
-
-    public function offsetUnset($offset)
-    {
-        $stash = $this->value;
-        unset($stash[$offset]);
-        return static::fold($stash);
-    }
-
-// //-> Iterator
-    public function current()
-    {
-        $current = key($this->value);
-        return ESInt::fold($this->value[$current]);
-    }
-
-    public function key()
-    {
-        return ESInt::fold(key($this->value));
-    }
-
-    public function next()
-    {
-        next($this->value);
-        return $this;
-    }
-
-    public function rewind()
-    {
-        reset($this->value);
-        return $this;
     }
 
     public function valid(): bool
     {
-        $key = key($this->value);
-        $var = ($key !== null && $key !== false);
-        return $var;
+        if (! isset($this->temp)) {
+            $this->rewind();
+        }
+        return array_key_exists(key($this->temp), $this->temp);
+    }
+
+    public function current()
+    {
+        if (! isset($this->temp)) {
+            $this->rewind();
+        }
+        $temp = $this->temp;
+        $key = key($temp);
+        return $temp[$key];
+    }
+
+    public function key()
+    {
+        if (! isset($this->temp)) {
+            $this->rewind();
+        }
+        $temp = $this->temp;
+        $key = key($temp);
+        if (is_int($key)) {
+            return Type::sanitizeType($key, ESInt::class, "int")->unfold();
+        }
+        return Type::sanitizeType($key, ESString::class, "string")->unfold();
+    }
+
+    public function next(): void
+    {
+        if (! isset($this->temp)) {
+            $this->rewind();
+        }
+        next($this->temp);
     }
 }

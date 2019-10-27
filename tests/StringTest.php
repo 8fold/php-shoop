@@ -53,8 +53,8 @@ class StringTest extends TestCase
         $actual = $string->sort();
         $this->assertEquals($expected, $actual->unfold());
 
-        $expected = "!eHllo";
-        $actual = $string->sort(true);
+        // $expected = "!eHllo";
+        // $actual = $string->sort(true);
 
         $string = "heLLo";
         $shoopString = Shoop::string($string);
@@ -78,6 +78,7 @@ class StringTest extends TestCase
     {
         $hello = ESString::fold("Hello, ");
         $helloWorld = ESString::fold("Hello, World!");
+
         $result = $hello->plus("🌍!")->unfold();
         $this->assertEquals($this->plainTextWithUnicode(), $result);
 
@@ -127,12 +128,14 @@ class StringTest extends TestCase
         $this->assertEquals($expected, $actual->unfold());
 
         $expected = "Hello, 🌍!";
+
         $actual = Shoop::this(__DIR__, ESString::class)
             ->divide("/")
             ->plus("test.txt")
             ->join("/")
             ->start("/")
             ->pathContent();
+
         $this->assertEquals($expected, $actual->unfold());
     }
 }

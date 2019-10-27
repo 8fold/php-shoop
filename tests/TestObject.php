@@ -4,6 +4,8 @@ namespace Eightfold\Shoop\Tests;
 
 use Eightfold\Shoop\Helpers\Type;
 
+use Eightfold\Shoop\Interfaces\Shooped;
+
 use Eightfold\Shoop\Traits\{
     ShoopedImp,
     CountableImp,
@@ -17,7 +19,7 @@ use Eightfold\Shoop\ESInt;
 use Eightfold\Shoop\ESBool;
 use Eightfold\Shoop\ESArray;
 
-class TestObject
+class TestObject implements \ArrayAccess
 {
     use ShoopedImp, CountableImp, WrapImp, HasImp, CompareImp;
 

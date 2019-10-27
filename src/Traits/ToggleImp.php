@@ -9,7 +9,7 @@ trait ToggleImp
     public function toggle($preserveMembers = true) // 7.4 : self
     {
         $array = $this->arrayUnfolded();
-        $reversed = array_reverse($array);
-        return Shoop::array($reversed)->array();
+        $array = array_reverse($array);
+        return Shoop::array($array)->array();
     }
 }

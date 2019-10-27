@@ -2,6 +2,8 @@
 
 namespace Eightfold\Shoop\Traits;
 
+use Eightfold\Shoop\Shoop;
+
 trait ShuffleImp
 {
     public function shuffle()

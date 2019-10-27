@@ -17,18 +17,21 @@ class ArrayTest extends TestCase
         $base = [1, 2];
         $array = Shoop::array($base);
 
-        $result = $array->offsetUnset(0);
-        $this->assertEquals(2, $result->getUnfolded(1));
+        $array->offsetUnset(0);
 
-        $result = $result->array();
-        $this->assertEquals(2, $result->getUnfolded(0));
+        $this->assertEquals(2, $array[1]);
+        $this->assertEquals(2, $array->getUnfolded(1));
 
-        $result = $array->dictionary();
-        $this->assertTrue(Type::isDictionary($result));
-        $this->assertEquals(["i0" => 1, "i1" => 2], $result->unfold());
+        $array = $array->array();
+        $this->assertEquals(2, $array[0]);
+        $this->assertEquals(2, $array->getUnfolded(0));
 
-        $actual = $array->json();
-        $this->assertEquals('{"0":1,"1":2}', $actual->unfold());
+        $dict = $array->dictionary();
+        $this->assertTrue(Type::isDictionary($dict));
+        $this->assertEquals(["i0" => 2], $dict->unfold());
+
+        // $actual = $array->json();
+        // $this->assertEquals('{"0":1,"1":2}', $actual->unfold());
     }
 
     public function testPhpInterfaces()
@@ -93,6 +96,8 @@ class ArrayTest extends TestCase
     public function testGetters()
     {
         $result = ESArray::fold([1, 2, 3, 4, 5]);
+        $this->assertEquals(1, $result->first()->unfold());
+        $this->assertEquals(5, $result->last()->unfold());
         $this->assertEquals(1, $result->firstUnfolded());
         $this->assertEquals(5, $result->lastUnfolded());
 
@@ -132,7 +137,7 @@ class ArrayTest extends TestCase
         $this->assertEquals([1, 2, 3, 4, 5], $array->unfold());
         $count = 1;
         foreach ($array as $int) {
-            $this->assertEquals($count, $int->unfold());
+            $this->assertEquals($count, $int);
             $count++;
         }
         $this->assertTrue($count > 1);
