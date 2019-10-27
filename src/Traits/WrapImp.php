@@ -27,7 +27,9 @@ trait WrapImp
 
     public function last()
     {
-        return $this->array()->toggle()->first();
+        $v = $this->array()->unfold();
+        $index = count($v) - 1;
+        return $v[$index];
     }
 
     public function start(...$prefixes)

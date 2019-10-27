@@ -17,7 +17,6 @@ class DictTest extends TestCase
     {
         $result = Shoop::dictionary(["key" => "value"]);
         $this->assertNotNull($result);
-
         $this->assertEquals("value", $result["key"]);
     }
 
@@ -33,13 +32,6 @@ class DictTest extends TestCase
 
         $actual = ESDictionary::fold($dict)->json();
         $this->assertEquals('{"one":1,"two":2}', $actual->unfold());
-    }
-
-    public function testPHPSingleMethodInterfaces()
-    {
-        $expected = "Array([zero] => 0, [one] => 1)";
-        $result = (string) ESDictionary::fold(["zero" => 0, "one" => 1]);
-        $this->assertEquals($expected, $result);
     }
 
     public function testCanManipulate()
@@ -139,5 +131,105 @@ class DictTest extends TestCase
             $count++;
         }
         $this->assertTrue($count > 1);
+    }
+
+    public function testPhpTransportabilityToString()
+    {
+        // __toString
+        $expected = "Dictionary([hello] => world)";
+        $actual = ESDictionary::fold(["hello" => "world"]);
+        $this->assertEquals($expected, "{$actual}");
+    }
+
+    public function testTransportabilitySetAndPlus()
+    {
+        $dict = ["hello" => "world"];
+        $actual = ESDictionary::fold([])->plus("hello", "world");
+        $this->assertEquals($dict["hello"], $actual->hello);
+
+        $obj = (object) ["hello" => ["world", "chat"]];
+        $actual = ESDictionary::fold(["hello" => "world"])->plus("hello", "chat", false);
+        $this->assertEquals($obj->hello, $actual->hello);
+
+        $obj = (object) ["hello" => "chat"];
+        $actual = ESDictionary::fold([])->set("hello", "chat");
+        $this->assertEquals($obj->hello, $actual->hello);
+    }
+
+    public function testPhpTransportabilityCall()
+    {
+        $expected = Shoop::string("world");
+        $actual = ESDictionary::fold(["hello" => "world"])->getHello();
+        $this->assertEquals($expected, $actual);
+
+        $obj = (object) ["hello" => ["world", "chat"]];
+        $actual = ESDictionary::fold(["hello" => "world"])->setHello("chat", false);
+        $this->assertEquals($obj->hello, $actual->hello);
+
+        $this->assertEquals($obj->hello, $actual->helloUnfolded());
+    }
+
+    public function testTransportabilitySetGetIssetAndUnset()
+    {
+        $obj = new \stdClass();
+        $obj->hello = ["world", "chat"];
+
+        $object = Shoop::object([]);
+        $object->hello = ["world", "chat"];
+
+        $this->assertEquals($obj, $object->unfold());
+        $this->assertEquals($obj->hello, $object->hello);
+
+        $this->assertTrue(isset($object->hello));
+        $this->assertFalse(isset($object->goodbye));
+
+        unset($object->hello);
+        $this->assertFalse(isset($object->hello));
+
+        $expected = ["world", "chat"];
+        $object = Shoop::object([])
+            ->plus("hello", "world")
+            ->set("hello", "chat", false);
+        $this->assertEquals($expected, $object->get("hello"));
+
+        // TODO: Need more tests to verify getting in all the ways
+    }
+
+    public function testPhpTransportabilityArrayAccess()
+    {
+        $object = Shoop::object([])
+            ->plus("hello", "world")
+            ->set("hello", "chat", false);
+        $this->assertFalse(empty($object));
+
+        $objectNull = Shoop::object([]);
+        $this->assertTrue(empty($objectNull[0]));
+
+        $this->assertEquals(["world", "chat"], $object["hello"]);
+
+        $object = Shoop::object([]);
+        $object->hello = ["world", "chat"];
+        $this->assertEquals(["world", "chat"], $object->hello);
+
+        unset($object["hello"]);
+        $this->assertNull($object["hello"]);
+    }
+
+    public function testPhpTransportabilityIterator()
+    {
+        $object = Shoop::object(["one" => 1, "two" => 2]);
+        $count = 0;
+        foreach ($object as $key => $value) {
+            if ($key === "one") {
+                $this->assertEquals(1, $value);
+                $count++;
+
+            } elseif ($key === "two") {
+                $this->assertEquals(2, $value);
+                $count++;
+
+            }
+        }
+        $this->assertEquals(2, $count);
     }
 }

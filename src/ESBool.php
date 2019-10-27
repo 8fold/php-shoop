@@ -4,6 +4,8 @@ namespace Eightfold\Shoop;
 
 use Eightfold\Shoop\Helpers\Type;
 
+use Eightfold\Shoop\ESInt;
+
 use Eightfold\Shoop\Interfaces\{
     Shooped,
     Toggle,
@@ -43,6 +45,12 @@ class ESBool implements Shooped, Toggle, Shuffle, Compare
         return ESString::fold($string);
     }
 
+    public function int(): ESInt
+    {
+        $bool = ($this->unfold()) ? 1 : 0;
+        return ESInt::fold($bool);
+    }
+
     public function array(): ESArray
     {
         return Shoop::array([$this->unfold()]);
@@ -76,16 +84,25 @@ class ESBool implements Shooped, Toggle, Shuffle, Compare
 // - Math language
     public function multiply($int): ESArray
     {
-        $range = Type::sanitizeType($int, ESInt::class)
-            ->array()->dropLast()->unfold();
         $array = [];
-        foreach ($range as $int) {
-            $array[] = $this;
+        for ($i = 0; $i < $int; $i++) {
+            $array[] = Shoop::bool($this);
         }
         return Shoop::array($array);
     }
 
 // - Getters
+    public function get($member)
+    {
+        dd("bool get");
+        $member = Type::sanitizeType($member, ESInt::class)->unfold();
+        if ($this->hasMember($member)) {
+            $m = $this[$member];
+            return ((Type::isPhp($m))) ? Type::sanitizeType($m) : $m;
+        }
+        trigger_error("Undefined index or memember.");
+    }
+
 // - Comparison
 // - Other
     public function not(): ESBool
@@ -103,5 +120,61 @@ class ESBool implements Shooped, Toggle, Shuffle, Compare
     {
         $bool = Type::sanitizeType($bool, ESBool::class);
         return Shoop::bool($this->unfold() && $bool->unfold());
+    }
+
+// -> Array Access
+    public function offsetExists($offset): bool
+    {
+        return isset($this->value[$offset]);
+    }
+
+    public function offsetGet($offset)
+    {
+        return ($this->offsetExists($offset))
+            ? $this->value[$offset]
+            : null;
+    }
+
+    public function offsetSet($offset, $value): void
+    {
+        $stash = $this->value;
+        if (! is_null($offset)) {
+            $this->value[$offset] = $value;
+        }
+    }
+
+    public function offsetUnset($offset): void
+    {
+        $stash = $this->value;
+        unset($stash[$offset]);
+    }
+
+// //-> Iterator
+    public function current()
+    {
+        $current = key($this->value);
+        return $this->value[$current];
+    }
+
+    public function key()
+    {
+        return key($this->value);
+    }
+
+    public function next(): void
+    {
+        next($this->value);
+    }
+
+    public function rewind(): void
+    {
+        reset($this->value);
+    }
+
+    public function valid(): bool
+    {
+        $key = key($this->value);
+        $var = ($key !== null && $key !== false);
+        return $var;
     }
 }

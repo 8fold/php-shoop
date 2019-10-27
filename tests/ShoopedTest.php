@@ -127,4 +127,43 @@ class ShoopedTest extends TestCase
         $this->assertTrue(TestObject::fold(10)->isLessThanUnfolded(11));
         $this->assertTrue(TestObject::fold(10)->isLessThanOrEqualUnfolded(10));
     }
+
+    public function testPhpTransportabilityString()
+    {
+        $expected = "Array([0] => 1, [1] => 2)";
+        $actual = TestObject::fold([1, 2]);
+        $this->assertEquals($expected, $actual);
+
+        $expected = "Hello!";
+        $actual = TestObject::fold($expected);
+        $this->assertEquals($expected, $actual);
+
+        $expected = " [";
+        $actual = TestObject::fold($expected);
+        $this->assertEquals($expected, $actual);
+
+        $expected = "12";
+        $actual = TestObject::fold(12);
+        $this->assertEquals($expected, $actual);
+
+        // Will be Dictionary when class is ESDictionary
+        $expected = "Array([one] => 1, [two] => 2)";
+        $actual = TestObject::fold(["one" => 1, "two" => 2]);
+        $this->assertEquals($expected, $actual);
+    }
+
+    public function testPhpTransportabilityArrayAccess()
+    {
+        $expected = [1, 2, 3];
+        $array = TestObject::fold($expected);
+
+        $this->assertTrue($array->offsetExists(0));
+        $this->assertEquals(2, $array->offsetGet(1));
+
+        $array[0] = 3;
+        $this->assertEquals([3, 2, 3], $array->unfold());
+
+        unset($array[2]);
+        $this->assertEquals([3, 2], $array->unfold());
+    }
 }

@@ -65,6 +65,11 @@ class ESString implements
         return Shoop::array(preg_split('//u', $this->value, null, PREG_SPLIT_NO_EMPTY));
     }
 
+    public function int(): ESInt
+    {
+        return ESInt::fold(count($this->array()->unfold()));
+    }
+
     public function dictionary(): ESDictionary
     {
         return $this->array()->dictionary();
@@ -76,6 +81,11 @@ class ESString implements
     }
 
 // - PHP single-method interfaces
+    public function count(): ESInt
+    {
+        return Shoop::int(strlen($this->unfold()));
+    }
+
 // - Math language
     public function multiply($int)
     {
@@ -85,7 +95,7 @@ class ESString implements
 
     public function plus(...$args)
     {
-        $total = $this->value;
+        $total = $this->unfold();
         $terms = $args;
         foreach ($terms as $term) {
             $term = Type::sanitizeType($term, ESString::class)->unfold();
@@ -120,6 +130,17 @@ class ESString implements
     }
 
 // - Comparison
+// - Getters
+    public function get($member)
+    {
+        $member = Type::sanitizeType($member, ESInt::class)->unfold();
+        if ($this->offsetExists($member)) {
+            $m = $this[$member];
+            return ((Type::isPhp($m))) ? Type::sanitizeType($m) : $m;
+        }
+        trigger_error("Undefined index or memember.");
+    }
+
 // - Manipulate
     public function toggle($preserveMembers = true)
     {
@@ -162,6 +183,12 @@ class ESString implements
 
 // - Replace
 // - Other
+    // public function hasMember($member): ESBool
+    // {
+    //     $member = Type::sanitizeType($member, ESString::class)->unfold();
+    //     return Shoop::bool($this->offsetExists($member));
+    // }
+
     public function lowerFirst(): ESString
     {
         // ?? lower(1, 3, 4) : lower("even") : lower("odd")
@@ -180,4 +207,117 @@ class ESString implements
         }
         return Shoop::string("");
     }
+
+// - Transforms
+// - Callers
+    // public function __call($name, $args = [])
+    // {
+    //     $name = Shoop::string($name)->unfold();
+    //     $startsWithSet = substr($name, 0, strlen("set")) === "set";
+    //     $endsWithUnfolded = substr($name, -(strlen("Unfolded"))) === "Unfolded";
+    //     if ($startsWithSet) {
+    //         dump("starts with set");
+    //         $member = lcfirst(str_replace("set", "", $name));
+    //         $overwrite = (isset($args[1])) ? $args[1] : true;
+    //         $value = (isset($args[0])) ? $args[0] : null;
+
+    //         return $this->set($member, $value, $overwrite);
+
+    //     } elseif ($endsWithUnfolded) {
+    //         dump("ends with Unfolded");
+    //         $name = str_replace("Unfolded", "", $name);
+    //         if (! method_exists($this, $name)) {
+    //             $className = static::class;
+    //             trigger_error("{$member} is an invalid method on {$className}", E_USER_ERROR);
+
+    //         } else {
+    //             $value = $this->{$name}($args);
+    //             if (Type::isShooped($value)) {
+    //                 return $value->unfold();
+    //             }
+    //         }
+    //         dd("here");
+    //         $value = $this->get($member);
+    //         $return = (isset($value) && Type::isShooped($value))
+    //             ? $value->unfold()
+    //             : $value;
+    //         return $return;
+
+    //     } else {
+    //         $name = lcfirst(str_replace("get", "", $name));
+    //         return Type::sanitizeType($name);
+
+    //     }
+    // }
+
+// -> Array Access
+    public function offsetExists($offset): bool {}
+
+    public function offsetGet($offset) {}
+
+    public function offsetSet($offset, $value): void {}
+
+    public function offsetUnset($offset): void {}
+    // public function offsetExists($offset): bool
+    // {
+    //     return isset($this->value[$offset]);
+    // }
+
+    // public function offsetGet($offset)
+    // {
+    //     return ($this->offsetExists($offset))
+    //         ? $this->value[$offset]
+    //         : null;
+    // }
+
+    // public function offsetSet($offset, $value)
+    // {
+    //     $stash = $this->value;
+    //     if (is_null($offset)) {
+    //         $stash = $value;
+
+    //     } else {
+    //         $stash[$offset] = $value;
+
+    //     }
+    //     return static::fold($stash);
+    // }
+
+    // public function offsetUnset($offset)
+    // {
+    //     $stash = $this->value;
+    //     unset($stash[$offset]);
+    //     return static::fold($stash);
+    // }
+
+// //-> Iterator
+    // public function current()
+    // {
+    //     $current = key($this->value);
+    //     return $this->value[$current];
+    // }
+
+    // public function key()
+    // {
+    //     return key($this->value);
+    // }
+
+    // public function next()
+    // {
+    //     next($this->value);
+    //     return $this;
+    // }
+
+    // public function rewind()
+    // {
+    //     reset($this->value);
+    //     return $this;
+    // }
+
+    // public function valid(): bool
+    // {
+    //     $key = key($this->value);
+    //     $var = ($key !== null && $key !== false);
+    //     return $var;
+    // }
 }

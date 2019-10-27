@@ -185,9 +185,8 @@ class TypeJugglingTest extends TestCase
     	$array = $obj->array();
     	$this->assertEquals([1, 2], $array->unfold());
 
-    	// TODO: Consider switching "Array" for "Object"
     	$string = $obj->string();
-    	$this->assertEquals("Array([one] => 1, [two] => 2)", $string->unfold());
+    	$this->assertEquals("stdClass Object([one] => 1, [two] => 2)", $string->unfold());
 
     	$dict = $obj->dictionary();
     	$this->assertEquals((array) $base, $dict->unfold());

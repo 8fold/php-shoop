@@ -103,9 +103,11 @@ class Type
 
     static public function isPhp($potential): bool
     {
-        return (static::isShooped($potential))
-            ? false
-            : array_key_exists(static::for($potential), static::map());
+        $potential = (is_string($potential)) ? explode("\\", $potential) : $potential;
+        if (is_array($potential) && count($potential) > 1) {
+            return false;
+        }
+        return true;
     }
 
     static public function isNotPhp($potential): bool
@@ -138,7 +140,7 @@ class Type
         return false;
     }
 
-    static public function isJson($potential)
+    static public function isJson($potential): bool
     {
         $isString = is_string($potential);
         if ($isString) {
@@ -152,11 +154,31 @@ class Type
         return ($isString && $isDecodable && $noJsonError && $startsWithBrace && $endsWithBrace);
     }
 
-    static public function isEmpty(Shooped $check)
+    static public function isNotJson($potential): bool
+    {
+        return ! self::isJson($potential);
+    }
+
+    static public function isPath($potential): bool
+    {
+        return Shoop::string($potential)->hasUnfolded("/") && self::isNotUri($potential);
+    }
+
+    static public function isUri($potential): bool
+    {
+        $potential = Shoop::string($potential);
+        return $potential->has("/")->and($potential->startsWith("http"))->unfold();
+    }
+
+    static public function isNotUri($potential)
+    {
+        return ! self::isUri($potential);
+    }
+
+    static public function isEmpty(Shooped $check): bool
     {
         $check = Type::sanitizeType($check, get_class($check))->unfold();
-        $empty = empty($check);
-        return Shoop::bool($empty);
+        return empty($check);
     }
 
 // - Type metadata

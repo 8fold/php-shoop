@@ -11,25 +11,25 @@ class BoolTest extends TestCase
 {
     public function testTypeJuggling()
     {
-        $actual = Shoop::this(true)->array();
+        $actual = Shoop::bool(true)->array();
         $this->assertTrue(true, $actual->first());
 
-        $actual = Shoop::this(false)->dictionary();
-        $this->assertFalse($actual->get("true")->unfold());
+        $actual = Shoop::bool(false)->dictionary();
+        $this->assertFalse($actual->unfold()["true"]);
 
-        $actual = Shoop::this(true)->dictionary();
-        $this->assertTrue($actual->get("true")->unfold());
+        $actual = Shoop::bool(true)->dictionary();
+        $this->assertTrue($actual->unfold()["true"]);
 
-        $actual = Shoop::this(true)->object();
+        $actual = Shoop::bool(true)->object();
         $this->assertTrue($actual->unfold()->true);
 
-        $actual = Shoop::this(true)->int();
+        $actual = Shoop::bool(true)->int();
         $this->assertEquals(1, $actual->unfold());
     }
 
     public function testPhpSingleMethodInterfaces()
     {
-        $actual = Shoop::this(true);
+        $actual = Shoop::bool(true);
         $this->assertEquals("true", (string) $actual);
     }
 
