@@ -101,16 +101,15 @@ class ESJson implements Shooped, Has, \JsonSerializable
 
     public function hasMember($member): ESBool
     {
-        return $this->object()->hasMember($member);
+        $v = (array) json_decode($this->unfold());
+        return Shoop::bool(array_key_exists($member, $v) || (is_int($member) && count($v) > $member));
     }
 
     public function get($member)
     {
-        $member = Type::sanitizeType($member, ESString::class)->unfold();
-        $v = (array) json_decode($this->value);
-        if (array_key_exists($member, $v) || (is_int($member) && count($v) > $member)) {
+        if ($this->hasUnfolded($member)) {
+            $v = (array) json_decode($this->unfold());
             return Type::sanitizeType($v[$member]);
-
         }
         trigger_error("Member named {$member} not found in JSON.");
     }
