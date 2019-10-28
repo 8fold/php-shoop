@@ -108,10 +108,11 @@ class ESJson implements Shooped, Has, \JsonSerializable
     {
         $member = Type::sanitizeType($member, ESString::class)->unfold();
         $v = (array) json_decode($this->value);
-        if (array_key_exists($member, $v)) {
+        if (array_key_exists($member, $v) || (is_int($member) && count($v) > $member)) {
             return Type::sanitizeType($v[$member]);
+
         }
-        trigger_error("Undefined member on JSON.");
+        trigger_error("Member named {$member} not found in JSON.");
     }
 
     public function path(): ESString
