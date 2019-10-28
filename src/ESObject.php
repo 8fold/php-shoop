@@ -160,8 +160,9 @@ class ESObject implements Shooped, Countable, Has
     public function get($member)
     {
         $member = Type::sanitizeType($member, ESString::class)->unfold();
-        if ($this->hasMember($member)->unfold()) {
-            $m = $this->value->{$member};
+        $v = (array) $this->unfold();
+        if (isset($v[$member])) {
+            $m = $v[$member];
             // TODO: Return sanitized type - not working ??
             return ((Type::isPhp($m))) ? Type::sanitizeType($m) : $m;
         }

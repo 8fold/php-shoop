@@ -187,10 +187,11 @@ class DictTest extends TestCase
         $this->assertFalse(isset($object->hello));
 
         $expected = ["world", "chat"];
-        $object = Shoop::object([])
+        $actual = Shoop::dictionary([])
             ->plus("hello", "world")
-            ->set("hello", "chat", false);
-        $this->assertEquals($expected, $object->get("hello"));
+            ->set("hello", "chat", false)
+            ->get("hello");
+        $this->assertEquals($expected, $actual);
 
         // TODO: Need more tests to verify getting in all the ways
     }

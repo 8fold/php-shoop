@@ -51,7 +51,7 @@ class ESJson implements Shooped, Has, \JsonSerializable
 
     public function dictionary(): ESDictionary
     {
-        $cast = (array) json_decode($this);
+        $cast = (array) json_decode($this->value);
         return Shoop::dictionary($cast);
     }
 
@@ -68,12 +68,12 @@ class ESJson implements Shooped, Has, \JsonSerializable
 // - PHP single-method interfaces
     public function __toString()
     {
-        return $this->string()->unfold();
+        return $this->unfold();
     }
 
     public function jsonSerialize()
     {
-        return $this->json();
+        return $this->unfold();
     }
 
 // - Math language
@@ -107,7 +107,11 @@ class ESJson implements Shooped, Has, \JsonSerializable
     public function get($member)
     {
         $member = Type::sanitizeType($member, ESString::class)->unfold();
-        return $this->object()->get($member);
+        $v = (array) json_decode($this->value);
+        if (array_key_exists($member, $v)) {
+            return Type::sanitizeType($v[$member]);
+        }
+        trigger_error("Undefined member on JSON.");
     }
 
     public function path(): ESString

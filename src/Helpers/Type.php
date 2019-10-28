@@ -103,11 +103,26 @@ class Type
 
     static public function isPhp($potential): bool
     {
-        $potential = (is_string($potential)) ? explode("\\", $potential) : $potential;
-        if (is_array($potential) && count($potential) > 1) {
+        if (Type::isShooped($potential)) {
             return false;
         }
-        return true;
+
+        $custom = (is_string($potential)) ? explode("\\", $potential) : $potential;
+        if (is_array($custom) && count($custom) > 1) {
+            return false;
+        }
+
+        if (is_object($potential) && ! is_a($potential, \stdClass::class)) {
+            return false;
+        }
+
+        $phpTypes = array_keys(Type::map());
+        array_pop($phpTypes);
+        if (in_array(gettype($potential), $phpTypes)) {
+            return true;
+        }
+
+        return false;
     }
 
     static public function isNotPhp($potential): bool

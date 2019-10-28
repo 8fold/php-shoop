@@ -33,9 +33,9 @@ class TypeTest extends TestCase
         $result = get_class(Type::sanitizeType(10, ESArray::class));
         $this->assertEquals($expected, $result);
 
-        // $expected = ESJson::class;
-        // $result = get_class(Type::sanitizeType('{"@context": "http://schema.org"}', ESJson::class));
-        // $this->assertEquals($expected, $result);
+        $expected = ESJson::class;
+        $result = get_class(Type::sanitizeType('{"@context": "http://schema.org"}', ESJson::class));
+        $this->assertEquals($expected, $result);
     }
 
     public function testCheckTypes()

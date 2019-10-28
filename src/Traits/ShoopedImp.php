@@ -187,10 +187,7 @@ trait ShoopedImp
 
     public function offsetGet($offset)
     {
-        $v = $this->unfold();
-        if (is_a($v, \stdClass::class)) {
-            $v = (array) $v;
-        }
+        $v = (array) $this->unfold();
         return $v[$offset];
     }
 

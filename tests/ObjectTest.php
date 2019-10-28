@@ -145,8 +145,9 @@ class ObjectTest extends TestCase
         $expected = ["world", "chat"];
         $object = Shoop::object([])
             ->plus("hello", "world")
-            ->set("hello", "chat", false);
-        $this->assertEquals($expected, $object->get("hello"));
+            ->set("hello", "chat", false)
+            ->get("hello");
+        $this->assertEquals($expected, $object);
 
         // TODO: Need more tests to verify getting in all the ways
     }

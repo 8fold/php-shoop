@@ -109,22 +109,6 @@ class ESDictionary implements
         }
         return $this->set($key, $value, $overwrite);
     }
-    // public function plus(...$args)
-    // {
-    //     if (Shoop::array($args)->count()->isNotUnfolded(2)) {
-    //         $className = ESDictionary::class;
-    //         $count = Shoop::array($args)->count();
-    //         trigger_error(
-    //             "{$className}::plus() expects two arguments. {$count} given."
-    //         );
-    //     }
-
-    //     $key = Type::sanitizeType($args[0], ESString::class)->unfold();
-
-    //     $dict = $this->unfold();
-    //     $dict[$key] = $args[1];
-    //     return Shoop::dictionary($dict);
-    // }
 
     public function minus(...$args): ESDictionary
     {
@@ -194,7 +178,7 @@ class ESDictionary implements
     }
 
 // - Transforms
-// // - Callers
+// - Callers
 //     public function __call($name, $args = [])
 //     {
 //         $name = Shoop::string($name)->unfold();
@@ -249,7 +233,12 @@ class ESDictionary implements
 
     public function __get(string $name)
     {
-        return $this->get($name);
+        $v = (array) $this->unfold();
+        if ($this->offsetExists($name)) {
+            return $v[$name];
+        }
+        $className = static::class;
+        trigger_error("{$className} does not define a member or index called {$name}.");
     }
 
 //     public function __isset(string $name): bool
