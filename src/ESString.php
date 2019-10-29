@@ -27,6 +27,7 @@ use Eightfold\Shoop\Traits\{
 
 use Eightfold\Shoop\Helpers\Type;
 
+// TODO: replace(x, y)
 class ESString implements
     Shooped,
     Countable,

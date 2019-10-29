@@ -188,7 +188,12 @@ trait ShoopedImp
     public function offsetGet($offset)
     {
         $v = (array) $this->unfold();
-        return $v[$offset];
+        if (array_key_exists($offset, $v)) {
+            return $v[$offset];
+        }
+        // TODO: Replace with something else.
+        // Undefined offset: 2
+        return null;
     }
 
     public function offsetSet($offset, $value): void

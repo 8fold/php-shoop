@@ -25,6 +25,8 @@ class Shoop
 
     static public function array($array): ESArray
     {
+        // TODO: add - always passes both, only requires one
+        //      filter(value, key = '')
         return static::this($array, ESArray::class);
     }
 

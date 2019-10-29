@@ -157,7 +157,7 @@ class ESArray implements
     public function multiply($int)
     {
         $int = Type::sanitizeType($int, ESInt::class)->unfold();
-        $catch;
+        $catch = null;
         for ($i = 0; $i < $int; $i++) {
             if ($catch === null) {
                 $catch = $this->plus(...$this->unfold());
@@ -199,12 +199,12 @@ class ESArray implements
 
     public function last()
     {
-        $v = $this->array()->unfold();
-        $index = count($v) - 1;
-        $v = $v[$index];
+        $v = $this->unfold();
         if (empty($v) && $this->isEmpty()) {
             return Shoop::array([]);
         }
+        $index = count($v) - 1;
+        $v = $v[$index];
         return Type::sanitizeType($v);
     }
 

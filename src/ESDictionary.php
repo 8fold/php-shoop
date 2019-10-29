@@ -93,8 +93,9 @@ class ESDictionary implements
 
     public function plus(...$args)
     {
-        $count = Shoop::array($args)->count();
-        if ($count->isLessThanUnfolded(2)) {
+        $count = count($args);// Shoop::array($args)->count();
+        if ($count < 2) {
+        // if ($count->isLessThanUnfolded(2)) {
             $className = ESObject::class;
             trigger_error(
                 "{$className}::plus() expects two arguments. {$count->unfold()} given."
@@ -104,7 +105,7 @@ class ESDictionary implements
         $key = Type::sanitizeType($args[0], ESString::class)->unfold();
         $value = $args[1];
         $overwrite = true;
-        if ($count->is(3) && $args[2] !== null && Type::is($args[2], ESBool::class, "bool")) {
+        if ($count === 3 && $args[2] !== null && Type::is($args[2], ESBool::class, "bool")) {
             $overwrite = Type::sanitizeType($args[2], ESBool::class)->unfold();
         }
         return $this->set($key, $value, $overwrite);
