@@ -159,6 +159,11 @@ class ESString implements
         return Shoop::string($combined . $this->unfold());
     }
 
+    public function replace($search, $replace, $occurences = 0): ESString
+    {
+        return Shoop::string(str_replace($search, $replace, $this->unfold(), $occurences));
+    }
+
 // - Wrap
     public function startsWith($needle): ESBool
     {

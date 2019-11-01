@@ -18,8 +18,6 @@ interface Shooped extends
     \Iterator
     // Serializable ??
 {
-    public function __construct($initial);
-
     static public function fold($args);
 
     public function unfold();

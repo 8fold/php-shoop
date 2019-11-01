@@ -2,10 +2,6 @@
 
 namespace Eightfold\Shoop;
 
-// use Eightfold\HtmlComponent\Interfaces\Compile;
-
-// use Eightfold\HtmlComponent\Traits\HasParent;
-
 use Eightfold\Shoop\Helpers\Type;
 
 use Eightfold\Shoop\Interfaces\Shooped;
@@ -22,10 +18,6 @@ class ESElement implements Shooped
 
     protected $extends = '';
 
-    protected $role = '';
-
-    protected $content;
-
     protected $omitEndTag = false;
 
     protected $attributes = [];
@@ -35,22 +27,24 @@ class ESElement implements Shooped
         return new static($args);
     }
 
-    // static public function make(string $element, Compile ...$content)
-    // {
-    //     $self = new static(...$content);
-
-    //     $self->element = $element;
-
-    //     return $self->attr(...$attributes);
-    // }
-
     public function __construct($elements)
     {
-        $this->element = Type::sanitizeType($elements[0], ESString::class)->unfold();
-        $this->element = str_replace("_", "-", $this->element);
-        unset($elements[0]);
+        var_dump($elements);
+        $elements = Type::sanitizeType($elements, ESArray::class);
+        if ($elements->count()->is(0)->unfold()) {
+            trigger_error("An element must contain at least the element name.");
+        }
 
-        $this->value = $elements;
+        $this->element = Type::sanitizeType($elements[0], ESString::class)
+            ->replace("_", "-");
+
+        $elements = $elements->dropFirst();
+        // unset($elements[0]);
+
+        $this->value = ($elements->count()->is(0)->unfold())
+            ? []
+            : $elements->unfold();
+
     }
 
     public function unfold()
@@ -115,10 +109,7 @@ class ESElement implements Shooped
     {
         foreach ($attributes as $attribute) {
             if (strlen($attribute) > 0) {
-                // return array where
-                // [0] is string before first space and
-                // [1] is string after first space
-                list($key, $value) = Shoop::string($attribute)->split(" ")->unfold(); // explode(' ', $attribute, 2);
+                list($key, $value) = Shoop::string($attribute)->split(" ")->unfold();
                 $this->attributes[$key] = $value;
             }
         }
@@ -137,121 +128,4 @@ class ESElement implements Shooped
         $this->omitEndTag = $omit;
         return $this;
     }
-
-    // public function getElement(): string
-    // {
-    //     return $this->element;
-    // }
-
-    // private function isWebComponent(): bool
-    // {
-    //     return (strlen($this->element) > 0 && strlen($this->extends) > 0);
-    // }
-
-    // public function role(string $role): Component
-    // {
-    //     $this->role = $role;
-    //     return $this;
-    // }
-
-    // public function attr(string ...$attributes): ESElement
-    // {
-    //     foreach ($attributes as $attribute) {
-    //         if (strlen($attribute) > 0) {
-    //             // return array where
-    //             // [0] is string before first space and
-    //             // [1] is string after first space
-    //             list($key, $value) = $this->splitFirstSpace($attribute);
-    //             $this->attributes[$key] = $value;
-    //         }
-    //     }
-    //     return $this;
-    // }
-
-    // protected function splitFirstSpace(string $attribute): array
-    // {
-    //     return explode(' ', $attribute, 2);
-    // }
-
-    // unfold
-    // public function compile(string ...$attributes): string
-    // {
-    //     $this->attr(...$attributes);
-
-    //     $elementName = str_replace('_', '-', $this->element);
-    //     if ($this->isWebComponent()) {
-    //         $this->attr("is {$elementName}");
-    //         $elementName = $this->extends;
-    //     }
-
-    //     if (strlen($this->role) > 0) {
-    //         $this->attr("role {$this->role}");
-    //     }
-
-    //     $attributes = $this->compileAttributes();
-    //     if (strlen($attributes) > 0) {
-    //         $attributes = ' '. $attributes;
-    //     }
-
-    //     $opening = "<{$elementName}{$attributes}>";
-
-    //     $closing = ($this->hasEndTag())
-    //         ? "</{$elementName}>"
-    //         : '';
-
-    //     $content = $this->compileContent($this->content);
-
-    //     return $opening . $content . $closing;
-    // }
-
-    // private function hasEndTag(): bool
-    // {
-    //     return ( ! $this->omitEndTag);
-    // }
-
-    // private function compileAttributes(): string
-    // {
-    //     $string = [];
-    //     foreach ($this->attributes as $key => $value) {
-    //         if ($key == $value && strlen($value) > 0) {
-    //             // required=required => required
-    //             $string[] = $value;
-
-    //         } else {
-    //             $string[] = "{$key}=\"{$value}\"";
-
-    //         }
-    //     }
-    //     return implode(' ', $string);
-    // }
-
-    // private function compileContent($contentToCompile): string
-    // {
-    //     $content = '';
-    //     if ($contentToCompile instanceof Compile) {
-    //         $content = $contentToCompile->parent($this)->compile();
-
-    //     } elseif (is_array($contentToCompile)) {
-    //         foreach ($contentToCompile as $maker) {
-    //             $content .= $this->compileContent($maker);
-
-    //         }
-    //     }
-    //     return $content;
-    // }
-
-    // public function print(string ...$attributes)
-    // {
-    //     return print $this->compile(...$attributes);
-    // }
-
-    // public function echo(string ...$attributes)
-    // {
-    //     echo $this->compile(...$attributes);
-    // }
-
-    // public function __toString()
-    // {
-    //     return $this->compile();
-    // }
 }

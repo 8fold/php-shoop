@@ -101,3 +101,8 @@ Class methods SHOULD NOT use Shoop to solve a specified problem.
 
 - Higher the number, higher the priority (labels on issues).
 - Benevolant Dictatorship for now.
+
+
+
+
+

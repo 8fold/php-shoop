@@ -138,4 +138,16 @@ class StringTest extends TestCase
 
         $this->assertEquals($expected, $actual->unfold());
     }
+
+    public function testCanReplaceElements()
+    {
+        $expected = "hello-world";
+        $actual = Shoop::string("hello_world")->replace("_", "-");
+        $this->assertEquals($expected, $actual);
+
+        $expected = "herro-worrd";
+        $actual = Shoop::string("hello_world")
+            ->replace(["_", "l", "rld"], ["-", "r", "rd"]);
+        $this->assertEquals($expected, $actual);
+    }
 }

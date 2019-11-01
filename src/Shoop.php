@@ -49,4 +49,9 @@ class Shoop
     {
         return static::this($json, ESJson::class);
     }
+
+    static public function elem($elements)
+    {
+        return static::this($elements, ESElement::class);
+    }
 }
