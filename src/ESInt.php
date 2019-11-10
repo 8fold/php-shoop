@@ -121,10 +121,9 @@ class ESInt implements Shooped, Countable, Toggle, Shuffle
 // - Getters
     public function get($member)
     {
-        dd("int get");
         $member = Type::sanitizeType($member, ESInt::class)->unfold();
         if ($this->hasMember($member)) {
-            $m = $this[$member];
+            $m = $this->value[$member];
             return ((Type::isPhp($m))) ? Type::sanitizeType($m) : $m;
         }
         trigger_error("Undefined index or memember.");

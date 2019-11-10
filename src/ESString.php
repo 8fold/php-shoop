@@ -139,7 +139,7 @@ class ESString implements
             $m = $this[$member];
             return ((Type::isPhp($m))) ? Type::sanitizeType($m) : $m;
         }
-        trigger_error("Undefined index or memember.");
+        trigger_error("Undefined index or member.");
     }
 
 // - Manipulate
@@ -257,13 +257,6 @@ class ESString implements
     // }
 
 // -> Array Access
-    public function offsetExists($offset): bool {}
-
-    public function offsetGet($offset) {}
-
-    public function offsetSet($offset, $value): void {}
-
-    public function offsetUnset($offset): void {}
     // public function offsetExists($offset): bool
     // {
     //     return isset($this->value[$offset]);

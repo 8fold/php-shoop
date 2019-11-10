@@ -194,7 +194,17 @@ class ESArray implements
             $m = $this[$member];
             return ((Type::isPhp($m))) ? Type::sanitizeType($m) : $m;
         }
-        trigger_error("Undefined index or memember.");
+        trigger_error("Undefined index or member.");
+    }
+
+    public function first()
+    {
+        $v = $this->unfold();
+        if (empty($v) && $this->isEmpty()) {
+            return Shoop::array([]);
+        }
+        $v = $v[0];
+        return Type::sanitizeType($v);
     }
 
     public function last()

@@ -94,7 +94,6 @@ class ESBool implements Shooped, Toggle, Shuffle, Compare
 // - Getters
     public function get($member)
     {
-        dd("bool get");
         $member = Type::sanitizeType($member, ESInt::class)->unfold();
         if ($this->hasMember($member)) {
             $m = $this[$member];

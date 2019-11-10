@@ -24,8 +24,10 @@ class Type
         }
 
         $shoopType = (strlen($shoopType) === 0) ? Type::shoopFor($toSanitize) : $shoopType;
-
-        return $shoopType::fold($toSanitize);
+        if (strlen($shoopType) > 0) {
+            return $shoopType::fold($toSanitize);
+        }
+        return $toSanitize;
     }
 
     static private function isDesiredTypeOrTriggerError($desiredPhpType, $variable)
@@ -67,6 +69,11 @@ class Type
         }
 
         $type = gettype($potential);
+
+        if ($type === "object" && ! is_a($potential, \stdClass::class)) {
+            return get_class($potential);
+        }
+
         if ($type === "integer") {
             $type = "int";
 
@@ -172,6 +179,12 @@ class Type
     static public function isNotJson($potential): bool
     {
         return ! self::isJson($potential);
+    }
+
+    static public function isObject($potential): bool
+    {
+        return (is_object($potential) && self::isPhp($potential))
+            || (self::isShooped($potential) && is_a($potential, ESObject::class));
     }
 
     static public function isPath($potential): bool

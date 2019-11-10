@@ -178,6 +178,17 @@ class ESDictionary implements
         return Shoop::array(array_keys($this->value));
     }
 
+    public function each(\Closure $closure): ESArray
+    {
+        $build = [];
+        foreach ($this->value as $key => $value) {
+            $consider = $closure($value, $key = "");
+            if ($consider !== null) {
+                $build[] = $consider;
+            }
+        }
+        return Shoop::array($build);
+    }
 // - Transforms
 // - Callers
 //     public function __call($name, $args = [])
