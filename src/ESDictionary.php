@@ -182,7 +182,7 @@ class ESDictionary implements
     {
         $build = [];
         foreach ($this->value as $key => $value) {
-            $consider = $closure($value, $key = "");
+            $consider = $closure($value, $key);
             if ($consider !== null) {
                 $build[] = $consider;
             }

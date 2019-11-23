@@ -122,6 +122,7 @@ class ESArray implements
 // - Math language
     public function plus(...$args)
     {
+        // TODO: Should be able to insert arbitrary values
         $count = count($args);
         switch ($count) {
             case 0:
