@@ -29,11 +29,6 @@ class StringTest extends TestCase
         return 'Hello, 🌍!';
     }
 
-    public function testWorkflow()
-    {
-        $this->assertTrue(false);
-    }
-
     public function testToStringMagicMethod()
     {
         $string = "Hello!";
