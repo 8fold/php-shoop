@@ -122,6 +122,10 @@ Anyone can submit PRs to add funcationality as we are only adding things we need
 
 Each PR will be reviewed, including those submitted by core developers (no direct push).
 
+## History
+
+This library has been under development since the beginning of 2019 and has been used in the majority of 8fold projects since the middle of 2019. With every new project created we tried to go without it but found ourselves becoming annoyed, which is why we've decided to make it a more formal project and library consumable by others.
+
 
 
 
