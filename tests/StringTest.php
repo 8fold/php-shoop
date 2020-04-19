@@ -29,6 +29,14 @@ class StringTest extends TestCase
         return 'Hello, 🌍!';
     }
 
+    public function testToStringMagicMethod()
+    {
+        $string = "Hello!";
+        $expected = "!olleH";
+        $actual = Shoop::string($string)->toggle();
+        $this->assertEquals($expected, $actual);
+    }
+
     public function testTypeJuggling()
     {
         $string = "Hello!";

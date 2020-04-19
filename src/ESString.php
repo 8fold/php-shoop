@@ -36,7 +36,7 @@ class ESString implements
     Wrap,
     Sort,
     Split,
-    Has,
+    Has, // TODO: Consider different implementation (array splits on letters, words become issues)
     Compare
 {
     use ShoopedImp, CountableImp, ToggleImp, ShuffleImp, WrapImp, SortImp, HasImp, CompareImp;
@@ -159,6 +159,8 @@ class ESString implements
         return Shoop::string($combined . $this->unfold());
     }
 
+    // TODO: test and verify occurences working
+    // str_replace is the wrong function to use for this
     public function replace($search, $replace, $occurences = 0): ESString
     {
         return Shoop::string(str_replace($search, $replace, $this->unfold(), $occurences));
@@ -212,6 +214,12 @@ class ESString implements
             return Shoop::string(file_get_contents($this->unfold()));
         }
         return Shoop::string("");
+    }
+
+    public function writeToPath($path)
+    {
+        $path = Type::sanitizeType($path, ESString::class)->unfold();
+        return Shoop::int(file_put_contents($path, $this->unfold()));
     }
 
 // - Transforms

@@ -1,64 +1,74 @@
-8fold Shoop creates a near ubiquitous API for interacting with and manipulating PHP primitives and a bit beyond. While the implementations are language specific, the underlying concepts are language agnostic.
+# 8fold Shoop for PHP
 
-Shoop has many meanings, in this context it is most akin to "photoshopping" (and we thought it was catchier than "Foops"). Shoop is also a song by Salt-N-Pepa released in 1993 (and [Deadpool favorite](https://youtu.be/FOJWJmlYxlE)).
+8fold Shoop is a wrapper that seeks to a create a rational and nearly ubiquitous API for interacting with PHP primitives.
 
-For our purposes, Shoop is also an acronym turned proper noun standing for Swift, Haskell, Object-Oriented, and Procedural (or Functional, Object-Oriented, Procedural, and Swift, which could be interpreted as f*cking oops as though this library was an accident or poorly designed - one might argue the latter).
+While the immplementations are language-specific, the fundamental concepts strive to be language agnostic: contracts, inheritence, and generic implementations via traits (in PHP).
 
-We’re “photoshopping” the way we interact with PHP primitives (and more). The PHP standard library and APIs have been criticized a bit over the years. Not for lack of functionality or robustness; rather, most noteably, inconsistent pattern usage and naming. We think this criticism is actually justified. Given how long PHP has been around and how many times various aspects have changed hands, the standard library and API list is expansive (I've been using it since 2005, and continue to find new things).
+## What's in a name?
 
-8fold Shoop is inspired by:
+Shoop, as an acronym, points to the insipirations of the library: Swift, Haskell (functional programming and immutability), Object-Oriented (encapsulation, composition, and communication), and Procedural (sequential, logical programming).
 
-- the basic data types, APIs, and protocol-oriented nature of Swift;
-- the desire of functional programming to favor immutability and keeping side-effects local to a given scope;
-- the encapsulation, composition, and communication of object-oriented programming; and
-- the step-by-step sequence style of procedural programming compared to something like logical programming.
+Shoop, as a word, is akin to "photoshopping" (and sounds nicer than "Foops").
+
+Shoop, as a name, is the title of a song by Salt-N-Pepa released in 1993 and used in the first installment of the [Deadpool](https://youtu.be/FOJWJmlYxlE) franchise in 2016.
+
+## Installation
+
+```
+composer require 8fold/php-shoop
+```
 
 ## Usage
 
-We have done our best to ensure Shoop types work seamlessly within the standard PHP environment. All Shoop types, for example, can be interacted with as native strings and arrays. They can also be type juggled to any other type...yes, even arrays directly to strings (speaking of API complaints).
-
 ```php
-// Just a regular string.
-// What if we want to print the "H"?
+// A regular PHP string
 $string = "Hello!";
 
-// Standard PHP (long)
-$result = array_shift(preg_split("//u", $string, null, PREG_SPLIT_NO_EMPTY));
+$reversed = Shoop::string($string)->toggle();
 
-// Standard PHP (short) - PHP 5.3+
-$result = $string[0];
+print($reversed);
 
-// Shoop (full)
-$result = Shoop::string($string)->first()->unfold();
-
-// Shoop (shorthand)
-$result = Shoop::string($string)->firstUnfolded();
-
-// Shoop String is PHP string; therefore,
-// no need to unfold the result to print, php will recognize it.
-$result = Shoop::string($string)->first();
-
-// Shoop String is PHP string w/ array access; therefore,
-// no need to make the method call.
-$shoop = Shoop::string($string);
-$result = $shoop[0];
-
-print($result); // Results in "H" for all of the above.
+// output: !olleH
 ```
 
-Of course, something that has been made simple by PHP 5.3+ itself isn't why we enjoy using Shoop.
+You can see the Shoop type works seamlessly within the standard PHP environment (specifically as native PHP strings and arrays).
 
-One other, simple exmaple would be to go from one file path (string) to another in one shot.
+Speaking of PHP API complaints, that means arrays can be immediately changed to strings. This does put a little more responsibility on the user.
 
 ```php
-// Let's say we are here:
+print(Shoop::string("Hello!")->first());
+
+// output: H
+```
+
+Sometimes you will want to explicitly unfold the value of the Shoop type.
+
+```php
+$string = Shoop::string("Hello!")->first();
+
+var_dump($string->unfold());
+
+// string: H
+
+$unfolded = Shoop::string("Hello!")->firstUnfolded();
+
+var_dump($unfolded);
+
+// string: H
+```
+
+Let's try a more complex manipulation as these examples only marginally better than the standard library.
+
+```php
+// Let's say we have a folder path:
 // /Users/josh/Desktop/ProjectSupreme/SecretFolder/SecretSubfolder
-// And we want to get here:
+// And we want to have the following path:
 // /Users/josh/Documents/ProjectMaxEffort/SecretFolder/SecretSubfolder
 
-// One way might look something like this.
+// One way in PHP might look something like this
 $path = "/Users/josh/Desktop/ProjectSupreme/SecretFolder/SecretSubfolder";
 
+// PHP standard library
 $parts = explode("/", $path);
 array_pop($parts); // ../
 array_pop($parts); // ../
@@ -81,6 +91,10 @@ $path = Shoop::string($path)
 print($path); // both should be: /Users/josh/Documents/ProjectMaxEffort/SecretFolder/SecretSubfolder
 ```
 
+## Why?
+
+The PHP standard library and APIs have been criticized a bit over the years. Not for lack of functionality or robustness; rather, most noteably, inconsistent pattern usage and naming. We think this criticism is actually justified. Given how long PHP has been around and how many times various aspects have changed hands, the standard library and API list is expansive (I've been using it since 2005, and continue to find new things).
+
 ## Guiding Principles
 
 Classes SHOULD be viewed only as an entry point not the result.
@@ -101,6 +115,12 @@ Class methods SHOULD NOT use Shoop to solve a specified problem.
 
 - Higher the number, higher the priority (labels on issues).
 - Benevolant Dictatorship for now.
+
+## Contibuting
+
+Anyone can submit PRs to add funcationality as we are only adding things we need for the solutions we are developing.
+
+Each PR will be reviewed, including those submitted by core developers (no direct push).
 
 
 
