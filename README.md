@@ -120,6 +120,8 @@ Class methods SHOULD NOT use Shoop to solve a specified problem.
 
 Anyone can submit PRs to add funcationality as we are only adding things we need for the solutions we are developing.
 
+Please submit PRs from a fork of this project. If you are part of the core team, you are not required to fork the project.
+
 Each PR will be reviewed, including those submitted by core developers (no direct push).
 
 ## History
