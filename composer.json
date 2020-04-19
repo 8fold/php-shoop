@@ -1,6 +1,6 @@
 {
     "name": "8fold/php-shoop",
-    "description": "??",
+    "description": "A wrapper to create a more ubiquitous API for interacting with PHP Primitives.",
     "version": "0.1.0",
     "type": "library",
     "license": "MIT",
@@ -31,6 +31,5 @@
     "config": {
         "preferred-install": "dist"
     },
-    "minimum-stability": "dev",
     "prefer-stable": true
 }
