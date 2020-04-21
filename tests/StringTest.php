@@ -158,4 +158,15 @@ class StringTest extends TestCase
             ->replace(["_", "l", "rld"], ["-", "r", "rd"]);
         $this->assertEquals($expected, $actual);
     }
+
+    public function testStringIsInArray()
+    {
+        $array = [
+            "one",
+            "two",
+            "three"
+        ];
+        $result = Shoop::string("two")->isIn($array);
+        $this->assertTrue($result->unfold());
+    }
 }

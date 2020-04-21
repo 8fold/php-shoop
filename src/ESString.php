@@ -142,6 +142,19 @@ class ESString implements
         trigger_error("Undefined index or member.");
     }
 
+    // TODO: Could this be promoted to the hasImp - or a global contract?
+    public function isIn($haystack): ESBool
+    {
+        $bool = false;
+        foreach ($this->array() as $needle) {
+            if ($this->hasUnfolded($needle)) {
+                $bool = true;
+                break;
+            }
+        }
+        return Shoop::bool($bool);
+    }
+
 // - Manipulate
     public function toggle($preserveMembers = true)
     {
