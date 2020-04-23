@@ -38,8 +38,9 @@ class TypeJugglingTest extends TestCase
     	$object = $string->object();
     	$this->assertEquals($base, $object->scalar);
 
-    	$int = $string->int();
-    	$this->assertEquals(13, $int->unfold());
+        $sInt = "05";
+    	$int = Shoop::string($sInt)->int();
+    	$this->assertEquals(5, $int->unfold());
 
     	$bool = $string->bool();
     	$this->assertEquals(true, $bool->unfold());

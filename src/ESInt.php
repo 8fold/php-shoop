@@ -35,6 +35,9 @@ class ESInt implements Shooped, Countable, Toggle, Shuffle
         if (is_int($int)) {
             $this->value = $int;
 
+        } elseif (is_string($int)) {
+            $this->value = intval($int);
+
         } elseif (is_a($int, ESInt::class)) {
             $this->value = $int->unfold();
 
