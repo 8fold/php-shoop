@@ -47,6 +47,11 @@ class StringTest extends TestCase
         $string = '{"one":2}';
         $actual = Shoop::string($string)->json();
         $this->assertEquals($string, $actual->unfold());
+
+        $string = "05";
+        $expected = 5;
+        $actual = Shoop::string($string);
+        $this->assertEquals($expected, $actual->unfold());
     }
 
     public function testManipulate()

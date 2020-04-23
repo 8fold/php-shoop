@@ -68,7 +68,7 @@ class ESString implements
 
     public function int(): ESInt
     {
-        return ESInt::fold(count($this->array()->unfold()));
+        return ESInt::fold(intval($this->unfold()));
     }
 
     public function dictionary(): ESDictionary
