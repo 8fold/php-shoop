@@ -298,7 +298,7 @@ class ESArray implements
         foreach ($this->unfold() as $int) {
             $total += Type::sanitizeType($int, ESInt::class)->unfold();
         }
-        return $total;
+        return Shoop::int($total);
     }
 
 //-> Getters
