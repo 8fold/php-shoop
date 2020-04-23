@@ -141,5 +141,9 @@ class ArrayTest extends TestCase
             $count++;
         }
         $this->assertTrue($count > 1);
+
+        $expected = 6;
+        $actual = Shoop::array([1, 2, 3])->summedUnfolded();
+        $this->assertEquals($expected, $actual);
     }
 }

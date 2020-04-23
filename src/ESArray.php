@@ -292,6 +292,15 @@ class ESArray implements
         return Shoop::array($build);
     }
 
+    public function summed()
+    {
+        $total = 0;
+        foreach ($this->unfold() as $int) {
+            $total += Type::sanitizeType($int, ESInt::class)->unfold();
+        }
+        return $total;
+    }
+
 //-> Getters
     // public function __call(string $name, array $args = [])
     // {
