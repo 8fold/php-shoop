@@ -36,9 +36,67 @@ class DictTest extends TestCase
 
     public function testCanManipulate()
     {
-        $dict = ["zero" => 0, "one" => 1];
-        $expected = [];
+        $dictArray = ["zero" => 0, "one" => 1];
+        $expected = [0 => "zero", 1 => "one"];
+        $actual = ESDictionary::fold($dictArray)->toggle();
+        $this->assertTrue(Type::isNotDictionary($actual));
+        $this->assertEquals($expected, $actual->unfold());
+
+        $dict = ["zero" => 0, "one" => "two"];
+        $expected = [0 => "zero", "two" => "one"];
         $actual = ESDictionary::fold($dict)->toggle();
+        $this->assertTrue(Type::isDictionary($actual));
+        $this->assertEquals($expected, $actual->unfold());
+
+        // Sort
+        // []
+        $expected = [0, 1, 2];
+        $actual = Shoop::array([2, 0 ,1])->sort();
+        $this->assertTrue(Type::isArray($actual));
+        $this->assertEquals($expected, $actual->unfold());
+
+        // [keys]
+        $expected = ["x" => "Zero", "z" => "Zero", "y" => "zero"];
+        $actual = Shoop::dictionary(["x" => "Zero", "y" => "zero", "z" => "Zero"])->sort("keys");
+        $this->assertTrue(Type::isDictionary($actual));
+        $this->assertEquals($expected, $actual->unfold());
+
+        // [case]
+        $expected = ["Zero", "Zero", "zero"];
+        $actual = Shoop::array(["Zero", "zero", "Zero"])->sort("case");
+        $this->assertTrue(Type::isArray($actual));
+        $this->assertEquals($expected, $actual->unfold());
+
+        // [case, keys]
+        // Passes because PHP changes expected by overwriting duplicate key and values
+        $expected = ["X" => "Zero", "x" => "Zero", "x" => "zero"];
+        $actual = Shoop::dictionary(["X" => "Zero", "x" => "Zero", "x" => "zero"])->sort("case", "keys");
+        $this->assertTrue(Type::isDictionary($actual));
+        $this->assertTrue(count($expected) === $actual->countUnfolded());
+        $this->assertEquals($expected, $actual->unfold());
+
+        // [num]
+        $expected = [0, 1, 2];
+        $actual = Shoop::array([2, 0, 1])->sort("num");
+        $this->assertTrue(Type::isArray($actual));
+        $this->assertEquals($expected, $actual->unfold());
+
+        // [num, keys]
+        $expected = [2000 => 0, 2005 => 5, 2010 => 10];
+        $actual = Shoop::dictionary([2010 => "10", 2000 => "0", 2005 => "5"])->sort("num", "keys");
+        $this->assertTrue(Type::isDictionary($actual));
+        $this->assertEquals($expected, $actual->unfold());
+
+        // [php]
+        $expected = ["alpha", "beta", "gamma"];
+        $actual = Shoop::array(["gamma", "alpha", "beta"])->sort("php");
+        $this->assertTrue(Type::isArray($actual));
+        $this->assertEquals($expected, $actual->unfold());
+
+        // [php, keys]
+        $expected = ["alpha" => 0, "beta" => 1, "gamma" => 2];
+        $actual = Shoop::dictionary(["gamma" => 2, "alpha" => 0, "beta" => 1])->sort("php", "keys");
+        $this->assertTrue(Type::isDictionary($actual));
         $this->assertEquals($expected, $actual->unfold());
     }
 

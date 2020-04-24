@@ -161,9 +161,12 @@ class ESString implements
         return $this->array()->toggle()->join("");
     }
 
-    public function sort($caseSensitive = true)
+    public function sort(?string ...$flags)
     {
-        return $this->array()->sort($caseSensitive)->join("");
+        if (count($flags) === 0) {
+            $flags = ["case"];
+        }
+        return $this->array()->sort(...$flags)->join("");
     }
 
     public function start(...$prefixes)
