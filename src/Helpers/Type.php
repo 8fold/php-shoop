@@ -162,6 +162,11 @@ class Type
         return false;
     }
 
+    static public function isNotDictionary($potential): bool
+    {
+        return ! Type::isDictionary($potential);
+    }
+
     static public function isJson($potential): bool
     {
         $isString = is_string($potential);

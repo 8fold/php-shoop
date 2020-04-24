@@ -8,6 +8,7 @@ use Eightfold\Shoop\Interfaces\{
     Shooped,
     Countable,
     Toggle,
+    Sort,
     Has
 };
 
@@ -15,6 +16,7 @@ use Eightfold\Shoop\Traits\{
     ShoopedImp,
     CountableImp,
     ToggleImp,
+    SortImp,
     HasImp
 };
 
@@ -26,9 +28,10 @@ class ESDictionary implements
     Shooped,
     Countable,
     Toggle,
+    Sort,
     Has
 {
-    use ShoopedImp, CountableImp, ToggleImp, HasImp;
+    use ShoopedImp, CountableImp, ToggleImp, SortImp, HasImp;
 
     public function __construct($dictionary)
     {
@@ -73,9 +76,14 @@ class ESDictionary implements
 
 // - PHP single-method interfaces
 // - Manipulate
-    public function toggle($preserveMembers = true): ESDictionary
+    public function toggle($preserveMembers = true)
     {
+        // TODO: What should happen if members aren't preserved?
         $array = array_flip($this->unfold());
+        if (Type::isNotDictionary($array) && Type::isArray($array)) {
+            return Shoop::array($array);
+
+        }
         return static::fold($array);
     }
 
