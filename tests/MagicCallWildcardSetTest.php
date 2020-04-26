@@ -52,6 +52,7 @@ class MagicCallWildcardSetTest extends TestCase
      */
     public function testESBool()
     {
+        $this->assertFalse(true);
         $base = true;
         $actual = ESBool::fold($base)->set(false);
         $this->assertFalse($actual->unfold());
