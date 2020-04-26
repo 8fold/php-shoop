@@ -49,6 +49,9 @@ interface Shooped extends
 
     public function isEmpty(): ESBool;
 
+// - PHP single-method interfaces
+    public function __toString();
+
 // - Array Access
     public function offsetExists($offset): bool;
 

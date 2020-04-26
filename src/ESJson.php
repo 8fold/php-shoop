@@ -99,6 +99,31 @@ class ESJson implements Shooped, Has, \JsonSerializable
     }
 
 // - Other
+    public function set($value, $key, $overwrite = true)
+    {
+        $key = Type::sanitizeType($key, ESString::class)->unfold();
+        $overwrite = Type::sanitizeType($overwrite, ESBool::class)->unfold();
+
+        $cast = json_decode($this->value);
+        if (! $overwrite && $this->hasMember($key)) {
+            $currentValue = $cast->{$key};
+            if (is_array($currentValue)) {
+                $currentValue->{$key} = $value;
+
+            } else {
+                $currentValue = [$currentValue, $value];
+
+            }
+
+            $cast->{$key} = $currentValue;
+            return static::fold($cast);
+        }
+
+        $cast->{$key} = $value;
+        $encoded = json_encode($cast);
+        return static::fold($encoded);
+    }
+
     public function has($member): ESBool
     {
         return $this->hasMember($member);

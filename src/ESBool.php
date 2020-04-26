@@ -93,7 +93,7 @@ class ESBool implements Shooped, Toggle, Shuffle, Compare
     public function set($value)
     {
         $value = Type::sanitizeType($value, ESBool::class)->unfold();
-        return Shoop::bool($value);
+        return self::fold($value);
     }
 
     public function not(): ESBool

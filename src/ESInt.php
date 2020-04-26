@@ -138,6 +138,12 @@ class ESInt implements Shooped, Countable, Toggle, Shuffle
 
 // - Comparison
 // - Other
+    public function set($value)
+    {
+        $value = Type::sanitizeType($value, ESInt::class)->unfold();
+        return self::fold($value);
+    }
+
     public function range($int)
     {
         $int = Type::sanitizeType($int, ESInt::class)->unfold();

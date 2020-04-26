@@ -28,7 +28,7 @@ use Eightfold\Shoop\{
  *
  * @defined Eightfold\Shoop\Interfaces\ShoopedImp
  *
- * @overridden Eightfold\Shoop\ESAray
+ * @overridden Eightfold\Shoop\ESBool, Eightfold\Shoop\ESInt, Eightfold\Shoop\ESString
  *
  * @return multiple
  */
@@ -48,11 +48,10 @@ class MagicCallWildcardSetTest extends TestCase
     }
 
     /**
-     * Equivalent to calling `unfold()` regardless of argument value.
+     * Equivalent to creating a new instance with a new value.
      */
     public function testESBool()
     {
-        $this->assertFalse(true);
         $base = true;
         $actual = ESBool::fold($base)->set(false);
         $this->assertFalse($actual->unfold());
@@ -66,34 +65,34 @@ class MagicCallWildcardSetTest extends TestCase
     }
 
     /**
-     * Equivalent to calling `unfold()` regardless of argument value.
+     * Equivalent to creating a new instance with a new value.
      */
     public function testESInt()
     {
         $base = 10;
-        $actual = ESInt::fold($base)->get();
-        $this->assertEquals($base, $actual->unfold());
+        $expected = 5;
+        $actual = ESInt::fold($base)->set(5);
+        $this->assertEquals($expected, $actual->unfold());
     }
 
     public function testESJson()
     {
         $base = '{"test":true}';
-        $actual = ESJson::fold($base)->getTest();
-        $this->assertTrue($actual->unfold());
-
-        // Anonymous getter, as "test" is not defined on ESJson
-        $actual = ESJson::fold($base)->test();
-        $this->assertTrue($actual);
+        $actual = ESJson::fold('{}')->setTest(true);
+        $this->assertTrue($actual->getTest()->unfold());
     }
 
     public function testESObject()
     {
         $base = new \stdClass();
         $base->test = false;
-        $actual = ESObject::fold($base)->getTest($base);
-        $this->assertFalse($actual->unfold());
+        $actual = ESObject::fold($base)->setTest(true, true);
+        $this->assertTrue($actual->test());
     }
 
+    /**
+     * Equivalent to creating a new instance with a new value.
+     */
     public function testESString()
     {
         $base = "alphabet soup";
