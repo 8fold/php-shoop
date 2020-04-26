@@ -210,7 +210,7 @@ class DictTest extends TestCase
         $this->assertEquals($obj->hello, $actual->hello);
 
         $obj = (object) ["hello" => "chat"];
-        $actual = ESDictionary::fold([])->set("hello", "chat");
+        $actual = ESDictionary::fold([])->set("chat", "hello");
         $this->assertEquals($obj->hello, $actual->hello);
     }
 
@@ -247,7 +247,7 @@ class DictTest extends TestCase
         $expected = ["world", "chat"];
         $actual = Shoop::dictionary([])
             ->plus("hello", "world")
-            ->set("hello", "chat", false)
+            ->set("chat", "hello", false)
             ->get("hello");
         $this->assertEquals($expected, $actual);
 
@@ -257,8 +257,8 @@ class DictTest extends TestCase
     public function testPhpTransportabilityArrayAccess()
     {
         $object = Shoop::object([])
-            ->plus("hello", "world")
-            ->set("hello", "chat", false);
+            ->plus("world", "hello")
+            ->set("chat", "hello", false);
         $this->assertFalse(empty($object));
 
         $objectNull = Shoop::object([]);

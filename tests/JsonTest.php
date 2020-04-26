@@ -62,12 +62,12 @@ class JsonTest extends TestCase
         // $this->assertEquals([$base, $base, $base], $actual->unfold());
 
         $actual = Shoop::json("{}")
-            ->plus("hello", "world")
+            ->plus("world", "hello")
             ->get("hello");
         $this->assertEquals("world", $actual->unfold());
 
         $actual = Shoop::json("{}")
-            ->plus("hello", "world")
+            ->plus("world", "hello")
             ->minus("hello");
         $this->assertEquals("{}", $actual->unfold());
 

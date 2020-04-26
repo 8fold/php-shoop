@@ -91,7 +91,6 @@ class ESDictionary implements
 
 // - Search
 // - Math language
-
     public function plus(...$args)
     {
         $count = count($args);// Shoop::array($args)->count();
@@ -109,7 +108,7 @@ class ESDictionary implements
         if ($count === 3 && $args[2] !== null && Type::is($args[2], ESBool::class, "bool")) {
             $overwrite = Type::sanitizeType($args[2], ESBool::class)->unfold();
         }
-        return $this->set($key, $value, $overwrite);
+        return $this->set($value, $key, $overwrite);
     }
 
     public function minus(...$args): ESDictionary
