@@ -32,6 +32,16 @@ trait SortImp
      * ["php"]         = SORT_REGULAR (values)
      * ["keys", "php"] = SORT_REGULAR (keys)
      *
+     * desc = true,    case = (true), keys = (true), method = (nat)|num|php
+     * desc = true,    case = true,   keys = false
+     * desc = true,    case = false,  keys = false
+     * desc = true,    case = false,  keys = true
+     *
+     * desc = (false), case = false,  keys = false
+     * desc = false,   case = false,  keys = true
+     * desc = false,   case = true,   keys = true
+     * desc = false,   case = true,   keys = false
+     *
      * @param array $flags Order does not matter
      *                 desc = will sort high to low (otherwise will be high to low)
      *                 case = will use a case sensitive compare. (if "num" is present, "num" will be used.)

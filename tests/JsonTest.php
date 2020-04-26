@@ -56,10 +56,10 @@ class JsonTest extends TestCase
 
     public function testMathLanguage()
     {
-        $base = new \stdClass();
+        // $base = new \stdClass();
 
-        $actual = Shoop::json("{}")->multiply(3);
-        $this->assertEquals([$base, $base, $base], $actual->unfold());
+        // $actual = Shoop::json("{}")->multiply(3);
+        // $this->assertEquals([$base, $base, $base], $actual->unfold());
 
         $actual = Shoop::json("{}")
             ->plus("hello", "world")
@@ -71,15 +71,15 @@ class JsonTest extends TestCase
             ->minus("hello");
         $this->assertEquals("{}", $actual->unfold());
 
-        $copy = $base;
-        $copy->hello = "world";
-        $actual = Shoop::json("{}")
-            ->plus("hello", $copy)
-            ->string();
-        $this->assertEquals('{"hello":{"hello":"world"}}', $actual->unfold());
+        // $copy = $base;
+        // $copy->hello = "world";
+        // $actual = Shoop::json("{}")
+        //     ->plus("hello", $copy)
+        //     ->string();
+        // $this->assertEquals('{"hello":{"hello":"world"}}', $actual->unfold());
 
-        $actual = Shoop::json("{}")->plus("hello", [1, 2, 3, 4])->string();
-        $this->assertEquals('{"hello":[1,2,3,4]}', $actual->unfold());
+        // $actual = Shoop::json("{}")->plus("hello", [1, 2, 3, 4])->string();
+        // $this->assertEquals('{"hello":[1,2,3,4]}', $actual->unfold());
     }
 
     public function testComparisons()

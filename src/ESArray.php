@@ -50,16 +50,18 @@ class ESArray implements
     }
 
 // - Type Juggling
-    public function string(): ESString
-    {
-        $printed = print_r($this->unfold(), true);
-        $oneLine = preg_replace('/\s+/', ' ', $printed);
-        $commas = str_replace(
-            [" [", " ) ", " (, "],
-            [", [", ")", "("],
-            $oneLine);
-        return Shoop::string($commas);
-    }
+    // public function string(): ESString
+    // {
+    //     // TODO: Make a trait to cover same implementation for ESArray, ESDictionary, and ESObject
+    //     $printed = print_r($this->unfold(), true);
+    //     $oneLine = preg_replace('/\s+/', ' ', $printed);
+    //     $commas = str_replace(
+    //         [" [", " ) ", " (, "],
+    //         [", [", ")", "("],
+    //         $oneLine);
+    //     $fixSpacingWhenEmpty = str_replace(" (", "(", $commas);
+    //     return Shoop::string(trim($fixSpacingWhenEmpty));
+    // }
 
     public function array(): ESArray
     {
@@ -153,22 +155,6 @@ class ESArray implements
           return ! in_array($value, $deletes);
         });
         return Shoop::array(array_values($array));
-    }
-
-    public function multiply($int)
-    {
-        $int = Type::sanitizeType($int, ESInt::class)->unfold();
-        $catch = null;
-        for ($i = 0; $i < $int; $i++) {
-            if ($catch === null) {
-                $catch = $this->plus(...$this->unfold());
-
-            } else {
-                $catch = $catch->plus(...$this->unfold());
-
-            }
-        }
-        return $catch;
     }
 
     public function divide($value = null)

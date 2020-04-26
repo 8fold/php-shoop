@@ -210,8 +210,7 @@ class Type
 
     static public function isEmpty(Shooped $check): bool
     {
-        $check = Type::sanitizeType($check, get_class($check))->unfold();
-        return empty($check);
+        return empty($check->unfold());
     }
 
 // - Type metadata

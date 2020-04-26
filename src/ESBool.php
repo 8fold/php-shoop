@@ -82,24 +82,10 @@ class ESBool implements Shooped, Toggle, Shuffle, Compare
     }
 
 // - Math language
-    public function multiply($int): ESArray
-    {
-        $array = [];
-        for ($i = 0; $i < $int; $i++) {
-            $array[] = Shoop::bool($this);
-        }
-        return Shoop::array($array);
-    }
-
 // - Getters
-    public function get($member)
+    public function get()
     {
-        $member = Type::sanitizeType($member, ESInt::class)->unfold();
-        if ($this->hasMember($member)) {
-            $m = $this[$member];
-            return ((Type::isPhp($m))) ? Type::sanitizeType($m) : $m;
-        }
-        trigger_error("Undefined index or memember.");
+        return $this;
     }
 
 // - Comparison

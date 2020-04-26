@@ -136,7 +136,7 @@ class ESString implements
     {
         $member = Type::sanitizeType($member, ESInt::class)->unfold();
         if ($this->offsetExists($member)) {
-            $m = $this[$member];
+            $m = $this->value[$member];
             return ((Type::isPhp($m))) ? Type::sanitizeType($m) : $m;
         }
         trigger_error("Undefined index or member.");

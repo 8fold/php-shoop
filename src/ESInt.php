@@ -41,6 +41,9 @@ class ESInt implements Shooped, Countable, Toggle, Shuffle
         } elseif (is_a($int, ESInt::class)) {
             $this->value = $int->unfold();
 
+        } elseif (is_float($int) || is_double($int)) {
+            $this->value = round($int);
+
         } else {
             $this->value = 0;
 
@@ -122,14 +125,15 @@ class ESInt implements Shooped, Countable, Toggle, Shuffle
     }
 
 // - Getters
-    public function get($member)
+    public function get()
     {
-        $member = Type::sanitizeType($member, ESInt::class)->unfold();
-        if ($this->hasMember($member)) {
-            $m = $this->value[$member];
-            return ((Type::isPhp($m))) ? Type::sanitizeType($m) : $m;
-        }
-        trigger_error("Undefined index or memember.");
+        return $this;
+        // $member = Type::sanitizeType($member, ESInt::class)->unfold();
+        // if ($this->hasMember($member)) {
+        //     $m = $this->value[$member];
+        //     return ((Type::isPhp($m))) ? Type::sanitizeType($m) : $m;
+        // }
+        // trigger_error("Undefined index or memember.");
     }
 
 // - Comparison
