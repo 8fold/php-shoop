@@ -48,6 +48,18 @@ trait ShoopedImp
 
 // - Type Juggling
     // TODO: Verify these are being used by someone
+    public function string(): ESString
+    {
+        $printed = print_r($this->unfold(), true);
+        $oneLine = preg_replace('/\s+/', ' ', $printed);
+        $commas = str_replace(
+            [" [", " ) ", " (, "],
+            [", [", ")", "("],
+            $oneLine);
+        $fixSpacingWhenEmpty = preg_replace('/\s+\(/', "(", $commas, 1);
+        return Shoop::string(trim($fixSpacingWhenEmpty));
+    }
+
     public function object(): ESObject
     {
         $object = (object) $this->unfold();
@@ -68,6 +80,16 @@ trait ShoopedImp
 
 // - Manipulating
 // - Math language
+    public function multiply($int = 1)
+    {
+        $int = Type::sanitizeType($int, ESInt::class)->unfold();
+        $array = [];
+        for ($i = 0; $i < $int; $i++) {
+            $array[] = $this;
+        }
+        return Shoop::array($array);
+    }
+
 // - Comparison
     public function is($compare): ESBool
     {
@@ -85,7 +107,8 @@ trait ShoopedImp
 
     public function isEmpty(): ESBool
     {
-        return Shoop::bool(empty($this));
+        // die(var_dump(Type::isEmpty($this)));
+        return Shoop::bool(Type::isEmpty($this));
     }
 
 // - Setters/Getters
@@ -116,6 +139,7 @@ trait ShoopedImp
                 : $value;
 
         }
+
         $value = $this->get($name);
         $return = (isset($value) && Type::isShooped($value))
             ? $value->unfold()

@@ -60,9 +60,20 @@ class ESJson implements Shooped, Has, \JsonSerializable
         return $this->dictionary()->object();
     }
 
+    public function bool(): ESBool
+    {
+        return ESBool::fold(Type::isEmpty($this->array()))->toggle();
+    }
+
     public function json(): ESJson
     {
         return Shoop::json($this->unfold());
+    }
+
+// - Comparison
+    public function isEmpty(): ESBool
+    {
+        return $this->object()->isEmpty();
     }
 
 // - PHP single-method interfaces
@@ -77,12 +88,6 @@ class ESJson implements Shooped, Has, \JsonSerializable
     }
 
 // - Math language
-    public function multiply($int): ESArray
-    {
-        $int = Type::sanitizeType($int);
-        return $this->object()->multiply($int);
-    }
-
     public function plus(...$args): ESJson
     {
         return $this->object()->plus(...$args)->json();
