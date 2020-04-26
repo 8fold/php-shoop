@@ -149,7 +149,7 @@ class ESObject implements Shooped, Countable, Has
     }
 
 // - Other
-    public function set($member, $value, $overwrite = true)
+    public function set($value, $member, $overwrite = true)
     {
         $member = Type::sanitizeType($member, ESString::class)->unfold();
         $overwrite = Type::sanitizeType($overwrite, ESBool::class)->unfold();

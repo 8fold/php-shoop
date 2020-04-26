@@ -206,6 +206,29 @@ class ESArray implements
     }
 
 // - Other
+    public function set($value, $key, $overwrite = true)
+    {
+        $key = Type::sanitizeType($key, ESInt::class)->unfold();
+        $overwrite = Type::sanitizeType($overwrite, ESBool::class)->unfold();
+
+        $cast = (array) $this->value;
+        if (! $overwrite && $this->hasMember($key)) {
+            $currentValue = $cast[$key];
+            if (is_array($currentValue)) {
+                $currentValue[] = $value;
+
+            } else {
+                $currentValue = [$currentValue, $value];
+
+            }
+
+            $cast[$key] = $currentValue;
+            return static::fold($cast);
+        }
+        $merged = array_merge($cast, [$key => $value]);
+        return static::fold($merged);
+    }
+
     // TODO: Promote to ShoopedImp, with custom for ESString
     public function hasMember($member): ESBool
     {

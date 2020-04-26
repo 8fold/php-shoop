@@ -153,7 +153,7 @@ trait ShoopedImp
         $overwrite = (isset($args[1])) ? $args[1] : true;
         $value = (isset($args[0])) ? $args[0] : null;
 
-        return $this->set($name, $value, $overwrite);
+        return $this->set($value, $name, $overwrite);
     }
 
     private function handleGetUnfolded($name, $args)

@@ -131,7 +131,7 @@ class ESDictionary implements
 
 // - Comparison
 // - Other
-    public function set($key, $value, $overwrite = true)
+    public function set($value, $key, $overwrite = true)
     {
         $key = Type::sanitizeType($key, ESString::class)->unfold();
         $overwrite = Type::sanitizeType($overwrite, ESBool::class)->unfold();

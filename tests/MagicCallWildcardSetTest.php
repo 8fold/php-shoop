@@ -18,13 +18,11 @@ use Eightfold\Shoop\{
 /**
  * Shoop leverages the PHP `__call()` magic method to allow for a few wildcard simplifications.
  *
- * You can prefix any method call with "get", which is mainly used for interacting with arrays or objects with members.
+ * You can prefix any method call with "set", which is mainly used for interacting with arrays or objects with members.
  *
- * Shoop will attempt to return a Shoop type whenever possible.
+ * When creating `set()` on a Shoop type, the signature should be `set($value, $key = null, $overwrite = true)`.
  *
- * So, `getArray()` is equivalent to calling `array()`. `get{MemberName}()` is equivalent to `getMember('MemberName')`. And so on.
- *
- * See also anonymous getter methods.
+ * Having `value` first is what allows Shoop types that are not easy to convert to array still able to cleanly use `set()` and matches the pattern used in `each()` as well.
  *
  * @declared none
  *
@@ -34,24 +32,19 @@ use Eightfold\Shoop\{
  *
  * @return multiple
  */
-class MagicCallWildcardGetTest extends TestCase
+class MagicCallWildcardSetTest extends TestCase
 {
     public function testESArray()
     {
-        $base = [false, true];
-        $array = ESArray::fold($base);
-        $this->assertTrue($array->get(1)->unfold());
+        $base = [];
 
-        $actual = $array->get(0);
-        $this->assertFalse($actual->unfold());
+        $expected = [true];
+        $result = ESArray::fold($base)->set(true, 0);
+        $this->assertTrue($result->get(0)->unfold());
 
-        // Which is equivalent to:
-        $actual = $array->getFirst();
-        $this->assertFalse($actual->unfold());
-
-        // Which is equivalent to:
-        $actual = $array->first();
-        $this->assertFalse($actual->unfold());
+        $expected = [false];
+        $result = ESArray::fold([true])->set(false, 0, true);
+        $this->assertTrue($result->get(0)->unfold());
     }
 
     /**
@@ -60,8 +53,8 @@ class MagicCallWildcardGetTest extends TestCase
     public function testESBool()
     {
         $base = true;
-        $actual = ESBool::fold($base)->get();
-        $this->assertTrue($actual->unfold());
+        $actual = ESBool::fold($base)->set(false);
+        $this->assertFalse($actual->unfold());
     }
 
     public function testESDictionary()
