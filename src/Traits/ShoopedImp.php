@@ -176,27 +176,7 @@ trait ShoopedImp
 // - PHP single-method interfaces
     public function __toString()
     {
-        $v = $this->unfold();
-        if (is_string($v)) {
-            return $v;
-
-        } elseif (is_bool($v)) {
-            return $this->string()->unfold();
-
-        }
-
-        $initial = print_r($v, true);
-        $oneLine = preg_replace('/\s+/', ' ', $initial);
-        $commas = str_replace(
-            [" [", " ) ", " (, "],
-            [", [", ")", "("],
-            $oneLine);
-
-        if (Type::is($this, ESDictionary::class)) {
-            $commas = str_replace("Array", "Dictionary", $commas);
-        }
-
-        return trim($commas);
+        return $this->string()->unfold();
     }
 
 // -> Array Access

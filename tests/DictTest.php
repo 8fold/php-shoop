@@ -191,13 +191,13 @@ class DictTest extends TestCase
         $this->assertTrue($count > 1);
     }
 
-    public function testPhpTransportabilityToString()
-    {
-        // __toString
-        $expected = "Dictionary([hello] => world)";
-        $actual = ESDictionary::fold(["hello" => "world"]);
-        $this->assertEquals($expected, "{$actual}");
-    }
+    // public function testPhpTransportabilityToString()
+    // {
+    //     // __toString
+    //     // $expected = "Dictionary([hello] => world)";
+    //     // $actual = ESDictionary::fold(["hello" => "world"]);
+    //     // $this->assertEquals($expected, "{$actual}");
+    // }
 
     public function testTransportabilitySetAndPlus()
     {

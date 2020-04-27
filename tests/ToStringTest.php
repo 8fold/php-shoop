@@ -38,13 +38,11 @@ class ToStringTest extends TestCase
 
         $actual = ESArray::fold([])->string();
         $this->assertEquals($expected, $actual->unfold());
-        $this->assertEquals($expected, $actual);
 
         $expected = "Array([0] => testing)";
 
         $actual = ESArray::fold(['testing'])->string();
         $this->assertEquals($expected, $actual->unfold());
-        $this->assertEquals($expected, $actual);
     }
 
     /**
@@ -56,7 +54,6 @@ class ToStringTest extends TestCase
 
         $actual = ESBool::fold(true)->string();
         $this->assertEquals($expected, $actual->unfold());
-        $this->assertEquals($expected, $actual);
     }
 
     public function testESDictionary()
@@ -65,7 +62,6 @@ class ToStringTest extends TestCase
 
         $actual = ESDictionary::fold([])->string();
         $this->assertEquals($expected, $actual->unfold());
-        $this->assertEquals($expected, $actual);
     }
 
     /**
@@ -77,7 +73,6 @@ class ToStringTest extends TestCase
 
         $actual = ESInt::fold(1)->string();
         $this->assertEquals($expected, $actual->unfold());
-        $this->assertEquals($expected, $actual);
     }
 
     /**
@@ -89,7 +84,6 @@ class ToStringTest extends TestCase
 
         $actual = ESJson::fold($expected)->string();
         $this->assertEquals($expected, $actual->unfold());
-        $this->assertEquals($expected, $actual);
     }
 
     public function testESObject()

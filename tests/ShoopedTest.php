@@ -130,9 +130,9 @@ class ShoopedTest extends TestCase
 
     public function testPhpTransportabilityString()
     {
-        $expected = "Array([0] => 1, [1] => 2)";
-        $actual = TestObject::fold([1, 2]);
-        $this->assertEquals($expected, $actual);
+        // $expected = "Array([0] => 1, [1] => 2)";
+        // $actual = TestObject::fold([1, 2]);
+        // $this->assertEquals($expected, $actual);
 
         $expected = "Hello!";
         $actual = TestObject::fold($expected);
@@ -147,9 +147,9 @@ class ShoopedTest extends TestCase
         $this->assertEquals($expected, $actual);
 
         // Will be Dictionary when class is ESDictionary
-        $expected = "Array([one] => 1, [two] => 2)";
-        $actual = TestObject::fold(["one" => 1, "two" => 2]);
-        $this->assertEquals($expected, $actual);
+        // $expected = "Array([one] => 1, [two] => 2)";
+        // $actual = TestObject::fold(["one" => 1, "two" => 2]);
+        // $this->assertEquals($expected, $actual);
     }
 
     public function testPhpTransportabilityArrayAccess()

@@ -41,19 +41,6 @@ class ESObject implements Shooped, Countable, Has
     }
 
 // - Type Juggling
-    // public function string(): ESString
-    // {
-    //     // TODO: Make a trait to cover same implementation for ESArray, ESDictionary, and ESObject
-    //     $printed = print_r($this->unfold(), true);
-    //     $oneLine = preg_replace('/\s+/', ' ', $printed);
-    //     $commas = str_replace(
-    //         [" [", " ) ", " (, "],
-    //         [", [", ")", "("],
-    //         $oneLine);
-    //     $fixSpacingWhenEmpty = str_replace(" (", "(", $commas);
-    //     return Shoop::string(trim($fixSpacingWhenEmpty));
-    // }
-
     public function array(): ESArray
     {
         $array = (array) $this->value;
@@ -89,23 +76,6 @@ class ESObject implements Shooped, Countable, Has
 // - Manipulate
 // - Search
 // - Math language
-    // public function multiply($int)
-    // {
-    //     $int = Type::sanitizeType($int, ESInt::class)->unfold();
-    //     $array = [];
-    //     for ($i = 0; $i < $int; $i++) {
-    //         $array[] = $this->unfold();
-    //     }
-    //     return Shoop::array($array);
-
-    //     $int = Type::sanitizeType($int, ESInt::class)->unfold();
-    //     $array = [];
-    //     for ($i = 0; $i < $int; $i++) {
-    //         $array[] = $this;
-    //     }
-    //     return Shoop::array($array);
-    // }
-
     public function plus(...$args)
     {
         $count = count($args);

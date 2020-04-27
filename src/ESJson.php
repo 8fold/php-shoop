@@ -77,10 +77,10 @@ class ESJson implements Shooped, Has, \JsonSerializable
     }
 
 // - PHP single-method interfaces
-    public function __toString()
-    {
-        return $this->unfold();
-    }
+    // public function __toString()
+    // {
+    //     return $this->unfold();
+    // }
 
     public function jsonSerialize()
     {
