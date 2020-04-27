@@ -49,12 +49,8 @@ class ESObject implements Shooped, Countable, Has
 
     public function dictionary(): ESDictionary
     {
-        if (isset($this->dictionary)) {
-            return $this->dictionary;
-        }
-        $this->dictionary = (array) $this->unfold();
-
-        return Shoop::dictionary($this->dictionary);
+        $dictionary = (array) $this->unfold();
+        return Shoop::dictionary($dictionary);
     }
 
     public function object(): ESObject
@@ -209,29 +205,29 @@ class ESObject implements Shooped, Countable, Has
     // }
 
 // - Setters/Getters
-    public function __set(string $name, $value)
-    {
-        $name = Type::sanitizeType($name, ESString::class)->unfold();
-        $this->value->{$name} = $value;
-    }
+    // public function __set(string $name, $value)
+    // {
+    //     $name = Type::sanitizeType($name, ESString::class)->unfold();
+    //     $this->value->{$name} = $value;
+    // }
 
-    public function __get (string $name)
-    {
-        if ($this->hasMember($name)->unfold()) {
-            return $this->value->{$name};
-        }
-        return null;
-    }
+    // public function __get (string $name)
+    // {
+    //     if ($this->hasMember($name)->unfold()) {
+    //         return $this->value->{$name};
+    //     }
+    //     return null;
+    // }
 
-    public function __isset(string $name): bool
-    {
-        return $this->hasMember($name)->unfold();
-    }
+    // public function __isset(string $name): bool
+    // {
+    //     return $this->hasMember($name)->unfold();
+    // }
 
-    public function __unset(string $name): void
-    {
-        unset($this->value->{$name});
-    }
+    // public function __unset(string $name): void
+    // {
+    //     unset($this->value->{$name});
+    // }
 
 // -> Array Access
     public function offsetExists($offset): bool
@@ -246,65 +242,11 @@ class ESObject implements Shooped, Countable, Has
 
     public function offsetSet($offset, $value): void
     {
-        $this->{$offset} = $value;
+        $this->value = $this->set($value, $offset)->unfold();
     }
 
     public function offsetUnset($offset): void
     {
         unset($this->value->{$offset});
     }
-
-//-> Iterator
-    // private $tempDict;
-
-    // /**
-    //  * rewind() -> valid() -> current() -> key() -> next() -> valid()...repeat
-    //  *
-    //  * Same implementation for Object, Dictionary, JSON
-    //  *
-    //  * @return [type] [description]
-    //  */
-    // public function rewind()
-    // {
-    //     $this->tempDict = $this->dictionary()->unfold();
-    // }
-
-    // public function valid(): bool
-    // {
-    //     if (! isset($this->tempDict)) {
-    //         $this->rewind();
-    //     }
-    //     return $this->hasMemberUnfolded(key($this->tempDict));
-    // }
-
-    // public function current()
-    // {
-    //     if (! isset($this->tempDict)) {
-    //         $this->rewind();
-    //     }
-    //     $dict = $this->tempDict;
-    //     $key = key($dict);
-    //     return $dict[$key];
-    // }
-
-    // public function key()
-    // {
-    //     if (! isset($this->tempDict)) {
-    //         $this->rewind();
-    //     }
-    //     $dict = $this->tempDict;
-    //     $key = key($dict);
-    //     if (is_int($key)) {
-    //         return Type::sanitizeType($key, ESInt::class, "int")->unfold();
-    //     }
-    //     return Type::sanitizeType($key, ESString::class, "string")->unfold();
-    // }
-
-    // public function next()
-    // {
-    //     if (! isset($this->tempDict)) {
-    //         $this->rewind();
-    //     }
-    //     next($this->tempDict);
-    // }
 }

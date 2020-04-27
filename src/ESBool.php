@@ -130,33 +130,4 @@ class ESBool implements Shooped, Toggle, Shuffle, Compare
     }
 
     public function offsetUnset($offset): void {}
-
-// //-> Iterator
-    public function current()
-    {
-        $current = key($this->value);
-        return $this->value[$current];
-    }
-
-    public function key()
-    {
-        return key($this->value);
-    }
-
-    public function next(): void
-    {
-        next($this->value);
-    }
-
-    public function rewind(): void
-    {
-        reset($this->value);
-    }
-
-    public function valid(): bool
-    {
-        $key = key($this->value);
-        $var = ($key !== null && $key !== false);
-        return $var;
-    }
 }

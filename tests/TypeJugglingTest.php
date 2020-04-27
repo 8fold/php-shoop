@@ -35,8 +35,8 @@ class TypeJugglingTest extends TestCase
             'i12' => '!'
         ], $dict->unfold());
 
-    	$object = $string->object();
-    	$this->assertEquals($base, $object->scalar);
+    	// $object = $string->object();
+    	// $this->assertEquals($base, $object->scalar);
 
         $sInt = "05";
     	$int = Shoop::string($sInt)->int();
@@ -66,8 +66,8 @@ class TypeJugglingTest extends TestCase
             'i2' => 3
         ], $dict->unfold());
 
-    	$object = $array->object();
-    	$this->assertEquals($base[0], $object->{"0"});
+    	// $object = $array->object();
+    	// $this->assertEquals($base[0], $object->{"0"});
 
     	$int = $array->int();
     	$this->assertEquals(3, $int->unfold());
@@ -102,8 +102,8 @@ class TypeJugglingTest extends TestCase
     		$bool->toggle()->dictionary()->unfold()
     	);
 
-    	$object = $bool->object();
-    	$this->assertEquals(true, $object->true);
+    	// $object = $bool->object();
+    	// $this->assertEquals(true, $object->true);
 
     	$int = $bool->int();
     	$this->assertEquals(1, $int->unfold());
@@ -136,8 +136,8 @@ class TypeJugglingTest extends TestCase
             'i4' => 4
         ], $dict->unfold());
 
-    	$object = $int->object();
-    	$this->assertEquals($base, $object->scalar);
+    	// $object = $int->object();
+    	// $this->assertEquals($base, $object->scalar);
 
     	$int = $int->int();
     	$this->assertEquals(4, $int->unfold());
@@ -164,8 +164,8 @@ class TypeJugglingTest extends TestCase
     	$dict = $dict->dictionary();
     	$this->assertEquals($base, $dict->unfold());
 
-    	$object = $dict->object();
-    	$this->assertEquals(1, $object->one);
+    	// $object = $dict->object();
+    	// $this->assertEquals(1, $object->one);
 
     	$int = $dict->int();
     	$this->assertEquals(2, $int->unfold());
@@ -192,8 +192,8 @@ class TypeJugglingTest extends TestCase
     	$dict = $obj->dictionary();
     	$this->assertEquals((array) $base, $dict->unfold());
 
-    	$object = $obj->object();
-    	$this->assertEquals(1, $object->one);
+    	// $object = $obj->object();
+    	// $this->assertEquals(1, $object->one);
 
     	$int = $obj->int();
     	$this->assertEquals(2, $int->unfold());

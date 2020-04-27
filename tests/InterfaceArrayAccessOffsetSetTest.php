@@ -16,7 +16,9 @@ use Eightfold\Shoop\{
 };
 
 /**
- * The `ArrayAccess` PHP interface requires the `offsetUnset()` method, which allows you to interact with the object using array notation with something like `unset($array[0])`.
+ * The `ArrayAccess` PHP interface requires the `offsetSet()` method, which allows you to interact with the object using array notation with something like `$array[] = $value`.
+ *
+ * If the `offset` already exists, the `value` will always be overwritten.
  *
  * @declared Eightfold\Shoop\Traits\Shoop
  *
@@ -26,52 +28,52 @@ use Eightfold\Shoop\{
  *
  * @return bool
  */
-class RewindTest extends TestCase
+class OffsetSetTest extends TestCase
 {
     public function testESArray()
     {
-        $this->assertFalse(true);
         $actual = ESArray::fold([false, true]);
-        $actual->offsetUnset(0);
-        $this->assertTrue($actual->getUnfolded(1));
+        $actual->offsetSet(0, true);
+        $this->assertTrue($actual->getUnfolded(0));
     }
 
     /**
-     * No changes will be made.
+     * Changes current `value` to the given `value`, not a new instance.
      */
     public function testESBool()
     {
         $actual = ESBool::fold(true);
-        $actual->unsetOffset(0);
-        $this->assertTrue($actual->unfold());
+        $actual->offsetSet(0, false);
+        $this->assertFalse($actual->unfold());
     }
 
     public function testESDictionary()
     {
         $actual = ESDictionary::fold(["key" => false]);
-        $actual->offsetUnset("key");
-        $this->assertFalse($actual->hasMemberUnfolded("key"));
+        $actual->offsetSet("key", true);
+        $this->assertTrue($actual->getUnfolded("key"));
     }
 
     /**
-     * No changes will be made.
+     * Changes current `value` to the given `value`, not a new instance.
      */
     public function testESInt()
     {
         $actual = ESInt::fold(10);
-        $actual->offsetUnset(8);
-        $this->assertEquals(10, $actual->unfold());
+        $actual->offsetSet(0, 8);
+        $this->assertEquals(8, $actual->unfold());
     }
 
     /**
-     * Equivalent to calling `object()->offsetUnset()->json()` on the ESJson.
+     * Equivalent to calling `object()->offsetSet()->json()` on the ESJson.
      */
     public function testESJson()
     {
-        $expected = '{}';
+        $expected = '{"test":false}';
         $actual = ESJson::fold('{"test":true}');
-        $actual->offsetUnset("test");
-        $this->assertEquals($expected, $actual->unfold());
+        $actual->offsetSet("test", false);
+        var_dump($actual);
+        $this->assertEquals($expected, $actual->stringUnfolded());
     }
 
     /**
@@ -83,15 +85,15 @@ class RewindTest extends TestCase
         $base->test = false;
 
         $actual = ESObject::fold($base);
-        $actual->offsetUnset("test");
-        $this->assertFalse($actual->hasMemberUnfolded("test"));
+        $actual->offsetSet("test", true);
+        $this->assertTrue($actual->getUnfolded("test"));
     }
 
     public function testESString()
     {
-        $expected = "cop";
+        $expected = "coop";
         $actual = ESString::fold("comp");
-        $actual->offsetUnset(2);
+        $actual->offsetSet(2, "o");
         $this->assertEquals($expected, $actual);
     }
 }

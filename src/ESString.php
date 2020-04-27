@@ -246,46 +246,6 @@ class ESString implements
 
 // - Transforms
 // - Callers
-    // public function __call($name, $args = [])
-    // {
-    //     $name = Shoop::string($name)->unfold();
-    //     $startsWithSet = substr($name, 0, strlen("set")) === "set";
-    //     $endsWithUnfolded = substr($name, -(strlen("Unfolded"))) === "Unfolded";
-    //     if ($startsWithSet) {
-    //         dump("starts with set");
-    //         $member = lcfirst(str_replace("set", "", $name));
-    //         $overwrite = (isset($args[1])) ? $args[1] : true;
-    //         $value = (isset($args[0])) ? $args[0] : null;
-
-    //         return $this->set($member, $value, $overwrite);
-
-    //     } elseif ($endsWithUnfolded) {
-    //         dump("ends with Unfolded");
-    //         $name = str_replace("Unfolded", "", $name);
-    //         if (! method_exists($this, $name)) {
-    //             $className = static::class;
-    //             trigger_error("{$member} is an invalid method on {$className}", E_USER_ERROR);
-
-    //         } else {
-    //             $value = $this->{$name}($args);
-    //             if (Type::isShooped($value)) {
-    //                 return $value->unfold();
-    //             }
-    //         }
-    //         dd("here");
-    //         $value = $this->get($member);
-    //         $return = (isset($value) && Type::isShooped($value))
-    //             ? $value->unfold()
-    //             : $value;
-    //         return $return;
-
-    //     } else {
-    //         $name = lcfirst(str_replace("get", "", $name));
-    //         return Type::sanitizeType($name);
-
-    //     }
-    // }
-
 // -> Array Access
     public function offsetUnset($offset): void
     {
@@ -293,35 +253,4 @@ class ESString implements
         $array->offsetUnset($offset);
         $this->value = implode("", $array->unfold());
     }
-
-// //-> Iterator
-    // public function current()
-    // {
-    //     $current = key($this->value);
-    //     return $this->value[$current];
-    // }
-
-    // public function key()
-    // {
-    //     return key($this->value);
-    // }
-
-    // public function next()
-    // {
-    //     next($this->value);
-    //     return $this;
-    // }
-
-    // public function rewind()
-    // {
-    //     reset($this->value);
-    //     return $this;
-    // }
-
-    // public function valid(): bool
-    // {
-    //     $key = key($this->value);
-    //     $var = ($key !== null && $key !== false);
-    //     return $var;
-    // }
 }

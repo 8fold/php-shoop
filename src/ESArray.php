@@ -299,16 +299,6 @@ class ESArray implements
     }
 
 //-> Getters
-    // public function __call(string $name, array $args = [])
-    // {
-    //     $call = $this->knownMethodFromUnknownName($name);
-    //     $result = $this->{$call}(...$args);
-    //     if (Type::isShooped($result)) {
-    //         return $result->unfold();
-    //     }
-    //     return $result;
-    // }
-
     // private function knownMethodFromUnknownName(string $name)
     // {
     //     $call = "";
@@ -331,69 +321,5 @@ class ESArray implements
     //     $end = strlen($haystack);
     //     $len = strlen($needle);
     //     return substr($haystack, $start, $len) === $needle;
-    // }
-
-// -> Array Access
-    // public function offsetExists($offset): bool
-    // {
-    //     return isset($this->value[$offset]);
-    // }
-
-    // public function offsetGet($offset)
-    // {
-    //     return ($this->offsetExists($offset))
-    //         ? $this->value[$offset]
-    //         : null;
-    // }
-
-    // public function offsetSet($offset, $value)
-    // {
-    //     $stash = $this->value;
-    //     if (is_null($offset)) {
-    //         $stash = $value;
-
-    //     } else {
-    //         $stash[$offset] = $value;
-
-    //     }
-    //     return static::fold($stash);
-    // }
-
-    // public function offsetUnset($offset)
-    // {
-    //     $stash = $this->value;
-    //     unset($stash[$offset]);
-    //     return static::fold($stash);
-    // }
-
-// //-> Iterator
-    // public function current()
-    // {
-    //     $current = key($this->value);
-    //     return $this->value[$current];
-    // }
-
-    // public function key()
-    // {
-    //     return key($this->value);
-    // }
-
-    // public function next()
-    // {
-    //     next($this->value);
-    //     return $this;
-    // }
-
-    // public function rewind()
-    // {
-    //     reset($this->value);
-    //     return $this;
-    // }
-
-    // public function valid(): bool
-    // {
-    //     $key = key($this->value);
-    //     $var = ($key !== null && $key !== false);
-    //     return $var;
     // }
 }

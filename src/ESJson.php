@@ -164,9 +164,7 @@ class ESJson implements Shooped, Has, \JsonSerializable
 
     public function offsetSet($offset, $value): void
     {
-        $object = $this->object();
-        $object->offsetSet($offset, $value);
-        $this->value = $object->json()->string();
+        $this->value = $this->set($value, $offset)->string();
     }
 
     public function offsetUnset($offset): void
@@ -175,35 +173,4 @@ class ESJson implements Shooped, Has, \JsonSerializable
         $object->offsetUnset($offset);
         $this->value = $object->json();
     }
-
-// // //-> Iterator
-//     public function current()
-//     {
-//         $current = key($this->value);
-//         return $this->value[$current];
-//     }
-
-//     public function key()
-//     {
-//         return key($this->value);
-//     }
-
-//     public function next()
-//     {
-//         next($this->value);
-//         return $this;
-//     }
-
-//     public function rewind()
-//     {
-//         reset($this->value);
-//         return $this;
-//     }
-
-//     public function valid(): bool
-//     {
-//         $key = key($this->value);
-//         $var = ($key !== null && $key !== false);
-//         return $var;
-//     }
 }

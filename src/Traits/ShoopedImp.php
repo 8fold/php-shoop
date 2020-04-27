@@ -31,7 +31,7 @@ trait ShoopedImp
     {
         // Preserve Shoop internally: unfold($preserve = false)
         // only implement if needed; otherwise, we're good.
-        $return = $this->value;
+        $return = (isset($this->temp)) ? $this->temp : $this->value;
         if (Type::isArray($return) || Type::isDictionary($return)) {
             $array = $return;
             $return = [];
@@ -215,7 +215,7 @@ trait ShoopedImp
      */
     public function rewind(): void
     {
-        if (Type::is($this, ESObject::class, ESDictionary::class, ESJson::class)) {
+        if (Type::is($this, ESObject::class, ESDictionary::class, ESJson::class, ESBool::class)) {
             $this->temp = $this->dictionary()->unfold();
 
         } else {

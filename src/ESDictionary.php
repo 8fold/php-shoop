@@ -230,15 +230,15 @@ class ESDictionary implements
 //         $this->value->{$name} = $value;
 //     }
 
-    public function __get(string $name)
-    {
-        $v = (array) $this->unfold();
-        if ($this->offsetExists($name)) {
-            return $v[$name];
-        }
-        $className = static::class;
-        trigger_error("{$className} does not define a member or index called {$name}.");
-    }
+    // public function __get(string $name)
+    // {
+    //     $v = (array) $this->unfold();
+    //     if ($this->offsetExists($name)) {
+    //         return $v[$name];
+    //     }
+    //     $className = static::class;
+    //     trigger_error("{$className} does not define a member or index called {$name}.");
+    // }
 
 //     public function __isset(string $name): bool
 //     {
@@ -248,85 +248,5 @@ class ESDictionary implements
 //     public function __unset(string $name): void
 //     {
 //         unset($this->value->{$name});
-//     }
-
-// -> Array Access
-    // public function offsetUnset($offset): void {}
-    // public function offsetExists($offset): bool
-    // {
-    //     return $this->members()->has($offset)->unfold();
-    // }
-
-    // public function offsetGet($offset)
-    // {
-    //     // TODO: Create null class ??
-    //     if ($this->get($offset) === null) {
-    //         return null;
-    //     }
-    //     return $this->get($offset);
-    // }
-
-    // public function offsetSet($offset, $value): ESObject
-    // {
-    //     // return $this->set($offset, $value);
-    // }
-
-    // public function offsetUnset($offset): void
-    // {
-    //     // $this->__unset($offset);
-    // }
-
-// //-> Iterator
-//     private $tempDict;
-
-//     /**
-//      * rewind() -> valid() -> current() -> key() -> next() -> valid()...repeat
-//      *
-//      * Same implementation for Object, Dictionary, JSON
-//      *
-//      * @return [type] [description]
-//      */
-//     public function rewind()
-//     {
-//         $this->tempDict = $this->dictionary()->unfold();
-//     }
-
-//     public function valid(): bool
-//     {
-//         if (! isset($this->tempDict)) {
-//             $this->rewind();
-//         }
-//         return $this->hasMemberUnfolded(key($this->tempDict));
-//     }
-
-//     public function current()
-//     {
-//         if (! isset($this->tempDict)) {
-//             $this->rewind();
-//         }
-//         $dict = $this->tempDict;
-//         $key = key($dict);
-//         return $dict[$key];
-//     }
-
-//     public function key()
-//     {
-//         if (! isset($this->tempDict)) {
-//             $this->rewind();
-//         }
-//         $dict = $this->tempDict;
-//         $key = key($dict);
-//         if (is_int($key)) {
-//             return Type::sanitizeType($key, ESInt::class, "int")->unfold();
-//         }
-//         return Type::sanitizeType($key, ESString::class, "string")->unfold();
-//     }
-
-//     public function next()
-//     {
-//         if (! isset($this->tempDict)) {
-//             $this->rewind();
-//         }
-//         next($this->tempDict);
 //     }
 }

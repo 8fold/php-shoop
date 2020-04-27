@@ -152,18 +152,18 @@ class ShoopedTest extends TestCase
         // $this->assertEquals($expected, $actual);
     }
 
-    public function testPhpTransportabilityArrayAccess()
-    {
-        // $expected = [1, 2, 3];
-        // $array = TestObject::fold($expected);
+    // public function testPhpTransportabilityArrayAccess()
+    // {
+    //     // $expected = [1, 2, 3];
+    //     // $array = TestObject::fold($expected);
 
-        // $this->assertTrue($array->offsetExists(0));
-        // $this->assertEquals(2, $array->offsetGet(1));
+    //     // $this->assertTrue($array->offsetExists(0));
+    //     // $this->assertEquals(2, $array->offsetGet(1));
 
-        // $array[0] = 3;
-        // $this->assertEquals([3, 2, 3], $array->unfold());
+    //     // $array[0] = 3;
+    //     // $this->assertEquals([3, 2, 3], $array->unfold());
 
-        // unset($array[2]);
-        // $this->assertEquals([3, 2], $array->unfold());
-    }
+    //     // unset($array[2]);
+    //     // $this->assertEquals([3, 2], $array->unfold());
+    // }
 }
