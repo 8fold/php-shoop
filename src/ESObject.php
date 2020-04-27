@@ -249,10 +249,10 @@ class ESObject implements Shooped, Countable, Has
         $this->{$offset} = $value;
     }
 
-    // public function offsetUnset($offset): void
-    // {
-    //     $this->__unset($offset);
-    // }
+    public function offsetUnset($offset): void
+    {
+        unset($this->value->{$offset});
+    }
 
 //-> Iterator
     // private $tempDict;

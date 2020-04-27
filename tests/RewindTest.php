@@ -26,10 +26,11 @@ use Eightfold\Shoop\{
  *
  * @return bool
  */
-class OffsetUnsetTest extends TestCase
+class RewindTest extends TestCase
 {
     public function testESArray()
     {
+        $this->assertFalse(true);
         $actual = ESArray::fold([false, true]);
         $actual->offsetUnset(0);
         $this->assertTrue($actual->getUnfolded(1));

@@ -287,12 +287,12 @@ class ESString implements
     // }
 
 // -> Array Access
-    // public function offsetUnset($offset)
-    // {
-    //     $stash = $this->value;
-    //     unset($stash[$offset]);
-    //     return static::fold($stash);
-    // }
+    public function offsetUnset($offset): void
+    {
+        $array = $this->array();
+        $array->offsetUnset($offset);
+        $this->value = implode("", $array->unfold());
+    }
 
 // //-> Iterator
     // public function current()

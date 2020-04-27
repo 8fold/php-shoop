@@ -129,11 +129,7 @@ class ESBool implements Shooped, Toggle, Shuffle, Compare
         $this->value = $value;
     }
 
-    public function offsetUnset($offset): void
-    {
-        $stash = $this->value;
-        unset($stash[$offset]);
-    }
+    public function offsetUnset($offset): void {}
 
 // //-> Iterator
     public function current()

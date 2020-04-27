@@ -334,9 +334,6 @@ class ESArray implements
     // }
 
 // -> Array Access
-    // public function offsetSet($offset, $value): void {}
-
-    // public function offsetUnset($offset): void {}
     // public function offsetExists($offset): bool
     // {
     //     return isset($this->value[$offset]);
