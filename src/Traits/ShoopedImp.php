@@ -195,12 +195,7 @@ trait ShoopedImp
 
     public function offsetSet($offset, $value): void
     {
-        $v = $this->unfold();
-        if (is_a($v, \stdClass::class)) {
-            $v = (array) $v;
-        }
-        $v[$offset] = $value;
-        $this->value = $v;
+        $this->value[$offset] = $value;
     }
 
     public function offsetUnset($offset): void

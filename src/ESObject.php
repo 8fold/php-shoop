@@ -244,27 +244,10 @@ class ESObject implements Shooped, Countable, Has
         return $this->dictionary()->offsetGet($offset);
     }
 
-    // public function offsetSet($offset, $value): void {}
-
-    // public function offsetUnset($offset): void {}
-    // public function offsetExists($offset): bool
-    // {
-    //     return $this->has($offset)->unfold();
-    // }
-
-    // public function offsetGet($offset)
-    // {
-    //     // TODO: Create null class ??
-    //     if ($this->get($offset) === null) {
-    //         return null;
-    //     }
-    //     return $this->get($offset);
-    // }
-
-    // public function offsetSet($offset, $value): ESObject
-    // {
-    //     return $this->set($offset, $value);
-    // }
+    public function offsetSet($offset, $value): void
+    {
+        $this->{$offset} = $value;
+    }
 
     // public function offsetUnset($offset): void
     // {

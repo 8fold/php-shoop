@@ -287,26 +287,6 @@ class ESString implements
     // }
 
 // -> Array Access
-    // public function offsetGet($offset)
-    // {
-    //     return ($this->offsetExists($offset))
-    //         ? $this->value[$offset]
-    //         : null;
-    // }
-
-    // public function offsetSet($offset, $value)
-    // {
-    //     $stash = $this->value;
-    //     if (is_null($offset)) {
-    //         $stash = $value;
-
-    //     } else {
-    //         $stash[$offset] = $value;
-
-    //     }
-    //     return static::fold($stash);
-    // }
-
     // public function offsetUnset($offset)
     // {
     //     $stash = $this->value;

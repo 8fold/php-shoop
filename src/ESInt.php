@@ -205,7 +205,10 @@ class ESInt implements Shooped, Countable, Toggle, Shuffle
         $array = $this->array()->offsetGet($offset);
     }
 
-    public function offsetSet($offset, $value): void {}
+    public function offsetSet($offset, $value): void
+    {
+        $this->value = $value;
+    }
 
     public function offsetUnset($offset): void {}
 

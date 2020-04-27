@@ -164,10 +164,9 @@ class ESJson implements Shooped, Has, \JsonSerializable
 
     public function offsetSet($offset, $value): void
     {
-        $stash = $this->value;
-        if (! is_null($offset)) {
-            $stash[$offset] = $value;
-        }
+        $object = $this->object();
+        $object->offsetSet($offset, $value);
+        $this->value = $object->json()->string();
     }
 
     public function offsetUnset($offset): void
