@@ -234,9 +234,15 @@ class ESObject implements Shooped, Countable, Has
     }
 
 // -> Array Access
-    // public function offsetExists($offset): bool {}
+    public function offsetExists($offset): bool
+    {
+        return $this->dictionary()->offsetExists($offset);
+    }
 
-    // public function offsetGet($offset) {}
+    public function offsetGet($offset)
+    {
+        return $this->dictionary()->offsetGet($offset);
+    }
 
     // public function offsetSet($offset, $value): void {}
 

@@ -77,11 +77,6 @@ class ESJson implements Shooped, Has, \JsonSerializable
     }
 
 // - PHP single-method interfaces
-    // public function __toString()
-    // {
-    //     return $this->unfold();
-    // }
-
     public function jsonSerialize()
     {
         return $this->unfold();
@@ -159,14 +154,12 @@ class ESJson implements Shooped, Has, \JsonSerializable
 // -> Array Access
     public function offsetExists($offset): bool
     {
-        return isset($this->value[$offset]);
+        return $this->dictionary()->offsetExists($offset);
     }
 
     public function offsetGet($offset)
     {
-        return ($this->offsetExists($offset))
-            ? $this->value[$offset]
-            : null;
+        return $this->dictionary()->offsetGet($offset);
     }
 
     public function offsetSet($offset, $value): void

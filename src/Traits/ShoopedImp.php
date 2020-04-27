@@ -179,25 +179,18 @@ trait ShoopedImp
         return $this->string()->unfold();
     }
 
-// -> Array Access
+// -> Array Access: Cannot call Shoop methods
     public function offsetExists($offset): bool
     {
-        $v = $this->unfold();
-        if (is_a($v, \stdClass::class)) {
-            $v = (array) $v;
-        }
-        return isset($v[$offset]);
+        return isset($this->value[$offset]);
     }
 
     public function offsetGet($offset)
     {
-        $v = (array) $this->unfold();
-        if (array_key_exists($offset, $v)) {
-            return $v[$offset];
+        if ($this->offsetExists($offset)) {
+            return $this->value[$offset];
         }
-        // TODO: Replace with something else.
-        // Undefined offset: 2
-        return null;
+        trigger_error("Undefined offset: {$offset}", E_USER_ERROR);
     }
 
     public function offsetSet($offset, $value): void

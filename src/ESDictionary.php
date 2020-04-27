@@ -251,10 +251,6 @@ class ESDictionary implements
 //     }
 
 // -> Array Access
-    // public function offsetExists($offset): bool {}
-
-    // public function offsetGet($offset) {}
-
     // public function offsetSet($offset, $value): void {}
 
     // public function offsetUnset($offset): void {}

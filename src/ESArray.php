@@ -220,7 +220,8 @@ class ESArray implements
     public function hasMember($member): ESBool
     {
         $member = Type::sanitizeType($member, ESInt::class)->unfold();
-        return Shoop::bool($this->offsetExists($member));
+        $offsetExists = $this->offsetExists($member);
+        return Shoop::bool($offsetExists);
     }
 
     public function join($delimiter = ""): ESString
@@ -333,10 +334,6 @@ class ESArray implements
     // }
 
 // -> Array Access
-    // public function offsetExists($offset): bool {}
-
-    // public function offsetGet($offset) {}
-
     // public function offsetSet($offset, $value): void {}
 
     // public function offsetUnset($offset): void {}

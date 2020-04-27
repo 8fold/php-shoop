@@ -116,14 +116,12 @@ class ESBool implements Shooped, Toggle, Shuffle, Compare
 // -> Array Access
     public function offsetExists($offset): bool
     {
-        return isset($this->value[$offset]);
+        return $this->value;
     }
 
     public function offsetGet($offset)
     {
-        return ($this->offsetExists($offset))
-            ? $this->value[$offset]
-            : null;
+        return $this->value;
     }
 
     public function offsetSet($offset, $value): void

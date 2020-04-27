@@ -194,9 +194,16 @@ class ESInt implements Shooped, Countable, Toggle, Shuffle
     // }
 
 // -> Array Access
-    public function offsetExists($offset): bool {}
+    public function offsetExists($offset): bool
+    {
+        $array = $this->array();
+        return isset($array[$offset]);
+    }
 
-    public function offsetGet($offset) {}
+    public function offsetGet($offset)
+    {
+        $array = $this->array()->offsetGet($offset);
+    }
 
     public function offsetSet($offset, $value): void {}
 

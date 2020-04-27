@@ -287,11 +287,6 @@ class ESString implements
     // }
 
 // -> Array Access
-    // public function offsetExists($offset): bool
-    // {
-    //     return isset($this->value[$offset]);
-    // }
-
     // public function offsetGet($offset)
     // {
     //     return ($this->offsetExists($offset))
