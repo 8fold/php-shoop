@@ -6,6 +6,7 @@ use Eightfold\Shoop\Helpers\Type;
 
 use Eightfold\Shoop\Interfaces\{
     Shooped,
+    Compare,
     Countable,
     Toggle,
     Shuffle,
@@ -17,6 +18,7 @@ use Eightfold\Shoop\Interfaces\{
 
 use Eightfold\Shoop\Traits\{
     ShoopedImp,
+    CompareImp,
     CountableImp,
     ToggleImp,
     ShuffleImp,
@@ -27,6 +29,7 @@ use Eightfold\Shoop\Traits\{
 
 class ESArray implements
     Shooped,
+    Compare,
     Countable,
     Toggle,
     Shuffle,
@@ -35,7 +38,7 @@ class ESArray implements
     Split,
     Has
 {
-    use ShoopedImp, CountableImp, ToggleImp, ShuffleImp, WrapImp, SortImp, HasImp;
+    use ShoopedImp, CompareImp, CountableImp, ToggleImp, ShuffleImp, WrapImp, SortImp, HasImp;
 
     public function __construct($array = [])
     {
@@ -50,29 +53,6 @@ class ESArray implements
     }
 
 // - Type Juggling
-    public function array(): ESArray
-    {
-        $v = $this->unfold();
-        $v = array_values($v);
-        return Shoop::array($v);
-    }
-
-    public function dictionary(): ESDictionary
-    {
-        $build = [];
-        foreach ($this->value as $key => $value) {
-            $key = "i". $key;
-            $build[$key] = $value;
-        }
-        return Shoop::dictionary($build);
-    }
-
-    public function json(): ESJson
-    {
-        $obj = $this->object();
-        return Shoop::json(json_encode($obj->unfold()));
-    }
-
 // - PHP single-method interfaces
 // - Manipulate
 // - Wrap

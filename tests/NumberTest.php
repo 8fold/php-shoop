@@ -11,17 +11,17 @@ class NumberTest extends TestCase
 {
     public function testTypeJuggling()
     {
-        $expected = [0, 1, 2, 3];
-        $actual = Shoop::this(3)->array();
-        $this->assertEquals($expected, $actual->unfold());
+        // $expected = [0, 1, 2, 3];
+        // $actual = Shoop::this(3)->array();
+        // $this->assertEquals($expected, $actual->unfold());
 
         $expected = 3;
         $actual = Shoop::this(3)->int();
         $this->assertEquals($expected, $actual->unfold());
 
-        $expected = '{"json":3}';
-        $actual = Shoop::int(3)->json();
-        $this->assertEquals($expected, $actual->unfold());
+        // $expected = '{"json":3}';
+        // $actual = Shoop::int(3)->json();
+        // $this->assertEquals($expected, $actual->unfold());
     }
 
     public function testManipulate()

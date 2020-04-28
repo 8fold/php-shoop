@@ -1,11 +1,12 @@
 <?php
 
-namespace Eightfold\Shoop\Tests;
+namespace Eightfold\Shoop\Tests\Shooped;
 
 use PHPUnit\Framework\TestCase;
 
 use Eightfold\Shoop\{
     Type,
+    Shoop,
     ESArray,
     ESBool,
     ESDictionary,
@@ -30,78 +31,64 @@ use Eightfold\Shoop\{
  *
  * @return Eightfold\Shoop\ESString
  */
-class ToStringTest extends TestCase
+class DictionaryTest extends TestCase
 {
     public function testESArray()
     {
-        $expected = "Array()";
+        $expected = ["i0" => "hi"];
 
-        $actual = ESArray::fold([])->string();
-        $this->assertEquals($expected, $actual->unfold());
-
-        $expected = "Array([0] => testing)";
-
-        $actual = ESArray::fold(['testing'])->string();
+        $actual = ESArray::fold([0 => "hi"])->dictionary();
         $this->assertEquals($expected, $actual->unfold());
     }
 
-    /**
-     * Returns the plain text equivalent of the value. `true` is "true", `false` is "false".
-     */
     public function testESBool()
     {
-        $expected = "true";
+        $expected = ["true" => true, "false" => false];
 
-        $actual = ESBool::fold(true)->string();
+        $actual = ESBool::fold(true)->dictionary();
         $this->assertEquals($expected, $actual->unfold());
     }
 
     public function testESDictionary()
     {
-        $expected = "Array()";
+        $expected = ["hello" => "world"];
 
-        $actual = ESDictionary::fold([])->string();
+        $actual = ESDictionary::fold($expected)->dictionary();
         $this->assertEquals($expected, $actual->unfold());
     }
 
-    /**
-     * Uses PHP cast to `string`
-     */
     public function testESInt()
     {
-        $expected = "1";
+        $expected = ["i0" => 1, "i1" => 2, "i2" => 3, "i3" => 4, "i4" => 5];
 
-        $actual = ESInt::fold(1)->string();
+        $actual = ESInt::fold(5)->dictionary();
         $this->assertEquals($expected, $actual->unfold());
     }
 
-    /**
-     * Uses `unfold()` on value to instantiate ESString.
-     */
     public function testESJson()
     {
-        $expected = '{"test":"test"}';
+        $expected = ["test" => true];
 
-        $actual = ESJson::fold($expected)->string();
+        $actual = ESJson::fold('{"test":true}')->dictionary();
         $this->assertEquals($expected, $actual->unfold());
     }
 
     public function testESObject()
     {
-        $expected = "stdClass Object()";
+        $expected = ["test" => true];
 
-        $actual = ESObject::fold(new \stdClass())->string();
+        $object = new \stdClass();
+        $object->test = true;
+
+        $actual = ESObject::fold($object)->dictionary();
         $this->assertEquals($expected, $actual->unfold());
     }
 
-    /**
-     * Uses `unfold()` of value to instantiate new instance
-     */
     public function testESString()
     {
-        $expected = "hello";
+        $expected = ["i0" => "h", "i1" => "e", "i2" => "l", "i3" => "l", "i4" => "o"];
 
-        $actual = ESString::fold("hello")->string();
+        $actual = ESString::fold("hello")->dictionary();
         $this->assertEquals($expected, $actual->unfold());
     }
 }

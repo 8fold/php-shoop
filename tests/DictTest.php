@@ -9,7 +9,7 @@ use Eightfold\Shoop\Helpers\Type;
 use Eightfold\Shoop\ESDictionary;
 use Eightfold\Shoop\ESArray;
 
-use Eightfold\Shoop\Tests\TestObject;
+// use Eightfold\Shoop\Tests\TestObject;
 
 class DictTest extends TestCase
 {
@@ -20,19 +20,19 @@ class DictTest extends TestCase
         $this->assertEquals("value", $result["key"]);
     }
 
-    public function testCanTypeJuggle()
-    {
-        $expected = [1, 2];
-        $dict = ["one" => 1, "two" => 2];
-        $result = ESDictionary::fold($dict)->array();
-        $this->assertEquals($expected, $result->unfold());
+    // public function testCanTypeJuggle()
+    // {
+    //     $expected = [1, 2];
+    //     $dict = ["one" => 1, "two" => 2];
+    //     $result = ESDictionary::fold($dict)->array();
+    //     $this->assertEquals($expected, $result->unfold());
 
-        $result = ESDictionary::fold($dict)->dictionary();
-        $this->assertEquals($dict, $result->unfold());
+    //     $result = ESDictionary::fold($dict)->dictionary();
+    //     $this->assertEquals($dict, $result->unfold());
 
-        $actual = ESDictionary::fold($dict)->json();
-        $this->assertEquals('{"one":1,"two":2}', $actual->unfold());
-    }
+    //     $actual = ESDictionary::fold($dict)->json();
+    //     $this->assertEquals('{"one":1,"two":2}', $actual->unfold());
+    // }
 
     public function testCanManipulate()
     {
@@ -134,44 +134,44 @@ class DictTest extends TestCase
         $this->assertEquals($expected, $result->unfold());
     }
 
-    public function testCanGetValueForKey()
-    {
-        $assoc = [
-            "one" => 1,
-            "two" => [1, 2],
-            "three" => (object) [
-                "one" => 1,
-                "two" => 2
-            ],
-            "four" => Shoop::array([1, 2]),
-            "five" => (new TestObject)
-        ];
+    // public function testCanGetValueForKey()
+    // {
+    //     $assoc = [
+    //         "one" => 1,
+    //         "two" => [1, 2],
+    //         "three" => (object) [
+    //             "one" => 1,
+    //             "two" => 2
+    //         ],
+    //         "four" => Shoop::array([1, 2]),
+    //         "five" => (new TestObject)
+    //     ];
 
-        $dict = Shoop::dictionary($assoc);
-        $this->assertEquals(1, $dict->getUnfolded("one"));
+    //     $dict = Shoop::dictionary($assoc);
+    //     $this->assertEquals(1, $dict->getUnfolded("one"));
 
-        $this->assertTrue(
-            is_array(
-                $dict->getUnfolded("two")
-            )
-        );
+    //     $this->assertTrue(
+    //         is_array(
+    //             $dict->getUnfolded("two")
+    //         )
+    //     );
 
-        $this->assertTrue(
-            is_a(
-                $dict->getUnfolded("three"),
-                \stdClass::class
-            )
-        );
+    //     $this->assertTrue(
+    //         is_a(
+    //             $dict->getUnfolded("three"),
+    //             \stdClass::class
+    //         )
+    //     );
 
-        $this->assertTrue(Type::isShooped($dict->get("four")));
+    //     $this->assertTrue(Type::isShooped($dict->get("four")));
 
-        $this->assertTrue(
-            is_a(
-                $dict->getUnfolded("five"),
-                TestObject::class
-            )
-        );
-    }
+    //     $this->assertTrue(
+    //         is_a(
+    //             $dict->getUnfolded("five"),
+    //             TestObject::class
+    //         )
+    //     );
+    // }
 
     public function testCanIterateDictionary()
     {
@@ -254,25 +254,25 @@ class DictTest extends TestCase
         // TODO: Need more tests to verify getting in all the ways
     }
 
-    public function testPhpTransportabilityArrayAccess()
-    {
-        $object = Shoop::object([])
-            ->plus("world", "hello")
-            ->set("chat", "hello", false);
-        $this->assertFalse(empty($object));
+    // public function testPhpTransportabilityArrayAccess()
+    // {
+    //     $object = Shoop::object([])
+    //         ->plus("world", "hello")
+    //         ->set("chat", "hello", false);
+    //     $this->assertFalse(empty($object));
 
-        $objectNull = Shoop::object([]);
-        $this->assertTrue(empty($objectNull[0]));
+    //     $objectNull = Shoop::object([]);
+    //     $this->assertTrue(empty($objectNull[0]));
 
-        $this->assertEquals(["world", "chat"], $object["hello"]);
+    //     $this->assertEquals(["world", "chat"], $object["hello"]);
 
-        $object = Shoop::object([]);
-        $object->hello = ["world", "chat"];
-        $this->assertEquals(["world", "chat"], $object->hello);
+    //     $object = Shoop::object([]);
+    //     $object->hello = ["world", "chat"];
+    //     $this->assertEquals(["world", "chat"], $object->hello);
 
-        // unset($object["hello"]);
-        // $this->assertNull($object["hello"]);
-    }
+    //     // unset($object["hello"]);
+    //     // $this->assertNull($object["hello"]);
+    // }
 
     public function testPhpTransportabilityIterator()
     {

@@ -8,20 +8,22 @@ use Eightfold\Shoop\Shoop;
 
 use Eightfold\Shoop\Interfaces\{
     Shooped,
+    Compare,
     Has
 };
 
 use Eightfold\Shoop\Traits\{
     ShoopedImp,
+    CompareImp,
     HasImp
 };
 
 use Eightfold\Shoop\ESDictionary;
 
 // TODO: Need to be able to handle the path
-class ESJson implements Shooped, Has, \JsonSerializable
+class ESJson implements Shooped, Compare, Has, \JsonSerializable
 {
-    use ShoopedImp, HasImp;
+    use ShoopedImp, CompareImp, HasImp;
 
     // TODO: How to store path ??
     protected $path = "";
@@ -39,36 +41,15 @@ class ESJson implements Shooped, Has, \JsonSerializable
 	}
 
 // - Type Juggling
-    public function string(): ESString
-    {
-        return Shoop::string($this->unfold());
-    }
+    // public function object(): ESObject
+    // {
+    //     return $this->dictionary()->object();
+    // }
 
-    public function array(): ESArray
-    {
-        return $this->dictionary()->array();
-    }
-
-    public function dictionary(): ESDictionary
-    {
-        $cast = (array) json_decode($this->value);
-        return Shoop::dictionary($cast);
-    }
-
-    public function object(): ESObject
-    {
-        return $this->dictionary()->object();
-    }
-
-    public function bool(): ESBool
-    {
-        return ESBool::fold(Type::isEmpty($this->array()))->toggle();
-    }
-
-    public function json(): ESJson
-    {
-        return Shoop::json($this->unfold());
-    }
+    // public function json(): ESJson
+    // {
+    //     return Shoop::json($this->unfold());
+    // }
 
 // - Comparison
     public function isEmpty(): ESBool

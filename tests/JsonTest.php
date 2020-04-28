@@ -32,27 +32,27 @@ class JsonTest extends TestCase
         $this->assertTrue(Type::is($json, ESJson::class));
     }
 
-    public function testTypeJuggling()
-    {
-        $expected = '{"hello":"world"}';
-        $json = Shoop::json($expected);
-        $actual = $json->string();
-        $this->assertEquals($expected, $actual);
+    // public function testTypeJuggling()
+    // {
+    //     $expected = '{"hello":"world"}';
+    //     $json = Shoop::json($expected);
+    //     $actual = $json->string();
+    //     $this->assertEquals($expected, $actual);
 
-        $actual = $json->array();
-        $this->assertEquals(['world'], $actual->unfold());
+    //     $actual = $json->array();
+    //     $this->assertEquals(['world'], $actual->unfold());
 
-        $actual = $json->dictionary();
-        $this->assertEquals(["hello" => "world"], $actual->unfold());
+    //     $actual = $json->dictionary();
+    //     $this->assertEquals(["hello" => "world"], $actual->unfold());
 
-        $expected = new \stdClass();
-        $expected->hello = "world";
-        $actual = $json->object();
-        $this->assertEquals($expected, $actual->unfold());
+    //     $expected = new \stdClass();
+    //     $expected->hello = "world";
+    //     $actual = $json->object();
+    //     $this->assertEquals($expected, $actual->unfold());
 
-        $actual = $json->int();
-        $this->assertEquals(1, $actual->unfold());
-    }
+    //     $actual = $json->int();
+    //     $this->assertEquals(1, $actual->unfold());
+    // }
 
     public function testMathLanguage()
     {
@@ -61,10 +61,10 @@ class JsonTest extends TestCase
         // $actual = Shoop::json("{}")->multiply(3);
         // $this->assertEquals([$base, $base, $base], $actual->unfold());
 
-        $actual = Shoop::json("{}")
-            ->plus("world", "hello")
-            ->get("hello");
-        $this->assertEquals("world", $actual->unfold());
+        // $actual = Shoop::json("{}")
+        //     ->plus("world", "hello")
+        //     ->get("hello");
+        // $this->assertEquals("world", $actual->unfold());
 
         $actual = Shoop::json("{}")
             ->plus("world", "hello")
@@ -89,9 +89,9 @@ class JsonTest extends TestCase
         $this->assertTrue($actual->unfold());
     }
 
-    public function testOther()
-    {
-        $actual = Shoop::json('{"hello":"world!"}')->get("hello");
-        $this->assertEquals("world!", $actual);
-    }
+    // public function testOther()
+    // {
+    //     $actual = Shoop::json('{"hello":"world!"}')->get("hello");
+    //     $this->assertEquals("world!", $actual);
+    // }
 }

@@ -8,16 +8,16 @@ use Eightfold\Shoop\ESInt;
 
 use Eightfold\Shoop\Interfaces\{
     Shooped,
+    Compare,
     Toggle,
-    Shuffle,
-    Compare
+    Shuffle
 };
 
 use Eightfold\Shoop\Traits\{
     ShoopedImp,
+    CompareImp,
     ToggleImp,
-    ShuffleImp,
-    CompareImp
+    ShuffleImp
 };
 
 class ESBool implements Shooped, Toggle, Shuffle, Compare
@@ -39,41 +39,18 @@ class ESBool implements Shooped, Toggle, Shuffle, Compare
     }
 
 // - Type Juggling
-    public function string(): ESString
-    {
-        $string = ($this->unfold()) ? "true" : "";
-        return ESString::fold($string);
-    }
+    // public function int(): ESInt
+    // {
+    //     $bool = ($this->unfold()) ? 1 : 0;
+    //     return ESInt::fold($bool);
+    // }
 
-    public function int(): ESInt
-    {
-        $bool = ($this->unfold()) ? 1 : 0;
-        return ESInt::fold($bool);
-    }
-
-    public function array(): ESArray
-    {
-        return Shoop::array([$this->unfold()]);
-    }
-
-    public function dictionary(): ESDictionary
-    {
-        return ($this->unfold() === true)
-            ? Shoop::dictionary(["true" => true, "false" => false])
-            : Shoop::dictionary(["true" => false, "false" => true]);
-    }
-
-    public function object(): ESObject
-    {
-        $object = (object) $this->dictionary()->unfold();
-        return Shoop::object($object);
-    }
-
-    public function json(): ESJson
-    {
-        return Shoop::json(json_encode($this->string()->unfold()));
-    }
-
+    // public function object(): ESObject
+    // {
+    //     return $this->dictionary()->object();
+    //     // $object = (object) $this->dictionary()->unfold();
+    //     // return Shoop::object($object);
+    // }
 // - PHP single-method interfaces
 // - Manipulate
     public function toggle($preserveMembers = true): ESBool

@@ -20,8 +20,8 @@ class BoolTest extends TestCase
         $actual = Shoop::bool(true)->dictionary();
         $this->assertTrue($actual->unfold()["true"]);
 
-        $actual = Shoop::bool(true)->object();
-        $this->assertTrue($actual->unfold()->true);
+        // $actual = Shoop::bool(true)->object();
+        // $this->assertTrue($actual->unfold()->true);
 
         $actual = Shoop::bool(true)->int();
         $this->assertEquals(1, $actual->unfold());

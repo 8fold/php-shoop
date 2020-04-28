@@ -51,30 +51,10 @@ class ESInt implements Shooped, Countable, Toggle, Shuffle
     }
 
 // - Type Juggling
-    public function string(): ESString
-    {
-        return Shoop::string((string) $this->unfold());
-    }
-
-    public function array(): ESArray
-    {
-        return Shoop::array($this->range(0));
-    }
-
-    public function dictionary(): ESDictionary
-    {
-        return $this->array()->dictionary();
-    }
-
-    public function int(): ESInt
-    {
-        return ESInt::fold($this->unfold());
-    }
-
-    public function json(): ESJson
-    {
-        return Shoop::object((object) ["json" => $this->unfold()])->json();
-    }
+    // public function int(): ESInt
+    // {
+    //     return ESInt::fold($this->unfold());
+    // }
 
 // - Manipulate
     public function toggle($preserveMembers = true): ESInt
@@ -147,10 +127,11 @@ class ESInt implements Shooped, Countable, Toggle, Shuffle
     public function range($int)
     {
         $int = Type::sanitizeType($int, ESInt::class)->unfold();
+        $range = range($int, $this->unfold());
         if ($int > $this->unfold()) {
-            return Shoop::this(range($this->unfold(), $int));
+            $range = range($this->unfold(), $int);
         }
-        return Shoop::this(range($int, $this->unfold()), ESArray::class);
+        return Shoop::array($range);
     }
 
 // - Transforms
@@ -172,5 +153,5 @@ class ESInt implements Shooped, Countable, Toggle, Shuffle
         $this->value = $value;
     }
 
-    public function offsetUnset($offset): void {}
+    // public function offsetUnset($offset): void {}
 }

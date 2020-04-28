@@ -6,19 +6,21 @@ use Eightfold\Shoop\Helpers\Type;
 
 use Eightfold\Shoop\Interfaces\{
     Shooped,
+    Compare,
     Countable,
     Has
 };
 
 use Eightfold\Shoop\Traits\{
     ShoopedImp,
+    CompareImp,
     CountableImp,
     HasImp
 };
 
-class ESObject implements Shooped, Countable, Has
+class ESObject implements Shooped, Compare, Countable, Has
 {
-    use ShoopedImp, CountableImp, HasImp;
+    use ShoopedImp, CompareImp, CountableImp, HasImp;
 
     public function __construct($object)
     {
@@ -41,32 +43,15 @@ class ESObject implements Shooped, Countable, Has
     }
 
 // - Type Juggling
-    public function array(): ESArray
-    {
-        $array = (array) $this->value;
-        return Shoop::dictionary($array)->array();
-    }
+    // public function object(): ESObject
+    // {
+    //     return Shoop::object($this->unfold());
+    // }
 
-    public function dictionary(): ESDictionary
-    {
-        $dictionary = (array) $this->unfold();
-        return Shoop::dictionary($dictionary);
-    }
-
-    public function object(): ESObject
-    {
-        return Shoop::object($this->unfold());
-    }
-
-    public function bool(): ESBool
-    {
-        return ESBool::fold(Type::isEmpty($this->array()))->toggle();
-    }
-
-    public function json(): ESJson
-    {
-        return Shoop::json(json_encode($this->unfold()));
-    }
+    // public function json(): ESJson
+    // {
+    //     return $this->object()->json();
+    // }
 
 // - PHP single-method interfaces
 // - Manipulate

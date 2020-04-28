@@ -171,14 +171,31 @@ class Type
     {
         $isString = is_string($potential);
         if ($isString) {
+            // Bail as soon as possible.
             $potential = trim($potential);
-            $isDecodable = is_array(json_decode($potential, true));
-            $noJsonError = (json_last_error() == JSON_ERROR_NONE);
 
-            $startsWithBrace = ESString::fold($potential)->startsWith("{")->unfold();
-            $endsWithBrace = ESString::fold($potential)->endsWith("}")->unfold();
+            $startsWith = "{";
+            $startsWithLength = strlen($startsWith);
+            if (substr($potential, 0, $startsWithLength) !== $startsWith) {
+                return false;
+            }
+
+            $endsWith = "}";
+            $endsWithLength = strlen($endsWith);
+            if (substr($potential, -$endsWithLength) !== $endsWith) {
+                return false;
+            }
+
+            if (! is_array(json_decode($potential, true))) {
+                return false;
+            }
+
+            $jsonError = json_last_error() !== JSON_ERROR_NONE;
+            if ($jsonError) {
+                return false;
+            }
         }
-        return ($isString && $isDecodable && $noJsonError && $startsWithBrace && $endsWithBrace);
+        return $isString;
     }
 
     static public function isNotJson($potential): bool

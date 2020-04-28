@@ -6,6 +6,7 @@ use Eightfold\Shoop\Helpers\Type;
 
 use Eightfold\Shoop\Interfaces\{
     Shooped,
+    Compare,
     Countable,
     Toggle,
     Sort,
@@ -14,6 +15,7 @@ use Eightfold\Shoop\Interfaces\{
 
 use Eightfold\Shoop\Traits\{
     ShoopedImp,
+    CompareImp,
     CountableImp,
     ToggleImp,
     SortImp,
@@ -24,14 +26,14 @@ use Eightfold\Shoop\ESInt;
 
 // TODO: get($key) - ESArray, ESDictionary
 class ESDictionary implements
-    \Iterator,
     Shooped,
+    Compare,
     Countable,
     Toggle,
     Sort,
     Has
 {
-    use ShoopedImp, CountableImp, ToggleImp, SortImp, HasImp;
+    use ShoopedImp, CompareImp, CountableImp, ToggleImp, SortImp, HasImp;
 
     public function __construct($dictionary)
     {
@@ -48,21 +50,6 @@ class ESDictionary implements
     }
 
 // - Type Juggling
-    public function array(): ESArray
-    {
-        return Shoop::array(array_values($this->value));
-    }
-
-    public function dictionary(): ESDictionary
-    {
-        return Shoop::dictionary($this->unfold());
-    }
-
-    public function json(): ESJson
-    {
-        return Shoop::json(json_encode($this->unfold()));
-    }
-
 // - PHP single-method interfaces
 // - Manipulate
     public function toggle($preserveMembers = true)

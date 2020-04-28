@@ -15,9 +15,8 @@ trait CompareImp
 {
     public function isGreaterThan($compare): ESBool
     {
-        $compare = Type::sanitizeType($compare, ESInt::class)
-            ->unfold();
-        $result = $this->unfold() > $compare;
+        $compare = Type::sanitizeType($compare, static::class);
+        $result = $this->unfold() > $compare->unfold();
         return Shoop::bool($result);
     }
 

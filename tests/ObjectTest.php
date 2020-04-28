@@ -58,44 +58,44 @@ class ObjectTest extends TestCase
         // $this->assertEquals($expected, $actual->unfold());
     }
 
-    public function testOther()
-    {
-        $expected = "stdClass Object([hello] => world)";
-        $actual = ESObject::fold([])->set("world", "hello");
-        $this->assertEquals($expected, $actual);
+    // public function testOther()
+    // {
+    //     // $expected = "stdClass Object([hello] => world)";
+    //     // $actual = ESObject::fold([])->set("world", "hello");
+    //     // $this->assertEquals($expected, $actual);
 
-        $expected = "stdClass Object([hello] => chat)";
-        $actual = $actual->set("chat", "hello");
-        $this->assertEquals($expected, $actual);
+    //     $expected = "stdClass Object([hello] => chat)";
+    //     $actual = $actual->set("chat", "hello");
+    //     $this->assertEquals($expected, $actual);
 
-        $expected = "stdClass Object([hello] => Array([0] => chat, [1] => world))";
-        $actual = $actual->set("world", "hello", false);
-        $this->assertEquals($expected, "{$actual}");
+    //     $expected = "stdClass Object([hello] => Array([0] => chat, [1] => world))";
+    //     $actual = $actual->set("world", "hello", false);
+    //     $this->assertEquals($expected, "{$actual}");
 
-        $expected = "stdClass Object([hello] => mother)";
-        $actual = $actual->set("mother", "hello");
-        $this->assertEquals($expected, $actual);
+    //     $expected = "stdClass Object([hello] => mother)";
+    //     $actual = $actual->set("mother", "hello");
+    //     $this->assertEquals($expected, $actual);
 
-        $actual = Shoop::object(["hello" => "mother"])->has("mother");
-        $this->assertTrue($actual->unfold());
+    //     $actual = Shoop::object(["hello" => "mother"])->has("mother");
+    //     $this->assertTrue($actual->unfold());
 
-        $actual = Shoop::object(["hello" => "mother"])->hasMember("hello");
-        $this->assertTrue($actual->unfold());
+    //     $actual = Shoop::object(["hello" => "mother"])->hasMember("hello");
+    //     $this->assertTrue($actual->unfold());
 
-        $actual = Shoop::object(["hello" => "mother"])->has("hello");
-        $this->assertFalse($actual->unfold());
+    //     $actual = Shoop::object(["hello" => "mother"])->has("hello");
+    //     $this->assertFalse($actual->unfold());
 
-        $actual = Shoop::object(["hello" => "mother"])->hasMember("mother");
-        $this->assertFalse($actual->unfold());
-    }
+    //     $actual = Shoop::object(["hello" => "mother"])->hasMember("mother");
+    //     $this->assertFalse($actual->unfold());
+    // }
 
-    public function testPhpTransportabilityToString()
-    {
-        // __toString
-        $expected = "stdClass Object([hello] => world)";
-        $actual = ESObject::fold(["hello" => "world"]);
-        $this->assertEquals($expected, "{$actual}");
-    }
+    // public function testPhpTransportabilityToString()
+    // {
+    //     // __toString
+    //     $expected = "stdClass Object([hello] => world)";
+    //     $actual = ESObject::fold(["hello" => "world"]);
+    //     $this->assertEquals($expected, "{$actual}");
+    // }
 
     // public function testTransportabilitySetAndPlus()
     // {

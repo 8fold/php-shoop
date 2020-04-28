@@ -56,31 +56,6 @@ class ESString implements
     }
 
 // - Type Juggling
-    public function string(): ESString
-    {
-        return Shoop::string($this->value);
-    }
-
-    public function array(): ESArray
-    {
-        return Shoop::array(preg_split('//u', $this->value, null, PREG_SPLIT_NO_EMPTY));
-    }
-
-    public function int(): ESInt
-    {
-        return ESInt::fold(intval($this->unfold()));
-    }
-
-    public function dictionary(): ESDictionary
-    {
-        return $this->array()->dictionary();
-    }
-
-    public function json(): ESJson
-    {
-        return Shoop::json($this->unfold());
-    }
-
 // - PHP single-method interfaces
     public function count(): ESInt
     {

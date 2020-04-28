@@ -59,7 +59,7 @@ class OffsetGetTest extends TestCase
         $actual = ESInt::fold(10)->offsetExists(8);
         $this->assertTrue($actual);
 
-        $actual = ESInt::fold(10)->offsetExists(10);
+        $actual = ESInt::fold(10)->offsetExists(9);
         $this->assertTrue($actual);
 
         $actual = ESInt::fold(10)->offsetExists(11);

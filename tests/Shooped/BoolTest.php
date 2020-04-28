@@ -6,6 +6,7 @@ use PHPUnit\Framework\TestCase;
 
 use Eightfold\Shoop\{
     Type,
+    Shoop,
     ESArray,
     ESBool,
     ESDictionary,

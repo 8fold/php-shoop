@@ -33,7 +33,7 @@ class ToObjecctTest extends TestCase
     public function testESArray()
     {
         $expected = new \stdClass();
-        $expected->{"0"} = "testing";
+        $expected->i0 = "testing";
 
         $actual = ESArray::fold(['testing'])->object();
         $this->assertEquals($expected, $actual->unfold());
@@ -74,7 +74,7 @@ class ToObjecctTest extends TestCase
     public function testESInt()
     {
         $expected = new \stdClass();
-        $expected->scalar = 1;
+        $expected->i0 = 1;
 
         $actual = ESInt::fold(1)->object();
         $this->assertEquals($expected, $actual->unfold());

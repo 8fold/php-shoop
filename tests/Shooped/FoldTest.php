@@ -1,11 +1,12 @@
 <?php
 
-namespace Eightfold\Shoop\Tests;
+namespace Eightfold\Shoop\Tests\Shooped;
 
 use PHPUnit\Framework\TestCase;
 
 use Eightfold\Shoop\{
     Type,
+    Shoop,
     ESArray,
     ESBool,
     ESDictionary,
