@@ -47,34 +47,6 @@ class ESObject implements Shooped, Compare, MathOperations, Has
 // - Manipulate
 // - Search
 // - Math language
-    public function plus(...$args)
-    {
-        $count = count($args);
-        if ($count < 2) {
-            $className = ESObject::class;
-            trigger_error(
-                "{$className}::plus() expects two arguments. {$count->unfold()} given."
-            );
-        }
-        $member = Type::sanitizeType($args[0], ESString::class)->unfold();
-        $value = $args[1];
-        $overwrite = true;
-        if ($count === 3 && $args[2] !== null && Type::is($args[2], ESBool::class, "bool")) {
-            $overwrite = Type::sanitizeType($args[2], ESBool::class)->unfold();
-        }
-        return $this->set($member, $value, $overwrite);
-    }
-
-    public function minus(...$args): ESObject
-    {
-        $stash = (array) $this->value;
-        foreach ($args as $delete) {
-            $member = Type::sanitizeType($delete, ESString::class)->unfold();
-            unset($stash[$member]);
-        }
-        return Shoop::object((object) $stash);
-    }
-
     public function divide($value = null)
     {
         return $this->dictionary()
@@ -205,23 +177,4 @@ class ESObject implements Shooped, Compare, MathOperations, Has
     // }
 
 // -> Array Access
-    public function offsetExists($offset): bool
-    {
-        return $this->dictionary()->offsetExists($offset);
-    }
-
-    public function offsetGet($offset)
-    {
-        return $this->dictionary()->offsetGet($offset);
-    }
-
-    public function offsetSet($offset, $value): void
-    {
-        $this->value = $this->set($value, $offset)->unfold();
-    }
-
-    public function offsetUnset($offset): void
-    {
-        unset($this->value->{$offset});
-    }
 }

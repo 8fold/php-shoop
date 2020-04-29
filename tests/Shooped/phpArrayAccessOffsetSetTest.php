@@ -72,7 +72,6 @@ class OffsetSetTest extends TestCase
         $expected = '{"test":false}';
         $actual = ESJson::fold('{"test":true}');
         $actual->offsetSet("test", false);
-        var_dump($actual);
         $this->assertEquals($expected, $actual->stringUnfolded());
     }
 

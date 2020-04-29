@@ -89,41 +89,6 @@ class ESArray implements
     }
 
 // - Math language
-    public function plus(...$args)
-    {
-        // TODO: Should be able to insert arbitrary values
-        $count = count($args);
-        switch ($count) {
-            case 0:
-                return Shoop::array($this->unfold());
-                break;
-
-            case 1:
-                $args = Type::sanitizeType($args[0], ESArray::class)->unfold();
-                $merged = array_merge($this->unfold(), $args);
-                return Shoop::array($merged);
-                break;
-
-            default:
-                $merged = array_merge($this->unfold(), $args);
-                return Shoop::array($merged);
-                break;
-        }
-    }
-
-    public function minus(...$args): ESArray
-    {
-        if (Type::isNotArray($args)) {
-            $args = [$args];
-        }
-        $deletes = Type::sanitizeType($args, ESArray::class)->unfold();
-        $copy = $this->unfold();
-        $array = array_filter($copy, function($value) use ($deletes) {
-          return ! in_array($value, $deletes);
-        });
-        return Shoop::array(array_values($array));
-    }
-
     public function divide($value = null)
     {
         $index = Type::sanitizeType($value, ESInt::class)->unfold();

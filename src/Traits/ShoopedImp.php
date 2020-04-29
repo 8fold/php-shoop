@@ -372,28 +372,78 @@ trait ShoopedImp
         return $this->string()->unfold();
     }
 
-// -> Array Access: Cannot call Shoop methods
+// -> Array Access
     public function offsetExists($offset): bool
     {
+        if (Type::is($this, ESBool::class)) {
+            return $this->value;
+
+        } elseif (Type::is($this, ESInt::class)) {
+            return $this->array()->offsetExists($offset);
+
+        } elseif (Type::is($this, ESJson::class, ESObject::class)) {
+            return $this->dictionary()->offsetExists($offset);
+
+        }
         return isset($this->value[$offset]);
     }
 
     public function offsetGet($offset)
     {
-        if ($this->offsetExists($offset)) {
+        if (Type::is($this, ESBool::class)) {
+            return $this->dictionary()->offsetGet($offset);
+
+        } elseif (Type::is($this, ESInt::class)) {
+            return $this->array()->offsetGet($offset - 1);
+
+        } elseif (Type::is($this, ESJson::class, ESObject::class)) {
+            return $this->dictionary()->offsetGet($offset);
+
+        } elseif ($this->offsetExists($offset)) {
             return $this->value[$offset];
+
         }
         trigger_error("Undefined offset: {$offset}", E_USER_ERROR);
     }
 
     public function offsetSet($offset, $value): void
     {
-        $this->value[$offset] = $value;
+        if (Type::is($this, ESInt::class, ESBool::class)) {
+            $this->value = $value;
+
+        } elseif (Type::is($this, ESJson::class)) {
+            $object = json_decode($this->value);
+            $object->{$offset} = $value;
+            $this->value = json_encode($object);
+
+        } elseif (Type::is($this, ESObject::class)) {
+            $this->value->{$offset} = $value;
+
+        } else {
+            $this->value[$offset] = $value;
+
+        }
     }
 
     public function offsetUnset($offset): void
     {
-        unset($this->value[$offset]);
+        if (Type::is($this, ESString::class)) {
+            $array = $this->array();
+            $array->offsetUnset($offset);
+            $this->value = join("", $array->unfold());
+
+        } elseif (Type::is($this, ESObject::class)) {
+            unset($this->value->{$offset});
+
+        } elseif (Type::is($this, ESJson::class)) {
+            $object = json_decode($this->value);
+            unset($object->{$offset});
+            $this->value = json_encode($object);
+
+        } else {
+            unset($this->value[$offset]);
+
+        }
     }
 
 //-> Iterator

@@ -31,12 +31,12 @@ use Eightfold\Shoop\{
  *
  * @return Eightfold\Shoop\ESString
  */
-class PlusTest extends TestCase
+class MinusTest extends TestCase
 {
     public function testESArray()
     {
-        $expected = ["hello", "goodbye"];
-        $actual = ESArray::fold([])->plus("hello", "goodbye");
+        $expected = ["goodbye"];
+        $actual = ESArray::fold(["hello", "goodbye", "hello"])->minus(0, 2);
         $this->assertEquals($expected, $actual->unfold());
     }
 
@@ -50,22 +50,22 @@ class PlusTest extends TestCase
 
     public function testESDictionary()
     {
-        $expected = ["key" => "value", "key2" => "value2"];
-        $actual = ESDictionary::fold([])->plus("value", "key", "value2", "key2");
+        $expected = [];
+        $actual = ESDictionary::fold(["key" => "value", "key2" => "value2"])->minus("key", "key2");
         $this->assertEquals($expected, $actual->unfold());
     }
 
     public function testESInt()
     {
-        $expected = 8;
-        $actual = ESInt::fold(5)->plus(3);
+        $expected = 2;
+        $actual = ESInt::fold(5)->minus(3);
         $this->assertEquals($expected, $actual->unfold());
     }
 
     public function testESJson()
     {
-        $expected = '{"member":"value","member2":"value2"}';
-        $actual = ESJson::fold('{"member":"value"}')->plus("value2", "member2");
+        $expected = '{"member":"value"}';
+        $actual = ESJson::fold('{"member":"value","member2":"value2"}')->minus("member2");
         $this->assertEquals($expected, $actual->unfold());
     }
 
@@ -73,15 +73,18 @@ class PlusTest extends TestCase
     {
         $expected = new \stdClass();
         $expected->member = "value";
-        $expected->member2 = "value2";
-        $actual = ESObject::fold(new \stdClass())->plus("value", "member", "value2", "member2");
+
+        $actual = new \stdClass();
+        $actual->member = "value";
+        $actual->member2 = "value2";
+        $actual = ESObject::fold($actual)->minus("member2");
         $this->assertEquals($expected, $actual->unfold());
     }
 
     public function testESString()
     {
-        $expected = "Hello, World!";
-        $actual = ESString::fold("Hello")->plus(", ", "World", "!");
+        $expected = "He, rd";
+        $actual = ESString::fold("Hello, World!")->minus("W", "l", "o", "!");
         $this->assertEquals($expected, $actual->unfold());
     }
 }

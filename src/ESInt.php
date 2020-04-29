@@ -59,33 +59,10 @@ class ESInt implements Shooped, MathOperations, Toggle, Shuffle
 
 // - Search
 // - Math language
-    public function plus(...$args)
-    {
-        $terms = $args;
-        $terms = $args;
-        $total = $this->value;
-        foreach ($terms as $term) {
-            $term = Type::sanitizeType($term, ESInt::class)
-                ->unfold();
-            $total += $term;
-        }
-        return Shoop::int($total);
-    }
-
     public function multiply($int)
     {
         $int = Type::sanitizeType($int, ESInt::class)->unfold();
         return ESInt::fold($this->unfold() * $int);
-    }
-
-    public function minus(...$args): ESInt
-    {
-        $total = $this->unfold();
-        foreach ($args as $term) {
-            $term = Type::sanitizeType($term, ESInt::class)->unfold();
-            $total -= $term;
-        }
-        return ESInt::fold($total);
     }
 
     public function divide($value = null)
@@ -132,21 +109,4 @@ class ESInt implements Shooped, MathOperations, Toggle, Shuffle
 // - Transforms
 // - Callers
 // -> Array Access
-    public function offsetExists($offset): bool
-    {
-        $array = $this->array();
-        return isset($array[$offset]);
-    }
-
-    public function offsetGet($offset)
-    {
-        $array = $this->array()->offsetGet($offset);
-    }
-
-    public function offsetSet($offset, $value): void
-    {
-        $this->value = $value;
-    }
-
-    // public function offsetUnset($offset): void {}
 }

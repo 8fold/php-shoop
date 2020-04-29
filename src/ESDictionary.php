@@ -65,36 +65,6 @@ class ESDictionary implements
 
 // - Search
 // - Math language
-    public function plus(...$args)
-    {
-        $count = count($args);// Shoop::array($args)->count();
-        if ($count < 2) {
-        // if ($count->isLessThanUnfolded(2)) {
-            $className = ESObject::class;
-            trigger_error(
-                "{$className}::plus() expects two arguments. {$count->unfold()} given."
-            );
-        }
-
-        $key = Type::sanitizeType($args[0], ESString::class)->unfold();
-        $value = $args[1];
-        $overwrite = true;
-        if ($count === 3 && $args[2] !== null && Type::is($args[2], ESBool::class, "bool")) {
-            $overwrite = Type::sanitizeType($args[2], ESBool::class)->unfold();
-        }
-        return $this->set($value, $key, $overwrite);
-    }
-
-    public function minus(...$args): ESDictionary
-    {
-        $stash = $this->value;
-        foreach ($args as $delete) {
-            $member = Type::sanitizeType($delete, ESString::class)->unfold();
-            unset($stash[$member]);
-        }
-        return Shoop::dictionary($stash);
-    }
-
     public function divide($value = null)
     {
         $keys = $this->members();

@@ -41,7 +41,7 @@ class OffsetGetTest extends TestCase
      */
     public function testESBool()
     {
-        $actual = ESBool::fold(true)->offsetGet(1);
+        $actual = ESBool::fold(true)->offsetGet("true");
         $this->assertTrue($actual);
     }
 
@@ -56,14 +56,11 @@ class OffsetGetTest extends TestCase
      */
     public function testESInt()
     {
-        $actual = ESInt::fold(10)->offsetExists(8);
-        $this->assertTrue($actual);
+        $actual = ESInt::fold(10)->offsetGet(8);
+        $this->assertEquals(8, $actual);
 
-        $actual = ESInt::fold(10)->offsetExists(9);
-        $this->assertTrue($actual);
-
-        $actual = ESInt::fold(10)->offsetExists(11);
-        $this->assertFalse($actual);
+        $actual = ESInt::fold(10)->offsetGet(9);
+        $this->assertEquals(9, $actual);
     }
 
     /**

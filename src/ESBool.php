@@ -79,20 +79,4 @@ class ESBool implements Shooped, Toggle, Shuffle, Compare
     }
 
 // -> Array Access
-    public function offsetExists($offset): bool
-    {
-        return $this->value;
-    }
-
-    public function offsetGet($offset)
-    {
-        return $this->value;
-    }
-
-    public function offsetSet($offset, $value): void
-    {
-        $this->value = $value;
-    }
-
-    public function offsetUnset($offset): void {}
 }

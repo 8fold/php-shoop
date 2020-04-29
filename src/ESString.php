@@ -63,28 +63,10 @@ class ESString implements
     }
 
 // - Math language
-    public function plus(...$args)
-    {
-        $total = $this->unfold();
-        $terms = $args;
-        foreach ($terms as $term) {
-            $term = Type::sanitizeType($term, ESString::class)->unfold();
-            $total .= $term;
-        }
-
-        return Shoop::string($total);
-    }
-
     public function multiply($int)
     {
         $int = Type::sanitizeType($int, ESInt::class)->unfold();
         return Shoop::string(str_repeat($this->unfold(), $int));
-    }
-
-    public function minus(...$args): ESString
-    {
-        $needle = Type::sanitizeType($args[0], ESString::class)->unfold();
-        return Shoop::string(str_replace($needle, "", $this->unfold()));
     }
 
     public function divide($divisor = null, $removeEmpties = true)
@@ -222,10 +204,4 @@ class ESString implements
 // - Transforms
 // - Callers
 // -> Array Access
-    public function offsetUnset($offset): void
-    {
-        $array = $this->array();
-        $array->offsetUnset($offset);
-        $this->value = implode("", $array->unfold());
-    }
 }

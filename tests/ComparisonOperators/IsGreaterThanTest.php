@@ -1,6 +1,6 @@
 <?php
 
-namespace Eightfold\Shoop\Tests;
+namespace Eightfold\Shoop\Tests\ComparisonOperators;
 
 use PHPUnit\Framework\TestCase;
 
@@ -28,41 +28,41 @@ use Eightfold\Shoop\{
  *
  * @return Eightfold\Shoop\ESBool
  */
-class IsLessThanOrEqualTest extends TestCase
+class IsGreaterThanTest extends TestCase
 {
     public function testESArray()
     {
         $base = ["hello", "world"];
-        $actual = ESArray::fold($base)->isLessThanOrEqual($base);
-        $this->assertTrue($actual->unfold());
+        $actual = ESArray::fold($base)->isGreaterThan($base);
+        $this->assertFalse($actual->unfold());
     }
 
     public function testESBool()
     {
         $base = true;
-        $actual = ESBool::fold($base)->isLessThanOrEqual(false);
-        $this->assertFalse($actual->unfold());
+        $actual = ESBool::fold($base)->isGreaterThan(false);
+        $this->assertTrue($actual->unfold());
     }
 
     public function testESDictionary()
     {
         $base = ["key" => "value"];
-        $actual = ESDictionary::fold($base)->isLessThanOrEqual($base);
-        $this->assertTrue($actual->unfold());
+        $actual = ESDictionary::fold($base)->isGreaterThan($base);
+        $this->assertFalse($actual->unfold());
     }
 
     public function testESInt()
     {
-        $base = 11;
-        $actual = ESInt::fold(11)->isLessThanOrEqual($base);
+        $base = 10;
+        $actual = ESInt::fold(11)->isGreaterThan($base);
         $this->assertTrue($actual->unfold());
     }
 
     public function testESJson()
     {
         $base = '{"test":"test"}';
-        $actual = ESJson::fold($base)->isLessThanOrEqual($base);
-        $this->assertTrue($actual->unfold());
+        $actual = ESJson::fold($base)->isGreaterThan($base);
+        $this->assertFalse($actual->unfold());
     }
 
     public function testESObject()
@@ -70,16 +70,16 @@ class IsLessThanOrEqualTest extends TestCase
         $base = new \stdClass();
         $base->test = "test";
 
-        $actual = ESObject::fold($base)->isLessThanOrEqual($base);
-        $this->assertTrue($actual->unfold());
+        $actual = ESObject::fold($base)->isGreaterThan($base);
+        $this->assertFalse($actual->unfold());
     }
 
     public function testESString()
     {
-        $actual = ESString::fold("a")->isLessThanOrEqual("b");
-        $this->assertTrue($actual->unfold());
+        $actual = ESString::fold("a")->isGreaterThan("b");
+        $this->assertFalse($actual->unfold());
 
-        $actual = ESString::fold("b")->isLessThanOrEqual("b");
-        $this->assertTrue($actual->unfold());
+        $actual = ESString::fold("b")->isGreaterThan("b");
+        $this->assertFalse($actual->unfold());
     }
 }

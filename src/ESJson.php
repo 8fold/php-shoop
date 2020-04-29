@@ -66,16 +66,6 @@ class ESJson implements Shooped, Compare, MathOperations, Has, \JsonSerializable
     }
 
 // - Math language
-    public function plus(...$args): ESJson
-    {
-        return $this->object()->plus(...$args)->json();
-    }
-
-    public function minus(...$args): ESJson
-    {
-        return $this->object()->minus(...$args)->json();
-    }
-
 // - Other
     public function set($value, $key, $overwrite = true)
     {
@@ -135,25 +125,4 @@ class ESJson implements Shooped, Compare, MathOperations, Has, \JsonSerializable
     }
 
 // -> Array Access
-    public function offsetExists($offset): bool
-    {
-        return $this->dictionary()->offsetExists($offset);
-    }
-
-    public function offsetGet($offset)
-    {
-        return $this->dictionary()->offsetGet($offset);
-    }
-
-    public function offsetSet($offset, $value): void
-    {
-        $this->value = $this->set($value, $offset)->string();
-    }
-
-    public function offsetUnset($offset): void
-    {
-        $object = $this->object();
-        $object->offsetUnset($offset);
-        $this->value = $object->json();
-    }
 }
