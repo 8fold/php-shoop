@@ -4,7 +4,7 @@ namespace Eightfold\Shoop;
 
 use Eightfold\Shoop\Interfaces\{
     Shooped,
-    Countable,
+    MathOperations,
     Toggle,
     Shuffle,
     Wrap,
@@ -16,7 +16,7 @@ use Eightfold\Shoop\Interfaces\{
 
 use Eightfold\Shoop\Traits\{
     ShoopedImp,
-    CountableImp,
+    MathOperationsImp,
     ToggleImp,
     ShuffleImp,
     WrapImp,
@@ -30,7 +30,7 @@ use Eightfold\Shoop\Helpers\Type;
 // TODO: replace(x, y)
 class ESString implements
     Shooped,
-    Countable,
+    MathOperations,
     Toggle,
     Shuffle,
     Wrap,
@@ -39,7 +39,7 @@ class ESString implements
     Has, // TODO: Consider different implementation (array splits on letters, words become issues)
     Compare
 {
-    use ShoopedImp, CountableImp, ToggleImp, ShuffleImp, WrapImp, SortImp, HasImp, CompareImp;
+    use ShoopedImp, MathOperationsImp, ToggleImp, ShuffleImp, WrapImp, SortImp, HasImp, CompareImp;
 
     public function __construct($string)
     {
@@ -63,12 +63,6 @@ class ESString implements
     }
 
 // - Math language
-    public function multiply($int)
-    {
-        $int = Type::sanitizeType($int, ESInt::class)->unfold();
-        return Shoop::string(str_repeat($this->unfold(), $int));
-    }
-
     public function plus(...$args)
     {
         $total = $this->unfold();
@@ -79,6 +73,12 @@ class ESString implements
         }
 
         return Shoop::string($total);
+    }
+
+    public function multiply($int)
+    {
+        $int = Type::sanitizeType($int, ESInt::class)->unfold();
+        return Shoop::string(str_repeat($this->unfold(), $int));
     }
 
     public function minus(...$args): ESString

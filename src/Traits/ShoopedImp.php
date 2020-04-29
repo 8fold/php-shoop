@@ -284,16 +284,6 @@ trait ShoopedImp
 
 // - Manipulating
 // - Math language
-    public function multiply($int = 1)
-    {
-        $int = Type::sanitizeType($int, ESInt::class)->unfold();
-        $array = [];
-        for ($i = 0; $i < $int; $i++) {
-            $array[] = $this;
-        }
-        return Shoop::array($array);
-    }
-
 // - Comparison
     public function is($compare): ESBool
     {

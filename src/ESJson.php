@@ -9,21 +9,23 @@ use Eightfold\Shoop\Shoop;
 use Eightfold\Shoop\Interfaces\{
     Shooped,
     Compare,
+    MathOperations,
     Has
 };
 
 use Eightfold\Shoop\Traits\{
     ShoopedImp,
     CompareImp,
+    MathOperationsImp,
     HasImp
 };
 
 use Eightfold\Shoop\ESDictionary;
 
 // TODO: Need to be able to handle the path
-class ESJson implements Shooped, Compare, Has, \JsonSerializable
+class ESJson implements Shooped, Compare, MathOperations, Has, \JsonSerializable
 {
-    use ShoopedImp, CompareImp, HasImp;
+    use ShoopedImp, CompareImp, MathOperationsImp, HasImp;
 
     // TODO: How to store path ??
     protected $path = "";

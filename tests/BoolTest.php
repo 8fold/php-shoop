@@ -39,24 +39,24 @@ class BoolTest extends TestCase
         $this->assertFalse($actual->unfold());
     }
 
-    public function testMathLanguage()
-    {
-        $expected = [true, true, true];
-        $actual = Shoop::this(true)->multiply(3);
-        $this->assertEquals($expected, $actual->unfold());
-    }
+    // public function testMathLanguage()
+    // {
+    //     $expected = [true, true, true];
+    //     $actual = Shoop::this(true)->multiply(3);
+    //     $this->assertEquals($expected, $actual->unfold());
+    // }
 
-    public function testComparison()
-    {
-        $true = Shoop::this(true);
-        $false = Shoop::this(false);
+    // public function testComparison()
+    // {
+    //     $true = Shoop::this(true);
+    //     $false = Shoop::this(false);
 
-        $this->assertFalse($true->is($false)->unfold());
+    //     $this->assertFalse($true->is($false)->unfold());
 
-        $this->assertTrue($true->isGreaterThan($false)->unfold());
+    //     $this->assertTrue($true->isGreaterThan($false)->unfold());
 
-        $this->assertFalse($true->isLessThan($false)->unfold());
-    }
+    //     $this->assertFalse($true->isLessThan($false)->unfold());
+    // }
 
     public function testOther()
     {

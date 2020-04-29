@@ -1,6 +1,6 @@
 <?php
 
-namespace Eightfold\Shoop\Tests;
+namespace Eightfold\Shoop\Tests\Shooped;
 
 use PHPUnit\Framework\TestCase;
 
@@ -28,7 +28,7 @@ use Eightfold\Shoop\{
  *
  * @return string Calling `string()->unfold()`
  */
-class MagicToStringTest extends TestCase
+class php_ToStringTest extends TestCase
 {
     public function testESArray()
     {

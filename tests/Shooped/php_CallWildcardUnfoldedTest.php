@@ -1,6 +1,6 @@
 <?php
 
-namespace Eightfold\Shoop\Tests;
+namespace Eightfold\Shoop\Tests\Shooped;
 
 use PHPUnit\Framework\TestCase;
 
@@ -30,7 +30,7 @@ use Eightfold\Shoop\{
  *
  * @return multiple
  */
-class MagicCallWildcardUnfoldedTest extends TestCase
+class php_CallWildcardUnfoldedTest extends TestCase
 {
     public function testESArray()
     {

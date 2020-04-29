@@ -7,7 +7,7 @@ use Eightfold\Shoop\Helpers\Type;
 use Eightfold\Shoop\Interfaces\{
     Shooped,
     Compare,
-    Countable,
+    MathOperations,
     Toggle,
     Sort,
     Has
@@ -16,7 +16,7 @@ use Eightfold\Shoop\Interfaces\{
 use Eightfold\Shoop\Traits\{
     ShoopedImp,
     CompareImp,
-    CountableImp,
+    MathOperationsImp,
     ToggleImp,
     SortImp,
     HasImp
@@ -28,12 +28,12 @@ use Eightfold\Shoop\ESInt;
 class ESDictionary implements
     Shooped,
     Compare,
-    Countable,
+    MathOperations,
     Toggle,
     Sort,
     Has
 {
-    use ShoopedImp, CompareImp, CountableImp, ToggleImp, SortImp, HasImp;
+    use ShoopedImp, CompareImp, MathOperationsImp, ToggleImp, SortImp, HasImp;
 
     public function __construct($dictionary)
     {

@@ -43,14 +43,14 @@ class MultiplyTest extends TestCase
         $this->assertEquals($expected, $actual->unfold());
     }
 
-    public function testESBool()
-    {
-        $base = true;
-        $expected = [$base, $base, $base, $base];
+    // public function testESBool()
+    // {
+    //     $base = true;
+    //     $expected = [$base, $base, $base, $base];
 
-        $actual = ESBool::fold($base)->multiply(4);
-        $this->assertEquals($expected, $actual->unfold());
-    }
+    //     $actual = ESBool::fold($base)->multiply(4);
+    //     $this->assertEquals($expected, $actual->unfold());
+    // }
 
     public function testESDictionary()
     {

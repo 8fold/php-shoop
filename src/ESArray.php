@@ -7,7 +7,7 @@ use Eightfold\Shoop\Helpers\Type;
 use Eightfold\Shoop\Interfaces\{
     Shooped,
     Compare,
-    Countable,
+    MathOperations,
     Toggle,
     Shuffle,
     Wrap,
@@ -19,7 +19,7 @@ use Eightfold\Shoop\Interfaces\{
 use Eightfold\Shoop\Traits\{
     ShoopedImp,
     CompareImp,
-    CountableImp,
+    MathOperationsImp,
     ToggleImp,
     ShuffleImp,
     WrapImp,
@@ -30,7 +30,7 @@ use Eightfold\Shoop\Traits\{
 class ESArray implements
     Shooped,
     Compare,
-    Countable,
+    MathOperations,
     Toggle,
     Shuffle,
     Wrap,
@@ -38,7 +38,7 @@ class ESArray implements
     Split,
     Has
 {
-    use ShoopedImp, CompareImp, CountableImp, ToggleImp, ShuffleImp, WrapImp, SortImp, HasImp;
+    use ShoopedImp, CompareImp, MathOperationsImp, ToggleImp, ShuffleImp, WrapImp, SortImp, HasImp;
 
     public function __construct($array = [])
     {

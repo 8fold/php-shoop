@@ -39,18 +39,6 @@ class ESBool implements Shooped, Toggle, Shuffle, Compare
     }
 
 // - Type Juggling
-    // public function int(): ESInt
-    // {
-    //     $bool = ($this->unfold()) ? 1 : 0;
-    //     return ESInt::fold($bool);
-    // }
-
-    // public function object(): ESObject
-    // {
-    //     return $this->dictionary()->object();
-    //     // $object = (object) $this->dictionary()->unfold();
-    //     // return Shoop::object($object);
-    // }
 // - PHP single-method interfaces
 // - Manipulate
     public function toggle($preserveMembers = true): ESBool
