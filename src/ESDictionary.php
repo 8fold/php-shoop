@@ -65,13 +65,6 @@ class ESDictionary implements
 
 // - Search
 // - Math language
-    public function divide($value = null)
-    {
-        $keys = $this->members();
-        $values = $this->array();
-        return Shoop::dictionary(["keys" => $keys, "values" => $values]);
-    }
-
 // - Comparison
 // - Other
     public function set($value, $key, $overwrite = true)

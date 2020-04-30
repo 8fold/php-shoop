@@ -85,12 +85,12 @@ class ArrayTest extends TestCase
         // $actual = ESArray::fold([1])->multiply(4);
         // $this->assertEquals($expected, $actual->unfold());
 
-        $expected = [
-            [1, 2, 4],
-            [2, 1]
-        ];
-        $actual = ESArray::fold([1, 2, 4, 2, 1])->divide(3);
-        $this->assertEquals($expected, $actual->unfold());
+        // $expected = [
+        //     [1, 2, 4],
+        //     [2, 1]
+        // ];
+        // $actual = ESArray::fold([1, 2, 4, 2, 1])->divide(3);
+        // $this->assertEquals($expected, $actual->unfold());
     }
 
     public function testGetters()

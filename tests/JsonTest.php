@@ -82,12 +82,12 @@ class JsonTest extends TestCase
         // $this->assertEquals('{"hello":[1,2,3,4]}', $actual->unfold());
     // }
 
-    public function testComparisons()
-    {
-        $base = '{"hello":{"world":"!"}}';
-        $actual = Shoop::json($base)->get("hello")->get("world")->is("!");
-        $this->assertTrue($actual->unfold());
-    }
+    // public function testComparisons()
+    // {
+    //     $base = '{"hello":{"world":"!"}}';
+    //     $actual = Shoop::json($base)->get("hello")->get("world")->is("!");
+    //     $this->assertTrue($actual->unfold());
+    // }
 
     // public function testOther()
     // {

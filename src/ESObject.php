@@ -47,14 +47,6 @@ class ESObject implements Shooped, Compare, MathOperations, Has
 // - Manipulate
 // - Search
 // - Math language
-    public function divide($value = null)
-    {
-        return $this->dictionary()
-            ->divide()
-            ->object()
-            ->rename("keys", "members");
-    }
-
 // - Comparison
     public function isEmpty(): ESBool
     {
@@ -95,12 +87,6 @@ class ESObject implements Shooped, Compare, MathOperations, Has
             return ((Type::isPhp($m))) ? Type::sanitizeType($m) : $m;
         }
         return null;
-    }
-
-    public function has($value): ESBool
-    {
-        // Check if value exists
-        return Shoop::bool($this->array()->has($value));
     }
 
     public function hasMember($member): ESBool

@@ -9,8 +9,7 @@ use Eightfold\Shoop\ESInt;
 use Eightfold\Shoop\Interfaces\{
     Shooped,
     Compare,
-    Toggle,
-    Shuffle
+    Toggle
 };
 
 use Eightfold\Shoop\Traits\{
@@ -20,9 +19,9 @@ use Eightfold\Shoop\Traits\{
     ShuffleImp
 };
 
-class ESBool implements Shooped, Toggle, Shuffle, Compare
+class ESBool implements Shooped, Compare, Toggle
 {
-    use ShoopedImp, ToggleImp, ShuffleImp, CompareImp;
+    use ShoopedImp, CompareImp, ToggleImp;
 
     public function __construct($bool)
     {

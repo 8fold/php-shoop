@@ -103,14 +103,14 @@ class TypeTest extends TestCase
         );
         $this->assertFalse($result);
 
-        $result = Type::isPath("/Users/server/public/folder");
-        $this->assertTrue($result);
+        // $result = Type::isPath("/Users/server/public/folder");
+        // $this->assertTrue($result);
 
-        $result = Type::isPath("http://8fold.software");
-        $this->assertFalse($result);
+        // $result = Type::isPath("http://8fold.software");
+        // $this->assertFalse($result);
 
-        $result = Type::isUri("http://8fold.software");
-        $this->assertTrue($result);
+        // $result = Type::isUri("http://8fold.software");
+        // $this->assertTrue($result);
     }
 
     public function testCanGetTypeFromType()

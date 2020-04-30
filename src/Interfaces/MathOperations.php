@@ -19,5 +19,5 @@ interface MathOperations extends \Countable
     // public function multiply($int);
 
     // Does not make sense on ESBool
-    // public function divide($value = null);
+    // public function divide($divisor = null);
 }

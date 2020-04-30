@@ -89,16 +89,6 @@ class ESArray implements
     }
 
 // - Math language
-    public function divide($value = null)
-    {
-        $index = Type::sanitizeType($value, ESInt::class)->unfold();
-
-        $left = array_slice($this->unfold(), 0, $index);
-        $right = array_slice($this->unfold(), $index);
-
-        return Shoop::array([$left, $right]);
-    }
-
     public function split($splitter = 1, $splits = 2)
     {
         return $this->divide($splitter);

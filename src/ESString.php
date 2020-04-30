@@ -63,30 +63,6 @@ class ESString implements
     }
 
 // - Math language
-    public function multiply($int)
-    {
-        $int = Type::sanitizeType($int, ESInt::class)->unfold();
-        return Shoop::string(str_repeat($this->unfold(), $int));
-    }
-
-    public function divide($divisor = null, $removeEmpties = true)
-    {
-        if ($divisor === null) {
-            return Shoop::array([]);
-        }
-
-        $divisor = Type::sanitizeType($divisor, ESString::class);
-        $removeEmpties = Type::sanitizeType($removeEmpties, ESBool::class);
-
-        $exploded = explode($divisor, $this);
-        $shooped = Shoop::array($exploded);
-
-        if ($removeEmpties->unfold()) {
-            $shooped = $shooped->noEmpties();
-        }
-        return $shooped;
-    }
-
 // - Comparison
 // - Getters
     public function set($value)

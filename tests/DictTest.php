@@ -108,31 +108,31 @@ class DictTest extends TestCase
         $this->assertTrue($result->unfold());
     }
 
-    public function testDictionaryCanMath()
-    {
-        // $expected = ["zero" => 0, "one" => 1];
-        // $result = ESDictionary::fold(["zero" => 0])->plusUnfolded("one", 1);
-        // $this->assertEquals($expected, $result);
+    // public function testDictionaryCanMath()
+    // {
+    //     // $expected = ["zero" => 0, "one" => 1];
+    //     // $result = ESDictionary::fold(["zero" => 0])->plusUnfolded("one", 1);
+    //     // $this->assertEquals($expected, $result);
 
-        // $result = ESDictionary::fold($expected)->minusUnfolded("zero");
-        // $this->assertEquals(["one" => 1], $result);
+    //     // $result = ESDictionary::fold($expected)->minusUnfolded("zero");
+    //     // $this->assertEquals(["one" => 1], $result);
 
-        $base = ["one" => 1, "two" => 2];
-        $expected = [
-            $base,
-            $base,
-            $base
-        ];
-        $result = ESDictionary::fold($base)->multiplyUnfolded(3);
-        $this->assertEquals($expected, $result);
+    //     // $base = ["one" => 1, "two" => 2];
+    //     // $expected = [
+    //     //     $base,
+    //     //     $base,
+    //     //     $base
+    //     // ];
+    //     // $result = ESDictionary::fold($base)->multiplyUnfolded(3);
+    //     // $this->assertEquals($expected, $result);
 
-        $result = Shoop::dictionary($base)->divide();
-        $expected = [
-            "keys" => ["one", "two"],
-            "values" => [1, 2]
-        ];
-        $this->assertEquals($expected, $result->unfold());
-    }
+    //     // $result = Shoop::dictionary($base)->divide();
+    //     // $expected = [
+    //     //     "keys" => ["one", "two"],
+    //     //     "values" => [1, 2]
+    //     // ];
+    //     // $this->assertEquals($expected, $result->unfold());
+    // }
 
     // public function testCanGetValueForKey()
     // {

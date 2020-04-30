@@ -102,9 +102,9 @@ class StringTest extends TestCase
         $actual = Shoop::this("Hello", ESString::class)->multiply(3);
         $this->assertEquals($expected, $actual->unfold());
 
-        $compare = ESArray::fold(["He", "o, Wor", "d!"]);
-        $actual = ESString::fold("Hello, World!")->divide("l");
-        $this->assertTrue($actual->is($compare)->unfold());
+        // $compare = ESArray::fold(["He", "o, Wor", "d!"]);
+        // $actual = ESString::fold("Hello, World!")->divide("l");
+        // $this->assertTrue($actual->is($compare)->unfold());
 
         $compare = ESArray::fold(["He", "lo, World!"]);
         $result = Shoop::this("Hello, World!", ESString::class)->split("l");
@@ -164,14 +164,14 @@ class StringTest extends TestCase
         $this->assertEquals($expected, $actual);
     }
 
-    public function testStringIsInArray()
-    {
-        $array = [
-            "one",
-            "two",
-            "three"
-        ];
-        $result = Shoop::string("two")->isIn($array);
-        $this->assertTrue($result->unfold());
-    }
+    // public function testStringIsInArray()
+    // {
+    //     $array = [
+    //         "one",
+    //         "two",
+    //         "three"
+    //     ];
+    //     $result = Shoop::string("two")->isIn($array);
+    //     $this->assertTrue($result->unfold());
+    // }
 }

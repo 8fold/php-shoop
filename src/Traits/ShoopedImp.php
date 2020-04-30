@@ -232,6 +232,7 @@ trait ShoopedImp
         return $build;
     }
 
+    // TODO: Move to a helper class per DRY
     private function arrayValuesFromIndexedArray(array $array = []): array
     {
         return array_values($array);

@@ -6,7 +6,6 @@ use Eightfold\Shoop\Interfaces\{
     Shooped,
     MathOperations,
     Toggle,
-    Shuffle,
     Compare
 };
 
@@ -14,7 +13,6 @@ use Eightfold\Shoop\Traits\{
     ShoopedImp,
     MathOperationsImp,
     ToggleImp,
-    ShuffleImp,
     CompareImp
 };
 
@@ -26,9 +24,9 @@ use Eightfold\Shoop\{
 use Eightfold\Shoop\Helpers\Type;
 
 
-class ESInt implements Shooped, MathOperations, Toggle, Shuffle
+class ESInt implements Shooped, MathOperations, Toggle
 {
-    use ShoopedImp, MathOperationsImp, ToggleImp, ShuffleImp, CompareImp;
+    use ShoopedImp, MathOperationsImp, ToggleImp, CompareImp;
 
     public function __construct($int)
     {
@@ -59,23 +57,6 @@ class ESInt implements Shooped, MathOperations, Toggle, Shuffle
 
 // - Search
 // - Math language
-    public function multiply($int)
-    {
-        $int = Type::sanitizeType($int, ESInt::class)->unfold();
-        return ESInt::fold($this->unfold() * $int);
-    }
-
-    public function divide($value = null)
-    {
-        if ($value === null) {
-            return $this;
-        }
-
-        $divisor = Type::sanitizeType($value, ESInt::class)->unfold();
-        $enumerator = $this->unfold();
-        return ESInt::fold((int) floor($enumerator/$divisor));
-    }
-
 // - Getters
     public function get()
     {

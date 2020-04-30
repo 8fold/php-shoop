@@ -34,29 +34,29 @@ class ObjectTest extends TestCase
         $this->assertEquals("stdClass Object([one] => 1)", $actual);
     }
 
-    public function testMathLanguage()
-    {
-        // $expected = (object) ["one" => 1, "two" => 2];
-        // $actual = Shoop::this((object) ["one" => 1])->plus(2, "two");
-        // $this->assertEquals($expected, $actual->unfold());
+    // public function testMathLanguage()
+    // {
+    //     // $expected = (object) ["one" => 1, "two" => 2];
+    //     // $actual = Shoop::this((object) ["one" => 1])->plus(2, "two");
+    //     // $this->assertEquals($expected, $actual->unfold());
 
-        // $expected2 = (object) ["two" => 2];
-        // $actual = Shoop::object($expected)->minus("one");
-        // $this->assertEquals($expected2, $actual->unfold());
+    //     // $expected2 = (object) ["two" => 2];
+    //     // $actual = Shoop::object($expected)->minus("one");
+    //     // $this->assertEquals($expected2, $actual->unfold());
 
-        $expected = [
-            (object) ["one" => 1, "two" => 2],
-            (object) ["one" => 1, "two" => 2]
-        ];
-        $actual = Shoop::this((object) ["one" => 1, "two" => 2])
-            ->multiply(2);
-        $this->assertEquals($expected, $actual->unfold());
+    //     // $expected = [
+    //     //     (object) ["one" => 1, "two" => 2],
+    //     //     (object) ["one" => 1, "two" => 2]
+    //     // ];
+    //     // $actual = Shoop::this((object) ["one" => 1, "two" => 2])
+    //     //     ->multiply(2);
+    //     // $this->assertEquals($expected, $actual->unfold());
 
-        // $expected = (object) ["members" => ["one", "two"], "values" => [1, 2]];
-        // $actual = Shoop::this((object) ["one" => 1, "two" => 2])
-        //     ->divide();
-        // $this->assertEquals($expected, $actual->unfold());
-    }
+    //     // $expected = (object) ["members" => ["one", "two"], "values" => [1, 2]];
+    //     // $actual = Shoop::this((object) ["one" => 1, "two" => 2])
+    //     //     ->divide();
+    //     // $this->assertEquals($expected, $actual->unfold());
+    // }
 
     // public function testOther()
     // {

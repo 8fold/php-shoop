@@ -43,16 +43,6 @@ class ESJson implements Shooped, Compare, MathOperations, Has, \JsonSerializable
 	}
 
 // - Type Juggling
-    // public function object(): ESObject
-    // {
-    //     return $this->dictionary()->object();
-    // }
-
-    // public function json(): ESJson
-    // {
-    //     return Shoop::json($this->unfold());
-    // }
-
 // - Comparison
     public function isEmpty(): ESBool
     {
@@ -90,11 +80,6 @@ class ESJson implements Shooped, Compare, MathOperations, Has, \JsonSerializable
         $cast->{$key} = $value;
         $encoded = json_encode($cast);
         return static::fold($encoded);
-    }
-
-    public function has($member): ESBool
-    {
-        return $this->hasMember($member);
     }
 
     public function hasMember($member): ESBool

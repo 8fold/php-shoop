@@ -19,7 +19,10 @@ trait MathOperationsImp
 {
     public function count(): ESInt
     {
-        return $this->int();
+        if (Type::is($this, ESArray::class, ESDictionary::class, ESInt::class, ESJson::class, ESObject::class)) {
+            return $this->int();
+
+        }
     }
 
     public function plus(...$args) // self
@@ -95,21 +98,12 @@ trait MathOperationsImp
 
         } elseif (Type::is($this, ESJson::class)) {
             $object = json_decode($this->value);
-            foreach ($args as $member) {
-                if (method_exists($object, $member) or property_exists($object, $member)) {
-                    unset($object->{$member});
-                }
-            }
+            $object = $this->removeMembersFromObject($object, $args);
             $json = json_encode($object);
             return Shoop::json($json);
 
         } elseif (Type::is($this, ESObject::class)) {
-            $object = $this->value;
-            foreach ($args as $member) {
-                if (method_exists($object, $member) or property_exists($object, $member)) {
-                    unset($object->{$member});
-                }
-            }
+            $object = $this->removeMembersFromObject($this->value, $args);
             return Shoop::object($object);
 
         } elseif (Type::is($this, ESString::class)) {
@@ -118,14 +112,70 @@ trait MathOperationsImp
         }
     }
 
-    public function multiply($int = 1)
+    public function divide($divisor = 0)
     {
-        $int = Type::sanitizeType($int, ESInt::class)->unfold();
-        $array = [];
-        for ($i = 0; $i < $int; $i++) {
-            $array[] = $this;
+        // TODO: Consider putting $removeEmpties boolean back in
+        if (Type::is($this, ESArray::class)) {
+            $divisor = Type::sanitizeType($divisor, ESInt::class)->unfold();
+
+            $left = array_slice($this->unfold(), 0, $divisor);
+            $right = array_slice($this->unfold(), $divisor);
+
+            return Shoop::array([$left, $right]);
+
+        } elseif (Type::is($this, ESDictionary::class)) {
+            $dictionary = $this->value;
+            $dictionary = $this->dictionaryToDictionaryOfKeysAndValues($dictionary);
+            return Shoop::dictionary($dictionary);
+
+        } elseif (Type::is($this, ESInt::class)) {
+            $enumerator = $this->value;
+            $divisor = Type::sanitizeType($divisor, ESInt::class)->unfold();
+            return Shoop::int(round($enumerator/$divisor));
+
+        } elseif (Type::is($this, ESJson::class)) {
+            $json = $this->value;
+            $object = json_decode($json);
+            $object = $this->objectToObjectWithKeysAndValues($object);
+            $json = json_encode($object);
+            return Shoop::json($json);
+
+        } elseif (Type::is($this, ESObject::class)) {
+            $object = $this->value;
+            $object = $this->objectToObjectWithKeysAndValues($object);
+            return Shoop::object($object);
+
+        } elseif (Type::is($this, ESString::class)) {
+            $string = $this->value;
+            $array = explode($divisor, $string);
+            return Shoop::array($array);
+
         }
-        return Shoop::array($array);
+    }
+
+    public function multiply($multiplier = 1)
+    {
+        if (Type::is($this, ESArray::class, ESDictionary::class, ESJson::class, ESObject::class)) {
+            $product = [];
+            for ($i = 0; $i < $multiplier; $i++) {
+                $product[] = $this;
+            }
+            return Shoop::array($product);
+
+        } elseif (Type::is($this, ESInt::class)) {
+            $int = $this->value;
+            $multiplier = Type::sanitizeType($multiplier, ESInt::class)->unfold();
+            $product = $int * $multiplier;
+            return Shoop::int($product);
+
+        } elseif (Type::is($this, ESString::class)) {
+            $string = $this->value;
+            $multiplier = Type::sanitizeType($multiplier, ESInt::class)->unfold();
+            $repeated = str_repeat($string, $multiplier);
+
+            return Shoop::string($repeated);
+
+        }
     }
 
     private function indexedArrayToValueKeyArray(array $args): array
@@ -153,5 +203,35 @@ trait MathOperationsImp
         }
         $dictionary = array_combine($keys, $values);
         return $dictionary;
+    }
+
+    private function removeMembersFromObject(object $object, array $members): object
+    {
+        foreach ($members as $member) {
+            if (method_exists($object, $member) or property_exists($object, $member)) {
+                unset($object->{$member});
+            }
+        }
+        return $object;
+    }
+
+    private function dictionaryToDictionaryOfKeysAndValues(array $dictionary): array
+    {
+        $left = array_keys($dictionary);
+        $right = $this->arrayValuesFromIndexedArray($dictionary);
+        $dictionary = ["keys" => $left, "values" => $right];
+        return $dictionary;
+    }
+
+    private function objectToObjectWithKeysAndValues(object $object): object
+    {
+        $dictionary = (array) $object;
+        $dictionary = $this->dictionaryToDictionaryOfKeysAndValues($dictionary);
+        $dictionary = [
+            "members" => $dictionary["keys"],
+            "values" => $dictionary["values"]
+        ];
+        $object = (object) $dictionary;
+        return $object;
     }
 }
