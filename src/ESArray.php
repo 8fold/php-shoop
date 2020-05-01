@@ -54,38 +54,6 @@ class ESArray implements
 // - PHP single-method interfaces
 // - Manipulate
 // - Wrap
-    public function startsWith($needle): ESBool
-    {
-        $needle = Type::sanitizeType($needle, ESArray::class)->unfold();
-        $count = 0;
-        foreach ($needle as $val) {
-            $array = $this->unfold();
-            if (isset($array[$count]) && $array[$count] !== $val) {
-                return Shoop::bool(false);
-            }
-            $count++;
-        }
-        return Shoop::bool(true);
-    }
-
-    public function endsWith($needle): ESBool
-    {
-        $needle = Type::sanitizeType($needle, ESArray::class)->unfold();
-        $needle = array_reverse($needle);
-
-        $v = $this->unfold();
-        $v = array_reverse($v);
-
-        $count = 0;
-        foreach ($needle as $eye) {
-            if ($v[$count] !== $eye) {
-                return Shoop::bool(false);
-            }
-            $count++;
-        }
-        return Shoop::bool(true);
-    }
-
 // - Math language
     public function split($splitter = 1, $splits = 2)
     {
@@ -94,27 +62,6 @@ class ESArray implements
 
 // - Comparison
 // - Getters
-    public function first()
-    {
-        $v = $this->unfold();
-        if (empty($v) && $this->isEmpty()) {
-            return Shoop::array([]);
-        }
-        $v = $v[0];
-        return Type::sanitizeType($v);
-    }
-
-    public function last()
-    {
-        $v = $this->unfold();
-        if (empty($v) && $this->isEmpty()) {
-            return Shoop::array([]);
-        }
-        $index = count($v) - 1;
-        $v = $v[$index];
-        return Type::sanitizeType($v);
-    }
-
 // - Other
     public function set($value, $key, $overwrite = true)
     {

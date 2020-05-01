@@ -4,8 +4,10 @@ namespace Eightfold\Shoop\Tests\Order;
 
 use PHPUnit\Framework\TestCase;
 
+use Eightfold\Shoop\Helpers\Type;
+
 use Eightfold\Shoop\{
-    Type,
+    Shoop,
     ESArray,
     ESBool,
     ESDictionary,

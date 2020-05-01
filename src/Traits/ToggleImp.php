@@ -42,12 +42,21 @@ trait ToggleImp
         } elseif (Type::is($this, ESJson::class)) {
             $json = $this->value;
             $object = json_decode($json);
-            $dictionary = (array) $object;
-            $dictionary = $this->arrayReversed($dictionary, $preserveMembers);
-            $object = (object) $dictionary;
+            $object = $this->objectReversed($object, $preserveMembers);
             $json = json_encode($object);
             return Shoop::json($json);
 
+        } elseif (Type::is($this, ESObject::class)) {
+            $object = $this->value;
+            $object = $this->objectReversed($object, $preserveMembers);
+            return Shoop::object($object);
+
+        } elseif (Type::is($this, ESString::class)) {
+            $string = $this->value;
+            $array = $this->stringToIndexedArray($string);
+            $array = $this->arrayReversed($array, $preserveMembers);
+            $string = implode("", $array);
+            return Shoop::string($string);
         }
     }
 
@@ -56,5 +65,13 @@ trait ToggleImp
         return ($preserveMembers)
             ? array_reverse($array, true)
             : array_reverse($array);
+    }
+
+    private function objectReversed(object $object, bool $preserveMembers): object
+    {
+        $dictionary = (array) $object;
+        $dictionary = $this->arrayReversed($dictionary, $preserveMembers);
+        $object = (object) $dictionary;
+        return $object;
     }
 }

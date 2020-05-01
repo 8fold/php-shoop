@@ -1,11 +1,13 @@
 <?php
 
-namespace Eightfold\Shoop\Tests;
+namespace Eightfold\Shoop\Tests\Shooped;
 
 use PHPUnit\Framework\TestCase;
 
+use Eightfold\Shoop\Helpers\Type;
+
 use Eightfold\Shoop\{
-    Type,
+    Shoop,
     ESArray,
     ESBool,
     ESDictionary,
@@ -14,7 +16,6 @@ use Eightfold\Shoop\{
     ESObject,
     ESString
 };
-
 /**
  * The `ArrayAccess` PHP interface requires the `offsetExists()` method, which allows you to interact with the object using array notation with something like `isset()`.
  *

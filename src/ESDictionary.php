@@ -10,6 +10,7 @@ use Eightfold\Shoop\Interfaces\{
     MathOperations,
     Toggle,
     Sort,
+    Wrap,
     Has
 };
 
@@ -19,6 +20,7 @@ use Eightfold\Shoop\Traits\{
     MathOperationsImp,
     ToggleImp,
     SortImp,
+    WrapImp,
     HasImp
 };
 
@@ -30,9 +32,10 @@ class ESDictionary implements
     MathOperations,
     Toggle,
     Sort,
+    Wrap,
     Has
 {
-    use ShoopedImp, CompareImp, MathOperationsImp, ToggleImp, SortImp, HasImp;
+    use ShoopedImp, CompareImp, MathOperationsImp, ToggleImp, SortImp, WrapImp, HasImp;
 
     public function __construct($dictionary)
     {

@@ -4,8 +4,10 @@ namespace Eightfold\Shoop\Tests\Shooped;
 
 use PHPUnit\Framework\TestCase;
 
+use Eightfold\Shoop\Helpers\Type;
+
 use Eightfold\Shoop\{
-    Type,
+    Shoop,
     ESArray,
     ESBool,
     ESDictionary,
@@ -14,7 +16,6 @@ use Eightfold\Shoop\{
     ESObject,
     ESString
 };
-
 /**
  * Shoop leverages the PHP `__call()` magic method to allow for a few wildcard simplifications.
  *

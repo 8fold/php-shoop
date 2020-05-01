@@ -1,11 +1,12 @@
 <?php
 
-namespace Eightfold\Shoop\Tests;
+namespace Eightfold\Shoop\Tests\Shooped;
 
 use PHPUnit\Framework\TestCase;
 
+use Eightfold\Shoop\Helpers\Type;
+
 use Eightfold\Shoop\{
-    Type,
     Shoop,
     ESArray,
     ESBool,
@@ -15,7 +16,6 @@ use Eightfold\Shoop\{
     ESObject,
     ESString
 };
-
 /**
  * The `int()` method converts the 8fold type to an `ESInt` type.
  *

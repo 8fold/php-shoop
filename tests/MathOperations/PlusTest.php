@@ -4,16 +4,17 @@ namespace Eightfold\Shoop\Tests\MathOperations;
 
 use PHPUnit\Framework\TestCase;
 
+use Eightfold\Shoop\Helpers\Type;
+
 use Eightfold\Shoop\{
-    Type,
     Shoop,
     ESArray,
     ESBool,
+    ESDictionary,
     ESInt,
-    ESString,
-    ESObject,
     ESJson,
-    ESDictionary
+    ESObject,
+    ESString
 };
 
 /**

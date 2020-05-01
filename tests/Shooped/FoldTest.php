@@ -4,8 +4,9 @@ namespace Eightfold\Shoop\Tests\Shooped;
 
 use PHPUnit\Framework\TestCase;
 
+use Eightfold\Shoop\Helpers\Type;
+
 use Eightfold\Shoop\{
-    Type,
     Shoop,
     ESArray,
     ESBool,
@@ -15,7 +16,6 @@ use Eightfold\Shoop\{
     ESObject,
     ESString
 };
-
 /**
  * The `fold()` static method acts as an alias for the constructor of each type.
  *

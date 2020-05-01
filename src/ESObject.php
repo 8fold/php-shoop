@@ -9,6 +9,8 @@ use Eightfold\Shoop\Interfaces\{
     Compare,
     MathOperations,
     Sort,
+    Toggle,
+    Wrap,
     Has
 };
 
@@ -17,12 +19,14 @@ use Eightfold\Shoop\Traits\{
     CompareImp,
     MathOperationsImp,
     SortImp,
+    ToggleImp,
+    WrapImp,
     HasImp
 };
 
-class ESObject implements Shooped, Compare, MathOperations, Has
+class ESObject implements Shooped, Compare, MathOperations, Sort, Toggle, Wrap, Has
 {
-    use ShoopedImp, CompareImp, MathOperationsImp, SortImp, HasImp;
+    use ShoopedImp, CompareImp, MathOperationsImp, SortImp, ToggleImp, WrapImp, HasImp;
 
     public function __construct($object)
     {

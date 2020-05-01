@@ -1,6 +1,6 @@
 <?php
 
-namespace Eightfold\Shoop\Tests\Search;
+namespace Eightfold\Shoop\Tests\Wrap;
 
 use PHPUnit\Framework\TestCase;
 
@@ -16,6 +16,7 @@ use Eightfold\Shoop\{
     ESObject,
     ESString
 };
+
 /**
  * The `isGreaterThan()` performs PHP greater than comparison (>) to determine if the initial value is greater than the compared value.
  *
@@ -29,12 +30,14 @@ use Eightfold\Shoop\{
  *
  * @return Eightfold\Shoop\ESBool
  */
-class HasTest extends TestCase
+class StartsWithTest extends TestCase
 {
     public function testESArray()
     {
-        $base = ["hello", "world"];
-        $actual = ESArray::fold($base)->has("world");
+        $base = ["something", "hello", "world"];
+
+        $actual = Shoop::array($base)->startsWith("something");
+        $this->assertEquals(ESBool::class, get_class($actual));
         $this->assertTrue($actual->unfold());
     }
 
@@ -48,9 +51,11 @@ class HasTest extends TestCase
 
     public function testESDictionary()
     {
-        $base = ["key" => "value"];
-        $actual = ESDictionary::fold($base)->has("value");
-        $this->assertTrue($actual->unfold());
+        $base = ["zero" => 0, "first" => 1, "second" => 2];
+
+        $actual = ESDictionary::fold($base)->startsWith(0, "zero", 1, "first");
+        $this->assertEquals(ESBool::class, get_class($actual));
+        $this->assertEquals($expected, $actual->unfold());
     }
 
     /**
@@ -63,8 +68,10 @@ class HasTest extends TestCase
 
     public function testESJson()
     {
-        $base = '{"member":"value", "member2":"value2", "member3":"value3"}';
-        $actual = ESJson::fold($base)->has("value3");
+        $base = json_encode(["member" => "value", "member2" => "value2", "member3" => "value3"]);
+
+        $actual = ESJson::fold($base)->startsWith("value", "member");
+        $this->assertEquals(ESBool::class, get_class($actual));
         $this->assertTrue($actual->unfold());
     }
 
@@ -72,17 +79,18 @@ class HasTest extends TestCase
     {
         $base = new \stdClass();
         $base->testMember = "test";
+        $base->testMember2 = 2;
 
-        $actual = ESObject::fold($base)->has("test");
+        $actual = Shoop::object($base)->startsWith("test", "testMember");
+        $this->assertEquals(ESBool::class, get_class($actual));
         $this->assertTrue($actual->unfold());
     }
 
     public function testESString()
     {
-        $actual = ESString::fold("a")->has("b");
-        $this->assertFalse($actual->unfold());
-
-        $actual = ESString::fold("b")->has("b");
+        $base = "Hello, World!";
+        $actual = Shoop::string($base)->startsWith("Hello, ");
+        $this->assertEquals(ESBool::class, get_class($actual));
         $this->assertTrue($actual->unfold());
     }
 }

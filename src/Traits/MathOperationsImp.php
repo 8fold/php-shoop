@@ -28,15 +28,18 @@ trait MathOperationsImp
     public function plus(...$args) // self
     {
         if (Type::is($this, ESArray::class)) {
+            $array = $this->value;
             $count = count($args);
             if ($count === 0) {
-                return static::fold($this->value);
+                return static::fold($array);
             }
-            $merged = array_merge($this->value, $args);
+            $merged = array_merge($array, $args);
             return Shoop::array($merged);
 
         } elseif (Type::is($this, ESDictionary::class)) {
-            $dictionary = $this->indexedArrayToValueKeyArray($args);
+            $dictionary = $this->value;
+            $suffixes = $this->indexedArrayToValueKeyArray($args);
+            $dictionary = array_merge($dictionary, $suffixes);
             return Shoop::dictionary($dictionary);
 
         } elseif (Type::is($this, ESInt::class)) {
@@ -178,16 +181,28 @@ trait MathOperationsImp
         }
     }
 
-    private function indexedArrayToValueKeyArray(array $args): array
+    private function argCountIsEven(array $args): bool
     {
         $count = count($args);
-        if ($count % 2 !== 0) {
-            $className = ESDictionary::class;
+        return ($count % 2 == 0)
+            ? true
+            : false;
+    }
+
+    private function argCountIsOdd(array $args): bool
+    {
+        return ! $this->argCountIsEven($args);
+    }
+
+    private function indexedArrayToValueKeyArray(array $args): array
+    {
+        if ($this->argCountIsOdd($args)) {
+            $className = static::class;
+            $argCount = count($args);
             trigger_error(
-                "{$className}::plus() expects two (or more) arguments. {$count->unfold()} given."
+                "{$className}::plus() expects two (or more) arguments. {$argCount} given."
             );
         }
-
         $count = 0;
         $keys = [];
         $values = [];

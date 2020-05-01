@@ -76,11 +76,22 @@ class ToggleTest extends TestCase
      */
     public function testESObject()
     {
-        $this->assertFalse(true);
+        $expected = ["beta" => "beta", "alpha2" => "alpha2", "alpha" => "alpha"];
+
+        $object = new \stdClass();
+        $object->alpha = "alpha";
+        $object->alpha2 = "alpha2";
+        $object->beta = "beta";
+
+        $actual = Shoop::object($object)->toggle();
+        $array = (array) $actual->unfold();
+        $this->assertEquals($expected, $array);
     }
 
     public function testESString()
     {
-        $this->assertFalse(true);
+        $expected = "Hello!";
+        $actual = Shoop::string("!olleH")->toggle();
+        $this->assertEquals($expected, $actual->unfold());
     }
 }

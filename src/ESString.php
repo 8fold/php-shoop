@@ -93,16 +93,10 @@ class ESString implements
     }
 
 // - Manipulate
-    public function toggle($preserveMembers = true)
-    {
-        return $this->array()->toggle()->join("");
-    }
-
-    public function start(...$prefixes)
-    {
-        $combined = implode('', $prefixes);
-        return Shoop::string($combined . $this->unfold());
-    }
+    // public function toggle($preserveMembers = true)
+    // {
+    //     return $this->array()->toggle()->join("");
+    // }
 
     // TODO: test and verify occurences working
     // str_replace is the wrong function to use for this
@@ -112,20 +106,6 @@ class ESString implements
     }
 
 // - Wrap
-    public function startsWith($needle): ESBool
-    {
-        $needle = Type::sanitizeType($needle, ESString::class);
-        $substring = substr($this->unfold(), 0, $needle->countUnfolded());
-        return Shoop::bool($substring === $needle->unfold());
-    }
-
-    public function endsWith($needle): ESBool
-    {
-        $needle = Type::sanitizeType($needle, ESString::class)->toggle();
-        $reversed = $this->toggle();
-        return $reversed->startsWith($needle);
-    }
-
 // - Split
     public function split($splitter = 1, $splits = 2): ESArray
     {
