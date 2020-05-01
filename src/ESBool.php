@@ -15,8 +15,7 @@ use Eightfold\Shoop\Interfaces\{
 use Eightfold\Shoop\Traits\{
     ShoopedImp,
     CompareImp,
-    ToggleImp,
-    ShuffleImp
+    ToggleImp
 };
 
 class ESBool implements Shooped, Compare, Toggle
@@ -40,18 +39,8 @@ class ESBool implements Shooped, Compare, Toggle
 // - Type Juggling
 // - PHP single-method interfaces
 // - Manipulate
-    public function toggle($preserveMembers = true): ESBool
-    {
-        return ESBool::fold(! $this->unfold());
-    }
-
 // - Math language
 // - Getters
-    public function get()
-    {
-        return $this;
-    }
-
 // - Comparison
 // - Other
     public function set($value)

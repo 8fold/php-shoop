@@ -33,11 +33,11 @@ class BoolTest extends TestCase
         $this->assertEquals("true", (string) $actual);
     }
 
-    public function testManipulations()
-    {
-        $actual = Shoop::this(true)->toggle();
-        $this->assertFalse($actual->unfold());
-    }
+    // public function testManipulations()
+    // {
+    //     $actual = Shoop::this(true)->toggle();
+    //     $this->assertFalse($actual->unfold());
+    // }
 
     // public function testMathLanguage()
     // {
@@ -58,14 +58,14 @@ class BoolTest extends TestCase
     //     $this->assertFalse($true->isLessThan($false)->unfold());
     // }
 
-    public function testOther()
-    {
-        $this->assertFalse(Shoop::this(true)->not()->unfold());
+    // public function testOther()
+    // {
+    //     $this->assertFalse(Shoop::this(/true)->not()->unfold());
 
-        $this->assertTrue(Shoop::this(true)->or(false)->unfold());
-        $this->assertFalse(Shoop::this(false)->or(false)->unfold());
+    //     $this->assertTrue(Shoop::this(true)->or(false)->unfold());
+    //     $this->assertFalse(Shoop::this(false)->or(false)->unfold());
 
-        $this->assertTrue(Shoop::this(true)->and(true)->unfold());
-        $this->assertFalse(Shoop::this(true)->and(false)->unfold());
-    }
+    //     $this->assertTrue(Shoop::this(true)->and(true)->unfold());
+    //     $this->assertFalse(Shoop::this(true)->and(false)->unfold());
+    // }
 }

@@ -50,25 +50,9 @@ class ESInt implements Shooped, MathOperations, Toggle
 
 // - Type Juggling
 // - Manipulate
-    public function toggle($preserveMembers = true): ESInt
-    {
-        return $this->multiply(-1);
-    }
-
 // - Search
 // - Math language
 // - Getters
-    public function get()
-    {
-        return $this;
-        // $member = Type::sanitizeType($member, ESInt::class)->unfold();
-        // if ($this->hasMember($member)) {
-        //     $m = $this->value[$member];
-        //     return ((Type::isPhp($m))) ? Type::sanitizeType($m) : $m;
-        // }
-        // trigger_error("Undefined index or memember.");
-    }
-
 // - Comparison
 // - Other
     public function set($value)
@@ -77,7 +61,7 @@ class ESInt implements Shooped, MathOperations, Toggle
         return self::fold($value);
     }
 
-    public function range($int)
+    public function range($int = 0)
     {
         $int = Type::sanitizeType($int, ESInt::class)->unfold();
         $range = range($int, $this->unfold());

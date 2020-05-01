@@ -59,7 +59,7 @@ class DictionaryTest extends TestCase
 
     public function testESInt()
     {
-        $expected = ["i0" => 1, "i1" => 2, "i2" => 3, "i3" => 4, "i4" => 5];
+        $expected = ["i0" => 0, "i1" => 1, "i2" => 2, "i3" => 3, "i4" => 4, "i5" => 5];
 
         $actual = ESInt::fold(5)->dictionary();
         $this->assertEquals($expected, $actual->unfold());

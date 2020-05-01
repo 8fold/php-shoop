@@ -41,19 +41,19 @@ class ArrayTest extends TestCase
         $this->assertEquals($expected, $actual);
     }
 
-    public function testManipulations()
-    {
-        $expected = [3, 2, 1];
-        $expected2 = [1, 2, 3];
-        $actual = Shoop::array($expected2)->toggle();
-        $this->assertEquals($expected, $actual->unfold());
+    // public function testManipulations()
+    // {
+    //     $expected = [3, 2, 1];
+    //     $expected2 = [1, 2, 3];
+    //     $actual = Shoop::array($expected2)->toggle();
+    //     $this->assertEquals($expected, $actual->unfold());
 
-        $actual = Shoop::array($expected)->sort();
-        $this->assertEquals($expected2, $actual->unfold());
+    //     $actual = Shoop::array($expected)->sort();
+    //     $this->assertEquals($expected2, $actual->unfold());
 
-        $actual = Shoop::array([2, 1])->start(3);
-        $this->assertEquals($expected, $actual->unfold());
-    }
+    //     $actual = Shoop::array([2, 1])->start(3);
+    //     $this->assertEquals($expected, $actual->unfold());
+    // }
 
     public function testSearch()
     {

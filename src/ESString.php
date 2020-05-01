@@ -9,7 +9,6 @@ use Eightfold\Shoop\Interfaces\{
     Shuffle,
     Wrap,
     Sort,
-    Split,
     Has,
     Compare
 };
@@ -35,7 +34,6 @@ class ESString implements
     Shuffle,
     Wrap,
     Sort,
-    Split,
     Has, // TODO: Consider different implementation (array splits on letters, words become issues)
     Compare
 {
@@ -71,15 +69,15 @@ class ESString implements
         return self::fold($value);
     }
 
-    public function get($member)
-    {
-        $member = Type::sanitizeType($member, ESInt::class)->unfold();
-        if ($this->offsetExists($member)) {
-            $m = $this->value[$member];
-            return ((Type::isPhp($m))) ? Type::sanitizeType($m) : $m;
-        }
-        trigger_error("Undefined index or member.");
-    }
+    // public function get($member)
+    // {
+    //     $member = Type::sanitizeType($member, ESInt::class)->unfold();
+    //     if ($this->offsetExists($member)) {
+    //         $m = $this->value[$member];
+    //         return ((Type::isPhp($m))) ? Type::sanitizeType($m) : $m;
+    //     }
+    //     trigger_error("Undefined index or member.");
+    // }
 
     // TODO: Could this be promoted to the hasImp - or a global contract?
     public function isIn($haystack): ESBool
@@ -98,14 +96,6 @@ class ESString implements
     public function toggle($preserveMembers = true)
     {
         return $this->array()->toggle()->join("");
-    }
-
-    public function sort(?string ...$flags)
-    {
-        if (count($flags) === 0) {
-            $flags = ["case"];
-        }
-        return $this->array()->sort(...$flags)->join("");
     }
 
     public function start(...$prefixes)

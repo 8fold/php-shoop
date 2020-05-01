@@ -59,7 +59,7 @@ class ArrayTest extends TestCase
 
     public function testESInt()
     {
-        $expected = [1, 2, 3, 4, 5];
+        $expected = [0, 1, 2, 3, 4, 5];
 
         $actual = ESInt::fold(5)->array();
         $this->assertEquals($expected, $actual->unfold());

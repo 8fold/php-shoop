@@ -65,7 +65,7 @@ class InterfaceIteratorNextTest extends TestCase
     {
         $actual = ESInt::fold(10);
         $actual->next();
-        $this->assertEquals(2, $actual->current());
+        $this->assertEquals(1, $actual->current());
     }
 
     public function testESJson()

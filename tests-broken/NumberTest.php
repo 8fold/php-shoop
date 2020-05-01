@@ -24,15 +24,15 @@ class NumberTest extends TestCase
         // $this->assertEquals($expected, $actual->unfold());
     }
 
-    public function testManipulate()
-    {
-        $result = ESInt::fold(10);
-        $negative = $result->toggle();
-        $this->assertEquals(-10, $negative->unfold());
+    // public function testManipulate()
+    // {
+    //     $result = ESInt::fold(10);
+    //     $negative = $result->toggle();
+    //     $this->assertEquals(-10, $negative->unfold());
 
-        $positive = $negative->toggle();
-        $this->assertEquals(10, $positive->unfold());
-    }
+    //     $positive = $negative->toggle();
+    //     $this->assertEquals(10, $positive->unfold());
+    // }
 
     public function testOther()
     {

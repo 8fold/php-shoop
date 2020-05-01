@@ -24,7 +24,6 @@ use Eightfold\Shoop\Traits\{
 
 use Eightfold\Shoop\ESInt;
 
-// TODO: get($key) - ESArray, ESDictionary
 class ESDictionary implements
     Shooped,
     Compare,
@@ -52,17 +51,6 @@ class ESDictionary implements
 // - Type Juggling
 // - PHP single-method interfaces
 // - Manipulate
-    public function toggle($preserveMembers = true)
-    {
-        // TODO: What should happen if members aren't preserved?
-        $array = array_flip($this->unfold());
-        if (Type::isNotDictionary($array) && Type::isArray($array)) {
-            return Shoop::array($array);
-
-        }
-        return static::fold($array);
-    }
-
 // - Search
 // - Math language
 // - Comparison
@@ -90,19 +78,6 @@ class ESDictionary implements
         return static::fold($merged);
     }
 
-    public function get($key)
-    {
-        $key = Type::sanitizeType($key, ESString::class)->unfold();
-        if ($this->hasMember($key)) {
-            $value = $this->value[$key];
-            if (Type::isPhp($value)) {
-                return Type::sanitizeType($value);
-            }
-            return $value;
-        }
-        trigger_error("Undefined index or member.");
-    }
-
     // TODO: Promote to ShoopedImp, with custom for ESString
     public function hasMember($member): ESBool
     {
@@ -128,52 +103,7 @@ class ESDictionary implements
     }
 // - Transforms
 // - Callers
-//     public function __call($name, $args = [])
-//     {
-//         $name = Shoop::string($name)->unfold();
-//         if (substr($name, 0, strlen("set")) === "set") {
-//             return $this->handleSet($name, $args);
-
-//         } elseif (substr($name, -(strlen("Unfolded"))) === "Unfolded") {
-//             $name = str_replace("Unfolded", "", $name);
-//             return $this->handleGetUnfolded($name, $args);
-
-//         } else {
-//             $value = $this->get($name);
-//             $return = (isset($value) && Type::isShooped($value))
-//                 ? $value->unfold()
-//                 : $value;
-//             return $return;
-//         }
-//     }
-
-//     private function handleSet($name, $args)
-//     {
-//         $name = lcfirst(str_replace("set", "", $name));
-//         $overwrite = (isset($args[1])) ? $args[1] : true;
-//         $value = (isset($args[0])) ? $args[0] : null;
-
-//         return $this->set($name, $value, $overwrite);
-//     }
-
-//     private function handleGetUnfolded($name, $args)
-//     {
-//         $value;
-//         if (! method_exists($this, $name)) {
-//             $className = static::class;
-//             trigger_error("{$name} is an invalid method on {$className}", E_USER_ERROR);
-
-//         } elseif ($name === "plus" || $name === "minus") {
-//             $value = $this->{$name}(...$args);
-
-//         } else {
-//             $value = $this->{$name}($args[0]);
-
-//         }
-//         return (Type::isShooped($value)) ? $value->unfold() : $value;
-//     }
-
-// // - Setters/Getters
+// - Setters/Getters
 //     public function __set(string $name, $value)
 //     {
 //         $name = Type::sanitizeType($name, ESString::class)->unfold();

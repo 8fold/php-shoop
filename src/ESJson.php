@@ -10,6 +10,8 @@ use Eightfold\Shoop\Interfaces\{
     Shooped,
     Compare,
     MathOperations,
+    Sort,
+    Toggle,
     Has
 };
 
@@ -17,6 +19,8 @@ use Eightfold\Shoop\Traits\{
     ShoopedImp,
     CompareImp,
     MathOperationsImp,
+    SortImp,
+    ToggleImp,
     HasImp
 };
 
@@ -25,7 +29,7 @@ use Eightfold\Shoop\ESDictionary;
 // TODO: Need to be able to handle the path
 class ESJson implements Shooped, Compare, MathOperations, Has, \JsonSerializable
 {
-    use ShoopedImp, CompareImp, MathOperationsImp, HasImp;
+    use ShoopedImp, CompareImp, ToggleImp, MathOperationsImp, SortImp, HasImp;
 
     // TODO: How to store path ??
     protected $path = "";
@@ -52,7 +56,7 @@ class ESJson implements Shooped, Compare, MathOperations, Has, \JsonSerializable
 // - PHP single-method interfaces
     public function jsonSerialize()
     {
-        return $this->unfold();
+        return $this->value;
     }
 
 // - Math language
@@ -86,15 +90,6 @@ class ESJson implements Shooped, Compare, MathOperations, Has, \JsonSerializable
     {
         $v = (array) json_decode($this->unfold());
         return Shoop::bool(array_key_exists($member, $v) || (is_int($member) && count($v) > $member));
-    }
-
-    public function get($member)
-    {
-        if ($this->hasUnfolded($member)) {
-            $v = (array) json_decode($this->unfold());
-            return Type::sanitizeType($v[$member]);
-        }
-        trigger_error("Member named {$member} not found in JSON.");
     }
 
     public function path(): ESString

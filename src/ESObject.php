@@ -8,6 +8,7 @@ use Eightfold\Shoop\Interfaces\{
     Shooped,
     Compare,
     MathOperations,
+    Sort,
     Has
 };
 
@@ -15,12 +16,13 @@ use Eightfold\Shoop\Traits\{
     ShoopedImp,
     CompareImp,
     MathOperationsImp,
+    SortImp,
     HasImp
 };
 
 class ESObject implements Shooped, Compare, MathOperations, Has
 {
-    use ShoopedImp, CompareImp, MathOperationsImp, HasImp;
+    use ShoopedImp, CompareImp, MathOperationsImp, SortImp, HasImp;
 
     public function __construct($object)
     {
@@ -75,18 +77,6 @@ class ESObject implements Shooped, Compare, MathOperations, Has
         }
         $merged = array_merge($cast, [$member => $value]);
         return static::fold($merged);
-    }
-
-    public function get($member)
-    {
-        $member = Type::sanitizeType($member, ESString::class)->unfold();
-        $v = (array) $this->unfold();
-        if (isset($v[$member])) {
-            $m = $v[$member];
-            // TODO: Return sanitized type - not working ??
-            return ((Type::isPhp($m))) ? Type::sanitizeType($m) : $m;
-        }
-        return null;
     }
 
     public function hasMember($member): ESBool

@@ -77,8 +77,14 @@ class php_CallWildcardGetTest extends TestCase
     public function testESInt()
     {
         $base = 10;
+
+        $expected = 0;
         $actual = ESInt::fold($base)->get();
-        $this->assertEquals($base, $actual->unfold());
+        $this->assertEquals($expected, $actual->unfold());
+
+        $expected = 9;
+        $actual = ESInt::fold($base)->get(9);
+        $this->assertEquals($expected, $actual->unfold());
     }
 
     public function testESJson()

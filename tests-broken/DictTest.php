@@ -36,17 +36,17 @@ class DictTest extends TestCase
 
     public function testCanManipulate()
     {
-        $dictArray = ["zero" => 0, "one" => 1];
-        $expected = [0 => "zero", 1 => "one"];
-        $actual = ESDictionary::fold($dictArray)->toggle();
-        $this->assertTrue(Type::isNotDictionary($actual));
-        $this->assertEquals($expected, $actual->unfold());
+        // $dictArray = ["zero" => 0, "one" => 1];
+        // $expected = [0 => "zero", 1 => "one"];
+        // $actual = ESDictionary::fold($dictArray)->toggle();
+        // $this->assertTrue(Type::isNotDictionary($actual));
+        // $this->assertEquals($expected, $actual->unfold());
 
-        $dict = ["zero" => 0, "one" => "two"];
-        $expected = [0 => "zero", "two" => "one"];
-        $actual = ESDictionary::fold($dict)->toggle();
-        $this->assertTrue(Type::isDictionary($actual));
-        $this->assertEquals($expected, $actual->unfold());
+        // $dict = ["zero" => 0, "one" => "two"];
+        // $expected = [0 => "zero", "two" => "one"];
+        // $actual = ESDictionary::fold($dict)->toggle();
+        // $this->assertTrue(Type::isDictionary($actual));
+        // $this->assertEquals($expected, $actual->unfold());
 
         // Sort
         // []
@@ -62,10 +62,10 @@ class DictTest extends TestCase
         $this->assertEquals($expected, $actual->unfold());
 
         // [case]
-        $expected = ["Zero", "Zero", "zero"];
-        $actual = Shoop::array(["Zero", "zero", "Zero"])->sort("case");
-        $this->assertTrue(Type::isArray($actual));
-        $this->assertEquals($expected, $actual->unfold());
+        // $expected = ["Zero", "Zero", "zero"];
+        // $actual = Shoop::array(["Zero", "zero", "Zero"])->sort("case");
+        // $this->assertTrue(Type::isArray($actual));
+        // $this->assertEquals($expected, $actual->unfold());
 
         // [case, keys]
         // Passes because PHP changes expected by overwriting duplicate key and values

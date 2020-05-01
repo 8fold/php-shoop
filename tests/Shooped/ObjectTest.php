@@ -74,7 +74,8 @@ class ToObjecctTest extends TestCase
     public function testESInt()
     {
         $expected = new \stdClass();
-        $expected->i0 = 1;
+        $expected->i0 = 0;
+        $expected->i1 = 1;
 
         $actual = ESInt::fold(1)->object();
         $this->assertEquals($expected, $actual->unfold());

@@ -16,11 +16,11 @@ class ObjectTest extends TestCase
         $actual = Shoop::this($cast)->array();
         $this->assertEquals($expected, $actual->unfold());
 
-        $actual = Shoop::this($cast)->bool();
-        $this->assertTrue($actual->unfold());
+        // $actual = Shoop::this($cast)->bool();
+        // $this->assertTrue($actual->unfold());
 
-        $actual = Shoop::this((new \stdClass()))->bool();
-        $this->assertFalse($actual->unfold());
+        // $actual = Shoop::this((new \stdClass()))->bool();
+        // $this->assertFalse($actual->unfold());
 
         $json = Shoop::this((new \stdClass()));
         $actual = $json->json();

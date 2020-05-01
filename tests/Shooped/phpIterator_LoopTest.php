@@ -85,7 +85,7 @@ class InterfaceIteratorLoopTest extends TestCase
     public function testESInt()
     {
         $actual = ESInt::fold(10)->current();
-        $this->assertEquals(1, $actual);
+        $this->assertEquals(0, $actual);
     }
 
     public function testESJson()

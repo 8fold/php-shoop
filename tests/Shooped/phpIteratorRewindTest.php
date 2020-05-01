@@ -69,10 +69,10 @@ class InterfaceIteratorRewindTest extends TestCase
     {
         $actual = ESInt::fold(10);
         $actual->next();
-        $this->assertEquals(2, $actual->current());
+        $this->assertEquals(1, $actual->current());
 
         $actual->rewind();
-        $this->assertEquals(1, $actual->current());
+        $this->assertEquals(0, $actual->current());
     }
 
     public function testESJson()

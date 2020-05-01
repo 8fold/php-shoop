@@ -56,7 +56,7 @@ trait ShoopedImp
             $array = [$this->value];
 
         } elseif (Type::is($this, ESInt::class)) {
-            $array = $this->range(1)->unfold();
+            $array = $this->range()->unfold();
 
         } elseif (Type::is($this, ESString::class)) {
             $string = $this->value;
@@ -75,11 +75,45 @@ trait ShoopedImp
 
     public function bool(): ESBool
     {
-        $bool = (bool) $this->unfold();
-        if (Type::is($this, ESBool::class, ESInt::class)) {
+        if (Type::is($this, ESArray::class)) {
+            $array = $this->value;
+            $bool = count($array) > 0;
             return Shoop::bool($bool);
+
+        } elseif (Type::is($this, ESBool::class)) {
+            $bool = $this->value;
+            return Shoop::bool($bool);
+
+        } elseif (Type::is($this, ESDictionary::class)) {
+            $array = $this->value;
+            $bool = count($array) > 0;
+            return Shoop::bool($bool);
+
+        } elseif (Type::is($this, ESInt::class)) {
+            $int = $this->value;
+            $bool = $int > 0;
+            return Shoop::bool($bool);
+
+        } elseif (Type::is($this, ESJson::class)) {
+            $json = $this->value;
+            $object = json_decode($json);
+            $array = (array) $object;
+            $bool = count($array) > 0;
+            return Shoop::bool($bool);
+
+        } elseif (Type::is($this, ESObject::class)) {
+            $object = $this->value;
+            $array = (array) $object;
+            $bool = count($array) > 0;
+            return Shoop::bool($bool);
+
+        } elseif (Type::is($this, ESString::class)) {
+            $string = $this->value;
+            $bool = empty($string);
+            $bool = ! $bool;
+            return Shoop::bool($bool);
+
         }
-        return ESBool::fold(Type::isEmpty($this->array()))->toggle();
     }
 
     public function dictionary(): ESDictionary
@@ -100,7 +134,7 @@ trait ShoopedImp
             $dictionary = (array) $object;
 
         } elseif (Type::is($this, ESInt::class)) {
-            $array = $this->range(1)->unfold();
+            $array = $this->range()->unfold();
             $dictionary = $this->indexedArrayToAssociativeArray($array);
 
         } elseif (Type::is($this, ESString::class)) {
@@ -118,6 +152,11 @@ trait ShoopedImp
 
     public function int(): ESInt
     {
+        if (Type::is($this, ESInt::class)) {
+            $int = $this->value;
+            return Shoop::int($int);
+
+        }
         $count = count($this->arrayUnfolded());
         if (Type::is($this, ESString::class)) {
             $count = intval($this->value);
@@ -153,7 +192,7 @@ trait ShoopedImp
             $json = $this->arrayToJsonEncodedString($dictionary);
 
         } elseif (Type::is($this, ESInt::class)) {
-            $array = $this->range(1)->unfold();
+            $array = $this->range()->unfold();
             $json = $this->indexedArrayToJsonEncodedString($array);
 
         }
@@ -184,7 +223,7 @@ trait ShoopedImp
             $object = (object) $dictionary;
 
         } elseif (Type::is($this, ESInt::class)) {
-            $array = $this->range(1)->unfold();
+            $array = $this->range()->unfold();
             $object = $this->associativeArrayToObject($array);
 
         } elseif (Type::is($this, ESString::class)) {
@@ -257,21 +296,21 @@ trait ShoopedImp
         return $json;
     }
 
-    private function indexedArrayToJsonEncodedString(array $array = []): string
+    private function indexedArrayToJsonEncodedString(array $array): string
     {
         $dictionary = $this->indexedArrayToAssociativeArray($array);
         $json = $this->arrayToJsonEncodedString($dictionary);
         return $json;
     }
 
-    private function associativeArrayToObject(array $array = []): \stdClass
+    private function associativeArrayToObject(array $array): \stdClass
     {
         $dictionary = $this->indexedArrayToAssociativeArray($array);
         $object = (object) $dictionary;
         return $object;
     }
 
-    private function arrayToRecursiveString(array $array = []): string
+    private function arrayToRecursiveString(array $array): string
     {
         $printed = print_r($array, true);
         $oneLine = preg_replace('/\s+/', ' ', $printed);
@@ -297,7 +336,9 @@ trait ShoopedImp
 
     public function isNot($compare): ESBool
     {
-        return $this->is($compare)->toggle();
+        $bool = $this->is($compare)->unfold();
+        $bool = ! $bool;
+        return Shoop::bool($bool);
     }
 
     public function isEmpty(): ESBool
@@ -332,13 +373,64 @@ trait ShoopedImp
                 ? $value->unfold()
                 : $value;
 
-        }
+        } elseif (is_callable([$this, "get"])) {
+            $value = $this->get($name);
+            $return = (isset($value) && Type::isShooped($value))
+                ? $value->unfold()
+                : $value;
+            return $return;
 
-        $value = $this->get($name);
-        $return = (isset($value) && Type::isShooped($value))
-            ? $value->unfold()
-            : $value;
-        return $return;
+        }
+        trigger_error("Call to undefined method '{$name}'", E_USER_ERROR);
+    }
+
+    public function get($member = 0)
+    {
+        if (Type::is($this, ESArray::class)) {
+            $member = Type::sanitizeType($member, ESInt::class)->unfold();
+            $array = $this->value;
+            $value = $this->valueFromArray($array, $member);
+            return $value;
+
+        } elseif (Type::is($this, ESBool::class)) {
+            $bool = $this->value;
+            return Shoop::bool($bool);
+
+        } elseif (Type::is($this, ESDictionary::class)) {
+            $member = Type::sanitizeType($member, ESString::class)->unfold();
+            $array = $this->value;
+            $value = $this->valueFromArray($array, $member);
+            return $value;
+
+        } elseif (Type::is($this, ESInt::class)) {
+            $member = Type::sanitizeType($member, ESInt::class)->unfold();
+            $int = $this->value;
+            $array = $this->range()->unfold();
+            $value = $this->valueFromArray($array, $member);
+            return $value;
+
+        } elseif (Type::is($this, ESJson::class)) {
+            $member = Type::sanitizeType($member, ESString::class)->unfold();
+            $json = $this->value;
+            $object = json_decode($json);
+            $array = (array) $object;
+            $value = $this->valueFromArray($array, $member);
+            return $value;
+
+        } elseif (Type::is($this, ESObject::class)) {
+            $member = Type::sanitizeType($member, ESString::class)->unfold();
+            $object = $this->value;
+            $array = (array) $object;
+            $value = $this->valueFromArray($array, $member);
+            return $value;
+
+        } elseif (Type::is($this, ESString::class)) {
+            $string = $this->value;
+            $array = $this->stringToIndexedArray($string);
+            $value = $this->valueFromArray($array, $member);
+            return Shoop::string($value);
+
+        }
     }
 
     private function handleSet($name, $args)
@@ -365,6 +457,22 @@ trait ShoopedImp
 
         }
         return (Type::isShooped($value)) ? $value->unfold() : $value;
+    }
+
+    private function valueFromArray(array $array, $member)
+    {
+        if (! $this->offsetExists($member)) {
+            trigger_error("Undefined index or member.");
+        }
+
+        $value = $this[$member];
+        if (Type::isPhp($value)) {
+            return Type::sanitizeType($value);
+
+        } else {
+            return $m;
+
+        }
     }
 
 // - PHP single-method interfaces
@@ -395,7 +503,7 @@ trait ShoopedImp
             return $this->dictionary()->offsetGet($offset);
 
         } elseif (Type::is($this, ESInt::class)) {
-            return $this->array()->offsetGet($offset - 1);
+            return $this->array()->offsetGet($offset);
 
         } elseif (Type::is($this, ESJson::class, ESObject::class)) {
             return $this->dictionary()->offsetGet($offset);

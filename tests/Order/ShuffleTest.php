@@ -1,6 +1,6 @@
 <?php
 
-namespace Eightfold\Shoop\Tests\ComparisonOperators;
+namespace Eightfold\Shoop\Tests\Order;
 
 use PHPUnit\Framework\TestCase;
 

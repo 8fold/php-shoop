@@ -12,7 +12,6 @@ use Eightfold\Shoop\Interfaces\{
     Shuffle,
     Wrap,
     Sort,
-    Split,
     Has
 };
 
@@ -35,7 +34,6 @@ class ESArray implements
     Shuffle,
     Wrap,
     Sort,
-    Split,
     Has
 {
     use ShoopedImp, CompareImp, MathOperationsImp, ToggleImp, ShuffleImp, WrapImp, SortImp, HasImp;
@@ -96,16 +94,6 @@ class ESArray implements
 
 // - Comparison
 // - Getters
-    public function get($member)
-    {
-        $member = Type::sanitizeType($member, ESInt::class)->unfold();
-        if ($this->offsetExists($member)) {
-            $m = $this[$member];
-            return ((Type::isPhp($m))) ? Type::sanitizeType($m) : $m;
-        }
-        trigger_error("Undefined index or member.");
-    }
-
     public function first()
     {
         $v = $this->unfold();

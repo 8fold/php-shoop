@@ -33,49 +33,35 @@ class ToBoolTest extends TestCase
 {
     public function testESArray()
     {
-        $expected = true;
-
         $actual = ESArray::fold(['testing'])->bool();
-        $this->assertEquals($expected, $actual->unfold());
-
-        $expected = false;
+        $this->assertTrue($actual->unfold());
 
         $actual = ESArray::fold([])->bool();
-        $this->assertEquals($expected, $actual->unfold());
+        $this->assertFalse($actual->unfold());
     }
 
     public function testESBool()
     {
-        $expected = true;
-
         $actual = ESBool::fold(true)->bool();
-        $this->assertEquals($expected, $actual->unfold());
-
-        $expected = false;
+        $this->assertTrue($actual->unfold());
 
         $actual = ESBool::fold(false)->bool();
-        $this->assertEquals($expected, $actual->unfold());
+        $this->assertFalse($actual->unfold());
     }
 
     public function testESDictionary()
     {
-        $expected = false;
-
         $actual = ESDictionary::fold([])->bool();
-        $this->assertEquals($expected, $actual->unfold());
+        $this->assertFalse($actual->unfold());
     }
 
     public function testESInt()
     {
-        $expected = true;
-
         $actual = ESInt::fold(1)->bool();
-        $this->assertEquals($expected, $actual->unfold());
-
-        $expected = false;
+        $this->assertTrue($actual->unfold());
 
         $actual = ESInt::fold(0)->bool();
-        $this->assertEquals($expected, $actual->unfold());
+        $this->assertFalse($actual->unfold());
     }
 
     /**
@@ -85,15 +71,11 @@ class ToBoolTest extends TestCase
      */
     public function testESJson()
     {
-        $expected = true;
-
         $actual = ESJson::fold('{"test":"test"}')->bool();
-        $this->assertEquals($expected, $actual->unfold());
-
-        $expected = false;
+        $this->assertTrue($actual->unfold());
 
         $actual = ESJson::fold('{}')->bool();
-        $this->assertEquals($expected, $actual->unfold());
+        $this->assertFalse($actual->unfold());
     }
 
     /**
@@ -103,25 +85,22 @@ class ToBoolTest extends TestCase
      */
     public function testESObject()
     {
-        $expected = false;
+        $object = new \stdClass();
 
-        $actual = ESObject::fold(new \stdClass())->bool();
-        $this->assertEquals($expected, $actual->unfold());
+        $actual = ESObject::fold($object)->bool();
+        $this->assertFalse($actual->unfold());
+
+        $object->name = "hello";
+        $actual = ESObject::fold($object)->bool();
+        $this->assertTrue($actual->unfold());
     }
 
-    /**
-     * Uses PHP `intval()` to parse the string and return the value.
-     */
     public function testESString()
     {
-        $expected = 0;
+        $actual = ESString::fold("")->bool();
+        $this->assertFalse($actual->unfold());
 
-        $actual = ESString::fold("0")->int();
-        $this->assertEquals($expected, $actual->unfold());
-
-        $expected = 0;
-
-        $actual = ESString::fold("hello")->int();
-        $this->assertEquals($expected, $actual->unfold());
+        $actual = ESString::fold("hello")->bool();
+        $this->assertTrue($actual->unfold());
     }
 }

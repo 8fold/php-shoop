@@ -42,8 +42,8 @@ class TypeJugglingTest extends TestCase
     	// $int = Shoop::string($sInt)->int();
     	// $this->assertEquals(5, $int->unfold());
 
-    	$bool = $string->bool();
-    	$this->assertEquals(true, $bool->unfold());
+    	// $bool = $string->bool();
+    	// $this->assertEquals(true, $bool->unfold());
 
     	// $bool = Shoop::string("")->bool();
     	// $this->assertEquals(false, $bool->unfold());
@@ -72,11 +72,11 @@ class TypeJugglingTest extends TestCase
     	$int = $array->int();
     	$this->assertEquals(3, $int->unfold());
 
-    	$bool = $array->bool();
-    	$this->assertEquals(true, $bool->unfold());
+    	// $bool = $array->bool();
+    	// $this->assertEquals(true, $bool->unfold());
 
-    	$bool = Shoop::array([])->bool();
-    	$this->assertEquals(false, $bool->unfold());
+    	// $bool = Shoop::array([])->bool();
+    	// $this->assertEquals(false, $bool->unfold());
     }
 
     public function testJugglingBool()
@@ -97,10 +97,10 @@ class TypeJugglingTest extends TestCase
     		$dict->unfold()
     	);
 
-    	$this->assertEquals(
-			["true" => false, "false" => true],
-    		$bool->toggle()->dictionary()->unfold()
-    	);
+   //  	$this->assertEquals(
+			// ["true" => false, "false" => true],
+   //  		$bool->toggle()->dictionary()->unfold()
+   //  	);
 
     	// $object = $bool->object();
     	// $this->assertEquals(true, $object->true);
@@ -170,11 +170,11 @@ class TypeJugglingTest extends TestCase
     	$int = $dict->int();
     	$this->assertEquals(2, $int->unfold());
 
-    	$bool = $dict->bool();
-    	$this->assertEquals(true, $bool->unfold());
+    	// $bool = $dict->bool();
+    	// $this->assertEquals(true, $bool->unfold());
 
-    	$bool = Shoop::dictionary([])->bool();
-    	$this->assertEquals(false, $bool->unfold());
+    	// $bool = Shoop::dictionary([])->bool();
+    	// $this->assertEquals(false, $bool->unfold());
     }
 
     public function testJugglingObject()
@@ -198,11 +198,11 @@ class TypeJugglingTest extends TestCase
     	$int = $obj->int();
     	$this->assertEquals(2, $int->unfold());
 
-    	$bool = $obj->bool();
-    	$this->assertEquals(true, $bool->unfold());
+    	// $bool = $obj->bool();
+    	// $this->assertEquals(true, $bool->unfold());
 
-    	$emptyObj = new \stdClass();
-    	$bool = Shoop::object($emptyObj)->bool();
-    	$this->assertEquals(false, $bool->unfold());
+    	// $emptyObj = new \stdClass();
+    	// $bool = Shoop::object($emptyObj)->bool();
+    	// $this->assertEquals(false, $bool->unfold());
     }
 }

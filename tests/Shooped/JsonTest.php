@@ -66,7 +66,7 @@ class JsonTest extends TestCase
      */
     public function testESInt()
     {
-        $expected = '{"i0":1}';
+        $expected = '{"i0":0,"i1":1}';
 
         $actual = ESInt::fold(1)->json();
         $this->assertEquals($expected, $actual->unfold());
