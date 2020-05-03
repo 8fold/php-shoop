@@ -66,29 +66,6 @@ class ESArray implements
 // - Comparison
 // - Getters
 // - Other
-    public function set($value, $key, $overwrite = true)
-    {
-        $key = Type::sanitizeType($key, ESInt::class)->unfold();
-        $overwrite = Type::sanitizeType($overwrite, ESBool::class)->unfold();
-
-        $cast = (array) $this->value;
-        if (! $overwrite && $this->hasMember($key)) {
-            $currentValue = $cast[$key];
-            if (is_array($currentValue)) {
-                $currentValue[] = $value;
-
-            } else {
-                $currentValue = [$currentValue, $value];
-
-            }
-
-            $cast[$key] = $currentValue;
-            return static::fold($cast);
-        }
-        $merged = array_merge($cast, [$key => $value]);
-        return static::fold($merged);
-    }
-
     public function join($delimiter = ""): ESString
     {
         $delimiter = Type::sanitizeType($delimiter, ESString::class);

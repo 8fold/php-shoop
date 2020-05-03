@@ -55,12 +55,6 @@ class ESInt implements Shooped, MathOperations, Toggle
 // - Getters
 // - Comparison
 // - Other
-    public function set($value)
-    {
-        $value = Type::sanitizeType($value, ESInt::class)->unfold();
-        return self::fold($value);
-    }
-
     public function range($int = 0)
     {
         $int = Type::sanitizeType($int, ESInt::class)->unfold();

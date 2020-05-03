@@ -41,12 +41,12 @@ class php_CallWildcardSetTest extends TestCase
         $base = [];
 
         $expected = [true];
-        $result = ESArray::fold($base)->set(true, 0);
-        $this->assertTrue($result->get(0)->unfold());
+        $actual = ESArray::fold($base)->set(true, 0);
+        $this->assertEquals($expected, $actual->unfold());
 
         $expected = [false];
-        $result = ESArray::fold([true])->set(false, 0, true);
-        $this->assertTrue($result->get(0)->unfold());
+        $actual = ESArray::fold([true])->set(false, 0, false);
+        $this->assertEquals($expected, $actual->unfold());
     }
 
     /**
@@ -79,9 +79,9 @@ class php_CallWildcardSetTest extends TestCase
 
     public function testESJson()
     {
-        $base = '{"test":true}';
+        $expected = '{"test":true}';
         $actual = ESJson::fold('{}')->setTest(true);
-        $this->assertTrue($actual->getTest()->unfold());
+        $this->assertEquals($expected, $actual);
     }
 
     public function testESObject()

@@ -58,20 +58,9 @@ class ESString implements
 
 // - Type Juggling
 // - PHP single-method interfaces
-    // public function count(): ESInt
-    // {
-    //     return Shoop::int(strlen($this->unfold()));
-    // }
-
 // - Math language
 // - Comparison
 // - Getters
-    public function set($value)
-    {
-        $value = Type::sanitizeType($value, ESString::class)->unfold();
-        return self::fold($value);
-    }
-
     // public function get($member)
     // {
     //     $member = Type::sanitizeType($member, ESInt::class)->unfold();

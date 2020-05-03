@@ -56,35 +56,7 @@ class ESObject implements Shooped, Compare, MathOperations, Sort, Toggle, Wrap, 
 // - Search
 // - Math language
 // - Comparison
-    public function isEmpty(): ESBool
-    {
-        return $this->dictionary()->isEmpty();
-    }
-
 // - Other
-    public function set($value, $member, $overwrite = true)
-    {
-        $member = Type::sanitizeType($member, ESString::class)->unfold();
-        $overwrite = Type::sanitizeType($overwrite, ESBool::class)->unfold();
-
-        $cast = (array) $this->value;
-        if (! $overwrite && $this->hasMember($member)) {
-            $currentValue = $cast[$member];
-            if (is_array($currentValue)) {
-                $currentValue[] = $value;
-
-            } else {
-                $currentValue = [$currentValue, $value];
-
-            }
-
-            $cast[$member] = $currentValue;
-            return static::fold($cast);
-        }
-        $merged = array_merge($cast, [$member => $value]);
-        return static::fold($merged);
-    }
-
     private function rename(string $current, string $new)
     {
         $value = $this->{$current};

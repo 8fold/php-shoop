@@ -367,43 +367,6 @@ trait ShoopedImp
     }
 
 // - Setters/Getters
-// - Callers
-    public function __call($name, $args = [])
-    {
-        $startsWithSet = substr($name, 0, strlen("set")) === "set";
-        $startsWithGet = substr($name, 0, strlen("get")) === "get";
-        $endsWithUnfolded = substr($name, -(strlen("Unfolded"))) === "Unfolded";
-        $name = Shoop::string($name)->unfold();
-        if ($name === "getUnfolded") {
-            $name = str_replace("Unfolded", "", $name);
-            return $this->handleGetUnfolded($name, $args);
-
-        } elseif ($startsWithSet) {
-            $name = lcfirst(str_replace("set", "", $name));
-            return $this->handleSet($name, $args);
-
-        } elseif ($startsWithGet) {
-            $name = lcfirst(str_replace("get", "", $name));
-            return $this->get($name, $args);
-
-        } elseif ($endsWithUnfolded) {
-            $name = str_replace("Unfolded", "", $name);
-            $value = $this->{$name}(...$args);
-            return (Type::isShooped($value))
-                ? $value->unfold()
-                : $value;
-
-        } elseif (is_callable([$this, "get"])) {
-            $value = $this->get($name);
-            $return = (isset($value) && Type::isShooped($value))
-                ? $value->unfold()
-                : $value;
-            return $return;
-
-        }
-        trigger_error("Call to undefined method '{$name}'", E_USER_ERROR);
-    }
-
     public function get($member = 0)
     {
         if (Type::is($this, ESArray::class)) {
@@ -453,6 +416,72 @@ trait ShoopedImp
         }
     }
 
+    public function set($value, $member = null, $overwrite = true)
+    {
+        if (Type::is($this, ESArray::class, ESDictionary::class)) {
+            $array = $this->value;
+            $array = $this->arrayAfterSettingValue($array, $value, $member, $overwrite);
+            return (Type::is($this, ESArray::class))
+                ? Shoop::array($array)
+                : Shoop::dictionary($array);
+
+        } elseif (Type::is($this, ESBool::class, ESString::class)) {
+            $v = $this->value;
+            $v = (Type::is($this, ESBool::class))
+                ? Type::sanitizeType($value, ESBool::class)->unfold()
+                : Type::sanitizeType($value, ESString::class)->unfold();
+            return (Type::is($this, ESBool::class))
+                ? Shoop::bool($v)
+                : Shoop::string($v);
+
+        } elseif (Type::is($this, ESInt::class)) {
+            $int = $this->value;
+            $int = Type::sanitizeType($value, ESInt::class)->unfold();
+            return Shoop::int($int);
+
+        } elseif (Type::is($this, ESJson::class)) {
+            $json = $this->value;
+            $object = json_decode($json);
+            $array = (array) $object;
+            $array = $this->arrayAfterSettingValue($array, $value, $member, $overwrite);
+            $object = (object) $array;
+            $json = json_encode($object);
+            return Shoop::json($json);
+
+        } elseif (Type::is($this, ESObject::class)) {
+            $object = $this->value;
+            $array = (array) $object;
+            $array = $this->arrayAfterSettingValue($array, $value, $member, $overwrite);
+            $object = (object) $array;
+            return Shoop::object($object);
+        }
+    }
+
+    private function arrayAfterSettingValue(array $array, $value, $member, bool $overwrite): array
+    {
+        if ($member === null) {
+            trigger_error("Setting value on array requires member be specified.");
+        }
+        $member = (Type::is($this, ESArray::class))
+            ? Type::sanitizeType($member, ESInt::class)->unfold()
+            : Type::sanitizeType($member, ESString::class)->unfold();
+        $overwrite = Type::sanitizeType($overwrite, ESBool::class)->unfold();
+
+        if ($this->offsetExists($member) && $overwrite) {
+            $set = [$member => $value];
+            $array = array_replace($array, $set);
+
+        } elseif ($overwrite) {
+            $set = [$member => $value];
+            $array = array_replace($array, $set);
+
+        } else {
+            $array[$member] = $value;
+
+        }
+        return $array;
+    }
+
     private function handleSet($name, $args)
     {
         $name = lcfirst(str_replace("set", "", $name));
@@ -493,6 +522,43 @@ trait ShoopedImp
             return $m;
 
         }
+    }
+
+// - Callers
+    public function __call($name, $args = [])
+    {
+        $startsWithSet = substr($name, 0, strlen("set")) === "set";
+        $startsWithGet = substr($name, 0, strlen("get")) === "get";
+        $endsWithUnfolded = substr($name, -(strlen("Unfolded"))) === "Unfolded";
+        $name = Shoop::string($name)->unfold();
+        if ($name === "getUnfolded") {
+            $name = str_replace("Unfolded", "", $name);
+            return $this->handleGetUnfolded($name, $args);
+
+        } elseif ($startsWithSet) {
+            $name = lcfirst(str_replace("set", "", $name));
+            return $this->handleSet($name, $args);
+
+        } elseif ($startsWithGet) {
+            $name = lcfirst(str_replace("get", "", $name));
+            return $this->get($name, $args);
+
+        } elseif ($endsWithUnfolded) {
+            $name = str_replace("Unfolded", "", $name);
+            $value = $this->{$name}(...$args);
+            return (Type::isShooped($value))
+                ? $value->unfold()
+                : $value;
+
+        } elseif (is_callable([$this, "get"])) {
+            $value = $this->get($name);
+            $return = (isset($value) && Type::isShooped($value))
+                ? $value->unfold()
+                : $value;
+            return $return;
+
+        }
+        trigger_error("Call to undefined method '{$name}'", E_USER_ERROR);
     }
 
 // - PHP single-method interfaces

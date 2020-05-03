@@ -43,12 +43,6 @@ class ESBool implements Shooped, Compare, Toggle
 // - Getters
 // - Comparison
 // - Other
-    public function set($value)
-    {
-        $value = Type::sanitizeType($value, ESBool::class)->unfold();
-        return self::fold($value);
-    }
-
     public function not(): ESBool
     {
         return $this->toggle();
