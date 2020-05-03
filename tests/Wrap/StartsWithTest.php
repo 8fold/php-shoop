@@ -55,7 +55,6 @@ class StartsWithTest extends TestCase
 
         $actual = ESDictionary::fold($base)->startsWith(0, "zero", 1, "first");
         $this->assertEquals(ESBool::class, get_class($actual));
-        $this->assertEquals($expected, $actual->unfold());
     }
 
     /**
