@@ -56,11 +56,6 @@ class ESArray implements
         $this->value = $array;
     }
 
-    public function split($splitter = 1, $splits = 2)
-    {
-        return $this->divide($splitter);
-    }
-
 // - Comparison
 // - Getters
 // - Other
