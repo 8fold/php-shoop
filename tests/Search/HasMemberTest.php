@@ -35,7 +35,7 @@ class HasMemberTest extends TestCase
     {
         $base = ["hello", "world"];
         $actual = ESArray::fold($base);
-        $actual = $actual->hasKey(1);
+        $actual = $actual->hasMember(1);
         $this->assertTrue($actual->unfold());
     }
 
@@ -50,7 +50,7 @@ class HasMemberTest extends TestCase
     public function testESDictionary()
     {
         $base = ["key" => "value"];
-        $actual = ESDictionary::fold($base)->hasKey("key");
+        $actual = ESDictionary::fold($base)->hasMember("key");
         $this->assertTrue($actual->unfold());
     }
 
@@ -65,7 +65,7 @@ class HasMemberTest extends TestCase
     public function testESJson()
     {
         $base = '{"member":"value", "member2":"value2", "member3":"value3"}';
-        $actual = ESJson::fold($base)->hasKey("member2");
+        $actual = ESJson::fold($base)->hasMember("member2");
         $this->assertTrue($actual->unfold());
     }
 
@@ -74,7 +74,7 @@ class HasMemberTest extends TestCase
         $base = new \stdClass();
         $base->testMember = "test";
 
-        $actual = ESObject::fold($base)->hasKey("testMember");
+        $actual = ESObject::fold($base)->hasMember("testMember");
         $this->assertTrue($actual->unfold());
     }
 
@@ -82,7 +82,7 @@ class HasMemberTest extends TestCase
     {
         $base = "Hello, World!";
 
-        $actual = ESString::fold($base)->hasKey(13);
+        $actual = ESString::fold($base)->hasMember(13);
         $this->assertFalse($actual->unfold());
     }
 }

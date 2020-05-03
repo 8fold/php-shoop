@@ -51,7 +51,7 @@ trait SortImp
         }
     }
 
-    private function indexedArrayToSortedIndexedArray(array $array, bool $asc, bool $case): array
+    private function indexedArrayToSortedIndexedArray(array $array, bool $asc, bool $caseSensitive): array
     {
         if ($asc) {
             if ($caseSensitive) {

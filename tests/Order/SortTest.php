@@ -34,11 +34,11 @@ class SortTest extends TestCase
 {
     public function testESArray()
     {
-        $expected = ["Alpha", "alpha", "beta", "Beta", "gamma", "Gamma"];
+        $expected = ["Alpha", "Beta", "Gamma", "alpha", "beta", "gamma"];
         $actual = Shoop::array(["beta", "Alpha", "gamma", "Beta", "alpha" , "Gamma"])->sort();
         $this->assertEquals($expected, $actual->unfold());
 
-        $expected = ["gamma", "Gamma", "beta", "Beta", "Alpha", "alpha"];
+        $expected = ["gamma", "beta", "alpha", "Gamma", "Beta", "Alpha"];
         $actual = Shoop::array(["beta", "Alpha", "gamma", "Beta", "alpha" , "Gamma"])->sort(false);
         $this->assertEquals($expected, $actual->unfold());
 

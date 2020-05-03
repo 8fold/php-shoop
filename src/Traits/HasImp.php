@@ -46,7 +46,7 @@ trait HasImp
         }
     }
 
-    public function hasKey($member): ESBool
+    public function hasMember($member): ESBool
     {
         if (Type::is($this, ESArray::class)) {
             $member = Type::sanitizeType($member, ESInt::class)->unfold();
