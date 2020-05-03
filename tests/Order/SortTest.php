@@ -88,12 +88,12 @@ class SortTest extends TestCase
 
     public function testESJson()
     {
-        $baseExpected = ["gamma" => "Alpha", "delta" => "alpha", "beta" => "Beta", "alpha" => "beta"];
+        $baseExpected = ["gamma" => "Alpha", "beta" => "Beta", "delta" => "alpha", "alpha" => "beta"];
         $expected = json_encode($baseExpected);
         $actual = Shoop::json('{"gamma":"Alpha","beta":"Beta","delta":"alpha","alpha":"beta"}')->sort();
         $this->assertEquals($expected, $actual->unfold());
 
-        $baseExpected = ["beta" => "Beta", "alpha" => "beta", "gamma" => "Alpha", "delta" => "alpha"];
+        $baseExpected = [ "alpha" => "beta", "delta" => "alpha", "beta" => "Beta", "gamma" => "Alpha"];
         $expected = json_encode($baseExpected);
         $actual = Shoop::json('{"gamma":"Alpha","beta":"Beta","delta":"alpha","alpha":"beta"}')->sort(false);
         $this->assertEquals($expected, $actual->unfold());

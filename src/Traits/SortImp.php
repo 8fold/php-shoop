@@ -51,7 +51,11 @@ trait SortImp
         }
     }
 
-    private function indexedArrayToSortedIndexedArray(array $array, bool $asc, bool $caseSensitive): array
+    private function indexedArrayToSortedIndexedArray(
+        array $array,
+        bool $asc,
+        bool $caseSensitive
+    ): array
     {
         if ($asc) {
             if ($caseSensitive) {
@@ -74,7 +78,11 @@ trait SortImp
         return $array;
     }
 
-    private function associativeArrayToSortedAssociativeArray(array $dictionary, bool $asc, bool $case): array
+    private function associativeArrayToSortedAssociativeArray(
+        array $dictionary,
+        bool $asc,
+        bool $caseSensitive
+    ): array
     {
         if ($asc) {
             if ($caseSensitive) {
