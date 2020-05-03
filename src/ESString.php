@@ -10,6 +10,7 @@ use Eightfold\Shoop\Interfaces\{
     Wrap,
     Sort,
     Has,
+    Drop,
     Compare
 };
 
@@ -21,6 +22,7 @@ use Eightfold\Shoop\Traits\{
     WrapImp,
     SortImp,
     HasImp,
+    DropImp,
     CompareImp
 };
 
@@ -34,10 +36,11 @@ class ESString implements
     Shuffle,
     Wrap,
     Sort,
+    Drop,
     Has, // TODO: Consider different implementation (array splits on letters, words become issues)
     Compare
 {
-    use ShoopedImp, MathOperationsImp, ToggleImp, ShuffleImp, WrapImp, SortImp, HasImp, CompareImp;
+    use ShoopedImp, MathOperationsImp, ToggleImp, ShuffleImp, WrapImp, SortImp, HasImp, DropImp, CompareImp;
 
     public function __construct($string)
     {
@@ -55,10 +58,10 @@ class ESString implements
 
 // - Type Juggling
 // - PHP single-method interfaces
-    public function count(): ESInt
-    {
-        return Shoop::int(strlen($this->unfold()));
-    }
+    // public function count(): ESInt
+    // {
+    //     return Shoop::int(strlen($this->unfold()));
+    // }
 
 // - Math language
 // - Comparison
@@ -116,12 +119,6 @@ class ESString implements
 
 // - Replace
 // - Other
-    // public function hasMember($member): ESBool
-    // {
-    //     $member = Type::sanitizeType($member, ESString::class)->unfold();
-    //     return Shoop::bool($this->offsetExists($member));
-    // }
-
     public function lowerFirst(): ESString
     {
         // ?? lower(1, 3, 4) : lower("even") : lower("odd")

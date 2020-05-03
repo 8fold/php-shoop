@@ -50,7 +50,7 @@ class OffsetUnsetTest extends TestCase
     {
         $actual = ESDictionary::fold(["key" => false]);
         $actual->offsetUnset("key");
-        $this->assertFalse($actual->hasMemberUnfolded("key"));
+        $this->assertFalse($actual->offsetExists("key"));
     }
 
     /**
@@ -84,7 +84,7 @@ class OffsetUnsetTest extends TestCase
 
         $actual = ESObject::fold($base);
         $actual->offsetUnset("test");
-        $this->assertFalse($actual->hasMemberUnfolded("test"));
+        $this->assertFalse($actual->offsetExists("test"));
     }
 
     public function testESString()

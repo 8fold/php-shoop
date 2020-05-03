@@ -11,6 +11,7 @@ use Eightfold\Shoop\Interfaces\{
     Sort,
     Toggle,
     Wrap,
+    Drop,
     Has
 };
 
@@ -21,12 +22,13 @@ use Eightfold\Shoop\Traits\{
     SortImp,
     ToggleImp,
     WrapImp,
+    DropImp,
     HasImp
 };
 
-class ESObject implements Shooped, Compare, MathOperations, Sort, Toggle, Wrap, Has
+class ESObject implements Shooped, Compare, MathOperations, Sort, Toggle, Wrap, Drop, Has
 {
-    use ShoopedImp, CompareImp, MathOperationsImp, SortImp, ToggleImp, WrapImp, HasImp;
+    use ShoopedImp, CompareImp, MathOperationsImp, SortImp, ToggleImp, WrapImp, DropImp, HasImp;
 
     public function __construct($object)
     {
@@ -81,14 +83,6 @@ class ESObject implements Shooped, Compare, MathOperations, Sort, Toggle, Wrap, 
         }
         $merged = array_merge($cast, [$member => $value]);
         return static::fold($merged);
-    }
-
-    public function hasMember($member): ESBool
-    {
-        if (Type::isArray($member)) {
-            $member = $member[0];
-        }
-        return Shoop::bool(isset($this->value->{$member}));
     }
 
     private function rename(string $current, string $new)

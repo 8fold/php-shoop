@@ -11,6 +11,7 @@ use Eightfold\Shoop\Interfaces\{
     Toggle,
     Sort,
     Wrap,
+    Drop,
     Has
 };
 
@@ -21,6 +22,7 @@ use Eightfold\Shoop\Traits\{
     ToggleImp,
     SortImp,
     WrapImp,
+    DropImp,
     HasImp
 };
 
@@ -33,9 +35,10 @@ class ESDictionary implements
     Toggle,
     Sort,
     Wrap,
+    Drop,
     Has
 {
-    use ShoopedImp, CompareImp, MathOperationsImp, ToggleImp, SortImp, WrapImp, HasImp;
+    use ShoopedImp, CompareImp, MathOperationsImp, ToggleImp, SortImp, WrapImp, DropImp, HasImp;
 
     public function __construct($dictionary)
     {
@@ -79,13 +82,6 @@ class ESDictionary implements
         }
         $merged = array_merge($cast, [$key => $value]);
         return static::fold($merged);
-    }
-
-    // TODO: Promote to ShoopedImp, with custom for ESString
-    public function hasMember($member): ESBool
-    {
-        $member = Type::sanitizeType($member, ESString::class)->unfold();
-        return Shoop::bool($this->offsetExists($member));
     }
 
     private function members(): ESArray

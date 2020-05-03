@@ -152,21 +152,41 @@ trait ShoopedImp
 
     public function int(): ESInt
     {
-        if (Type::is($this, ESInt::class)) {
+        if (Type::is($this, ESArray::class, ESDictionary::class)) {
+            $array = $this->value;
+            $int = count($array);
+            return Shoop::int($int);
+
+        } elseif (Type::is($this, ESBool::class)) {
+            $bool = $this->value;
+            $int = $this->value
+                ? 1
+                : 0;
+            return Shoop::int($int);
+
+        } elseif (Type::is($this, ESInt::class)) {
             $int = $this->value;
             return Shoop::int($int);
 
-        }
-        $count = count($this->arrayUnfolded());
-        if (Type::is($this, ESString::class)) {
-            $count = intval($this->value);
+        } elseif (Type::is($this, ESJson::class)) {
+            $json = $this->value;
+            $object = json_decode($json);
+            $array = (array) $object;
+            $int = count($array);
+            return Shoop::int($int);
 
-        } elseif (Type::is($this, ESBool::class)) {
-            $count = $this->value
-                ? 1
-                : 0;
+        } elseif (Type::is($this, ESObject::class)) {
+            $object = $this->value;
+            $array = (array) $object;
+            $int = count($array);
+            return Shoop::int($int);
+
+        } elseif (Type::is($this, ESString::class)) {
+            $string = $this->value;
+            $int = intval($string);
+            return Shoop::int($int);
+
         }
-        return Shoop::int($count);
     }
 
     public function json(): ESJson

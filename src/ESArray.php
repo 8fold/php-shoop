@@ -12,6 +12,7 @@ use Eightfold\Shoop\Interfaces\{
     Shuffle,
     Wrap,
     Sort,
+    Drop,
     Has
 };
 
@@ -23,6 +24,7 @@ use Eightfold\Shoop\Traits\{
     ShuffleImp,
     WrapImp,
     SortImp,
+    DropImp,
     HasImp
 };
 
@@ -34,9 +36,10 @@ class ESArray implements
     Shuffle,
     Wrap,
     Sort,
+    Drop,
     Has
 {
-    use ShoopedImp, CompareImp, MathOperationsImp, ToggleImp, ShuffleImp, WrapImp, SortImp, HasImp;
+    use ShoopedImp, CompareImp, MathOperationsImp, ToggleImp, ShuffleImp, WrapImp, SortImp, DropImp, HasImp;
 
     public function __construct($array = [])
     {
@@ -86,14 +89,6 @@ class ESArray implements
         return static::fold($merged);
     }
 
-    // TODO: Promote to ShoopedImp, with custom for ESString
-    public function hasMember($member): ESBool
-    {
-        $member = Type::sanitizeType($member, ESInt::class)->unfold();
-        $offsetExists = $this->offsetExists($member);
-        return Shoop::bool($offsetExists);
-    }
-
     public function join($delimiter = ""): ESString
     {
         $delimiter = Type::sanitizeType($delimiter, ESString::class);
@@ -111,40 +106,6 @@ class ESArray implements
 
         $merged = array_merge($lhs, $value, $rhs);
         return Shoop::array($merged)->array();
-    }
-
-    public function drop($int)
-    {
-        $int = Type::sanitizeType($int, ESInt::class)->unfold();
-        $array = $this->unfold();
-        unset($array[$int]);
-        return Shoop::array($array)->array();
-    }
-
-    public function dropFirst($length = 1): ESArray
-    {
-        $length = Type::sanitizeType($length, ESInt::class)->unfold();
-
-        $array = $this->array()->unfold();
-        for ($i = 0; $i < $length; $i++) {
-            array_shift($array);
-        }
-        return Shoop::array($array)->array();
-    }
-
-    public function dropLast($length = 1): ESArray
-    {
-        $v = $this->unfold();
-        for ($i = 0; $i < $length; $i++) {
-            array_pop($v);
-        }
-        $v = array_values($v);
-        return Shoop::array($v);
-    }
-
-    public function noEmpties(): ESArray
-    {
-        return Shoop::array(array_filter($this->unfold()))->array();
     }
 
     public function each(\Closure $closure): ESArray

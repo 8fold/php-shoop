@@ -13,6 +13,7 @@ use Eightfold\Shoop\Interfaces\{
     Sort,
     Toggle,
     Wrap,
+    Drop,
     Has
 };
 
@@ -23,15 +24,16 @@ use Eightfold\Shoop\Traits\{
     SortImp,
     ToggleImp,
     WrapImp,
+    DropImp,
     HasImp
 };
 
 use Eightfold\Shoop\ESDictionary;
 
 // TODO: Need to be able to handle the path
-class ESJson implements Shooped, Compare, MathOperations, Wrap, Has, \JsonSerializable
+class ESJson implements Shooped, Compare, MathOperations, Wrap, Drop, Has, \JsonSerializable
 {
-    use ShoopedImp, CompareImp, ToggleImp, MathOperationsImp, SortImp, WrapImp, HasImp;
+    use ShoopedImp, CompareImp, ToggleImp, MathOperationsImp, SortImp, WrapImp, DropImp, HasImp;
 
     // TODO: How to store path ??
     protected $path = "";
@@ -50,11 +52,6 @@ class ESJson implements Shooped, Compare, MathOperations, Wrap, Has, \JsonSerial
 
 // - Type Juggling
 // - Comparison
-    public function isEmpty(): ESBool
-    {
-        return $this->object()->isEmpty();
-    }
-
 // - PHP single-method interfaces
     public function jsonSerialize()
     {
@@ -86,12 +83,6 @@ class ESJson implements Shooped, Compare, MathOperations, Wrap, Has, \JsonSerial
         $cast->{$key} = $value;
         $encoded = json_encode($cast);
         return static::fold($encoded);
-    }
-
-    public function hasMember($member): ESBool
-    {
-        $v = (array) json_decode($this->unfold());
-        return Shoop::bool(array_key_exists($member, $v) || (is_int($member) && count($v) > $member));
     }
 
     public function path(): ESString

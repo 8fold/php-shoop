@@ -22,6 +22,11 @@ trait MathOperationsImp
         if (Type::is($this, ESArray::class, ESDictionary::class, ESInt::class, ESJson::class, ESObject::class)) {
             return $this->int();
 
+        } elseif (Type::is($this, ESString::class)) {
+            $string = $this->value;
+            $int = strlen($string);
+            return Shoop::int($int);
+
         }
     }
 
