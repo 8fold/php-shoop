@@ -12,7 +12,8 @@ use Eightfold\Shoop\Interfaces\{
     Sort,
     Wrap,
     Drop,
-    Has
+    Has,
+    IsIn
 };
 
 use Eightfold\Shoop\Traits\{
@@ -23,7 +24,8 @@ use Eightfold\Shoop\Traits\{
     SortImp,
     WrapImp,
     DropImp,
-    HasImp
+    HasImp,
+    IsInImp
 };
 
 use Eightfold\Shoop\ESInt;
@@ -36,9 +38,10 @@ class ESDictionary implements
     Sort,
     Wrap,
     Drop,
-    Has
+    Has,
+    IsIn
 {
-    use ShoopedImp, CompareImp, MathOperationsImp, ToggleImp, SortImp, WrapImp, DropImp, HasImp;
+    use ShoopedImp, CompareImp, MathOperationsImp, ToggleImp, SortImp, WrapImp, DropImp, HasImp, IsInImp;
 
     public function __construct($dictionary)
     {

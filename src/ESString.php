@@ -11,7 +11,8 @@ use Eightfold\Shoop\Interfaces\{
     Sort,
     Has,
     Drop,
-    Compare
+    Compare,
+    IsIn
 };
 
 use Eightfold\Shoop\Traits\{
@@ -23,7 +24,8 @@ use Eightfold\Shoop\Traits\{
     SortImp,
     HasImp,
     DropImp,
-    CompareImp
+    CompareImp,
+    IsInImp
 };
 
 use Eightfold\Shoop\Helpers\Type;
@@ -38,9 +40,10 @@ class ESString implements
     Sort,
     Drop,
     Has, // TODO: Consider different implementation (array splits on letters, words become issues)
-    Compare
+    Compare,
+    IsIn
 {
-    use ShoopedImp, MathOperationsImp, ToggleImp, ShuffleImp, WrapImp, SortImp, HasImp, DropImp, CompareImp;
+    use ShoopedImp, MathOperationsImp, ToggleImp, ShuffleImp, WrapImp, SortImp, HasImp, DropImp, CompareImp, IsInImp;
 
     public function __construct($string)
     {
@@ -60,29 +63,7 @@ class ESString implements
 // - PHP single-method interfaces
 // - Math language
 // - Comparison
-// - Getters
-    // public function get($member)
-    // {
-    //     $member = Type::sanitizeType($member, ESInt::class)->unfold();
-    //     if ($this->offsetExists($member)) {
-    //         $m = $this->value[$member];
-    //         return ((Type::isPhp($m))) ? Type::sanitizeType($m) : $m;
-    //     }
-    //     trigger_error("Undefined index or member.");
-    // }
-
-    // TODO: Could this be promoted to the hasImp - or a global contract?
-    public function isIn($haystack): ESBool
-    {
-        $bool = false;
-        foreach ($this->array() as $needle) {
-            if ($this->hasUnfolded($needle)) {
-                $bool = true;
-                break;
-            }
-        }
-        return Shoop::bool($bool);
-    }
+// - stream_get_filters()
 
 // - Manipulate
     // public function toggle($preserveMembers = true)

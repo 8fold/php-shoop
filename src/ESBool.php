@@ -9,18 +9,20 @@ use Eightfold\Shoop\ESInt;
 use Eightfold\Shoop\Interfaces\{
     Shooped,
     Compare,
-    Toggle
+    Toggle,
+    IsIn
 };
 
 use Eightfold\Shoop\Traits\{
     ShoopedImp,
     CompareImp,
-    ToggleImp
+    ToggleImp,
+    IsInImp
 };
 
-class ESBool implements Shooped, Compare, Toggle
+class ESBool implements Shooped, Compare, Toggle, IsIn
 {
-    use ShoopedImp, CompareImp, ToggleImp;
+    use ShoopedImp, CompareImp, ToggleImp, IsInImp;
 
     public function __construct($bool)
     {

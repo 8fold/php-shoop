@@ -14,7 +14,8 @@ use Eightfold\Shoop\Interfaces\{
     Toggle,
     Wrap,
     Drop,
-    Has
+    Has,
+    IsIn
 };
 
 use Eightfold\Shoop\Traits\{
@@ -25,15 +26,16 @@ use Eightfold\Shoop\Traits\{
     ToggleImp,
     WrapImp,
     DropImp,
-    HasImp
+    HasImp,
+    IsInImp
 };
 
 use Eightfold\Shoop\ESDictionary;
 
 // TODO: Need to be able to handle the path
-class ESJson implements Shooped, Compare, MathOperations, Wrap, Drop, Has, \JsonSerializable
+class ESJson implements Shooped, Compare, MathOperations, Wrap, Drop, Has, IsIn, \JsonSerializable
 {
-    use ShoopedImp, CompareImp, ToggleImp, MathOperationsImp, SortImp, WrapImp, DropImp, HasImp;
+    use ShoopedImp, CompareImp, ToggleImp, MathOperationsImp, SortImp, WrapImp, DropImp, HasImp, IsInImp;
 
     // TODO: How to store path ??
     protected $path = "";

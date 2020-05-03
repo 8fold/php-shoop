@@ -13,7 +13,8 @@ use Eightfold\Shoop\Interfaces\{
     Wrap,
     Sort,
     Drop,
-    Has
+    Has,
+    IsIn
 };
 
 use Eightfold\Shoop\Traits\{
@@ -25,7 +26,8 @@ use Eightfold\Shoop\Traits\{
     WrapImp,
     SortImp,
     DropImp,
-    HasImp
+    HasImp,
+    IsInImp
 };
 
 class ESArray implements
@@ -37,9 +39,10 @@ class ESArray implements
     Wrap,
     Sort,
     Drop,
-    Has
+    Has,
+    IsIn
 {
-    use ShoopedImp, CompareImp, MathOperationsImp, ToggleImp, ShuffleImp, WrapImp, SortImp, DropImp, HasImp;
+    use ShoopedImp, CompareImp, MathOperationsImp, ToggleImp, ShuffleImp, WrapImp, SortImp, DropImp, HasImp, IsInImp;
 
     public function __construct($array = [])
     {
@@ -53,11 +56,6 @@ class ESArray implements
         $this->value = $array;
     }
 
-// - Type Juggling
-// - PHP single-method interfaces
-// - Manipulate
-// - Wrap
-// - Math language
     public function split($splitter = 1, $splits = 2)
     {
         return $this->divide($splitter);

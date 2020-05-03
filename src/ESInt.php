@@ -6,14 +6,16 @@ use Eightfold\Shoop\Interfaces\{
     Shooped,
     MathOperations,
     Toggle,
-    Compare
+    Compare,
+    IsIn
 };
 
 use Eightfold\Shoop\Traits\{
     ShoopedImp,
     MathOperationsImp,
     ToggleImp,
-    CompareImp
+    CompareImp,
+    IsInImp
 };
 
 use Eightfold\Shoop\{
@@ -24,9 +26,9 @@ use Eightfold\Shoop\{
 use Eightfold\Shoop\Helpers\Type;
 
 
-class ESInt implements Shooped, MathOperations, Toggle
+class ESInt implements Shooped, MathOperations, Toggle, IsIn
 {
-    use ShoopedImp, MathOperationsImp, ToggleImp, CompareImp;
+    use ShoopedImp, MathOperationsImp, ToggleImp, CompareImp, IsInImp;
 
     public function __construct($int)
     {
