@@ -12,6 +12,21 @@ use Eightfold\Shoop\{
 
 class ArrayTest extends TestCase
 {
+    public function testJoin()
+    {
+        $base = ["Hello", "World!"];
+        $expected = "Hello, World!";
+        $actual = ESArray::fold($base)->join(", ");
+        $this->assertEquals($expected, $actual->unfold());
+    }
+
+    public function testInsertAt()
+    {
+        $base = ["Hello", "World!"];
+        $expected = ["Hello", ", ", "World!"];
+        $actual = ESArray::fold($base)->insertAt(", ", 1);
+        $this->assertEquals($expected, $actual->unfold());
+    }
     // public function testTypeJuggling()
     // {
     //     $base = [1, 2];

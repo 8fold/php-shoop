@@ -56,18 +56,23 @@ class ESArray implements
         $this->value = $array;
     }
 
-// - Comparison
-// - Getters
-// - Other
     public function join($delimiter = ""): ESString
     {
         $delimiter = Type::sanitizeType($delimiter, ESString::class);
         return Shoop::string(implode($delimiter->unfold(), $this->unfold()));
     }
 
+    public function summed()
+    {
+        $total = 0;
+        foreach ($this->unfold() as $int) {
+            $total += Type::sanitizeType($int, ESInt::class)->unfold();
+        }
+        return Shoop::int($total);
+    }
+
     public function insertAt($value, $int)
     {
-        // TODO: Consider making plus an alias of this
         $int = Type::sanitizeType($int, ESInt::class)->unfold();
         $value = Type::sanitizeType($value, ESArray::class)->unfold();
 
@@ -88,15 +93,6 @@ class ESArray implements
             }
         }
         return Shoop::array($build);
-    }
-
-    public function summed()
-    {
-        $total = 0;
-        foreach ($this->unfold() as $int) {
-            $total += Type::sanitizeType($int, ESInt::class)->unfold();
-        }
-        return Shoop::int($total);
     }
 
 //-> Getters
