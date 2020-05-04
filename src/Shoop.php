@@ -13,31 +13,9 @@ class Shoop
         return Type::sanitizeType($potential, $shoopType);
     }
 
-    static public function int($int): ESInt
-    {
-        return static::this($int, ESInt::class);
-    }
-
-    static public function string($string): ESString
-    {
-        return static::this($string, ESString::class);
-    }
-
     static public function array($array): ESArray
     {
-        // TODO: add - always passes both, only requires one
-        //      filter(value, key = '')
         return static::this($array, ESArray::class);
-    }
-
-    static public function dictionary($assocArray): ESDictionary
-    {
-        return static::this($assocArray, ESDictionary::class);
-    }
-
-    static public function object($object): ESObject
-    {
-        return static::this($object, ESObject::class);
     }
 
     static public function bool($bool): ESBool
@@ -45,13 +23,28 @@ class Shoop
         return static::this($bool, ESBool::class);
     }
 
+    static public function dictionary($assocArray): ESDictionary
+    {
+        return static::this($assocArray, ESDictionary::class);
+    }
+
+    static public function int($int): ESInt
+    {
+        return static::this($int, ESInt::class);
+    }
+
     static public function json($json): ESJson
     {
         return static::this($json, ESJson::class);
     }
 
-    static public function elem($elements)
+    static public function object($object): ESObject
     {
-        return static::this($elements, ESElement::class);
+        return static::this($object, ESObject::class);
+    }
+
+    static public function string($string): ESString
+    {
+        return static::this($string, ESString::class);
     }
 }

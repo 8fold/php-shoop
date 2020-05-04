@@ -6,27 +6,20 @@ use Eightfold\Shoop\ESBool;
 
 interface Wrap
 {
-    // Does not make sense on ESBool, ESInt, ESObject, ESDictionary
+    // Does not make sense on ESBool, ESInt
     public function first();
 
-    // Does not make sense on ESBool, ESInt, ESObject, ESDictionary
     public function last();
 
-    // Does not make sense on ESBool, ESInt, ESObject, ESDictionary
-    public function start(...$prefixes); // 7.4 : self;
+    public function start(...$prefixes);
 
-    // Does not make sense on ESBool, ESInt, ESObject, ESDictionary
-    public function end(...$suffixes); // 7.4 : self;
+    public function end(...$suffixes);
 
-    // Does not make sense on ESBool, ESInt, ESObject, ESDictionary
-    public function startsWith($needle): ESBool;
+    public function startsWith(...$needles): ESBool;
 
-    // Does not make sense on ESBool, ESInt, ESObject, ESDictionary
-    public function doesNotStartWith($needle): ESBool;
+    public function doesNotStartWith(...$needles): ESBool;
 
-    // Does not make sense on ESBool, ESInt, ESObject, ESDictionary
-    public function endsWith($needle): ESBool;
+    public function endsWith(...$needles): ESBool;
 
-    // Does not make sense on ESBool, ESInt, ESObject, ESDictionary
-    public function doesNotEndWith($needle): ESBool;
+    public function doesNotEndWith(...$needles): ESBool;
 }

@@ -8,4 +8,6 @@ interface Has
 {
     // Does not make sense on ESBool
     public function has($needle): ESBool;
+
+    public function hasMember($member): ESBool;
 }

@@ -4,18 +4,18 @@ namespace Eightfold\Shoop;
 
 use Eightfold\Shoop\Interfaces\{
     Shooped,
-    Countable,
+    MathOperations,
     Toggle,
-    Shuffle,
-    Compare
+    Compare,
+    IsIn
 };
 
 use Eightfold\Shoop\Traits\{
     ShoopedImp,
-    CountableImp,
+    MathOperationsImp,
     ToggleImp,
-    ShuffleImp,
-    CompareImp
+    CompareImp,
+    IsInImp
 };
 
 use Eightfold\Shoop\{
@@ -26,9 +26,9 @@ use Eightfold\Shoop\{
 use Eightfold\Shoop\Helpers\Type;
 
 
-class ESInt implements Shooped, Countable, Toggle, Shuffle
+class ESInt implements Shooped, MathOperations, Toggle, IsIn
 {
-    use ShoopedImp, CountableImp, ToggleImp, ShuffleImp, CompareImp;
+    use ShoopedImp, MathOperationsImp, ToggleImp, CompareImp, IsInImp;
 
     public function __construct($int)
     {
@@ -50,212 +50,13 @@ class ESInt implements Shooped, Countable, Toggle, Shuffle
         }
     }
 
-// - Type Juggling
-    public function string(): ESString
-    {
-        return Shoop::string((string) $this->unfold());
-    }
-
-    public function array(): ESArray
-    {
-        return Shoop::array($this->range(0));
-    }
-
-    public function dictionary(): ESDictionary
-    {
-        return $this->array()->dictionary();
-    }
-
-    public function int(): ESInt
-    {
-        return ESInt::fold($this->unfold());
-    }
-
-    public function json(): ESJson
-    {
-        return Shoop::object((object) ["json" => $this->unfold()])->json();
-    }
-
-// - Manipulate
-    public function toggle($preserveMembers = true): ESInt
-    {
-        return $this->multiply(-1);
-    }
-
-// - Search
-// - Math language
-    public function multiply($int)
+    public function range($int = 0)
     {
         $int = Type::sanitizeType($int, ESInt::class)->unfold();
-        return ESInt::fold($this->unfold() * $int);
-    }
-
-    public function plus(...$args)
-    {
-        $terms = $args;
-        $terms = $args;
-        $total = $this->value;
-        foreach ($terms as $term) {
-            $term = Type::sanitizeType($term, ESInt::class)
-                ->unfold();
-            $total += $term;
-        }
-        return Shoop::int($total);
-    }
-
-    public function minus(...$args): ESInt
-    {
-        $total = $this->unfold();
-        foreach ($args as $term) {
-            $term = Type::sanitizeType($term, ESInt::class)->unfold();
-            $total -= $term;
-        }
-        return ESInt::fold($total);
-    }
-
-    public function divide($value = null)
-    {
-        if ($value === null) {
-            return $this;
-        }
-
-        $divisor = Type::sanitizeType($value, ESInt::class)->unfold();
-        $enumerator = $this->unfold();
-        return ESInt::fold((int) floor($enumerator/$divisor));
-    }
-
-// - Getters
-    public function get()
-    {
-        return $this;
-        // $member = Type::sanitizeType($member, ESInt::class)->unfold();
-        // if ($this->hasMember($member)) {
-        //     $m = $this->value[$member];
-        //     return ((Type::isPhp($m))) ? Type::sanitizeType($m) : $m;
-        // }
-        // trigger_error("Undefined index or memember.");
-    }
-
-// - Comparison
-// - Other
-    public function range($int)
-    {
-        $int = Type::sanitizeType($int, ESInt::class)->unfold();
+        $range = range($int, $this->unfold());
         if ($int > $this->unfold()) {
-            return Shoop::this(range($this->unfold(), $int));
+            $range = range($this->unfold(), $int);
         }
-        return Shoop::this(range($int, $this->unfold()), ESArray::class);
+        return Shoop::array($range);
     }
-
-// - Transforms
-// - Callers
-    // public function __call($name, $args = [])
-    // {
-    //     $name = Shoop::string($name)->unfold();
-    //     $startsWithSet = substr($name, 0, strlen("set")) === "set";
-    //     $endsWithUnfolded = substr($name, -(strlen("Unfolded"))) === "Unfolded";
-    //     if ($startsWithSet) {
-    //         dump("starts with set");
-    //         $member = lcfirst(str_replace("set", "", $name));
-    //         $overwrite = (isset($args[1])) ? $args[1] : true;
-    //         $value = (isset($args[0])) ? $args[0] : null;
-
-    //         return $this->set($member, $value, $overwrite);
-
-    //     } elseif ($endsWithUnfolded) {
-    //         $name = str_replace("Unfolded", "", $name);
-    //         if (! method_exists($this, $name)) {
-    //             $className = static::class;
-    //             trigger_error("{$member} is an invalid method on {$className}", E_USER_ERROR);
-
-    //         } else {
-    //             $value = $this->{$name}($args);
-    //             if (Type::isShooped($value)) {
-    //                 return $value->unfold();
-    //             }
-    //         }
-    //         $value = $this->get($member);
-    //         $return = (isset($value) && Type::isShooped($value))
-    //             ? $value->unfold()
-    //             : $value;
-    //         return $return;
-
-    //     } else {
-    //         $name = lcfirst(str_replace("get", "", $name));
-    //         return Type::sanitizeType($name);
-
-    //     }
-    // }
-
-// -> Array Access
-    public function offsetExists($offset): bool {}
-
-    public function offsetGet($offset) {}
-
-    public function offsetSet($offset, $value): void {}
-
-    public function offsetUnset($offset): void {}
-
-    // public function offsetExists($offset): bool
-    // {
-    //     return isset($this->value[$offset]);
-    // }
-
-    // public function offsetGet($offset)
-    // {
-    //     return ($this->offsetExists($offset))
-    //         ? $this->value[$offset]
-    //         : null;
-    // }
-
-    // public function offsetSet($offset, $value)
-    // {
-    //     $stash = $this->value;
-    //     if (is_null($offset)) {
-    //         $stash = $value;
-
-    //     } else {
-    //         $stash[$offset] = $value;
-
-    //     }
-    //     return static::fold($stash);
-    // }
-
-    // public function offsetUnset($offset)
-    // {
-    //     $stash = $this->value;
-    //     unset($stash[$offset]);
-    //     return static::fold($stash);
-    // }
-
-// //-> Iterator
-    // public function current()
-    // {
-    //     $current = key($this->value);
-    //     return $this->value[$current];
-    // }
-
-    // public function key()
-    // {
-    //     return key($this->value);
-    // }
-
-    // public function next()
-    // {
-    //     next($this->value);
-    //     return $this;
-    // }
-
-    // public function rewind()
-    // {
-    //     reset($this->value);
-    //     return $this;
-    // }
-
-    // public function valid(): bool
-    // {
-    //     $key = key($this->value);
-    //     $var = ($key !== null && $key !== false);
-    //     return $var;
-    // }
 }

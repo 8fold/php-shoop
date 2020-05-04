@@ -35,12 +35,7 @@ interface Shooped extends
 
     public function bool(): ESBool;
 
-    // Does not make sense for ESInt
     public function json(): ESJson;
-
-// - PHP single-method interfaces
-// - Math language
-    public function multiply($int);
 
 // - Comparison
     public function is($compare): ESBool;
@@ -48,6 +43,16 @@ interface Shooped extends
     public function isNot($compare): ESBool;
 
     public function isEmpty(): ESBool;
+
+// - Getters/Setters
+    public function get($member = 0);
+
+    public function set($value, $member = null, $overwrite = true);
+
+// - PHP single-method interfaces
+    public function __call($name, $args = []);
+
+    public function __toString();
 
 // - Array Access
     public function offsetExists($offset): bool;

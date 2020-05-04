@@ -1,33 +1,26 @@
 <?php
+
 namespace Eightfold\Shoop\Tests;
 
 use PHPUnit\Framework\TestCase;
 
-use Eightfold\Shoop\Helpers\Type;
-
-use Eightfold\Shoop\Shoop;
-
-use Eightfold\Shoop\ESInt;
+use Eightfold\Shoop\{
+    Shoop,
+    ESArray,
+    Helpers\Type
+};
 
 class IntTest extends TestCase
 {
-    public function testCanInitialize()
+    public function testRange()
     {
-        $expected = 5;
+        $base = 5;
+        $expected = [0, 1, 2, 3, 4, 5];
+        $actual = Shoop::int($base)->range();
+        $this->assertEquals($expected, $actual->unfold());
 
-        $actual = (new ESInt($expected))->unfold();
-        $this->assertEquals($expected, $actual);
-
-        $actual = (new ESInt("5"))->unfold();
-        $this->assertEquals($expected, $actual);
-
-        $actual = Shoop::int($expected)->unfold();
-        $this->assertEquals($expected, $actual);
-
-        $actual = Shoop::int("5")->unfold();
-        $this->assertEquals($expected, $actual);
-
-        $actual = Shoop::int("05")->unfold();
-        $this->assertEquals($expected, $actual);
+        $expected = [4, 5];
+        $actual = Shoop::int($base)->range(4);
+        $this->assertEquals($expected, $actual->unfold());
     }
 }

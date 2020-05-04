@@ -111,10 +111,9 @@ Class methods SHOULD NOT mutate state outside of themselves and MUST NOT mutate 
 
 Class methods SHOULD NOT use Shoop to solve a specified problem.
 
-## Governance
+## Versioning
 
-- Higher the number, higher the priority (labels on issues).
-- Benevolant Dictatorship for now.
+We follow [semantic versioning](https://semver.org/). We are operating under a [zero-major](https://semver.org/#spec-item-4) at this time. `x.y.z`: `x` = major, `y` = minor, `z` = patch. In this case `x` remains at 0 to communicate that APIs may come and go without warning. With that said, changes to `y` are typically reserved for breaking changes and changes to `z` represent added features and APIs or bug fixes.
 
 ## Contibuting
 
@@ -124,9 +123,26 @@ Please submit PRs from a fork of this project. If you are part of the core team,
 
 Each PR will be reviewed, including those submitted by core developers (no direct push).
 
-## Versioning
+ALL type classes must conform to the Shooped interface to all leveraging of the type system by users.
 
-We follow [semantic versioning](https://semver.org/). We are operating under a [zero-major](https://semver.org/#spec-item-4) at this time. `x.y.z`: `x` = major, `y` = minor, `z` = patch. In this case `x` remains at 0 to communicate that APIs may come and go without warning. With that said, changes to `y` are typically reserved for breaking changes and changes to `z` represent added features and APIs or bug fixes.
+### Naming conventions
+
+ES{type}: Shoop types MUST be named using the ES (Eightfold Shoop) prefixed concatenated with the type name following [PSR-12 guidelines](https://www.php-fig.org/psr/psr-12/) with no spaces. ex. ESBool indicates that the class represents a PHP `bool`.
+
+{interface name}: Shoop interfaces SHOULD be named after the categorization of the methods found within, which is admittedly subjective.
+
+{insterface name}Imp: Shoop traits holding the generic implementations of the methods in the interface MUST be prefixed with the name of the interface and suffixed with "Imp," denoting one is the definition while the other is the declaration.
+
+{test suite name}Test: Tests MUST follow standard phpUnit naming conventions.
+
+php_{magic method name}{description}Test: Test classes with a "php_" prefix and "Test" suffix indicate the methods under test directly involve a PHP magic method. The optional description is used to indicate what is being tested, usually only used if more than one possibility exists. ex. php_Call uses `__call()`.
+
+php{interface name}{method name}Test: Test classes prefixed with "php" followed by the name of a PHP interface name (ex. Iterator), indicates the methods under test is one of those found in the interface, which comes after the interface name and prior to the obligatory "Test" suffix.
+
+## Governance
+
+- Higher the number, higher the priority (labels on issues).
+- Benevolant Dictatorship for now.
 
 ## History
 
