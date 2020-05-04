@@ -59,32 +59,14 @@ class ESString implements
         }
     }
 
-// - Type Juggling
-// - PHP single-method interfaces
-// - Math language
-// - Comparison
-// - stream_get_filters()
-
-// - Manipulate
-    // public function toggle($preserveMembers = true)
-    // {
-    //     return $this->array()->toggle()->join("");
-    // }
-
-    // TODO: test and verify occurences working
-    // str_replace is the wrong function to use for this
-    public function replace($search, $replace, $occurences = 0): ESString
+    public function replace($search, $replace, $occurences = -1): ESString
     {
-        return Shoop::string(str_replace($search, $replace, $this->unfold(), $occurences));
-    }
-
-// - Wrap
-// - Split
-    public function split($splitter = 1, $splits = 2): ESArray
-    {
-        $splitter = Type::sanitizeType($splitter, ESString::class)->unfold();
-        $splits = Type::sanitizeType($splits, ESInt::class)->unfold();
-        return Shoop::array(explode($splitter, $this->unfold(), $splits));
+        $search = Type::sanitizeType($search, ESString::class)->unfold();
+        $replace = Type::sanitizeType($replace, ESString::class)->unfold();
+        $occurences = Type::sanitizeType($occurences, ESInt::class)->unfold();
+        $string = $this->value;
+        $string = preg_replace("/". $search ."/", $replace, $string, $occurences);
+        return Shoop::string($string);
     }
 
 // - Replace
@@ -113,8 +95,4 @@ class ESString implements
         $path = Type::sanitizeType($path, ESString::class)->unfold();
         return Shoop::int(file_put_contents($path, $this->unfold()));
     }
-
-// - Transforms
-// - Callers
-// -> Array Access
 }
