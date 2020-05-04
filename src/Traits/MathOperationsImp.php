@@ -30,7 +30,7 @@ trait MathOperationsImp
         }
     }
 
-    public function plus(...$args) // self
+    public function plus(...$args)
     {
         if (Type::is($this, ESArray::class)) {
             $array = $this->value;
