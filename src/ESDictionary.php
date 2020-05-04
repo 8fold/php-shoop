@@ -57,18 +57,6 @@ class ESDictionary implements
         }
     }
 
-// - Type Juggling
-// - PHP single-method interfaces
-// - Manipulate
-// - Search
-// - Math language
-// - Comparison
-// - Other
-    private function members(): ESArray
-    {
-        return Shoop::array(array_keys($this->value));
-    }
-
     public function each(\Closure $closure): ESArray
     {
         $build = [];
@@ -80,32 +68,4 @@ class ESDictionary implements
         }
         return Shoop::array($build);
     }
-// - Transforms
-// - Callers
-// - Setters/Getters
-//     public function __set(string $name, $value)
-//     {
-//         $name = Type::sanitizeType($name, ESString::class)->unfold();
-//         $this->value->{$name} = $value;
-//     }
-
-    // public function __get(string $name)
-    // {
-    //     $v = (array) $this->unfold();
-    //     if ($this->offsetExists($name)) {
-    //         return $v[$name];
-    //     }
-    //     $className = static::class;
-    //     trigger_error("{$className} does not define a member or index called {$name}.");
-    // }
-
-//     public function __isset(string $name): bool
-//     {
-//         return $this->hasMember($name)->unfold();
-//     }
-
-//     public function __unset(string $name): void
-//     {
-//         unset($this->value->{$name});
-//     }
 }

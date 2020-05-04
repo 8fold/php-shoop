@@ -50,13 +50,6 @@ class ESInt implements Shooped, MathOperations, Toggle, IsIn
         }
     }
 
-// - Type Juggling
-// - Manipulate
-// - Search
-// - Math language
-// - Getters
-// - Comparison
-// - Other
     public function range($int = 0)
     {
         $int = Type::sanitizeType($int, ESInt::class)->unfold();
@@ -66,8 +59,4 @@ class ESInt implements Shooped, MathOperations, Toggle, IsIn
         }
         return Shoop::array($range);
     }
-
-// - Transforms
-// - Callers
-// -> Array Access
 }

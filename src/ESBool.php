@@ -38,13 +38,6 @@ class ESBool implements Shooped, Compare, Toggle, IsIn
         }
     }
 
-// - Type Juggling
-// - PHP single-method interfaces
-// - Manipulate
-// - Math language
-// - Getters
-// - Comparison
-// - Other
     public function not(): ESBool
     {
         return $this->toggle();
@@ -61,6 +54,4 @@ class ESBool implements Shooped, Compare, Toggle, IsIn
         $bool = Type::sanitizeType($bool, ESBool::class);
         return Shoop::bool($this->unfold() && $bool->unfold());
     }
-
-// -> Array Access
 }

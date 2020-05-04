@@ -62,13 +62,21 @@ class ESArray implements
         return Shoop::string(implode($delimiter->unfold(), $this->unfold()));
     }
 
-    public function summed()
+    public function sum()
     {
         $total = 0;
         foreach ($this->unfold() as $int) {
             $total += Type::sanitizeType($int, ESInt::class)->unfold();
         }
         return Shoop::int($total);
+    }
+
+    /**
+     * @deprecated 0.2.0
+     */
+    public function summed()
+    {
+        return $this->sum();
     }
 
     public function insertAt($value, $int)
@@ -94,29 +102,4 @@ class ESArray implements
         }
         return Shoop::array($build);
     }
-
-//-> Getters
-    // private function knownMethodFromUnknownName(string $name)
-    // {
-    //     $call = "";
-    //     $start = strlen($name) - strlen("Unfolded");
-    //     $isFolded = $this->methodNameContains("Unfolded", $name, $start);
-    //     if ($isFolded) {
-    //         $call = lcfirst(substr_replace($name, "", $start, strlen($name) - $start));
-    //     }
-
-    //     if (strlen($call) === 0) {
-    //         $className = static::class;
-    //         trigger_error("{$name} is an invalid method on {$className}", E_USER_ERROR);
-    //     }
-    //     return $call;
-    // }
-
-    // private function methodNameContains(string $needle, string $haystack, int $start)
-    // {
-    //     $needle = $needle;
-    //     $end = strlen($haystack);
-    //     $len = strlen($needle);
-    //     return substr($haystack, $start, $len) === $needle;
-    // }
 }
