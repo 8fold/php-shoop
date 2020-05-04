@@ -122,7 +122,7 @@ trait WrapImp
         }
     }
 
-    public function end(...$suffixes) // 7.4 : self;
+    public function end(...$suffixes)
     {
         return $this->plus(...$suffixes);
     }

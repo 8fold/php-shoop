@@ -17,7 +17,7 @@ use Eightfold\Shoop\{
 
 trait ToggleImp
 {
-    public function toggle($preserveMembers = true) // 7.4 : self
+    public function toggle($preserveMembers = true)
     {
         if (Type::is($this, ESArray::class)) {
             $array = $this->value;

@@ -7,17 +7,13 @@ use Eightfold\Shoop\ESInt;
 interface MathOperations extends \Countable
 {
     // Does not make sense on ESBool
-    // public function count(): ESInt;
+    public function count(): ESInt;
 
-    // Does not make sense on ESBool
-    // public function plus(...$args); // 7.4 : self;
+    public function plus(...$args);
 
-    // Does not make sense on ESBool
-    // public function minus(...$args); // 7.4 : self;
+    public function minus(...$args);
 
-    // Does not make sense on ESBool
-    // public function multiply($int);
+    public function multiply($int);
 
-    // Does not make sense on ESBool
-    // public function divide($divisor = null);
+    public function divide($divisor = null);
 }

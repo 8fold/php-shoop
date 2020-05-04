@@ -50,7 +50,6 @@ class Type
         );
     }
 
-// - Check types
     static public function is($potential, string ...$types): bool
     {
         $potentialType = self::for($potential);
@@ -230,7 +229,6 @@ class Type
         return empty($check->unfold());
     }
 
-// - Type metadata
     static public function map(): array
     {
         return [

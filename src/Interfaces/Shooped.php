@@ -37,8 +37,6 @@ interface Shooped extends
 
     public function json(): ESJson;
 
-// - PHP single-method interfaces
-// - Math language
 // - Comparison
     public function is($compare): ESBool;
 

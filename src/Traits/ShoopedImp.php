@@ -46,7 +46,6 @@ trait ShoopedImp
         return $return;
     }
 
-// - Type Juggling
     public function array(): ESArray
     {
         if (Type::is($this, ESArray::class, ESDictionary::class)) {
@@ -291,7 +290,6 @@ trait ShoopedImp
         return $build;
     }
 
-    // TODO: Move to a helper class per DRY
     private function arrayValuesFromIndexedArray(array $array = []): array
     {
         return array_values($array);
@@ -556,6 +554,7 @@ trait ShoopedImp
         trigger_error("Call to undefined method '{$name}'", E_USER_ERROR);
     }
 
+// - PHP interfaces and magic methods
     public function __toString()
     {
         return $this->string()->unfold();

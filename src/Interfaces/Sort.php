@@ -4,9 +4,6 @@ namespace Eightfold\Shoop\Interfaces;
 
 interface Sort
 {
-
-    // public function sort(?string ...$flags); // 7.4 : self;
-
     // Does not make sense on ESBool, ESInt
     public function sort($asc = true, $caseSensitive = true);
 

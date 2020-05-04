@@ -105,7 +105,11 @@ trait SortImp
         return $dictionary;
     }
 
-    private function objectToSortedObject(object $object, bool $asc, bool $caseSensitive): object
+    private function objectToSortedObject(
+        object $object,
+        bool $asc,
+        bool $caseSensitive
+    ): object
     {
         $dictionary = (array) $object;
         $dictionary = $this->associativeArrayToSortedAssociativeArray($dictionary, $asc, $caseSensitive);
