@@ -52,21 +52,6 @@ class ESObject implements Shooped, Compare, MathOperations, Sort, Toggle, Wrap, 
         }
     }
 
-// - Type Juggling
-// - PHP single-method interfaces
-// - Manipulate
-// - Search
-// - Math language
-// - Comparison
-// - Other
-    private function rename(string $current, string $new)
-    {
-        $value = $this->{$current};
-        $this->{$new} = $value;
-        unset($this->{$current});
-        return $this;
-    }
-
 // - Transforms
 // - Callers
     // public function __call($name, $args = [])
