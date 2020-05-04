@@ -69,30 +69,40 @@ class ESString implements
         return Shoop::string($string);
     }
 
-// - Replace
-// - Other
     public function lowerFirst(): ESString
     {
-        // ?? lower(1, 3, 4) : lower("even") : lower("odd")
-        return Shoop::string(lcfirst($this->value));
+        $string = $this->value;
+        $string = lcfirst($string);
+        return Shoop::string($string);
     }
 
     public function uppercase(): ESString
     {
-        return Shoop::string(strtoupper($this->value));
+        $string = $this->value;
+        $string = strtoupper($string);
+        return Shoop::string($string);
     }
 
     public function pathContent()
     {
-        if (is_file($this->unfold())) {
-            return Shoop::string(file_get_contents($this->unfold()));
+        $string = $this->value;
+        $isFile = is_file($string);
+        if ($isFile) {
+            $contents = file_get_contents($string);
+            return Shoop::string($contents);
         }
         return Shoop::string("");
     }
 
     public function writeToPath($path)
     {
+        $string = $this->value;
         $path = Type::sanitizeType($path, ESString::class)->unfold();
-        return Shoop::int(file_put_contents($path, $this->unfold()));
+        $bytesOrFalse = file_put_contents($path, $string);
+        if (is_bool($bytesOrFalse)) {
+            return Shoop::bool($bytesOrFalse);
+
+        }
+        return Shoop::int($bytesOrFalse);
     }
 }

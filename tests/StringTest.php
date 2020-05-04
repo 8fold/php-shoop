@@ -24,4 +24,20 @@ class StringTest extends TestCase
         $actual = Shoop::string($base)->replace("x", "c", 2);
         $this->assertEquals($expected, $actual->unfold());
     }
+
+    public function testLowerFirst()
+    {
+        $base = "HELLO!";
+        $expected = "hELLO!";
+        $actual = Shoop::string($base)->lowerFirst();
+        $this->assertEquals($expected, $actual->unfold());
+    }
+
+    public function testUppercase()
+    {
+        $base = "hello!";
+        $expected = "HELLO!";
+        $actual = Shoop::string($base)->uppercase();
+        $this->assertEquals($expected, $actual->unfold());
+    }
 }
