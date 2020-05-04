@@ -342,9 +342,6 @@ trait ShoopedImp
         return trim($fixSpacingWhenEmpty);
     }
 
-// - Manipulating
-// - Math language
-// - Comparison
     public function is($compare): ESBool
     {
         if (Type::isNotShooped($compare)) {
@@ -366,7 +363,6 @@ trait ShoopedImp
         return Shoop::bool(Type::isEmpty($this));
     }
 
-// - Setters/Getters
     public function get($member = 0)
     {
         if (Type::is($this, ESArray::class)) {
@@ -524,7 +520,6 @@ trait ShoopedImp
         }
     }
 
-// - Callers
     public function __call($name, $args = [])
     {
         $startsWithSet = substr($name, 0, strlen("set")) === "set";
@@ -561,13 +556,11 @@ trait ShoopedImp
         trigger_error("Call to undefined method '{$name}'", E_USER_ERROR);
     }
 
-// - PHP single-method interfaces
     public function __toString()
     {
         return $this->string()->unfold();
     }
 
-// -> Array Access
     public function offsetExists($offset): bool
     {
         if (Type::is($this, ESBool::class)) {
@@ -641,15 +634,10 @@ trait ShoopedImp
         }
     }
 
-//-> Iterator
     private $temp;
 
     /**
      * rewind() -> valid() -> current() -> key() -> next() -> valid()...repeat
-     *
-     * Same implementation for Object, Dictionary, JSON
-     *
-     * @return [type] [description]
      */
     public function rewind(): void
     {

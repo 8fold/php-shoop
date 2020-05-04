@@ -102,7 +102,7 @@ trait MathOperationsImp
                 $term = Type::sanitizeType($term, ESInt::class)->unfold();
                 $total -= $term;
             }
-            return ESInt::fold($total);
+            return Shoop::int($total);
 
         } elseif (Type::is($this, ESJson::class)) {
             $object = json_decode($this->value);

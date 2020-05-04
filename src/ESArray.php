@@ -71,14 +71,6 @@ class ESArray implements
         return Shoop::int($total);
     }
 
-    /**
-     * @deprecated 0.2.0
-     */
-    public function summed()
-    {
-        return $this->sum();
-    }
-
     public function insertAt($value, $int)
     {
         $int = Type::sanitizeType($int, ESInt::class)->unfold();
