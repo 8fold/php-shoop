@@ -49,9 +49,9 @@ class InterfaceIteratorRewindTest extends TestCase
     public function testESBool()
     {
         $actual = ESBool::fold(true);
-        $actual->next();
-        $actual->rewind();
-        $this->assertFalse($actual->current());
+        $actual->next(); // false
+        $actual->rewind(); // true
+        $this->assertTrue($actual->current());
     }
 
     public function testESDictionary()

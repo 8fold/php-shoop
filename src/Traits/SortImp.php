@@ -3,6 +3,7 @@
 namespace Eightfold\Shoop\Traits;
 
 use Eightfold\Shoop\Helpers\Type;
+use Eightfold\Shoop\Helpers\PhpTypeJuggle;
 
 use Eightfold\Shoop\{
     Shoop,
@@ -42,8 +43,7 @@ trait SortImp
             return Shoop::object($object);
 
         } elseif (Type::is($this, ESString::class)) {
-            $string = $this->value;
-            $array = $this->stringToIndexedArray($string);
+            $array = PhpTypeJuggle::stringToIndexedArray($this->value);
             $array = $this->indexedArrayToSortedIndexedArray($array, $asc, $caseSensitive);
             $string = implode("", $array);
             return Shoop::string($string);

@@ -3,6 +3,7 @@
 namespace Eightfold\Shoop\Traits;
 
 use Eightfold\Shoop\Helpers\Type;
+use Eightfold\Shoop\Helpers\PhpTypeJuggle;
 
 use Eightfold\Shoop\{
     Shoop,
@@ -33,14 +34,12 @@ trait HasImp
             return Shoop::bool($bool);
 
         } elseif (Type::is($this, ESObject::class)) {
-            $object = $this->value;
-            $array = (array) $object;
+            $array = PhpTypeJuggle::objectToAssociativeArray($this->value);
             $bool = in_array($needle, $array);
             return Shoop::bool($bool);
 
         } elseif (Type::is($this, ESString::class)) {
-            $string = $this->value;
-            $array = $this->stringToIndexedArray($string);
+            $array = PhpTypeJuggle::stringToIndexedArray($this->value);
             $bool = in_array($needle, $array);
             return Shoop::bool($bool);
         }
@@ -75,8 +74,7 @@ trait HasImp
             return Shoop::bool($bool);
 
         } elseif (Type::is($this, ESString::class)) {
-            $string = $this->value;
-            $array = $this->stringToIndexedArray($string);
+            $array = PhpTypeJuggle::stringToIndexedArray($this->value);
             $bool = $this->arrayHasMember($array, $member);
             return Shoop::bool($bool);
         }

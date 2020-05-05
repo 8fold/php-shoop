@@ -3,6 +3,7 @@
 namespace Eightfold\Shoop\Traits;
 
 use Eightfold\Shoop\Helpers\Type;
+use Eightfold\Shoop\Helpers\PhpTypeJuggle;
 
 use Eightfold\Shoop\{
     Shoop,
@@ -26,8 +27,7 @@ trait DropImp
             return $this;
 
         } elseif (Type::is($this, ESString::class)) {
-            $string = $this->value;
-            $array = $this->stringToIndexedArray($string);
+            $array = PhpTypeJuggle::stringToIndexedArray($this->value);
             foreach ($members as $member) {
                 if (array_key_exists($member, $array)) {
                     unset($array[$member]);
@@ -63,8 +63,7 @@ trait DropImp
             return Shoop::object($object);
 
         } elseif (Type::is($this, ESString::class)) {
-            $string = $this->value;
-            $array = $this->stringToIndexedArray($string);
+            $array = PhpTypeJuggle::stringToIndexedArray($this->value);
             $array = $this->indexedArrayAfterDropping($array, $length);
             $string = implode("", $array);
             return Shoop::string($string);
@@ -97,8 +96,7 @@ trait DropImp
             return Shoop::object($object);
 
         } elseif (Type::is($this, ESString::class)) {
-            $string = $this->value;
-            $array = $this->stringToIndexedArray($string);
+            $array = PhpTypeJuggle::stringToIndexedArray($this->value);
             $array = $this->indexedArrayAfterDropping($array, -$length);
             $string = implode("", $array);
             return Shoop::string($string);
@@ -130,8 +128,7 @@ trait DropImp
             return Shoop::object($object);
 
         } elseif (Type::is($this, ESString::class)) {
-            $string = $this->value;
-            $array = $this->stringToIndexedArray($string);
+            $array = PhpTypeJuggle::stringToIndexedArray($this->value);
             $array = $this->indexedArrayAfterDroppingEmpties($array);
             $string = implode("", $array);
             $string = preg_replace('/\s/', '', $string);

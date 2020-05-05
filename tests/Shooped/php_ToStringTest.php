@@ -54,7 +54,7 @@ class php_ToStringTest extends TestCase
 
     public function testESDictionary()
     {
-        $expected = "Array()";
+        $expected = "Dictionary()";
 
         $actual = ESDictionary::fold([]);
         $this->assertEquals($expected, $actual);
