@@ -20,29 +20,9 @@ trait HasImp
 {
     public function has($needle): ESBool
     {
-        if (Type::is($this, ESArray::class, ESDictionary::class)) {
-            $array = $this->value;
-            $bool = in_array($needle, $array);
-            return Shoop::bool($bool);
-
-        } elseif (Type::is($this, ESJson::class)) {
-            // TODO: Believe there's a method in here jsonToObject
-            $json = $this->value;
-            $object = json_decode($json);
-            $array = (array) $object;
-            $bool = in_array($needle, $array);
-            return Shoop::bool($bool);
-
-        } elseif (Type::is($this, ESObject::class)) {
-            $array = PhpTypeJuggle::objectToAssociativeArray($this->value);
-            $bool = in_array($needle, $array);
-            return Shoop::bool($bool);
-
-        } elseif (Type::is($this, ESString::class)) {
-            $array = PhpTypeJuggle::stringToIndexedArray($this->value);
-            $bool = in_array($needle, $array);
-            return Shoop::bool($bool);
-        }
+        $array = $this->arrayUnfolded();
+        $bool = in_array($needle, $array);
+        return Shoop::bool($bool);
     }
 
     public function hasMember($member): ESBool

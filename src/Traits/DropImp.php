@@ -27,7 +27,7 @@ trait DropImp
             return $this;
 
         } elseif (Type::is($this, ESString::class)) {
-            $array = PhpTypeJuggle::stringToIndexedArray($this->value);
+            $array = $this->arrayUnfolded();
             foreach ($members as $member) {
                 if (array_key_exists($member, $array)) {
                     unset($array[$member]);
@@ -47,23 +47,19 @@ trait DropImp
             return Shoop::array($array);
 
         } elseif (Type::is($this, ESJson::class)) {
-            $json = $this->value;
-            $object = json_decode($json);
-            $array = (array) $object;
+            $array = $this->dictionaryUnfolded();
             $array = $this->indexedArrayAfterDropping($array, $length);
-            $object = (object) $array;
-            $json = json_encode($object);
+            $json = PhpTypeJuggle::associativeArrayToJson($array);
             return Shoop::json($json);
 
         } elseif (Type::is($this, ESObject::class)) {
-            $object = $this->value;
-            $array = (array) $object;
+            $array = $this->dictionaryUnfolded();
             $array = $this->indexedArrayAfterDropping($array, $length);
-            $object = (object) $array;
+            $object = PhpTypeJuggle::associativeArrayToObject($array);
             return Shoop::object($object);
 
         } elseif (Type::is($this, ESString::class)) {
-            $array = PhpTypeJuggle::stringToIndexedArray($this->value);
+            $array = $this->arrayUnfolded();
             $array = $this->indexedArrayAfterDropping($array, $length);
             $string = implode("", $array);
             return Shoop::string($string);
