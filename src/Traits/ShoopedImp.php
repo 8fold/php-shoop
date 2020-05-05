@@ -51,252 +51,180 @@ trait ShoopedImp
     // TODO: public function toggleTo()
     private function juggleTo(string $className)
     {
+        $value = null;
         if (Type::is($this, ESArray::class)) {
-            switch ($className) {
-                case ESArray::class:
-                    return $this->value;
-                    break;
+            if ($className === ESArray::class) {
+                $value = $this->value;
 
-                case ESBool::class:
-                    return PhpTypeJuggle::indexedArrayToBool($this->value);
-                    break;
+            } elseif ($className === ESBool::class) {
+                $value = PhpTypeJuggle::indexedArrayToBool($this->value);
 
-                case ESDictionary::class:
-                    return PhpTypeJuggle::indexedArrayToAssociativeArray($this->value);
-                    break;
+            } elseif ($className === ESDictionary::class) {
+                $value = PhpTypeJuggle::indexedArrayToAssociativeArray($this->value);
 
-                case ESInt::class:
-                    return PhpTypeJuggle::indexedArrayToInt($this->value);
-                    break;
+            } elseif ($className === ESInt::class) {
+                $value = PhpTypeJuggle::indexedArrayToInt($this->value);
 
-                case ESJson::class:
-                    return PhpTypeJuggle::indexedArrayToJson($this->value);
-                    break;
+            } elseif ($className === ESJson::class) {
+                $value = PhpTypeJuggle::indexedArrayToJson($this->value);
 
-                case ESObject::class:
-                    return PhpTypeJuggle::indexedArrayToObject($this->value);
-                    break;
+            } elseif ($className === ESObject::class) {
+                $value = PhpTypeJuggle::indexedArrayToObject($this->value);
 
-                case ESString::class:
-                    return PhpTypeJuggle::indexedArrayToString($this->value);
-                    break;
+            } elseif ($className === ESString::class) {
+                $value = PhpTypeJuggle::indexedArrayToString($this->value);
 
-                default:
-                    trigger_error(get_class($this) ." cannot be converted to ". $className);
-                    break;
-
-                }
+            }
 
         } elseif (Type::is($this, ESBool::class)) {
-            switch ($className) {
-                case ESArray::class:
-                    return PhpTypeJuggle::boolToIndexedArray($this->value);
-                    break;
+            if ($className === ESArray::class) {
+                $value = PhpTypeJuggle::boolToIndexedArray($this->value);
 
-                case ESBool::class:
-                    return $this->value;
-                    break;
+            } elseif ($className === ESBool::class) {
+                $value = $this->value;
 
-                case ESDictionary::class:
-                    return PhpTypeJuggle::boolToAssociativeArray($this->value);
-                    break;
+            } elseif ($className === ESDictionary::class) {
+                $value = PhpTypeJuggle::boolToAssociativeArray($this->value);
 
-                case ESInt::class:
-                    return PhpTypeJuggle::boolToInt($this->value);
-                    break;
+            } elseif ($className === ESInt::class) {
+                $value = PhpTypeJuggle::boolToInt($this->value);
 
-                case ESJson::class:
-                    return PhpTypeJuggle::boolToJson($this->value);
-                    break;
+            } elseif ($className === ESJson::class) {
+                $value = PhpTypeJuggle::boolToJson($this->value);
 
-                case ESObject::class:
-                    return PhpTypeJuggle::boolToObject($this->value);
-                    break;
+            } elseif ($className === ESObject::class) {
+                $value = PhpTypeJuggle::boolToObject($this->value);
 
-                case ESString::class:
-                    return PhpTypeJuggle::boolToString($this->value);
-                    break;
+            } elseif ($className === ESString::class) {
+                $value = PhpTypeJuggle::boolToString($this->value);
 
-                default:
-                    trigger_error(get_class($this) ." cannot be converted to ". $className);
-                    break;
             }
 
         } elseif (Type::is($this, ESDictionary::class)) {
-            switch ($className) {
-                case ESArray::class:
-                    return PhpTypeJuggle::associativeArrayToIndexedArray($this->value);
-                    break;
+            if ($className === ESArray::class) {
+                $value = PhpTypeJuggle::associativeArrayToIndexedArray($this->value);
 
-                case ESBool::class:
-                    return PhpTypeJuggle::associativeArrayToBool($this->value);;
-                    break;
+            } elseif ($className === ESBool::class) {
+                $value = PhpTypeJuggle::associativeArrayToBool($this->value);;
 
-                case ESDictionary::class:
-                    return $this->value;
-                    break;
+            } elseif ($className === ESDictionary::class) {
+                $value = $this->value;
 
-                case ESInt::class:
-                    return PhpTypeJuggle::associativeArrayToInt($this->value);
-                    break;
+            } elseif ($className === ESInt::class) {
+                $value = PhpTypeJuggle::associativeArrayToInt($this->value);
 
-                case ESJson::class:
-                    return PhpTypeJuggle::associativeArrayToJson($this->value);
-                    break;
+            } elseif ($className === ESJson::class) {
+                $value = PhpTypeJuggle::associativeArrayToJson($this->value);
 
-                case ESObject::class:
-                    return PhpTypeJuggle::associativeArrayToObject($this->value);
-                    break;
+            } elseif ($className === ESObject::class) {
+                $value = PhpTypeJuggle::associativeArrayToObject($this->value);
 
-                case ESString::class:
-                    return PhpTypeJuggle::associativeArrayToString($this->value);
-                    break;
+            } elseif ($className === ESString::class) {
+                $value = PhpTypeJuggle::associativeArrayToString($this->value);
 
-                default:
-                    trigger_error(get_class($this) ." cannot be converted to ". $className);
-                    break;
             }
 
         } elseif (Type::is($this, ESInt::class)) {
-            switch ($className) {
-                case ESArray::class:
-                    return PhpTypeJuggle::intToIndexedArray($this->value);
-                    break;
+            if ($className === ESArray::class) {
+                $value = PhpTypeJuggle::intToIndexedArray($this->value);
 
-                case ESBool::class:
-                    return PhpTypeJuggle::intToBool($this->value);
-                    break;
+            } elseif ($className === ESBool::class) {
+                $value = PhpTypeJuggle::intToBool($this->value);
 
-                case ESDictionary::class:
-                    return PhpTypeJuggle::intToAssociativeArray($this->value);
-                    break;
+            } elseif ($className === ESDictionary::class) {
+                $value = PhpTypeJuggle::intToAssociativeArray($this->value);
 
-                case ESInt::class:
-                    return $this->value;
-                    break;
+            } elseif ($className === ESInt::class) {
+                $value = $this->value;
 
-                case ESJson::class:
-                    return PhpTypeJuggle::intToJson($this->value);
-                    break;
+            } elseif ($className === ESJson::class) {
+                $value = PhpTypeJuggle::intToJson($this->value);
 
-                case ESObject::class:
-                    return PhpTypeJuggle::intToObject($this->value);
-                    break;
+            } elseif ($className === ESObject::class) {
+                $value = PhpTypeJuggle::intToObject($this->value);
 
-                case ESString::class:
-                    return PhpTypeJuggle::intToString($this->value);
-                    break;
+            } elseif ($className === ESString::class) {
+                $value = PhpTypeJuggle::intToString($this->value);
 
-                default:
-                    trigger_error(get_class($this) ." cannot be converted to ". $className);
-                    break;
             }
 
         } elseif (Type::is($this, ESJson::class)) {
-            switch ($className) {
-                case ESArray::class:
-                    return PhpTypeJuggle::jsonToIndexedArray($this->value);
-                    break;
+            if ($className === ESArray::class) {
+                $value = PhpTypeJuggle::jsonToIndexedArray($this->value);
 
-                case ESBool::class:
-                    return PhpTypeJuggle::jsonToBool($this->value);
-                    break;
+            } elseif ($className === ESBool::class) {
+                $value = PhpTypeJuggle::jsonToBool($this->value);
 
-                case ESDictionary::class:
-                    return PhpTypeJuggle::jsonToAssociativeArray($this->value);
-                    break;
+            } elseif ($className === ESDictionary::class) {
+                $value = PhpTypeJuggle::jsonToAssociativeArray($this->value);
 
-                case ESInt::class:
-                    return PhpTypeJuggle::jsonToInt($this->value);
-                    break;
+            } elseif ($className === ESInt::class) {
+                $value = PhpTypeJuggle::jsonToInt($this->value);
 
-                case ESJson::class:
-                    return $this->value;
-                    break;
+            } elseif ($className === ESJson::class) {
+                $value = $this->value;
 
-                case ESObject::class:
-                    return PhpTypeJuggle::jsonToObject($this->value);
-                    break;
+            } elseif ($className === ESObject::class) {
+                $value = PhpTypeJuggle::jsonToObject($this->value);
 
-                case ESString::class:
-                    return $this->value;
-                    break;
+            } elseif ($className === ESString::class) {
+                $value = $this->value;
 
-                default:
-                    trigger_error(get_class($this) ." cannot be converted to ". $className);
-                    break;
             }
 
         } elseif (Type::is($this, ESObject::class)) {
-            switch ($className) {
-                case ESArray::class:
-                    return PhpTypeJuggle::objectToIndexedArray($this->value);
-                    break;
+            if ($className === ESArray::class) {
+                $value = PhpTypeJuggle::objectToIndexedArray($this->value);
 
-                case ESBool::class:
-                    return PhpTypeJuggle::objectToBool($this->value);
-                    break;
+            } elseif ($className === ESBool::class) {
+                $value = PhpTypeJuggle::objectToBool($this->value);
 
-                case ESDictionary::class:
-                    return PhpTypeJuggle::objectToAssociativeArray($this->value);
-                    break;
+            } elseif ($className === ESDictionary::class) {
+                $value = PhpTypeJuggle::objectToAssociativeArray($this->value);
 
-                case ESInt::class:
-                    return PhpTypeJuggle::objectToInt($this->value);
-                    break;
+            } elseif ($className === ESInt::class) {
+                $value = PhpTypeJuggle::objectToInt($this->value);
 
-                case ESJson::class:
-                    return PhpTypeJuggle::objectToJson($this->value);
-                    break;
+            } elseif ($className === ESJson::class) {
+                $value = PhpTypeJuggle::objectToJson($this->value);
 
-                case ESObject::class:
-                    return $this->value;
-                    break;
+            } elseif ($className === ESObject::class) {
+                $value = $this->value;
 
-                case ESString::class:
-                    return PhpTypeJuggle::objectToString($this->value);
-                    break;
+            } elseif ($className === ESString::class) {
+                $value = PhpTypeJuggle::objectToString($this->value);
 
-                default:
-                    trigger_error(get_class($this) ." cannot be converted to ". $className);
-                    break;
             }
 
         } elseif (Type::is($this, ESString::class)) {
-            switch ($className) {
-                case ESArray::class:
-                    return PhpTypeJuggle::stringToIndexedArray($this->value);
-                    break;
+            if ($className === ESArray::class) {
+                $value = PhpTypeJuggle::stringToIndexedArray($this->value);
 
-                case ESBool::class:
-                    return PhpTypeJuggle::stringToBool($this->value);
-                    break;
+            } elseif ($className === ESBool::class) {
+                $value = PhpTypeJuggle::stringToBool($this->value);
 
-                case ESDictionary::class:
-                    return PhpTypeJuggle::stringToAssociativeArray($this->value);
-                    break;
+            } elseif ($className === ESDictionary::class) {
+                $value = PhpTypeJuggle::stringToAssociativeArray($this->value);
 
-                case ESInt::class:
-                    return PhpTypeJuggle::stringToInt($this->value);
-                    break;
+            } elseif ($className === ESInt::class) {
+                $value = PhpTypeJuggle::stringToInt($this->value);
 
-                case ESJson::class:
-                    return $this->value;
-                    break;
+            } elseif ($className === ESJson::class) {
+                $value = $this->value;
 
-                case ESObject::class:
-                    return PhpTypeJuggle::stringToObject($this->value);
-                    break;
+            } elseif ($className === ESObject::class) {
+                $value = PhpTypeJuggle::stringToObject($this->value);
 
-                case ESString::class:
-                    return $this->value;
-                    break;
+            } elseif ($className === ESString::class) {
+                $value = $this->value;
 
-                default:
-                    trigger_error(get_class($this) ." cannot be converted to ". $className);
-                    break;
             }
         }
+
+        if ($value === null) {
+            trigger_error(get_class($this) ." cannot be converted to ". $className);
+        }
+        return $value;
     }
 
     public function array(): ESArray

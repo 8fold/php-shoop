@@ -17,6 +17,11 @@ use Eightfold\Shoop\{
 
 class Type
 {
+    static public function castTo(Shooped $instance, string $className)
+    {
+
+    }
+
     static public function sanitizeType($toSanitize, string $shoopType = "")
     {
         if (Type::isShooped($toSanitize)) {
