@@ -3,6 +3,7 @@
 namespace Eightfold\Shoop\Traits;
 
 use Eightfold\Shoop\Helpers\Type;
+use Eightfold\Shoop\Helpers\PhpTypeJuggle;
 
 use Eightfold\Shoop\{
     Shoop,
@@ -238,7 +239,7 @@ trait MathOperationsImp
     private function dictionaryToDictionaryOfKeysAndValues(array $dictionary): array
     {
         $left = array_keys($dictionary);
-        $right = $this->arrayValuesFromIndexedArray($dictionary);
+        $right = PhpTypeJuggle::associativeArrayToIndexedArray($dictionary);
         $dictionary = ["keys" => $left, "values" => $right];
         return $dictionary;
     }

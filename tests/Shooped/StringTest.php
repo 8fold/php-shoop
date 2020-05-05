@@ -60,7 +60,7 @@ class StringTest extends TestCase
 
     public function testESDictionary()
     {
-        $expected = "Array()";
+        $expected = "Dictionary()";
 
         $actual = ESDictionary::fold([])->string();
         $this->assertEquals($expected, $actual->unfold());

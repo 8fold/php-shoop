@@ -3,6 +3,7 @@
 namespace Eightfold\Shoop\Traits;
 
 use Eightfold\Shoop\Helpers\Type;
+use Eightfold\Shoop\Helpers\PhpTypeJuggle;
 
 use Eightfold\Shoop\{
     Shoop,
@@ -19,61 +20,51 @@ trait WrapImp
 {
     public function first()
     {
+        $array = [];
         if (Type::is($this, ESArray::class, ESDictionary::class)) {
             $array = $this->value;
-            $value = array_shift($array);
-            return Shoop::this($value);
+
+        } elseif (Type::is($this, ESBool::class)) {
+            $array = PhpTypeJuggle::boolToAssociativeArray($this->value);
+
+        } elseif (Type::is($this, ESDictionary::class)) {
+            $array = $this->value;
+
+        } elseif (Type::is($this, ESInt::class)) {
+            $array = PhpTypeJuggle::intToIndexedArray($this->value);
 
         } elseif (Type::is($this, ESJson::class)) {
-            $json = $this->value;
-            $object = json_decode($json);
-            $array = (array) $object;
-            $value = array_shift($array);
-            return Shoop::this($value);
+            $array = PhpTypeJuggle::jsonToAssociativeArray($this->value);
 
         } elseif (Type::is($this, ESObject::class)) {
-            $object = $this->value;
-            $array = (array) $object;
-            $value = array_shift($array);
-            return Shoop::this($value);
+            $array = PhpTypeJuggle::objectToAssociativeArray($this->value);
 
         } elseif (Type::is($this, ESString::class)) {
-            $string = $this->value;
-            $array = $this->stringToIndexedArray($string);
-            $value = array_shift($array);
-            return Shoop::this($value, ESString::class);
+            $array = PhpTypeJuggle::stringToIndexedArray($this->value);
 
         }
+        $value = array_shift($array);
+        return Shoop::this($value);
     }
 
     public function last()
     {
+        $array = [];
         if (Type::is($this, ESArray::class, ESDictionary::class)) {
             $array = $this->value;
-            $last = array_pop($array);
-            return Shoop::this($last);
 
         } elseif (Type::is($this, ESJson::class)) {
-            $json = $this->value;
-            $object = json_decode($json);
-            $array = (array) $object;
-            // TODO: Create jsonToAssociativeArray() - ??
-            $value = array_pop($array);
-            return Shoop::this($value);
+            $array = PhpTypeJuggle::jsonToAssociativeArray($this->value);
 
         } elseif (Type::is($this, ESObject::class)) {
-            $object = $this->value;
-            $array = (array) $object;
-            $value = array_pop($array);
-            return Shoop::this($value);
+            $array = PhpTypeJuggle::objectToAssociativeArray($this->value);
 
         } elseif (Type::is($this, ESString::class)) {
-            $string = $this->value;
-            $array = $this->stringToIndexedArray($string);
-            $value = array_pop($array);
-            return Shoop::string($value);
+            $array = PhpTypeJuggle::stringToIndexedArray($this->value);
 
         }
+        $value = array_pop($array);
+        return Shoop::this($value);
     }
 
     public function start(...$prefixes)
