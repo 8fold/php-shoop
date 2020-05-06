@@ -74,7 +74,7 @@ class ESArray implements
     public function insertAt($value, $int)
     {
         $int = Type::sanitizeType($int, ESInt::class)->unfold();
-        $value = Type::sanitizeType($value, ESArray::class)->unfold();
+        $value = [Type::sanitizeType($value)->unfold()];
         $array = $this->splitAtUnfolded($int);
         $lhs = $array["lhs"];
         $rhs = $array["rhs"];

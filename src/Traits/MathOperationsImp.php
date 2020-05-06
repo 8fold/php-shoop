@@ -138,7 +138,8 @@ trait MathOperationsImp
         } elseif (Type::is($this, ESInt::class)) {
             $int = $this->intUnfolded();
             $divisor = Type::sanitizeType($divisor, ESInt::class)->unfold();
-            return Shoop::int(round($int/$divisor));
+            $int = (int) round($int/$divisor);
+            return Shoop::int($int);
 
         } elseif (Type::is($this, ESJson::class)) {
             $object = $this->objectUnfolded();

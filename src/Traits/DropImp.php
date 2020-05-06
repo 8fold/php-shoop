@@ -49,7 +49,7 @@ trait DropImp
         } elseif (Type::is($this, ESDictionary::class)) {
             $array = $this->dictionaryUnfolded();
             $array = $this->arrayAfterDropping($array, $length);
-            return Shoop::array($array);
+            return Shoop::dictionary($array);
 
         } elseif (Type::is($this, ESJson::class)) {
             $array = $this->dictionaryUnfolded();
@@ -75,10 +75,15 @@ trait DropImp
     public function dropLast($length = 1)
     {
         $length = Type::sanitizeType($length, ESInt::class)->unfold();
-        if (Type::is($this, ESArray::class, ESDictionary::class)) {
+        if (Type::is($this, ESArray::class)) {
             $array = $this->value;
             $array = $this->arrayAfterDropping($array, -$length);
             return Shoop::array($array);
+
+        } elseif (Type::is($this, ESDictionary::class)) {
+            $array = $this->dictionaryUnfolded();
+            $array = $this->arrayAfterDropping($array, -$length);
+            return Shoop::dictionary($array);
 
         } elseif (Type::is($this, ESJson::class)) {
             $array = $this->dictionaryUnfolded();
@@ -111,7 +116,7 @@ trait DropImp
         } elseif (Type::is($this, ESDictionary::class)) {
             $array = $this->dictionaryUnfolded();
             $array = $this->arrayAfterDroppingEmpties($array);
-            return Shoop::array($array);
+            return Shoop::dictionary($array);
 
         } elseif (Type::is($this, ESJson::class)) {
             $array = $this->dictionaryUnfolded();
