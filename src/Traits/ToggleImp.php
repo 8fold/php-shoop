@@ -21,45 +21,44 @@ trait ToggleImp
     public function toggle($preserveMembers = true)
     {
         if (Type::is($this, ESArray::class)) {
-            $array = $this->value;
+            $array = $this->arrayUnfolded();
             $array = $this->arrayReversed($array, $preserveMembers);
             return Shoop::array($array);
 
         } elseif (Type::is($this, ESBool::class)) {
-            $bool = $this->value;
+            $bool = $this->boolUnfolded();
             $bool = ! $bool;
             return Shoop::bool($bool);
 
         } elseif (Type::is($this, ESDictionary::class)) {
-            $dictionary = $this->value;
-            $dictionary = $this->arrayReversed($dictionary, $preserveMembers);
+            $array = $this->dictionaryUnfolded();
+            $dictionary = $this->arrayReversed($array, $preserveMembers);
             return Shoop::dictionary($dictionary);
 
         } elseif (Type::is($this, ESInt::class)) {
-            $int = $this->value;
+            $int = $this->intUnfolded();
             $int = -1 * $int;
             return Shoop::int($int);
 
         } elseif (Type::is($this, ESJson::class)) {
-            $json = $this->value;
-            $object = json_decode($json);
+            $object = $this->objectUnfolded();
             $object = $this->objectReversed($object, $preserveMembers);
-            $json = json_encode($object);
+            $json = PhpTypeJuggle::objectToJson($object);
             return Shoop::json($json);
 
         } elseif (Type::is($this, ESObject::class)) {
-            $object = $this->value;
+            $object = $this->objectUnfolded();
             $object = $this->objectReversed($object, $preserveMembers);
             return Shoop::object($object);
 
         } elseif (Type::is($this, ESString::class)) {
-            $array = PhpTypeJuggle::stringToIndexedArray($this->value);
-            $array = $this->arrayReversed($array, $preserveMembers);
-            $string = implode("", $array);
+            $string = $this->stringUnfolded();
+            $string = $this->stringReversed($string);
             return Shoop::string($string);
         }
     }
 
+    // TODO: Make reversed on ESArray, ESDictionary
     private function arrayReversed(array $array, bool $preserveMembers): array
     {
         return ($preserveMembers)
@@ -67,6 +66,15 @@ trait ToggleImp
             : array_reverse($array);
     }
 
+    // TODO: Make reversed ESString
+    private function stringReversed(string $string): string
+    {
+        $array = PhpTypeJuggle::stringToIndexedArray($string);
+        $array = $this->arrayReversed($array, true);
+        return implode("", $array);
+    }
+
+    // TODO: Make reversed on ESJson, ESObject
     private function objectReversed(object $object, bool $preserveMembers): object
     {
         $dictionary = (array) $object;
