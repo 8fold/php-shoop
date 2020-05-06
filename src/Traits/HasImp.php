@@ -20,64 +20,22 @@ trait HasImp
 {
     public function has($needle): ESBool
     {
-        if (Type::is($this, ESArray::class, ESDictionary::class)) {
-            $array = $this->value;
-            $bool = in_array($needle, $array);
-            return Shoop::bool($bool);
-
-        } elseif (Type::is($this, ESJson::class)) {
-            // TODO: Believe there's a method in here jsonToObject
-            $json = $this->value;
-            $object = json_decode($json);
-            $array = (array) $object;
-            $bool = in_array($needle, $array);
-            return Shoop::bool($bool);
-
-        } elseif (Type::is($this, ESObject::class)) {
-            $array = PhpTypeJuggle::objectToAssociativeArray($this->value);
-            $bool = in_array($needle, $array);
-            return Shoop::bool($bool);
-
-        } elseif (Type::is($this, ESString::class)) {
-            $array = PhpTypeJuggle::stringToIndexedArray($this->value);
-            $bool = in_array($needle, $array);
-            return Shoop::bool($bool);
-        }
+        $array = $this->arrayUnfolded();
+        $bool = in_array($needle, $array);
+        return Shoop::bool($bool);
     }
 
     public function hasMember($member): ESBool
     {
-        if (Type::is($this, ESArray::class)) {
-            $member = Type::sanitizeType($member, ESInt::class)->unfold();
-            $array = $this->value;
-            $bool = $this->arrayHasMember($array, $member);
-            return Shoop::bool($bool);
+        $m = Type::sanitizeType($member, ESInt::class)->unfold();
+        $array = $this->arrayUnfolded();
+        if (Type::is($this, ESDictionary::class, ESJson::class, ESObject::class)) {
+            $m = Type::sanitizeType($member, ESString::class)->unfold();
+            $array = $this->dictionaryUnfolded();
 
-        } elseif (Type::is($this, ESDictionary::class)) {
-            $member = Type::sanitizeType($member, ESString::class)->unfold();
-            $array = $this->value;
-            $bool = $this->arrayHasMember($array, $member);
-            return Shoop::bool($bool);
-
-        } elseif (Type::is($this, ESJson::class)) {
-            $member = Type::sanitizeType($member, ESString::class)->unfold();
-            $json = $this->value;
-            $object = json_decode($json);
-            $array = (array) $object;
-            $bool = $this->arrayHasMember($array, $member);
-            return Shoop::bool($bool);
-
-        } elseif (Type::is($this, ESObject::class)) {
-            $object = $this->value;
-            $array = (array) $object;
-            $bool = $this->arrayHasMember($array, $member);
-            return Shoop::bool($bool);
-
-        } elseif (Type::is($this, ESString::class)) {
-            $array = PhpTypeJuggle::stringToIndexedArray($this->value);
-            $bool = $this->arrayHasMember($array, $member);
-            return Shoop::bool($bool);
         }
+        $bool = $this->arrayHasMember($array, $m);
+        return Shoop::bool($bool);
     }
 
     public function arrayHasMember(array $array, $member): bool

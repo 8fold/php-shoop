@@ -19,35 +19,92 @@ class Type
 {
     static public function sanitizeType($toSanitize, string $shoopType = "")
     {
-        if (Type::isShooped($toSanitize)) {
+        if (self::isShooped($toSanitize) && strlen($shoopType) > 0) {
+            $toSanitize = $toSanitize->unfold();
+
+        } elseif (self::isShooped($toSanitize)) {
             return $toSanitize;
+
         }
 
-        $shoopType = (strlen($shoopType) === 0) ? Type::shoopFor($toSanitize) : $shoopType;
-        if (strlen($shoopType) > 0) {
-            return $shoopType::fold($toSanitize);
+        $sanitizeType = self::shoopFor($toSanitize);
+        $shooped = $sanitizeType::fold($toSanitize);
+        switch ($shoopType) {
+            case ESArray::class:
+                return $shooped->array();
+                break;
+
+            case ESBool::class:
+                return $shooped->bool();
+                break;
+
+            case ESDictionary::class:
+                return $shooped->dictionary();
+                break;
+
+            case ESInt::class:
+                return $shooped->int();
+                break;
+
+            case ESJson::class:
+                return $shooped->json();
+                break;
+
+            case ESObject::class:
+                return $shooped->object();
+                break;
+
+            case ESString::class:
+                if (self::isArray($toSanitize)) {
+                    return $shooped->join("");
+                }
+                return $shooped->string();
+                break;
+
+            default:
+                return $shooped;
+                break;
         }
-        return $toSanitize;
     }
 
-    static private function isDesiredTypeOrTriggerError($desiredPhpType, $variable)
+    static public function isShooped($potential): bool
     {
-        $sanitizeType = Type::for($variable);
-        if ($sanitizeType !== $desiredPhpType) {
-            list($_, $caller) = debug_backtrace(false);
-            self::invalidTypeError($desiredPhpType, $sanitizeType, $caller);
-        }
+        return $potential instanceOf Shooped;
     }
 
-    static private function invalidTypeError($desiredPhpType, $sanitizeType, $caller)
+    static public function isNotShooped($potential)
     {
-        $className = $caller['class'];
-        $functionName = $caller['function'];
-        $myClass = static::class;
-        trigger_error(
-            "Argument 1 passed to {$functionName} in {$className} must be of type {$desiredPhpType} or an instance of {$myClass} received {$sanitizeType} instead",
-            E_USER_ERROR
-        );
+        return ! static::isShooped($potential);
+    }
+
+    static public function shoopFor($potential)
+    {
+        if (static::isShooped($potential)) {
+            return get_class($potential);
+        }
+
+        if (self::isArray($potential)) {
+            return ESArray::class;
+
+        } elseif (self::isBool($potential)) {
+            return ESBool::class;
+
+        } elseif (self::isDictionary($potential)) {
+            return ESDictionary::class;
+
+        } elseif (self::isInt($potential)) {
+            return ESInt::class;
+
+        } elseif (self::isJson($potential)) {
+            return ESJson::class;
+
+        } elseif (self::isObject($potential)) {
+            return ESObject::class;
+
+        } elseif (self::isString($potential)) {
+            return ESString::class;
+
+        }
     }
 
     static public function is($potential, string ...$types): bool
@@ -61,85 +118,38 @@ class Type
         return false;
     }
 
-    static public function for($potential): string
+    static public function isEmpty(Shooped $check): bool
     {
-        if (static::isShooped($potential)) {
-            return get_class($potential);
-        }
-
-        $type = gettype($potential);
-
-        if ($type === "object" && ! is_a($potential, \stdClass::class)) {
-            return get_class($potential);
-        }
-
-        if ($type === "integer") {
-            $type = "int";
-
-        } elseif ($type === "boolean") {
-            $type = "bool";
-
-        } elseif (Type::isJson($potential)) {
-            $type = "json";
-
-        } elseif ($type === "array" && Type::isDictionary($potential)) {
-            $type = "dictionary";
-
-        }
-        return $type;
-    }
-
-    static public function shoopFor($potential)
-    {
-        if (static::isShooped($potential)) {
-            return get_class($potential);
-        }
-        return self::phpToShoop(self::for($potential));
-    }
-
-    static public function isShooped($potential): bool
-    {
-        return $potential instanceOf Shooped;
-    }
-
-    static public function isNotShooped($potential)
-    {
-        return ! static::isShooped($potential);
-    }
-
-    static public function isPhp($potential): bool
-    {
-        if (Type::isShooped($potential)) {
-            return false;
-        }
-
-        $custom = (is_string($potential)) ? explode("\\", $potential) : $potential;
-        if (is_array($custom) && count($custom) > 1) {
-            return false;
-        }
-
-        if (is_object($potential) && ! is_a($potential, \stdClass::class)) {
-            return false;
-        }
-
-        $phpTypes = array_keys(Type::map());
-        array_pop($phpTypes);
-        if (in_array(gettype($potential), $phpTypes)) {
-            return true;
-        }
-
-        return false;
-    }
-
-    static public function isNotPhp($potential): bool
-    {
-        return ! static::isPhp($potential);
+        $check = $check->unfold();
+        return empty($check);
     }
 
     static public function isArray($potential): bool
     {
-        return is_array($potential)
-            || (self::isShooped($potential) && is_a($potential, ESArray::class));
+        if (! is_array($potential)) {
+            return false;
+
+        } elseif (is_array($potential) && count($potential) === 0) {
+            return true;
+
+        } elseif (self::isShooped($potential) && ! is_a($potential, ESArray::class)) {
+            return false;
+
+        } elseif (self::isShooped($potential) && is_a($potential, ESArray::class)) {
+            return true;
+
+        } elseif (is_array($potential)) {
+            $keys = array_keys($potential);
+            $firstKey = array_shift($keys);
+            if (is_int($firstKey)) {
+                return true;
+
+            } elseif (is_string($firstKey)) {
+                return false;
+
+            }
+        }
+        return false;
     }
 
     static public function isNotArray($potential): bool
@@ -147,23 +157,57 @@ class Type
         return ! static::isArray($potential);
     }
 
+    static public function isBool($potential): bool
+    {
+        return is_bool($potential);
+    }
+
+    static public function isNotBool($potential): bool
+    {
+        return ! self::isBool($potential);
+    }
+
     static public function isDictionary($potential): bool
     {
-        if (Type::isShooped($potential)) {
-            $potential = $potential->unfold();
-        }
+        if (! is_array($potential)) {
+            return false;
 
-        if (Type::isArray($potential)) {
-            // https://stackoverflow.com/questions/173400
-            return array_keys($potential) !== range(0, count($potential) - 1);
-        }
+        } elseif (is_array($potential) && count($potential) === 0) {
+            return false;
 
+        } elseif (self::isShooped($potential) && ! is_a($potential, ESDictionary::class)) {
+            return false;
+
+        } elseif (Self::isShooped($potential) && is_a($potential, ESDictionary::class)) {
+            return true;
+
+        } elseif (is_array($potential)) {
+            $keys = array_keys($potential);
+            $firstKey = array_shift($keys);
+            if (is_int($firstKey)) {
+                return false;
+
+            } elseif (is_string($firstKey)) {
+                return true;
+
+            }
+        }
         return false;
     }
 
     static public function isNotDictionary($potential): bool
     {
-        return ! Type::isDictionary($potential);
+        return ! self::isDictionary($potential);
+    }
+
+    static public function isInt($potential): bool
+    {
+        return is_int($potential);
+    }
+
+    static public function isNotint($potential): bool
+    {
+        return ! self::isInt($potential);
     }
 
     static public function isJson($potential): bool
@@ -208,28 +252,79 @@ class Type
             || (self::isShooped($potential) && is_a($potential, ESObject::class));
     }
 
-    static public function isPath($potential): bool
+    static public function isNotObject($potential): bool
     {
-        return Shoop::string($potential)->hasUnfolded("/") && self::isNotUri($potential);
+        return ! self::isObject($potential);
     }
 
-    static public function isUri($potential): bool
+    static public function isString($potential): bool
     {
-        $potential = Shoop::string($potential);
-        return $potential->has("/")->and($potential->startsWith("http"))->unfold();
+        return is_string($potential);
     }
 
-    static public function isNotUri($potential)
+    static public function isNotString($potential): bool
     {
-        return ! self::isUri($potential);
+        return ! self::isString($potential);
     }
 
-    static public function isEmpty(Shooped $check): bool
+    static private function isPhp($potential): bool
     {
-        return empty($check->unfold());
+        if (self::isShooped($potential)) {
+            return false;
+        }
+
+        $custom = (is_string($potential)) ? explode("\\", $potential) : $potential;
+        if (is_array($custom) && count($custom) > 1) {
+            return false;
+        }
+
+        if (is_object($potential) && ! is_a($potential, \stdClass::class)) {
+            return false;
+        }
+
+        $phpTypes = array_keys(self::map());
+        array_pop($phpTypes);
+        if (in_array(gettype($potential), $phpTypes)) {
+            return true;
+        }
+
+        return false;
     }
 
-    static public function map(): array
+    static private function isNotPhp($potential): bool
+    {
+        return ! static::isPhp($potential);
+    }
+
+    static private function for($potential): string
+    {
+        if (static::isShooped($potential)) {
+            return get_class($potential);
+        }
+
+        $type = gettype($potential);
+
+        if ($type === "object" && ! is_a($potential, \stdClass::class)) {
+            return get_class($potential);
+        }
+
+        if ($type === "integer") {
+            $type = "int";
+
+        } elseif ($type === "boolean") {
+            $type = "bool";
+
+        } elseif (self::isJson($potential)) {
+            $type = "json";
+
+        } elseif ($type === "array" && self::isDictionary($potential)) {
+            $type = "dictionary";
+
+        }
+        return $type;
+    }
+
+    static private function map(): array
     {
         return [
             "bool"       => ESBool::class,
@@ -242,23 +337,5 @@ class Type
             "object"     => ESObject::class,
             "json"       => ESJson::class
         ];
-    }
-
-    static public function phpToShoop(string $phpType): string
-    {
-        $map = static::map();
-        return (array_key_exists($phpType, $map))
-            ? $map[$phpType]
-            : "";
-    }
-
-    static public function shoopToPhp(string $shoopType): string
-    {
-        $map = static::map();
-        if (in_array($shoopType, $map)) {
-            $value = array_search($shoopType, $map);
-            return $value;
-        }
-        return "";
     }
 }

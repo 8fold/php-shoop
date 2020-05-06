@@ -21,29 +21,28 @@ trait SortImp
     public function sort($asc = true, $caseSensitive = true)
     {
         if (Type::is($this, ESArray::class)) {
-            $array = $this->value;
+            $array = $this->arrayUnfolded();
             $array = $this->indexedArrayToSortedIndexedArray($array, $asc, $caseSensitive);
             return Shoop::array($array);
 
         } elseif (Type::is($this, ESDictionary::class)) {
-            $dictionary = $this->value;
-            $dictionary = $this->associativeArrayToSortedAssociativeArray($dictionary, $asc, $caseSensitive);
+            $array = $this->dictionaryUnfolded();
+            $dictionary = $this->associativeArrayToSortedAssociativeArray($array, $asc, $caseSensitive);
             return Shoop::dictionary($dictionary);
 
         } elseif (Type::is($this, ESJson::class)) {
-            $json = $this->value;
-            $object = json_decode($json);
+            $object = $this->objectUnfolded();
             $object = $this->objectToSortedObject($object, $asc, $caseSensitive);
-            $json = json_encode($object);
+            $json = PhpTypeJuggle::objectToJson($object);
             return Shoop::json($json);
 
         } elseif (Type::is($this, ESObject::class)) {
-            $object = $this->value;
+            $object = $this->objectUnfolded();
             $object = $this->objectToSortedObject($object, $asc, $caseSensitive);
             return Shoop::object($object);
 
         } elseif (Type::is($this, ESString::class)) {
-            $array = PhpTypeJuggle::stringToIndexedArray($this->value);
+            $array = $this->arrayUnfolded();
             $array = $this->indexedArrayToSortedIndexedArray($array, $asc, $caseSensitive);
             $string = implode("", $array);
             return Shoop::string($string);
