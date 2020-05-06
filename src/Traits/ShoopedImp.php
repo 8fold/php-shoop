@@ -257,13 +257,7 @@ trait ShoopedImp
         }
 
         $value = $this[$member];
-        if (Type::isPhp($value)) {
-            return Type::sanitizeType($value);
-
-        } else {
-            return $m;
-
-        }
+        return Type::sanitizeType($value);
     }
 
     public function __call($name, $args = [])

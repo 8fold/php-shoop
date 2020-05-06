@@ -23,16 +23,24 @@ class TypeTest extends TestCase
     {
         $base = 3;
 
-        // $actual = Type::sanitizeType($base);
-        // $this->assertEquals(ESInt::class, get_class($actual));
+        $actual = Type::sanitizeType($base);
+        $this->assertEquals(ESInt::class, get_class($actual));
 
-        // $expected = Shoop::array([]);
-        // $actual = Type::sanitizeType($expected);
-        // $this->assertEquals($expected, $actual);
+        $expected = Shoop::array([]);
+        $actual = Type::sanitizeType($expected);
+        $this->assertEquals($expected, $actual);
 
         $expected = [0, 1, 2, 3];
         $actual = Type::sanitizeType($base, ESArray::class);
         $this->assertEquals($expected, $actual->unfold());
+
+        $expected = Shoop::array(["h", "i"]);
+        $actual = Type::sanitizeType("hi", ESArray::class);
+        $this->assertEquals($expected, $actual);
+
+        $expected = Shoop::string("hi");
+        $actual = Type::sanitizeType(["h", "i"], ESString::class);
+        $this->assertEquals($expected, $actual);
 
         $expected = Shoop::array(["h", "i"]);
         $actual = Type::sanitizeType("hi", ESArray::class);
@@ -46,6 +54,13 @@ class TypeTest extends TestCase
 
         $base = Shoop::array([]);
         $actual = Type::isShooped($base);
+        $this->assertTrue($actual);
+    }
+
+    public function testIs()
+    {
+        $base = ESArray::fold(["h", "i"]);
+        $actual = Type::is($base, ESArray::class);
         $this->assertTrue($actual);
     }
 }
