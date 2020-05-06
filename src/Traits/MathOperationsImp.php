@@ -125,11 +125,9 @@ trait MathOperationsImp
         // TODO: Consider putting $removeEmpties boolean back in
         if (Type::is($this, ESArray::class)) {
             $divisor = Type::sanitizeType($divisor, ESInt::class)->unfold();
-            $array = $this->arrayUnfolded();
-
-            $left = array_slice($array, 0, $divisor);
-            $right = array_slice($array, $divisor);
-
+            $array = $this->array()->splitAtUnfolded($divisor);
+            $left = $array["lhs"];
+            $right = $array["rhs"];
             return Shoop::array([$left, $right]);
 
         } elseif (Type::is($this, ESDictionary::class)) {
