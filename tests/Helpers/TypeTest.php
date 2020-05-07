@@ -45,6 +45,10 @@ class TypeTest extends TestCase
         $expected = Shoop::array(["h", "i"]);
         $actual = Type::sanitizeType("hi", ESArray::class);
         $this->assertEquals($expected, $actual);
+
+        $expected = new \Eightfold\Shoop\Tests\TestClass();
+        $actual = Type::sanitizeType($expected);
+        $this->assertEquals($expected, $actual);
     }
 
     public function testIsShooped()
