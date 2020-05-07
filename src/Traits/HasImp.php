@@ -29,12 +29,20 @@ trait HasImp
     {
         $m = Type::sanitizeType($member, ESInt::class)->unfold();
         $array = $this->arrayUnfolded();
-        if (Type::is($this, ESDictionary::class, ESJson::class, ESObject::class)) {
+        $bool = $this->arrayHasMember($array, $m);
+        if (Type::is($this, ESDictionary::class)) {
             $m = Type::sanitizeType($member, ESString::class)->unfold();
             $array = $this->dictionaryUnfolded();
+            $bool = $this->arrayHasMember($array, $m);
+
+        } elseif (Type::is($this, ESJson::class, ESObject::class)) {
+            $m = Type::sanitizeType($member, ESString::class)->unfold();
+            $object = (Type::is($this, ESJson::class))
+                ? $this->objectUnfolded()
+                : $this->unfold();
+            $bool = (isset($object->{$m})) ? true : false;
 
         }
-        $bool = $this->arrayHasMember($array, $m);
         return Shoop::bool($bool);
     }
 
