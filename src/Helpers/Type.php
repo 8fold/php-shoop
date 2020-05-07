@@ -25,6 +25,9 @@ class Type
         } elseif (self::isShooped($toSanitize)) {
             return $toSanitize;
 
+        } elseif (self::isNotPhp($toSanitize) && self::isNotShooped($toSanitize)) {
+            return $toSanitize;
+
         }
 
         $sanitizeType = self::shoopFor($toSanitize);
@@ -273,21 +276,16 @@ class Type
             return false;
         }
 
-        $custom = (is_string($potential)) ? explode("\\", $potential) : $potential;
-        if (is_array($custom) && count($custom) > 1) {
-            return false;
-        }
-
-        if (is_object($potential) && ! is_a($potential, \stdClass::class)) {
-            return false;
-        }
-
         $phpTypes = array_keys(self::map());
-        array_pop($phpTypes);
-        if (in_array(gettype($potential), $phpTypes)) {
+        $type = gettype($potential);
+        if ($type !== "object" && in_array($type, $phpTypes)) {
             return true;
         }
 
+        $potentialClass = get_class($potential);
+        if ($potentialClass === "stdClass") {
+            return true;
+        }
         return false;
     }
 
