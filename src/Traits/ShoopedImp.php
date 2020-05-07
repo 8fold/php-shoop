@@ -37,7 +37,6 @@ trait ShoopedImp
             $array = $return;
             $return = [];
             foreach ($array as $key => $value) {
-                // preserve if (! $preserve && Type::isShooped($value)) {
                 if (Type::isShooped($value)) {
                     $value = $value->unfold();
                 }
