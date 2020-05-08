@@ -121,13 +121,19 @@ class Type
         return false;
     }
 
-    static public function isEmpty(Shooped $check): bool
+    static public function isEmpty($check): bool
     {
-        $check = $check->unfold();
+        if (self::isShooped($check)) {
+            $check = $check->unfold();
+        }
+
+        if (self::isJson($check) && $check === "{}") {
+            return true;
+        }
         return empty($check);
     }
 
-    static public function isNotEmpty(Shoop $check): bool
+    static public function isNotEmpty(Shooped $check): bool
     {
         return ! self::isEmpty($check);
     }

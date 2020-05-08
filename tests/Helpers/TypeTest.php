@@ -67,4 +67,18 @@ class TypeTest extends TestCase
         $actual = Type::is($base, ESArray::class);
         $this->assertTrue($actual);
     }
+
+    public function testIsEmpty()
+    {
+        $base = ESArray::fold([]);
+        $actual = Type::isEmpty($base);
+        $this->assertTrue($actual);
+    }
+
+    public function testIsNotEmpty()
+    {
+        $base = ESArray::fold([]);
+        $actual = Type::isNotEmpty($base);
+        $this->assertFalse($actual);
+    }
 }
