@@ -104,12 +104,13 @@ trait ShoopedImp
 
     public function isEmpty(): ESBool
     {
-        return Shoop::bool(Type::isEmpty($this));
+        $bool = Type::isEmpty($this);
+        return Shoop::bool($bool);
     }
 
     public function isNotEmpty(): ESBool
     {
-        return Shoop::bool(Type::isEmpty($this));
+        return $this->isEmpty()->toggle();
     }
 
     public function value()
