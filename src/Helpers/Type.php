@@ -127,6 +127,11 @@ class Type
         return empty($check);
     }
 
+    static public function isNotEmpty(Shoop $check): bool
+    {
+        return ! self::isEmpty($check);
+    }
+
     static public function isArray($potential): bool
     {
         if (! is_array($potential)) {
