@@ -34,6 +34,10 @@ class IsNotEmptyTest extends TestCase
         $base = ["hello", "world"];
         $actual = ESArray::fold($base)->isNotEmpty($base);
         $this->assertTrue($actual->unfold());
+
+        $base = [];
+        $actual = ESArray::fold($base)->isNotEmpty($base);
+        $this->assertFalse($actual->unfold());
     }
 
     public function testESBool()
