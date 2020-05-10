@@ -18,22 +18,13 @@ use Eightfold\Shoop\{
 };
 
 /**
- * The `string()` method converts the 8fold type to an `ESString` type.
- *
- * Typpically uses PHP's `print_r()` after using `unfold()` on the value.
- *
- * This allows each Shoop type to be treated as a PHP `string`, which means `string()` is an alias for the PHP `__toString()` magic method.
- *
- * @declared Eightfold\Shoop\Interfaces\Shooped
- *
- * @defined Eightfold\Shoop\Traits\ShoopedImp
- *
- * @overridden Eightfold\Shoop\ESBool, Eightfold\Shoop\ESInt, Eightfold\Shoop\ESJson, Eightfold\Shoop\ESString
- *
- * @return Eightfold\Shoop\ESString
+ * The `minus()` method for most `Shoop types` unsets or removes the specified keys or members.
  */
 class MinusTest extends TestCase
 {
+    /**
+     * @return Eightfold\Shoop\ESArray With the specified indeces and corresponding values removed and re-indexed.
+     */
     public function testESArray()
     {
         $expected = ["goodbye"];
@@ -49,6 +40,9 @@ class MinusTest extends TestCase
         $this->assertFalse(false);
     }
 
+    /**
+     * @return Eightfold\Shoop\ESDictionary With the specified keys and corresponding values removed.
+     */
     public function testESDictionary()
     {
         $expected = [];
@@ -63,6 +57,9 @@ class MinusTest extends TestCase
         $this->assertEquals($expected, $actual->unfold());
     }
 
+    /**
+     * @see ESObject->minus()
+     */
     public function testESJson()
     {
         $expected = '{"member":"value"}';
@@ -70,6 +67,9 @@ class MinusTest extends TestCase
         $this->assertEquals($expected, $actual->unfold());
     }
 
+    /**
+     * @return Eightfold\Shoop\ESObject With the specified members and corresponding values removed.
+     */
     public function testESObject()
     {
         $expected = new \stdClass();
@@ -82,6 +82,9 @@ class MinusTest extends TestCase
         $this->assertEquals($expected, $actual->unfold());
     }
 
+    /**
+     * @return Eightfold\Shoop\ESString With the specified letters removed.
+     */
     public function testESString()
     {
         $expected = "He, rd";

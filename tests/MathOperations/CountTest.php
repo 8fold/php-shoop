@@ -18,19 +18,9 @@ use Eightfold\Shoop\{
 };
 
 /**
- * The `string()` method converts the 8fold type to an `ESString` type.
+ * The `count()` method returns the number of values in the ESArray or ESDictionary representation of the `Shooped type`.
  *
- * Typpically uses PHP's `print_r()` after using `unfold()` on the value.
- *
- * This allows each Shoop type to be treated as a PHP `string`, which means `string()` is an alias for the PHP `__toString()` magic method.
- *
- * @declared Eightfold\Shoop\Interfaces\Shooped
- *
- * @defined Eightfold\Shoop\Traits\ShoopedImp
- *
- * @overridden Eightfold\Shoop\ESBool, Eightfold\Shoop\ESInt, Eightfold\Shoop\ESJson, Eightfold\Shoop\ESString
- *
- * @return Eightfold\Shoop\ESString
+ * @return Eightfold\Shoop\ESInt
  */
 class CountTest extends TestCase
 {
