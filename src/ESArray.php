@@ -72,13 +72,23 @@ class ESArray implements
     public function insertAt($value, $int)
     {
         $int = Type::sanitizeType($int, ESInt::class)->unfold();
-        $value = Type::sanitizeType($value, ESArray::class)->unfold();
-
-        $lhs = array_slice($this->unfold(), 0, $int);
-        $rhs = array_slice($this->unfold(), $int);
+        $value = [Type::sanitizeType($value)->unfold()];
+        $array = $this->splitAtUnfolded($int);
+        $lhs = $array["lhs"];
+        $rhs = $array["rhs"];
 
         $merged = array_merge($lhs, $value, $rhs);
         return Shoop::array($merged)->array();
+    }
+
+    private function splitAt($int = 0)
+    {
+        $lhs = array_slice($this->value(), 0, $int);
+        $rhs = array_slice($this->value(), $int);
+        return [
+            "lhs" => $lhs,
+            "rhs" => $rhs
+        ];
     }
 
     public function each(\Closure $closure): ESArray

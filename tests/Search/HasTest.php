@@ -36,6 +36,9 @@ class HasTest extends TestCase
         $base = ["hello", "world"];
         $actual = ESArray::fold($base)->has("world");
         $this->assertTrue($actual->unfold());
+
+        $actual = ESArray::fold($base)->hasMember(0);
+        $this->assertTrue($actual->unfold());
     }
 
     /**
@@ -50,6 +53,9 @@ class HasTest extends TestCase
     {
         $base = ["key" => "value"];
         $actual = ESDictionary::fold($base)->has("value");
+        $this->assertTrue($actual->unfold());
+
+        $actual = ESDictionary::fold($base)->hasMember("key");
         $this->assertTrue($actual->unfold());
     }
 
@@ -66,6 +72,13 @@ class HasTest extends TestCase
         $base = '{"member":"value", "member2":"value2", "member3":"value3"}';
         $actual = ESJson::fold($base)->has("value3");
         $this->assertTrue($actual->unfold());
+
+        $actual = ESJson::fold($base)->hasMember("member2");
+        $this->assertTrue($actual->unfold());
+
+        $base = '{"events":{"2020":{"5":{"20":[{"title": "Event at Meetup"}]}}}}';
+        $actual = ESJson::fold($base)->getEvents()->hasMember("2020");
+        $this->assertTrue($actual->unfold());
     }
 
     public function testESObject()
@@ -74,6 +87,9 @@ class HasTest extends TestCase
         $base->testMember = "test";
 
         $actual = ESObject::fold($base)->has("test");
+        $this->assertTrue($actual->unfold());
+
+        $actual = ESObject::fold($base)->hasMember("testMember");
         $this->assertTrue($actual->unfold());
     }
 

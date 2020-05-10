@@ -108,7 +108,7 @@ class ToObjecctTest extends TestCase
     public function testESString()
     {
         $expected = new \stdClass();
-        $expected->scalar = "";
+        $expected->string = "";
 
         $actual = ESString::fold("")->object();
         $this->assertEquals($expected, $actual->unfold());

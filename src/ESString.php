@@ -64,28 +64,28 @@ class ESString implements
         $search = Type::sanitizeType($search, ESString::class)->unfold();
         $replace = Type::sanitizeType($replace, ESString::class)->unfold();
         $occurences = Type::sanitizeType($occurences, ESInt::class)->unfold();
-        $string = $this->value;
+        $string = $this->stringUnfolded();
         $string = preg_replace("/". $search ."/", $replace, $string, $occurences);
         return Shoop::string($string);
     }
 
     public function lowerFirst(): ESString
     {
-        $string = $this->value;
+        $string = $this->stringUnfolded();
         $string = lcfirst($string);
         return Shoop::string($string);
     }
 
     public function uppercase(): ESString
     {
-        $string = $this->value;
+        $string = $this->stringUnfolded();
         $string = strtoupper($string);
         return Shoop::string($string);
     }
 
     public function pathContent()
     {
-        $string = $this->value;
+        $string = $this->stringUnfolded();
         $isFile = is_file($string);
         if ($isFile) {
             $contents = file_get_contents($string);
@@ -96,7 +96,7 @@ class ESString implements
 
     public function writeToPath($path)
     {
-        $string = $this->value;
+        $string = $this->stringUnfolded();
         $path = Type::sanitizeType($path, ESString::class)->unfold();
         $bytesOrFalse = file_put_contents($path, $string);
         if (is_bool($bytesOrFalse)) {

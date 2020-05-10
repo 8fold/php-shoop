@@ -44,6 +44,8 @@ interface Shooped extends
 
     public function isEmpty(): ESBool;
 
+    public function isNotEmpty(): ESBool;
+
 // - Getters/Setters
     public function get($member = 0);
 

@@ -73,4 +73,11 @@ class ArrayTest extends TestCase
         });
         $this->assertEquals($expected, $indeces);
     }
+
+    public function testTitleBuilder()
+    {
+        $expected = "First | Second | Third";
+        $actual = Shoop::array(["Second", "Third"])->start("First")->join(" | ");
+        $this->assertEquals($expected, $actual->unfold());
+    }
 }

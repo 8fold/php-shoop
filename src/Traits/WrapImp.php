@@ -3,6 +3,7 @@
 namespace Eightfold\Shoop\Traits;
 
 use Eightfold\Shoop\Helpers\Type;
+use Eightfold\Shoop\Helpers\PhpTypeJuggle;
 
 use Eightfold\Shoop\{
     Shoop,
@@ -19,72 +20,36 @@ trait WrapImp
 {
     public function first()
     {
-        if (Type::is($this, ESArray::class, ESDictionary::class)) {
-            $array = $this->value;
-            $value = array_shift($array);
-            return Shoop::this($value);
-
-        } elseif (Type::is($this, ESJson::class)) {
-            $json = $this->value;
-            $object = json_decode($json);
-            $array = (array) $object;
-            $value = array_shift($array);
-            return Shoop::this($value);
-
-        } elseif (Type::is($this, ESObject::class)) {
-            $object = $this->value;
-            $array = (array) $object;
-            $value = array_shift($array);
-            return Shoop::this($value);
-
-        } elseif (Type::is($this, ESString::class)) {
-            $string = $this->value;
-            $array = $this->stringToIndexedArray($string);
-            $value = array_shift($array);
-            return Shoop::this($value, ESString::class);
+        $array = $this->arrayUnfolded();
+        if (Type::is($this, ESBool::class)) {
+            $array = $this->dictionaryUnfolded();
 
         }
+        $value = array_shift($array);
+        return Shoop::this($value);
     }
 
     public function last()
     {
-        if (Type::is($this, ESArray::class, ESDictionary::class)) {
-            $array = $this->value;
-            $last = array_pop($array);
-            return Shoop::this($last);
-
-        } elseif (Type::is($this, ESJson::class)) {
-            $json = $this->value;
-            $object = json_decode($json);
-            $array = (array) $object;
-            // TODO: Create jsonToAssociativeArray() - ??
-            $value = array_pop($array);
-            return Shoop::this($value);
-
-        } elseif (Type::is($this, ESObject::class)) {
-            $object = $this->value;
-            $array = (array) $object;
-            $value = array_pop($array);
-            return Shoop::this($value);
-
-        } elseif (Type::is($this, ESString::class)) {
-            $string = $this->value;
-            $array = $this->stringToIndexedArray($string);
-            $value = array_pop($array);
-            return Shoop::string($value);
+        $array = [];
+        $array = $this->arrayUnfolded();
+        if (Type::is($this, ESBool::class)) {
+            $array = $this->dictionaryUnfolded();
 
         }
+        $value = array_pop($array);
+        return Shoop::this($value);
     }
 
     public function start(...$prefixes)
     {
         if (Type::is($this, ESArray::class)) {
-            $array = $this->value;
+            $array = $this->arrayUnfolded();
             $array = array_merge($prefixes, $array);
             return Shoop::array($array);
 
         } elseif (Type::is($this, ESDictionary::class)) {
-            $dictionary = $this->value;
+            $array = $this->dictionaryUnfolded();
             if ($this->argCountIsOdd($prefixes)) {
                 $className = static::class;
                 $argCount = count($prefixes);
@@ -93,28 +58,25 @@ trait WrapImp
                 );
             }
             $prefixes = $this->indexedArrayToValueKeyArray($prefixes);
-            $dictionary = array_merge($prefixes, $dictionary);
-            return Shoop::dictionary($dictionary);
+            $array = array_merge($prefixes, $array);
+            return Shoop::dictionary($array);
 
         } elseif (Type::is($this, ESJson::class)) {
-            $json = $this->value;
-            $object = json_decode($json);
-            $dictionary = (array) $object;
+            $array = $this->dictionaryUnfolded();
             $prefixes = $this->indexedArrayToValueKeyArray($prefixes);
-            $dictionary = array_merge($prefixes, $dictionary);
-            $json = json_encode($dictionary);
+            $array = array_merge($prefixes, $array);
+            $json = PhpTypeJuggle::associativeArrayToJson($array);
             return Shoop::json($json);
 
         } elseif (Type::is($this, ESObject::class)) {
-            $object = $this->value;
-            $dictionary = (array) $object;
+            $array = $this->dictionaryUnfolded();
             $prefixes = $this->indexedArrayToValueKeyArray($prefixes);
-            $dictionary = array_merge($prefixes, $dictionary);
-            $object = (object) $dictionary;
+            $array = array_merge($prefixes, $array);
+            $object = PhpTypeJuggle::associativeArrayToObject($array);
             return Shoop::object($object);
 
         } elseif (Type::is($this, ESString::class)) {
-            $string = $this->value;
+            $string = $this->stringUnfolded();
             $prefix = implode("", $prefixes);
             $string = $prefix . $string;
             return Shoop::string($string);
@@ -130,28 +92,27 @@ trait WrapImp
     public function startsWith(...$needles): ESBool
     {
         if (Type::is($this, ESArray::class)) {
-            $array = $this->value;
+            $array = $this->arrayUnfolded();
             $bool = $this->indexedArrayStartsWith($array, $needles);
             return Shoop::bool($bool);
 
         } elseif (Type::is($this, ESDictionary::class)) {
-            $dictionary = $this->value;
-            $bool = $this->associativeArrayStartsWith($dictionary, $needles);
+            $array = $this->dictionaryUnfolded();
+            $bool = $this->associativeArrayStartsWith($array, $needles);
             return Shoop::bool($bool);
 
         } elseif (Type::is($this, ESJson::class)) {
-            $json = $this->value;
-            $object = json_decode($json);
+            $object = $this->objectUnfolded();
             $bool = $this->objectStartsWith($object, $needles);
             return Shoop::bool($bool);
 
         } elseif (Type::is($this, ESObject::class)) {
-            $object = $this->value;
+            $object = $this->objectUnfolded();
             $bool = $this->objectStartsWith($object, $needles);
             return Shoop::bool($bool);
 
         } elseif (Type::is($this, ESString::class)) {
-            $string = $this->value;
+            $string = $this->stringUnfolded();
             $starter = implode("", $needles);
             $starterLength = strlen($starter);
             $substring = substr($string, 0, $starterLength);
@@ -164,28 +125,27 @@ trait WrapImp
     public function endsWith(...$needles): ESBool
     {
         if (Type::is($this, ESArray::class)) {
-            $array = $this->value;
+            $array = $this->arrayUnfolded();
             $bool = $this->indexedArrayEndsWith($array, $needles);
             return Shoop::bool($bool);
 
         } elseif (Type::is($this, ESDictionary::class)) {
-            $dictionary = $this->value;
-            $bool = $this->associativeArrayEndsWith($dictionary, $needles);
+            $array = $this->dictionaryUnfolded();
+            $bool = $this->associativeArrayEndsWith($array, $needles);
             return Shoop::bool($bool);
 
         } elseif (Type::is($this, ESJson::class)) {
-            $json = $this->value;
-            $object = json_decode($json);
+            $object = $this->objectUnfolded();
             $bool = $this->objectEndsWith($object, $needles);
             return Shoop::bool($bool);
 
         } elseif (Type::is($this, ESObject::class)) {
-            $object = $this->value;
+            $object = $this->objectUnfolded();
             $bool = $this->objectEndsWith($object, $needles);
             return Shoop::bool($bool);
 
         } elseif (Type::is($this, ESString::class)) {
-            $string = $this->value;
+            $string = $this->stringUnfolded();
             $ender = implode("", $needles);
             $enderLength = strlen($ender);
             $substring = substr($string, -$enderLength);

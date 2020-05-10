@@ -3,6 +3,7 @@
 namespace Eightfold\Shoop\Traits;
 
 use Eightfold\Shoop\Helpers\Type;
+use Eightfold\Shoop\Helpers\PhpTypeJuggle;
 
 use Eightfold\Shoop\{
     Shoop,
@@ -19,15 +20,11 @@ trait MathOperationsImp
 {
     public function count(): ESInt
     {
-        if (Type::is($this, ESArray::class, ESDictionary::class, ESInt::class, ESJson::class, ESObject::class)) {
-            return $this->int();
-
-        } elseif (Type::is($this, ESString::class)) {
-            $string = $this->value;
-            $int = strlen($string);
-            return Shoop::int($int);
-
+        $int = $this->int();
+        if (Type::is($this, ESString::class)) {
+            $int = strlen($this->value);
         }
+        return Shoop::int($int);
     }
 
     public function plus(...$args)
@@ -82,19 +79,21 @@ trait MathOperationsImp
 
     public function minus(...$args)
     {
-        if (Type::is($this, ESArray::class, ESDictionary::class)) {
-            // TODO: In case values are Shooped types
-            // if (Type::isNotArray($args)) {
-            //     $args = [$args];
-            // }
-            // $deletes = Type::sanitizeType($args, ESArray::class)->unfold();
-            $deletes = $args;
-            $copy = $this->value;
-            $array = array_filter($copy, function($index) use ($deletes) {
-                return ! in_array($index, $deletes);
+        if (Type::is($this, ESArray::class)) {
+            $array = $this->arrayUnfolded();
+            $a = array_filter($array, function($index) use ($args) {
+                return ! in_array($index, $args);
             }, ARRAY_FILTER_USE_KEY);
-            $array = array_values($array);
-            return Shoop::array($array);
+            $a = array_values($a);
+            return Shoop::array($a);
+
+        } elseif (Type::is($this, ESDictionary::class)) {
+            $array = $this->dictionaryUnfolded();
+            $a = array_filter($array, function($index) use ($args) {
+                return ! in_array($index, $args);
+            }, ARRAY_FILTER_USE_KEY);
+            $a = array_values($a);
+            return Shoop::dictionary($a);
 
         } elseif (Type::is($this, ESInt::class)) {
             $total = $this->value;
@@ -105,13 +104,14 @@ trait MathOperationsImp
             return Shoop::int($total);
 
         } elseif (Type::is($this, ESJson::class)) {
-            $object = json_decode($this->value);
+            $object = $this->objectUnfolded();
             $object = $this->removeMembersFromObject($object, $args);
-            $json = json_encode($object);
+            $json = PhpTypeJuggle::objectToJson($object);
             return Shoop::json($json);
 
         } elseif (Type::is($this, ESObject::class)) {
-            $object = $this->removeMembersFromObject($this->value, $args);
+            $object = $this->objectUnfolded();
+            $object = $this->removeMembersFromObject($object, $args);
             return Shoop::object($object);
 
         } elseif (Type::is($this, ESString::class)) {
@@ -125,36 +125,35 @@ trait MathOperationsImp
         // TODO: Consider putting $removeEmpties boolean back in
         if (Type::is($this, ESArray::class)) {
             $divisor = Type::sanitizeType($divisor, ESInt::class)->unfold();
-
-            $left = array_slice($this->unfold(), 0, $divisor);
-            $right = array_slice($this->unfold(), $divisor);
-
+            $array = $this->array()->splitAtUnfolded($divisor);
+            $left = $array["lhs"];
+            $right = $array["rhs"];
             return Shoop::array([$left, $right]);
 
         } elseif (Type::is($this, ESDictionary::class)) {
-            $dictionary = $this->value;
+            $dictionary = $this->dictionaryUnfolded();
             $dictionary = $this->dictionaryToDictionaryOfKeysAndValues($dictionary);
             return Shoop::dictionary($dictionary);
 
         } elseif (Type::is($this, ESInt::class)) {
-            $enumerator = $this->value;
+            $int = $this->intUnfolded();
             $divisor = Type::sanitizeType($divisor, ESInt::class)->unfold();
-            return Shoop::int(round($enumerator/$divisor));
+            $int = (int) round($int/$divisor);
+            return Shoop::int($int);
 
         } elseif (Type::is($this, ESJson::class)) {
-            $json = $this->value;
-            $object = json_decode($json);
+            $object = $this->objectUnfolded();
             $object = $this->objectToObjectWithKeysAndValues($object);
-            $json = json_encode($object);
+            $json = PhpTypeJuggle::objectToJson($object);
             return Shoop::json($json);
 
         } elseif (Type::is($this, ESObject::class)) {
-            $object = $this->value;
+            $object = $this->objectUnfolded();
             $object = $this->objectToObjectWithKeysAndValues($object);
             return Shoop::object($object);
 
         } elseif (Type::is($this, ESString::class)) {
-            $string = $this->value;
+            $string = $this->stringUnfolded();
             $array = explode($divisor, $string);
             return Shoop::array($array);
 
@@ -171,13 +170,13 @@ trait MathOperationsImp
             return Shoop::array($product);
 
         } elseif (Type::is($this, ESInt::class)) {
-            $int = $this->value;
+            $int = $this->intUnfolded();
             $multiplier = Type::sanitizeType($multiplier, ESInt::class)->unfold();
             $product = $int * $multiplier;
             return Shoop::int($product);
 
         } elseif (Type::is($this, ESString::class)) {
-            $string = $this->value;
+            $string = $this->stringUnfolded();
             $multiplier = Type::sanitizeType($multiplier, ESInt::class)->unfold();
             $repeated = str_repeat($string, $multiplier);
 
@@ -238,7 +237,7 @@ trait MathOperationsImp
     private function dictionaryToDictionaryOfKeysAndValues(array $dictionary): array
     {
         $left = array_keys($dictionary);
-        $right = $this->arrayValuesFromIndexedArray($dictionary);
+        $right = PhpTypeJuggle::associativeArrayToIndexedArray($dictionary);
         $dictionary = ["keys" => $left, "values" => $right];
         return $dictionary;
     }
