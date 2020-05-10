@@ -12,6 +12,11 @@ use Eightfold\Shoop\{
 
 class BoolTest extends TestCase
 {
+    /**
+     * The `not()` method on ESBool is an alias for the Shooped `toggle()` method.
+     *
+     * @return Eightfold\Shoop\ESBool
+     */
     public function testNot()
     {
         $actual = Shoop::bool(true);
@@ -21,6 +26,11 @@ class BoolTest extends TestCase
         $this->assertFalse($actual->unfold());
     }
 
+    /**
+     * The `or()` method on ESBool takes the original `bool` value, compares it to the given `bool` value, and returns an ESBool of whether one or the other values was true.
+     *
+     * @return Eightfold\Shoop\ESBool
+     */
     public function testOr()
     {
         $actual = Shoop::bool(true);
@@ -33,6 +43,11 @@ class BoolTest extends TestCase
         $this->assertTrue($actual->unfold());
     }
 
+    /**
+     * The `and()` method on ESBool takes the original `bool` value, compares it to the given `bool` value, and returns an ESBool of whether all the values are true.
+     *
+     * @return Eightfold\Shoop\ESBool
+     */
     public function testAnd()
     {
         $actual = Shoop::bool(true);

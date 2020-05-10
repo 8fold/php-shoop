@@ -16,18 +16,13 @@ use Eightfold\Shoop\{
     ESObject,
     ESString
 };
+
 /**
- * The `isGreaterThan()` performs PHP greater than comparison (>) to determine if the initial value is greater than the compared value.
+ * The `dropFirst()` method removes *n* elements from the beginning of the given array.
  *
- * Note: Expects both values to be of the same type, Shoop type, or combination (cannot compare an `int` to a `bool`, for example).
+ * Note: You can specify the number of elements to remove.
  *
- * @declared Eightfold\Shoop\Interfaces\Compare
- *
- * @defined Eightfold\Shoop\Traits\CompareImp
- *
- * @overridden
- *
- * @return Eightfold\Shoop\ESBool
+ * @return Eightfold\Shoop\ESArray
  */
 class DropFirstTest extends TestCase
 {

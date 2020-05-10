@@ -12,6 +12,11 @@ use Eightfold\Shoop\{
 
 class JsonTest extends TestCase
 {
+    /**
+     * An instance of ESJson can be passed directly to the `json_decoded()` function in the PHP standard library.
+     *
+     * @return \stdClass
+     */
     public function testJsonSerialize()
     {
         $json = Shoop::json('{"member":"test"}');
