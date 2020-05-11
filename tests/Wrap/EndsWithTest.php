@@ -18,15 +18,7 @@ use Eightfold\Shoop\{
 };
 
 /**
- * The `isGreaterThan()` performs PHP greater than comparison (>) to determine if the initial value is greater than the compared value.
- *
- * Note: Expects both values to be of the same type, Shoop type, or combination (cannot compare an `int` to a `bool`, for example).
- *
- * @declared Eightfold\Shoop\Interfaces\Compare
- *
- * @defined Eightfold\Shoop\Traits\CompareImp
- *
- * @overridden
+ * The `endsWith()` method checks that the last atomic pieces of arrays, dictionary-like, and string objects end with the specified value.
  *
  * @return Eightfold\Shoop\ESBool
  */

@@ -13,7 +13,8 @@ use Eightfold\Shoop\Interfaces\{
     Wrap,
     Drop,
     Has,
-    IsIn
+    IsIn,
+    Each
 };
 
 use Eightfold\Shoop\Traits\{
@@ -25,12 +26,13 @@ use Eightfold\Shoop\Traits\{
     WrapImp,
     DropImp,
     HasImp,
-    IsInImp
+    IsInImp,
+    EachImp
 };
 
-class ESObject implements Shooped, Compare, MathOperations, Sort, Toggle, Wrap, Drop, Has, IsIn
+class ESObject implements Shooped, Compare, MathOperations, Sort, Toggle, Wrap, Drop, Has, IsIn, Each
 {
-    use ShoopedImp, CompareImp, MathOperationsImp, SortImp, ToggleImp, WrapImp, DropImp, HasImp, IsInImp;
+    use ShoopedImp, CompareImp, MathOperationsImp, SortImp, ToggleImp, WrapImp, DropImp, HasImp, IsInImp, EachImp;
 
     public function __construct($object)
     {

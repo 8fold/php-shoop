@@ -14,7 +14,8 @@ use Eightfold\Shoop\Interfaces\{
     Sort,
     Drop,
     Has,
-    IsIn
+    IsIn,
+    Each
 };
 
 use Eightfold\Shoop\Traits\{
@@ -27,7 +28,8 @@ use Eightfold\Shoop\Traits\{
     SortImp,
     DropImp,
     HasImp,
-    IsInImp
+    IsInImp,
+    EachImp
 };
 
 class ESArray implements
@@ -40,9 +42,10 @@ class ESArray implements
     Sort,
     Drop,
     Has,
-    IsIn
+    IsIn,
+    Each
 {
-    use ShoopedImp, CompareImp, MathOperationsImp, ToggleImp, ShuffleImp, WrapImp, SortImp, DropImp, HasImp, IsInImp;
+    use ShoopedImp, CompareImp, MathOperationsImp, ToggleImp, ShuffleImp, WrapImp, SortImp, DropImp, HasImp, IsInImp, EachImp;
 
     public function __construct($array = [])
     {
@@ -91,15 +94,10 @@ class ESArray implements
         ];
     }
 
-    public function each(\Closure $closure): ESArray
-    {
-        $build = [];
-        foreach ($this->value as $key => $value) {
-            $consider = $closure($value, $key);
-            if ($consider !== null) {
-                $build[] = $consider;
-            }
-        }
-        return Shoop::array($build);
-    }
+    // public function each(\Closure $closure): ESArray
+    // {
+    //     $items = $this->value();
+    //     $array = array_map($closure, array_values($items), array_keys($items));
+    //     return Shoop::this($array);
+    // }
 }

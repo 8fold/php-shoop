@@ -13,7 +13,8 @@ use Eightfold\Shoop\Interfaces\{
     Wrap,
     Drop,
     Has,
-    IsIn
+    IsIn,
+    Each
 };
 
 use Eightfold\Shoop\Traits\{
@@ -25,7 +26,8 @@ use Eightfold\Shoop\Traits\{
     WrapImp,
     DropImp,
     HasImp,
-    IsInImp
+    IsInImp,
+    EachImp
 };
 
 use Eightfold\Shoop\ESInt;
@@ -39,9 +41,10 @@ class ESDictionary implements
     Wrap,
     Drop,
     Has,
-    IsIn
+    IsIn,
+    Each
 {
-    use ShoopedImp, CompareImp, MathOperationsImp, ToggleImp, SortImp, WrapImp, DropImp, HasImp, IsInImp;
+    use ShoopedImp, CompareImp, MathOperationsImp, ToggleImp, SortImp, WrapImp, DropImp, HasImp, IsInImp, EachImp;
 
     public function __construct($dictionary)
     {
@@ -57,15 +60,10 @@ class ESDictionary implements
         }
     }
 
-    public function each(\Closure $closure): ESArray
-    {
-        $build = [];
-        foreach ($this->value as $key => $value) {
-            $consider = $closure($value, $key);
-            if ($consider !== null) {
-                $build[] = $consider;
-            }
-        }
-        return Shoop::array($build);
-    }
+    // public function each(\Closure $closure): ESArray
+    // {
+    //     $items = $this->value();
+    //     $array = array_map($closure, array_values($items), array_keys($items));
+    //     return Shoop::this($array);
+    // }
 }

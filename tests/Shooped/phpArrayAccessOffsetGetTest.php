@@ -16,16 +16,11 @@ use Eightfold\Shoop\{
     ESObject,
     ESString
 };
+
 /**
- * The `ArrayAccess` PHP interface requires the `offsetGet()` method, which allows you to interact with the object using array notation with something like `isset()`.
+ * The `offsetGet()` method is part of the `ArrayAccess interface` from the PHP standard library and retrieves the value of the specified member.
  *
- * @example $array = Shoop::array([1, 2, 3]); $array[1]; // returns 2
- *
- * @declared Eightfold\Shoop\Traits\Shoop
- *
- * @defined Eightfold\Shoop\Interfaces\ShoopedImp
- *
- * @overridden Eightfold\Shoop\ESBool, Eightfold\Shoop\ESInt, Eightfold\Shoop\ESJson, Eightfold\Shoop\ESObject
+ * Most implementations are based on the array representation of the `Shoop type`.
  *
  * @return bool
  */
@@ -52,9 +47,6 @@ class OffsetGetTest extends TestCase
         $this->assertFalse($actual);
     }
 
-    /**
-     * Equivalent to calling `array()->offsetGet()` on the ESArray.
-     */
     public function testESInt()
     {
         $actual = ESInt::fold(10)->offsetGet(8);
@@ -64,18 +56,12 @@ class OffsetGetTest extends TestCase
         $this->assertEquals(9, $actual);
     }
 
-    /**
-     * Equivalent to calling `dictionary()->offsetGet()` on the ESDictionary.
-     */
     public function testESJson()
     {
         $actual = ESJson::fold('{"test":true}')->offsetGet("test");
         $this->assertTrue($actual);
     }
 
-    /**
-     * Equivalent to calling `dictionary()->offsetGet()` on the ESDictionary.
-     */
     public function testESObject()
     {
         $base = new \stdClass();

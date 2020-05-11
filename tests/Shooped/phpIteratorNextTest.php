@@ -16,18 +16,9 @@ use Eightfold\Shoop\{
     ESObject,
     ESString
 };
+
 /**
- * The `Iterator` PHP interface requires the `current()` method.
- *
- * The iterator interface mthods allow the object to be used in loops. The `current()` returns the current position, when applicable.
- *
- * @declared Eightfold\Shoop\Traits\Shoop
- *
- * @defined Eightfold\Shoop\Interfaces\ShoopedImp
- *
- * @overridden Eightfold\Shoop\ESBool, Eightfold\Shoop\ESInt
- *
- * @return bool
+ * The `next()` method from the `Iterator interface` from the PHP standard library moves the pointer to the following member of the object that conforms to the `Iterator interface`.
  */
 class InterfaceIteratorNextTest extends TestCase
 {

@@ -12,7 +12,8 @@ use Eightfold\Shoop\Interfaces\{
     Has,
     Drop,
     Compare,
-    IsIn
+    IsIn,
+    Each
 };
 
 use Eightfold\Shoop\Traits\{
@@ -25,7 +26,8 @@ use Eightfold\Shoop\Traits\{
     HasImp,
     DropImp,
     CompareImp,
-    IsInImp
+    IsInImp,
+    EachImp
 };
 
 use Eightfold\Shoop\Helpers\Type;
@@ -41,9 +43,10 @@ class ESString implements
     Drop,
     Has, // TODO: Consider different implementation (array splits on letters, words become issues)
     Compare,
-    IsIn
+    IsIn,
+    Each
 {
-    use ShoopedImp, MathOperationsImp, ToggleImp, ShuffleImp, WrapImp, SortImp, HasImp, DropImp, CompareImp, IsInImp;
+    use ShoopedImp, MathOperationsImp, ToggleImp, ShuffleImp, WrapImp, SortImp, HasImp, DropImp, CompareImp, IsInImp, EachImp;
 
     public function __construct($string)
     {

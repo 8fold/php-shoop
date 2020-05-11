@@ -16,18 +16,9 @@ use Eightfold\Shoop\{
     ESObject,
     ESString
 };
+
 /**
- * The `Iterator` PHP interface requires the `rewind()` method.
- *
- * The iterator interface mthods allow the object to be used in loops. The `rewind()` method returns position to the first position, when applicable.
- *
- * @declared Eightfold\Shoop\Traits\Shoop
- *
- * @defined Eightfold\Shoop\Interfaces\ShoopedImp
- *
- * @overridden Eightfold\Shoop\ESBool, Eightfold\Shoop\ESInt
- *
- * @return bool
+ * The `rewind()` method from the `Iterator interface` from the PHP standard library moves the pointer to the beginning of the object that conforms to the `Iterator interface`.
  */
 class InterfaceIteratorRewindTest extends TestCase
 {
@@ -43,9 +34,6 @@ class InterfaceIteratorRewindTest extends TestCase
         $this->assertEquals("hello", $actual->current());
     }
 
-    /**
-     * Equivalent to `dictionary()->rewind()`.
-     */
     public function testESBool()
     {
         $actual = ESBool::fold(true);
@@ -63,9 +51,6 @@ class InterfaceIteratorRewindTest extends TestCase
         $this->assertEquals($expected, $actual->current());
     }
 
-    /**
-     * Equivalent to `array()->rewind()`.
-     */
     public function testESInt()
     {
         $actual = ESInt::fold(10);
