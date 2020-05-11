@@ -16,6 +16,7 @@ use Eightfold\Shoop\{
     ESObject,
     ESString
 };
+
 /**
  * All `Shoop types` conform to the `Iterator interface` from the PHP standard library.
  *

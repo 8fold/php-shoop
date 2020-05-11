@@ -16,16 +16,9 @@ use Eightfold\Shoop\{
     ESObject,
     ESString
 };
+
 /**
- * The `Iterator` PHP interface requires the `rewind()` method.
- *
- * The iterator interface mthods allow the object to be used in loops. The `rewind()` method returns position to the first position, when applicable.
- *
- * @declared Eightfold\Shoop\Traits\Shoop
- *
- * @defined Eightfold\Shoop\Interfaces\ShoopedImp
- *
- * @overridden Eightfold\Shoop\ESBool, Eightfold\Shoop\ESInt
+ * The `valid()` method from the `Iterator interface` from the PHP standard library returns whether the current pointer position is valid.
  *
  * @return bool
  */

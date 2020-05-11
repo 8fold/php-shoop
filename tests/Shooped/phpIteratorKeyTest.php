@@ -18,17 +18,9 @@ use Eightfold\Shoop\{
 };
 
 /**
- * The `Iterator` PHP interface requires the `rewind()` method.
+ * The `key()` method from the `Iterator interface` from the PHP standard library returns the member currently being pointed to.
  *
- * The iterator interface mthods allow the object to be used in loops. The `rewind()` method returns position to the first position, when applicable.
- *
- * @declared Eightfold\Shoop\Traits\Shoop
- *
- * @defined Eightfold\Shoop\Interfaces\ShoopedImp
- *
- * @overridden Eightfold\Shoop\ESBool, Eightfold\Shoop\ESInt
- *
- * @return bool
+ * @return multiple If the value is a `PHP type`, it will be converted to the equivalent `Shoop type`.
  */
 class InterfaceIteratorKeyTest extends TestCase
 {
