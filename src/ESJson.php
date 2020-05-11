@@ -15,7 +15,8 @@ use Eightfold\Shoop\Interfaces\{
     Wrap,
     Drop,
     Has,
-    IsIn
+    IsIn,
+    Each
 };
 
 use Eightfold\Shoop\Traits\{
@@ -27,14 +28,15 @@ use Eightfold\Shoop\Traits\{
     WrapImp,
     DropImp,
     HasImp,
-    IsInImp
+    IsInImp,
+    EachImp
 };
 
 use Eightfold\Shoop\ESDictionary;
 
-class ESJson implements Shooped, Compare, MathOperations, Wrap, Drop, Has, IsIn, \JsonSerializable
+class ESJson implements Shooped, Compare, MathOperations, Wrap, Drop, Has, IsIn, Each, \JsonSerializable
 {
-    use ShoopedImp, CompareImp, ToggleImp, MathOperationsImp, SortImp, WrapImp, DropImp, HasImp, IsInImp;
+    use ShoopedImp, CompareImp, ToggleImp, MathOperationsImp, SortImp, WrapImp, DropImp, HasImp, IsInImp, EachImp;
 
     /**
      * @todo Need a solution for the path
