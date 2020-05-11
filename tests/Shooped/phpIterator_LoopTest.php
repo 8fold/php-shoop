@@ -17,46 +17,40 @@ use Eightfold\Shoop\{
     ESString
 };
 /**
- * The `Iterator` PHP interface requires the `current()` method.
+ * All `Shoop types` conform to the `Iterator interface` from the PHP standard library.
  *
- * The iterator interface mthods allow the object to be used in loops. The `current()` returns the current position, when applicable.
- *
- * @declared Eightfold\Shoop\Traits\Shoop
- *
- * @defined Eightfold\Shoop\Interfaces\ShoopedImp
- *
- * @overridden Eightfold\Shoop\ESBool, Eightfold\Shoop\ESInt
- *
- * @return bool
+ * In most cases the iterator will use the array representation of the `Shoop type`.
  */
 class InterfaceIteratorLoopTest extends TestCase
 {
     public function testESArray()
     {
-        $actual = ESArray::fold(["hello", "goodbye"]);
-        $expected = [];
-        foreach ($actual as $key => $value) {
-            $expected[$key] = $value;
+        $base = ESArray::fold(["hello", "goodbye"]);
+        $expected = ["hello", "goodbye"];
+        $actual = [];
+        for ($base->rewind(); $base->valid(); $base->next()) {
+            $actual[] = $base->current();
         }
-        $this->assertEquals($expected, $actual->unfold());
+        $this->assertEquals($expected, $actual);
     }
 
     /**
-     * Begins by converting to `dictionary()`.
+     * Uses ESDicionary
      */
     public function testESBool()
     {
-        $actual = ESBool::fold(false);
+        $base = ESBool::fold(false);
+
         $expectedTrue = ["true" => false];
         $expectedFalse = ["false" => true];
         $actualTrue = [];
         $actualFalse = [];
-        foreach ($actual as $key => $value) {
-            if ($key === "true") {
-                $actualTrue["true"] = $value;
+        for ($base->rewind(); $base->valid(); $base->next()) {
+            if ($base->key() === "true") {
+                $actualTrue["true"] = $base->current();
 
-            } elseif ($key === "false") {
-                $actualFalse["false"] = $value;
+            } else {
+                $actualFalse["false"] = $base->current();
 
             }
         }
@@ -66,50 +60,72 @@ class InterfaceIteratorLoopTest extends TestCase
 
     public function testESDictionary()
     {
-        $actual = ESDictionary::fold(["one" => "hello", "two" => "goodbye"]);
+        $base = ESDictionary::fold(["one" => "hello", "two" => "goodbye"]);
+
         $keys = ["one", "two"];
         $values = ["hello", "goodbye"];
+
         $keysActual = [];
         $valuesActual = [];
-        foreach ($actual as $key => $value) {
-            $keysActual[] = $key;
-            $valuesActual[] = $value;
-
+        for ($base->rewind(); $base->valid(); $base->next()) {
+            $keysActual[] = $base->key();
+            $valuesActual[] = $base->current();
         }
         $this->assertEquals($keys, $keysActual);
         $this->assertEquals($values, $valuesActual);
     }
 
-    /**
-     * Equivalent to `array()->current()`.
-     */
     public function testESInt()
     {
-        $actual = ESInt::fold(10)->current();
-        $this->assertEquals(0, $actual);
+        $base = ESInt::fold(5);
+
+        $expected = [0, 1, 2, 3, 4, 5];
+        $actual = [];
+        for ($base->rewind(); $base->valid(); $base->next()) {
+            $actual[] = $base->current();
+        }
+        $this->assertEquals($expected, $actual);
     }
 
     public function testESJson()
     {
-        $expected = "hello";
-        $actual = ESJson::fold('{"one":"hello", "two":"goodbye"}')->current();
+        $base = ESJson::fold('{"one":"hello", "two":"goodbye"}');
+        $expected = ["one" => "hello", "two" => "goodbye"];
+        $actual = [];
+        for ($base->rewind(); $base->valid(); $base->next()) {
+            $key = $base->key();
+            $value = $base->current();
+            $actual[$key] = $value;
+        }
         $this->assertEquals($expected, $actual);
     }
 
     public function testESObject()
     {
-        $base = new \stdClass();
-        $base->one = "hello";
-        $base->two = "goodbye";
+        $object = new \stdClass();
+        $object->one = "hello";
+        $object->two = "goodbye";
 
-        $actual = ESObject::fold($base)->current();
-        $this->assertEquals("hello", $actual);
+        $base = ESObject::fold($object);
+
+        $expected = ["one" => "hello", "two" => "goodbye"];
+        $actual = [];
+        for ($base->rewind(); $base->valid(); $base->next()) {
+            $key = $base->key();
+            $value = $base->current();
+            $actual[$key] = $value;
+        }
+        $this->assertEquals($expected, $actual);
     }
 
     public function testESString()
     {
-        $expected = "c";
-        $actual = ESString::fold("comp")->current();
+        $base = ESString::fold("comp");
+        $expected = "comp";
+        $actual = "";
+        for ($base->rewind(); $base->valid(); $base->next()) {
+            $actual .= $base->current();
+        }
         $this->assertEquals($expected, $actual);
     }
 }
