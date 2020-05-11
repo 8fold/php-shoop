@@ -16,16 +16,11 @@ use Eightfold\Shoop\{
     ESObject,
     ESString
 };
+
 /**
- * The `ArrayAccess` PHP interface requires the `offsetExists()` method, which allows you to interact with the object using array notation with something like `isset()`.
+ * The `offsetExists()` method is part of the `ArrayAccess interface` from the PHP standard library and checks if the value has the specified member/key/index.
  *
- * @example $array = Shoop::array([1, 2, 3]); isset($array[1]); // returns true
- *
- * @declared Eightfold\Shoop\Traits\Shoop
- *
- * @defined Eightfold\Shoop\Interfaces\ShoopedImp
- *
- * @overridden Eightfold\Shoop\ESBool, Eightfold\Shoop\ESInt, Eightfold\Shoop\ESJson, Eightfold\Shoop\ESObject
+ * Most implementations are based on the array representation of the `Shoop type`.
  *
  * @return bool
  */
@@ -52,9 +47,6 @@ class OffsetExistsTest extends TestCase
         $this->assertTrue($actual);
     }
 
-    /**
-     * Equivalent to calling `array()` then checking if resulting range has offset.
-     */
     public function testESInt()
     {
         $actual = ESInt::fold(10)->offsetExists(8);
@@ -67,18 +59,12 @@ class OffsetExistsTest extends TestCase
         $this->assertFalse($actual);
     }
 
-    /**
-     * Equivalent to calling `dictionary()` then calling `offsetExists()`.
-     */
     public function testESJson()
     {
         $actual = ESJson::fold('{"test":true}')->offsetExists("test");
         $this->assertTrue($actual);
     }
 
-    /**
-     * Equivalent to calling `dictionary()` then calling `offsetExists()`.
-     */
     public function testESObject()
     {
         $base = new \stdClass();

@@ -16,14 +16,11 @@ use Eightfold\Shoop\{
     ESObject,
     ESString
 };
+
 /**
- * The `ArrayAccess` PHP interface requires the `offsetUnset()` method, which allows you to interact with the object using array notation with something like `unset($array[0])`.
+ * The `offsetUnset()` method is part of the `ArrayAccess interface` from the PHP standard library and removes the specified member.
  *
- * @declared Eightfold\Shoop\Traits\Shoop
- *
- * @defined Eightfold\Shoop\Interfaces\ShoopedImp
- *
- * @overridden Eightfold\Shoop\ESBool, Eightfold\Shoop\ESInt, Eightfold\Shoop\ESJson, Eightfold\Shoop\ESObject
+ * Most implementations are based on the array representation of the `Shoop type`.
  *
  * @return bool
  */
@@ -37,7 +34,7 @@ class OffsetUnsetTest extends TestCase
     }
 
     /**
-     * No changes will be made.
+     * No changes made.
      */
     public function testESBool()
     {
@@ -54,7 +51,7 @@ class OffsetUnsetTest extends TestCase
     }
 
     /**
-     * No changes will be made.
+     * No changes made.
      */
     public function testESInt()
     {
@@ -63,9 +60,6 @@ class OffsetUnsetTest extends TestCase
         $this->assertEquals(10, $actual->unfold());
     }
 
-    /**
-     * Equivalent to calling `object()->offsetUnset()->json()` on the ESJson.
-     */
     public function testESJson()
     {
         $expected = '{}';
@@ -74,9 +68,6 @@ class OffsetUnsetTest extends TestCase
         $this->assertEquals($expected, $actual->unfold());
     }
 
-    /**
-     * Uses object notation ($o->{}) instead of array notation ($o->[]) to update value.
-     */
     public function testESObject()
     {
         $base = new \stdClass();
