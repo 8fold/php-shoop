@@ -12,6 +12,11 @@ use Eightfold\Shoop\{
 
 class DictionaryTest extends TestCase
 {
+    /**
+     * The `each()` method on ESDictionary iterates over each element in the dictionary and passes it through the given closure.
+     *
+     * @return Eightfold\Shoop\ESDictionary
+     */
     public function testEach()
     {
         $base = ["a" => "ay", "b" => "be", "c" => "see"];

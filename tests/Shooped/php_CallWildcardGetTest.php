@@ -18,23 +18,15 @@ use Eightfold\Shoop\{
 };
 
 /**
- * Shoop leverages the PHP `__call()` magic method to allow for a few wildcard simplifications.
+ * The `get()` method can be called directly and is a fall through for the `__call()` function from the PHP standard library.
  *
- * You can prefix any method call with "get", which is mainly used for interacting with arrays or objects with members.
+ * You can use `get()` directly, which takes an argument and will return the value of the member/key/index, if available; for ESBool and ESInt, the value is returned.
  *
- * Shoop will attempt to return a Shoop type whenever possible.
+ * You can `get*()` where "*" is the name of a method on the `Shoop type` or a string-based member/key, if available.
  *
- * So, `getArray()` is equivalent to calling `array()`. `get{MemberName}()` is equivalent to `getMember('MemberName')`. And so on.
+ * You can also call a faux method, which is the name of a string-based member/key, which will then call `get()`, using the string as the argument.
  *
- * See also anonymous getter methods.
- *
- * @declared none
- *
- * @defined Eightfold\Shoop\Interfaces\ShoopedImp
- *
- * @overridden Eightfold\Shoop\ESAray
- *
- * @return multiple
+ * @return multiple If the value is a `PHP type`, it will be converted to the equivalent `Shoop type`. If the value coforms to the `Shooped interface`, the instance is returned. Otherwise, the raw value is returned (instances of `non-Shoop types or class`, for example.
  */
 class php_CallWildcardGetTest extends TestCase
 {

@@ -18,27 +18,20 @@ use Eightfold\Shoop\{
 };
 
 /**
- * The `isGreaterThan()` performs PHP greater than comparison (>) to determine if the initial value is greater than the compared value.
- *
- * Note: Expects both values to be of the same type, Shoop type, or combination (cannot compare an `int` to a `bool`, for example).
- *
- * @declared Eightfold\Shoop\Interfaces\Compare
- *
- * @defined Eightfold\Shoop\Traits\CompareImp
- *
- * @overridden
- *
- * @return Eightfold\Shoop\ESBool
+ * The `shuffle()` method randomly sorts the atomic elements of the value.
  */
 class ShuffleTest extends TestCase
 {
+    /**
+     * @return Eightfold\Shoop\ESArray After passing the original value through the `shuffle()` function from the PHP standard library.
+     */
     public function testESArray()
     {
         $this->assertTrue(true);
     }
 
     /**
-     * @not Could be a random bolean generator
+     * @not Could be a random boolean generator
      */
     public function testESBool()
     {
@@ -77,12 +70,11 @@ class ShuffleTest extends TestCase
         $this->assertFalse(false);
     }
 
+    /**
+     * @return Eightfold\Shoop\ESString After shuffling the letters of the ofirinal `PHP string`.
+     */
     public function testESString()
     {
-        $actual = ESString::fold("a")->has("b");
-        $this->assertFalse($actual->unfold());
-
-        $actual = ESString::fold("b")->has("b");
-        $this->assertTrue($actual->unfold());
+        $this->assertTrue(true);
     }
 }

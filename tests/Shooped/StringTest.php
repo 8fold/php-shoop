@@ -18,22 +18,15 @@ use Eightfold\Shoop\{
 };
 
 /**
- * The `string()` method converts the 8fold type to an `ESString` type.
- *
- * Typpically uses PHP's `print_r()` after using `unfold()` on the value.
- *
- * This allows each Shoop type to be treated as a PHP `string`, which means `string()` is an alias for the PHP `__toString()` magic method.
- *
- * @declared Eightfold\Shoop\Interfaces\Shooped
- *
- * @defined Eightfold\Shoop\Traits\ShoopedImp
- *
- * @overridden Eightfold\Shoop\ESBool, Eightfold\Shoop\ESInt, Eightfold\Shoop\ESJson, Eightfold\Shoop\ESString
+ * The `string()` method converts the `Shoop type` to a `PHP string` representation.
  *
  * @return Eightfold\Shoop\ESString
  */
 class StringTest extends TestCase
 {
+    /**
+     * @see PhpTypeJuggle::indexedArrayToString
+     */
     public function testESArray()
     {
         $expected = "Array()";
@@ -48,7 +41,7 @@ class StringTest extends TestCase
     }
 
     /**
-     * Returns the plain text equivalent of the value. `true` is "true", `false` is "false".
+     * @see PhpTypeJuggle::boolToString
      */
     public function testESBool()
     {
@@ -58,6 +51,9 @@ class StringTest extends TestCase
         $this->assertEquals($expected, $actual->unfold());
     }
 
+    /**
+     * @see PhpTypeJuggle::associativeArrayToString
+     */
     public function testESDictionary()
     {
         $expected = "Dictionary()";
@@ -67,7 +63,7 @@ class StringTest extends TestCase
     }
 
     /**
-     * Uses PHP cast to `string`
+     * @see PhpTypeJuggle::intToString
      */
     public function testESInt()
     {
@@ -78,7 +74,7 @@ class StringTest extends TestCase
     }
 
     /**
-     * Uses `unfold()` on value to instantiate ESString.
+     * @see PhpTypeJuggle::jsonToString
      */
     public function testESJson()
     {
@@ -88,6 +84,9 @@ class StringTest extends TestCase
         $this->assertEquals($expected, $actual->unfold());
     }
 
+    /**
+     * @see PhpTypeJuggle::objectToString
+     */
     public function testESObject()
     {
         $expected = "stdClass Object()";
@@ -97,7 +96,7 @@ class StringTest extends TestCase
     }
 
     /**
-     * Uses `unfold()` of value to instantiate new instance
+     * @return Eightfold\Shoop\ESString The same value.
      */
     public function testESString()
     {

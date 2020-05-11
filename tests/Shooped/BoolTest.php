@@ -20,18 +20,13 @@ use Eightfold\Shoop\{
 /**
  * The `bool()` method converts the 8fold type to an `ESBool` type.
  *
- * Typically this means using PHP to cast the value after calling `unfold()`
- *
- * @declared Eightfold\Shoop\Interfaces\Shooped
- *
- * @defined Eightfold\Shoop\Traits\ShoopedImp
- *
- * @overridden Eightfold\Shoop\ESObject
- *
  * @return Eightfold\Shoop\ESBool
  */
 class ToBoolTest extends TestCase
 {
+    /**
+     * @see PhpTypeJuggle::indexedArrayToBool
+     */
     public function testESArray()
     {
         $actual = ESArray::fold(['testing'])->bool();
@@ -41,6 +36,9 @@ class ToBoolTest extends TestCase
         $this->assertFalse($actual->unfold());
     }
 
+    /**
+     * @return Eightfold\Shoop\ESBool The same value.
+     */
     public function testESBool()
     {
         $actual = ESBool::fold(true)->bool();
@@ -50,12 +48,18 @@ class ToBoolTest extends TestCase
         $this->assertFalse($actual->unfold());
     }
 
+    /**
+     * @see PhpTypeJuggle::associativeArrayToBool
+     */
     public function testESDictionary()
     {
         $actual = ESDictionary::fold([])->bool();
         $this->assertFalse($actual->unfold());
     }
 
+    /**
+     * @see PhpTypeJuggle::intToBool
+     */
     public function testESInt()
     {
         $actual = ESInt::fold(1)->bool();
@@ -66,9 +70,7 @@ class ToBoolTest extends TestCase
     }
 
     /**
-     * Converts to an array before checking if empty.
-     *
-     * @see Eightfold\Shoop\Test\ToArray
+     * @see PhpTypeJuggle::jsonToBool
      */
     public function testESJson()
     {
@@ -80,9 +82,7 @@ class ToBoolTest extends TestCase
     }
 
     /**
-     * Converts to an array before checking if empty.
-     *
-     * @see Eightfold\Shoop\Test\ToArray
+     * @see PhpTypeJuggle::objectToBool
      */
     public function testESObject()
     {
@@ -96,6 +96,9 @@ class ToBoolTest extends TestCase
         $this->assertTrue($actual->unfold());
     }
 
+    /**
+     * @see PhpTypeJuggle::stringToBool
+     */
     public function testESString()
     {
         $actual = ESString::fold("")->bool();

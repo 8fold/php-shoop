@@ -12,6 +12,11 @@ use Eightfold\Shoop\{
 
 class IntTest extends TestCase
 {
+    /**
+     * The `range()` method on ESInt creates an ESArray of integers from the given value to the original value (or vice versa).
+     *
+     * @return Eightfold\Shoop\ESArray
+     */
     public function testRange()
     {
         $base = 5;
@@ -21,6 +26,10 @@ class IntTest extends TestCase
 
         $expected = [4, 5];
         $actual = Shoop::int($base)->range(4);
+        $this->assertEquals($expected, $actual->unfold());
+
+        $expected = [5, 6, 7, 8, 9, 10];
+        $actual = Shoop::int($base)->range(10);
         $this->assertEquals($expected, $actual->unfold());
     }
 }

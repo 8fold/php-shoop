@@ -19,6 +19,11 @@ use Eightfold\Shoop\{
 
 class TypeTest extends TestCase
 {
+    /**
+     * The `santizeType()` method converts a given `PHP type` to a specified or assumed `Shoop type`.
+     *
+     * @return Shooped
+     */
     public function testSanitizeType()
     {
         $base = 3;
@@ -51,6 +56,11 @@ class TypeTest extends TestCase
         $this->assertEquals($expected, $actual);
     }
 
+    /**
+     * The `isShooped()` method checks if the passed value conforms to the `Shooped` interface.
+     *
+     * @return bool
+     */
     public function testIsShooped()
     {
         $actual = Type::isShooped(false);
@@ -61,6 +71,11 @@ class TypeTest extends TestCase
         $this->assertTrue($actual);
     }
 
+    /**
+     * The `is()` method checks if the given object matches one or more specified `Shoop types`.
+     *
+     * @return bool
+     */
     public function testIs()
     {
         $base = ESArray::fold(["h", "i"]);
@@ -68,6 +83,11 @@ class TypeTest extends TestCase
         $this->assertTrue($actual);
     }
 
+    /**
+     * The `isEmpty()` method checks if the given `Shooped type` is empty using the `empty()` function from the PHP standard library.
+     *
+     * @return bool
+     */
     public function testIsEmpty()
     {
         $base = ESArray::fold([]);
@@ -79,6 +99,11 @@ class TypeTest extends TestCase
         $this->assertTrue($actual);
     }
 
+    /**
+     * @see isEmpty() The returned is reversed.
+     *
+     * @return bool
+     */
     public function testIsNotEmpty()
     {
         $base = ESArray::fold([]);

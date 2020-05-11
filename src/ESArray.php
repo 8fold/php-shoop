@@ -64,11 +64,9 @@ class ESArray implements
 
     public function sum()
     {
-        $total = 0;
-        foreach ($this->unfold() as $int) {
-            $total += Type::sanitizeType($int, ESInt::class)->unfold();
-        }
-        return Shoop::int($total);
+        $array = $this->unfold();
+        $sum = array_sum($array);
+        return Shoop::int($sum);
     }
 
     public function insertAt($value, $int)
@@ -97,7 +95,7 @@ class ESArray implements
     {
         $build = [];
         foreach ($this->value as $key => $value) {
-            $consider = $closure($value, $key = "");
+            $consider = $closure($value, $key);
             if ($consider !== null) {
                 $build[] = $consider;
             }

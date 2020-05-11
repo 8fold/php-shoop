@@ -18,22 +18,13 @@ use Eightfold\Shoop\{
 };
 
 /**
- * The `string()` method converts the 8fold type to an `ESString` type.
- *
- * Typpically uses PHP's `print_r()` after using `unfold()` on the value.
- *
- * This allows each Shoop type to be treated as a PHP `string`, which means `string()` is an alias for the PHP `__toString()` magic method.
- *
- * @declared Eightfold\Shoop\Interfaces\Shooped
- *
- * @defined Eightfold\Shoop\Traits\ShoopedImp
- *
- * @overridden Eightfold\Shoop\ESBool, Eightfold\Shoop\ESInt, Eightfold\Shoop\ESJson, Eightfold\Shoop\ESString
- *
- * @return Eightfold\Shoop\ESString
+ * There is no common or general implementation for the `divide()` method across `Shoop types`.
  */
 class DivideTest extends TestCase
 {
+    /**
+     * @return Eightfold\Shoop\ESArry There are two ideces. The first represents everything prior to the index to divide on; the second is everything after.
+     */
     public function testESArray()
     {
         $expected = [
@@ -52,6 +43,9 @@ class DivideTest extends TestCase
         $this->assertFalse(false);
     }
 
+    /**
+     * @return Eightfold\Shoop\ESDictionary There are two members, "keys" and "values". The "keys" holds a `PHP indexed array` of all keys from the original `PHP associative array`; the "values" key holds the values.
+     */
     public function testESDictionary()
     {
         $expected = ["keys" => ["key", "key2"], "values" => ["value", "value2"]];
@@ -59,6 +53,9 @@ class DivideTest extends TestCase
         $this->assertEquals($expected, $actual->unfold());
     }
 
+    /**
+     * @return Eightfold\Shoop\ESInt The original value is mathematically divided by the given integer and rounded to nearest half to return a true ESInt.
+     */
     public function testESInt()
     {
         $expected = 2;
@@ -66,6 +63,11 @@ class DivideTest extends TestCase
         $this->assertEquals($expected, $actual->unfold());
     }
 
+    /**
+     * @see ESObject->divide()
+     *
+     * @return Eightfold\Shoop\ESJson
+     */
     public function testESJson()
     {
         $expected = json_encode((object) ["members" => ["member", "member2"], "values" => ["value", "value2"]]);
@@ -73,6 +75,11 @@ class DivideTest extends TestCase
         $this->assertEquals($expected, $actual->unfold());
     }
 
+    /**
+     * @see ESDictionary->divide() only replacing "key" with "member".
+     *
+     * @return Eightfold\Shoop\ESObject
+     */
     public function testESObject()
     {
         $expected = new \stdClass();
@@ -86,6 +93,11 @@ class DivideTest extends TestCase
         $this->assertEquals($expected, $actual->unfold());
     }
 
+    /**
+     * Uses the `explode()` function from the PHP standard library to return an ESArray.
+     *
+     * @return Eightfold\Shoop\ESArray
+     */
     public function testESString()
     {
         $expected = ["Hello", "World!"];

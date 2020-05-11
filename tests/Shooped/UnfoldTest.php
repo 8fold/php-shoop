@@ -16,19 +16,14 @@ use Eightfold\Shoop\{
     ESObject,
     ESString
 };
+
 /**
- * The `unfold()` method for exposing the value as a PHP type.
- *
- * PHP types get "folded" into Shoop, then "unfolded" back to PHP.
- *
- * @declared Eightfold\Shoop\Interfaces\Shooped
- *
- * @defined Eightfold\Shoop\Traits\ShoopedImp
+ * The `unfold()` method return `PHP type` value of the `Shoop type`.
  */
 class UnfoldTest extends TestCase
 {
     /**
-     * @return array(indexed)
+     * @return array
      */
     public function testESArray()
     {
@@ -54,7 +49,7 @@ class UnfoldTest extends TestCase
     }
 
     /**
-     * @return array(associative)
+     * @return array (associative)
      */
     public function testESDictionary()
     {
@@ -67,7 +62,7 @@ class UnfoldTest extends TestCase
     }
 
     /**
-     * @return integer If `float` or `double` will be rounded to nearest integer; otherwise, will be zero.
+     * @return integer
      */
     public function testESInt()
     {

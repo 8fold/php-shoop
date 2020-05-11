@@ -18,18 +18,13 @@ use Eightfold\Shoop\{
 };
 
 /**
- * The `is()` performs PHP identical comparison (===) to determine if the initial value is the same as the compared value.
- *
- * @declared Eightfold\Shoop\Interfaces\Shooped
- *
- * @defined Eightfold\Shoop\Traits\ShoopedImp
- *
- * @overridden
- *
- * @return Eightfold\Shoop\ESBool
+ * The `set()` method in most cases sets the value for a specified members/key/index.
  */
 class SetTest extends TestCase
 {
+    /**
+     * @return Eightfold\Shoop\ESArray After setting the value for the index.
+     */
     public function testESArray()
     {
         $expected = ["hello", "world"];
@@ -37,6 +32,9 @@ class SetTest extends TestCase
         $this->assertEquals($expected, $actual->unfold());
     }
 
+    /**
+     * @return Eightfold\Shoop\ESBool Sets the value of the bool to the given bool.
+     */
     public function testESBool()
     {
         $base = true;
@@ -44,6 +42,9 @@ class SetTest extends TestCase
         $this->assertFalse($actual->unfold());
     }
 
+    /**
+     * @return Eightfold\Shoop\ESDictionary After setting the value for the given key.
+     */
     public function testESDictionary()
     {
         $base = ["key" => "value"];
@@ -53,6 +54,9 @@ class SetTest extends TestCase
         $this->assertEquals($expected, $actual->unfold());
     }
 
+    /**
+     * @return Eightfold\Shoop\ESINt Sets the value of the integer to the given integer.
+     */
     public function testESInt()
     {
         $base = 10;
@@ -62,6 +66,9 @@ class SetTest extends TestCase
         $this->assertEquals($expected, $actual->unfold());
     }
 
+    /**
+     * @return Eightfold\Shoop\ESJson Sets the value of the member to the given value.
+     */
     public function testESJson()
     {
         $base = '{}';
@@ -71,6 +78,9 @@ class SetTest extends TestCase
         $this->assertEquals($expected, $actual->unfold());
     }
 
+    /**
+     * @return Eightfold\Shoop\ESObject Sets the value of the member to the given value.
+     */
     public function testESObject()
     {
         $expected = new \stdClass();
@@ -79,6 +89,9 @@ class SetTest extends TestCase
         $this->assertEquals($expected, $actual->unfold());
     }
 
+    /**
+     * @return Eightfold\Shoop\ESString Sets the value of the string to the given string.
+     */
     public function testESString()
     {
         $base = "alphabet soup";

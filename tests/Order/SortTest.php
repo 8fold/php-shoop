@@ -18,20 +18,13 @@ use Eightfold\Shoop\{
 };
 
 /**
- * Sorting on ESDictionary, ESJson, and ESObject may not make much sense.
- *
- * Note: Expects both values to be of the same type, Shoop type, or combination (cannot compare an `int` to a `bool`, for example).
- *
- * @declared Eightfold\Shoop\Interfaces\Compare
- *
- * @defined Eightfold\Shoop\Traits\CompareImp
- *
- * @overridden
- *
- * @return Eightfold\Shoop\ESBool
+ * The `sort()` method sorts the array representation of the `Shoop type`. It accepts two arguments, the first argument specifies whether to sort ascending or descending (ascending is the default), the second argument specifies whether to sort the valuea or keys/members (values is the default).
  */
 class SortTest extends TestCase
 {
+    /**
+     * @return Eightfold\Shoop\ESArray
+     */
     public function testESArray()
     {
         $expected = ["Alpha", "Beta", "Gamma", "alpha", "beta", "gamma"];
@@ -59,6 +52,9 @@ class SortTest extends TestCase
         $this->assertFalse(false);
     }
 
+    /**
+     * @return Eightfold\Shoop\ESDictionary
+     */
     public function testESDictionary()
     {
         $expected = ["gamma" => "Alpha", "beta" => "Beta", "alpha" => "beta", "delta" => "alpha"];
@@ -86,6 +82,11 @@ class SortTest extends TestCase
         $this->assertFalse(false);
     }
 
+    /**
+     * @see ESObject->sort()
+     *
+     * @return Eightfold\Shoop\ESJson After converting the JSON string to an ESObject.
+     */
     public function testESJson()
     {
         $baseExpected = ["gamma" => "Alpha", "beta" => "Beta", "delta" => "alpha", "alpha" => "beta"];
@@ -109,6 +110,9 @@ class SortTest extends TestCase
         $this->assertEquals($expected, $actual->unfold());
     }
 
+    /**
+     * @return Eightfold\Shoop\ESObject
+     */
     public function testESObject()
     {
         $expected = (object) ["gamma" => "Alpha", "delta" => "alpha", "beta" => "Beta", "alpha" => "beta"];
@@ -147,6 +151,9 @@ class SortTest extends TestCase
         $this->assertEquals($expected, $actual->unfold());
     }
 
+    /**
+     * @return Eightfold\Shoop\ESString After sorting the individual characters of the original string.
+     */
     public function testESString()
     {
         $expected = "aahlp";

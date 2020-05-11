@@ -18,22 +18,13 @@ use Eightfold\Shoop\{
 };
 
 /**
- * The `string()` method converts the 8fold type to an `ESString` type.
- *
- * Typpically uses PHP's `print_r()` after using `unfold()` on the value.
- *
- * This allows each Shoop type to be treated as a PHP `string`, which means `string()` is an alias for the PHP `__toString()` magic method.
- *
- * @declared Eightfold\Shoop\Interfaces\Shooped
- *
- * @defined Eightfold\Shoop\Traits\ShoopedImp
- *
- * @overridden Eightfold\Shoop\ESBool, Eightfold\Shoop\ESInt, Eightfold\Shoop\ESJson, Eightfold\Shoop\ESString
- *
- * @return Eightfold\Shoop\ESString
+ * The `multiply()` method for most `Shoop types` duplicates the original value and returns an array as the result.
  */
 class MultiplyTest extends TestCase
 {
+    /**
+     * @return Eightfold\Shoop\ESArray Where each index is a copy of the original array.
+     */
     public function testESArray()
     {
         $expected = [
@@ -53,6 +44,9 @@ class MultiplyTest extends TestCase
         $this->assertFalse(false);
     }
 
+    /**
+     * @see ESArray->multiply()
+     */
     public function testESDictionary()
     {
         $expected = [
@@ -66,6 +60,9 @@ class MultiplyTest extends TestCase
         $this->assertEquals($expected, $actual->unfold());
     }
 
+    /**
+     * @return Eightfold\Shoop\Int Where the original value is multiplied by the given integer.
+     */
     public function testESInt()
     {
         $expected = 15;
@@ -73,6 +70,9 @@ class MultiplyTest extends TestCase
         $this->assertEquals($expected, $actual->unfold());
     }
 
+    /**
+     * @see ESDictionary->multiply() Where each index is the original JSON string.
+     */
     public function testESJson()
     {
         $json = json_encode((object) ["member" => "value", "member2" => "value2"]);
@@ -81,6 +81,9 @@ class MultiplyTest extends TestCase
         $this->assertEquals($expected, $actual->unfold());
     }
 
+    /**
+     * @see  ESDictionary->multiply() Where each index is an instance of the object.
+     */
     public function testESObject()
     {
         $object = new \stdClass();
@@ -92,10 +95,13 @@ class MultiplyTest extends TestCase
         $this->assertEquals($expected, $actual->unfold());
     }
 
+    /**
+     * Uses the `str_repeat()` function from the PHP standard library to generate a string that repeats using the original value.
+     */
     public function testESString()
     {
-        $expected = ["Hello", "World!"];
-        $actual = ESString::fold("Hello, World!")->divide(", ");
+        $expected = "Hello, World!Hello, World!";
+        $actual = ESString::fold("Hello, World!")->multiply(2);
         $this->assertEquals($expected, $actual->unfold());
     }
 }

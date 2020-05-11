@@ -18,20 +18,13 @@ use Eightfold\Shoop\{
 };
 
 /**
- * The `isGreaterThan()` performs PHP greater than comparison (>) to determine if the initial value is greater than the compared value.
- *
- * Note: Expects both values to be of the same type, Shoop type, or combination (cannot compare an `int` to a `bool`, for example).
- *
- * @declared Eightfold\Shoop\Interfaces\Compare
- *
- * @defined Eightfold\Shoop\Traits\CompareImp
- *
- * @overridden
- *
- * @return Eightfold\Shoop\ESBool
+ * The `toggle()` method in most cases reverses the original order of the atomic units of the original value.
  */
 class ToggleTest extends TestCase
 {
+    /**
+     * @return Eightfold\Shoop\ESArray After reversing the order of the value index-value pairs.
+     */
     public function testESArray()
     {
         $expected = [4 => 5, 3 => 6, 2 => 2, 1 => 1, 0 => 10];
@@ -43,12 +36,20 @@ class ToggleTest extends TestCase
         $this->assertEquals($expected, $actual->unfold());
     }
 
+    /**
+     * @return Eightfold\Shoop\ESBool True becomes false, and false becomes true.
+     */
     public function testESBool()
     {
         $actual = Shoop::bool(true)->toggle();
         $this->assertFalse($actual->unfold());
     }
 
+    /**
+     * @see ESArray->toggle()
+     *
+     * @return Eightfold\Shoop\ESDictionary
+     */
     public function testESDictionary()
     {
         $expected = ["hello" => "world", "world" => "hello"];
@@ -56,6 +57,9 @@ class ToggleTest extends TestCase
         $this->assertEquals($expected, $actual->unfold());
     }
 
+    /**
+     * @return Eightfold\Shoop\ESInt After multiplying the original value by negative one (-1).
+     */
     public function testESInt()
     {
         $expected = 1;
@@ -63,6 +67,11 @@ class ToggleTest extends TestCase
         $this->assertEquals($expected, $actual->unfold());
     }
 
+    /**
+     * @see ESOjbect->toggle()
+     *
+     * @return Eightfold\Shoop\ESJson
+     */
     public function testESJson()
     {
         $base = ["beta" => "beta", "alpha2" => "alpha2", "alpha" => "alpha"];
@@ -72,7 +81,9 @@ class ToggleTest extends TestCase
     }
 
     /**
-     * @not Has direct access
+     * @see ESDictionary->toggle()
+     *
+     * @return Eightfold\Shoop\ESObject
      */
     public function testESObject()
     {
@@ -88,6 +99,9 @@ class ToggleTest extends TestCase
         $this->assertEquals($expected, $array);
     }
 
+    /**
+     * @return Eightfold\Shoop\ESString After reversing the order of the individual characters of the original string.
+     */
     public function testESString()
     {
         $expected = "Hello!";

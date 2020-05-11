@@ -18,22 +18,13 @@ use Eightfold\Shoop\{
 };
 
 /**
- * The `string()` method converts the 8fold type to an `ESString` type.
- *
- * Typpically uses PHP's `print_r()` after using `unfold()` on the value.
- *
- * This allows each Shoop type to be treated as a PHP `string`, which means `string()` is an alias for the PHP `__toString()` magic method.
- *
- * @declared Eightfold\Shoop\Interfaces\Shooped
- *
- * @defined Eightfold\Shoop\Traits\ShoopedImp
- *
- * @overridden Eightfold\Shoop\ESBool, Eightfold\Shoop\ESInt, Eightfold\Shoop\ESJson, Eightfold\Shoop\ESString
- *
- * @return Eightfold\Shoop\ESString
+ * The `plus()` method in most cases appends the given value to the original value.
  */
 class PlusTest extends TestCase
 {
+    /**
+     * @return Eightfold\Shoop\ESArray After adding values to the end of the array.
+     */
     public function testESArray()
     {
         $expected = ["hello", "goodbye"];
@@ -49,6 +40,9 @@ class PlusTest extends TestCase
         $this->assertFalse(false);
     }
 
+    /**
+     * @return Eightfold\Shoop\ESDictionary After adding the value-key pairs to the end of the original ESDictionary.
+     */
     public function testESDictionary()
     {
         $expected = ["key" => "value", "key2" => "value2"];
@@ -56,6 +50,9 @@ class PlusTest extends TestCase
         $this->assertEquals($expected, $actual->unfold());
     }
 
+    /**
+     * @return Eightfold\Shoop\ESInt After mathematically adding the original value to the given value.
+     */
     public function testESInt()
     {
         $expected = 8;
@@ -63,6 +60,11 @@ class PlusTest extends TestCase
         $this->assertEquals($expected, $actual->unfold());
     }
 
+    /**
+     * @see ESObject->plus()
+     *
+     * @return Eightfold\Shoop\ESJso
+     */
     public function testESJson()
     {
         $expected = '{"member":"value","member2":"value2"}';
@@ -70,6 +72,9 @@ class PlusTest extends TestCase
         $this->assertEquals($expected, $actual->unfold());
     }
 
+    /**
+     * @return Eightfold\Shoop\ESObject After adding the value-member pairs to the object.
+     */
     public function testESObject()
     {
         $expected = new \stdClass();
@@ -79,6 +84,9 @@ class PlusTest extends TestCase
         $this->assertEquals($expected, $actual->unfold());
     }
 
+    /**
+     * @return Eightfold\Shoop\ESString After appending the original string with the values.
+     */
     public function testESString()
     {
         $expected = "Hello, World!";

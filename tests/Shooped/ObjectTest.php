@@ -16,20 +16,15 @@ use Eightfold\Shoop\{
 };
 
 /**
- * The `object()` method converts the 8fold type to an `ESObject` type.
+ * The `object()` method converts the `Shoop type` to the `PHP object` equivalent.
  *
- * Typically this means using PHP to cast the value after calling `unfold()`
- *
- * @declared Eightfold\Shoop\Interfaces\Shooped
- *
- * @defined Eightfold\Shoop\Traits\ShoopedImp
- *
- * @overridden Eightfold\Shoop\ESBool, Eightfold\Shoop\ESJson
- *
- * @return ESObject
+ * @return Eightfold\Shoop\ESObject
  */
 class ToObjecctTest extends TestCase
 {
+    /**
+     * @see PhpTypeJuggle::indexedArrayToObject
+     */
     public function testESArray()
     {
         $expected = new \stdClass();
@@ -40,11 +35,7 @@ class ToObjecctTest extends TestCase
     }
 
     /**
-     * Returns object with two properties: true and false.
-     *
-     * If the value was `true`, the property `true` will be `true`, and `false` will be `false`.
-     *
-     * If the value was `false`, the property `true` will be `false`,and `false` will be `true`.
+     * @see PhpTypeJuggle::boolToObject
      */
     public function testESBool()
     {
@@ -63,6 +54,9 @@ class ToObjecctTest extends TestCase
         $this->assertEquals($expected, $actual->unfold());
     }
 
+    /**
+     * @see PhpTypeJuggle::associativeArrayToObject
+     */
     public function testESDictionary()
     {
         $expected = new \stdClass();
@@ -71,6 +65,9 @@ class ToObjecctTest extends TestCase
         $this->assertEquals($expected, $actual->unfold());
     }
 
+    /**
+     * @see PhpTypeJuggle::intToObject
+     */
     public function testESInt()
     {
         $expected = new \stdClass();
@@ -82,11 +79,7 @@ class ToObjecctTest extends TestCase
     }
 
     /**
-     * Essentially an alias for `object()` on ESDictionary.
-     *
-     * @see Eightfold\Shoop\ESDictionary `object()`
-     *
-     * @see Eightfold\Shoop\Tests\ToDictionaryTest testESJson
+     * @see PhpTypeJuggle::jsonToObject
      */
     public function testESJson()
     {
@@ -97,6 +90,9 @@ class ToObjecctTest extends TestCase
         $this->assertEquals($expected, $actual->unfold());
     }
 
+    /**
+     * @return Eightfold\Shoop\ESObject The same value.
+     */
     public function testESObject()
     {
         $expected = new \stdClass();
@@ -105,6 +101,9 @@ class ToObjecctTest extends TestCase
         $this->assertEquals($expected, $actual->unfold());
     }
 
+    /**
+     * @see PhpTypeJuggle::stringToObject
+     */
     public function testESString()
     {
         $expected = new \stdClass();

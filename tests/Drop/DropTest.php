@@ -17,17 +17,9 @@ use Eightfold\Shoop\{
     ESString
 };
 /**
- * The `isGreaterThan()` performs PHP greater than comparison (>) to determine if the initial value is greater than the compared value.
+ * The `drop()` method removes the value for the given member.
  *
- * Note: Expects both values to be of the same type, Shoop type, or combination (cannot compare an `int` to a `bool`, for example).
- *
- * @declared Eightfold\Shoop\Interfaces\Compare
- *
- * @defined Eightfold\Shoop\Traits\CompareImp
- *
- * @overridden
- *
- * @return Eightfold\Shoop\ESBool
+ * @return Eightfold\Shoop\ESArray | Eightfold\Shoop\ESDictionary | Eightfold\Shoop\ESJson | Eightfold\Shoop\ESObject | Eightfold\Shoop\ESString
  */
 class DropTest extends TestCase
 {
