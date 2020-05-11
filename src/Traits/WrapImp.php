@@ -96,19 +96,9 @@ trait WrapImp
             $bool = $this->indexedArrayStartsWith($array, $needles);
             return Shoop::bool($bool);
 
-        } elseif (Type::is($this, ESDictionary::class)) {
+        } elseif (Type::is($this, ESDictionary::class, ESJson::class, ESObject::class)) {
             $array = $this->dictionaryUnfolded();
             $bool = $this->associativeArrayStartsWith($array, $needles);
-            return Shoop::bool($bool);
-
-        } elseif (Type::is($this, ESJson::class)) {
-            $object = $this->objectUnfolded();
-            $bool = $this->objectStartsWith($object, $needles);
-            return Shoop::bool($bool);
-
-        } elseif (Type::is($this, ESObject::class)) {
-            $object = $this->objectUnfolded();
-            $bool = $this->objectStartsWith($object, $needles);
             return Shoop::bool($bool);
 
         } elseif (Type::is($this, ESString::class)) {
@@ -134,14 +124,9 @@ trait WrapImp
             $bool = $this->associativeArrayEndsWith($array, $needles);
             return Shoop::bool($bool);
 
-        } elseif (Type::is($this, ESJson::class)) {
-            $object = $this->objectUnfolded();
-            $bool = $this->objectEndsWith($object, $needles);
-            return Shoop::bool($bool);
-
-        } elseif (Type::is($this, ESObject::class)) {
-            $object = $this->objectUnfolded();
-            $bool = $this->objectEndsWith($object, $needles);
+        } elseif (Type::is($this, ESJson::class, ESObject::class)) {
+            $array = $this->dictionaryUnfolded();
+            $bool = $this->associativeArrayEndsWith($array, $needles);
             return Shoop::bool($bool);
 
         } elseif (Type::is($this, ESString::class)) {
@@ -157,12 +142,12 @@ trait WrapImp
 
     public function doesNotStartWith(...$needles): ESBool
     {
-        return $this->endsWith(...$needles)->toggle();
+        return $this->startsWith(...$needles)->toggle();
     }
 
     public function doesNotEndWith(...$needles): ESBool
     {
-        $this->startsWith(...$needles)->toggle();
+        return $this->endsWith(...$needles)->toggle();
     }
 
     private function indexedArrayStartsWith(array $array, array $needles): bool
@@ -185,33 +170,28 @@ trait WrapImp
 
     private function associativeArrayStartsWith(array $dictionary, array $needles): bool
     {
-        $keys = array_keys($dictionary);
         $needles = $this->indexedArrayToValueKeyArray($needles);
-        $index = 0;
-        foreach ($needles as $key => $value) {
-            if ($dictionary[$key] !== $value) {
-                return false;
+        $needleCount = count($needles);
 
-            } elseif ($keys[$index] !== $key) {
-                return false;
-
-            }
-        }
-        return true;
+        $dictionary = array_slice($dictionary, 0, $needleCount, true);
+        return $needles === $dictionary;
     }
 
     private function associativeArrayEndsWith(array $dictionary, array $needles): bool
     {
         $dictionary = $this->arrayReversed($dictionary, true);
+
         $needles = $this->indexedArrayToValueKeyArray($needles);
         $needles = $this->arrayReversed($needles, true);
-        $n = [];
+
+        // Convert to array of value-member pairs
+        $passing = [];
         foreach ($needles as $key => $value) {
-            $n[] = $value;
-            $n[] = $key;
+            $passing[] = $value;
+            $passing[] = $key;
         }
-        $needles = $n;
-        $bool = $this->associativeArrayStartsWith($dictionary, $needles);
+
+        $bool = $this->associativeArrayStartsWith($dictionary, $passing);
         return $bool;
     }
 

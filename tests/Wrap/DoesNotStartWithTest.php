@@ -18,17 +18,17 @@ use Eightfold\Shoop\{
 };
 
 /**
- * The `startsWith()` method checks that the first atomic pieces of arrays, dictionary-like, and string objects end with the specified value.
+ * @see startsWith() The returned value uses `toggle()` before being returned.
  *
  * @return Eightfold\Shoop\ESBool
  */
-class StartsWithTest extends TestCase
+class DoesNotStartWithTest extends TestCase
 {
     public function testESArray()
     {
         $base = ["something", "hello", "world"];
 
-        $actual = Shoop::array($base)->startsWith("something");
+        $actual = Shoop::array($base)->doesNotStartWith("hello", "world");
         $this->assertEquals(ESBool::class, get_class($actual));
         $this->assertTrue($actual->unfold());
     }
@@ -43,11 +43,11 @@ class StartsWithTest extends TestCase
 
     public function testESDictionary()
     {
-        $base = ["zero" => 0, "first" => 1, "second" => 2, "third" => 3];
+        $base = ["zero" => 0, "first" => 1, "second" => 2];
 
-        $actual = ESDictionary::fold($base)->startsWith(0, "zero", 1, "first");
+        $actual = ESDictionary::fold($base)->doesNotStartWith(0, "zero", 1, "first");
         $this->assertEquals(ESBool::class, get_class($actual));
-        $this->assertTrue($actual->unfold());
+        $this->assertFalse($actual->unfold());
     }
 
     /**
@@ -62,7 +62,7 @@ class StartsWithTest extends TestCase
     {
         $base = json_encode(["member" => "value", "member2" => "value2", "member3" => "value3"]);
 
-        $actual = ESJson::fold($base)->startsWith("value", "member");
+        $actual = ESJson::fold($base)->doesNotStartWith("value3", "member3");
         $this->assertEquals(ESBool::class, get_class($actual));
         $this->assertTrue($actual->unfold());
     }
@@ -73,15 +73,15 @@ class StartsWithTest extends TestCase
         $base->testMember = "test";
         $base->testMember2 = 2;
 
-        $actual = Shoop::object($base)->startsWith("test", "testMember");
+        $actual = Shoop::object($base)->doesNotStartWith("test", "testMember");
         $this->assertEquals(ESBool::class, get_class($actual));
-        $this->assertTrue($actual->unfold());
+        $this->assertFalse($actual->unfold());
     }
 
     public function testESString()
     {
         $base = "Hello, World!";
-        $actual = Shoop::string($base)->startsWith("Hello, ");
+        $actual = Shoop::string($base)->doesNotStartWith("World!");
         $this->assertEquals(ESBool::class, get_class($actual));
         $this->assertTrue($actual->unfold());
     }

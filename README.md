@@ -95,6 +95,8 @@ print($path); // both should be: /Users/josh/Documents/ProjectMaxEffort/SecretFo
 
 The PHP standard library and APIs have been criticized a bit over the years. Not for lack of functionality or robustness; rather, most noteably, inconsistent pattern usage and naming. We think this criticism is actually justified. Given how long PHP has been around and how many times various aspects have changed hands, the standard library and API list is expansive (I've been using it since 2005, and continue to find new things).
 
+We use the term "member" as an umbrella that covers an index for values in indexed arrays, keys for values in associative arrays, and members for values in JSON and objects.
+
 ## Guiding Principles
 
 Classes SHOULD be viewed only as an entry point not the result.
