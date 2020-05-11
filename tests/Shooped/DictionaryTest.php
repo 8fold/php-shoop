@@ -17,22 +17,15 @@ use Eightfold\Shoop\{
     ESString
 };
 /**
- * The `string()` method converts the 8fold type to an `ESString` type.
+ * The `dictionary()` method converts the original value to the `PHP associative array` equivalent.
  *
- * Typpically uses PHP's `print_r()` after using `unfold()` on the value.
- *
- * This allows each Shoop type to be treated as a PHP `string`, which means `string()` is an alias for the PHP `__toString()` magic method.
- *
- * @declared Eightfold\Shoop\Interfaces\Shooped
- *
- * @defined Eightfold\Shoop\Traits\ShoopedImp
- *
- * @overridden Eightfold\Shoop\ESBool, Eightfold\Shoop\ESInt, Eightfold\Shoop\ESJson, Eightfold\Shoop\ESString
- *
- * @return Eightfold\Shoop\ESString
+ * @return Eightfold\Shoop\ESDictionary
  */
 class DictionaryTest extends TestCase
 {
+    /**
+     * @see PhpTypeJuggle::indexedArrayToAssociativeArray
+     */
     public function testESArray()
     {
         $expected = ["i0" => "hi"];
@@ -41,6 +34,9 @@ class DictionaryTest extends TestCase
         $this->assertEquals($expected, $actual->unfold());
     }
 
+    /**
+     * @see PhpTypeJuggle::boolToAssociativeArray
+     */
     public function testESBool()
     {
         $expected = ["true" => true, "false" => false];
@@ -49,6 +45,9 @@ class DictionaryTest extends TestCase
         $this->assertEquals($expected, $actual->unfold());
     }
 
+    /**
+     * @return Eightfold\Shoop\ESDictionary The same value.
+     */
     public function testESDictionary()
     {
         $expected = ["hello" => "world"];
@@ -57,6 +56,9 @@ class DictionaryTest extends TestCase
         $this->assertEquals($expected, $actual->unfold());
     }
 
+    /**
+     * @see PhpTypeJuggle::intToAssociativeArray
+     */
     public function testESInt()
     {
         $expected = ["i0" => 0, "i1" => 1, "i2" => 2, "i3" => 3, "i4" => 4, "i5" => 5];
@@ -65,6 +67,9 @@ class DictionaryTest extends TestCase
         $this->assertEquals($expected, $actual->unfold());
     }
 
+    /**
+     * @see PhpTypeJuggle::jsonoAssociativeArray
+     */
     public function testESJson()
     {
         $expected = ["test" => true];
@@ -73,6 +78,9 @@ class DictionaryTest extends TestCase
         $this->assertEquals($expected, $actual->unfold());
     }
 
+    /**
+     * @see PhpTypeJuggle::objectToAssociativeArray
+     */
     public function testESObject()
     {
         $expected = ["test" => true];
@@ -84,6 +92,9 @@ class DictionaryTest extends TestCase
         $this->assertEquals($expected, $actual->unfold());
     }
 
+    /**
+     * @see PhpTypeJuggle::stringToAssociativeArray
+     */
     public function testESString()
     {
         $expected = ["i0" => "h", "i1" => "e", "i2" => "l", "i3" => "l", "i4" => "o"];

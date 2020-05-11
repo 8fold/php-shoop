@@ -18,15 +18,9 @@ use Eightfold\Shoop\{
 };
 
 /**
- * The `isNot()` returns the opposite of calling `is()`.
+ * @see Type::is
  *
- * @declared Eightfold\Shoop\Interfaces\Shooped
- *
- * @defined Eightfold\Shoop\Traits\ShoopedImp
- *
- * @overridden
- *
- * @return Eightfold\Shoop\ESBool
+ * @return Eightfold\Shoop\ESBool After toggling the return of `is()`.
  */
 class IsNotTest extends TestCase
 {
@@ -51,9 +45,6 @@ class IsNotTest extends TestCase
         $this->assertFalse($actual->unfold());
     }
 
-    /**
-     * Returns the product of the value by the multiplier.
-     */
     public function testESInt()
     {
         $base = 10;
@@ -76,9 +67,6 @@ class IsNotTest extends TestCase
         $this->assertFalse($actual->unfold());
     }
 
-    /**
-     * Uses PHP `str_repeat()` to create a new ESString.
-     */
     public function testESString()
     {
         $base = "alphabet soup";

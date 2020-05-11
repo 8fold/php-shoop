@@ -17,22 +17,15 @@ use Eightfold\Shoop\{
     ESString
 };
 /**
- * The `int()` method converts the 8fold type to an `ESInt` type.
- *
- * Typically this means couting the number of values after calling `array()`.
- *
- * @see array() Eightfold\Shoop\Tests\ToArrayTest
- *
- * @declared Eightfold\Shoop\Interfaces\Shooped
- *
- * @defined Eightfold\Shoop\Traits\ShoopedImp
- *
- * @overridden Eightfold\Shoop\ESBool, Eightfold\Shoop\ESString
+ * The `int()` method converts the `Shoop type` to the integer representation and `ESInt type`.
  *
  * @return Eightfold\Shoop\ESInt
  */
 class ToIntTest extends TestCase
 {
+    /**
+     * @see PhpTypeJuggle::indexedArrayToInt
+     */
     public function testESArray()
     {
         $expected = 1;
@@ -42,7 +35,7 @@ class ToIntTest extends TestCase
     }
 
     /**
-     * If initial was `true` returns 1, if `false` returns 0.
+     * @see PhpTypeJuggle::boolToInt
      */
     public function testESBool()
     {
@@ -57,6 +50,9 @@ class ToIntTest extends TestCase
         $this->assertEquals($expected, $actual->unfold());
     }
 
+    /**
+     * @see PhpTypeJuggle::associativeArrayToInt
+     */
     public function testESDictionary()
     {
         $expected = 0;
@@ -65,6 +61,9 @@ class ToIntTest extends TestCase
         $this->assertEquals($expected, $actual->unfold());
     }
 
+    /**
+     * @return Eightfold\Shoop\ESInt The same value.
+     */
     public function testESInt()
     {
         $expected = 1;
@@ -73,6 +72,9 @@ class ToIntTest extends TestCase
         $this->assertEquals($expected, $actual->unfold());
     }
 
+    /**
+     * @see PhpTypeJuggle::jsonToInt
+     */
     public function testESJson()
     {
         $expected = 1;
@@ -81,6 +83,9 @@ class ToIntTest extends TestCase
         $this->assertEquals($expected, $actual->unfold());
     }
 
+    /**
+     * @see PhpTypeJuggle::objectToInt
+     */
     public function testESObject()
     {
         $expected = 0;
@@ -90,7 +95,7 @@ class ToIntTest extends TestCase
     }
 
     /**
-     * Uses PHP `intval()` to parse the string and return the value.
+     * @see PhpTypeJuggle::stringToInt
      */
     public function testESString()
     {

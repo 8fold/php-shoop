@@ -17,41 +17,35 @@ use Eightfold\Shoop\{
     ESString
 };
 /**
- * The `Iterator` PHP interface requires the `current()` method.
+ * All `Shoop types` conform to the `ArrayAccess` interface from the PHP standard library; therefore, can be interacted with as if they were arrays.
  *
- * The iterator interface mthods allow the object to be used in loops. The `current()` returns the current position, when applicable.
- *
- * @declared Eightfold\Shoop\Traits\Shoop
- *
- * @defined Eightfold\Shoop\Interfaces\ShoopedImp
- *
- * @overridden Eightfold\Shoop\ESBool, Eightfold\Shoop\ESInt
- *
- * @return bool
+ * @return multiple
  */
 class ArrayAccessAccessingTest extends TestCase
 {
     public function testESArray()
     {
-        $actual = ESArray::fold(["hello", "goodbye"]);
-        $expected = [];
-        foreach ($actual as $key => $value) {
-            $expected[$key] = $value;
+        $array = ESArray::fold(["hello", "goodbye"]);
+
+        $expected = ["hello", "goodbye"];
+        $actual = [];
+        foreach ($array as $key => $value) {
+            $actual[$key] = $value;
         }
-        $this->assertEquals($expected, $actual->unfold());
+        $this->assertEquals($expected, $actual);
+
+        $this->assertEquals("goodbye", $array[1]);
     }
 
-    /**
-     * Begins by converting to `dictionary()`.
-     */
     public function testESBool()
     {
-        $actual = ESBool::fold(false);
+        $bool = ESBool::fold(false);
+
         $expectedTrue = ["true" => false];
         $expectedFalse = ["false" => true];
         $actualTrue = [];
         $actualFalse = [];
-        foreach ($actual as $key => $value) {
+        foreach ($bool as $key => $value) {
             if ($key === "true") {
                 $actualTrue["true"] = $value;
 
@@ -62,38 +56,56 @@ class ArrayAccessAccessingTest extends TestCase
         }
         $this->assertEquals($expectedTrue, $actualTrue);
         $this->assertEquals($expectedFalse, $actualFalse);
+
+        $this->assertFalse($bool["true"]);
+        $this->assertTrue($bool["false"]);
     }
 
     public function testESDictionary()
     {
-        $actual = ESDictionary::fold(["one" => "hello", "two" => "goodbye"]);
+        $dictionary = ESDictionary::fold(["one" => "hello", "two" => "goodbye"]);
+
         $keys = ["one", "two"];
         $values = ["hello", "goodbye"];
         $keysActual = [];
         $valuesActual = [];
-        foreach ($actual as $key => $value) {
+        foreach ($dictionary as $key => $value) {
             $keysActual[] = $key;
             $valuesActual[] = $value;
 
         }
         $this->assertEquals($keys, $keysActual);
         $this->assertEquals($values, $valuesActual);
+
+        $this->assertEquals($dictionary->unfold()["one"], $dictionary["one"]);
     }
 
-    /**
-     * Equivalent to `array()->current()`.
-     */
     public function testESInt()
     {
-        $actual = ESInt::fold(10)->current();
-        $this->assertEquals(0, $actual);
+        $integer = ESInt::fold(3);
+
+        $expected = [0, 1, 2, 3];
+        $actual = [];
+        foreach ($integer as $int) {
+            $actual[] = $int;
+        }
+        $this->assertEquals($expected, $actual);
+
+        $this->assertEquals($expected[2], $integer[2]);
     }
 
     public function testESJson()
     {
-        $expected = "hello";
-        $actual = ESJson::fold('{"one":"hello", "two":"goodbye"}')->current();
+        $json = ESJson::fold('{"one":"hello", "two":"goodbye"}');
+
+        $expected = ["one" => "hello", "two" => "goodbye"];
+        $actual = [];
+        foreach ($json as $key => $value) {
+            $actual[$key] = $value;
+        }
         $this->assertEquals($expected, $actual);
+
+        $this->assertEquals($expected["one"], $json["one"]);
     }
 
     public function testESObject()
@@ -102,14 +114,28 @@ class ArrayAccessAccessingTest extends TestCase
         $base->one = "hello";
         $base->two = "goodbye";
 
-        $actual = ESObject::fold($base)->current();
-        $this->assertEquals("hello", $actual);
+        $object = ESObject::fold($base);
+
+        $expected = ["one" => "hello", "two" => "goodbye"];
+        $actual = [];
+        foreach ($object as $key => $value) {
+            $actual[$key] = $value;
+        }
+        $this->assertEquals($expected, $actual);
+
+        $this->assertEquals($expected["two"], $object["two"]);
     }
 
     public function testESString()
     {
-        $expected = "c";
-        $actual = ESString::fold("comp")->current();
+        $string = ESString::fold("comp");
+        $expected = ["c", "o", "m", "p"];
+        $actual = [];
+        foreach ($string as $char) {
+            $actual[] = $char;
+        }
         $this->assertEquals($expected, $actual);
+
+        $this->assertEquals("c", $string[0]);
     }
 }

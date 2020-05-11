@@ -16,16 +16,9 @@ use Eightfold\Shoop\{
     ESObject,
     ESString
 };
+
 /**
- * The `isEmpty()` returns whether the value is empty according to PHP `empty()`.
- *
- * @declared Eightfold\Shoop\Interfaces\Shooped
- *
- * @defined Eightfold\Shoop\Traits\ShoopedImp
- *
- * @overridden Eightfold\Shoop\ESJson, Eightfold\Shoop\ESObject
- *
- * @return Eightfold\Shoop\ESBool
+ * @see Type::isEmpty
  */
 class IsEmptyTest extends TestCase
 {

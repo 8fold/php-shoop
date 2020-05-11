@@ -17,15 +17,7 @@ use Eightfold\Shoop\{
     ESString
 };
 /**
- * The `isEmpty()` returns whether the value is empty according to PHP `empty()`.
- *
- * @declared Eightfold\Shoop\Interfaces\Shooped
- *
- * @defined Eightfold\Shoop\Traits\ShoopedImp
- *
- * @overridden Eightfold\Shoop\ESJson, Eightfold\Shoop\ESObject
- *
- * @return Eightfold\Shoop\ESBool
+ * @see Type::isNotEmpty
  */
 class IsNotEmptyTest extends TestCase
 {
@@ -69,9 +61,6 @@ class IsNotEmptyTest extends TestCase
         $this->assertTrue($actual->unfold());
     }
 
-    /**
-     * Uses `object()` then checks if the ESObject `isEmpty()` (no members).
-     */
     public function testESJson()
     {
         $base = '{}';
@@ -83,9 +72,6 @@ class IsNotEmptyTest extends TestCase
         $this->assertTrue($actual->unfold());
     }
 
-    /**
-     * Uses `dictionary()` then checks if the ESDictionary `isEmpty()`
-     */
     public function testESObject()
     {
         $base = new \stdClass();

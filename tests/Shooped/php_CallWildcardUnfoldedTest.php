@@ -17,19 +17,9 @@ use Eightfold\Shoop\{
     ESString
 };
 /**
- * Shoop leverages the PHP `__call()` magic method to allow for a few wildcard simplifications.
+ * The `*Unfolded()` modifier can be added to the end of any method call to return the `PHP type` value.
  *
- * If a method returns a Shoop type and add the "*Unfolded" suffix to the method name, it will automatically call `unfold()` on the result.
- *
- * You may also use `getUnfolded()` to automatically unfold things you would call using `get()`.
- *
- * @declared none
- *
- * @defined Eightfold\Shoop\Interfaces\ShoopedImp
- *
- * @overridden none
- *
- * @return multiple
+ * @return multiple If the value is a `PHP type`, it will be converted to the equivalent `Shoop type`. If the value coforms to the `Shooped interface`, the instance is returned. Otherwise, the raw value is returned (instances of `non-Shoop types or class`, for example.
  */
 class php_CallWildcardUnfoldedTest extends TestCase
 {

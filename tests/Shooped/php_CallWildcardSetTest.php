@@ -18,21 +18,17 @@ use Eightfold\Shoop\{
 };
 
 /**
- * Shoop leverages the PHP `__call()` magic method to allow for a few wildcard simplifications.
+ * @see `set()`
  *
- * You can prefix any method call with "set", which is mainly used for interacting with arrays or objects with members.
+ * The `set*()` method in conjunction with the with the `__call()` function from the PHP standard library allows you to use a shorthand for `set()` with `Shoop types` with string-based members/keys.
  *
- * When creating `set()` on a Shoop type, the signature should be `set($value, $key = null, $overwrite = true)`.
+ * By prefixing the desired member/key with "set" you are calling the `set()` method where the string following "set" indicates the member/key and the first argument is the desired value.
  *
- * Having `value` first is what allows Shoop types that are not easy to convert to array still able to cleanly use `set()` and matches the pattern used in `each()` as well.
+ * If the member/key does not exist, it will be created.
  *
- * @declared none
+ * The second value is a boolean and can be a `Shoop type` or `PHP bolean` and indicates whether a preexisting value for the member/key should be overwritten. The default is true.
  *
- * @defined Eightfold\Shoop\Interfaces\ShoopedImp
- *
- * @overridden Eightfold\Shoop\ESBool, Eightfold\Shoop\ESInt, Eightfold\Shoop\ESString
- *
- * @return multiple
+ * @return multiple It will be an insstance of the same `Shoop type` with the specified adjustment to the specified member/key.
  */
 class php_CallWildcardSetTest extends TestCase
 {
@@ -62,8 +58,9 @@ class php_CallWildcardSetTest extends TestCase
     public function testESDictionary()
     {
         $base = ["key" => false];
-        $actual = ESDictionary::fold($base)->getKey();
-        $this->assertFalse($actual->unfold());
+        $expected = ["key" => true];
+        $actual = ESDictionary::fold($base)->setKey(true);
+        $this->assertEquals($expected, $actual->unfold());
     }
 
     /**

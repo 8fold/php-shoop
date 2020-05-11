@@ -18,13 +18,7 @@ use Eightfold\Shoop\{
 };
 
 /**
- * The `is()` performs PHP identical comparison (===) to determine if the initial value is the same as the compared value.
- *
- * @declared Eightfold\Shoop\Interfaces\Shooped
- *
- * @defined Eightfold\Shoop\Traits\ShoopedImp
- *
- * @overridden
+ * @see Type::is
  *
  * @return Eightfold\Shoop\ESBool
  */
@@ -51,9 +45,6 @@ class IsTest extends TestCase
         $this->assertTrue($actual->unfold());
     }
 
-    /**
-     * Returns the product of the value by the multiplier.
-     */
     public function testESInt()
     {
         $base = 10;
@@ -76,9 +67,6 @@ class IsTest extends TestCase
         $this->assertTrue($actual->unfold());
     }
 
-    /**
-     * Uses PHP `str_repeat()` to create a new ESString.
-     */
     public function testESString()
     {
         $base = "alphabet soup";

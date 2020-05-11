@@ -17,17 +17,7 @@ use Eightfold\Shoop\{
     ESString
 };
 /**
- * The `isIn()` checks if the value of the current object is in another object.
- *
- * Only works with arrays and dictionaries at this point.
- *
- * @since 0.2.0
- *
- * @declared Eightfold\Shoop\Interfaces\Compare
- *
- * @defined Eightfold\Shoop\Traits\CompareImp
- *
- * @overridden
+ * The `isIn()` checks if the given `Shoop type` `has()` the value of the original `Shoop type`.
  *
  * @return Eightfold\Shoop\ESBool
  */

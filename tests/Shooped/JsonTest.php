@@ -18,22 +18,15 @@ use Eightfold\Shoop\{
 };
 
 /**
- * The `string()` method converts the 8fold type to an `ESString` type.
+ * The `json()` method converts the `Shoop type` to the JSON respresentation.
  *
- * Typpically uses PHP's `print_r()` after using `unfold()` on the value.
- *
- * This allows each Shoop type to be treated as a PHP `string`, which means `string()` is an alias for the PHP `__toString()` magic method.
- *
- * @declared Eightfold\Shoop\Interfaces\Shooped
- *
- * @defined Eightfold\Shoop\Traits\ShoopedImp
- *
- * @overridden Eightfold\Shoop\ESBool, Eightfold\Shoop\ESInt, Eightfold\Shoop\ESJson, Eightfold\Shoop\ESString
- *
- * @return Eightfold\Shoop\ESString
+ * @return Eightfold\Shoop\ESString In JSON.
  */
 class JsonTest extends TestCase
 {
+    /**
+     * @see PhpTypeJuggle::indexedArrayToJson
+     */
     public function testESArray()
     {
         $expected = "{}";
@@ -47,6 +40,9 @@ class JsonTest extends TestCase
         $this->assertEquals($expected, $actual->unfold());
     }
 
+    /**
+     * @see PhpTypeJuggle::boolToJson
+     */
     public function testESBool()
     {
         $expected = '{"true":true,"false":false}';
@@ -55,6 +51,9 @@ class JsonTest extends TestCase
         $this->assertEquals($expected, $actual->unfold());
     }
 
+    /**
+     * @see PhpTypeJuggle::associativeArrayToJson
+     */
     public function testESDictionary()
     {
         $expected = '{}';
@@ -64,7 +63,7 @@ class JsonTest extends TestCase
     }
 
     /**
-     * Equivalent to `dicitonary()->ogject()->json()`.
+     * @see PhpTypeJuggle::intToJson
      */
     public function testESInt()
     {
@@ -74,6 +73,9 @@ class JsonTest extends TestCase
         $this->assertEquals($expected, $actual->unfold());
     }
 
+    /**
+     * @return Eightfold\Shoop\ESJson The same value.
+     */
     public function testESJson()
     {
         $expected = '{"test":"test"}';
@@ -82,6 +84,9 @@ class JsonTest extends TestCase
         $this->assertEquals($expected, $actual->unfold());
     }
 
+    /**
+     * @see PhpTypeJuggle::objectToJson
+     */
     public function testESObject()
     {
         $expected = "{}";
@@ -90,6 +95,9 @@ class JsonTest extends TestCase
         $this->assertEquals($expected, $actual->unfold());
     }
 
+    /**
+     * @see PhpTypeJuggle::stringToJson
+     */
     public function testESString()
     {
         $expected = '{"scalar":"hello"}';

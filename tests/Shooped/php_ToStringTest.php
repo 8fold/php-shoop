@@ -17,17 +17,9 @@ use Eightfold\Shoop\{
     ESString
 };
 /**
- * All Shoop types can be used as a PHP string without calling `unfold()`.
+ * All `Shoop types` can be converted to an `ESString`; therefore, all `Shoop types` can automaticaly be converted using the `__toString()` function from the PHP standard library.
  *
- * @see Eightfold\Shoop\Tests\ToStringTest
- *
- * @declared Eightfold\Shoop\Interfaces\Shooped
- *
- * @defined Eightfold\Shoop\Traits\ShoopedImp
- *
- * @overridden none
- *
- * @return string Calling `string()->unfold()`
+ * @return string
  */
 class php_ToStringTest extends TestCase
 {
