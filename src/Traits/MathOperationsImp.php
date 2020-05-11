@@ -204,7 +204,7 @@ trait MathOperationsImp
             $className = static::class;
             $argCount = count($args);
             trigger_error(
-                "{$className}::plus() expects two (or more) arguments. {$argCount} given."
+                "{$className}::indexedArrayToValueKeyArray() expects two (or more) arguments. {$argCount} given."
             );
         }
         $count = 0;
