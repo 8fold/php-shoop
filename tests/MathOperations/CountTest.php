@@ -42,7 +42,7 @@ class CountTest extends TestCase
     public function testESDictionary()
     {
         $expected = 2;
-        $actual = ESDictionary::fold([])->plus("value", "key", "value2", "key2")->count();
+        $actual = ESDictionary::fold([])->plus("value", "member", "value2", "member2")->count();
         $this->assertEquals($expected, $actual->unfold());
     }
 

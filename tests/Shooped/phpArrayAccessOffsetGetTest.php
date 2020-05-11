@@ -43,7 +43,7 @@ class OffsetGetTest extends TestCase
 
     public function testESDictionary()
     {
-        $actual = ESDictionary::fold(["key" => false])->offsetGet("key");
+        $actual = ESDictionary::fold(["member" => false])->offsetGet("member");
         $this->assertFalse($actual);
     }
 

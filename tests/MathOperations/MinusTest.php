@@ -18,7 +18,7 @@ use Eightfold\Shoop\{
 };
 
 /**
- * The `minus()` method for most `Shoop types` unsets or removes the specified keys or members.
+ * The `minus()` method for most `Shoop types` unsets or removes the specified members.
  */
 class MinusTest extends TestCase
 {
@@ -41,12 +41,12 @@ class MinusTest extends TestCase
     }
 
     /**
-     * @return Eightfold\Shoop\ESDictionary With the specified keys and corresponding values removed.
+     * @return Eightfold\Shoop\ESDictionary With the specified members and corresponding values removed.
      */
     public function testESDictionary()
     {
         $expected = [];
-        $actual = ESDictionary::fold(["key" => "value", "key2" => "value2"])->minus("key", "key2");
+        $actual = ESDictionary::fold(["member" => "value", "member2" => "value2"])->minus("member", "member2");
         $this->assertEquals($expected, $actual->unfold());
     }
 

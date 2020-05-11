@@ -29,8 +29,8 @@ class ArrayAccessAccessingTest extends TestCase
 
         $expected = ["hello", "goodbye"];
         $actual = [];
-        foreach ($array as $key => $value) {
-            $actual[$key] = $value;
+        foreach ($array as $member => $value) {
+            $actual[$member] = $value;
         }
         $this->assertEquals($expected, $actual);
 
@@ -45,11 +45,11 @@ class ArrayAccessAccessingTest extends TestCase
         $expectedFalse = ["false" => true];
         $actualTrue = [];
         $actualFalse = [];
-        foreach ($bool as $key => $value) {
-            if ($key === "true") {
+        foreach ($bool as $member => $value) {
+            if ($member === "true") {
                 $actualTrue["true"] = $value;
 
-            } elseif ($key === "false") {
+            } elseif ($member === "false") {
                 $actualFalse["false"] = $value;
 
             }
@@ -65,16 +65,16 @@ class ArrayAccessAccessingTest extends TestCase
     {
         $dictionary = ESDictionary::fold(["one" => "hello", "two" => "goodbye"]);
 
-        $keys = ["one", "two"];
+        $members = ["one", "two"];
         $values = ["hello", "goodbye"];
-        $keysActual = [];
+        $membersActual = [];
         $valuesActual = [];
-        foreach ($dictionary as $key => $value) {
-            $keysActual[] = $key;
+        foreach ($dictionary as $member => $value) {
+            $membersActual[] = $member;
             $valuesActual[] = $value;
 
         }
-        $this->assertEquals($keys, $keysActual);
+        $this->assertEquals($members, $membersActual);
         $this->assertEquals($values, $valuesActual);
 
         $this->assertEquals($dictionary->unfold()["one"], $dictionary["one"]);
@@ -100,8 +100,8 @@ class ArrayAccessAccessingTest extends TestCase
 
         $expected = ["one" => "hello", "two" => "goodbye"];
         $actual = [];
-        foreach ($json as $key => $value) {
-            $actual[$key] = $value;
+        foreach ($json as $member => $value) {
+            $actual[$member] = $value;
         }
         $this->assertEquals($expected, $actual);
 
@@ -118,8 +118,8 @@ class ArrayAccessAccessingTest extends TestCase
 
         $expected = ["one" => "hello", "two" => "goodbye"];
         $actual = [];
-        foreach ($object as $key => $value) {
-            $actual[$key] = $value;
+        foreach ($object as $member => $value) {
+            $actual[$member] = $value;
         }
         $this->assertEquals($expected, $actual);
 

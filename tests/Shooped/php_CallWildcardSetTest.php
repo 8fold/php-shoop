@@ -20,15 +20,15 @@ use Eightfold\Shoop\{
 /**
  * @see `set()`
  *
- * The `set*()` method in conjunction with the with the `__call()` function from the PHP standard library allows you to use a shorthand for `set()` with `Shoop types` with string-based members/keys.
+ * The `set*()` method in conjunction with the with the `__call()` function from the PHP standard library allows you to use a shorthand for `set()` with `Shoop types` with string-based members.
  *
- * By prefixing the desired member/key with "set" you are calling the `set()` method where the string following "set" indicates the member/key and the first argument is the desired value.
+ * By prefixing the desired member with "set" you are calling the `set()` method where the string following "set" indicates the member and the first argument is the desired value.
  *
- * If the member/key does not exist, it will be created.
+ * If the member does not exist, it will be created.
  *
- * The second value is a boolean and can be a `Shoop type` or `PHP bolean` and indicates whether a preexisting value for the member/key should be overwritten. The default is true.
+ * The second value is a boolean and can be a `Shoop type` or `PHP bolean` and indicates whether a preexisting value for the member should be overwritten. The default is true.
  *
- * @return multiple It will be an insstance of the same `Shoop type` with the specified adjustment to the specified member/key.
+ * @return multiple It will be an insstance of the same `Shoop type` with the specified adjustment to the specified member.
  */
 class php_CallWildcardSetTest extends TestCase
 {
@@ -57,9 +57,9 @@ class php_CallWildcardSetTest extends TestCase
 
     public function testESDictionary()
     {
-        $base = ["key" => false];
-        $expected = ["key" => true];
-        $actual = ESDictionary::fold($base)->setKey(true);
+        $base = ["member" => false];
+        $expected = ["member" => true];
+        $actual = ESDictionary::fold($base)->setMember(true);
         $this->assertEquals($expected, $actual->unfold());
     }
 

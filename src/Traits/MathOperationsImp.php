@@ -40,7 +40,7 @@ trait MathOperationsImp
 
         } elseif (Type::is($this, ESDictionary::class)) {
             $dictionary = $this->value;
-            $suffixes = $this->indexedArrayToValueKeyArray($args);
+            $suffixes = $this->indexedArrayToValueMemberArray($args);
             $dictionary = array_merge($dictionary, $suffixes);
             return Shoop::dictionary($dictionary);
 
@@ -53,16 +53,16 @@ trait MathOperationsImp
             return Shoop::int($total);
 
         } elseif (Type::is($this, ESJson::class)) {
-            $dictionary = $this->indexedArrayToValueKeyArray($args);
+            $dictionary = $this->indexedArrayToValueMemberArray($args);
             $object = json_decode($this->value);
-            foreach ($dictionary as $key => $value) {
-                $object->{$key} = $value;
+            foreach ($dictionary as $member => $value) {
+                $object->{$member} = $value;
             }
             $json = json_encode($object);
             return Shoop::json($json);
 
         } elseif (Type::is($this, ESObject::class)) {
-            $dictionary = $this->indexedArrayToValueKeyArray($args);
+            $dictionary = $this->indexedArrayToValueMemberArray($args);
             $object = (object) $dictionary;
             return Shoop::object($object);
 
@@ -132,7 +132,7 @@ trait MathOperationsImp
 
         } elseif (Type::is($this, ESDictionary::class)) {
             $dictionary = $this->dictionaryUnfolded();
-            $dictionary = $this->dictionaryToDictionaryOfKeysAndValues($dictionary);
+            $dictionary = $this->dictionaryToDictionaryOfMembersAndValues($dictionary);
             return Shoop::dictionary($dictionary);
 
         } elseif (Type::is($this, ESInt::class)) {
@@ -143,13 +143,13 @@ trait MathOperationsImp
 
         } elseif (Type::is($this, ESJson::class)) {
             $object = $this->objectUnfolded();
-            $object = $this->objectToObjectWithKeysAndValues($object);
+            $object = $this->objectToObjectWithMembersAndValues($object);
             $json = PhpTypeJuggle::objectToJson($object);
             return Shoop::json($json);
 
         } elseif (Type::is($this, ESObject::class)) {
             $object = $this->objectUnfolded();
-            $object = $this->objectToObjectWithKeysAndValues($object);
+            $object = $this->objectToObjectWithMembersAndValues($object);
             return Shoop::object($object);
 
         } elseif (Type::is($this, ESString::class)) {
@@ -198,29 +198,29 @@ trait MathOperationsImp
         return ! $this->argCountIsEven($args);
     }
 
-    private function indexedArrayToValueKeyArray(array $args): array
+    private function indexedArrayToValueMemberArray(array $args): array
     {
         if ($this->argCountIsOdd($args)) {
             $className = static::class;
             $argCount = count($args);
             trigger_error(
-                "{$className}::indexedArrayToValueKeyArray() expects two (or more) arguments. {$argCount} given."
+                "{$className}::indexedArrayToValueMemberArray() expects two (or more) arguments. {$argCount} given."
             );
         }
         $count = 0;
-        $keys = [];
+        $members = [];
         $values = [];
         foreach ($args as $value) {
             if ($count === 0 or $count % 2 === 0) {
                 $values[] = $value;
 
             } else {
-                $keys[] = $value;
+                $members[] = $value;
 
             }
             $count++;
         }
-        $dictionary = array_combine($keys, $values);
+        $dictionary = array_combine($members, $values);
         return $dictionary;
     }
 
@@ -234,20 +234,20 @@ trait MathOperationsImp
         return $object;
     }
 
-    private function dictionaryToDictionaryOfKeysAndValues(array $dictionary): array
+    private function dictionaryToDictionaryOfMembersAndValues(array $dictionary): array
     {
         $left = array_keys($dictionary);
         $right = PhpTypeJuggle::associativeArrayToIndexedArray($dictionary);
-        $dictionary = ["keys" => $left, "values" => $right];
+        $dictionary = ["members" => $left, "values" => $right];
         return $dictionary;
     }
 
-    private function objectToObjectWithKeysAndValues(object $object): object
+    private function objectToObjectWithMembersAndValues(object $object): object
     {
         $dictionary = (array) $object;
-        $dictionary = $this->dictionaryToDictionaryOfKeysAndValues($dictionary);
+        $dictionary = $this->dictionaryToDictionaryOfMembersAndValues($dictionary);
         $dictionary = [
-            "members" => $dictionary["keys"],
+            "members" => $dictionary["members"],
             "values" => $dictionary["values"]
         ];
         $object = (object) $dictionary;

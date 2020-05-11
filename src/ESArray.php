@@ -93,11 +93,4 @@ class ESArray implements
             "rhs" => $rhs
         ];
     }
-
-    // public function each(\Closure $closure): ESArray
-    // {
-    //     $items = $this->value();
-    //     $array = array_map($closure, array_values($items), array_keys($items));
-    //     return Shoop::this($array);
-    // }
 }

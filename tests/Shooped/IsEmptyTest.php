@@ -46,7 +46,7 @@ class IsEmptyTest extends TestCase
 
     public function testESDictionary()
     {
-        $base = ["key" => "value"];
+        $base = ["member" => "value"];
         $actual = ESDictionary::fold($base)->isEmpty();
         $this->assertFalse($actual->unfold());
     }

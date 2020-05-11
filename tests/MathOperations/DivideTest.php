@@ -44,12 +44,12 @@ class DivideTest extends TestCase
     }
 
     /**
-     * @return Eightfold\Shoop\ESDictionary There are two members, "keys" and "values". The "keys" holds a `PHP indexed array` of all keys from the original `PHP associative array`; the "values" key holds the values.
+     * @return Eightfold\Shoop\ESDictionary There are two members "members" and "values". The "members" holds a `PHP indexed array` of all members from the original `PHP associative array`; the "values" member holds the values.
      */
     public function testESDictionary()
     {
-        $expected = ["keys" => ["key", "key2"], "values" => ["value", "value2"]];
-        $actual = ESDictionary::fold(["key" => "value", "key2" => "value2"])->divide("key", "key2");
+        $expected = ["members" => ["member", "member2"], "values" => ["value", "value2"]];
+        $actual = ESDictionary::fold(["member" => "value", "member2" => "value2"])->divide("member", "member2");
         $this->assertEquals($expected, $actual->unfold());
     }
 
@@ -76,7 +76,7 @@ class DivideTest extends TestCase
     }
 
     /**
-     * @see ESDictionary->divide() only replacing "key" with "member".
+     * @see ESDictionary->divide()
      *
      * @return Eightfold\Shoop\ESObject
      */

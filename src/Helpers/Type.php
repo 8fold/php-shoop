@@ -153,12 +153,12 @@ class Type
             return true;
 
         } elseif (is_array($potential)) {
-            $keys = array_keys($potential);
-            $firstKey = array_shift($keys);
-            if (is_int($firstKey)) {
+            $members = array_keys($potential);
+            $firstMember = array_shift($members);
+            if (is_int($firstMember)) {
                 return true;
 
-            } elseif (is_string($firstKey)) {
+            } elseif (is_string($firstMember)) {
                 return false;
 
             }
@@ -196,12 +196,12 @@ class Type
             return true;
 
         } elseif (is_array($potential)) {
-            $keys = array_keys($potential);
-            $firstKey = array_shift($keys);
-            if (is_int($firstKey)) {
+            $members = array_keys($potential);
+            $firstMember = array_shift($members);
+            if (is_int($firstMember)) {
                 return false;
 
-            } elseif (is_string($firstKey)) {
+            } elseif (is_string($firstMember)) {
                 return true;
 
             }

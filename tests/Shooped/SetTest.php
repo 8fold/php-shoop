@@ -18,7 +18,7 @@ use Eightfold\Shoop\{
 };
 
 /**
- * The `set()` method in most cases sets the value for a specified members/key/index.
+ * The `set()` method in most cases sets the value for a specified members.
  */
 class SetTest extends TestCase
 {
@@ -43,14 +43,14 @@ class SetTest extends TestCase
     }
 
     /**
-     * @return Eightfold\Shoop\ESDictionary After setting the value for the given key.
+     * @return Eightfold\Shoop\ESDictionary After setting the value for the given member.
      */
     public function testESDictionary()
     {
-        $base = ["key" => "value"];
+        $base = ["member" => "value"];
 
-        $expected = ["key" => "value", "key2" => "value2"];
-        $actual = ESDictionary::fold($base)->set("value2", "key2");
+        $expected = ["member" => "value", "member2" => "value2"];
+        $actual = ESDictionary::fold($base)->set("value2", "member2");
         $this->assertEquals($expected, $actual->unfold());
     }
 

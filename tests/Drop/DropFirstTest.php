@@ -45,9 +45,9 @@ class DropFirstTest extends TestCase
 
     public function testESDictionary()
     {
-        $base = ["key" => "value", "key2" => "value2"];
+        $base = ["member" => "value", "member2" => "value2"];
 
-        $expected = ["key2" => "value2"];
+        $expected = ["member2" => "value2"];
         $actual = ESDictionary::fold($base)->dropFirst();
         $this->assertEquals($expected, $actual->unfold());
     }

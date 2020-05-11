@@ -40,7 +40,7 @@ class IsLessThanTest extends TestCase
 
     public function testESDictionary()
     {
-        $base = ["key" => "value"];
+        $base = ["member" => "value"];
         $actual = ESDictionary::fold($base)->isLessThan($base);
         $this->assertFalse($actual->unfold());
     }

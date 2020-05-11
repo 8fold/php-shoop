@@ -63,16 +63,16 @@ class InterfaceIteratorLoopTest extends TestCase
     {
         $base = ESDictionary::fold(["one" => "hello", "two" => "goodbye"]);
 
-        $keys = ["one", "two"];
+        $members = ["one", "two"];
         $values = ["hello", "goodbye"];
 
-        $keysActual = [];
+        $membersActual = [];
         $valuesActual = [];
         for ($base->rewind(); $base->valid(); $base->next()) {
-            $keysActual[] = $base->key();
+            $membersActual[] = $base->key();
             $valuesActual[] = $base->current();
         }
-        $this->assertEquals($keys, $keysActual);
+        $this->assertEquals($members, $membersActual);
         $this->assertEquals($values, $valuesActual);
     }
 
@@ -94,9 +94,9 @@ class InterfaceIteratorLoopTest extends TestCase
         $expected = ["one" => "hello", "two" => "goodbye"];
         $actual = [];
         for ($base->rewind(); $base->valid(); $base->next()) {
-            $key = $base->key();
+            $member = $base->key();
             $value = $base->current();
-            $actual[$key] = $value;
+            $actual[$member] = $value;
         }
         $this->assertEquals($expected, $actual);
     }
@@ -112,9 +112,9 @@ class InterfaceIteratorLoopTest extends TestCase
         $expected = ["one" => "hello", "two" => "goodbye"];
         $actual = [];
         for ($base->rewind(); $base->valid(); $base->next()) {
-            $key = $base->key();
+            $member = $base->key();
             $value = $base->current();
-            $actual[$key] = $value;
+            $actual[$member] = $value;
         }
         $this->assertEquals($expected, $actual);
     }

@@ -40,7 +40,7 @@ class IsNotTest extends TestCase
 
     public function testESDictionary()
     {
-        $base = ["key" => "value"];
+        $base = ["member" => "value"];
         $actual = ESDictionary::fold($base)->isNot($base);
         $this->assertFalse($actual->unfold());
     }

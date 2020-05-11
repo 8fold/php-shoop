@@ -42,7 +42,7 @@ class IsInTest extends TestCase
 
     public function testESDictionary()
     {
-        $base = ["key" => "value"];
+        $base = ["member" => "value"];
         $container = ["dict" => $base];
         $actual = ESDictionary::fold($base)->isIn($container);
         $this->assertTrue($actual->unfold());

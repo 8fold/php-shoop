@@ -36,11 +36,11 @@ trait ShoopedImp
         if (Type::isArray($return) || Type::isDictionary($return)) {
             $array = $return;
             $return = [];
-            foreach ($array as $key => $value) {
+            foreach ($array as $member => $value) {
                 if (Type::isShooped($value)) {
                     $value = $value->unfold();
                 }
-                $return[$key] = $value;
+                $return[$member] = $value;
             }
         }
         return $return;
@@ -455,8 +455,8 @@ trait ShoopedImp
             $this->rewind();
         }
         $temp = $this->temp;
-        $key = key($temp);
-        return $temp[$key];
+        $member = key($temp);
+        return $temp[$member];
     }
 
     public function key()
@@ -465,11 +465,11 @@ trait ShoopedImp
             $this->rewind();
         }
         $temp = $this->temp;
-        $key = key($temp);
-        if (is_int($key)) {
-            return Type::sanitizeType($key, ESInt::class, "int")->unfold();
+        $member = key($temp);
+        if (is_int($member)) {
+            return Type::sanitizeType($member, ESInt::class, "int")->unfold();
         }
-        return Type::sanitizeType($key, ESString::class, "string")->unfold();
+        return Type::sanitizeType($member, ESString::class, "string")->unfold();
     }
 
     public function next(): void

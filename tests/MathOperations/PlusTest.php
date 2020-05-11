@@ -41,12 +41,12 @@ class PlusTest extends TestCase
     }
 
     /**
-     * @return Eightfold\Shoop\ESDictionary After adding the value-key pairs to the end of the original ESDictionary.
+     * @return Eightfold\Shoop\ESDictionary After adding the value-member pairs to the end of the original ESDictionary.
      */
     public function testESDictionary()
     {
-        $expected = ["key" => "value", "key2" => "value2"];
-        $actual = ESDictionary::fold([])->plus("value", "key", "value2", "key2");
+        $expected = ["member" => "value", "member2" => "value2"];
+        $actual = ESDictionary::fold([])->plus("value", "member", "value2", "member2");
         $this->assertEquals($expected, $actual->unfold());
     }
 

@@ -21,8 +21,8 @@ class DictionaryTest extends TestCase
     {
         $base = ["a" => "ay", "b" => "be", "c" => "see"];
         $expected = ["a-ay", "b-be", "c-see"];
-        $actual = Shoop::dictionary($base)->each(function($value, $key) {
-            return $key ."-". $value;
+        $actual = Shoop::dictionary($base)->each(function($value, $member) {
+            return $member ."-". $value;
         });
         $this->assertEquals($expected, $actual->unfold());
     }

@@ -18,7 +18,7 @@ use Eightfold\Shoop\{
 };
 
 /**
- * The `sort()` method sorts the array representation of the `Shoop type`. It accepts two arguments, the first argument specifies whether to sort ascending or descending (ascending is the default), the second argument specifies whether to sort the valuea or keys/members (values is the default).
+ * The `sort()` method sorts the array representation of the `Shoop type`. It accepts two arguments, the first argument specifies whether to sort ascending or descending (ascending is the default), the second argument specifies whether to sort the valuea or members (values is the default).
  */
 class SortTest extends TestCase
 {

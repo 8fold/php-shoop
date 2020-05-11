@@ -43,9 +43,9 @@ class DropLastTest extends TestCase
 
     public function testESDictionary()
     {
-        $base = ["key" => "value", "key2" => "value2"];
+        $base = ["member" => "value", "member2" => "value2"];
 
-        $expected = ["key" => "value"];
+        $expected = ["member" => "value"];
         $actual = ESDictionary::fold($base)->dropLast();
         $this->assertEquals($expected, $actual->unfold());
     }

@@ -17,7 +17,7 @@ use Eightfold\Shoop\{
     ESString
 };
 /**
- * The `has()` method ehcks to see if the given value exists for any member/key/index of the `Shoop type`.
+ * The `has()` method ehcks to see if the given value exists for any member of the `Shoop type`.
  *
  * @return Eightfold\Shoop\ESBool
  */
@@ -43,11 +43,11 @@ class HasTest extends TestCase
 
     public function testESDictionary()
     {
-        $base = ["key" => "value"];
+        $base = ["member" => "value"];
         $actual = ESDictionary::fold($base)->has("value");
         $this->assertTrue($actual->unfold());
 
-        $actual = ESDictionary::fold($base)->hasMember("key");
+        $actual = ESDictionary::fold($base)->hasMember("member");
         $this->assertTrue($actual->unfold());
     }
 

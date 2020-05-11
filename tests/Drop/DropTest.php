@@ -42,10 +42,10 @@ class DropTest extends TestCase
 
     public function testESDictionary()
     {
-        $base = ["key" => "value", "key2" => "value2"];
+        $base = ["member" => "value", "member2" => "value2"];
 
         $expected = [];
-        $actual = ESDictionary::fold($base)->drop("key", "key2");
+        $actual = ESDictionary::fold($base)->drop("member", "member2");
         $this->assertEquals($expected, $actual->unfold());
     }
 

@@ -42,9 +42,9 @@ class NoEmptiesTest extends TestCase
 
     public function testESDictionary()
     {
-        $base = ["key" => false, "key2" => "value2"];
+        $base = ["member" => false, "member2" => "value2"];
 
-        $expected = ["key2" => "value2"];
+        $expected = ["member2" => "value2"];
         $actual = ESDictionary::fold($base)->noEmpties();
         $this->assertEquals($expected, $actual->unfold());
     }

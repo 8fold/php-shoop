@@ -205,9 +205,9 @@ class PhpTypeJuggle
     static public function indexedArrayToAssociativeArray(array $array = []): array
     {
         $build = [];
-        foreach ($array as $key => $value) {
-            $key = "i". $key;
-            $build[$key] = $value;
+        foreach ($array as $member => $value) {
+            $member = "i". $member;
+            $build[$member] = $value;
         }
         return $build;
     }

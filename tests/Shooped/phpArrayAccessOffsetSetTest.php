@@ -45,9 +45,9 @@ class OffsetSetTest extends TestCase
 
     public function testESDictionary()
     {
-        $actual = ESDictionary::fold(["key" => false]);
-        $actual->offsetSet("key", true);
-        $this->assertTrue($actual->getUnfolded("key"));
+        $actual = ESDictionary::fold(["member" => false]);
+        $actual->offsetSet("member", true);
+        $this->assertTrue($actual->getUnfolded("member"));
     }
 
     public function testESInt()

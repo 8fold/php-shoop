@@ -18,7 +18,7 @@ use Eightfold\Shoop\{
 };
 
 /**
- * The `offsetExists()` method is part of the `ArrayAccess interface` from the PHP standard library and checks if the value has the specified member/key/index.
+ * The `offsetExists()` method is part of the `ArrayAccess interface` from the PHP standard library and checks if the value has the specified member.
  *
  * Most implementations are based on the array representation of the `Shoop type`.
  *
@@ -43,7 +43,7 @@ class OffsetExistsTest extends TestCase
 
     public function testESDictionary()
     {
-        $actual = ESDictionary::fold(["key" => false])->offsetExists("key");
+        $actual = ESDictionary::fold(["member" => false])->offsetExists("member");
         $this->assertTrue($actual);
     }
 

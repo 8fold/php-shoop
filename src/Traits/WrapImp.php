@@ -54,23 +54,23 @@ trait WrapImp
                 $className = static::class;
                 $argCount = count($prefixes);
                 trigger_error(
-                    "{$className}::start() expects an even number of value-key arguments. {$argCount} given."
+                    "{$className}::start() expects an even number of value-member arguments. {$argCount} given."
                 );
             }
-            $prefixes = $this->indexedArrayToValueKeyArray($prefixes);
+            $prefixes = $this->indexedArrayToValueMemberArray($prefixes);
             $array = array_merge($prefixes, $array);
             return Shoop::dictionary($array);
 
         } elseif (Type::is($this, ESJson::class)) {
             $array = $this->dictionaryUnfolded();
-            $prefixes = $this->indexedArrayToValueKeyArray($prefixes);
+            $prefixes = $this->indexedArrayToValueMemberArray($prefixes);
             $array = array_merge($prefixes, $array);
             $json = PhpTypeJuggle::associativeArrayToJson($array);
             return Shoop::json($json);
 
         } elseif (Type::is($this, ESObject::class)) {
             $array = $this->dictionaryUnfolded();
-            $prefixes = $this->indexedArrayToValueKeyArray($prefixes);
+            $prefixes = $this->indexedArrayToValueMemberArray($prefixes);
             $array = array_merge($prefixes, $array);
             $object = PhpTypeJuggle::associativeArrayToObject($array);
             return Shoop::object($object);
@@ -152,8 +152,8 @@ trait WrapImp
 
     private function indexedArrayStartsWith(array $array, array $needles): bool
     {
-        foreach ($needles as $key => $value) {
-            if ($array[$key] !== $value) {
+        foreach ($needles as $member => $value) {
+            if ($array[$member] !== $value) {
                 return false;
             }
         }
@@ -170,7 +170,7 @@ trait WrapImp
 
     private function associativeArrayStartsWith(array $dictionary, array $needles): bool
     {
-        $needles = $this->indexedArrayToValueKeyArray($needles);
+        $needles = $this->indexedArrayToValueMemberArray($needles);
         $needleCount = count($needles);
 
         $dictionary = array_slice($dictionary, 0, $needleCount, true);
@@ -181,14 +181,14 @@ trait WrapImp
     {
         $dictionary = $this->arrayReversed($dictionary, true);
 
-        $needles = $this->indexedArrayToValueKeyArray($needles);
+        $needles = $this->indexedArrayToValueMemberArray($needles);
         $needles = $this->arrayReversed($needles, true);
 
         // Convert to array of value-member pairs
         $passing = [];
-        foreach ($needles as $key => $value) {
+        foreach ($needles as $member => $value) {
             $passing[] = $value;
-            $passing[] = $key;
+            $passing[] = $member;
         }
 
         $bool = $this->associativeArrayStartsWith($dictionary, $passing);

@@ -39,8 +39,8 @@ class php_CallWildcardUnfoldedTest extends TestCase
 
     public function testESDictionary()
     {
-        $base = ["key" => false];
-        $actual = ESDictionary::fold($base)->getUnfolded("key");
+        $base = ["member" => false];
+        $actual = ESDictionary::fold($base)->getUnfolded("member");
         $this->assertFalse($actual);
     }
 
