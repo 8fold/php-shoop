@@ -56,6 +56,9 @@ class php_CallWildcardGetTest extends TestCase
         $base = true;
         $actual = ESBool::fold($base)->get();
         $this->assertTrue($actual->unfold());
+
+        $actual = ESBool::fold(false)->get("true");
+        $this->assertFalse($actual->unfold());
     }
 
     public function testESDictionary()
@@ -65,9 +68,6 @@ class php_CallWildcardGetTest extends TestCase
         $this->assertFalse($actual->unfold());
     }
 
-    /**
-     * Equivalent to calling `unfold()` regardless of argument value.
-     */
     public function testESInt()
     {
         $base = 10;

@@ -127,7 +127,13 @@ trait ShoopedImp
             return $value;
 
         } elseif (Type::is($this, ESBool::class)) {
-            $bool = $this->value;
+            if (is_string($member) && ($member === "true" || $member === "false")) {
+                $bool = $this->dictionary()->{$member};
+
+            } else {
+                $bool = $this->value;
+
+            }
             return Shoop::bool($bool);
 
         } elseif (Type::is($this, ESDictionary::class)) {
