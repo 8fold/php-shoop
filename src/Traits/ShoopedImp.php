@@ -245,8 +245,11 @@ trait ShoopedImp
             $className = static::class;
             trigger_error("{$name} is an invalid method on {$className}", E_USER_ERROR);
 
-        } elseif ($name === "plus" || $name === "minus") {
+        } elseif (is_callable([$this, $name])) {
             $value = $this->{$name}(...$args);
+
+        // } elseif ($name === "plus" || $name === "minus") {
+        //     $value = $this->{$name}(...$args);
 
         } else {
             $value = $this->{$name}($args[0]);
@@ -299,6 +302,30 @@ trait ShoopedImp
 
         }
         trigger_error("Call to undefined method '{$name}'", E_USER_ERROR);
+    }
+
+    public function __get($name)
+    {
+        $value = null;
+        if (Type::is($this, ESArray::class, ESDictionary::class)) {
+            if (is_callable([$this, $name])) {
+                $value = $this->{$name}();
+
+            }
+
+        } else {
+            if (is_int($name) && $this->array()->hasMember($name)->unfold()) {
+                $value = $this->array()->{$name};
+
+            } elseif (is_string($name) && $this->dictionary()->hasMember($name)->unfold()) {
+                $value = $this->dictionary()->{$name};
+
+            } elseif (is_callable([$this, $name])) {
+                $value = $this->{$name}();
+
+            }
+        }
+        return (Type::isShooped($value)) ? $value->unfold() : $value;
     }
 
 // - PHP interfaces and magic methods

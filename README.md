@@ -55,6 +55,10 @@ $unfolded = Shoop::string("Hello!")->firstUnfolded();
 var_dump($unfolded);
 
 // string: H
+
+$property = Shoop::string("Hello!")->first;
+
+// string: H
 ```
 
 Let's try a more complex manipulation as these examples only marginally better than the standard library.
