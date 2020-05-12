@@ -274,7 +274,13 @@ trait ShoopedImp
         $startsWithGet = substr($name, 0, strlen("get")) === "get";
         $endsWithUnfolded = substr($name, -(strlen("Unfolded"))) === "Unfolded";
         $name = Shoop::string($name)->unfold();
-        if ($name === "getUnfolded") {
+
+        if ($startsWithGet && $endsWithUnfolded && $name !== "getUnfolded") {
+            $name = str_replace(["get", "Unfolded"], "", $name);
+            $name = lcfirst($name);
+            return $this->{$name};
+
+        } elseif ($name === "getUnfolded") {
             $name = str_replace("Unfolded", "", $name);
             return $this->handleGetUnfolded($name, $args);
 
