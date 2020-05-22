@@ -72,6 +72,27 @@ class ESString implements
         return Shoop::string($string);
     }
 
+    public function trim($fromStart = true, $fromEnd = true, $charMask = " \t\n\r\0\x0B")
+    {
+        $fromStart = Type::sanitizeType($fromStart, ESBool::class)->unfold();
+        $fromEnd = Type::sanitizeType($fromEnd, ESBool::class)->unfold();
+        $charMask = Type::sanitizeType($charMask, ESString::class)->unfold();
+
+        $string = $this->stringUnfolded();
+        $trimmed = $string;
+        if ($fromStart and $fromEnd) {
+            $trimmed = trim($string, $charMask);
+
+        } elseif ($fromStart and ! $fromEnd) {
+            $trimmed = ltrim($string, $charMask);
+
+        } elseif (! $fromStart and $fromEnd) {
+            $trimmed = rtrim($string, $charMask);
+
+        }
+        return $trimmed;
+    }
+
     public function lowerFirst(): ESString
     {
         $string = $this->stringUnfolded();

@@ -30,6 +30,31 @@ class StringTest extends TestCase
         $this->assertEquals($expected, $actual->unfold());
     }
 
+    public function testTrim()
+    {
+        $base = " \tTrust \n";
+        $expected = "Trust";
+        $actual = Shoop::string($base)->trim;
+        $this->assertEquals($expected, $actual);
+
+        $expected = " \tTrust";
+        $actual = Shoop::string($base)->trimUnfolded(false);
+        $this->assertEquals($expected, $actual);
+
+        $expected = "Trust \n";
+        $actual = Shoop::string($base)->trimUnfolded(true, false);
+        $this->assertEquals($expected, $actual);
+
+        $expected = " \tTrust \n";
+        $actual = Shoop::string($base)->trimUnfolded(false, false);
+        $this->assertEquals($expected, $actual);
+
+        $base = " \tTrust\n ";
+        $expected = "\tTrust\n";
+        $actual = Shoop::string($base)->trimUnfolded(true, true, " ");
+        $this->assertEquals($expected, $actual);
+    }
+
     /**
      * The `lowerFirst()` method on ESString returns the original value after ensuring the first character is lowercase.
      *
