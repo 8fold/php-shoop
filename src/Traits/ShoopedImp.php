@@ -346,6 +346,13 @@ trait ShoopedImp
         return $this->string()->unfold();
     }
 
+    public function __debugInfo()
+    {
+        return [
+            "value" => $this->value;
+        ]
+    }
+
     public function offsetExists($offset): bool
     {
         $bool = false;
