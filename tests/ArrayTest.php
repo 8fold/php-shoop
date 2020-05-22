@@ -54,6 +54,14 @@ class ArrayTest extends TestCase
     /**
      * The `each()` method on ESArray iterates over each element in the array and passes it through the given closure.
      *
+     * The closure can take up to three arguments:
+     *
+     * 1. The first is the value from the array or dictionary.
+     * 2. The second is the member from the array or dictionary.
+     * 3. The third uses PHP's pass by reference (&) and allows users to break out of the loop by setting the value of `break` to true.
+     *
+     * Note: PHP's `break` functionality is used at the end of the loop; therefore, users who want to break out of the loop at arbitrary points are encouraged to use various PHP loops instead.
+     *
      * @return Eightfold\Shoop\ESArray
      */
     public function testEach()
@@ -72,6 +80,17 @@ class ArrayTest extends TestCase
             return strlen($value) === 1;
         });
         $this->assertEquals($expected, $indeces);
+
+        $expected = [0, 1, 2];
+        $indeces = [];
+        $actual = ESArray::fold($base)->each(function ($value, $index, &$break) {
+            if ($index === 2) {
+                $break = true;
+            }
+
+            return $index;
+        });
+        $this->assertEquals($expected, $actual->unfold());
     }
 
     public function testTitleBuilder()
