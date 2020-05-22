@@ -349,8 +349,8 @@ trait ShoopedImp
     public function __debugInfo()
     {
         return [
-            "value" => $this->value;
-        ]
+            "value" => $this->value
+        ];
     }
 
     public function offsetExists($offset): bool
