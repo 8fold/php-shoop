@@ -58,6 +58,8 @@ interface Shooped extends
 
     public function __toString();
 
+    public function __debugInfo();
+
 // - Array Access
     public function offsetExists($offset): bool;
 

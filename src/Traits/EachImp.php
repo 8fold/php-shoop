@@ -17,7 +17,6 @@ use Eightfold\Shoop\{
 
 trait EachImp
 {
-
     public function each(\Closure $closure): ESArray
     {
         if (Type::is($this, ESArray::class, ESDictionary::class)) {
