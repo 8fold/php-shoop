@@ -17,11 +17,19 @@ use Eightfold\Shoop\{
 
 trait EachImp
 {
+
     public function each(\Closure $closure): ESArray
     {
         if (Type::is($this, ESArray::class, ESDictionary::class)) {
             $items = $this->value();
-            $array = array_map($closure, array_values($items), array_keys($items));
+            $break = false;
+            $array = [];
+            foreach ($items as $member => $value) {
+                $array[] = $closure($value, $member, $break);
+                if ($break) {
+                    break;
+                }
+            }
             return Shoop::this($array);
 
         } elseif (Type::is($this, ESInt::class, ESString::class)) {
