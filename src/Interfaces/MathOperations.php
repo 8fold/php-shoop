@@ -15,5 +15,5 @@ interface MathOperations extends \Countable
 
     public function multiply($int);
 
-    public function divide($divisor = null);
+    public function divide($divisor = 0, $includeEmpties = true, $limit = PHP_INT_MAX);
 }

@@ -120,9 +120,8 @@ trait MathOperationsImp
         }
     }
 
-    public function divide($divisor = 0)
+    public function divide($divisor = 0, $includeEmpties = true, $limit = PHP_INT_MAX)
     {
-        // TODO: Consider putting $removeEmpties boolean back in
         if (Type::is($this, ESArray::class)) {
             $divisor = Type::sanitizeType($divisor, ESInt::class)->unfold();
             $array = $this->array()->splitAtUnfolded($divisor);
@@ -154,7 +153,7 @@ trait MathOperationsImp
 
         } elseif (Type::is($this, ESString::class)) {
             $string = $this->stringUnfolded();
-            $array = explode($divisor, $string);
+            $array = explode($divisor, $string, $limit);
             return Shoop::array($array);
 
         }

@@ -103,5 +103,9 @@ class DivideTest extends TestCase
         $expected = ["Hello", "World!"];
         $actual = ESString::fold("Hello, World!")->divide(", ");
         $this->assertEquals($expected, $actual->unfold());
+
+        $expected = ["class", "attribute value"];
+        $actual = ESString::fold("class attribute value")->divide(" ", true, 2);
+        $this->assertEquals($expected, $actual->unfold());
     }
 }
