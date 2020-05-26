@@ -21,9 +21,9 @@ trait WrapImp
     public function first($count = 1)
     {
         $count = Type::sanitizeType($count, ESInt::class)->unfold();
-        $array = $this->arrayUnfolded();
+        $array = $this->array()->unfold();
         if (Type::is($this, ESBool::class)) {
-            $array = $this->dictionaryUnfolded();
+            $array = $this->dictionary()->unfolded();
 
         }
 

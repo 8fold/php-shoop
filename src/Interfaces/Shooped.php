@@ -52,13 +52,11 @@ interface Shooped extends
     public function set($value, $member = null, $overwrite = true);
 
 // - PHP single-method interfaces
-    public function __call($name, $args = []);
+    public function __call(string $name, array $args = []);
 
     public function __get($name);
 
     public function __toString(): string;
-
-    public function __isset($member): bool;
 
     public function __debugInfo();
 

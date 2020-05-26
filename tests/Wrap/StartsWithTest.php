@@ -78,7 +78,7 @@ class StartsWithTest extends TestCase
         $this->assertTrue($actual->unfold());
     }
 
-    public function testESString()
+    public function testESStringStart()
     {
         $base = "Hello, World!";
         $actual = Shoop::string($base)->startsWith("Hello, ");

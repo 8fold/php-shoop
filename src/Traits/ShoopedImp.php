@@ -210,6 +210,31 @@ trait ShoopedImp
         }
     }
 
+    private function handleSet($name, $args)
+    {
+        $name = lcfirst(str_replace("set", "", $name));
+        $overwrite = (isset($args[1])) ? $args[1] : true;
+        $value = (isset($args[0])) ? $args[0] : null;
+
+        return $this->set($value, $name, $overwrite);
+    }
+
+    public function getUnfolded($name)
+    {
+        $value = $this->get($name);
+        return (Type::isShooped($value)) ? $value->unfold() : $value;
+    }
+
+    private function valueFromArray(array $array, $member)
+    {
+        if (! $this->offsetExists($member)) {
+            trigger_error("Undefined index or member.");
+        }
+
+        $value = $this[$member];
+        return Type::sanitizeType($value);
+    }
+
     private function arrayAfterSettingValue(array $array, $value, $member, bool $overwrite): array
     {
         if ($member === null) {
@@ -235,120 +260,68 @@ trait ShoopedImp
         return $array;
     }
 
-    private function handleSet($name, $args)
+    private function startsWithSet(string $name): bool
     {
-        $name = lcfirst(str_replace("set", "", $name));
-        $overwrite = (isset($args[1])) ? $args[1] : true;
-        $value = (isset($args[0])) ? $args[0] : null;
-
-        return $this->set($value, $name, $overwrite);
+        return substr($name, 0, strlen("set")) === "set";
     }
 
-    private function handleGetUnfolded($name, $args)
+    private function startsWithGet(string $name): bool
     {
-        $value;
-        if (! method_exists($this, $name)) {
-            $className = static::class;
-            trigger_error("{$name} is an invalid method on {$className}", E_USER_ERROR);
-
-        } elseif (is_callable([$this, $name])) {
-            $value = $this->{$name}(...$args);
-
-        // } elseif ($name === "plus" || $name === "minus") {
-        //     $value = $this->{$name}(...$args);
-
-        } else {
-            $value = $this->{$name}($args[0]);
-
-        }
-        return (Type::isShooped($value)) ? $value->unfold() : $value;
+        return substr($name, 0, strlen("get")) === "get";
     }
 
-    private function valueFromArray(array $array, $member)
+    private function endsWithUnfolded(string $name): bool
     {
-        if (! $this->offsetExists($member)) {
-            trigger_error("Undefined index or member.");
-        }
-
-        $value = $this[$member];
-        return Type::sanitizeType($value);
+        return substr($name, -(strlen("Unfolded"))) === "Unfolded";
     }
 
-    public function __call($name, $args = [])
+    private function isGetWildcardUnfolded(string $name): bool
     {
-        $startsWithSet = substr($name, 0, strlen("set")) === "set";
-        $startsWithGet = substr($name, 0, strlen("get")) === "get";
-        $endsWithUnfolded = substr($name, -(strlen("Unfolded"))) === "Unfolded";
-        $name = Shoop::string($name)->unfold();
+        return $this->startsWithGet($name) and $this->endsWithUnfolded($name);
+    }
 
-        if ($startsWithGet && $endsWithUnfolded && $name !== "getUnfolded") {
+    private function convertCallName(string $name): string
+    {
+        if ($this->isGetWildcardUnfolded($name)) {
             $name = str_replace(["get", "Unfolded"], "", $name);
-            $name = lcfirst($name);
-            return $this->{$name};
+            return lcfirst($name);
 
-        } elseif ($name === "getUnfolded") {
-            $name = str_replace("Unfolded", "", $name);
-            return $this->handleGetUnfolded($name, $args);
+        } elseif ($this->startsWithSet($name)) {
+            return lcfirst(str_replace("set", "", $name));
 
-        } elseif ($startsWithSet) {
-            $name = lcfirst(str_replace("set", "", $name));
-            return $this->handleSet($name, $args);
+        } elseif ($this->startsWithGet($name)) {
+            return lcfirst(str_replace("get", "", $name));
 
-        } elseif ($startsWithGet) {
-            $name = lcfirst(str_replace("get", "", $name));
-            return $this->get($name, $args);
-
-        } elseif ($endsWithUnfolded) {
-            $name = str_replace("Unfolded", "", $name);
-            $value = $this->{$name}(...$args);
-            return (Type::isShooped($value))
-                ? $value->unfold()
-                : $value;
+        } elseif ($this->endsWithUnfolded($name)) {
+            return str_replace("Unfolded", "", $name);
 
         } elseif (is_callable([$this, "get"])) {
-            $value = $this->get($name);
-            $return = (isset($value) && Type::isShooped($value))
-                ? $value->unfold()
-                : $value;
-            return $return;
+            return $name;
 
         }
-        trigger_error("Call to undefined method '{$name}'", E_USER_ERROR);
+        return $name;
     }
 
-    public function __get($name)
+    private function isGetter(string $name): bool
     {
-        $value = null;
-        if (Type::is($this, ESArray::class, ESDictionary::class)) {
-            if (is_callable([$this, $name])) {
-                $value = $this->{$name}();
+        return $this->isGetWildcardUnfolded($name) or $this->startsWithGet($name) or
+            (! method_exists($this, $name) and ! $this->startsWithGet($name));
+    }
 
-            }
+    private function isSetter(string $name): bool
+    {
+        return $this->startsWithSet($name);
+    }
 
-        } else {
-            if (is_int($name) && $this->array()->hasMember($name)->unfold()) {
-                $value = $this->array()->{$name};
-
-            } elseif (is_string($name) && $this->dictionary()->hasMember($name)->unfold()) {
-                $value = $this->dictionary()->{$name};
-
-            } elseif (is_callable([$this, $name])) {
-                $value = $this->{$name}();
-
-            }
-        }
-        return (Type::isShooped($value)) ? $value->unfold() : $value;
+    private function needsUnfolding($name)
+    {
+        return $this->isGetWildcardUnfolded($name) or $this->endsWithUnfolded($name);
     }
 
 // - PHP interfaces and magic methods
     public function __toString(): string
     {
         return $this->string()->unfold();
-    }
-
-    public function __isset($member): bool
-    {
-        return $this->offsetExists($member);
     }
 
     public function __debugInfo()
@@ -358,6 +331,38 @@ trait ShoopedImp
         ];
     }
 
+    public function __call(string $name, array $args = [])
+    {
+        $cName = $this->convertCallName($name);
+        $value;
+        if ($this->isSetter($name)) {
+            $value = $this->handleSet($cName, $args);
+
+        } elseif ($this->isGetter($name) and method_exists($this, $cName)) {
+            $value = $this->{$cName}();
+
+        } elseif ($this->isGetter($name)) {
+            $value = Shoop::this($this->{$cName});
+
+        }
+
+        if (Type::isShooped($value) and $this->needsUnfolding($name)) {
+            $value = $value->unfold();
+
+        }
+        return $value;
+    }
+
+    public function __get($name)
+    {
+        if ($this->offsetExists($name)) {
+            $value = $this->offsetGet($name);
+            return (Type::isShooped($value)) ? $value->unfold() : $value;
+        }
+        return null;
+    }
+
+// -> ArrayAccess
     public function offsetExists($offset): bool
     {
         $bool = false;
