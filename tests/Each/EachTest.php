@@ -56,7 +56,6 @@ class EachTest extends TestCase
         $expected = 6;
         $actual = 0;
         Shoop::int(3)->each(function($value) use (&$actual) {
-            var_dump($value);
             $actual += $value;
         });
         $this->assertEquals($expected, $actual);

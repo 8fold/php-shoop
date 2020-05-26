@@ -62,6 +62,11 @@ class ESString implements
         }
     }
 
+    // public function part($start, $length)
+    // {
+
+    // }
+
     public function replace($search, $replace, $occurences = -1): ESString
     {
         $search = Type::sanitizeType($search, ESString::class)->unfold();
@@ -115,11 +120,12 @@ class ESString implements
 
     public function pathContent()
     {
-        $string = $this->stringUnfolded();
-        $isFile = is_file($string);
-        if ($isFile) {
-            $contents = file_get_contents($string);
-            return Shoop::string($contents);
+        $path = $this->stringUnfolded();
+        if (file_exists($path)) {
+            $contents = file_get_contents($path);
+            if (strlen($contents) > 0) {
+                return Shoop::string($contents);
+            }
         }
         return Shoop::string("");
     }

@@ -84,7 +84,7 @@ class ESArray implements
         return Shoop::array($merged)->array();
     }
 
-    private function splitAt($int = 0)
+    public function splitAt($int = 0)
     {
         $lhs = array_slice($this->value(), 0, $int);
         $rhs = array_slice($this->value(), $int);
