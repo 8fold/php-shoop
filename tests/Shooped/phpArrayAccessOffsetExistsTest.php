@@ -37,7 +37,10 @@ class OffsetExistsTest extends TestCase
      */
     public function testESBool()
     {
-        $actual = ESBool::fold(true)->offsetExists(1);
+        $actual = ESBool::fold(true)->offsetExists("true");
+        $this->assertTrue($actual);
+
+        $actual = ESBool::fold(true)->offsetExists("false");
         $this->assertTrue($actual);
     }
 

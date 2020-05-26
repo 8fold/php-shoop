@@ -341,9 +341,14 @@ trait ShoopedImp
     }
 
 // - PHP interfaces and magic methods
-    public function __toString()
+    public function __toString(): string
     {
         return $this->string()->unfold();
+    }
+
+    public function __isset($member): bool
+    {
+        return $this->offsetExists($member);
     }
 
     public function __debugInfo()
@@ -360,7 +365,8 @@ trait ShoopedImp
             $bool = isset($this->value[$offset]);
 
         } elseif (Type::is($this, ESBool::class)) {
-            $bool = $this->value;
+            $array = PhpTypeJuggle::boolToAssociativeArray($this->value);
+            $bool = isset($array[$offset]);
 
         } elseif (Type::is($this, ESDictionary::class)) {
             $bool = isset($this->value[$offset]);

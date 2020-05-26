@@ -56,7 +56,9 @@ interface Shooped extends
 
     public function __get($name);
 
-    public function __toString();
+    public function __toString(): string;
+
+    public function __isset($member): bool;
 
     public function __debugInfo();
 
