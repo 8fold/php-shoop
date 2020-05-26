@@ -18,27 +18,56 @@ use Eightfold\Shoop\{
 
 trait WrapImp
 {
-    public function first()
+    public function first($count = 1)
     {
+        $count = Type::sanitizeType($count, ESInt::class)->unfold();
         $array = $this->arrayUnfolded();
         if (Type::is($this, ESBool::class)) {
             $array = $this->dictionaryUnfolded();
 
         }
-        $value = array_shift($array);
-        return Shoop::this($value);
+
+        if ($count === 1) {
+            $value = array_shift($array);
+            return Shoop::this($value);
+        }
+
+        $result = Shoop::int(1)->range($count)->each(function($int) use (&$array) {
+            // TODO: Consider using splitAt or array_slice
+            $value = array_shift($array);
+            return Shoop::this($value);
+        });
+
+        if (Type::is($this, ESString::class)) {
+            return $result->join("");
+        }
+        return $result;
     }
 
-    public function last()
+    public function last($count = 1)
     {
-        $array = [];
+        $count = Type::sanitizeType($count, ESInt::class)->unfold();
         $array = $this->arrayUnfolded();
         if (Type::is($this, ESBool::class)) {
             $array = $this->dictionaryUnfolded();
 
         }
-        $value = array_pop($array);
-        return Shoop::this($value);
+
+        if ($count === 1) {
+            $value = array_pop($array);
+            return Shoop::this($value);
+        }
+
+        $result = Shoop::int(1)->range($count)->each(function($int) use (&$array) {
+            // TODO: Consider using splitAt or array_slice
+            $value = array_pop($array);
+            return Shoop::this($value);
+        })->toggle(false);
+
+        if (Type::is($this, ESString::class)) {
+            return $result->join("");
+        }
+        return $result;
     }
 
     public function start(...$prefixes)

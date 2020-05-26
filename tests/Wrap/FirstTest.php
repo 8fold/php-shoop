@@ -32,6 +32,10 @@ class FirstTest extends TestCase
         $actual = Shoop::array($base)->first();
         $this->assertEquals(ESString::class, get_class($actual));
         $this->assertEquals($expected, $actual);
+
+        $expected = ["hello", "world"];
+        $actual = Shoop::array($base)->first(2);
+        $this->assertEquals($expected, $actual->unfold());
     }
 
     /**
@@ -49,6 +53,10 @@ class FirstTest extends TestCase
         $expected = 1;
         $actual = ESDictionary::fold($base)->first();
         $this->assertEquals(ESInt::class, get_class($actual));
+        $this->assertEquals($expected, $actual->unfold());
+
+        $expected = [1, "value"];
+        $actual = ESDictionary::fold($base)->first(2);
         $this->assertEquals($expected, $actual->unfold());
     }
 
@@ -68,6 +76,10 @@ class FirstTest extends TestCase
         $actual = ESJson::fold($base)->first();
         $this->assertEquals(ESString::class, get_class($actual));
         $this->assertEquals($expected, $actual);
+
+        $expected = ["value", "value2", "value3"];
+        $actual = ESJson::fold($base)->first(3);
+        $this->assertEquals($expected, $actual->unfold());
     }
 
     public function testESObject()
@@ -87,5 +99,9 @@ class FirstTest extends TestCase
         $actual = Shoop::string("Hello, World!")->first();
         $this->assertEquals(ESString::class, get_class($actual));
         $this->assertEquals($expected, $actual);
+
+        $expected = "Hello";
+        $actual = Shoop::string("Hello, World!")->first(5);
+        $this->assertEquals($expected, $actual->unfold());
     }
 }

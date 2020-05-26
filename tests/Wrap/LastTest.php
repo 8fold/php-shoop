@@ -32,6 +32,10 @@ class LastTest extends TestCase
         $actual = Shoop::array($base)->last();
         $this->assertEquals(ESString::class, get_class($actual));
         $this->assertEquals($expected, $actual);
+
+        $expected = ["hello", "world"];
+        $actual = Shoop::array($base)->last(2);
+        $this->assertEquals($expected, $actual->unfold());
     }
 
     /**
@@ -49,6 +53,11 @@ class LastTest extends TestCase
         $expected = 2;
         $actual = ESDictionary::fold($base)->last();
         $this->assertEquals(ESInt::class, get_class($actual));
+        $this->assertEquals($expected, $actual->unfold());
+
+        $base = ["first" => 1, "second" => 2, "third" => 3];
+        $expected = [2, 3];
+        $actual = ESDictionary::fold($base)->last(2);
         $this->assertEquals($expected, $actual->unfold());
     }
 
@@ -68,6 +77,10 @@ class LastTest extends TestCase
         $actual = ESJson::fold($base)->last();
         $this->assertEquals(ESString::class, get_class($actual));
         $this->assertEquals($expected, $actual);
+
+        $expected = ["value2", "value3"];
+        $actual = ESJson::fold($base)->last(2);
+        $this->assertEquals($expected, $actual->unfold());
     }
 
     public function testESObject()
@@ -80,6 +93,10 @@ class LastTest extends TestCase
         $actual = ESObject::fold($base)->last();
         $this->assertEquals(ESInt::class, get_class($actual));
         $this->assertEquals($expected, $actual->unfold());
+
+        $expected = [new \stdClass(), 2];
+        $actual = ESObject::fold($base)->last(2);
+        $this->assertEquals($expected, $actual->unfold());
     }
 
     public function testESString()
@@ -87,6 +104,10 @@ class LastTest extends TestCase
         $expected = "!";
         $actual = Shoop::string("Hello, World!")->last();
         $this->assertEquals(ESString::class, get_class($actual));
+        $this->assertEquals($expected, $actual);
+
+        $expected = "World!";
+        $actual = Shoop::string("Hello, World!")->last(6);
         $this->assertEquals($expected, $actual);
     }
 }

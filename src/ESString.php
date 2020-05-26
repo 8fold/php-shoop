@@ -62,6 +62,11 @@ class ESString implements
         }
     }
 
+    // public function part($start, $length)
+    // {
+
+    // }
+
     public function replace($search, $replace, $occurences = -1): ESString
     {
         $search = Type::sanitizeType($search, ESString::class)->unfold();
