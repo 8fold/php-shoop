@@ -100,4 +100,33 @@ class PhpAssociativeArray
         }
         return $dictionary;
     }
+
+    static public function afterSettingValue(array $array, $value, $member, bool $overwrite): array
+    {
+        if ($member === null) {
+            trigger_error("Null is not a valid member on array.");
+        }
+
+        if (isset($array[$member]) and $overwrite) {
+            $set = [$member => $value];
+            $array = array_replace($array, $set);
+
+        } elseif ($overwrite) {
+            $set = [$member => $value];
+            $array = array_replace($array, $set);
+
+        } else {
+            $array[$member] = $value;
+
+        }
+        return $array;
+    }
+
+    static public function toMembersAndValuesAssociativeArray(array $dictionary): array
+    {
+        $left = array_keys($dictionary);
+        $right = PhpAssociativeArray::toIndexedArray($dictionary);
+        $dictionary = ["members" => $left, "values" => $right];
+        return $dictionary;
+    }
 }

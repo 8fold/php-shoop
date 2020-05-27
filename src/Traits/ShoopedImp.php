@@ -16,7 +16,6 @@ use Eightfold\Shoop\{
 use Eightfold\Shoop\Interfaces\Shooped;
 use Eightfold\Shoop\Helpers\{
     Type,
-    PhpTypeJuggle,
     PhpIndexedArray,
     PhpBool,
     PhpAssociativeArray,
@@ -172,7 +171,9 @@ trait ShoopedImp
     {
         if (Type::is($this, ESArray::class, ESDictionary::class)) {
             $array = $this->value;
-            $array = $this->arrayAfterSettingValue($array, $value, $member, $overwrite);
+            $array = (Type::is($this, ESArray::class))
+                ? PhpIndexedArray::afterSettingValue($array, $value, $member, $overwrite)
+                : PhpAssociativeArray::afterSettingValue($array, $value, $member, $overwrite);
             return (Type::is($this, ESArray::class))
                 ? Shoop::array($array)
                 : Shoop::dictionary($array);
@@ -193,45 +194,18 @@ trait ShoopedImp
 
         } elseif (Type::is($this, ESJson::class)) {
             $json = $this->value;
-            $object = json_decode($json);
-            $array = (array) $object;
-            $array = $this->arrayAfterSettingValue($array, $value, $member, $overwrite);
-            $object = (object) $array;
-            $json = json_encode($object);
+            $array = PhpJson::toAssociativeArray($json);
+            $array = PhpAssociativeArray::afterSettingValue($array, $value, $member, $overwrite);
+            $json = PhpAssociativeArray::toJson($array);
             return Shoop::json($json);
 
         } elseif (Type::is($this, ESObject::class)) {
             $object = $this->value;
-            $array = (array) $object;
-            $array = $this->arrayAfterSettingValue($array, $value, $member, $overwrite);
-            $object = (object) $array;
+            $array = PhpObject::toAssociativeArray($object);
+            $array = PhpAssociativeArray::afterSettingValue($array, $value, $member, $overwrite);
+            $object = PhpAssociativeArray::toObject($array);
             return Shoop::object($object);
         }
-    }
-
-    private function arrayAfterSettingValue(array $array, $value, $member, bool $overwrite): array
-    {
-        if ($member === null) {
-            trigger_error("Setting value on array requires member be specified.");
-        }
-        $member = (Type::is($this, ESArray::class))
-            ? Type::sanitizeType($member, ESInt::class)->unfold()
-            : Type::sanitizeType($member, ESString::class)->unfold();
-        $overwrite = Type::sanitizeType($overwrite, ESBool::class)->unfold();
-
-        if ($this->offsetExists($member) && $overwrite) {
-            $set = [$member => $value];
-            $array = array_replace($array, $set);
-
-        } elseif ($overwrite) {
-            $set = [$member => $value];
-            $array = array_replace($array, $set);
-
-        } else {
-            $array[$member] = $value;
-
-        }
-        return $array;
     }
 
 // - __call helpers

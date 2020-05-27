@@ -127,4 +127,25 @@ class PhpIndexedArray
         }
         return $array;
     }
+
+    static public function afterSettingValue(array $array, $value, int $member, bool $overwrite = true): array
+    {
+        if ($member === null) {
+            trigger_error("Null is not a valid member on array.");
+        }
+
+        if (isset($array[$member]) and $overwrite) {
+            $set = [$member => $value];
+            $array = array_replace($array, $set);
+
+        } elseif ($overwrite) {
+            $set = [$member => $value];
+            $array = array_replace($array, $set);
+
+        } else {
+            $array[$member] = $value;
+
+        }
+        return $array;
+    }
 }

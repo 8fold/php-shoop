@@ -6,6 +6,7 @@ use Eightfold\Shoop\Helpers\{
     Type,
     PhpIndexedArray,
     PhpAssociativeArray,
+    PhpInt,
     PhpString
 };
 
@@ -83,7 +84,7 @@ trait WrapImp
 
         } elseif (Type::is($this, ESDictionary::class)) {
             $array = $this->dictionaryUnfolded();
-            if ($this->argCountIsOdd($prefixes)) {
+            if (PhpInt::isOdd(PhpIndexedArray::toInt($prefixes))) {
                 $className = static::class;
                 $argCount = count($prefixes);
                 trigger_error(

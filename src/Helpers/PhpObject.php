@@ -80,4 +80,26 @@ class PhpObject
         $object = (object) $dictionary;
         return $object;
     }
+
+    static public function afterRemovingMembers(object $object, array $members): object
+    {
+        foreach ($members as $member) {
+            if (method_exists($object, $member) or property_exists($object, $member)) {
+                unset($object->{$member});
+            }
+        }
+        return $object;
+    }
+
+    static public function toMembersAndValuesAssociativeArray(object $object): object
+    {
+        $dictionary = (array) $object;
+        $dictionary = PhpAssociativeArray::toMembersAndValuesAssociativeArray($dictionary);
+        $dictionary = [
+            "members" => $dictionary["members"],
+            "values" => $dictionary["values"]
+        ];
+        $object = (object) $dictionary;
+        return $object;
+    }
 }
