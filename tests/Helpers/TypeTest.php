@@ -114,4 +114,35 @@ class TypeTest extends TestCase
         $actual = Type::isNotEmpty($base);
         $this->assertFalse($actual);
     }
+
+    /**
+     * The `isArray()` function checks if the given value is an indexed array.
+     *
+     * @return bool
+     */
+    public function testIsIndexedArray()
+    {
+        $array = ["h", "i", "!"];
+        $actual = Type::isArray($array);
+        $this->assertTrue($actual);
+
+        $array = ["h" => 1, "i" => 2, "!" => 3];
+        $actual = Type::isNotArray($array);
+        $this->assertTrue($actual);
+    }
+
+    public function testIsAssociativeArray()
+    {
+        $array = ["h", "i", "!"];
+        $actual = Type::isDictionary($array);
+        $this->assertFalse($actual);
+
+        $array = ["h" => 1, "i" => 2, "!" => 3];
+        $actual = Type::isNotDictionary($array);
+        $this->assertFalse($actual);
+
+        $array = ["h" => 1, "i" => 2, "!" => 3];
+        $actual = Type::isDictionary($array);
+        $this->assertTrue($actual);
+    }
 }
