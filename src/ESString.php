@@ -105,12 +105,6 @@ class ESString implements
         return Shoop::string($string);
     }
 
-    /**
-     * The `trim()` method combines the three PHP `trim()` functions allowing for trimming characters from both ends of the string, just the beginning, or just the end.
-     *
-     * @return Eightfold\Shoop\ESString
-     *
-     */
     public function trim($fromStart = true, $fromEnd = true, $charMask = " \t\n\r\0\x0B"): ESString
     {
         $fromStart = Type::sanitizeType($fromStart, ESBool::class)->unfold();
