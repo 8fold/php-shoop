@@ -104,4 +104,27 @@ class PhpIndexedArray
         $bool = self::startsWith($array, $needles);
         return $bool;
     }
+
+    static public function toSortedIndexedArray(array $array, bool $asc, bool $caseSensitive): array
+    {
+        if ($asc) {
+            if ($caseSensitive) {
+                sort($array, SORT_NATURAL);
+
+            } else {
+                sort($array, SORT_NATURAL | SORT_FLAG_CASE);
+
+            }
+
+        } else {
+            if ($caseSensitive) {
+                rsort($array, SORT_NATURAL);
+
+            } else {
+                rsort($array, SORT_NATURAL | SORT_FLAG_CASE);
+
+            }
+        }
+        return $array;
+    }
 }
