@@ -124,4 +124,19 @@ class ESArray implements
             "rhs" => $rhs
         ]);
     }
+
+    public function filter(\Closure $closure, $useValues = true, $useMembers = false)
+    {
+        $flag = 0;
+        if ($useValues and $useMembers) {
+            $flag = ARRAY_FILTER_USE_BOTH;
+
+        } elseif (! $useValues and $useMembers) {
+            $flag = ARRAY_FILTER_USE_KEY;
+
+        }
+        $filtered = array_filter($this->value(), $closure, $flag);
+        $array = array_values($filtered);
+        return Shoop::array($array);
+    }
 }

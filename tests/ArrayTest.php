@@ -99,4 +99,20 @@ class ArrayTest extends TestCase
         $actual = Shoop::array(["Second", "Third"])->start("First")->join(" | ");
         $this->assertEquals($expected, $actual->unfold());
     }
+
+    public function testFilter()
+    {
+        $integers = [0, 1, 2, 3, 4, 5, 6];
+        $expected = [0, 2, 4, 6];
+        $actual = Shoop::array($integers)->filter(function($int) {
+            return ! ($int & 1);
+        });
+        $this->assertEquals($expected, $actual->unfold());
+
+        $expected = [1, 3, 5];
+        $actual = Shoop::array($integers)->filter(function($int) {
+            return $int & 1;
+        });
+        $this->assertEquals($expected, $actual->unfold());
+    }
 }
