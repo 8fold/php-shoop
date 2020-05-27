@@ -43,6 +43,13 @@ class PhpString
         return self::startsWith($string, $start) and self::endsWith($string, $end);
     }
 
+    static public function reversed(string $string): string
+    {
+        $array = PhpString::toIndexedArray($string);
+        $array = PhpIndexedArray::reversed($array, true);
+        return implode("", $array);
+    }
+
 // - Type Juggle
     static public function toIndexedArray(string $string): array
     {

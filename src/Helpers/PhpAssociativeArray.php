@@ -43,4 +43,38 @@ class PhpAssociativeArray
         $string = PhpIndexedArray::toString($array);
         return str_replace("Array(", "Dictionary(", $string);
     }
+
+    static public function endsWith(array $dictionary, array $needles): bool
+    {
+        $dictionary = self::reversed($dictionary, true);
+
+        $needles = PhpIndexedArray::toValueMemberAssociativeArray($needles);
+        $needles = self::reversed($needles, true);
+
+        // Convert to array of value-member pairs
+        $passing = [];
+        foreach ($needles as $member => $value) {
+            $passing[] = $value;
+            $passing[] = $member;
+        }
+
+        $bool = self::startsWith($dictionary, $passing);
+        return $bool;
+    }
+
+    static public function startsWith(array $dictionary, array $needles): bool
+    {
+        $needles = PhpIndexedArray::toValueMemberAssociativeArray($needles);
+        $needleCount = count($needles);
+
+        $dictionary = array_slice($dictionary, 0, $needleCount, true);
+        return $needles === $dictionary;
+    }
+
+    static public function reversed(array $array, bool $preserveMembers): array
+    {
+        return ($preserveMembers)
+            ? array_reverse($array, true)
+            : array_reverse($array);
+    }
 }

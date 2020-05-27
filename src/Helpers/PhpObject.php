@@ -49,4 +49,27 @@ class PhpObject
         $string = str_replace("Dictionary(", "stdClass Object(", $string);
         return $string;
     }
+
+    // TODO: No tests failed - need tests
+    static public function startsWith(object $object, array $needles): bool
+    {
+        $dictionary = (array) $object;
+        $bool = PhpAssociativeArray::startsWith($dictionary, $needles);
+        return $bool;
+    }
+
+    static public function endsWith(object $object, array $needles): bool
+    {
+        $dictionary = (array) $object;
+        $bool = PhpAssociativeArray::endsWith($dictionary, $needles);
+        return $bool;
+    }
+
+    static public function reversed(object $object, bool $preserveMembers): object
+    {
+        $dictionary = self::toAssociativeArray($object);
+        $dictionary = PhpAssociativeArray::reversed($dictionary, $preserveMembers);
+        $object = (object) $dictionary;
+        return $object;
+    }
 }

@@ -49,4 +49,9 @@ class PhpInt
         $string = (string) $int;
         return $string;
     }
+
+    static public function isOdd(int $int): bool
+    {
+        return $int&1;
+    }
 }

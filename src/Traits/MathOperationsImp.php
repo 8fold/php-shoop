@@ -2,10 +2,12 @@
 
 namespace Eightfold\Shoop\Traits;
 
-use Eightfold\Shoop\Helpers\Type;
-use Eightfold\Shoop\Helpers\PhpTypeJuggle;
-use Eightfold\Shoop\Helpers\PhpAssociativeArray; // TODO: Use facade
-use Eightfold\Shoop\Helpers\PhpObject;
+use Eightfold\Shoop\Helpers\{
+    Type,
+    PhpIndexedArray,
+    PhpAssociativeArray, // TODO: Use facade
+    PhpObject
+};
 
 use Eightfold\Shoop\{
     Shoop,
@@ -42,7 +44,7 @@ trait MathOperationsImp
 
         } elseif (Type::is($this, ESDictionary::class)) {
             $dictionary = $this->value;
-            $suffixes = $this->indexedArrayToValueMemberArray($args);
+            $suffixes = PhpIndexedArray::toValueMemberAssociativeArray($args);
             $dictionary = array_merge($dictionary, $suffixes);
             return Shoop::dictionary($dictionary);
 
@@ -55,7 +57,7 @@ trait MathOperationsImp
             return Shoop::int($total);
 
         } elseif (Type::is($this, ESJson::class)) {
-            $dictionary = $this->indexedArrayToValueMemberArray($args);
+            $dictionary = PhpIndexedArray::toValueMemberAssociativeArray($args);
             $object = json_decode($this->value);
             foreach ($dictionary as $member => $value) {
                 $object->{$member} = $value;
@@ -64,7 +66,7 @@ trait MathOperationsImp
             return Shoop::json($json);
 
         } elseif (Type::is($this, ESObject::class)) {
-            $dictionary = $this->indexedArrayToValueMemberArray($args);
+            $dictionary = PhpIndexedArray::toValueMemberAssociativeArray($args);
             $object = (object) $dictionary;
             return Shoop::object($object);
 
@@ -199,31 +201,31 @@ trait MathOperationsImp
         return ! $this->argCountIsEven($args);
     }
 
-    private function indexedArrayToValueMemberArray(array $args): array
-    {
-        if ($this->argCountIsOdd($args)) {
-            $className = static::class;
-            $argCount = count($args);
-            trigger_error(
-                "{$className}::indexedArrayToValueMemberArray() expects two (or more) arguments. {$argCount} given."
-            );
-        }
-        $count = 0;
-        $members = [];
-        $values = [];
-        foreach ($args as $value) {
-            if ($count === 0 or $count % 2 === 0) {
-                $values[] = $value;
+    // private function indexedArrayToValueMemberArray(array $args): array
+    // {
+    //     if ($this->argCountIsOdd($args)) {
+    //         $className = static::class;
+    //         $argCount = count($args);
+    //         trigger_error(
+    //             "{$className}::indexedArrayToValueMemberArray() expects two (or more) arguments. {$argCount} given."
+    //         );
+    //     }
+    //     $count = 0;
+    //     $members = [];
+    //     $values = [];
+    //     foreach ($args as $value) {
+    //         if ($count === 0 or $count % 2 === 0) {
+    //             $values[] = $value;
 
-            } else {
-                $members[] = $value;
+    //         } else {
+    //             $members[] = $value;
 
-            }
-            $count++;
-        }
-        $dictionary = array_combine($members, $values);
-        return $dictionary;
-    }
+    //         }
+    //         $count++;
+    //     }
+    //     $dictionary = array_combine($members, $values);
+    //     return $dictionary;
+    // }
 
     private function removeMembersFromObject(object $object, array $members): object
     {
