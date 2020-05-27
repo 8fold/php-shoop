@@ -8,7 +8,7 @@ class PhpIndexedArray
 {
     static public function toBool(array $array = []): bool
     {
-        return PhpTypeJuggle::arrayToInt($array) > 0;
+        return self::toInt($array) > 0;
     }
 
     static public function toAssociativeArray(array $array = []): array
@@ -23,7 +23,7 @@ class PhpIndexedArray
 
     static public function toInt(array $array = []): int
     {
-        return PhpTypeJuggle::arrayToInt($array);
+        return count($array);
     }
 
     static public function toJson(array $array = []): string
@@ -42,6 +42,13 @@ class PhpIndexedArray
 
     static public function toString(array $array = []): string
     {
-        return PhpTypeJuggle::arrayToString($array);
+        $printed = print_r($array, true);
+        $oneLine = preg_replace('/\s+/', ' ', $printed);
+        $commas = str_replace(
+            [" [", " ) ", " (, "],
+            [", [", ")", "("],
+            $oneLine);
+        $fixSpacingWhenEmpty = preg_replace('/\s+\(/', "(", $commas, 1);
+        return trim($fixSpacingWhenEmpty);
     }
 }

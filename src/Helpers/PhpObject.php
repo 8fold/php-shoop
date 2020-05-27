@@ -4,6 +4,7 @@ namespace Eightfold\Shoop\Helpers;
 
 use Eightfold\Shoop\Helpers\{
     PhpTypeJuggle,
+    PhpIndexedArray,
     PhpAssociativeArray
 };
 
@@ -32,7 +33,7 @@ class PhpObject
     static public function toInt(object $object): int
     {
         $array = self::toIndexedArray($object);
-        $int = PhpTypeJuggle::arrayToInt($array);
+        $int = PhpIndexedArray::toInt($array);
         return $int;
     }
 

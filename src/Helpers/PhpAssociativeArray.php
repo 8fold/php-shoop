@@ -4,6 +4,7 @@ namespace Eightfold\Shoop\Helpers;
 
 use Eightfold\Shoop\Helpers\{
     PhpTypeJuggle,
+    PhpIndexedArray,
     PhpObject
 };
 
@@ -16,12 +17,12 @@ class PhpAssociativeArray
 
     static public function toBool(array $array = []): bool
     {
-        return PhpTypeJuggle::arrayToInt() > 0;
+        return self::toInt($array);
     }
 
     static public function toInt(array $array = []): int
     {
-        return PhpTypeJuggle::arrayToInt($array);
+        return count($array);
     }
 
     static public function toJson(array $array = []): string
@@ -39,7 +40,7 @@ class PhpAssociativeArray
 
     static public function toString(array $array = []): string
     {
-        $string = PhpTypeJuggle::arrayToString($array);
+        $string = PhpIndexedArray::toString($array);
         return str_replace("Array(", "Dictionary(", $string);
     }
 }

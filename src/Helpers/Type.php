@@ -30,8 +30,9 @@ class Type
 
         }
 
-        $sanitizeType = self::shoopFor($toSanitize);
-        $shooped = $sanitizeType::fold($toSanitize);
+        $shoopedType = self::shoopFor($toSanitize);
+        $shooped = $shoopedType::fold($toSanitize);
+        // TODO: See how to remove this in favor of the instance juggling
         switch ($shoopType) {
             case ESArray::class:
                 return $shooped->array();
