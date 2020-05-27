@@ -14,8 +14,11 @@ use Eightfold\Shoop\{
 };
 
 use Eightfold\Shoop\Interfaces\Shooped;
-use Eightfold\Shoop\Helpers\Type;
-use Eightfold\Shoop\Helpers\PhpTypeJuggle;
+use Eightfold\Shoop\Helpers\{
+    Type,
+    PhpTypeJuggle,
+    PhpTypeHelpers
+};
 
 trait ShoopedImp
 {
@@ -120,53 +123,41 @@ trait ShoopedImp
 
     public function get($member = 0)
     {
-        if (Type::is($this, ESArray::class)) {
+        if (Type::is($this, ESArray::class, ESInt::class, ESString::class)) {
             $member = Type::sanitizeType($member, ESInt::class)->unfold();
-            $array = $this->value;
-            $value = $this->valueFromArray($array, $member);
-            return $value;
+
+        } elseif (Type::is($this, ESDictionary::class, ESJson::class, ESObject::class)) {
+            $member = Type::sanitizeType($member, ESString::class)->unfold();
+
+        }
+
+        $array = Shoop::array([]);
+        if (Type::is($this, ESArray::class, ESDictionary::class) and $this->offsetExists($member)) {
+            return Shoop::this($this->offsetGet($member)); // The only return of consequence
 
         } elseif (Type::is($this, ESBool::class)) {
-            if (is_string($member) && ($member === "true" || $member === "false")) {
-                $bool = $this->dictionary()->{$member};
-
-            } else {
-                $bool = $this->value;
-
-            }
-            return Shoop::bool($bool);
-
-        } elseif (Type::is($this, ESDictionary::class)) {
-            $member = Type::sanitizeType($member, ESString::class)->unfold();
-            $array = $this->value;
-            $value = $this->valueFromArray($array, $member);
-            return $value;
+            $array = $this->dictionary();
 
         } elseif (Type::is($this, ESInt::class)) {
-            $member = Type::sanitizeType($member, ESInt::class)->unfold();
             $array = PhpTypeJuggle::intToIndexedArray($this->value);
-            $value = $this->valueFromArray($array, $member);
-            return $value;
 
         } elseif (Type::is($this, ESJson::class)) {
-            $member = Type::sanitizeType($member, ESString::class)->unfold();
             $array = PhpTypeJuggle::jsonToAssociativeArray($this->value);
-            $value = $this->valueFromArray($array, $member);
-            return $value;
 
         } elseif (Type::is($this, ESObject::class)) {
-            $member = Type::sanitizeType($member, ESString::class)->unfold();
             $array = PhpTypeJuggle::objectToAssociativeArray($this->value);
-            $value = $this->valueFromArray($array, $member);
-            return $value;
 
         } elseif (Type::is($this, ESString::class)) {
             $array = PhpTypeJuggle::stringToIndexedArray($this->value);
-            if (isset($array[$member])) {
-                $value = $array[$member];
-                return Shoop::string($value);
-            }
+
         }
+        return Shoop::this($array)->get($member);
+    }
+
+    public function getUnfolded($name)
+    {
+        $value = $this->get($name);
+        return (Type::isShooped($value)) ? $value->unfold() : $value;
     }
 
     public function set($value, $member = null, $overwrite = true)
@@ -210,31 +201,6 @@ trait ShoopedImp
         }
     }
 
-    private function handleSet($name, $args)
-    {
-        $name = lcfirst(str_replace("set", "", $name));
-        $overwrite = (isset($args[1])) ? $args[1] : true;
-        $value = (isset($args[0])) ? $args[0] : null;
-
-        return $this->set($value, $name, $overwrite);
-    }
-
-    public function getUnfolded($name)
-    {
-        $value = $this->get($name);
-        return (Type::isShooped($value)) ? $value->unfold() : $value;
-    }
-
-    private function valueFromArray(array $array, $member)
-    {
-        if (! $this->offsetExists($member)) {
-            trigger_error("Undefined index or member.");
-        }
-
-        $value = $this[$member];
-        return Type::sanitizeType($value);
-    }
-
     private function arrayAfterSettingValue(array $array, $value, $member, bool $overwrite): array
     {
         if ($member === null) {
@@ -260,62 +226,18 @@ trait ShoopedImp
         return $array;
     }
 
-    private function startsWithSet(string $name): bool
-    {
-        return substr($name, 0, strlen("set")) === "set";
-    }
-
-    private function startsWithGet(string $name): bool
-    {
-        return substr($name, 0, strlen("get")) === "get";
-    }
-
-    private function endsWithUnfolded(string $name): bool
-    {
-        return substr($name, -(strlen("Unfolded"))) === "Unfolded";
-    }
-
-    private function isGetWildcardUnfolded(string $name): bool
-    {
-        return $this->startsWithGet($name) and $this->endsWithUnfolded($name);
-    }
-
-    private function convertCallName(string $name): string
-    {
-        if ($this->isGetWildcardUnfolded($name)) {
-            $name = str_replace(["get", "Unfolded"], "", $name);
-            return lcfirst($name);
-
-        } elseif ($this->startsWithSet($name)) {
-            return lcfirst(str_replace("set", "", $name));
-
-        } elseif ($this->startsWithGet($name)) {
-            return lcfirst(str_replace("get", "", $name));
-
-        } elseif ($this->endsWithUnfolded($name)) {
-            return str_replace("Unfolded", "", $name);
-
-        } elseif (is_callable([$this, "get"])) {
-            return $name;
-
-        }
-        return $name;
-    }
-
+// - __call helpers
     private function isGetter(string $name): bool
     {
-        return $this->isGetWildcardUnfolded($name) or $this->startsWithGet($name) or
-            (! method_exists($this, $name) and ! $this->startsWithGet($name));
-    }
-
-    private function isSetter(string $name): bool
-    {
-        return $this->startsWithSet($name);
+        return PhpTypeHelpers::startsAndEndsWith($name, "get", "Unfolded") or
+            PhpTypeHelpers::startsWithGet($name) or
+            (! method_exists($this, $name) and ! PhpTypeHelpers::startsWithGet($name));
     }
 
     private function needsUnfolding($name)
     {
-        return $this->isGetWildcardUnfolded($name) or $this->endsWithUnfolded($name);
+        return PhpTypeHelpers::startsAndEndsWith($name, "get", "Unfolded") or
+            PhpTypeHelpers::endsWithUnfolded($name);
     }
 
 // - PHP interfaces and magic methods
@@ -333,33 +255,60 @@ trait ShoopedImp
 
     public function __call(string $name, array $args = [])
     {
-        $cName = $this->convertCallName($name);
+        $remove = [];
+        if (PhpTypeHelpers::startsAndEndsWith($name, "get", "Unfolded")) {
+            $remove = ["get", "Unfolded"];
+
+        } elseif (PhpTypeHelpers::startsWithSet($name)) {
+            $remove = ["set"];
+
+        } elseif (PhpTypeHelpers::startsWithGet($name)) {
+            $remove = ["get"];
+
+        } elseif (PhpTypeHelpers::endsWithUnfolded($name)) {
+            $remove = ["Unfolded"];
+
+        }
+
+        $cName = $name;
+        if (count($remove) > 0) {
+            $cName = PhpTypeHelpers::afterRemoving($name, $remove);
+            $cName = lcfirst($cName);
+        }
+
         $value;
-        if ($this->isSetter($name)) {
-            $value = $this->handleSet($cName, $args);
+        if (PhpTypeHelpers::startsWithSet($name)) {
+            $value = (isset($args[0])) ? $args[0] : null;
+            $overwrite = (isset($args[1])) ? $args[1] : true;
+            $value = $this->set($value, $cName, $overwrite);
 
         } elseif ($this->isGetter($name) and method_exists($this, $cName)) {
-            $value = $this->{$cName}();
+            $value = $this->{$cName}(...$args);
+
+        } elseif ($this->offsetExists($cName)) {
+            $value = $this->get($cName);
 
         } elseif ($this->isGetter($name)) {
             $value = Shoop::this($this->{$cName});
 
         }
 
-        if (Type::isShooped($value) and $this->needsUnfolding($name)) {
-            $value = $value->unfold();
-
-        }
-        return $value;
+        return (Type::isShooped($value) and $this->needsUnfolding($name))
+            ? $value->unfold()
+            : $value;
     }
 
     public function __get($name)
     {
+        $value = null;
         if ($this->offsetExists($name)) {
             $value = $this->offsetGet($name);
-            return (Type::isShooped($value)) ? $value->unfold() : $value;
+
+        } elseif (method_exists($this, $name)) {
+            $value = $this->{$name}();
+
         }
-        return null;
+        return (Type::isShooped($value)) ? $value->unfold() : $value;
     }
 
 // -> ArrayAccess
@@ -368,6 +317,11 @@ trait ShoopedImp
         $bool = false;
         if (Type::is($this, ESArray::class)) {
             $bool = isset($this->value[$offset]);
+            if (! $bool) {
+                $array = PhpTypeJuggle::indexedArrayToAssociativeArray($this->value);
+                $bool = isset($array[$offset]);
+
+            }
 
         } elseif (Type::is($this, ESBool::class)) {
             $array = PhpTypeJuggle::boolToAssociativeArray($this->value);
@@ -379,6 +333,10 @@ trait ShoopedImp
         } elseif (Type::is($this, ESInt::class)) {
             $array = PhpTypeJuggle::intToIndexedArray($this->value);
             $bool = isset($array[$offset]);
+            if (! $bool) {
+                $array = PhpTypeJuggle::intToAssociativeArray($this->value);
+                $bool = isset($array[$offset]);
+            }
 
         } elseif (Type::is($this, ESJson::class)) {
             $array = PhpTypeJuggle::jsonToAssociativeArray($this->value);
@@ -391,6 +349,10 @@ trait ShoopedImp
         } elseif (Type::is($this, ESString::class)) {
             $array = PhpTypeJuggle::stringToIndexedArray($this->value);
             $bool = isset($array[$offset]);
+            if (! $bool) {
+                $array = PhpTypeJuggle::indexedArrayToAssociativeArray($array);
+                $bool = isset($array[$offset]);
+            }
 
         }
         return $bool;
@@ -399,14 +361,23 @@ trait ShoopedImp
     public function offsetGet($offset)
     {
         $array = [];
-        if (Type::is($this, ESArray::class, ESDictionary::class)) {
+        if (Type::is($this, ESArray::class)) {
             $array = $this->value;
+            if (is_string($offset)) {
+                $array = PhpTypeJuggle::indexedArrayToAssociativeArray($array);
+            }
 
         } elseif (Type::is($this, ESBool::class)) {
             $array = PhpTypeJuggle::boolToAssociativeArray($this->value);
 
+        } elseif (Type::is($this, ESDictionary::class)) {
+            $array = $this->value;
+
         } elseif (Type::is($this, ESInt::class)) {
             $array = PhpTypeJuggle::intToIndexedArray($this->value);
+            if (is_string($offset)) {
+                $array = PhpTypeJuggle::intToAssociativeArray($this->value);
+            }
 
         } elseif (Type::is($this, ESJson::class)) {
             $array = PhpTypeJuggle::jsonToAssociativeArray($this->value);
@@ -416,7 +387,9 @@ trait ShoopedImp
 
         } elseif (Type::is($this, ESString::class)) {
             $array = PhpTypeJuggle::stringToIndexedArray($this->value);
-
+            if (is_string($offset)) {
+                $array = PhpTypeJuggle::indexedArrayToAssociativeArray($array);
+            }
         }
 
         if (isset($array[$offset])) {

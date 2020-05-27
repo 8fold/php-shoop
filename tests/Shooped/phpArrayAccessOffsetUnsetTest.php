@@ -39,7 +39,7 @@ class OffsetUnsetTest extends TestCase
     public function testESBool()
     {
         $actual = ESBool::fold(true);
-        $actual->unsetOffset(0);
+        $actual->offsetUnset(0);
         $this->assertTrue($actual->unfold());
     }
 

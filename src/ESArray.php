@@ -76,9 +76,9 @@ class ESArray implements
     {
         $int = Type::sanitizeType($int, ESInt::class)->unfold();
         $value = [Type::sanitizeType($value)->unfold()];
-        $array = $this->splitAtUnfolded($int);
-        $lhs = $array["lhs"];
-        $rhs = $array["rhs"];
+        $dict = $this->splitAtUnfolded($int);
+        $lhs = $dict["lhs"];
+        $rhs = $dict["rhs"];
 
         $merged = array_merge($lhs, $value, $rhs);
         return Shoop::array($merged)->array();
@@ -88,9 +88,10 @@ class ESArray implements
     {
         $lhs = array_slice($this->value(), 0, $int);
         $rhs = array_slice($this->value(), $int);
-        return [
+
+        return Shoop::dictionary([
             "lhs" => $lhs,
             "rhs" => $rhs
-        ];
+        ]);
     }
 }

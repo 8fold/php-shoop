@@ -2,8 +2,11 @@
 
 namespace Eightfold\Shoop\Traits;
 
-use Eightfold\Shoop\Helpers\Type;
-use Eightfold\Shoop\Helpers\PhpTypeJuggle;
+use Eightfold\Shoop\Helpers\{
+    Type,
+    PhpTypeJuggle,
+    PhpTypeHelpers
+};
 
 use Eightfold\Shoop\{
     Shoop,
@@ -133,9 +136,7 @@ trait WrapImp
         } elseif (Type::is($this, ESString::class)) {
             $string = $this->stringUnfolded();
             $starter = implode("", $needles);
-            $starterLength = strlen($starter);
-            $substring = substr($string, 0, $starterLength);
-            $bool = $substring === $starter;
+            $bool = PhpTypeHelpers::startsWith($string, $starter);
             return Shoop::bool($bool);
 
         }
@@ -161,9 +162,7 @@ trait WrapImp
         } elseif (Type::is($this, ESString::class)) {
             $string = $this->stringUnfolded();
             $ender = implode("", $needles);
-            $enderLength = strlen($ender);
-            $substring = substr($string, -$enderLength);
-            $bool = $substring === $ender;
+            $bool = PhpTypeHelpers::endsWith($string, $ender);
             return Shoop::bool($bool);
 
         }
