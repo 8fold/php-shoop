@@ -5,7 +5,7 @@ namespace Eightfold\Shoop\Traits;
 use Eightfold\Shoop\Helpers\{
     Type,
     PhpTypeJuggle,
-    PhpTypeHelpers
+    PhpString
 };
 
 use Eightfold\Shoop\{
@@ -136,7 +136,7 @@ trait WrapImp
         } elseif (Type::is($this, ESString::class)) {
             $string = $this->stringUnfolded();
             $starter = implode("", $needles);
-            $bool = PhpTypeHelpers::startsWith($string, $starter);
+            $bool = PhpString::startsWith($string, $starter);
             return Shoop::bool($bool);
 
         }
@@ -162,7 +162,7 @@ trait WrapImp
         } elseif (Type::is($this, ESString::class)) {
             $string = $this->stringUnfolded();
             $ender = implode("", $needles);
-            $bool = PhpTypeHelpers::endsWith($string, $ender);
+            $bool = PhpString::endsWith($string, $ender);
             return Shoop::bool($bool);
 
         }

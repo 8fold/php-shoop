@@ -17,7 +17,7 @@ use Eightfold\Shoop\Interfaces\Shooped;
 use Eightfold\Shoop\Helpers\{
     Type,
     PhpTypeJuggle,
-    PhpTypeHelpers
+    PhpString
 };
 
 trait ShoopedImp
@@ -229,15 +229,15 @@ trait ShoopedImp
 // - __call helpers
     private function isGetter(string $name): bool
     {
-        return PhpTypeHelpers::startsAndEndsWith($name, "get", "Unfolded") or
-            PhpTypeHelpers::startsWithGet($name) or
-            (! method_exists($this, $name) and ! PhpTypeHelpers::startsWithGet($name));
+        return PhpString::startsAndEndsWith($name, "get", "Unfolded") or
+            PhpString::startsWithGet($name) or
+            (! method_exists($this, $name) and ! PhpString::startsWithGet($name));
     }
 
     private function needsUnfolding($name)
     {
-        return PhpTypeHelpers::startsAndEndsWith($name, "get", "Unfolded") or
-            PhpTypeHelpers::endsWithUnfolded($name);
+        return PhpString::startsAndEndsWith($name, "get", "Unfolded") or
+            PhpString::endsWithUnfolded($name);
     }
 
 // - PHP interfaces and magic methods
@@ -256,28 +256,28 @@ trait ShoopedImp
     public function __call(string $name, array $args = [])
     {
         $remove = [];
-        if (PhpTypeHelpers::startsAndEndsWith($name, "get", "Unfolded")) {
+        if (PhpString::startsAndEndsWith($name, "get", "Unfolded")) {
             $remove = ["get", "Unfolded"];
 
-        } elseif (PhpTypeHelpers::startsWithSet($name)) {
+        } elseif (PhpString::startsWithSet($name)) {
             $remove = ["set"];
 
-        } elseif (PhpTypeHelpers::startsWithGet($name)) {
+        } elseif (PhpString::startsWithGet($name)) {
             $remove = ["get"];
 
-        } elseif (PhpTypeHelpers::endsWithUnfolded($name)) {
+        } elseif (PhpString::endsWithUnfolded($name)) {
             $remove = ["Unfolded"];
 
         }
 
         $cName = $name;
         if (count($remove) > 0) {
-            $cName = PhpTypeHelpers::afterRemoving($name, $remove);
+            $cName = PhpString::afterRemoving($name, $remove);
             $cName = lcfirst($cName);
         }
 
         $value;
-        if (PhpTypeHelpers::startsWithSet($name)) {
+        if (PhpString::startsWithSet($name)) {
             $value = (isset($args[0])) ? $args[0] : null;
             $overwrite = (isset($args[1])) ? $args[1] : true;
             $value = $this->set($value, $cName, $overwrite);

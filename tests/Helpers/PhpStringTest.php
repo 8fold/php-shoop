@@ -4,29 +4,29 @@ namespace Eightfold\Shoop\Tests\Shooped;
 
 use PHPUnit\Framework\TestCase;
 
-use Eightfold\Shoop\Helpers\PhpTypeHelpers;
+use Eightfold\Shoop\Helpers\PhpString;
 
-class PhpTypeHelpersTest extends TestCase
+class PhpStringTest extends TestCase
 {
     public function testStartsWith()
     {
         $string = "Hello";
-        $actual = PhpTypeHelpers::startsWith($string, "He");
+        $actual = PhpString::startsWith($string, "He");
         $this->assertTrue($actual);
 
         $string = "setSomething";
-        $actual = PhpTypeHelpers::startsWithSet($string);
+        $actual = PhpString::startsWithSet($string);
         $this->assertTrue($actual);
     }
 
     public function testEndsWith()
     {
         $string = "Hello";
-        $actual = PhpTypeHelpers::endsWith($string, "lo");
+        $actual = PhpString::endsWith($string, "lo");
         $this->assertTrue($actual);
 
         $string = "somethingUnfolded";
-        $actual = PhpTypeHelpers::endsWithUnfolded($string);
+        $actual = PhpString::endsWithUnfolded($string);
         $this->assertTrue($actual);
     }
 }

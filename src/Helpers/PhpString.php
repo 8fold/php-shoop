@@ -2,7 +2,7 @@
 
 namespace Eightfold\Shoop\Helpers;
 
-class PhpTypeHelpers
+class PhpString
 {
     static public function afterRemoving(string $string, array $needles = []): string
     {
