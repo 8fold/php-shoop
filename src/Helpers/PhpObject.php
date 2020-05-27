@@ -12,7 +12,7 @@ class PhpObject
 {
     static public function toIndexedArray(object $object): array
     {
-        $array = (array) $object;
+        $array = self::toAssociativeArray($object);
         $array = array_values($array);
         return $array;
     }
@@ -53,14 +53,14 @@ class PhpObject
     // TODO: No tests failed - need tests
     static public function startsWith(object $object, array $needles): bool
     {
-        $dictionary = (array) $object;
+        $dictionary = self::toAssociativeArray($object);
         $bool = PhpAssociativeArray::startsWith($dictionary, $needles);
         return $bool;
     }
 
     static public function endsWith(object $object, array $needles): bool
     {
-        $dictionary = (array) $object;
+        $dictionary = self::toAssociativeArray($object);
         $bool = PhpAssociativeArray::endsWith($dictionary, $needles);
         return $bool;
     }
@@ -69,15 +69,15 @@ class PhpObject
     {
         $dictionary = self::toAssociativeArray($object);
         $dictionary = PhpAssociativeArray::reversed($dictionary, $preserveMembers);
-        $object = (object) $dictionary;
+        $object = PhpAssociativeArray::toObject($dictionary);
         return $object;
     }
 
     static public function toSortedObject(object $object, bool $asc, bool $caseSensitive): object
     {
-        $dictionary = (array) $object;
+        $dictionary = self::toAssociativeArray($object);
         $dictionary = PhpAssociativeArray::toSortedAssociativeArray($dictionary, $asc, $caseSensitive);
-        $object = (object) $dictionary;
+        $object = PhpAssociativeArray::toObject($dictionary);
         return $object;
     }
 
@@ -91,15 +91,19 @@ class PhpObject
         return $object;
     }
 
+    static public function afterSettingValue(object $object, $value, $member, bool $overwrite = true): object
+    {
+        $dictionary = self::toAssociativeArray($object);
+        $dictionary = PhpAssociativeArray::afterSettingValue($dictionary, $value, $member, $overwrite);
+        $object = PhpAssociativeArray::toObject($dictionary);
+        return $object;
+    }
+
     static public function toMembersAndValuesAssociativeArray(object $object): object
     {
-        $dictionary = (array) $object;
+        $dictionary = self::toAssociativeArray($object);
         $dictionary = PhpAssociativeArray::toMembersAndValuesAssociativeArray($dictionary);
-        $dictionary = [
-            "members" => $dictionary["members"],
-            "values" => $dictionary["values"]
-        ];
-        $object = (object) $dictionary;
+        $object = PhpAssociativeArray::toObject($dictionary);
         return $object;
     }
 }

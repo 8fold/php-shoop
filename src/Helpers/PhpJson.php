@@ -54,4 +54,21 @@ class PhpJson
             trigger_error("The given string does not appear to be valid JSON.", E_USER_ERROR);
         }
     }
+
+    static public function afterSettingValue(string $json, $value, $member, bool $overwrite = true): string
+    {
+        self::isJson($json);
+        $object = self::toObject($json);
+        $object = PhpObject::afterSettingValue($object, $value, $member, $overwrite);
+        $json = PhpObject::toJson($object);
+        return $json;
+    }
+
+    static public function toMembersAndValuesAssociativeArray(string $json): string
+    {
+        $object = self::toObject($json);
+        $object = PhpObject::toMembersAndValuesAssociativeArray($object);
+        $json = PhpObject::toJson($object);
+        return $json;
+    }
 }
