@@ -21,12 +21,21 @@ class StringTest extends TestCase
     {
         $base = "Hello, World!";
         $expected = "Hero, World!";
-        $actual = Shoop::string($base)->replace("ll", "r");
+        $actual = Shoop::string($base)
+            ->replace(["ll" => "r"]);
         $this->assertEquals($expected, $actual->unfold());
 
         $base = "abx, xab, bax";
-        $expected = "abc, cab, bax";
-        $actual = Shoop::string($base)->replace("x", "c", 2);
+        $expected = "abc, cab, bac";
+        $actual = Shoop::string($base)->replace(["x" => "c"]);
+        $this->assertEquals($expected, $actual->unfold());
+    }
+
+    public function testReplaceRange()
+    {
+        $string = "ABCDEFGH:/MNRPQR/";
+        $expected = "bob:/MNRPQR/";
+        $actual = Shoop::string($string)->replaceRange("bob", 0, 8);
         $this->assertEquals($expected, $actual->unfold());
     }
 

@@ -95,13 +95,29 @@ class ESString implements
 
     // }
 
-    public function replace($search, $replace, $occurences = -1): ESString
+    public function replace($replacements = [], $caseSensitive = true): ESString
     {
-        $search = Type::sanitizeType($search, ESString::class)->unfold();
-        $replace = Type::sanitizeType($replace, ESString::class)->unfold();
-        $occurences = Type::sanitizeType($occurences, ESInt::class)->unfold();
-        $string = $this->stringUnfolded();
-        $string = preg_replace("/". $search ."/", $replace, $string, $occurences);
+        $replacements = Type::sanitizeType($replacements, ESDictionary::class)->unfold();
+        $caseSensitive = Type::sanitizeType($caseSensitive, ESBool::class)->unfold();
+        $search = array_keys($replacements);
+        $replace = array_values($replacements);
+        if ($caseSensitive) {
+            $string = str_replace($search, $replace, $this->value());
+            return Shoop::string($string);
+
+        }
+        $string = str_ireplace($search, $replace, $this->value());
+        return Shoop::string($string);
+    }
+
+    public function replaceRange($replacement, $start = 0, $length = null)
+    {
+        $replacement = Type::sanitizeType($replacement, ESString::class)->unfold();
+        $start = Type::sanitizeType($start, ESInt::class)->unfold();
+        $length = ($length === null)
+            ? Type::sanitizeType(strlen($replacement), ESInt::class)->unfold()
+            : Type::sanitizeType($length, ESInt::class)->unfold();
+        $string = substr_replace($this->value(), $replacement, $start, $length);
         return Shoop::string($string);
     }
 
