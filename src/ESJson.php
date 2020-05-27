@@ -2,7 +2,10 @@
 
 namespace Eightfold\Shoop;
 
-use Eightfold\Shoop\Helpers\Type;
+use Eightfold\Shoop\Helpers\{
+    Type,
+    PhpJson
+};
 
 use Eightfold\Shoop\Shoop;
 
@@ -43,6 +46,31 @@ class ESJson implements Shooped, Compare, MathOperations, Wrap, Drop, Has, IsIn,
      */
     protected $path = "";
 
+    static public function to(ESJson $instance, string $className)
+    {
+        if ($className === ESArray::class) {
+            return PhpJson::toIndexedArray($instance->value());
+
+        } elseif ($className === ESBool::class) {
+            return PhpJson::toBool($instance->value());
+
+        } elseif ($className === ESDictionary::class) {
+            return PhpJson::toAssociativeArray($instance->value());
+
+        } elseif ($className === ESInt::class) {
+            return PhpJson::toInt($instance->value());
+
+        } elseif ($className === ESJson::class) {
+            return $instance->value();
+
+        } elseif ($className === ESObject::class) {
+            return PhpJson::toObject($instance->value());
+
+        } elseif ($className === ESString::class) {
+            return $instance->value();
+
+        }
+    }
 	public function __construct($initial)
 	{
 		if (Type::isJson($initial)) {

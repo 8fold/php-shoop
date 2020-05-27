@@ -2,6 +2,11 @@
 
 namespace Eightfold\Shoop;
 
+use Eightfold\Shoop\Helpers\{
+    Type,
+    PhpString
+};
+
 use Eightfold\Shoop\Interfaces\{
     Shooped,
     MathOperations,
@@ -30,9 +35,6 @@ use Eightfold\Shoop\Traits\{
     EachImp
 };
 
-use Eightfold\Shoop\Helpers\Type;
-
-// TODO: replace(x, y)
 class ESString implements
     Shooped,
     MathOperations,
@@ -47,6 +49,32 @@ class ESString implements
     Each
 {
     use ShoopedImp, MathOperationsImp, ToggleImp, ShuffleImp, WrapImp, SortImp, HasImp, DropImp, CompareImp, IsInImp, EachImp;
+
+    static public function to(ESString $instance, string $className)
+    {
+        if ($className === ESArray::class) {
+            return PhpString::toIndexedArray($instance->value());
+
+        } elseif ($className === ESBool::class) {
+            return PhpString::toBool($instance->value());
+
+        } elseif ($className === ESDictionary::class) {
+            return PhpString::toAssociativeArray($instance->value());
+
+        } elseif ($className === ESInt::class) {
+            return PhpString::toInt($instance->value());
+
+        } elseif ($className === ESJson::class) {
+            return $instance->value();
+
+        } elseif ($className === ESObject::class) {
+            return PhpString::toObject($instance->value());
+
+        } elseif ($className === ESString::class) {
+            return $instance->value();
+
+        }
+    }
 
     public function __construct($string)
     {
@@ -77,12 +105,6 @@ class ESString implements
         return Shoop::string($string);
     }
 
-    /**
-     * The `trim()` method combines the three PHP `trim()` functions allowing for trimming characters from both ends of the string, just the beginning, or just the end.
-     *
-     * @return Eightfold\Shoop\ESString
-     *
-     */
     public function trim($fromStart = true, $fromEnd = true, $charMask = " \t\n\r\0\x0B"): ESString
     {
         $fromStart = Type::sanitizeType($fromStart, ESBool::class)->unfold();

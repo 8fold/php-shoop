@@ -48,14 +48,11 @@ class php_CallWildcardGetTest extends TestCase
         $this->assertFalse($actual->unfold());
     }
 
-    /**
-     * Equivalent to calling `unfold()` regardless of argument value.
-     */
     public function testESBool()
     {
         $base = true;
-        $actual = ESBool::fold($base)->get();
-        $this->assertTrue($actual->unfold());
+        // $actual = ESBool::fold($base)->get();
+        // $this->assertTrue($actual->unfold());
 
         $actual = ESBool::fold(false)->get("true");
         $this->assertFalse($actual->unfold());
@@ -81,22 +78,21 @@ class php_CallWildcardGetTest extends TestCase
         $this->assertEquals($expected, $actual->unfold());
     }
 
-    public function testESJson()
+    public function testESJsonGet()
     {
         $base = '{"test":true}';
         $actual = ESJson::fold($base)->getTest();
         $this->assertTrue($actual->unfold());
 
-        // Anonymous getter, as "test" is not defined on ESJson
         $actual = ESJson::fold($base)->test();
-        $this->assertTrue($actual);
+        $this->assertTrue($actual->unfold());
     }
 
     public function testESObject()
     {
         $base = new \stdClass();
         $base->test = false;
-        $actual = ESObject::fold($base)->getTest($base);
+        $actual = ESObject::fold($base)->getTest();
         $this->assertFalse($actual->unfold());
     }
 

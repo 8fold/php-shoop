@@ -2,7 +2,10 @@
 
 namespace Eightfold\Shoop;
 
-use Eightfold\Shoop\Helpers\Type;
+use Eightfold\Shoop\Helpers\{
+    Type,
+    PhpBool
+};
 
 use Eightfold\Shoop\ESInt;
 
@@ -23,6 +26,32 @@ use Eightfold\Shoop\Traits\{
 class ESBool implements Shooped, Compare, Toggle, IsIn
 {
     use ShoopedImp, CompareImp, ToggleImp, IsInImp;
+
+    static public function to(ESBool $instance, string $className)
+    {
+        if ($className === ESArray::class) {
+            return PhpBool::toIndexedArray($instance->value());
+
+        } elseif ($className === ESBool::class) {
+            return $instance->value();
+
+        } elseif ($className === ESDictionary::class) {
+            return PhpBool::toAssociativeArray($instance->value());
+
+        } elseif ($className === ESInt::class) {
+            return PhpBool::toInt($instance->value());
+
+        } elseif ($className === ESJson::class) {
+            return PhpBool::toJson($instance->value());
+
+        } elseif ($className === ESObject::class) {
+            return PhpBool::toObject($instance->value());
+
+        } elseif ($className === ESString::class) {
+            return PhpBool::toString($instance->value());
+
+        }
+    }
 
     public function __construct($bool)
     {

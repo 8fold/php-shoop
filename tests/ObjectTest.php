@@ -7,6 +7,7 @@ use PHPUnit\Framework\TestCase;
 use Eightfold\Shoop\{
     Shoop,
     ESObject,
+    ESString,
     Helpers\Type
 };
 
@@ -19,8 +20,10 @@ class ObjectTest extends TestCase
     {
         $object = new \stdClass();
         $object->object = new \stdClass();
+        $object->string = "Hello!";
 
         $object = Shoop::this($object);
         $this->assertEquals(ESObject::class, get_class($object->object()));
+        $this->assertEquals(ESString::class, get_class($object->string()));
     }
 }

@@ -86,7 +86,7 @@ class php_CallWildcardSetTest extends TestCase
         $base = new \stdClass();
         $base->test = false;
         $actual = ESObject::fold($base)->setTest(true, true);
-        $this->assertTrue($actual->test());
+        $this->assertTrue($actual->test()->unfold());
     }
 
     /**

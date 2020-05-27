@@ -2,6 +2,11 @@
 
 namespace Eightfold\Shoop;
 
+use Eightfold\Shoop\Helpers\{
+    Type,
+    PhpInt
+};
+
 use Eightfold\Shoop\Interfaces\{
     Shooped,
     MathOperations,
@@ -25,12 +30,35 @@ use Eightfold\Shoop\{
     ESJson
 };
 
-use Eightfold\Shoop\Helpers\Type;
-
-
 class ESInt implements Shooped, MathOperations, Toggle, IsIn, Each
 {
     use ShoopedImp, MathOperationsImp, ToggleImp, CompareImp, IsInImp, EachImp;
+
+    static public function to(ESInt $instance, string $className)
+    {
+        if ($className === ESArray::class) {
+            return PhpInt::toIndexedArray($instance->value());
+
+        } elseif ($className === ESBool::class) {
+            return PhpInt::toBool($instance->value());
+
+        } elseif ($className === ESDictionary::class) {
+            return PhpInt::toAssociativeArray($instance->value());
+
+        } elseif ($className === ESInt::class) {
+            return $instance->value();
+
+        } elseif ($className === ESJson::class) {
+            return PhpInt::toJson($instance->value());
+
+        } elseif ($className === ESObject::class) {
+            return PhpInt::toObject($instance->value());
+
+        } elseif ($className === ESString::class) {
+            return PhpInt::toString($instance->value());
+
+        }
+    }
 
     public function __construct($int)
     {

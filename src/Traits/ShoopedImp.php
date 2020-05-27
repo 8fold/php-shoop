@@ -14,8 +14,16 @@ use Eightfold\Shoop\{
 };
 
 use Eightfold\Shoop\Interfaces\Shooped;
-use Eightfold\Shoop\Helpers\Type;
-use Eightfold\Shoop\Helpers\PhpTypeJuggle;
+use Eightfold\Shoop\Helpers\{
+    Type,
+    PhpIndexedArray,
+    PhpBool,
+    PhpAssociativeArray,
+    PhpInt,
+    PhpJson,
+    PhpObject,
+    PhpString
+};
 
 trait ShoopedImp
 {
@@ -48,7 +56,9 @@ trait ShoopedImp
 
     private function juggleTo(string $className)
     {
-        return PhpTypeJuggle::juggleTo($this, $className);
+        $instanceClass = get_class($this); // TODO: PHP 8 allows for $instance::class
+        $value = $instanceClass::to($this, $className);
+        return $className::fold($value);
     }
 
     public function array(): ESArray
@@ -120,60 +130,50 @@ trait ShoopedImp
 
     public function get($member = 0)
     {
-        if (Type::is($this, ESArray::class)) {
+        if (Type::is($this, ESArray::class, ESInt::class, ESString::class)) {
             $member = Type::sanitizeType($member, ESInt::class)->unfold();
-            $array = $this->value;
-            $value = $this->valueFromArray($array, $member);
-            return $value;
+
+        } elseif (Type::is($this, ESDictionary::class, ESJson::class, ESObject::class)) {
+            $member = Type::sanitizeType($member, ESString::class)->unfold();
+
+        }
+
+        $array = Shoop::array([]);
+        if (Type::is($this, ESArray::class, ESDictionary::class) and $this->offsetExists($member)) {
+            return Shoop::this($this->offsetGet($member)); // The only return of consequence
 
         } elseif (Type::is($this, ESBool::class)) {
-            if (is_string($member) && ($member === "true" || $member === "false")) {
-                $bool = $this->dictionary()->{$member};
-
-            } else {
-                $bool = $this->value;
-
-            }
-            return Shoop::bool($bool);
-
-        } elseif (Type::is($this, ESDictionary::class)) {
-            $member = Type::sanitizeType($member, ESString::class)->unfold();
-            $array = $this->value;
-            $value = $this->valueFromArray($array, $member);
-            return $value;
+            $array = $this->dictionary();
 
         } elseif (Type::is($this, ESInt::class)) {
-            $member = Type::sanitizeType($member, ESInt::class)->unfold();
-            $array = PhpTypeJuggle::intToIndexedArray($this->value);
-            $value = $this->valueFromArray($array, $member);
-            return $value;
+            $array = PhpInt::toIndexedArray($this->value);
 
         } elseif (Type::is($this, ESJson::class)) {
-            $member = Type::sanitizeType($member, ESString::class)->unfold();
-            $array = PhpTypeJuggle::jsonToAssociativeArray($this->value);
-            $value = $this->valueFromArray($array, $member);
-            return $value;
+            $array = PhpJson::toAssociativeArray($this->value);
 
         } elseif (Type::is($this, ESObject::class)) {
-            $member = Type::sanitizeType($member, ESString::class)->unfold();
-            $array = PhpTypeJuggle::objectToAssociativeArray($this->value);
-            $value = $this->valueFromArray($array, $member);
-            return $value;
+            $array = PhpObject::toAssociativeArray($this->value);
 
         } elseif (Type::is($this, ESString::class)) {
-            $array = PhpTypeJuggle::stringToIndexedArray($this->value);
-            if (isset($array[$member])) {
-                $value = $array[$member];
-                return Shoop::string($value);
-            }
+            $array = PhpString::toIndexedArray($this->value);
+
         }
+        return Shoop::this($array)->get($member);
+    }
+
+    public function getUnfolded($name)
+    {
+        $value = $this->get($name);
+        return (Type::isShooped($value)) ? $value->unfold() : $value;
     }
 
     public function set($value, $member = null, $overwrite = true)
     {
         if (Type::is($this, ESArray::class, ESDictionary::class)) {
             $array = $this->value;
-            $array = $this->arrayAfterSettingValue($array, $value, $member, $overwrite);
+            $array = (Type::is($this, ESArray::class))
+                ? PhpIndexedArray::afterSettingValue($array, $value, $member, $overwrite)
+                : PhpAssociativeArray::afterSettingValue($array, $value, $member, $overwrite);
             return (Type::is($this, ESArray::class))
                 ? Shoop::array($array)
                 : Shoop::dictionary($array);
@@ -194,154 +194,36 @@ trait ShoopedImp
 
         } elseif (Type::is($this, ESJson::class)) {
             $json = $this->value;
-            $object = json_decode($json);
-            $array = (array) $object;
-            $array = $this->arrayAfterSettingValue($array, $value, $member, $overwrite);
-            $object = (object) $array;
-            $json = json_encode($object);
+            $array = PhpJson::toAssociativeArray($json);
+            $array = PhpAssociativeArray::afterSettingValue($array, $value, $member, $overwrite);
+            $json = PhpAssociativeArray::toJson($array);
             return Shoop::json($json);
 
         } elseif (Type::is($this, ESObject::class)) {
             $object = $this->value;
-            $array = (array) $object;
-            $array = $this->arrayAfterSettingValue($array, $value, $member, $overwrite);
-            $object = (object) $array;
+            $array = PhpObject::toAssociativeArray($object);
+            $array = PhpAssociativeArray::afterSettingValue($array, $value, $member, $overwrite);
+            $object = PhpAssociativeArray::toObject($array);
             return Shoop::object($object);
         }
     }
 
-    private function arrayAfterSettingValue(array $array, $value, $member, bool $overwrite): array
+// - __call helpers
+    private function isGetter(string $name): bool
     {
-        if ($member === null) {
-            trigger_error("Setting value on array requires member be specified.");
-        }
-        $member = (Type::is($this, ESArray::class))
-            ? Type::sanitizeType($member, ESInt::class)->unfold()
-            : Type::sanitizeType($member, ESString::class)->unfold();
-        $overwrite = Type::sanitizeType($overwrite, ESBool::class)->unfold();
-
-        if ($this->offsetExists($member) && $overwrite) {
-            $set = [$member => $value];
-            $array = array_replace($array, $set);
-
-        } elseif ($overwrite) {
-            $set = [$member => $value];
-            $array = array_replace($array, $set);
-
-        } else {
-            $array[$member] = $value;
-
-        }
-        return $array;
+        return PhpString::startsAndEndsWith($name, "get", "Unfolded") or
+            PhpString::startsWithGet($name) or
+            (! method_exists($this, $name) and ! PhpString::startsWithGet($name));
     }
 
-    private function handleSet($name, $args)
+    private function needsUnfolding($name)
     {
-        $name = lcfirst(str_replace("set", "", $name));
-        $overwrite = (isset($args[1])) ? $args[1] : true;
-        $value = (isset($args[0])) ? $args[0] : null;
-
-        return $this->set($value, $name, $overwrite);
-    }
-
-    private function handleGetUnfolded($name, $args)
-    {
-        $value;
-        if (! method_exists($this, $name)) {
-            $className = static::class;
-            trigger_error("{$name} is an invalid method on {$className}", E_USER_ERROR);
-
-        } elseif (is_callable([$this, $name])) {
-            $value = $this->{$name}(...$args);
-
-        // } elseif ($name === "plus" || $name === "minus") {
-        //     $value = $this->{$name}(...$args);
-
-        } else {
-            $value = $this->{$name}($args[0]);
-
-        }
-        return (Type::isShooped($value)) ? $value->unfold() : $value;
-    }
-
-    private function valueFromArray(array $array, $member)
-    {
-        if (! $this->offsetExists($member)) {
-            trigger_error("Undefined index or member.");
-        }
-
-        $value = $this[$member];
-        return Type::sanitizeType($value);
-    }
-
-    public function __call($name, $args = [])
-    {
-        $startsWithSet = substr($name, 0, strlen("set")) === "set";
-        $startsWithGet = substr($name, 0, strlen("get")) === "get";
-        $endsWithUnfolded = substr($name, -(strlen("Unfolded"))) === "Unfolded";
-        $name = Shoop::string($name)->unfold();
-
-        if ($startsWithGet && $endsWithUnfolded && $name !== "getUnfolded") {
-            $name = str_replace(["get", "Unfolded"], "", $name);
-            $name = lcfirst($name);
-            return $this->{$name};
-
-        } elseif ($name === "getUnfolded") {
-            $name = str_replace("Unfolded", "", $name);
-            return $this->handleGetUnfolded($name, $args);
-
-        } elseif ($startsWithSet) {
-            $name = lcfirst(str_replace("set", "", $name));
-            return $this->handleSet($name, $args);
-
-        } elseif ($startsWithGet) {
-            $name = lcfirst(str_replace("get", "", $name));
-            return $this->get($name, $args);
-
-        } elseif ($endsWithUnfolded) {
-            $name = str_replace("Unfolded", "", $name);
-            $value = $this->{$name}(...$args);
-            return (Type::isShooped($value))
-                ? $value->unfold()
-                : $value;
-
-        } elseif (is_callable([$this, "get"])) {
-            $value = $this->get($name);
-            $return = (isset($value) && Type::isShooped($value))
-                ? $value->unfold()
-                : $value;
-            return $return;
-
-        }
-        trigger_error("Call to undefined method '{$name}'", E_USER_ERROR);
-    }
-
-    public function __get($name)
-    {
-        $value = null;
-        if (Type::is($this, ESArray::class, ESDictionary::class)) {
-            if (is_callable([$this, $name])) {
-                $value = $this->{$name}();
-
-            }
-
-        } else {
-            if (is_int($name) && $this->array()->hasMember($name)->unfold()) {
-                $value = $this->array()->{$name};
-
-            } elseif (is_string($name) && $this->dictionary()->hasMember($name)->unfold()) {
-                $value = $this->dictionary()->{$name};
-
-            } elseif (is_callable([$this, $name])) {
-                $value = $this->{$name}();
-
-            }
-        }
-        return (Type::isShooped($value)) ? $value->unfold() : $value;
+        return PhpString::startsAndEndsWith($name, "get", "Unfolded") or
+            PhpString::endsWithUnfolded($name);
     }
 
 // - PHP interfaces and magic methods
-    public function __toString()
+    public function __toString(): string
     {
         return $this->string()->unfold();
     }
@@ -353,33 +235,106 @@ trait ShoopedImp
         ];
     }
 
+    public function __call(string $name, array $args = [])
+    {
+        $remove = [];
+        if (PhpString::startsAndEndsWith($name, "get", "Unfolded")) {
+            $remove = ["get", "Unfolded"];
+
+        } elseif (PhpString::startsWithSet($name)) {
+            $remove = ["set"];
+
+        } elseif (PhpString::startsWithGet($name)) {
+            $remove = ["get"];
+
+        } elseif (PhpString::endsWithUnfolded($name)) {
+            $remove = ["Unfolded"];
+
+        }
+
+        $cName = $name;
+        if (count($remove) > 0) {
+            $cName = PhpString::afterRemoving($name, $remove);
+            $cName = lcfirst($cName);
+        }
+
+        $value;
+        if (PhpString::startsWithSet($name)) {
+            $value = (isset($args[0])) ? $args[0] : null;
+            $overwrite = (isset($args[1])) ? $args[1] : true;
+            $value = $this->set($value, $cName, $overwrite);
+
+        } elseif ($this->isGetter($name) and method_exists($this, $cName)) {
+            $value = $this->{$cName}(...$args);
+
+        } elseif ($this->offsetExists($cName)) {
+            $value = $this->get($cName);
+
+        } elseif ($this->isGetter($name)) {
+            $value = Shoop::this($this->{$cName});
+
+        }
+
+        return (Type::isShooped($value) and $this->needsUnfolding($name))
+            ? $value->unfold()
+            : $value;
+    }
+
+    public function __get($name)
+    {
+        $value = null;
+        if ($this->offsetExists($name)) {
+            $value = $this->offsetGet($name);
+
+        } elseif (method_exists($this, $name)) {
+            $value = $this->{$name}();
+
+        }
+        return (Type::isShooped($value)) ? $value->unfold() : $value;
+    }
+
+// -> ArrayAccess
     public function offsetExists($offset): bool
     {
         $bool = false;
         if (Type::is($this, ESArray::class)) {
             $bool = isset($this->value[$offset]);
+            if (! $bool) {
+                $array = PhpIndexedArray::toAssociativeArray($this->value);
+                $bool = isset($array[$offset]);
+
+            }
 
         } elseif (Type::is($this, ESBool::class)) {
-            $bool = $this->value;
+            $array = PhpBool::toAssociativeArray($this->value);
+            $bool = isset($array[$offset]);
 
         } elseif (Type::is($this, ESDictionary::class)) {
             $bool = isset($this->value[$offset]);
 
         } elseif (Type::is($this, ESInt::class)) {
-            $array = PhpTypeJuggle::intToIndexedArray($this->value);
+            $array = PhpInt::toIndexedArray($this->value);
             $bool = isset($array[$offset]);
+            if (! $bool) {
+                $array = PhpInt::toAssociativeArray($this->value);
+                $bool = isset($array[$offset]);
+            }
 
         } elseif (Type::is($this, ESJson::class)) {
-            $array = PhpTypeJuggle::jsonToAssociativeArray($this->value);
+            $array = PhpJson::toAssociativeArray($this->value);
             $bool = isset($array[$offset]);
 
         } elseif (Type::is($this,  ESObject::class)) {
-            $array = PhpTypeJuggle::objectToAssociativeArray($this->value);
+            $array = PhpObject::toAssociativeArray($this->value);
             $bool = isset($array[$offset]);
 
         } elseif (Type::is($this, ESString::class)) {
-            $array = PhpTypeJuggle::stringToIndexedArray($this->value);
+            $array = PhpString::toIndexedArray($this->value);
             $bool = isset($array[$offset]);
+            if (! $bool) {
+                $array = PhpIndexedArray::toAssociativeArray($array);
+                $bool = isset($array[$offset]);
+            }
 
         }
         return $bool;
@@ -388,24 +343,35 @@ trait ShoopedImp
     public function offsetGet($offset)
     {
         $array = [];
-        if (Type::is($this, ESArray::class, ESDictionary::class)) {
+        if (Type::is($this, ESArray::class)) {
             $array = $this->value;
+            if (is_string($offset)) {
+                $array = PhpIndexedArray::toAssociativeArray($array);
+            }
 
         } elseif (Type::is($this, ESBool::class)) {
-            $array = PhpTypeJuggle::boolToAssociativeArray($this->value);
+            $array = PhpBool::toAssociativeArray($this->value);
+
+        } elseif (Type::is($this, ESDictionary::class)) {
+            $array = $this->value;
 
         } elseif (Type::is($this, ESInt::class)) {
-            $array = PhpTypeJuggle::intToIndexedArray($this->value);
+            $array = PhpInt::toIndexedArray($this->value);
+            if (is_string($offset)) {
+                $array = PhpInt::toAssociativeArray($this->value);
+            }
 
         } elseif (Type::is($this, ESJson::class)) {
-            $array = PhpTypeJuggle::jsonToAssociativeArray($this->value);
+            $array = PhpJson::toAssociativeArray($this->value);
 
         } elseif (Type::is($this, ESObject::class)) {
-            $array = PhpTypeJuggle::objectToAssociativeArray($this->value);
+            $array = PhpObject::toAssociativeArray($this->value);
 
         } elseif (Type::is($this, ESString::class)) {
-            $array = PhpTypeJuggle::stringToIndexedArray($this->value);
-
+            $array = PhpString::toIndexedArray($this->value);
+            if (is_string($offset)) {
+                $array = PhpIndexedArray::toAssociativeArray($array);
+            }
         }
 
         if (isset($array[$offset])) {
@@ -467,22 +433,22 @@ trait ShoopedImp
             $this->temp = $this->value;
 
         } elseif (Type::is($this, ESBool::class)) {
-            $this->temp = PhpTypeJuggle::boolToAssociativeArray($this->value);
+            $this->temp = PhpBool::toAssociativeArray($this->value);
 
         } elseif (Type::is($this, ESDictionary::class)) {
             $this->temp = $this->value;
 
         } elseif (Type::is($this, ESInt::class)) {
-            $this->temp = PhpTypeJuggle::intToIndexedArray($this->value);
+            $this->temp = PhpInt::toIndexedArray($this->value);
 
         } elseif (Type::is($this, ESJson::class)) {
-            $this->temp = PhpTypeJuggle::jsonToAssociativeArray($this->value);
+            $this->temp = PhpJson::toAssociativeArray($this->value);
 
         } elseif (Type::is($this, ESObject::class)) {
-            $this->temp = PhpTypeJuggle::objectToAssociativeArray($this->value);
+            $this->temp = PhpObject::toAssociativeArray($this->value);
 
         } elseif (Type::is($this, ESString::class)) {
-            $this->temp = PhpTypeJuggle::stringToIndexedArray($this->value);
+            $this->temp = PhpString::toIndexedArray($this->value);
 
         }
     }

@@ -30,8 +30,9 @@ class Type
 
         }
 
-        $sanitizeType = self::shoopFor($toSanitize);
-        $shooped = $sanitizeType::fold($toSanitize);
+        $shoopedType = self::shoopFor($toSanitize);
+        $shooped = $shoopedType::fold($toSanitize);
+        // TODO: See how to remove this in favor of the instance juggling
         switch ($shoopType) {
             case ESArray::class:
                 return $shooped->array();
@@ -143,13 +144,13 @@ class Type
         if (! is_array($potential)) {
             return false;
 
-        } elseif (is_array($potential) && count($potential) === 0) {
-            return true;
-
         } elseif (self::isShooped($potential) && ! is_a($potential, ESArray::class)) {
             return false;
 
         } elseif (self::isShooped($potential) && is_a($potential, ESArray::class)) {
+            return true;
+
+        } elseif (is_array($potential) && count($potential) === 0) {
             return true;
 
         } elseif (is_array($potential)) {
@@ -186,14 +187,14 @@ class Type
         if (! is_array($potential)) {
             return false;
 
-        } elseif (is_array($potential) && count($potential) === 0) {
-            return false;
-
         } elseif (self::isShooped($potential) && ! is_a($potential, ESDictionary::class)) {
             return false;
 
         } elseif (Self::isShooped($potential) && is_a($potential, ESDictionary::class)) {
             return true;
+
+        } elseif (is_array($potential) && count($potential) === 0) {
+            return false;
 
         } elseif (is_array($potential)) {
             $members = array_keys($potential);

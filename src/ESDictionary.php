@@ -2,7 +2,10 @@
 
 namespace Eightfold\Shoop;
 
-use Eightfold\Shoop\Helpers\Type;
+use Eightfold\Shoop\Helpers\{
+    Type,
+    PhpAssociativeArray
+};
 
 use Eightfold\Shoop\Interfaces\{
     Shooped,
@@ -45,6 +48,32 @@ class ESDictionary implements
     Each
 {
     use ShoopedImp, CompareImp, MathOperationsImp, ToggleImp, SortImp, WrapImp, DropImp, HasImp, IsInImp, EachImp;
+
+    static public function to(ESDictionary $instance, string $className)
+    {
+        if ($className === ESArray::class) {
+            return PhpAssociativeArray::toIndexedArray($instance->value());
+
+        } elseif ($className === ESBool::class) {
+            return PhpAssociativeArray::toBool($instance->value());;
+
+        } elseif ($className === ESDictionary::class) {
+            return $instance->value();
+
+        } elseif ($className === ESInt::class) {
+            return PhpAssociativeArray::toInt($instance->value());
+
+        } elseif ($className === ESJson::class) {
+            return PhpAssociativeArray::toJson($instance->value());
+
+        } elseif ($className === ESObject::class) {
+            return PhpAssociativeArray::toObject($instance->value());
+
+        } elseif ($className === ESString::class) {
+            return PhpAssociativeArray::toString($instance->value());
+
+        }
+    }
 
     public function __construct($dictionary)
     {

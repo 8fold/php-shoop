@@ -2,7 +2,10 @@
 
 namespace Eightfold\Shoop;
 
-use Eightfold\Shoop\Helpers\Type;
+use Eightfold\Shoop\Helpers\{
+    Type,
+    PhpIndexedArray
+};
 
 use Eightfold\Shoop\Interfaces\{
     Shooped,
@@ -47,6 +50,33 @@ class ESArray implements
 {
     use ShoopedImp, CompareImp, MathOperationsImp, ToggleImp, ShuffleImp, WrapImp, SortImp, DropImp, HasImp, IsInImp, EachImp;
 
+    // TODO: Can't make part of interface because of typing
+    static public function to(ESArray $instance, string $className)
+    {
+        if ($className === ESArray::class) {
+            return $instance->value();
+
+        } elseif ($className === ESBool::class) {
+            return PhpIndexedArray::toBool($instance->value());
+
+        } elseif ($className === ESDictionary::class) {
+            return PhpIndexedArray::toAssociativeArray($instance->value());
+
+        } elseif ($className === ESInt::class) {
+            return PhpIndexedArray::toInt($instance->value());
+
+        } elseif ($className === ESJson::class) {
+            return PhpIndexedArray::toJson($instance->value());
+
+        } elseif ($className === ESObject::class) {
+            return PhpIndexedArray::toObject($instance->value());
+
+        } elseif ($className === ESString::class) {
+            return PhpIndexedArray::toString($instance->value());
+
+        }
+    }
+
     public function __construct($array = [])
     {
         if (is_a($array, ESArray::class)) {
@@ -76,9 +106,9 @@ class ESArray implements
     {
         $int = Type::sanitizeType($int, ESInt::class)->unfold();
         $value = [Type::sanitizeType($value)->unfold()];
-        $array = $this->splitAtUnfolded($int);
-        $lhs = $array["lhs"];
-        $rhs = $array["rhs"];
+        $dict = $this->splitAtUnfolded($int);
+        $lhs = $dict["lhs"];
+        $rhs = $dict["rhs"];
 
         $merged = array_merge($lhs, $value, $rhs);
         return Shoop::array($merged)->array();
@@ -88,9 +118,10 @@ class ESArray implements
     {
         $lhs = array_slice($this->value(), 0, $int);
         $rhs = array_slice($this->value(), $int);
-        return [
+
+        return Shoop::dictionary([
             "lhs" => $lhs,
             "rhs" => $rhs
-        ];
+        ]);
     }
 }
