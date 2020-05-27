@@ -2,6 +2,8 @@
 
 namespace Eightfold\Shoop\Helpers;
 
+use Eightfold\Shoop\Helpers\PhpIndexedArray;
+
 class PhpString
 {
     static public function afterRemoving(string $string, array $needles = []): string
@@ -39,5 +41,38 @@ class PhpString
     static public function startsAndEndsWith(string $string, string $start, string $end): bool
     {
         return self::startsWith($string, $start) and self::endsWith($string, $end);
+    }
+
+// - Type Juggle
+    static public function toIndexedArray(string $string): array
+    {
+        return preg_split('//u', $string, null, PREG_SPLIT_NO_EMPTY);
+    }
+
+    static public function toBool(string $string): bool
+    {
+        $bool = empty($string);
+        $bool = ! $bool;
+        return $bool;
+    }
+
+    static public function toAssociativeArray(string $string): array
+    {
+        $array = self::toIndexedArray($string);
+        $dictionary = PhpIndexedArray::toAssociativeArray($array);
+        return $dictionary;
+    }
+
+    static public function toInt(string $string): int
+    {
+        $int = intval($string);
+        return $int;
+    }
+
+    static public function toObject(string $string): object
+    {
+        $object = new \stdClass();
+        $object->string = $string;
+        return $object;
     }
 }

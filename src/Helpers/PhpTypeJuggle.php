@@ -3,6 +3,15 @@
 namespace Eightfold\Shoop\Helpers;
 
 use Eightfold\Shoop\Helpers\Type;
+use Eightfold\Shoop\Helpers\{
+    PhpIndexedArray,
+    PhpBool,
+    PhpAssociativeArray,
+    PhpInt,
+    PhpJson,
+    PhpObject,
+    PhpString
+};
 
 use Eightfold\Shoop\Interfaces\Shooped;
 
@@ -26,115 +35,115 @@ class PhpTypeJuggle
                 $value = $instance->value();
 
             } elseif ($className === ESBool::class) {
-                $value = PhpTypeJuggle::indexedArrayToBool($instance->value());
+                $value = PhpIndexedArray::toBool($instance->value());
 
             } elseif ($className === ESDictionary::class) {
-                $value = PhpTypeJuggle::indexedArrayToAssociativeArray($instance->value());
+                $value = PhpIndexedArray::toAssociativeArray($instance->value());
 
             } elseif ($className === ESInt::class) {
-                $value = PhpTypeJuggle::indexedArrayToInt($instance->value());
+                $value = PhpIndexedArray::toInt($instance->value());
 
             } elseif ($className === ESJson::class) {
-                $value = PhpTypeJuggle::indexedArrayToJson($instance->value());
+                $value = PhpIndexedArray::toJson($instance->value());
 
             } elseif ($className === ESObject::class) {
-                $value = PhpTypeJuggle::indexedArrayToObject($instance->value());
+                $value = PhpIndexedArray::toObject($instance->value());
 
             } elseif ($className === ESString::class) {
-                $value = PhpTypeJuggle::indexedArrayToString($instance->value());
+                $value = PhpIndexedArray::toString($instance->value());
 
             }
 
         } elseif (Type::is($instance, ESBool::class)) {
             if ($className === ESArray::class) {
-                $value = PhpTypeJuggle::boolToIndexedArray($instance->value());
+                $value = PhpBool::toIndexedArray($instance->value());
 
             } elseif ($className === ESBool::class) {
                 $value = $instance->value();
 
             } elseif ($className === ESDictionary::class) {
-                $value = PhpTypeJuggle::boolToAssociativeArray($instance->value());
+                $value = PhpBool::toAssociativeArray($instance->value());
 
             } elseif ($className === ESInt::class) {
-                $value = PhpTypeJuggle::boolToInt($instance->value());
+                $value = PhpBool::toInt($instance->value());
 
             } elseif ($className === ESJson::class) {
-                $value = PhpTypeJuggle::boolToJson($instance->value());
+                $value = PhpBool::toJson($instance->value());
 
             } elseif ($className === ESObject::class) {
-                $value = PhpTypeJuggle::boolToObject($instance->value());
+                $value = PhpBool::toObject($instance->value());
 
             } elseif ($className === ESString::class) {
-                $value = PhpTypeJuggle::boolToString($instance->value());
+                $value = PhpBool::toString($instance->value());
 
             }
 
         } elseif (Type::is($instance, ESDictionary::class)) {
             if ($className === ESArray::class) {
-                $value = PhpTypeJuggle::associativeArrayToIndexedArray($instance->value());
+                $value = PhpAssociativeArray::toIndexedArray($instance->value());
 
             } elseif ($className === ESBool::class) {
-                $value = PhpTypeJuggle::associativeArrayToBool($instance->value());;
+                $value = PhpAssociativeArray::toBool($instance->value());;
 
             } elseif ($className === ESDictionary::class) {
                 $value = $instance->value();
 
             } elseif ($className === ESInt::class) {
-                $value = PhpTypeJuggle::associativeArrayToInt($instance->value());
+                $value = PhpAssociativeArray::toInt($instance->value());
 
             } elseif ($className === ESJson::class) {
-                $value = PhpTypeJuggle::associativeArrayToJson($instance->value());
+                $value = PhpAssociativeArray::toJson($instance->value());
 
             } elseif ($className === ESObject::class) {
-                $value = PhpTypeJuggle::associativeArrayToObject($instance->value());
+                $value = PhpAssociativeArray::toObject($instance->value());
 
             } elseif ($className === ESString::class) {
-                $value = PhpTypeJuggle::associativeArrayToString($instance->value());
+                $value = PhpAssociativeArray::toString($instance->value());
 
             }
 
         } elseif (Type::is($instance, ESInt::class)) {
             if ($className === ESArray::class) {
-                $value = PhpTypeJuggle::intToIndexedArray($instance->value());
+                $value = PhpInt::toIndexedArray($instance->value());
 
             } elseif ($className === ESBool::class) {
-                $value = PhpTypeJuggle::intToBool($instance->value());
+                $value = PhpInt::toBool($instance->value());
 
             } elseif ($className === ESDictionary::class) {
-                $value = PhpTypeJuggle::intToAssociativeArray($instance->value());
+                $value = PhpInt::toAssociativeArray($instance->value());
 
             } elseif ($className === ESInt::class) {
                 $value = $instance->value();
 
             } elseif ($className === ESJson::class) {
-                $value = PhpTypeJuggle::intToJson($instance->value());
+                $value = PhpInt::toJson($instance->value());
 
             } elseif ($className === ESObject::class) {
-                $value = PhpTypeJuggle::intToObject($instance->value());
+                $value = PhpInt::toObject($instance->value());
 
             } elseif ($className === ESString::class) {
-                $value = PhpTypeJuggle::intToString($instance->value());
+                $value = PhpInt::toString($instance->value());
 
             }
 
         } elseif (Type::is($instance, ESJson::class)) {
             if ($className === ESArray::class) {
-                $value = PhpTypeJuggle::jsonToIndexedArray($instance->value());
+                $value = PhpJson::toIndexedArray($instance->value());
 
             } elseif ($className === ESBool::class) {
-                $value = PhpTypeJuggle::jsonToBool($instance->value());
+                $value = PhpJson::toBool($instance->value());
 
             } elseif ($className === ESDictionary::class) {
-                $value = PhpTypeJuggle::jsonToAssociativeArray($instance->value());
+                $value = PhpJson::toAssociativeArray($instance->value());
 
             } elseif ($className === ESInt::class) {
-                $value = PhpTypeJuggle::jsonToInt($instance->value());
+                $value = PhpJson::toInt($instance->value());
 
             } elseif ($className === ESJson::class) {
                 $value = $instance->value();
 
             } elseif ($className === ESObject::class) {
-                $value = PhpTypeJuggle::jsonToObject($instance->value());
+                $value = PhpJson::toObject($instance->value());
 
             } elseif ($className === ESString::class) {
                 $value = $instance->value();
@@ -143,46 +152,46 @@ class PhpTypeJuggle
 
         } elseif (Type::is($instance, ESObject::class)) {
             if ($className === ESArray::class) {
-                $value = PhpTypeJuggle::objectToIndexedArray($instance->value());
+                $value = PhpObject::toIndexedArray($instance->value());
 
             } elseif ($className === ESBool::class) {
-                $value = PhpTypeJuggle::objectToBool($instance->value());
+                $value = PhpObject::toBool($instance->value());
 
             } elseif ($className === ESDictionary::class) {
-                $value = PhpTypeJuggle::objectToAssociativeArray($instance->value());
+                $value = PhpObject::toAssociativeArray($instance->value());
 
             } elseif ($className === ESInt::class) {
-                $value = PhpTypeJuggle::objectToInt($instance->value());
+                $value = PhpObject::toInt($instance->value());
 
             } elseif ($className === ESJson::class) {
-                $value = PhpTypeJuggle::objectToJson($instance->value());
+                $value = PhpObject::toJson($instance->value());
 
             } elseif ($className === ESObject::class) {
                 $value = $instance->value();
 
             } elseif ($className === ESString::class) {
-                $value = PhpTypeJuggle::objectToString($instance->value());
+                $value = PhpObject::toString($instance->value());
 
             }
 
         } elseif (Type::is($instance, ESString::class)) {
             if ($className === ESArray::class) {
-                $value = PhpTypeJuggle::stringToIndexedArray($instance->value());
+                $value = PhpString::toIndexedArray($instance->value());
 
             } elseif ($className === ESBool::class) {
-                $value = PhpTypeJuggle::stringToBool($instance->value());
+                $value = PhpString::toBool($instance->value());
 
             } elseif ($className === ESDictionary::class) {
-                $value = PhpTypeJuggle::stringToAssociativeArray($instance->value());
+                $value = PhpString::toAssociativeArray($instance->value());
 
             } elseif ($className === ESInt::class) {
-                $value = PhpTypeJuggle::stringToInt($instance->value());
+                $value = PhpString::toInt($instance->value());
 
             } elseif ($className === ESJson::class) {
                 $value = $instance->value();
 
             } elseif ($className === ESObject::class) {
-                $value = PhpTypeJuggle::stringToObject($instance->value());
+                $value = PhpString::toObject($instance->value());
 
             } elseif ($className === ESString::class) {
                 $value = $instance->value();
@@ -194,284 +203,6 @@ class PhpTypeJuggle
             trigger_error(get_class($instance) ." cannot be converted to ". $className);
         }
         return $className::fold($value);
-    }
-
-// -> Array
-    static public function indexedArrayToBool(array $array = []): bool
-    {
-        return self::arrayToInt($array) > 0;
-    }
-
-    static public function indexedArrayToAssociativeArray(array $array = []): array
-    {
-        $build = [];
-        foreach ($array as $member => $value) {
-            $member = "i". $member;
-            $build[$member] = $value;
-        }
-        return $build;
-    }
-
-    static public function indexedArrayToInt(array $array = []): int
-    {
-        return self::arrayToInt($array);
-    }
-
-    static public function indexedArrayToJson(array $array = []): string
-    {
-        // TODO: Move to indexedArrayToObject()
-        $object = PhpTypeJuggle::indexedArrayToObject($array);
-        $json = json_encode($object);
-        return $json;
-    }
-
-    static public function indexedArrayToObject(array $array = []): object
-    {
-        $associativeArray = PhpTypeJuggle::indexedArrayToAssociativeArray($array);
-        $object = (object) $associativeArray;
-        return $object;
-    }
-
-    static public function indexedArrayToString(array $array = []): string
-    {
-        return self::arrayToString($array);
-    }
-
-// -> Bool
-    static public function boolToIndexedArray(bool $bool = true): array
-    {
-        return [$bool];
-    }
-
-    static public function boolToAssociativeArray(bool $bool = true): array
-    {
-        return ($bool === true)
-            ? ["true" => true, "false" => false]
-            : ["true" => false, "false" => true];
-    }
-
-    static public function boolToInt(bool $bool = true): int
-    {
-        $int = $bool
-            ? 1
-            : 0;
-        return $int;
-    }
-
-    static public function boolToJson(bool $bool = true): string
-    {
-        $object = self::boolToObject($bool);
-        $json = self::objectToJson($object);
-        return $json;
-    }
-
-    static public function boolToObject(bool $bool = true): object
-    {
-        $dictionary = self::boolToAssociativeArray($bool);
-        $object = self::associativeArrayToObject($dictionary);
-        return $object;
-    }
-
-    static public function boolToString(bool $bool = true): string
-    {
-        $bool = $bool ? "true" : "";
-        return $bool;
-    }
-
-// -> Associative Array (Dictionary)
-    static public function associativeArrayToIndexedArray(array $array = []): array
-    {
-        return array_values($array);
-    }
-
-    static public function associativeArrayToBool(array $array = []): bool
-    {
-        return self::arrayToInt() > 0;
-    }
-
-    static public function associativeArrayToInt(array $array = []): int
-    {
-        return self::arrayToInt($array);
-    }
-
-    static public function associativeArrayToJson(array $array = []): string
-    {
-        $object = self::associativeArrayToObject($array);
-        $json = self::objectToJson($object);
-        return $json;
-    }
-
-    static public function associativeArrayToObject(array $array = []): object
-    {
-        $object = (object) $array;
-        return $object;
-    }
-
-    static public function associativeArrayToString(array $array = []): string
-    {
-        $string = self::arrayToString($array);
-        return str_replace("Array(", "Dictionary(", $string);
-    }
-
-// -> Int
-    static public function intToIndexedArray(int $int, int $start = 0): array
-    {
-        return ($start > $int)
-            ? range($int, $start)
-            : range($start, $int);
-    }
-
-    static public function intToBool(int $int): bool
-    {
-        $bool = (bool) $int;
-        return $bool;
-    }
-
-    static public function intToAssociativeArray(int $int): array
-    {
-        $array = self::intToIndexedArray($int);
-        $array = self::indexedArrayToAssociativeArray($array);
-        return $array;
-    }
-
-    static public function intToJson(int $int): string
-    {
-        $object = self::intToObject($int);
-        $json = self::objectToJson($object);
-        return $json;
-    }
-
-    static public function intToObject(int $int): object
-    {
-        $array = self::intToAssociativeArray($int);
-        $object = self::associativeArrayToObject($array);
-        return $object;
-    }
-
-    static public function intToString(int $int): string
-    {
-        $string = (string) $int;
-        return $string;
-    }
-
-// -> Json
-    static public function jsonToIndexedArray(string $json): array
-    {
-        self::checkIsJson($json);
-        $object = self::jsonToObject($json);
-        $array = self::objectToIndexedArray($object);
-        return $array;
-    }
-
-    static public function jsonToBool(string $json): bool
-    {
-        self::checkIsJson($json);
-        $object = self::jsonToObject($json);
-        $bool = self::objectToBool($object);
-        return $bool;
-    }
-
-    static public function jsonToAssociativeArray(string $json): array
-    {
-        self::checkIsJson($json);
-        $object = self::jsonToObject($json);
-        $array = self::objectToAssociativeArray($object);
-        return $array;
-    }
-
-    static public function jsonToInt(string $json): int
-    {
-        self::checkIsJson($json);
-        $object = self::jsonToObject($json);
-        $int = self::objectToInt($object);
-        return $int;
-    }
-
-    static public function jsonToObject(string $json): object
-    {
-        $object = json_decode($json);
-        return $object;
-    }
-
-    static public function checkIsJson(string $json): void
-    {
-        if (Type::isNotJson($json)) {
-            trigger_error("The given string does not appear to be valid JSON.", E_USER_ERROR);
-        }
-    }
-
-// -> Object
-    static public function objectToIndexedArray(object $object): array
-    {
-        $array = (array) $object;
-        $array = array_values($array);
-        return $array;
-    }
-
-    static public function objectToBool(object $object): bool
-    {
-        $array = self::objectToAssociativeArray($object);
-        $bool = self::indexedArrayToBool($array);
-        return $bool;
-    }
-
-    static public function objectToAssociativeArray(object $object): array
-    {
-        $array = (array) $object;
-        return $array;
-    }
-
-    static public function objectToInt(object $object): int
-    {
-        $array = self::objectToIndexedArray($object);
-        $int = self::arrayToInt($array);
-        return $int;
-    }
-
-    static public function objectToJson(object $object): string
-    {
-        return json_encode($object);
-    }
-
-    static public function objectToString(object $object): string
-    {
-        $array = self::objectToAssociativeArray($object);
-        $string = self::associativeArrayToString($array);
-        $string = str_replace("Dictionary(", "stdClass Object(", $string);
-        return $string;
-    }
-
-// -> String
-    static public function stringToIndexedArray(string $string): array
-    {
-        return preg_split('//u', $string, null, PREG_SPLIT_NO_EMPTY);
-    }
-
-    static public function stringToBool(string $string): bool
-    {
-        $bool = empty($string);
-        $bool = ! $bool;
-        return $bool;
-    }
-
-    static public function stringToAssociativeArray(string $string): array
-    {
-        $array = self::stringToIndexedArray($string);
-        $dictionary = self::indexedArrayToAssociativeArray($array);
-        return $dictionary;
-    }
-
-    static public function stringToInt(string $string): int
-    {
-        $int = intval($string);
-        return $int;
-    }
-
-    static public function stringToObject(string $string): object
-    {
-        $object = new \stdClass();
-        $object->string = $string;
-        return $object;
     }
 
 // -> Generic

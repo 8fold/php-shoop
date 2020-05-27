@@ -5,6 +5,7 @@ namespace Eightfold\Shoop\Traits;
 use Eightfold\Shoop\Helpers\{
     Type,
     PhpTypeJuggle,
+    PhpAssociativeArray,
     PhpString
 };
 
@@ -97,14 +98,14 @@ trait WrapImp
             $array = $this->dictionaryUnfolded();
             $prefixes = $this->indexedArrayToValueMemberArray($prefixes);
             $array = array_merge($prefixes, $array);
-            $json = PhpTypeJuggle::associativeArrayToJson($array);
+            $json = PhpAssociativeArray::toJson($array);
             return Shoop::json($json);
 
         } elseif (Type::is($this, ESObject::class)) {
             $array = $this->dictionaryUnfolded();
             $prefixes = $this->indexedArrayToValueMemberArray($prefixes);
             $array = array_merge($prefixes, $array);
-            $object = PhpTypeJuggle::associativeArrayToObject($array);
+            $object = PhpAssociativeArray::toObject($array);
             return Shoop::object($object);
 
         } elseif (Type::is($this, ESString::class)) {

@@ -4,6 +4,7 @@ namespace Eightfold\Shoop\Traits;
 
 use Eightfold\Shoop\Helpers\Type;
 use Eightfold\Shoop\Helpers\PhpTypeJuggle;
+use Eightfold\Shoop\Helpers\PhpAssociativeArray;
 
 use Eightfold\Shoop\{
     Shoop,
@@ -54,13 +55,13 @@ trait DropImp
         } elseif (Type::is($this, ESJson::class)) {
             $array = $this->dictionaryUnfolded();
             $array = $this->arrayAfterDropping($array, $length);
-            $json = PhpTypeJuggle::associativeArrayToJson($array);
+            $json = PhpAssociativeArray::toJson($array);
             return Shoop::json($json);
 
         } elseif (Type::is($this, ESObject::class)) {
             $array = $this->dictionaryUnfolded();
             $array = $this->arrayAfterDropping($array, $length);
-            $object = PhpTypeJuggle::associativeArrayToObject($array);
+            $object = PhpAssociativeArray::toObject($array);
             return Shoop::object($object);
 
         } elseif (Type::is($this, ESString::class)) {
@@ -88,13 +89,13 @@ trait DropImp
         } elseif (Type::is($this, ESJson::class)) {
             $array = $this->dictionaryUnfolded();
             $array = $this->arrayAfterDropping($array, -$length);
-            $json = PhpTypeJuggle::associativeArrayToJson($array);
+            $json = PhpAssociativeArray::toJson($array);
             return Shoop::json($json);
 
         } elseif (Type::is($this, ESObject::class)) {
             $array = $this->dictionaryUnfolded();
             $array = $this->arrayAfterDropping($array, -$length);
-            $object = PhpTypeJuggle::associativeArrayToObject($array);
+            $object = PhpAssociativeArray::toObject($array);
             return Shoop::object($object);
 
         } elseif (Type::is($this, ESString::class)) {
@@ -121,13 +122,13 @@ trait DropImp
         } elseif (Type::is($this, ESJson::class)) {
             $array = $this->dictionaryUnfolded();
             $array = $this->arrayAfterDroppingEmpties($array);
-            $json = PhpTypeJuggle::associativeArrayToJson($array);
+            $json = PhpAssociativeArray::toJson($array);
             return Shoop::json($json);
 
         } elseif (Type::is($this, ESObject::class)) {
             $array = $this->dictionaryUnfolded();
             $array = $this->arrayAfterDroppingEmpties($array);
-            $object = PhpTypeJuggle::associativeArrayToObject($array);
+            $object = PhpAssociativeArray::toObject($array);
             return Shoop::object($object);
 
         } elseif (Type::is($this, ESString::class)) {

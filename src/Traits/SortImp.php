@@ -3,7 +3,10 @@
 namespace Eightfold\Shoop\Traits;
 
 use Eightfold\Shoop\Helpers\Type;
-use Eightfold\Shoop\Helpers\PhpTypeJuggle;
+use Eightfold\Shoop\Helpers\{
+    PhpTypeJuggle,
+    PhpObject
+};
 
 use Eightfold\Shoop\{
     Shoop,
@@ -33,7 +36,7 @@ trait SortImp
         } elseif (Type::is($this, ESJson::class)) {
             $object = $this->objectUnfolded();
             $object = $this->objectToSortedObject($object, $asc, $caseSensitive);
-            $json = PhpTypeJuggle::objectToJson($object);
+            $json = PhpObject::toJson($object);
             return Shoop::json($json);
 
         } elseif (Type::is($this, ESObject::class)) {

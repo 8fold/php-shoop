@@ -3,7 +3,11 @@
 namespace Eightfold\Shoop\Traits;
 
 use Eightfold\Shoop\Helpers\Type;
-use Eightfold\Shoop\Helpers\PhpTypeJuggle;
+use Eightfold\Shoop\Helpers\{
+    PhpTypeJuggle,
+    PhpObject,
+    PhpString
+};
 
 use Eightfold\Shoop\{
     Shoop,
@@ -43,7 +47,7 @@ trait ToggleImp
         } elseif (Type::is($this, ESJson::class)) {
             $object = $this->objectUnfolded();
             $object = $this->objectReversed($object, $preserveMembers);
-            $json = PhpTypeJuggle::objectToJson($object);
+            $json = PhpObject::toJson($object);
             return Shoop::json($json);
 
         } elseif (Type::is($this, ESObject::class)) {
@@ -69,7 +73,7 @@ trait ToggleImp
     // TODO: Make reversed ESString
     private function stringReversed(string $string): string
     {
-        $array = PhpTypeJuggle::stringToIndexedArray($string);
+        $array = PhpString::toIndexedArray($string);
         $array = $this->arrayReversed($array, true);
         return implode("", $array);
     }

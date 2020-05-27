@@ -4,6 +4,8 @@ namespace Eightfold\Shoop\Traits;
 
 use Eightfold\Shoop\Helpers\Type;
 use Eightfold\Shoop\Helpers\PhpTypeJuggle;
+use Eightfold\Shoop\Helpers\PhpAssociativeArray; // TODO: Use facade
+use Eightfold\Shoop\Helpers\PhpObject;
 
 use Eightfold\Shoop\{
     Shoop,
@@ -106,7 +108,7 @@ trait MathOperationsImp
         } elseif (Type::is($this, ESJson::class)) {
             $object = $this->objectUnfolded();
             $object = $this->removeMembersFromObject($object, $args);
-            $json = PhpTypeJuggle::objectToJson($object);
+            $json = PhpObject::toJson($object);
             return Shoop::json($json);
 
         } elseif (Type::is($this, ESObject::class)) {
@@ -143,7 +145,7 @@ trait MathOperationsImp
         } elseif (Type::is($this, ESJson::class)) {
             $object = $this->objectUnfolded();
             $object = $this->objectToObjectWithMembersAndValues($object);
-            $json = PhpTypeJuggle::objectToJson($object);
+            $json = PhpObject::toJson($object);
             return Shoop::json($json);
 
         } elseif (Type::is($this, ESObject::class)) {
@@ -236,7 +238,7 @@ trait MathOperationsImp
     private function dictionaryToDictionaryOfMembersAndValues(array $dictionary): array
     {
         $left = array_keys($dictionary);
-        $right = PhpTypeJuggle::associativeArrayToIndexedArray($dictionary);
+        $right = PhpAssociativeArray::toIndexedArray($dictionary);
         $dictionary = ["members" => $left, "values" => $right];
         return $dictionary;
     }

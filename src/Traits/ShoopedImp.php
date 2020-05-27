@@ -17,6 +17,12 @@ use Eightfold\Shoop\Interfaces\Shooped;
 use Eightfold\Shoop\Helpers\{
     Type,
     PhpTypeJuggle,
+    PhpIndexedArray,
+    PhpBool,
+    PhpAssociativeArray,
+    PhpInt,
+    PhpJson,
+    PhpObject,
     PhpString
 };
 
@@ -139,16 +145,16 @@ trait ShoopedImp
             $array = $this->dictionary();
 
         } elseif (Type::is($this, ESInt::class)) {
-            $array = PhpTypeJuggle::intToIndexedArray($this->value);
+            $array = PhpInt::toIndexedArray($this->value);
 
         } elseif (Type::is($this, ESJson::class)) {
-            $array = PhpTypeJuggle::jsonToAssociativeArray($this->value);
+            $array = PhpJson::toAssociativeArray($this->value);
 
         } elseif (Type::is($this, ESObject::class)) {
-            $array = PhpTypeJuggle::objectToAssociativeArray($this->value);
+            $array = PhpObject::toAssociativeArray($this->value);
 
         } elseif (Type::is($this, ESString::class)) {
-            $array = PhpTypeJuggle::stringToIndexedArray($this->value);
+            $array = PhpString::toIndexedArray($this->value);
 
         }
         return Shoop::this($array)->get($member);
@@ -318,39 +324,39 @@ trait ShoopedImp
         if (Type::is($this, ESArray::class)) {
             $bool = isset($this->value[$offset]);
             if (! $bool) {
-                $array = PhpTypeJuggle::indexedArrayToAssociativeArray($this->value);
+                $array = PhpIndexedArray::toAssociativeArray($this->value);
                 $bool = isset($array[$offset]);
 
             }
 
         } elseif (Type::is($this, ESBool::class)) {
-            $array = PhpTypeJuggle::boolToAssociativeArray($this->value);
+            $array = PhpBool::toAssociativeArray($this->value);
             $bool = isset($array[$offset]);
 
         } elseif (Type::is($this, ESDictionary::class)) {
             $bool = isset($this->value[$offset]);
 
         } elseif (Type::is($this, ESInt::class)) {
-            $array = PhpTypeJuggle::intToIndexedArray($this->value);
+            $array = PhpInt::toIndexedArray($this->value);
             $bool = isset($array[$offset]);
             if (! $bool) {
-                $array = PhpTypeJuggle::intToAssociativeArray($this->value);
+                $array = PhpInt::toAssociativeArray($this->value);
                 $bool = isset($array[$offset]);
             }
 
         } elseif (Type::is($this, ESJson::class)) {
-            $array = PhpTypeJuggle::jsonToAssociativeArray($this->value);
+            $array = PhpJson::toAssociativeArray($this->value);
             $bool = isset($array[$offset]);
 
         } elseif (Type::is($this,  ESObject::class)) {
-            $array = PhpTypeJuggle::objectToAssociativeArray($this->value);
+            $array = PhpObject::toAssociativeArray($this->value);
             $bool = isset($array[$offset]);
 
         } elseif (Type::is($this, ESString::class)) {
-            $array = PhpTypeJuggle::stringToIndexedArray($this->value);
+            $array = PhpString::toIndexedArray($this->value);
             $bool = isset($array[$offset]);
             if (! $bool) {
-                $array = PhpTypeJuggle::indexedArrayToAssociativeArray($array);
+                $array = PhpIndexedArray::toAssociativeArray($array);
                 $bool = isset($array[$offset]);
             }
 
@@ -364,31 +370,31 @@ trait ShoopedImp
         if (Type::is($this, ESArray::class)) {
             $array = $this->value;
             if (is_string($offset)) {
-                $array = PhpTypeJuggle::indexedArrayToAssociativeArray($array);
+                $array = PhpIndexedArray::toAssociativeArray($array);
             }
 
         } elseif (Type::is($this, ESBool::class)) {
-            $array = PhpTypeJuggle::boolToAssociativeArray($this->value);
+            $array = PhpBool::toAssociativeArray($this->value);
 
         } elseif (Type::is($this, ESDictionary::class)) {
             $array = $this->value;
 
         } elseif (Type::is($this, ESInt::class)) {
-            $array = PhpTypeJuggle::intToIndexedArray($this->value);
+            $array = PhpInt::toIndexedArray($this->value);
             if (is_string($offset)) {
-                $array = PhpTypeJuggle::intToAssociativeArray($this->value);
+                $array = PhpInt::toAssociativeArray($this->value);
             }
 
         } elseif (Type::is($this, ESJson::class)) {
-            $array = PhpTypeJuggle::jsonToAssociativeArray($this->value);
+            $array = PhpJson::toAssociativeArray($this->value);
 
         } elseif (Type::is($this, ESObject::class)) {
-            $array = PhpTypeJuggle::objectToAssociativeArray($this->value);
+            $array = PhpObject::toAssociativeArray($this->value);
 
         } elseif (Type::is($this, ESString::class)) {
-            $array = PhpTypeJuggle::stringToIndexedArray($this->value);
+            $array = PhpString::toIndexedArray($this->value);
             if (is_string($offset)) {
-                $array = PhpTypeJuggle::indexedArrayToAssociativeArray($array);
+                $array = PhpIndexedArray::toAssociativeArray($array);
             }
         }
 
@@ -451,22 +457,22 @@ trait ShoopedImp
             $this->temp = $this->value;
 
         } elseif (Type::is($this, ESBool::class)) {
-            $this->temp = PhpTypeJuggle::boolToAssociativeArray($this->value);
+            $this->temp = PhpBool::toAssociativeArray($this->value);
 
         } elseif (Type::is($this, ESDictionary::class)) {
             $this->temp = $this->value;
 
         } elseif (Type::is($this, ESInt::class)) {
-            $this->temp = PhpTypeJuggle::intToIndexedArray($this->value);
+            $this->temp = PhpInt::toIndexedArray($this->value);
 
         } elseif (Type::is($this, ESJson::class)) {
-            $this->temp = PhpTypeJuggle::jsonToAssociativeArray($this->value);
+            $this->temp = PhpJson::toAssociativeArray($this->value);
 
         } elseif (Type::is($this, ESObject::class)) {
-            $this->temp = PhpTypeJuggle::objectToAssociativeArray($this->value);
+            $this->temp = PhpObject::toAssociativeArray($this->value);
 
         } elseif (Type::is($this, ESString::class)) {
-            $this->temp = PhpTypeJuggle::stringToIndexedArray($this->value);
+            $this->temp = PhpString::toIndexedArray($this->value);
 
         }
     }

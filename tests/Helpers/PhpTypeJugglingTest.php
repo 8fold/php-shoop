@@ -4,7 +4,15 @@ namespace Eightfold\Shoop\Tests\Helpers;
 
 use PHPUnit\Framework\TestCase;
 
-use Eightfold\Shoop\Helpers\PhpTypeJuggle;
+use Eightfold\Shoop\Helpers\{
+    PhpIndexedArray,
+    PhpBool,
+    PhpAssociativeArray,
+    PhpInt,
+    PhpJson,
+    PhpObject,
+    PhpString
+};
 
 use Eightfold\Shoop\{
     Shoop,
@@ -39,7 +47,7 @@ class PhpTypeJugglingTest extends TestCase
     public function testIndexedArrayToBool()
     {
         $expected = false;
-        $actual = PhpTypeJuggle::indexedArrayToBool([]);
+        $actual = PhpIndexedArray::toBool([]);
         $this->assertEquals($expected, $actual);
     }
 
@@ -51,7 +59,7 @@ class PhpTypeJugglingTest extends TestCase
     public function testIndexedArrayToAssociativeArray()
     {
         $expected = ["i0" => 0, "i1" => 1];
-        $actual = PhpTypeJuggle::indexedArrayToAssociativeArray([0, 1]);
+        $actual = PhpIndexedArray::toAssociativeArray([0, 1]);
         $this->assertEquals($expected, $actual);
     }
 
@@ -63,7 +71,7 @@ class PhpTypeJugglingTest extends TestCase
     public function testIndexedArrayToInt()
     {
         $expected = 3;
-        $actual = PhpTypeJuggle::indexedArrayToInt(["hello", 2, true]);
+        $actual = PhpIndexedArray::toInt(["hello", 2, true]);
         $this->assertEquals($expected, $actual);
     }
 
@@ -75,7 +83,7 @@ class PhpTypeJugglingTest extends TestCase
     public function testIndexedArrayToJson()
     {
         $expected = '{"i0":0}';
-        $actual = PhpTypeJuggle::indexedArrayToJson([0]);
+        $actual = PhpIndexedArray::toJson([0]);
         $this->assertEquals($expected, $actual);
     }
 
@@ -88,7 +96,7 @@ class PhpTypeJugglingTest extends TestCase
     {
         $expected = new \stdClass();
         $expected->i0 = "test";
-        $actual = PhpTypeJuggle::indexedArrayToObject(["test"]);
+        $actual = PhpIndexedArray::toObject(["test"]);
         $this->assertEquals($expected, $actual);
     }
 
@@ -100,7 +108,7 @@ class PhpTypeJugglingTest extends TestCase
     public function testIndexArrayToString()
     {
         $expected = "Array([0] => 0, [1] => 1, [2] => 2)";
-        $actual = PhpTypeJuggle::indexedArrayToString([0, 1, 2]);
+        $actual = PhpIndexedArray::toString([0, 1, 2]);
         $this->assertEquals($expected, $actual);
     }
 
@@ -114,7 +122,7 @@ class PhpTypeJugglingTest extends TestCase
     public function testBoolToIndexedArray()
     {
         $expected = [true];
-        $actual = PhpTypeJuggle::boolToIndexedArray(true);
+        $actual = PhpBool::toIndexedArray(true);
         $this->assertEquals($expected, $actual);
     }
 
@@ -134,7 +142,7 @@ class PhpTypeJugglingTest extends TestCase
     public function testBoolToAssociativeArray()
     {
         $expected = ["true" => false, "false" => true];
-        $actual = PhpTypeJuggle::boolToAssociativeArray(false);
+        $actual = PhpBool::toAssociativeArray(false);
         $this->assertEquals($expected, $actual);
     }
 
@@ -146,7 +154,7 @@ class PhpTypeJugglingTest extends TestCase
     public function testBoolToInt()
     {
         $expected = 0;
-        $actual = PhpTypeJuggle::boolToInt(false);
+        $actual = PhpBool::toInt(false);
         $this->assertEquals($expected, $actual);
     }
 
@@ -158,7 +166,7 @@ class PhpTypeJugglingTest extends TestCase
     public function testBoolToJson()
     {
         $expected = '{"true":true,"false":false}';
-        $actual = PhpTypeJuggle::boolToJson(true);
+        $actual = PhpBool::toJson(true);
         $this->assertEquals($expected, $actual);
     }
 
@@ -172,7 +180,7 @@ class PhpTypeJugglingTest extends TestCase
         $expected = new \stdClass();
         $expected->true = false;
         $expected->false = true;
-        $actual = PhpTypeJuggle::boolToObject(false);
+        $actual = PhpBool::toObject(false);
         $this->assertEquals($expected, $actual);
     }
 
@@ -184,7 +192,7 @@ class PhpTypeJugglingTest extends TestCase
     public function testBoolToString()
     {
         $expected = "";
-        $actual = PhpTypeJuggle::boolToString(false);
+        $actual = PhpBool::toString(false);
         $this->assertEquals($expected, $actual);
     }
 
@@ -198,7 +206,7 @@ class PhpTypeJugglingTest extends TestCase
     public function testAssociativeArrayToIndexedArray()
     {
         $expected = ["hello", "world"];
-        $actual = PhpTypeJuggle::associativeArrayToIndexedArray(["h" => "hello", "w" => "world"]);
+        $actual = PhpAssociativeArray::toIndexedArray(["h" => "hello", "w" => "world"]);
         $this->assertEquals($expected, $actual);
     }
 
@@ -210,7 +218,7 @@ class PhpTypeJugglingTest extends TestCase
     public function testAssociativeArrayToBool()
     {
         $expected = false;
-        $actual = PhpTypeJuggle::associativeArrayToBool([]);
+        $actual = PhpAssociativeArray::toBool([]);
         $this->assertEquals($expected, $actual);
     }
 
@@ -230,7 +238,7 @@ class PhpTypeJugglingTest extends TestCase
     public function testAssociativeArrayToInt()
     {
         $expected = 1;
-        $actual = PhpTypeJuggle::associativeArrayToInt([true]);
+        $actual = PhpAssociativeArray::toInt([true]);
         $this->assertEquals($expected, $actual);
     }
 
@@ -242,7 +250,7 @@ class PhpTypeJugglingTest extends TestCase
     public function testAssociativeArrayToJson()
     {
         $expected = '{"test":"test"}';
-        $actual = PhpTypeJuggle::associativeArrayToJson(["test" => "test"]);
+        $actual = PhpAssociativeArray::toJson(["test" => "test"]);
         $this->assertEquals($expected, $actual);
     }
 
@@ -254,7 +262,7 @@ class PhpTypeJugglingTest extends TestCase
     public function testAssociativeArrayToObject()
     {
         $expected = new \stdClass();
-        $actual = PhpTypeJuggle::associativeArrayToObject();
+        $actual = PhpAssociativeArray::toObject();
         $this->assertEquals($expected, $actual);
     }
 
@@ -266,7 +274,7 @@ class PhpTypeJugglingTest extends TestCase
     public function testAssociativeArrayToString()
     {
         $expected = "Dictionary([zero] => Hello, [one] => ,, [two] => World!)";
-        $actual = PhpTypeJuggle::associativeArrayToString([
+        $actual = PhpAssociativeArray::toString([
             "zero" => "Hello",
             "one" => ", ",
             "two" => "World!"
@@ -284,7 +292,7 @@ class PhpTypeJugglingTest extends TestCase
     public function testIntToIndexedArray()
     {
         $expected = [0, 1, 2, 3];
-        $actual = PhpTypeJuggle::intToIndexedArray(3);
+        $actual = PhpInt::toIndexedArray(3);
         $this->assertEquals($expected, $actual);
     }
 
@@ -294,7 +302,7 @@ class PhpTypeJugglingTest extends TestCase
     public function testIntToBool()
     {
         $expected = true;
-        $actual = PhpTypeJuggle::intToBool(10);
+        $actual = PhpInt::toBool(10);
         $this->assertEquals($expected, $actual);
     }
 
@@ -306,7 +314,7 @@ class PhpTypeJugglingTest extends TestCase
     public function testIntToAssociativeArray()
     {
         $expected = ["i0" => 0, "i1" => 1];
-        $actual = PhpTypeJuggle::intToAssociativeArray(1);
+        $actual = PhpInt::toAssociativeArray(1);
         $this->assertEquals($expected, $actual);
     }
 
@@ -326,7 +334,7 @@ class PhpTypeJugglingTest extends TestCase
     public function testIntToJson()
     {
         $expected = '{"i0":0,"i1":1}';
-        $actual = PhpTypeJuggle::intToJson(1);
+        $actual = PhpInt::toJson(1);
         $this->assertEquals($expected, $actual);
     }
 
@@ -340,7 +348,7 @@ class PhpTypeJugglingTest extends TestCase
         $expected = new \stdClass();
         $expected->i0 = 0;
         $expected->i1 = 1;
-        $actual = PhpTypeJuggle::intToObject(1);
+        $actual = PhpInt::toObject(1);
         $this->assertEquals($expected, $actual);
     }
 
@@ -352,7 +360,7 @@ class PhpTypeJugglingTest extends TestCase
     public function testIntToString()
     {
         $expected = "1";
-        $actual = PhpTypeJuggle::intToString(1);
+        $actual = PhpInt::toString(1);
         $this->assertEquals($expected, $actual);
     }
 
@@ -366,7 +374,7 @@ class PhpTypeJugglingTest extends TestCase
     public function testJsonToIndexedArray()
     {
         $expected = ["hello", "world"];
-        $actual = PhpTypeJuggle::jsonToIndexedArray('{"h":"hello","w":"world"}');
+        $actual = PhpJson::toIndexedArray('{"h":"hello","w":"world"}');
         $this->assertEquals($expected, $actual);
     }
 
@@ -378,7 +386,7 @@ class PhpTypeJugglingTest extends TestCase
     public function testJsonToBool()
     {
         $expected = false;
-        $actual = PhpTypeJuggle::jsonToBool('{}');
+        $actual = PhpJson::toBool('{}');
         $this->assertEquals($expected, $actual);
     }
 
@@ -390,7 +398,7 @@ class PhpTypeJugglingTest extends TestCase
     public function testJsonToAssociativeArray()
     {
         $expected = ["test" => "value"];
-        $actual = PhpTypeJuggle::jsonToAssociativeArray('{"test":"value"}');
+        $actual = PhpJson::toAssociativeArray('{"test":"value"}');
         $this->assertEquals($expected, $actual);
     }
 
@@ -402,7 +410,7 @@ class PhpTypeJugglingTest extends TestCase
     public function testJsonToInt()
     {
         $expected = 2;
-        $actual = PhpTypeJuggle::jsonToInt('{"test":"value","test2":"value2"}');
+        $actual = PhpJson::toInt('{"test":"value","test2":"value2"}');
         $this->assertEquals($expected, $actual);
     }
 
@@ -422,7 +430,7 @@ class PhpTypeJugglingTest extends TestCase
     public function testJsonToObject()
     {
         $expected = new \stdClass();
-        $actual = PhpTypeJuggle::jsonToObject('{}');
+        $actual = PhpJson::toObject('{}');
         $this->assertEquals($expected, $actual);
     }
 
@@ -447,7 +455,7 @@ class PhpTypeJugglingTest extends TestCase
         $actual = new \stdClass();
         $actual->h = "hello";
         $actual->w = "world";
-        $actual = PhpTypeJuggle::objectToIndexedArray($actual);
+        $actual = PhpObject::toIndexedArray($actual);
         $this->assertEquals($expected, $actual);
     }
 
@@ -460,7 +468,7 @@ class PhpTypeJugglingTest extends TestCase
     {
         $expected = false;
         $actual = new \stdClass();
-        $actual = PhpTypeJuggle::objectToBool($actual);
+        $actual = PhpObject::toBool($actual);
         $this->assertEquals($expected, $actual);
     }
 
@@ -475,7 +483,7 @@ class PhpTypeJugglingTest extends TestCase
         $actual = new \stdClass();
         $actual->h = "hello";
         $actual->w = "world";
-        $actual = PhpTypeJuggle::objectToAssociativeArray($actual);
+        $actual = PhpObject::toAssociativeArray($actual);
         $this->assertEquals($expected, $actual);
     }
 
@@ -490,7 +498,7 @@ class PhpTypeJugglingTest extends TestCase
         $actual = new \stdClass();
         $actual->h = "hello";
         $actual->w = "world";
-        $actual = PhpTypeJuggle::objectToInt($actual);
+        $actual = PhpObject::toInt($actual);
         $this->assertEquals($expected, $actual);
     }
 
@@ -505,7 +513,7 @@ class PhpTypeJugglingTest extends TestCase
         $actual = new \stdClass();
         $actual->h = "hello";
         $actual->w = "world";
-        $actual = PhpTypeJuggle::objectToJson($actual);
+        $actual = PhpObject::toJson($actual);
         $this->assertEquals($expected, $actual);
     }
 
@@ -526,7 +534,7 @@ class PhpTypeJugglingTest extends TestCase
     {
         $expected = "stdClass Object()";
         $actual = new \stdClass();
-        $actual = PhpTypeJuggle::objectToString($actual);
+        $actual = PhpObject::toString($actual);
         $this->assertEquals($expected, $actual);
     }
 
@@ -540,7 +548,7 @@ class PhpTypeJugglingTest extends TestCase
     public function testStringToIndexedArray()
     {
         $expected = ["h", "e", "l", "l", "o"];
-        $actual = PhpTypeJuggle::stringToIndexedArray("hello");
+        $actual = PhpString::toIndexedArray("hello");
         $this->assertEquals($expected, $actual);
     }
 
@@ -552,7 +560,7 @@ class PhpTypeJugglingTest extends TestCase
     public function testStringToBool()
     {
         $expected = true;
-        $actual = PhpTypeJuggle::stringToBool("hello");
+        $actual = PhpString::toBool("hello");
         $this->assertEquals($expected, $actual);
     }
 
@@ -564,7 +572,7 @@ class PhpTypeJugglingTest extends TestCase
     public function testStringToAssociativeArray()
     {
         $expected = ["i0" => "h", "i1" => "i"];
-        $actual = PhpTypeJuggle::stringToAssociativeArray("hi");
+        $actual = PhpString::toAssociativeArray("hi");
         $this->assertEquals($expected, $actual);
     }
 
@@ -576,7 +584,7 @@ class PhpTypeJugglingTest extends TestCase
     public function testStringToInt()
     {
         $expected = 3;
-        $actual = PhpTypeJuggle::stringToInt("3");
+        $actual = PhpString::toInt("3");
         $this->assertEquals($expected, $actual);
     }
 
@@ -596,7 +604,7 @@ class PhpTypeJugglingTest extends TestCase
     {
         $expected = new \stdClass();
         $expected->string = "Hello!";
-        $actual = PhpTypeJuggle::stringToObject("Hello!");
+        $actual = PhpString::toObject("Hello!");
         $this->assertEquals($expected, $actual);
     }
 
