@@ -57,7 +57,9 @@ trait ShoopedImp
 
     private function juggleTo(string $className)
     {
-        return PhpTypeJuggle::juggleTo($this, $className);
+        $instanceClass = get_class($this); // TODO: PHP 8 allows for $instance::class
+        $value = $instanceClass::to($this, $className);
+        return $className::fold($value);
     }
 
     public function array(): ESArray

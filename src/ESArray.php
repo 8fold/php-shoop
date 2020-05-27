@@ -2,7 +2,10 @@
 
 namespace Eightfold\Shoop;
 
-use Eightfold\Shoop\Helpers\Type;
+use Eightfold\Shoop\Helpers\{
+    Type,
+    PhpIndexedArray
+};
 
 use Eightfold\Shoop\Interfaces\{
     Shooped,
@@ -46,6 +49,33 @@ class ESArray implements
     Each
 {
     use ShoopedImp, CompareImp, MathOperationsImp, ToggleImp, ShuffleImp, WrapImp, SortImp, DropImp, HasImp, IsInImp, EachImp;
+
+    // TODO: Can't make part of interface because of typing
+    static public function to(ESArray $instance, string $className)
+    {
+        if ($className === ESArray::class) {
+            return $instance->value();
+
+        } elseif ($className === ESBool::class) {
+            return PhpIndexedArray::toBool($instance->value());
+
+        } elseif ($className === ESDictionary::class) {
+            return PhpIndexedArray::toAssociativeArray($instance->value());
+
+        } elseif ($className === ESInt::class) {
+            return PhpIndexedArray::toInt($instance->value());
+
+        } elseif ($className === ESJson::class) {
+            return PhpIndexedArray::toJson($instance->value());
+
+        } elseif ($className === ESObject::class) {
+            return PhpIndexedArray::toObject($instance->value());
+
+        } elseif ($className === ESString::class) {
+            return PhpIndexedArray::toString($instance->value());
+
+        }
+    }
 
     public function __construct($array = [])
     {
