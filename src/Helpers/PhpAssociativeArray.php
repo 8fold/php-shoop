@@ -129,4 +129,23 @@ class PhpAssociativeArray
         $dictionary = ["members" => $left, "values" => $right];
         return $dictionary;
     }
+
+    static public function afterDropping(array $array, int $length): array
+    {
+        if ($length >= 0) {
+            // first
+            array_splice($array, 0, $length);
+
+        } else {
+            // last
+            array_splice($array, $length);
+
+        }
+        return $array;
+    }
+
+    static public function afterDroppingEmpties(array $array): array
+    {
+        return array_filter($array);
+    }
 }
