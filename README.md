@@ -129,6 +129,11 @@ Each PR will be reviewed, including those submitted by core developers (no direc
 
 ALL type classes must conform to the Shooped interface to all leveraging of the type system by users.
 
+The criteria for adding new capabilities is:
+
+1. The capability must be needed (or used) in a production application.
+2. The capability cannot eaily be achieved by stacking, chaining, or otherwise piping present capaiblities together.
+
 ### Naming conventions
 
 ES{type}: Shoop types MUST be named using the ES (Eightfold Shoop) prefixed concatenated with the type name following [PSR-12 guidelines](https://www.php-fig.org/psr/psr-12/) with no spaces. ex. ESBool indicates that the class represents a PHP `bool`.

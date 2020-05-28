@@ -129,6 +129,9 @@ class ESArray implements
     {
         $array = $this->value();
         $members = array_rand($array, $limit);
+        if ($limit === 1) {
+            $members = [$members];
+        }
         $build = [];
         foreach ($members as $member) {
             $build[] = Shoop::this($array[$member]);
