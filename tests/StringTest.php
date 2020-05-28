@@ -102,4 +102,23 @@ class StringTest extends TestCase
             ->plus("_data")->join("/")->pathContent();
         $this->assertEquals($expected, $actual->unfold());
     }
+
+    public function testIsDirIsFile()
+    {
+        $base = __DIR__;
+
+        $expected = [true, false];
+        $actual = Shoop::string($base)->divide("/")
+            ->plus("_data")->join("/")->pathContent()->each(function($path) {
+                return Shoop::string($path)->isFile();
+            });
+        $this->assertEquals($expected, $actual->unfold());
+
+        $expected = [false, true];
+        $actual = Shoop::string($base)->divide("/")
+            ->plus("_data")->join("/")->pathContent()->each(function($path) {
+                return Shoop::string($path)->isFolder();
+            });
+        $this->assertEquals($expected, $actual->unfold());
+    }
 }

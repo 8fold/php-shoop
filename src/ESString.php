@@ -156,6 +156,16 @@ class ESString implements
         return Shoop::string($string);
     }
 
+    public function isFile()
+    {
+        return is_file($this->value());
+    }
+
+    public function isFolder($value='')
+    {
+        return is_dir($this->value());
+    }
+
     public function pathContent($trim = true)
     {
         $path = $this->stringUnfolded();
