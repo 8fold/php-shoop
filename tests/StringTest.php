@@ -89,4 +89,17 @@ class StringTest extends TestCase
         $actual = Shoop::string($base)->uppercase();
         $this->assertEquals($expected, $actual->unfold());
     }
+
+    public function testPathContent()
+    {
+        $base = __DIR__;
+        $actual = Shoop::string($base)->divide("/")
+            ->plus("_data", "test-file.md")->join("/")->start("/")->pathContent()->trim();
+        $this->assertEquals("Test file content", $actual->unfold());
+
+        $expected = [$base ."/_data/test-file.md", $base ."/_data/test-folder"];
+        $actual = Shoop::string($base)->divide("/")
+            ->plus("_data")->join("/")->pathContent();
+        $this->assertEquals($expected, $actual->unfold());
+    }
 }

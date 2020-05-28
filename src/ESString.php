@@ -156,14 +156,27 @@ class ESString implements
         return Shoop::string($string);
     }
 
-    public function pathContent()
+    public function pathContent($trim = true)
     {
         $path = $this->stringUnfolded();
-        if (file_exists($path)) {
+        if (file_exists($path) and is_file($path)) {
             $contents = file_get_contents($path);
             if (strlen($contents) > 0) {
+                if ($trim) {
+                    $contents = trim($contents);
+                }
                 return Shoop::string($contents);
             }
+
+        } elseif (is_dir($path)) {
+            $array = Shoop::array(scandir($path))->each(function($item) use ($path, $trim) {
+                if ($trim and ($item === "." or $item === "..")) {
+                    return Shoop::string("");
+                }
+                return Shoop::string($path ."/{$item}");
+            })->noEmpties();
+            $array = array_values($array->unfold());
+            return Shoop::array($array);
         }
         return Shoop::string("");
     }
