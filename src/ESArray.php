@@ -125,6 +125,17 @@ class ESArray implements
         ]);
     }
 
+    public function random($limit = 1)
+    {
+        $array = $this->value();
+        $members = array_rand($array, $limit);
+        $build = [];
+        foreach ($members as $member) {
+            $build[] = Shoop::this($array[$member]);
+        }
+        return Shoop::array($build);
+    }
+
     public function filter(\Closure $closure, $useValues = true, $useMembers = false)
     {
         $flag = 0;
