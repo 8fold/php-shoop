@@ -165,7 +165,7 @@ class ESString implements
                 return Shoop::this($bool);
             };
         }
-        return $closure($bool, $value);
+        return $closure($bool, Shoop::this($value));
     }
 
     public function isFolder($value='')
