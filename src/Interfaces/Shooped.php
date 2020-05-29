@@ -45,10 +45,10 @@ interface Shooped extends
     public function isNot($compare): ESBool;
 
     // isEmpty(\Closure $closure = null)
-    public function isEmpty(): ESBool;
+    public function isEmpty(\Closure $closure = null);
 
     // isNotempty(\Closure $closure = null)
-    public function isNotEmpty(): ESBool;
+    public function isNotEmpty(\Closure $closure = null);
 
 // - Getters/Setters
     public function get($member = 0);
