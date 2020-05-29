@@ -112,15 +112,29 @@ trait ShoopedImp
         return Shoop::bool($bool);
     }
 
-    public function isEmpty(): ESBool
+    public function isEmpty(\Closure $closure = null)
     {
         $bool = Type::isEmpty($this);
-        return Shoop::bool($bool);
+        $value = $this->value();
+        if ($closure === null) {
+            $closure = function($bool, $value) {
+                return Shoop::this($bool);
+            };
+        }
+        return $closure($bool, Shoop::this($value));
     }
 
-    public function isNotEmpty(): ESBool
+    public function isNotEmpty(\Closure $closure = null)
     {
-        return $this->isEmpty()->toggle();
+        $bool = $this->isEmpty()->not();
+        // TODO: This could be moved to a higher order method, I think.
+        $value = $this->value();
+        if ($closure === null) {
+            $closure = function($bool, $value) {
+                return Shoop::this($bool);
+            };
+        }
+        return $closure($bool, Shoop::this($value));
     }
 
     public function value()

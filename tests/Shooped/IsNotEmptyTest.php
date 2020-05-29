@@ -24,12 +24,26 @@ class IsNotEmptyTest extends TestCase
     public function testESArray()
     {
         $base = ["hello", "world"];
-        $actual = ESArray::fold($base)->isNotEmpty($base);
+        $actual = ESArray::fold($base)->isNotEmpty();
         $this->assertTrue($actual->unfold());
 
+        $actual = ESArray::fold($base)->isNotEmpty(function($result, $value) {
+                if ($result) {
+                    return Shoop::string($value->first);
+                }
+            });
+        $this->assertEquals("hello", $actual->unfold());
+
         $base = [];
-        $actual = ESArray::fold($base)->isNotEmpty($base);
+        $actual = ESArray::fold($base)->isNotEmpty();
         $this->assertFalse($actual->unfold());
+
+        $actual = ESArray::fold($base)
+            ->isNotEmpty(function($result, $value) {
+                return $result;
+            });
+        $this->assertFalse($actual->unfold());
+
     }
 
     public function testESBool()
