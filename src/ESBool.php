@@ -72,12 +72,18 @@ class ESBool implements Shooped, Compare, Toggle, IsIn
         return $this->toggle();
     }
 
+    /**
+     * @deprecated
+     */
     public function or($bool): ESBool
     {
         $bool = Type::sanitizeType($bool, ESBool::class);
         return Shoop::bool($this->unfold() || $bool->unfold());
     }
 
+    /**
+     * @deprecated
+     */
     public function and($bool): ESBool
     {
         $bool = Type::sanitizeType($bool, ESBool::class);
