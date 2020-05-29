@@ -120,5 +120,45 @@ class StringTest extends TestCase
                 return Shoop::string($path)->isFolder();
             });
         $this->assertEquals($expected, $actual->unfold());
+
+        $actual = Shoop::string($base)->divide("/")
+            ->plus("_data", "test-file.quote")->join("/")->isFile();
+        $this->assertFalse($actual->unfold());
+
+        $actual = Shoop::string($base)->divide("/")
+            ->plus("_data", "test-file.md")->join("/")->isFile();
+        $this->assertTrue($actual->unfold());
+
+        $actual = Shoop::string($base)->divide("/")
+            ->plus("_data", "test-file.quote")->join("/")
+            ->isFile(function($result) {
+                return Shoop::this($result);
+            });
+        $this->assertFalse($actual->unfold());
+
+        $actual = Shoop::string($base)->divide("/")
+            ->plus("_data", "test-file.md")->join("/")
+            ->isFile(function($result) {
+                return Shoop::this($result);
+            });
+        $this->assertTrue($actual->unfold());
+
+        $actual = Shoop::string($base)->divide("/")
+            ->plus("_data", "test-file.md")->join("/")
+            ->isFile(function($result, $value) {
+                return (! $result)
+                    ? Shoop::string("")
+                    : Shoop::string($value)->divide(".")->last();
+            });
+        $this->assertEquals("md", $actual->unfold());
+
+        $actual = Shoop::string($base)->divide("/")
+            ->plus("_data", "test-file.quote")->join("/")
+            ->isFile(function($result, $value) {
+                return (! $result)
+                    ? Shoop::string("")
+                    : Shoop::string($value)->divide(".")->last();
+            });
+        $this->assertEquals("", $actual->unfold());
     }
 }

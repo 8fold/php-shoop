@@ -156,9 +156,16 @@ class ESString implements
         return Shoop::string($string);
     }
 
-    public function isFile()
+    public function isFile(\Closure $closure = null)
     {
-        return is_file($this->value());
+        $value = $this->value();
+        $bool = is_file($value);
+        if ($closure === null) {
+            $closure = function($bool) {
+                return Shoop::this($bool);
+            };
+        }
+        return $closure($bool, $value);
     }
 
     public function isFolder($value='')

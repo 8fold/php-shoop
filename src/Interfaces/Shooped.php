@@ -38,12 +38,16 @@ interface Shooped extends
     public function json(): ESJson;
 
 // - Comparison
+    // is($compare, \Closure $closure = null)
     public function is($compare): ESBool;
 
+    // isNot($compare, \Closure $closure = null)
     public function isNot($compare): ESBool;
 
+    // isEmpty(\Closure $closure = null)
     public function isEmpty(): ESBool;
 
+    // isNotempty(\Closure $closure = null)
     public function isNotEmpty(): ESBool;
 
 // - Getters/Setters
