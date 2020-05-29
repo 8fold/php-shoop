@@ -161,4 +161,17 @@ class StringTest extends TestCase
             });
         $this->assertEquals("", $actual->unfold());
     }
+
+    public function testDropTags()
+    {
+        $base = "<p>Hello!</p>";
+        $expected = "Hello!";
+        $actual = Shoop::string($base)->dropTags();
+        $this->assertEquals($expected, $actual->unfold());
+
+        $base = "<p>Hello!</p>";
+        $expected = "<p>Hello!</p>";
+        $actual = Shoop::string($base)->dropTags("<p>");
+        $this->assertEquals($expected, $actual->unfold());
+    }
 }
