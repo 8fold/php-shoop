@@ -95,6 +95,13 @@ class ESString implements
 
     // }
 
+    public function dropTags(...$allow)
+    {
+        $allow = implode("", $allow);
+        $string = strip_tags($this->value(), $allow);
+        return Shoop::string($string);
+    }
+
     public function replace($replacements = [], $caseSensitive = true): ESString
     {
         $replacements = Type::sanitizeType($replacements, ESDictionary::class)->unfold();
