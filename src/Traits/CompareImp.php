@@ -13,31 +13,31 @@ use Eightfold\Shoop\{
 
 trait CompareImp
 {
-    public function isGreaterThan($compare): ESBool
+    public function isGreaterThan($compare, \Closure $closure = null)
     {
         $compare = Type::sanitizeType($compare, static::class);
-        $result = $this->unfold() > $compare->unfold();
-        return Shoop::bool($result);
+        $bool = $this->unfold() > $compare->unfold();
+        return $this->condition($bool, $closure);
     }
 
-    public function isGreaterThanOrEqual($compare): ESBool
+    public function isGreaterThanOrEqual($compare, \Closure $closure = null)
     {
-        $compare = Type::sanitizeType($compare, static::class)->unfold();
-        $result = $this->unfold() >= $compare;
-        return Shoop::bool($result);
+        $compare = Type::sanitizeType($compare, static::class);
+        $bool = $this->unfold() >= $compare->unfold();
+        return $this->condition($bool, $closure);
     }
 
-    public function isLessThan($compare): ESBool
+    public function isLessThan($compare, \Closure $closure = null)
     {
-        $compare = Type::sanitizeType($compare, static::class)->unfold();
-        $result = $this->unfold() < $compare;
-        return Shoop::bool($result);
+        $compare = Type::sanitizeType($compare, static::class);
+        $bool = $this->unfold() < $compare->unfold();
+        return $this->condition($bool, $closure);
     }
 
-    public function isLessThanOrEqual($compare): ESBool
+    public function isLessThanOrEqual($compare, \Closure $closure = null)
     {
-        $compare = Type::sanitizeType($compare, static::class)->unfold();
-        $result = $this->unfold() <= $compare;
-        return Shoop::bool($result);
+        $compare = Type::sanitizeType($compare, static::class);
+        $bool = $this->unfold() <= $compare->unfold();
+        return $this->condition($bool, $closure);
     }
 }

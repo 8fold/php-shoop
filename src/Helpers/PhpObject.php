@@ -106,4 +106,9 @@ class PhpObject
         $object = PhpAssociativeArray::toObject($dictionary);
         return $object;
     }
+
+    static public function hasMember(\stdClass $object, string $member): bool
+    {
+        return property_exists($object, $member);
+    }
 }

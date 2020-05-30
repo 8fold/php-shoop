@@ -96,45 +96,31 @@ trait ShoopedImp
         return $this->juggleTo(ESString::class);
     }
 
-    public function is($compare): ESBool
+    public function is($compare, \Closure $closure = null): ESBool
     {
         if (Type::isNotShooped($compare)) {
             $compare = Type::sanitizeType($compare, static::class);
         }
         $bool = $this->unfold() === $compare->unfold();
-        return Shoop::bool($bool);
+        return $this->condition($bool, $closure);
     }
 
-    public function isNot($compare): ESBool
+    public function isNot($compare, \Closure $closure = null): ESBool
     {
-        $bool = $this->is($compare)->unfold();
-        $bool = ! $bool;
-        return Shoop::bool($bool);
+        $bool = $this->is($compare)->toggle();
+        return $this->condition($bool, $closure);
     }
 
     public function isEmpty(\Closure $closure = null)
     {
         $bool = Type::isEmpty($this);
-        $value = $this->value();
-        if ($closure === null) {
-            $closure = function($bool, $value) {
-                return Shoop::this($bool);
-            };
-        }
-        return $closure($bool, Shoop::this($value));
+        return $this->condition($bool, $closure);
     }
 
     public function isNotEmpty(\Closure $closure = null)
     {
         $bool = $this->isEmpty()->not();
-        // TODO: This could be moved to a higher order method, I think.
-        $value = $this->value();
-        if ($closure === null) {
-            $closure = function($bool, $value) {
-                return Shoop::this($bool);
-            };
-        }
-        return $closure($bool, Shoop::this($value));
+        return $this->condition($bool, $closure);
     }
 
     public function value()
@@ -220,6 +206,17 @@ trait ShoopedImp
             $object = PhpAssociativeArray::toObject($array);
             return Shoop::object($object);
         }
+    }
+
+    private function condition($bool, \Closure $closure = null)
+    {
+        $value = $this->value();
+        if ($closure === null) {
+            $closure = function($bool, $value) {
+                return Shoop::this($bool);
+            };
+        }
+        return $closure($bool, Shoop::this($value));
     }
 
 // - __call helpers
