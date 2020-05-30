@@ -73,6 +73,9 @@ class HasTest extends TestCase
         $this->assertTrue($actual->unfold());
     }
 
+    /**
+     * Packagist doesn't seem to be updating
+     */
     public function testESObject()
     {
         $base = new \stdClass();
