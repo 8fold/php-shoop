@@ -6,10 +6,7 @@ use Eightfold\Shoop\ESBool;
 
 interface Has
 {
-    // Does not make sense on ESBool
-    // has($needle, \Closure $closure = null)
-    public function has($needle): ESBool;
+    public function has($needle, \Closure $closure = null);
 
-    // hasMember($member, \Closure $closure = null)
-    public function hasMember($member): ESBool;
+    public function hasMember($member, \Closure $closure = null);
 }

@@ -73,7 +73,7 @@ class HasTest extends TestCase
         $this->assertTrue($actual->unfold());
     }
 
-    public function testESObject()
+    public function testESObjectHasMember()
     {
         $base = new \stdClass();
         $base->testMember = "test";

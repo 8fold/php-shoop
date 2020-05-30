@@ -6,15 +6,11 @@ use Eightfold\Shoop\ESBool;
 
 interface Compare
 {
-    // isGreaterThan($compare, \Closure $closure = null)
-    public function isGreaterThan($compare): ESBool;
+    public function isGreaterThan($compare, \Closure $closure = null);
 
-    // isGreaterThanOrEqual($compare, \Closure $closure = null)
-    public function isGreaterThanOrEqual($compare): ESBool;
+    public function isGreaterThanOrEqual($compare, \Closure $closure = null);
 
-    // isLessThan($compare, \Closure $closure = null)
-    public function isLessThan($compare): ESBool;
+    public function isLessThan($compare, \Closure $closure = null);
 
-    // isLessThanOrEqual($compare, \Closure $closure = null)
-    public function isLessThanOrEqual($compare): ESBool;
+    public function isLessThanOrEqual($compare, \Closure $closure = null);
 }
