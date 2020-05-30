@@ -2,7 +2,16 @@
 
 namespace Eightfold\Shoop\Traits;
 
-use Eightfold\Shoop\Helpers\Type;
+use Eightfold\Shoop\Helpers\{
+    Type,
+    PhpAssociativeArray,
+    PhpBool,
+    PhpIndexedArray,
+    PhpJson,
+    PhpObject,
+    PhpString
+};
+
 use Eightfold\Shoop\Helpers\PhpTypeJuggle;
 
 use Eightfold\Shoop\{
@@ -18,37 +27,43 @@ use Eightfold\Shoop\{
 
 trait HasImp
 {
-    public function has($needle): ESBool
+    public function has($needle, \Closure $closure = null)
     {
         $array = $this->arrayUnfolded();
         $bool = in_array($needle, $array);
-        return Shoop::bool($bool);
+        return $this->condition($bool, $closure);
     }
 
-    public function hasMember($member): ESBool
+    public function hasMember($member, \Closure $closure = null)
     {
-        $m = Type::sanitizeType($member, ESInt::class)->unfold();
-        $array = $this->arrayUnfolded();
-        $bool = $this->arrayHasMember($array, $m);
-        if (Type::is($this, ESDictionary::class)) {
-            $m = Type::sanitizeType($member, ESString::class)->unfold();
-            $array = $this->dictionaryUnfolded();
-            $bool = $this->arrayHasMember($array, $m);
+        if (Type::is($this, ESDictionary::class, ESJson::class, ESObject::class)) {
+            $member = Type::sanitizeType($member, ESString::class)->unfold();
 
-        } elseif (Type::is($this, ESJson::class, ESObject::class)) {
-            $m = Type::sanitizeType($member, ESString::class)->unfold();
-            $object = (Type::is($this, ESJson::class))
-                ? $this->objectUnfolded()
-                : $this->unfold();
-            $bool = (isset($object->{$m})) ? true : false;
+        } else {
+            $member = Type::sanitizeType($member, ESInt::class)->unfold();
 
         }
-        return Shoop::bool($bool);
-    }
 
-    public function arrayHasMember(array $array, $member): bool
-    {
-        $bool = array_key_exists($member, $array);
-        return $bool;
+        $value = $this->arrayUnfolded();
+        $class = PhpIndexedArray::class;
+        if (Type::is($this, ESDictionary::class)) {
+            $value = $this->dictionaryUnfolded();
+            $class = PhpAssociativeArray::class;
+
+        } elseif (Type::is($this, ESJson::class)) {
+            $value = $this->jsonUnfolded();
+            $class = PhpJson::class;
+
+        } elseif (Type::is($this, ESObject::class)) {
+            $value = $this->objectUnfolded();
+            $class = PhpObject::class;
+
+        } elseif (Type::is($this, ESString::class)) {
+            $value = $this->stringUnfolded();
+            $class = PhpString::class;
+
+        }
+        $bool = $class::hasMember($value, $member);
+        return $this->condition($bool, $closure);
     }
 }

@@ -44,6 +44,7 @@ class PhpJson
 
     static public function toObject(string $json): object
     {
+        self::isJson($json);
         $object = json_decode($json);
         return $object;
     }
@@ -66,9 +67,17 @@ class PhpJson
 
     static public function toMembersAndValuesAssociativeArray(string $json): string
     {
+        self::isJson($json);
         $object = self::toObject($json);
         $object = PhpObject::toMembersAndValuesAssociativeArray($object);
         $json = PhpObject::toJson($object);
         return $json;
+    }
+
+    static public function hasMember(string $json, string $member): bool
+    {
+        self::isJson($json);
+        $object = self::toObject($json);
+        return property_exists($object, $member);
     }
 }

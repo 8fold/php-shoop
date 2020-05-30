@@ -148,4 +148,9 @@ class PhpAssociativeArray
     {
         return array_filter($array);
     }
+
+    static public function hasMember(array $array, string $member): bool
+    {
+        return array_key_exists($member, $array);
+    }
 }

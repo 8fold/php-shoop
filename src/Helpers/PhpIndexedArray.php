@@ -167,4 +167,9 @@ class PhpIndexedArray
     {
         return array_filter($array);
     }
+
+    static public function hasMember(array $array, int $member): bool
+    {
+        return array_key_exists($member, $array);
+    }
 }
