@@ -50,6 +50,9 @@ class IsGreaterThanTest extends TestCase
         $base = 10;
         $actual = ESInt::fold(11)->isGreaterThan($base);
         $this->assertTrue($actual->unfold());
+
+        $actual = ESInt::fold(9)->isGreaterThan($base);
+        $this->assertFalse($actual->unfold());
     }
 
     public function testESJson()

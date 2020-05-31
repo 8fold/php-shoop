@@ -105,10 +105,18 @@ class PhpIndexedArray
         return $bool;
     }
 
-    static public function toSortedIndexedArray(array $array, bool $asc, bool $caseSensitive): array
+    static public function toSortedIndexedArray(
+        array $array,
+        bool  $asc,
+        bool  $caseSensitive,
+        bool  $useKeys = false
+    ): array
     {
         if ($asc) {
-            if ($caseSensitive) {
+            if ($useKeys) {
+                ksort($array, SORT_NATURAL);
+
+            } elseif ($caseSensitive) {
                 sort($array, SORT_NATURAL);
 
             } else {
@@ -117,7 +125,10 @@ class PhpIndexedArray
             }
 
         } else {
-            if ($caseSensitive) {
+            if ($useKeys) {
+                krsort($array);
+
+            } elseif ($caseSensitive) {
                 rsort($array, SORT_NATURAL);
 
             } else {

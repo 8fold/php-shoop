@@ -73,10 +73,15 @@ class PhpObject
         return $object;
     }
 
-    static public function toSortedObject(object $object, bool $asc, bool $caseSensitive): object
+    static public function toSortedObject(
+        object $object,
+        bool   $asc,
+        bool   $caseSensitive,
+        bool   $useKeys = false
+    ): object
     {
         $dictionary = self::toAssociativeArray($object);
-        $dictionary = PhpAssociativeArray::toSortedAssociativeArray($dictionary, $asc, $caseSensitive);
+        $dictionary = PhpAssociativeArray::toSortedAssociativeArray($dictionary, $asc, $caseSensitive, $useKeys);
         $object = PhpAssociativeArray::toObject($dictionary);
         return $object;
     }

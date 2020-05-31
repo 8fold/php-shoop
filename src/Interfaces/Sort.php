@@ -11,7 +11,7 @@ interface Sort
 
     // public function sortPhp($asc = true, $caseSensitive = true);
 
-    // public function sortMembers($asc = true, $caseSensitive = true);
+    public function sortMembers($asc = true, $caseSensitive = true);
 
     // public function sortMembersNum($asc = true, $caseSensitive = true);
 

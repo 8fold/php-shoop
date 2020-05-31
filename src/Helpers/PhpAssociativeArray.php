@@ -78,10 +78,18 @@ class PhpAssociativeArray
             : array_reverse($array);
     }
 
-    static public function toSortedAssociativeArray(array $dictionary, bool $asc, bool $caseSensitive): array
+    static public function toSortedAssociativeArray(
+        array $dictionary,
+        bool  $asc,
+        bool  $caseSensitive,
+        bool  $useKeys = false
+    ): array
     {
         if ($asc) {
-            if ($caseSensitive) {
+            if ($useKeys) {
+                ksort($dictionary, SORT_NATURAL);
+
+            } elseif ($caseSensitive) {
                 asort($dictionary, SORT_NATURAL);
 
             } else {
@@ -90,7 +98,10 @@ class PhpAssociativeArray
             }
 
         } else {
-            if ($caseSensitive) {
+            if ($useKeys) {
+                krsort($dictionary, SORT_NATURAL);
+
+            } elseif ($caseSensitive) {
                 arsort($dictionary, SORT_NATURAL);
 
             } else {
