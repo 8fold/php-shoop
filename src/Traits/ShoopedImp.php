@@ -96,7 +96,7 @@ trait ShoopedImp
         return $this->juggleTo(ESString::class);
     }
 
-    public function is($compare, \Closure $closure = null): ESBool
+    public function is($compare, \Closure $closure = null)
     {
         if (Type::isNotShooped($compare)) {
             $compare = Type::sanitizeType($compare, static::class);
@@ -105,7 +105,7 @@ trait ShoopedImp
         return $this->condition($bool, $closure);
     }
 
-    public function isNot($compare, \Closure $closure = null): ESBool
+    public function isNot($compare, \Closure $closure = null)
     {
         $bool = $this->is($compare)->toggle();
         return $this->condition($bool, $closure);
