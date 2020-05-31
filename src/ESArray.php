@@ -54,7 +54,7 @@ class ESArray implements
     static public function to(ESArray $instance, string $className)
     {
         if ($className === ESArray::class) {
-            return $instance->value();
+            return array_values($instance->value());
 
         } elseif ($className === ESBool::class) {
             return PhpIndexedArray::toBool($instance->value());
