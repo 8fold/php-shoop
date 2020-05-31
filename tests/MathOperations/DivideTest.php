@@ -98,7 +98,7 @@ class DivideTest extends TestCase
      *
      * @return Eightfold\Shoop\ESArray
      */
-    public function testESString()
+    public function testESStringEmpties()
     {
         $expected = ["Hello", "World!"];
         $actual = ESString::fold("Hello, World!")->divide(", ");
@@ -111,5 +111,9 @@ class DivideTest extends TestCase
         list($attr, $value) = ESString::fold("class attribute value")->divide(" ", true, 2);
         $this->assertEquals("class", $attr);
         $this->assertEquals("attribute value", $value);
+
+        $expected = [];
+        $actual = ESString::fold("/")->divide("/", false);
+        $this->assertEquals($expected, $actual->unfold());
     }
 }

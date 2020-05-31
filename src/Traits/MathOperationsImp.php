@@ -158,7 +158,11 @@ trait MathOperationsImp
         } elseif (Type::is($this, ESString::class)) {
             $string = $this->stringUnfolded();
             $array = explode($divisor, $string, $limit);
-            return Shoop::array($array);
+            $array = Shoop::array($array);
+            if (! $includeEmpties) {
+                $array = $array->noEmpties();
+            }
+            return $array;
 
         }
     }
