@@ -160,4 +160,13 @@ class ESArray implements
         $reindexed = array_values($array);
         return Shoop::array($reindexed);
     }
+
+    public function flatten()
+    {
+        $array = Shoop::array([]);
+        array_walk_recursive($this->value(), function($value) use (&$array) {
+            $array = $array->plus($value);
+        });
+        return $array;
+    }
 }
