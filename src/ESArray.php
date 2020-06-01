@@ -163,12 +163,12 @@ class ESArray implements
 
     public function flatten()
     {
-        $array = Shoop::array([]);
-        $closure = function($value) use (&$array) {
+        $array = $this->value();
+        $a = Shoop::array([]);
+        array_walk_recursive($array, function($value, $index) use (&$a) {
             $shooped = Shoop::this($value);
-            $array   = $array->plus($shooped);
-        };
-        array_walk_recursive($this->value(), $closure);
-        return $array;
+            $a = $a->plus($shooped);
+        });
+        return $a;
     }
 }

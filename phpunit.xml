@@ -7,7 +7,8 @@
          convertNoticesToExceptions="true"
          convertWarningsToExceptions="true"
          processIsolation="false"
-         stopOnFailure="false">
+         stopOnFailure="false"
+         strict="true">
     <testsuites>
         <testsuite name="base">
             <directory suffix="Test.php">./tests/</directory>
