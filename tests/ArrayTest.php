@@ -115,4 +115,15 @@ class ArrayTest extends TestCase
         });
         $this->assertEquals($expected, $actual->unfold());
     }
+
+    public function testFlatten()
+    {
+        $base = [
+            "hello" => [1, 2, 3],
+            "two" => ["one", "two", "three"]
+        ];
+        $expected = [1, 2, 3, "one", "two", "three"];
+        $actual = Shoop::array($base)->flatten;
+        $this->assertSame($expected, $actual);
+    }
 }
