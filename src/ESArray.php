@@ -165,7 +165,8 @@ class ESArray implements
     {
         $array = Shoop::array([]);
         array_walk_recursive($this->value(), function($value) use (&$array) {
-            $array = $array->plus($value);
+            $shooped = Shoop::this($value);
+            $array = $array->plus($shooped);
         });
         return $array;
     }
