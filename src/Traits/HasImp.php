@@ -34,6 +34,11 @@ trait HasImp
         return $this->condition($bool, $closure);
     }
 
+    public function doesNothave($needle, \Closure $closure = null)
+    {
+        return $this->has($needle, $closure)->toggle();
+    }
+
     public function hasMember($member, \Closure $closure = null)
     {
         if (Type::is($this, ESDictionary::class, ESJson::class, ESObject::class)) {
@@ -65,5 +70,10 @@ trait HasImp
         }
         $bool = $class::hasMember($value, $member);
         return $this->condition($bool, $closure);
+    }
+
+    public function doesNotHaveMember($member, \Closure $closure = null)
+    {
+        return $this->hasMember($member, \Closure $closure = null)->toggle();
     }
 }
