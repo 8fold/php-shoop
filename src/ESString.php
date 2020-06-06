@@ -194,7 +194,7 @@ class ESString implements
 
         } elseif (is_dir($path)) {
             $array = Shoop::array(scandir($path))->each(function($item) use ($path, $trim) {
-                if ($trim and ($item === "." or $item === "..")) {
+                if ($trim and ($item === "." or $item === ".." or $item === ".DS_Store")) {
                     return Shoop::string("");
                 }
                 return Shoop::string($path ."/{$item}");
