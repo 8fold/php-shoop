@@ -34,7 +34,7 @@ trait HasImp
         return $this->condition($bool, $closure);
     }
 
-    public function doesNothave($needle, \Closure $closure = null)
+    public function doesNotHave($needle, \Closure $closure = null)
     {
         return $this->has($needle, $closure)->toggle();
     }
@@ -74,6 +74,6 @@ trait HasImp
 
     public function doesNotHaveMember($member, \Closure $closure = null)
     {
-        return $this->hasMember($member, \Closure $closure = null)->toggle();
+        return $this->hasMember($member, $closure)->toggle();
     }
 }
