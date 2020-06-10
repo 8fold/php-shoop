@@ -39,19 +39,6 @@ class ArrayTest extends TestCase
     }
 
     /**
-     * The `insertAt()` method on ESArray takes the given value and inserts it into the array at the given index.
-     *
-     * @return Eightfold\Shoop\ESArray
-     */
-    public function testInsertAt()
-    {
-        $base = ["Hello", "World!"];
-        $expected = ["Hello", ", ", "World!"];
-        $actual = ESArray::fold($base)->insertAt(", ", 1);
-        $this->assertEquals($expected, $actual->unfold());
-    }
-
-    /**
      * The `each()` method on ESArray iterates over each element in the array and passes it through the given closure.
      *
      * The closure can take up to three arguments:

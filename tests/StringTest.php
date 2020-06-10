@@ -94,7 +94,7 @@ class StringTest extends TestCase
     {
         $base = __DIR__;
         $actual = Shoop::string($base)->divide("/")
-            ->plus("_data", "test-file.md")->join("/")->start("/")->pathContent()->trim();
+            ->plus("_data", "test-file.md")->join("/")->pathContent();
         $this->assertEquals("Test file content", $actual->unfold());
 
         $expected = [$base ."/_data/test-file.md", $base ."/_data/test-folder"];
