@@ -16,7 +16,7 @@ interface Wrap
     public function end(...$suffixes);
 
     // public function startsWith(string|array $needles, \Closure $closure = null)
-    public function startsWith(...$needles): ESBool;
+    public function startsWith(...$needles);
 
     // public function doesNotStartWith(string|array $needles, \Closure $closure = null)
     public function doesNotStartWith(...$needles): ESBool;
