@@ -33,6 +33,10 @@ class DivideTest extends TestCase
         ];
         $actual = ESArray::fold(["hello", "goodbye", "hello"])->divide(1);
         $this->assertEquals($expected, $actual->unfold());
+
+        $actual = ESArray::fold(["hello", "", null, "goodbye", "", "hello"])
+            ->divide(2, false);
+        $this->assertSame($expected, $actual->unfold());
     }
 
     /**
@@ -49,8 +53,11 @@ class DivideTest extends TestCase
     public function testESDictionary()
     {
         $expected = ["members" => ["member", "member2"], "values" => ["value", "value2"]];
-        $actual = ESDictionary::fold(["member" => "value", "member2" => "value2"])->divide("member", "member2");
+        $actual = ESDictionary::fold(["member" => "value", "member2" => "value2"])->divide();
         $this->assertEquals($expected, $actual->unfold());
+
+        $actual = ESDictionary::fold(["member" => "value", "" => null, "empty" => "", "member2" => "value2"])->divide(0, false);
+        $this->assertSame($expected, $actual->unfold());
     }
 
     /**
@@ -73,6 +80,9 @@ class DivideTest extends TestCase
         $expected = json_encode((object) ["members" => ["member", "member2"], "values" => ["value", "value2"]]);
         $actual = ESJson::fold('{"member":"value","member2":"value2"}')->divide();
         $this->assertEquals($expected, $actual->unfold());
+
+        $actual = ESJson::fold('{"member":"value", "":null,"member2":"value2", "empty":""}')->divide(0, false);
+        $this->assertEquals($expected, $actual->unfold());
     }
 
     /**
@@ -86,10 +96,14 @@ class DivideTest extends TestCase
         $expected->members = ["member", "member2"];
         $expected->values = ["value", "value2"];
 
-        $actual = new \stdClass();
-        $actual->member = "value";
-        $actual->member2 = "value2";
-        $actual = ESObject::fold($actual)->divide();
+        $base = new \stdClass();
+        $base->member = "value";
+        $base->member2 = "value2";
+        $actual = ESObject::fold($base)->divide();
+        $this->assertEquals($expected, $actual->unfold());
+
+        $base->member3 = "";
+        $actual = ESObject::fold($base)->divide(0, false);
         $this->assertEquals($expected, $actual->unfold());
     }
 

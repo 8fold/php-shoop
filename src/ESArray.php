@@ -102,29 +102,6 @@ class ESArray implements
         return Shoop::int($sum);
     }
 
-    public function insertAt($value, $int)
-    {
-        $int = Type::sanitizeType($int, ESInt::class)->unfold();
-        $value = [Type::sanitizeType($value)->unfold()];
-        $dict = $this->splitAtUnfolded($int);
-        $lhs = $dict["lhs"];
-        $rhs = $dict["rhs"];
-
-        $merged = array_merge($lhs, $value, $rhs);
-        return Shoop::array($merged)->array();
-    }
-
-    public function splitAt($int = 0)
-    {
-        $lhs = array_slice($this->value(), 0, $int);
-        $rhs = array_slice($this->value(), $int);
-
-        return Shoop::dictionary([
-            "lhs" => $lhs,
-            "rhs" => $rhs
-        ]);
-    }
-
     public function random($limit = 1)
     {
         $array = $this->value();

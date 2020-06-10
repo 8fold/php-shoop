@@ -128,13 +128,19 @@ trait MathOperationsImp
     {
         if (Type::is($this, ESArray::class)) {
             $divisor = Type::sanitizeType($divisor, ESInt::class)->unfold();
-            $array = $this->array()->splitAtUnfolded($divisor);
-            $left = $array["lhs"];
-            $right = $array["rhs"];
-            return Shoop::array([$left, $right]);
+            $lhs = array_slice($this->value(), 0, $divisor);
+            $rhs = array_slice($this->value(), $divisor);
+            if ( ! $includeEmpties) {
+                $lhs = Shoop::array($lhs)->noEmpties()->reindexUnfolded();
+                $rhs = Shoop::array($rhs)->noEmpties()->reindexUnfolded();
+            }
+            return Shoop::array([$lhs, $rhs]);
 
         } elseif (Type::is($this, ESDictionary::class)) {
             $dictionary = $this->dictionaryUnfolded();
+            if ( ! $includeEmpties) {
+                $dictionary = $this->dictionary()->noEmptiesUnfolded();
+            }
             $dictionary = PhpAssociativeArray::toMembersAndValuesAssociativeArray($dictionary);
             return Shoop::dictionary($dictionary);
 
@@ -146,12 +152,18 @@ trait MathOperationsImp
 
         } elseif (Type::is($this, ESJson::class)) {
             $object = $this->objectUnfolded();
+            if ( ! $includeEmpties) {
+                $object = $this->dictionary()->noEmpties()->objectUnfolded();
+            }
             $object = PhpObject::toMembersAndValuesAssociativeArray($object);
             $json = PhpObject::toJson($object);
             return Shoop::json($json);
 
         } elseif (Type::is($this, ESObject::class)) {
             $object = $this->objectUnfolded();
+            if ( ! $includeEmpties) {
+                $object = $this->dictionary()->noEmpties()->objectUnfolded();
+            }
             $object = PhpObject::toMembersAndValuesAssociativeArray($object);
             return Shoop::object($object);
 
