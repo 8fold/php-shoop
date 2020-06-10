@@ -159,9 +159,16 @@ trait WrapImp
         }
     }
 
-    public function endsWith(...$needles): ESBool
+    public function endsWith(...$needles)
     {
-        if (Type::is($this, ESArray::class)) {
+        $copy = $needles;
+        $closure = array_pop($copy);
+        if ($closure instanceof \Closure) {
+            array_pop($needles);
+            $bool = $this->endsWith(...$needles);
+            return Shoop::this($this->condition($bool, $closure));
+
+        } elseif (Type::is($this, ESArray::class)) {
             $array = $this->arrayUnfolded();
             $bool = PhpIndexedArray::endsWith($array, $needles);
             return Shoop::bool($bool);

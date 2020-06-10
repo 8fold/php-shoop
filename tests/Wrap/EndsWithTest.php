@@ -31,6 +31,15 @@ class EndsWithTest extends TestCase
         $actual = Shoop::array($base)->endsWith("hello", "world");
         $this->assertEquals(ESBool::class, get_class($actual));
         $this->assertTrue($actual->unfold());
+
+        $actual = Shoop::array($base)->endsWith(
+            "hello", "world", function($result, $value) {
+                if ($result) {
+                    return $value;
+                }
+                return false;
+        });
+        $this->assertSame($base, $actual->unfold());
     }
 
     /**
@@ -48,6 +57,15 @@ class EndsWithTest extends TestCase
         $actual = ESDictionary::fold($base)->endsWith(0, "zero", 1, "first");
         $this->assertEquals(ESBool::class, get_class($actual));
         $this->assertFalse($actual->unfold());
+
+        $actual = ESDictionary::fold($base)->endsWith(
+            0, "zero", 1, "first", 2, "second", function($result, $value) {
+                if ($result) {
+                    return $value;
+                }
+                return false;
+        });
+        $this->assertSame($base, $actual->unfold());
     }
 
     /**
@@ -65,6 +83,16 @@ class EndsWithTest extends TestCase
         $actual = ESJson::fold($base)->endsWith("value3", "member3");
         $this->assertEquals(ESBool::class, get_class($actual));
         $this->assertTrue($actual->unfold());
+
+        $actual = ESJson::fold($base)->endsWith(
+            "member", "value", "member2", "value2", "member3", "value3",
+            function($result, $value) {
+                if ($result) {
+                    return $value;
+                }
+                return false;
+        });
+        $this->assertSame($base, $actual->unfold());
     }
 
     public function testESObject()
@@ -76,6 +104,16 @@ class EndsWithTest extends TestCase
         $actual = Shoop::object($base)->endsWith("test", "testMember");
         $this->assertEquals(ESBool::class, get_class($actual));
         $this->assertFalse($actual->unfold());
+
+        $actual = ESObject::fold($base)->endsWith(
+            2, "testMember2",
+            function($result, $value) {
+                if ($result) {
+                    return $value;
+                }
+                return false;
+        });
+        $this->assertSame($base, $actual->unfold());
     }
 
     public function testESString()
@@ -84,5 +122,14 @@ class EndsWithTest extends TestCase
         $actual = Shoop::string($base)->endsWith("World!");
         $this->assertEquals(ESBool::class, get_class($actual));
         $this->assertTrue($actual->unfold());
+
+        $actual = ESString::fold($base)->endsWith(
+            "World!", function($result, $value) {
+                if ($result) {
+                    return $value;
+                }
+                return false;
+        });
+        $this->assertSame($base, $actual->unfold());
     }
 }

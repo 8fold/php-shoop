@@ -57,7 +57,6 @@ class PhpAssociativeArray
             $passing[] = $value;
             $passing[] = $member;
         }
-
         $bool = self::startsWith($dictionary, $passing);
         return $bool;
     }
