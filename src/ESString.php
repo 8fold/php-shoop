@@ -187,7 +187,7 @@ class ESString implements
             $contents = file_get_contents($path);
             if (strlen($contents) > 0) {
                 if ($trim) {
-                    $contents = trim($contents);
+                    return Shoop::string($contents)->trim();
                 }
                 return Shoop::string($contents);
             }
