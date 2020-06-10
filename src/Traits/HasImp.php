@@ -31,7 +31,7 @@ trait HasImp
     {
         $array = $this->arrayUnfolded();
         $bool = in_array($needle, $array);
-        return $this->condition($bool, $closure);
+        return Shoop::this($this->condition($bool, $closure));
     }
 
     public function doesNotHave($needle, \Closure $closure = null)
@@ -69,7 +69,7 @@ trait HasImp
 
         }
         $bool = $class::hasMember($value, $member);
-        return $this->condition($bool, $closure);
+        return Shoop::this($this->condition($bool, $closure));
     }
 
     public function doesNotHaveMember($member, \Closure $closure = null)
