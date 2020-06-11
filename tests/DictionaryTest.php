@@ -26,4 +26,12 @@ class DictionaryTest extends TestCase
         });
         $this->assertEquals($expected, $actual->unfold());
     }
+
+    public function testInterleve()
+    {
+        $expected = [1, "one", 2, "two", 3, "three"];
+        $actual = Shoop::dictionary(["one" => 1, "two" => 2, "three" => 3])
+            ->interleave();
+        $this->assertSame($expected, $actual->unfold());
+    }
 }
