@@ -88,4 +88,14 @@ class ESDictionary implements
 
         }
     }
+
+    public function interleave()
+    {
+        $build = [];
+        foreach ($this->value as $member => $value) {
+            $build[] = $value;
+            $build[] = $member;
+        }
+        return Shoop::this($build);
+    }
 }
