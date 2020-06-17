@@ -163,6 +163,9 @@ class ESString implements
         return Shoop::string($string);
     }
 
+    /**
+     * @deprecated PHP Shoop Extras
+     */
     public function isFile(\Closure $closure = null)
     {
         $value = $this->value();
@@ -175,11 +178,17 @@ class ESString implements
         return $closure($bool, Shoop::this($value));
     }
 
+    /**
+     * @deprecated PHP Shoop Extras
+     */
     public function isFolder($value='')
     {
         return is_dir($this->value());
     }
 
+    /**
+     * @deprecated PHP Shoop Extras
+     */
     public function pathContent($trim = true)
     {
         $path = $this->stringUnfolded();
@@ -210,10 +219,8 @@ class ESString implements
         $string = $this->stringUnfolded();
         $path = Type::sanitizeType($path, ESString::class)->unfold();
         $bytesOrFalse = file_put_contents($path, $string);
-        if (is_bool($bytesOrFalse)) {
-            return Shoop::bool($bytesOrFalse);
-
-        }
-        return Shoop::int($bytesOrFalse);
+        return (is_bool($bytesOrFalse))
+            ? Shoop::bool($bytesOrFalse)
+            : Shoop::int($bytesOrFalse);
     }
 }
