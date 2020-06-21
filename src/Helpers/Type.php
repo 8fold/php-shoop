@@ -19,13 +19,13 @@ class Type
 {
     static public function sanitizeType($toSanitize, string $shoopType = "")
     {
-        if (self::isShooped($toSanitize) && strlen($shoopType) > 0) {
+        if (self::isShooped($toSanitize) and strlen($shoopType) > 0) {
             $toSanitize = $toSanitize->unfold();
 
         } elseif (self::isShooped($toSanitize)) {
             return $toSanitize;
 
-        } elseif (self::isNotPhp($toSanitize) && self::isNotShooped($toSanitize)) {
+        } elseif (self::isNotPhp($toSanitize) and self::isNotShooped($toSanitize)) {
             return $toSanitize;
 
         }
@@ -347,5 +347,10 @@ class Type
             "object"     => ESObject::class,
             "json"       => ESJson::class
         ];
+    }
+
+    static private function shoopClasses(): array
+    {
+        return array_values(static::map());
     }
 }

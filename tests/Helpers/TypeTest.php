@@ -17,6 +17,8 @@ use Eightfold\Shoop\{
     ESString
 };
 
+use Eightfold\Shoop\Tests\TestShooped;
+
 class TypeTest extends TestCase
 {
     /**
@@ -54,6 +56,12 @@ class TypeTest extends TestCase
         $expected = new \Eightfold\Shoop\Tests\TestClass();
         $actual = Type::sanitizeType($expected);
         $this->assertEquals($expected, $actual);
+
+        $expected = "/path/on/disk";
+        $store = TestShooped::fold($expected);
+        $actual = Type::sanitizeType($store);
+        $this->assertTrue(is_a($actual, TestShooped::class));
+        $this->assertEquals($expected, $actual->unfold());
     }
 
     /**

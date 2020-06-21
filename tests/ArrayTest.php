@@ -10,6 +10,8 @@ use Eightfold\Shoop\{
     Helpers\Type
 };
 
+use Eightfold\Shoop\Tests\TestShooped;
+
 class ArrayTest extends TestCase
 {
     /**
@@ -85,6 +87,21 @@ class ArrayTest extends TestCase
         $expected = "First | Second | Third";
         $actual = Shoop::array(["Second", "Third"])->start("First")->join(" | ");
         $this->assertEquals($expected, $actual->unfold());
+    }
+
+    public function testRandom()
+    {
+        $expected = Shoop::array([Shoop::string("hello")]);
+        $actual = Shoop::array(["hello"])->random();
+        $this->assertEquals($expected, $actual);
+
+        $expected = Shoop::array([Shoop::int(1)]);
+        $actual = Shoop::array([Shoop::int(1)])->random();
+        $this->assertEquals($expected, $actual);
+
+        $expected = Shoop::array([TestShooped::fold("/path")]);
+        $actual = Shoop::array([TestShooped::fold("/path")])->random();
+        $this->assertEquals($expected, $actual);
     }
 
     public function testFilter()
