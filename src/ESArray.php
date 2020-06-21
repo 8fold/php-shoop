@@ -105,7 +105,7 @@ class ESArray implements
     public function random($limit = 1)
     {
         $array = $this->value();
-        $members = ($limit === 1)
+        $members = ($limit === 1 and count($array) > 0)
             ? [array_rand($array, $limit)]
             : array_rand($array, $limit);
         $build = [];
