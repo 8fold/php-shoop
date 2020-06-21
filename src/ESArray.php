@@ -111,7 +111,11 @@ class ESArray implements
         }
         $build = [];
         foreach ($members as $member) {
-            $build[] = Shoop::this($array[$member]);
+            $value = $array[$member];
+            $build[] = (Type::isPhp($value))
+                ? Shoop::this($array[$member])
+                : $value;
+
         }
         return Shoop::array($build);
     }
