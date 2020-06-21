@@ -105,14 +105,18 @@ class ESArray implements
     public function random($limit = 1)
     {
         $array = $this->value();
-        $members = ($limit === 1 and count($array) > 0)
-            ? [array_rand($array, $limit)]
-            : array_rand($array, $limit);
-        $build = [];
-        foreach ($members as $member) {
-            $build[] = Shoop::this($array[$member]);
+        if (count($array) === 0) {
+            return Shoop::array([]);
         }
-        return Shoop::array($build);
+
+        $members = array_rand($array, $limit);
+        if ($limit === 1) {
+            $members = [$members];
+        }
+
+        return Shoop::array($members)->each(function($member) use ($array) {
+            return Shoop::this($array[$member]);
+        });
     }
 
     public function filter(\Closure $closure, $useValues = true, $useMembers = false)
