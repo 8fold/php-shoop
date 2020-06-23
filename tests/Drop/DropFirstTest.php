@@ -86,5 +86,9 @@ class DropFirstTest extends TestCase
         $expected = "World!";
         $actual = ESString::fold($base)->dropFirst(7);
         $this->assertEquals($expected, $actual->unfold());
+
+        $expected = "ello, World!";
+        $actual = Shoop::string($base)->dropFirst();
+        $this->assertEquals($expected, $actual->unfold());
     }
 }
