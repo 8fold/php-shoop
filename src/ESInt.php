@@ -89,4 +89,20 @@ class ESInt implements Shooped, MathOperations, Toggle, IsIn, Each
         }
         return Shoop::array($range);
     }
+
+    public function roundUp($divisor = 0)
+    {
+        $value = $this->value();
+        $result = $value/$divisor;
+        $int = (int) ceil($result);
+        return Shoop::this($int);
+    }
+
+    public function roundDown($divisor = 0)
+    {
+        $value = $this->value();
+        $result = $value/$divisor;
+        $int = (int) floor($result);
+        return Shoop::this($int);
+    }
 }
