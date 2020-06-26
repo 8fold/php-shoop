@@ -92,17 +92,22 @@ class ESInt implements Shooped, MathOperations, Toggle, IsIn, Each
 
     public function roundUp($divisor = 0)
     {
-        $value = $this->value();
-        $result = $value/$divisor;
+        $result = $this->divideNatural($divisor);
         $int = (int) ceil($result);
         return Shoop::this($int);
     }
 
     public function roundDown($divisor = 0)
     {
-        $value = $this->value();
-        $result = $value/$divisor;
+        $result = $this->divideNatural($divisor);
         $int = (int) floor($result);
         return Shoop::this($int);
+    }
+
+    private function divideNatural($divisor = 0)
+    {
+        $divisor = Type::sanitizeType($divisor, ESInt::class)->unfold();
+        $value = $this->value();
+        return $value/$divisor;
     }
 }
