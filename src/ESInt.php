@@ -110,4 +110,14 @@ class ESInt implements Shooped, MathOperations, Toggle, IsIn, Each
         $value = $this->value();
         return $value/$divisor;
     }
+
+    public function isEven(\Closure $closure = null)
+    {
+        return $this->condition(PhpInt::isEven($this->value()), $closure);
+    }
+
+    public function isOdd(\Closure $closure = null)
+    {
+        return $this->condition(PhpInt::isOdd($this->value()), $closure);
+    }
 }
