@@ -32,4 +32,14 @@ class IntTest extends TestCase
         $actual = Shoop::int($base)->range(10);
         $this->assertEquals($expected, $actual->unfold());
     }
+
+    public function testRoundUpAndDown()
+    {
+        $expected = 2;
+        $actual = Shoop::int(12)->roundUp(10);
+        $this->assertSame($expected, $actual->unfold());
+
+        $actual = Shoop::int(29)->roundDown(10);
+        $this->assertSame($expected, $actual->unfold());
+    }
 }
