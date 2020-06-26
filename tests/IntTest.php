@@ -45,4 +45,19 @@ class IntTest extends TestCase
         $actual = Shoop::int(Shoop::int(29))->roundDown(Shoop::int(10));
         $this->assertSame($expected, $actual->unfold());
     }
+
+    public function testEvenOrOdd()
+    {
+        $actual = Shoop::int(10)->isEven;
+        $this->assertTrue($actual);
+
+        $actual = Shoop::int(11)->isEven;
+        $this->assertFalse($actual);
+
+        $actual = Shoop::int(10)->isOdd;
+        $this->assertFalse($actual);
+
+        $actual = Shoop::int(11)->isOdd;
+        $this->assertTrue($actual);
+    }
 }
