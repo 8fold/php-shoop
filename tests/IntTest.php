@@ -60,4 +60,15 @@ class IntTest extends TestCase
         $actual = Shoop::int(11)->isOdd;
         $this->assertTrue($actual);
     }
+
+    public function testMinMax()
+    {
+        $expected = 10;
+        $actual = Shoop::int(5)->max(Shoop::int(10), 8, 0);
+        $this->assertEquals($expected, $actual->unfold());
+
+        $expected = 0;
+        $actual = Shoop::int(5)->min(Shoop::int(10), 8, 0);
+        $this->assertEquals($expected, $actual->unfold());
+    }
 }
