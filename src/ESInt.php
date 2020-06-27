@@ -111,6 +111,20 @@ class ESInt implements Shooped, MathOperations, Toggle, IsIn, Each
         return $value/$divisor;
     }
 
+    public function max(...$comparisons)
+    {
+        return Shoop::array($comparisons)->plus($this->value())->each(function($int) {
+            return Type::sanitizeType($int, ESInt::class);
+        })->sort(false)->first();
+    }
+
+    public function min(...$comparisons)
+    {
+        return Shoop::array($comparisons)->plus($this->value())->each(function($int) {
+            return Type::sanitizeType($int, ESInt::class);
+        })->sort()->first();
+    }
+
     public function isEven(\Closure $closure = null)
     {
         return $this->condition(PhpInt::isEven($this->value()), $closure);
