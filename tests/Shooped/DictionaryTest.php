@@ -14,7 +14,8 @@ use Eightfold\Shoop\{
     ESInt,
     ESJson,
     ESObject,
-    ESString
+    ESString,
+    ESYaml
 };
 /**
  * The `dictionary()` method converts the original value to the `PHP associative array` equivalent.
@@ -24,7 +25,7 @@ use Eightfold\Shoop\{
 class DictionaryTest extends TestCase
 {
     /**
-     * @see PhpTypeJuggle::indexedArrayToAssociativeArray
+     * @see PhpIndexedArray::toAssociativeArray
      */
     public function testESArray()
     {
@@ -35,7 +36,7 @@ class DictionaryTest extends TestCase
     }
 
     /**
-     * @see PhpTypeJuggle::boolToAssociativeArray
+     * @see PhpBool::toAssociativeArray
      */
     public function testESBool()
     {
@@ -57,7 +58,7 @@ class DictionaryTest extends TestCase
     }
 
     /**
-     * @see PhpTypeJuggle::intToAssociativeArray
+     * @see PhpInt::toAssociativeArray
      */
     public function testESInt()
     {
@@ -68,7 +69,7 @@ class DictionaryTest extends TestCase
     }
 
     /**
-     * @see PhpTypeJuggle::jsonoAssociativeArray
+     * @see PhpJson::toAssociativeArray
      */
     public function testESJson()
     {
@@ -79,7 +80,7 @@ class DictionaryTest extends TestCase
     }
 
     /**
-     * @see PhpTypeJuggle::objectToAssociativeArray
+     * @see PhpObeject::toAssociativeArray
      */
     public function testESObject()
     {
@@ -93,13 +94,24 @@ class DictionaryTest extends TestCase
     }
 
     /**
-     * @see PhpTypeJuggle::stringToAssociativeArray
+     * @see PhpString::toAssociativeArray
      */
     public function testESString()
     {
         $expected = ["i0" => "h", "i1" => "e", "i2" => "l", "i3" => "l", "i4" => "o"];
 
         $actual = ESString::fold("hello")->dictionary();
+        $this->assertEquals($expected, $actual->unfold());
+    }
+
+    /**
+     * @see SymfonyYaml::toAssociativeArray
+     */
+    public function testESYaml()
+    {
+        $expected = ["test" => true];
+
+        $actual = ESYaml::fold("test: true")->dictionary();
         $this->assertEquals($expected, $actual->unfold());
     }
 }

@@ -55,7 +55,7 @@ class ESYaml implements Shooped //, Compare, MathOperations, Wrap, Drop, Has, Is
             return SymfonyYaml::toBool($instance->value());
 
         } elseif ($className === ESDictionary::class) {
-            return PhpJson::toAssociativeArray($instance->value());
+            return SymfonyYaml::toAssociativeArray($instance->value());
 
         } elseif ($className === ESInt::class) {
             return PhpJson::toInt($instance->value());
