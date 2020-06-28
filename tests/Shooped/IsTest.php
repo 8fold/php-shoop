@@ -14,7 +14,8 @@ use Eightfold\Shoop\{
     ESInt,
     ESJson,
     ESObject,
-    ESString
+    ESString,
+    ESYaml
 };
 
 /**
@@ -71,6 +72,13 @@ class IsTest extends TestCase
     {
         $base = "alphabet soup";
         $actual = ESString::fold($base)->is($base);
+        $this->assertTrue($actual->unfold());
+    }
+
+    public function testESYaml()
+    {
+        $base = "test: test";
+        $actual = ESYaml::fold($base)->is($base);
         $this->assertTrue($actual->unfold());
     }
 }
