@@ -14,7 +14,8 @@ use Eightfold\Shoop\{
     ESInt,
     ESJson,
     ESObject,
-    ESString
+    ESString,
+    ESYaml
 };
 /**
  * @see Type::isNotEmpty
@@ -103,5 +104,16 @@ class IsNotEmptyTest extends TestCase
         $base = "";
         $actual = ESString::fold($base)->isNotEmpty();
         $this->assertFalse($actual->unfold());
+    }
+
+    public function testESYaml()
+    {
+        $base = '';
+        $actual = ESYaml::fold($base)->isNotEmpty();
+        $this->assertFalse($actual->unfold());
+
+        $base = "test: test";
+        $actual = ESYaml::fold($base)->isNotEmpty();
+        $this->assertTrue($actual->unfold());
     }
 }
