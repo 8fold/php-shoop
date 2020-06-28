@@ -30,7 +30,8 @@ class SymfonyYaml
     static public function toAssociativeArray(string $yaml): array
     {
         self::isYaml($yaml);
-        return Yaml::parse($yaml);
+        $parsed = Yaml::parse($yaml);
+        return ($parsed === null) ? [] : $parsed;
     }
 
     static public function toInt(string $yaml): int

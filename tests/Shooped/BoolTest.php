@@ -14,7 +14,8 @@ use Eightfold\Shoop\{
     ESInt,
     ESJson,
     ESObject,
-    ESString
+    ESString,
+    ESYaml
 };
 
 /**
@@ -22,10 +23,10 @@ use Eightfold\Shoop\{
  *
  * @return Eightfold\Shoop\ESBool
  */
-class ToBoolTest extends TestCase
+class BoolTest extends TestCase
 {
     /**
-     * @see PhpTypeJuggle::indexedArrayToBool
+     * @see PhpIndexedArray::toBool
      */
     public function testESArray()
     {
@@ -49,7 +50,7 @@ class ToBoolTest extends TestCase
     }
 
     /**
-     * @see PhpTypeJuggle::associativeArrayToBool
+     * @see PhpAssociativeArray::toBool
      */
     public function testESDictionary()
     {
@@ -58,7 +59,7 @@ class ToBoolTest extends TestCase
     }
 
     /**
-     * @see PhpTypeJuggle::intToBool
+     * @see PhpInt::toBool
      */
     public function testESInt()
     {
@@ -70,7 +71,7 @@ class ToBoolTest extends TestCase
     }
 
     /**
-     * @see PhpTypeJuggle::jsonToBool
+     * @see PhpJson::toBool
      */
     public function testESJson()
     {
@@ -82,7 +83,7 @@ class ToBoolTest extends TestCase
     }
 
     /**
-     * @see PhpTypeJuggle::objectToBool
+     * @see PhpObject::toBool
      */
     public function testESObject()
     {
@@ -97,7 +98,7 @@ class ToBoolTest extends TestCase
     }
 
     /**
-     * @see PhpTypeJuggle::stringToBool
+     * @see PhpString::toBool
      */
     public function testESString()
     {
@@ -106,5 +107,17 @@ class ToBoolTest extends TestCase
 
         $actual = ESString::fold("hello")->bool();
         $this->assertTrue($actual->unfold());
+    }
+
+    /**
+     * @see SymfonyYaml::toBool
+     */
+    public function testESYaml()
+    {
+        $actual = ESYaml::fold('test: test')->bool();
+        $this->assertTrue($actual->unfold());
+
+        $actual = ESYaml::fold('')->bool();
+        $this->assertFalse($actual->unfold());
     }
 }
