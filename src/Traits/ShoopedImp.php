@@ -10,7 +10,8 @@ use Eightfold\Shoop\{
     ESInt,
     ESJson,
     ESObject,
-    ESString
+    ESString,
+    ESYaml
 };
 
 use Eightfold\Shoop\Interfaces\Shooped;

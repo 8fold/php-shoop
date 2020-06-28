@@ -2,6 +2,9 @@
 
 namespace Eightfold\Shoop\Helpers;
 
+use Symfony\Component\Yaml\Yaml;
+use Symfony\Component\Yaml\Exception\ParseException;
+
 use Eightfold\Shoop\Interfaces\Shooped;
 
 use Eightfold\Shoop\{
@@ -159,7 +162,7 @@ class Type
             if (is_int($firstMember)) {
                 return true;
 
-            } elseif (is_string($firstMember)) {
+            } elseif (static::isString($firstMember)) {
                 return false;
 
             }
@@ -202,7 +205,7 @@ class Type
             if (is_int($firstMember)) {
                 return false;
 
-            } elseif (is_string($firstMember)) {
+            } elseif (static::isString($firstMember)) {
                 return true;
 
             }
@@ -227,7 +230,7 @@ class Type
 
     static public function isJson($potential): bool
     {
-        $isString = is_string($potential);
+        $isString = static::isString($potential);
         if ($isString) {
             // Bail as soon as possible.
             $potential = trim($potential);
@@ -280,6 +283,32 @@ class Type
     static public function isNotString($potential): bool
     {
         return ! self::isString($potential);
+    }
+
+    static public function isYaml($potential)
+    {
+        $isString = static::isString($potential);
+        if ($isString) {
+            $value = "";
+            $exception = null;
+            try {
+                $value = Yaml::parse($potential);
+
+            } catch (ParseException $e) {
+                $exception = $e;
+
+            }
+
+            if ($exception !== null) {
+                return false;
+            }
+        }
+        return $isString;
+    }
+
+    static public function isNotYaml($potential)
+    {
+        return ! static::isYaml($potential);
     }
 
     static private function isPhp($potential): bool

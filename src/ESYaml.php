@@ -4,7 +4,7 @@ namespace Eightfold\Shoop;
 
 use Eightfold\Shoop\Helpers\{
     Type,
-    PhpJson
+    SymfonyYaml
 };
 
 use Eightfold\Shoop\Shoop;
@@ -24,32 +24,32 @@ use Eightfold\Shoop\Interfaces\{
 
 use Eightfold\Shoop\Traits\{
     ShoopedImp,
-    CompareImp,
-    MathOperationsImp,
-    SortImp,
-    ToggleImp,
-    WrapImp,
-    DropImp,
-    HasImp,
-    IsInImp,
-    EachImp
+    // CompareImp,
+    // MathOperationsImp,
+    // SortImp,
+    // ToggleImp,
+    // WrapImp,
+    // DropImp,
+    // HasImp,
+    // IsInImp,
+    // EachImp
 };
 
 use Eightfold\Shoop\ESDictionary;
 
-class ESJson implements Shooped, Compare, MathOperations, Wrap, Drop, Has, IsIn, Each, \JsonSerializable
+class ESYaml implements Shooped //, Compare, MathOperations, Wrap, Drop, Has, IsIn, Each, \JsonSerializable
 {
-    use ShoopedImp, CompareImp, ToggleImp, MathOperationsImp, SortImp, WrapImp, DropImp, HasImp, IsInImp, EachImp;
+    use ShoopedImp; //, CompareImp, ToggleImp, MathOperationsImp, SortImp, WrapImp, DropImp, HasImp, IsInImp, EachImp;
 
     /**
      * @todo Need a solution for the path
      */
     protected $path = "";
 
-    static public function to(ESJson $instance, string $className)
+    static public function to(ESYaml $instance, string $className)
     {
         if ($className === ESArray::class) {
-            return PhpJson::toIndexedArray($instance->value());
+            return SymfonyYaml::toIndexedArray($instance->value());
 
         } elseif ($className === ESBool::class) {
             return PhpJson::toBool($instance->value());
@@ -69,21 +69,31 @@ class ESJson implements Shooped, Compare, MathOperations, Wrap, Drop, Has, IsIn,
         } elseif ($className === ESString::class) {
             return $instance->value();
 
+        } elseif ($className === ESYaml::class) {
+            return $instance->value();
+
         }
     }
+
 	public function __construct($initial)
 	{
-		if (Type::isJson($initial)) {
+		if (Type::isYaml($initial)) {
 			$this->value = $initial;
 
 		} else {
-			trigger_error("Given string does not appear to be valid JSON: {$initial}", E_USER_ERROR);
+            $exception = null;
+            try {
+                $value = Yaml::parse($initial);
+
+            } catch (ParseException $e) {
+                $exception = $e;
+
+            }
+            $message = $exception->getMessage();
+			trigger_error("Given string does not appear to be valid YAML: {$initial}\n{$message}", ParseException::class);
 
 		}
 	}
 
-    public function jsonSerialize()
-    {
-        return $this->value;
-    }
+    // TODO: yamlSerialize - not a PHP-native method but would further the JSON parallel
 }

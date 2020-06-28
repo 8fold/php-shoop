@@ -71,6 +71,7 @@ class ESJson implements Shooped, Compare, MathOperations, Wrap, Drop, Has, IsIn,
 
         }
     }
+
 	public function __construct($initial)
 	{
 		if (Type::isJson($initial)) {

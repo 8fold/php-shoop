@@ -14,7 +14,8 @@ use Eightfold\Shoop\{
     ESInt,
     ESJson,
     ESObject,
-    ESString
+    ESString,
+    ESYaml
 };
 
 /**
@@ -25,7 +26,7 @@ use Eightfold\Shoop\{
 class ArrayTest extends TestCase
 {
     /**
-     * @return Eightfold\Shoop\ESArray The original value.
+     * @see Eightfold\Shoop\ESArray The original value.
      */
     public function testESArray()
     {
@@ -36,7 +37,7 @@ class ArrayTest extends TestCase
     }
 
     /**
-     * @see PhpTypeJuggle::boolToIndexedArray
+     * @see PhpBool::toIndexedArray
      */
     public function testESBool()
     {
@@ -47,7 +48,7 @@ class ArrayTest extends TestCase
     }
 
     /**
-     * @see PhpTypeJuggle::associativeArrayToIndexedArray
+     * @see PhpAssociativeArray::toIndexedArray
      */
     public function testESDictionary()
     {
@@ -58,7 +59,7 @@ class ArrayTest extends TestCase
     }
 
     /**
-     * @see PhpTypeJuggle::intToIndexedArray
+     * @see PhpInt::toIndexedArray
      */
     public function testESInt()
     {
@@ -69,7 +70,7 @@ class ArrayTest extends TestCase
     }
 
     /**
-     * @see PhpTypeJuggle::jsonToIndexedArray
+     * @see PhpJson::toIndexedArray
      */
     public function testESJson()
     {
@@ -80,7 +81,7 @@ class ArrayTest extends TestCase
     }
 
     /**
-     * @see PhpTypeJuggle::objectToIndexedArray
+     * @see PhpObject::toIndexedArray
      */
     public function testESObject()
     {
@@ -91,7 +92,7 @@ class ArrayTest extends TestCase
     }
 
     /**
-     * @see PhpTypeJuggle::stringToIndexedArray
+     * @see PhpString::toIndexedArray
      */
     public function testESString()
     {
@@ -99,5 +100,15 @@ class ArrayTest extends TestCase
 
         $actual = ESString::fold("hello")->array();
         $this->assertEquals($expected, $actual->unfold());
+    }
+
+    /**
+     * @see SymfonyYaml::toIndexedArray
+     */
+    public function testESYaml()
+    {
+        $this->assertFalse(false);
+        $expected = ["hello" => "world"];
+        $actual = ESYaml::fold("hello: world")->array();
     }
 }

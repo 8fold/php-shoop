@@ -14,7 +14,8 @@ use Eightfold\Shoop\{
     ESInt,
     ESJson,
     ESObject,
-    ESString
+    ESString,
+    ESYaml
 };
 
 use Eightfold\Shoop\Tests\TestShooped;
@@ -152,5 +153,24 @@ class TypeTest extends TestCase
         $array = ["h" => 1, "i" => 2, "!" => 3];
         $actual = Type::isDictionary($array);
         $this->assertTrue($actual);
+    }
+
+    public function testIsYaml()
+    {
+        $yaml = <<<EOD
+                    something:
+            looking for error
+        EOD;
+        $actual = Type::isYaml($yaml);
+        $this->assertFalse($actual);
+
+        $yaml = <<<EOD
+        something: Here
+        EOD;
+        $actual = Type::isYaml($yaml);
+        $this->assertTrue($actual);
+
+        $actual = Type::isNotYaml($yaml);
+        $this->assertFalse($actual);
     }
 }
