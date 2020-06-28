@@ -14,7 +14,8 @@ use Eightfold\Shoop\{
     ESInt,
     ESJson,
     ESObject,
-    ESString
+    ESString,
+    ESYaml
 };
 
 /**
@@ -85,5 +86,14 @@ class FoldTest extends TestCase
 
         $actual = ESString::fold("");
         $this->assertTrue(is_a($actual, ESString::class));
+    }
+
+    public function testESYaml()
+    {
+        $actual = new ESYaml("test: test");
+        $this->assertTrue(is_a($actual, ESYaml::class));
+
+        $actual = ESYaml::fold("test: test");
+        $this->assertTrue(is_a($actual, ESYaml::class));
     }
 }
