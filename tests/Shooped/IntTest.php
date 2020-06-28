@@ -14,17 +14,19 @@ use Eightfold\Shoop\{
     ESInt,
     ESJson,
     ESObject,
-    ESString
+    ESString,
+    ESYaml
 };
+
 /**
  * The `int()` method converts the `Shoop type` to the integer representation and `ESInt type`.
  *
  * @return Eightfold\Shoop\ESInt
  */
-class ToIntTest extends TestCase
+class IntTest extends TestCase
 {
     /**
-     * @see PhpTypeJuggle::indexedArrayToInt
+     * @see PhpIndexedArray::toInt
      */
     public function testESArray()
     {
@@ -35,7 +37,7 @@ class ToIntTest extends TestCase
     }
 
     /**
-     * @see PhpTypeJuggle::boolToInt
+     * @see PhpBool::toInt
      */
     public function testESBool()
     {
@@ -51,7 +53,7 @@ class ToIntTest extends TestCase
     }
 
     /**
-     * @see PhpTypeJuggle::associativeArrayToInt
+     * @see PhpAssociativeArray::toInt
      */
     public function testESDictionary()
     {
@@ -73,7 +75,7 @@ class ToIntTest extends TestCase
     }
 
     /**
-     * @see PhpTypeJuggle::jsonToInt
+     * @see PhpJson::toInt
      */
     public function testESJson()
     {
@@ -84,7 +86,7 @@ class ToIntTest extends TestCase
     }
 
     /**
-     * @see PhpTypeJuggle::objectToInt
+     * @see PhpObject::toInt
      */
     public function testESObject()
     {
@@ -95,7 +97,7 @@ class ToIntTest extends TestCase
     }
 
     /**
-     * @see PhpTypeJuggle::stringToInt
+     * @see PhpString::toInt
      */
     public function testESString()
     {
@@ -107,6 +109,17 @@ class ToIntTest extends TestCase
         $expected = 0;
 
         $actual = ESString::fold("hello")->int();
+        $this->assertEquals($expected, $actual->unfold());
+    }
+
+    /**
+     * @see SymfonyYaml::toInt
+     */
+    public function testESYaml()
+    {
+        $expected = 1;
+
+        $actual = ESYaml::fold("test: test")->int();
         $this->assertEquals($expected, $actual->unfold());
     }
 }
