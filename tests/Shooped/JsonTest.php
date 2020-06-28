@@ -14,7 +14,8 @@ use Eightfold\Shoop\{
     ESInt,
     ESJson,
     ESObject,
-    ESString
+    ESString,
+    ESYaml
 };
 
 /**
@@ -103,6 +104,17 @@ class JsonTest extends TestCase
         $expected = '{"scalar":"hello"}';
 
         $actual = ESString::fold('{"scalar":"hello"}')->json();
+        $this->assertEquals($expected, $actual->unfold());
+    }
+
+    /**
+     * @see SymfonyYaml::toJson
+     */
+    public function testESYaml()
+    {
+        $expected = '{"test":"test"}';
+
+        $actual = ESYaml::fold($expected)->json();
         $this->assertEquals($expected, $actual->unfold());
     }
 }
