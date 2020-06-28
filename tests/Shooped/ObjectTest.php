@@ -12,7 +12,8 @@ use Eightfold\Shoop\{
     ESInt,
     ESJson,
     ESObject,
-    ESString
+    ESString,
+    ESYaml
 };
 
 /**
@@ -23,7 +24,7 @@ use Eightfold\Shoop\{
 class ToObjecctTest extends TestCase
 {
     /**
-     * @see PhpTypeJuggle::indexedArrayToObject
+     * @see PhpIndexedArray::toObject
      */
     public function testESArray()
     {
@@ -35,7 +36,7 @@ class ToObjecctTest extends TestCase
     }
 
     /**
-     * @see PhpTypeJuggle::boolToObject
+     * @see PhpBool::toObject
      */
     public function testESBool()
     {
@@ -55,7 +56,7 @@ class ToObjecctTest extends TestCase
     }
 
     /**
-     * @see PhpTypeJuggle::associativeArrayToObject
+     * @see PhpAssociativeArray::toObject
      */
     public function testESDictionary()
     {
@@ -66,7 +67,7 @@ class ToObjecctTest extends TestCase
     }
 
     /**
-     * @see PhpTypeJuggle::intToObject
+     * @see PhpInt::toObject
      */
     public function testESInt()
     {
@@ -79,7 +80,7 @@ class ToObjecctTest extends TestCase
     }
 
     /**
-     * @see PhpTypeJuggle::jsonToObject
+     * @see PhpJson::toObject
      */
     public function testESJson()
     {
@@ -102,7 +103,7 @@ class ToObjecctTest extends TestCase
     }
 
     /**
-     * @see PhpTypeJuggle::stringToObject
+     * @see PhpString::toObject
      */
     public function testESString()
     {
@@ -110,6 +111,18 @@ class ToObjecctTest extends TestCase
         $expected->string = "";
 
         $actual = ESString::fold("")->object();
+        $this->assertEquals($expected, $actual->unfold());
+    }
+
+    /**
+     * @see SymfonyYaml::toObject
+     */
+    public function testESYaml()
+    {
+        $expected = new \stdClass();
+        $expected->test = "test";
+
+        $actual = ESYaml::fold("test: test")->object();
         $this->assertEquals($expected, $actual->unfold());
     }
 }
