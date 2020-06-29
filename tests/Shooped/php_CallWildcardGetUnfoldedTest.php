@@ -14,7 +14,8 @@ use Eightfold\Shoop\{
     ESInt,
     ESJson,
     ESObject,
-    ESString
+    ESString,
+    ESYaml
 };
 /**
  * The `get` and `Unfolded` modifiers can be used together, surrounding the method to call or the member to get.
@@ -87,5 +88,19 @@ class php_CallWildcardGetUnfoldedTest extends TestCase
         $expected = " ";
         $actual = ESString::fold("alphabet soup")->get8Unfolded();
         $this->assertEquals($expected, $actual);
+    }
+
+    public function testESYaml()
+    {
+        $base = ESYaml::fold("test: true");
+
+        $actual = $base->test;
+        $this->assertTrue($actual);
+
+        // $actual = $base->hasTrue;
+        // $this->assertTrue($actual);
+
+        // $actual = $base->hasTest;
+        // $this->assertTrue($actual);
     }
 }

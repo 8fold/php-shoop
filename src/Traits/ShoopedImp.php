@@ -392,6 +392,10 @@ trait ShoopedImp
             if (is_string($offset)) {
                 $array = PhpIndexedArray::toAssociativeArray($array);
             }
+
+        } elseif (Type::is($this, ESYaml::class)) {
+            $array = SymfonyYaml::toAssociativeArray($this->value);
+
         }
 
         if (isset($array[$offset])) {
