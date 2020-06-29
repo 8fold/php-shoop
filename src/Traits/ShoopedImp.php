@@ -23,7 +23,8 @@ use Eightfold\Shoop\Helpers\{
     PhpInt,
     PhpJson,
     PhpObject,
-    PhpString
+    PhpString,
+    SymfonyYaml
 };
 
 trait ShoopedImp
@@ -134,7 +135,7 @@ trait ShoopedImp
         if (Type::is($this, ESArray::class, ESInt::class, ESString::class)) {
             $member = Type::sanitizeType($member, ESInt::class)->unfold();
 
-        } elseif (Type::is($this, ESDictionary::class, ESJson::class, ESObject::class)) {
+        } elseif (Type::is($this, ESDictionary::class, ESJson::class, ESObject::class, ESYaml::class)) {
             $member = Type::sanitizeType($member, ESString::class)->unfold();
 
         }
@@ -157,6 +158,9 @@ trait ShoopedImp
 
         } elseif (Type::is($this, ESString::class)) {
             $array = PhpString::toIndexedArray($this->value);
+
+        } elseif (Type::is($this, ESYaml::class)) {
+            $array = SymfonyYaml::toAssociativeArray($this->value);
 
         }
         return Shoop::this($array)->get($member);
@@ -347,6 +351,10 @@ trait ShoopedImp
                 $array = PhpIndexedArray::toAssociativeArray($array);
                 $bool = isset($array[$offset]);
             }
+
+        } elseif (Type::is($this, ESYaml::class)) {
+            $array = SymfonyYaml::toAssociativeArray($this->value);
+            $bool = isset($array[$offset]);
 
         }
         return $bool;

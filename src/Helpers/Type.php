@@ -15,7 +15,8 @@ use Eightfold\Shoop\{
     ESArray,
     ESDictionary,
     ESObject,
-    ESJson
+    ESJson,
+    ESYaml
 };
 
 class Type
@@ -68,6 +69,10 @@ class Type
                 return $shooped->string();
                 break;
 
+            case ESYaml::class:
+                return $shooped->string();
+                break;
+
             default:
                 return $shooped;
                 break;
@@ -110,6 +115,9 @@ class Type
 
         } elseif (self::isString($potential)) {
             return ESString::class;
+
+        } elseif (self::isYaml($potential)) {
+            return ESYaml::class;
 
         }
     }
@@ -374,7 +382,8 @@ class Type
             "array"      => ESArray::class,
             "dictionary" => ESDictionary::class,
             "object"     => ESObject::class,
-            "json"       => ESJson::class
+            "json"       => ESJson::class,
+            "yaml"       => ESYaml::class
         ];
     }
 
