@@ -47,4 +47,9 @@ class Shoop
     {
         return static::this($string, ESString::class);
     }
+
+    static public function yaml($yaml): ESYaml
+    {
+        return static::this($yaml, ESYaml::class);
+    }
 }

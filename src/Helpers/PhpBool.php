@@ -2,6 +2,8 @@
 
 namespace Eightfold\Shoop\Helpers;
 
+use Symfony\Component\Yaml\Yaml;
+
 use Eightfold\Shoop\Helpers\{
     PhpTypeJuggle,
     PhpAssociativeArray
@@ -47,5 +49,11 @@ class PhpBool
     {
         $bool = $bool ? "true" : "";
         return $bool;
+    }
+
+    static public function toYaml(bool $bool = true): string
+    {
+        $associativeArray = static::toAssociativeArray($bool);
+        return trim(Yaml::dump($associativeArray));
     }
 }

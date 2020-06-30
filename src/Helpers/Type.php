@@ -70,7 +70,7 @@ class Type
                 break;
 
             case ESYaml::class:
-                return $shooped->string();
+                return $shooped->yaml();
                 break;
 
             default:
@@ -95,6 +95,7 @@ class Type
             return get_class($potential);
         }
 
+        // Order matters! ex. isString must come after isYaml
         if (self::isArray($potential)) {
             return ESArray::class;
 
@@ -113,11 +114,11 @@ class Type
         } elseif (self::isObject($potential)) {
             return ESObject::class;
 
-        } elseif (self::isString($potential)) {
-            return ESString::class;
-
         } elseif (self::isYaml($potential)) {
             return ESYaml::class;
+
+        } elseif (self::isString($potential)) {
+            return ESString::class;
 
         }
     }
@@ -297,6 +298,14 @@ class Type
     {
         $isString = static::isString($potential);
         if ($isString) {
+            // Starts with three hyphens, a new line, and non-whitespace character.
+            $parts = preg_split('/---[\n,\r][^\s]/', PHP_EOL.ltrim($potential));
+
+            if (count($parts) < 2) {
+                return false;
+            }
+
+            // Symfony Yaml component check.
             $value = "";
             $exception = null;
             try {
@@ -330,7 +339,6 @@ class Type
         if ($type !== "object" && in_array($type, $phpTypes)) {
             return true;
         }
-
         $potentialClass = get_class($potential);
         if ($potentialClass === "stdClass") {
             return true;

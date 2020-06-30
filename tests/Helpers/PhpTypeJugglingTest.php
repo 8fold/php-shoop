@@ -22,7 +22,8 @@ use Eightfold\Shoop\{
     ESInt,
     ESJson,
     ESObject,
-    ESString
+    ESString,
+    ESYaml
 };
 
 class PhpTypeJugglingTest extends TestCase
@@ -112,6 +113,17 @@ class PhpTypeJugglingTest extends TestCase
         $this->assertEquals($expected, $actual);
     }
 
+    public function testIndexArrayToYaml()
+    {
+        $expected = <<<EOT
+        i0: 0
+        i1: 1
+        i2: 2
+        EOT;
+        $actual = PhpIndexedArray::toYaml([0, 1, 2]);
+        $this->assertEquals($expected, $actual);
+    }
+
 // -> Bool
 
     /**
@@ -193,6 +205,16 @@ class PhpTypeJugglingTest extends TestCase
     {
         $expected = "";
         $actual = PhpBool::toString(false);
+        $this->assertEquals($expected, $actual);
+    }
+
+    public function testBoolToYaml()
+    {
+        $expected = <<<EOD
+        'true': true
+        'false': false
+        EOD;
+        $actual = PhpBool::toYaml(true);
         $this->assertEquals($expected, $actual);
     }
 
@@ -279,6 +301,16 @@ class PhpTypeJugglingTest extends TestCase
             "one" => ", ",
             "two" => "World!"
         ]);
+        $this->assertEquals($expected, $actual);
+    }
+
+    public function testAssociativeArrayToYaml()
+    {
+        $expected = <<<EOD
+        'true': true
+        'false': false
+        EOD;
+        $actual = PhpBool::toYaml("'true': true\n'false': false");
         $this->assertEquals($expected, $actual);
     }
 

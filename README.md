@@ -95,6 +95,37 @@ $path = Shoop::string($path)
 print($path); // both should be: /Users/josh/Documents/ProjectMaxEffort/SecretFolder/SecretSubfolder
 ```
 
+### A note on YAML (ESYaml)
+
+`ESYaml` is design to take accept one block of YAML, not a document containing YAML parts. Therefore, parsing of YAML parts should be done before folding those parts into individual `ESYaml` instances.
+
+Almost any string can, strictly speaking, be considered YAML. Therefore, to help minimize confusion, to considered valid YAML in Shoop, the string must start with three hyphens (-), followed by a new line character, followed by almost any character.
+
+So, if you have Markdown with YAML front matter such as the following example:
+
+```markdown
+---
+hello
+---
+```
+
+If you parse out the following string, Shoop will be able to recognize it as valid YAML, and will return an `ESYaml` instance with "hello" as the value:
+
+```markdown
+---
+hello
+```
+
+Note: If the following Markdown YAML front matter is given, the trailing three hyphens will be removed, also leaving just "hello":
+
+```markdown
+---
+hello
+---
+```
+
+When you `unfold` an `ESYaml` instance, we will wrap the resulting string in triple hyphens to further facilitate type juggling and automation.
+
 ## Why?
 
 The PHP standard library and APIs have been criticized a bit over the years. Not for lack of functionality or robustness; rather, most noteably, inconsistent pattern usage and naming. We think this criticism is actually justified. Given how long PHP has been around and how many times various aspects have changed hands, the standard library and API list is expansive (I've been using it since 2005, and continue to find new things).

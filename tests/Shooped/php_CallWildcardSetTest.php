@@ -14,7 +14,8 @@ use Eightfold\Shoop\{
     ESInt,
     ESJson,
     ESObject,
-    ESString
+    ESString,
+    ESYaml
 };
 
 /**
@@ -97,5 +98,21 @@ class php_CallWildcardSetTest extends TestCase
         $base = "alphabet soup";
         $actual = ESString::fold($base)->get(1);
         $this->assertEquals("l", $actual->unfold());
+    }
+
+    public function testESYaml()
+    {
+        $base = <<<EOD
+        ---
+        initial: value
+        EOD;
+
+        $expected = <<< EOD
+        ---
+        initial: value
+        test: true
+        EOD;
+        $actual = ESYaml::fold($base)->setTest(true);
+        $this->assertEquals($expected, $actual);
     }
 }

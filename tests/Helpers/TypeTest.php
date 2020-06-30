@@ -158,6 +158,24 @@ class TypeTest extends TestCase
     public function testIsYaml()
     {
         $yaml = <<<EOD
+        ---
+
+        EOD;
+        $actual = Type::isYaml($yaml);
+        $this->assertFalse($actual);
+
+        $yaml = <<<EOD
+        ---
+        something: Here
+        EOD;
+        $actual = Type::isYaml($yaml);
+        $this->assertTrue($actual);
+
+        $actual = Type::isNotYaml($yaml);
+        $this->assertFalse($actual);
+
+        // Symfony Yaml component
+        $yaml = <<<EOD
                     something:
             looking for error
         EOD;
@@ -165,12 +183,11 @@ class TypeTest extends TestCase
         $this->assertFalse($actual);
 
         $yaml = <<<EOD
-        something: Here
+        ---
+                    something:
+            looking for error
         EOD;
         $actual = Type::isYaml($yaml);
-        $this->assertTrue($actual);
-
-        $actual = Type::isNotYaml($yaml);
         $this->assertFalse($actual);
     }
 }

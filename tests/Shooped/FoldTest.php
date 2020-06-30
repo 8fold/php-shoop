@@ -90,10 +90,14 @@ class FoldTest extends TestCase
 
     public function testESYaml()
     {
-        $actual = new ESYaml("test: test");
+        $base = <<< EOD
+        ---
+        test: test
+        EOD;
+        $actual = new ESYaml($base);
         $this->assertTrue(is_a($actual, ESYaml::class));
 
-        $actual = ESYaml::fold("test: test");
+        $actual = ESYaml::fold($base);
         $this->assertTrue(is_a($actual, ESYaml::class));
     }
 }

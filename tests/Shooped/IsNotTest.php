@@ -78,6 +78,9 @@ class IsNotTest extends TestCase
     public function testESYaml()
     {
         $base = "test: test";
+        $actual = ESYaml::fold($base)->value();
+        $this->assertEquals($base, $actual);
+
         $actual = ESYaml::fold($base)->isNot($base);
         $this->assertFalse($actual->unfold());
     }

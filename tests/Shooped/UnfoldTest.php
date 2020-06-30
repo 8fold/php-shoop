@@ -14,7 +14,8 @@ use Eightfold\Shoop\{
     ESInt,
     ESJson,
     ESObject,
-    ESString
+    ESString,
+    ESYaml
 };
 
 /**
@@ -119,5 +120,26 @@ class UnfoldTest extends TestCase
 
         $actual = ESString::fold($expected);
         $this->assertEquals($expected, $actual->unfold());
+    }
+
+    /**
+     * @return string
+     */
+    public function testESYaml()
+    {
+        $base = <<<EOD
+        ---
+        hello
+        ---
+        EOD;
+        $actual = new ESYaml($expected);
+        $this->assertEquals($base, $actual->unfold());
+
+        // $actual = ESYaml::fold($expected);
+        // $this->assertEquals($base, $actual->unfold());
+
+        // $expected = "hello";
+        // $actual = Shoop::yaml($base)->value();
+        // $this->assertEquals($expected, $actual->unfold());
     }
 }

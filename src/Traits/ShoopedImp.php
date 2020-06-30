@@ -60,6 +60,11 @@ trait ShoopedImp
     {
         $instanceClass = get_class($this); // TODO: PHP 8 allows for $instance::class
         $value = $instanceClass::to($this, $className);
+var_dump(__FILE__);
+var_dump("line: ". __LINE__);
+var_dump($className);
+var_dump($instanceClass);
+var_dump($value);
         return $className::fold($value);
     }
 
@@ -96,6 +101,11 @@ trait ShoopedImp
     public function string(): ESString
     {
         return $this->juggleTo(ESString::class);
+    }
+
+    public function yaml(): ESYaml
+    {
+        return $this->juggleTo(ESYaml::class);
     }
 
     public function is($compare, \Closure $closure = null)
@@ -210,6 +220,14 @@ trait ShoopedImp
             $array = PhpAssociativeArray::afterSettingValue($array, $value, $member, $overwrite);
             $object = PhpAssociativeArray::toObject($array);
             return Shoop::object($object);
+
+        } elseif (Type::is($this, ESYaml::class)) {
+            $yaml = $this->value;
+            $array = SymfonyYaml::toAssociativeArray($yaml);
+            $array = PhpAssociativeArray::afterSettingValue($array, $value, $member, $overwrite);
+            $yaml = PhpAssociativeArray::toYaml($array);
+            return Shoop::yaml($yaml);
+
         }
     }
 

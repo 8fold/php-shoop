@@ -2,6 +2,8 @@
 
 namespace Eightfold\Shoop\Helpers;
 
+use Symfony\Component\Yaml\Yaml;
+
 use Eightfold\Shoop\Helpers\{
     PhpInt
 };
@@ -52,6 +54,12 @@ class PhpIndexedArray
             $oneLine);
         $fixSpacingWhenEmpty = preg_replace('/\s+\(/', "(", $commas, 1);
         return trim($fixSpacingWhenEmpty);
+    }
+
+    static public function toYaml(array $array = []): string
+    {
+        $associativeArray = static::toAssociativeArray($array);
+        return trim(Yaml::dump($associativeArray));
     }
 
     static public function reversed(array $array, bool $preserveMembers): array

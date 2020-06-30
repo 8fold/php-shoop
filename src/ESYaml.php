@@ -2,6 +2,8 @@
 
 namespace Eightfold\Shoop;
 
+use Symfony\Component\Yaml\Yaml;
+
 use Eightfold\Shoop\Helpers\{
     Type,
     SymfonyYaml
@@ -70,6 +72,10 @@ class ESYaml implements Shooped //, Compare, MathOperations, Wrap, Drop, Has, Is
             return $instance->value();
 
         } elseif ($className === ESYaml::class) {
+var_dump(__FILE__);
+var_dump("line: ". __LINE__);
+var_dump($className);
+var_dump($instance);
             return $instance->value();
 
         }
@@ -77,9 +83,14 @@ class ESYaml implements Shooped //, Compare, MathOperations, Wrap, Drop, Has, Is
 
 	public function __construct($initial)
 	{
+var_dump(__FILE__);
+var_dump("line: ". __LINE__);
+var_dump($initial);
 		if (Type::isYaml($initial)) {
 			$this->value = $initial;
-
+var_dump(__FILE__);
+var_dump("line: ". __LINE__);
+var_dump($initial);
 		} else {
             $exception = null;
             try {
@@ -89,6 +100,11 @@ class ESYaml implements Shooped //, Compare, MathOperations, Wrap, Drop, Has, Is
                 $exception = $e;
 
             }
+
+            if ($exception === null) {
+                trigger_error("Given string does not begin with three hyphens: {$initial}\n", E_USER_ERROR);
+            }
+
             $message = $exception->getMessage();
 			trigger_error("Given string does not appear to be valid YAML: {$initial}\n{$message}", ParseException::class);
 

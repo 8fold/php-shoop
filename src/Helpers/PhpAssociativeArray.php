@@ -2,6 +2,8 @@
 
 namespace Eightfold\Shoop\Helpers;
 
+use Symfony\Component\Yaml\Yaml;
+
 use Eightfold\Shoop\Helpers\{
     PhpTypeJuggle,
     PhpIndexedArray,
@@ -42,6 +44,11 @@ class PhpAssociativeArray
     {
         $string = PhpIndexedArray::toString($array);
         return str_replace("Array(", "Dictionary(", $string);
+    }
+
+    static public function toYaml(array $array = []): string
+    {
+        return trim(Yaml::dump($array));
     }
 
     static public function endsWith(array $dictionary, array $needles): bool
