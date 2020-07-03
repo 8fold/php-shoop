@@ -32,6 +32,10 @@ trait WrapImp
 
         }
 
+        if (count($array) === 0) {
+            return Shoop::string("");
+        }
+
         if ($count === 1) {
             $value = array_shift($array);
             return Shoop::this($value);
@@ -60,6 +64,10 @@ trait WrapImp
         if (Type::is($this, ESBool::class)) {
             $array = $this->dictionaryUnfolded();
 
+        }
+
+        if (count($array) === 0) {
+            return $this->first();
         }
 
         if ($count === 1) {
