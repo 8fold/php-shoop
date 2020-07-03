@@ -36,6 +36,18 @@ class LastTest extends TestCase
         $expected = ["hello", "world"];
         $actual = Shoop::array($base)->last(2);
         $this->assertEquals($expected, $actual->unfold());
+
+        $expected = 1;
+        $actual = Shoop::array([1])->last();
+        $this->assertEquals($expected, $actual->unfold());
+
+        $expected = "";
+        $actual = Shoop::array([])->last();
+        $this->assertEquals($expected, $actual->unfold());
+
+        $expected = "";
+        $actual = Shoop::array([])->first();
+        $this->assertEquals($expected, $actual->unfold());
     }
 
     /**
