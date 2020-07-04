@@ -1,6 +1,6 @@
 {
   "name": "8fold/php-shoop",
-  "description": "A wrapper to create a more ubiquitous API for interacting with PHP Primitives.",
+  "description": "A wrapper to create a more ubiquitous API for interacting with primitive data types.",
   "type": "library",
   "license": "MIT",
   "authors": [
@@ -10,11 +10,10 @@
     }
   ],
   "require": {
-    "php": "7.*"
+    "php": "~7"
   },
   "require-dev": {
-    "phpunit/phpunit": "9.1.*",
-    "phpunit/php-code-coverage": "8.0.*"
+    "phpunit/phpunit": "~9.1"
   },
   "autoload": {
     "psr-4": {
