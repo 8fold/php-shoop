@@ -42,7 +42,6 @@ trait CompareImp
         return $this->condition($bool, $closure);
     }
 
-    // TODO: Rename "isGreaterThanOrEqualTo" then deprecate
     public function isGreaterThanOrEqual($compare, Closure $closure = null)
     {
         $compare = Type::sanitizeType($compare, static::class);
@@ -57,11 +56,27 @@ trait CompareImp
         return $this->condition($bool, $closure);
     }
 
-    // TODO: Rename "isLessThanOrEqualTo" then deprecate
     public function isLessThanOrEqual($compare, Closure $closure = null)
+    {
+        return $this->isLessThanOrEqualTo($compare, $closure);
+    }
+
+    public function isLessThanOrEqualTo($compare, Closure $closure = null)
     {
         $compare = Type::sanitizeType($compare, static::class);
         $bool = $this->unfold() <= $compare->unfold();
+        return $this->condition($bool, $closure);
+    }
+
+    public function countIsLessThan($compare, \Closure $closure = null)
+    {
+        $bool = $this->count()->isLessThan($compare);
+        return $this->condition($bool, $closure);
+    }
+
+    public function countIsLessThanOrEqualTo($compare, \Closure $closure = null)
+    {
+        $bool = $this->count()->isLessThanOrEqualTo($compare);
         return $this->condition($bool, $closure);
     }
 }

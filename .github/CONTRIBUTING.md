@@ -1,12 +1,14 @@
 # Contributing
 
-Contributions are **welcome** and will be **credited**. We accept contributions via Pull Requests on [GitHub](https://github.com/8fold/laravel-provider).
+Contributions are **welcome** and will be **credited**. We accept contributions via Pull Requests on [GitHub](https://github.com/8fold/php-shoop).
 
-## Goals
+## Priorities
 
-- A simple, flexible Service Provider and routes for common use cases
+We leverage GitHub's labeling system to inform prioritization of issues. The higher the number, the higher priority.
 
-### Overall
+Security is always the highest priority within the applicable scope of the product. Therefore, some packages are low-level and intended for developers and give the flexibility to them to surround the package with a security layer.
+
+## Overall goals
 
 There are a lot of philosphical things tied in to the way we strive to do software development. Some you are most likely familiar with, others maybe not so much.
 

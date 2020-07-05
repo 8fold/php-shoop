@@ -42,11 +42,4 @@ interface Shooped extends PhpInterfaces, PhpMagicMethods
     public function object(): ESObject;
 
     public function string(): ESString;
-
-// - Getters/Setters
-    public function get($member = 0);
-
-    public function getUnfolded($name);
-
-    public function set($value, $member = null, $overwrite = true);
 }

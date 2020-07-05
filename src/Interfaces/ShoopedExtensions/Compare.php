@@ -16,9 +16,15 @@ interface Compare
 
     public function isGreaterThan($compare, \Closure $closure = null);
 
+    // TODO: Rename "isGreaterThanOrEqualTo" then deprecate
     public function isGreaterThanOrEqual($compare, \Closure $closure = null);
 
     public function isLessThan($compare, \Closure $closure = null);
 
+    // TODO: Rename "isLessThanOrEqualTo" then deprecate
     public function isLessThanOrEqual($compare, \Closure $closure = null);
+
+    public function countIsLessThan($compare, \Closure $closure = null);
+
+    public function countIsLessThanOrEqualTo($compare, \Closure $closure = null);
 }
