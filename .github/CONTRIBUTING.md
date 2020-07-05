@@ -2,6 +2,22 @@
 
 Contributions are **welcome** and will be **credited**. We accept contributions via Pull Requests on [GitHub](https://github.com/8fold/php-shoop).
 
+## Guiding Principles
+
+Classes SHOULD be viewed only as an entry point not the result.
+
+Classes SHOULD favor composition over inheritance. The inheritance hierarchy MUST NOT exceed three levels.
+
+Classes SHOULD follow the open-closed principle.
+
+Class properties MUST BE declared `protected` or `private` (preferring `private`).
+
+Class methods SHOULD follow the Single Responsibility Principle (SRP) by doing one thing.
+
+Class methods SHOULD NOT mutate state outside of themselves and MUST NOT mutate state beyond the class in which they are defined.
+
+Class methods SHOULD NOT use Shoop to solve a specified problem.
+
 ## Priorities
 
 We leverage GitHub's labeling system to inform prioritization of issues. The higher the number, the higher priority.

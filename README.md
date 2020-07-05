@@ -1,16 +1,12 @@
 # 8fold Shoop for PHP
 
-8fold Shoop is a wrapper that seeks to a create a rational and nearly ubiquitous API for interacting with PHP primitives.
+8fold Shoop provides minimal linguistic differentiation and maximum utility for manipulating base data types.
+
+Shoop is as close to interacting with native PHP types as we can get without writing a PHP extension and asking you to install it.
+
+Shoop is not a framework. A drawback to many frameworks is they're often like learning a new language that exists on top of the base language.
 
 While the immplementations are language-specific, the fundamental concepts strive to be language agnostic: contracts, inheritence, and generic implementations via traits (in PHP).
-
-## What's in a name?
-
-Shoop, as an acronym, points to the insipirations of the library: Swift, Haskell (functional programming and immutability), Object-Oriented (encapsulation, composition, and communication), and Procedural (sequential, logical programming).
-
-Shoop, as a word, is akin to "photoshopping" (and sounds nicer than "Foops").
-
-Shoop, as a name, is the title of a song by Salt-N-Pepa released in 1993 and used in the first installment of the [Deadpool](https://youtu.be/FOJWJmlYxlE) franchise in 2016.
 
 ## Installation
 
@@ -20,59 +16,72 @@ composer require 8fold/php-shoop
 
 ## Usage
 
+You can interact with a Shoop type like a PHP string.
+
 ```php
 // A regular PHP string
 $string = "Hello!";
 
 $reversed = Shoop::string($string)->toggle();
 
-print($reversed);
+print $reversed;
 
 // output: !olleH
 ```
 
-You can see the Shoop type works seamlessly within the standard PHP environment (specifically as native PHP strings and arrays).
-
-Speaking of PHP API complaints, that means arrays can be immediately changed to strings. This does put a little more responsibility on the user.
+You can use the same method names horitzontally across Shoop types to reduce cognitive load. (You can also interact with a Shoop type like a PHP array.)
 
 ```php
-print(Shoop::string("Hello!")->first());
+// A regular PHP array
+$array = [0, 1, 2];
 
-// output: H
+print $array[0];
+
+// output: 0
+
+$reversed = Shoop::array($array)->toggle();
+
+// becomes: [2, 1, 0]
+
+print $reversed[0];
+
+// output: 2
+```
+To make Shoop as unobtrusive to your developer workflow as possible, it is also relatively painless to get back to PHP in those case where we don't know how to respond to a PHP function or fixture.
+
+```php
+$array = [true, false, false];
+
+// We are not aware of a way to let PHP know how to respond to an instance as a boolean value.
+if (Shoop::array($array)->first()->unfold()) {}
+
+// One step instead of two
+if (Shoop::array($array)->firstUnfolded()) {}
+
+// One step using object property notation
+if (Shoop::array($array)->first) {}
+
+// all three output: true
 ```
 
-Sometimes you will want to explicitly unfold the value of the Shoop type.
+Let's try something more complex.
+
+Shoop types, by default, return other Shoop types. This, coupled with a majority ubiquitous API allows for chaining (not quite pipes, currently not available in PHP). As such, each chain is almost like creating a functional program wherein you can change the start and get a different output, without modifying the functional code. (Don't have to use different function from the PHP standard library.)
+
+We might talk more about that later, for now, let's say we have the path to a folder:
+
+`/Users/8fold/Desktop/ProjectSupreme/SecretFolder/SecretSubfolder`
+
+And we want to move to a different folder:
+
+`/Users/8fold/Documents/ProjectMaxEffort/SecretFolder/SecretSubfolder`
+
 
 ```php
-$string = Shoop::string("Hello!")->first();
+// Our starting path
+$path = "/Users/8fold/Desktop/ProjectSupreme/SecretFolder/SecretSubfolder";
 
-var_dump($string->unfold());
-
-// string: H
-
-$unfolded = Shoop::string("Hello!")->firstUnfolded();
-
-var_dump($unfolded);
-
-// string: H
-
-$property = Shoop::string("Hello!")->first;
-
-// string: H
-```
-
-Let's try a more complex manipulation as these examples only marginally better than the standard library.
-
-```php
-// Let's say we have a folder path:
-// /Users/josh/Desktop/ProjectSupreme/SecretFolder/SecretSubfolder
-// And we want to have the following path:
-// /Users/josh/Documents/ProjectMaxEffort/SecretFolder/SecretSubfolder
-
-// One way in PHP might look something like this
-$path = "/Users/josh/Desktop/ProjectSupreme/SecretFolder/SecretSubfolder";
-
-// PHP standard library
+// PHP standard library - one way
 $parts = explode("/", $path);
 array_pop($parts); // ../
 array_pop($parts); // ../
@@ -82,57 +91,56 @@ $parts[] = "Documents";
 $parts[] = "ProjectMaxEffort";
 $parts[] = "SecretFolder";
 $parts[] = "SecretSubfolder";
-$path = "/". implode("/", $parts);
+if (count($parts) === 6) {
+	$path = "/". implode("/", $parts);
+
+} else {
+	$path = "Not the Middle Path.";
+}
 
 // Shoop
 $path = Shoop::string($path)
 	->divide("/")
 	->dropLast(4)
 	->plus("Documents", "ProjectMaxEffort", "SecretFolder", "SecretSubfolder")
-	->join("/")
-	->start("/");
+	->countIsGreaterThanOrEqualTo(6, function($result, $array) {
+		return ($result)
+			? $array->join("/")
+			: "Not the Middle Path.";
+	});
 
-print($path); // both should be: /Users/josh/Documents/ProjectMaxEffort/SecretFolder/SecretSubfolder
+print $path; // both should be: /Users/8fold/Documents/ProjectMaxEffort/SecretFolder/SecretSubfolder
 ```
 
 ## Why?
 
-The PHP standard library and APIs have been criticized a bit over the years. Not for lack of functionality or robustness; rather, most noteably, inconsistent pattern usage and naming. We think this criticism is actually justified. Given how long PHP has been around and how many times various aspects have changed hands, the standard library and API list is expansive (I've been using it since 2005, and continue to find new things).
+Rasmus has mentioned criticisms of PHP in multiple talks over the years. In [one talk](https://youtu.be/Qa_xVjTiOUw?t=1007) (that I had close at hand), Rasmus mentions a criticism I've often heard and even made in the past: Naming inconsistencies. To which he responded (paraphrased):
 
-## Guiding Principles
+> PHP is perfectly consistent, just not the way you expect. It's vertically consistent. So, for every function in PHP, if you look at the argument order, [and] if you look at what's underneath it, the `libc` function under some of the string function, for example, the argument order a naming matches what they're built upon. So, there's not consistency horitzontally, but there's perfect consistency vertically digging down into the stack. [There] was just no way, that I could create a horizontally consistent design of a language that I didn't know was going to be come a languge at all in an environment that was changing to rapidly. [So, all the people coming from Oracle it was easy for them to interact with those parts. But, if you jumped from MySQL to Oracle, it would be painful.]
 
-Classes SHOULD be viewed only as an entry point not the result.
+That was long, but we like to be as fair as we can. This makes sense, and why I don't complain so much about the inconsisttencies in the language, as such. With that said, I think we can make Shoop be that for PHP base types. Not only that, but I think many developers (self included) want it but maybe don't know it yet.
 
-Classes SHOULD favor composition over inheritance. The inheritance hierarchy MUST NOT exceed three levels.
+One of the praise points for the popular Laravel framework is its drive toward generic interfaces into multiple, disparate underlying structures. Switch from MySQL to NoSQL to something custom without having to revisit your other code. Use Stripe, PayPal, or something else, without having to rewrite your checkout code.
 
-Classes SHOULD follow the open-closed principle.
+So, I think this particular criticism of PHP is justified *and* at the same time completely understandable.
 
-Class properties MUST BE declared `protected` or `private` (preferring `private`).
+After using Shoop to develop multiple live projects from low-level libraries to higher-level websites, I can honestly say:
 
-Class methods SHOULD follow the Single Responsibility Principle (SRP) by doing one thing.
+> I always start by avoiding using Shoop (I don't like dependencies, even when I write them). And, I always end up grabbing Shoop.
 
-Class methods SHOULD NOT mutate state outside of themselves and MUST NOT mutate state beyond the class in which they are defined.
+## What's in a name?
 
-Class methods SHOULD NOT use Shoop to solve a specified problem.
+Shoop, as an acronym, points to the insipirations of the library: Swift, Haskell (functional programming and immutability), Object-Oriented (encapsulation, composition, and communication), and Procedural (sequential, logical programming).
 
-## Versioning
+Shoop, as a word, is akin to "photoshopping" (and sounds nicer than "Foops").
 
-We follow [semantic versioning](https://semver.org/). We are operating under a [zero-major](https://semver.org/#spec-item-4) at this time. `x.y.z`: `x` = major, `y` = minor, `z` = patch. In this case `x` remains at 0 to communicate that APIs may come and go without warning. With that said, changes to `y` are typically reserved for breaking changes and changes to `z` represent added features and APIs or bug fixes.
+Shoop, as a name, is the title of a song by Salt-N-Pepa released in 1993 and used in the first installment of the [Deadpool](https://youtu.be/FOJWJmlYxlE) franchise in 2016.
 
-## Contibuting
+## Project
 
-Anyone can submit PRs to add funcationality as we are only adding things we need for the solutions we are developing.
-
-Please submit PRs from a fork of this project. If you are part of the core team, you are not required to fork the project.
-
-Each PR will be reviewed, including those submitted by core developers (no direct push).
-
-ALL type classes must conform to the Shooped interface to all leveraging of the type system by users.
-
-The criteria for adding new capabilities is:
-
-1. The capability must be needed (or used) in a production application.
-2. The capability cannot eaily be achieved by stacking, chaining, or otherwise piping present capaiblities together.
+- [Versioning](https://github.com/8fold/php-shoop/blob/master/.github/VERSIONING.md)
+- [Contributing](https://github.com/8fold/php-shoop/blob/master/.github/CONTRIBUTING.md)
+- [Governance](https://github.com/8fold/php-shoop/blob/master/.github/GOVERNANCE.md)
 
 ### Naming conventions
 
@@ -150,20 +158,18 @@ php{interface name}{method name}Test: Test classes prefixed with "php" followed 
 
 We use the term "member" as an umbrella that covers an index for values in indexed arrays, keys for values in associative arrays, and members for values in JSON and objects.
 
-## Governance
-
-- Higher the number, higher the priority (labels on issues).
-- [Benevolant Dictatorship](https://github.com/8fold/php-shoop/blob/master/GOVERNANCE.md) for now.
-
 ## History
 
 This library has been under development since the beginning of 2019 and has been used in the majority of 8fold projects since the middle of 2019. With every new project created we tried to go without it but found ourselves becoming annoyed, which is why we've decided to make it a more formal project and library consumable by others.
 
-
-
 ***********
-Drawback to frameworks is often like learning a new language. Shoop is as close to interacting with native PHP types as we can get without writing a PHP extension and asking you to install it.
+
+## Scratchpath
 
 Concierge: Does the hard work for you.
 
 Dupe...not sure if this is an acceptable term for the concept of making Shoop types as close to native PHP as possible.
+
+Idiom: Appreciating this.
+
+Cipher: Could be more marketable.
