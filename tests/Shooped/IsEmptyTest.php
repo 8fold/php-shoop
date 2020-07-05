@@ -29,7 +29,7 @@ class IsEmptyTest extends TestCase
         $this->assertFalse($actual->unfold());
 
         $actual = ESArray::fold($base)->isEmpty(function($result, $value) {
-            if (! $result) {
+            if (! $result->unfold()) {
                 return Shoop::string($value->last);
             }
         });

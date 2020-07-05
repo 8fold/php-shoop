@@ -11,21 +11,19 @@ use Eightfold\Shoop\ESInt;
 
 use Eightfold\Shoop\Interfaces\{
     Shooped,
-    Compare,
     Toggle,
     IsIn
 };
 
 use Eightfold\Shoop\Traits\{
     ShoopedImp,
-    CompareImp,
     ToggleImp,
     IsInImp
 };
 
-class ESBool implements Shooped, Compare, Toggle, IsIn
+class ESBool implements Shooped, Toggle, IsIn
 {
-    use ShoopedImp, CompareImp, ToggleImp, IsInImp;
+    use ShoopedImp, ToggleImp, IsInImp;
 
     static public function to(ESBool $instance, string $className)
     {

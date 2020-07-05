@@ -27,7 +27,7 @@ class IsInTest extends TestCase
         $this->assertTrue($actual->unfold());
 
         $actual = Shoop::array($inner)->isIn($base, function($result) {
-            return ! $result;
+            return ! $result->unfold();
         });
         $this->assertFalse($actual);
     }
@@ -39,7 +39,7 @@ class IsInTest extends TestCase
         $this->assertTrue($actual->unfold());
 
         $actual = Shoop::bool(true)->isIn($inner, function($result) {
-            return $result;
+            return $result->unfold();
         });
         $this->assertFalse($actual);
     }
@@ -52,7 +52,7 @@ class IsInTest extends TestCase
         $this->assertTrue($actual->unfold());
 
         $actual = Shoop::dictionary(["d" => 4])->isIn($base, function($result) {
-            return ! $result;
+            return ! $result->unfold();
         });
         $this->assertTrue($actual);
     }
@@ -67,7 +67,7 @@ class IsInTest extends TestCase
         $this->assertTrue($actual->unfold());
 
         $actual = Shoop::int(2)->isIn($base, function($result) {
-            return ($result) ? true : false;
+            return ($result->unfold()) ? true : false;
         });
         $this->assertTrue($actual);
     }
@@ -100,7 +100,7 @@ class IsInTest extends TestCase
         $inner = "World";
         $base = "Hello, World!";
         $actual = Shoop::string($inner)->isIn($base, function($result) {
-            return ! $result;
+            return ! $result->unfold();
         });
         $this->assertFalse($actual);
     }

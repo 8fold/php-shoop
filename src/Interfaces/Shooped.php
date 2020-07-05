@@ -2,6 +2,8 @@
 
 namespace Eightfold\Shoop\Interfaces;
 
+use Eightfold\Shoop\Interfaces\ShoopedExtensions\{PhpInterfaces, PhpMagicMethods};
+
 use Eightfold\Shoop\{
     ESArray,
     ESInt,
@@ -12,11 +14,10 @@ use Eightfold\Shoop\{
     ESJson
 };
 
-interface Shooped extends
-    \ArrayAccess,
+interface Shooped extends PhpInterfaces, PhpMagicMethods
     // ?? ObjectAccess = __unset, __isset, __get, __set
-    \Iterator
     // Serializable ??
+    // JsonSerializable
 {
     static public function fold($args);
 
@@ -41,48 +42,10 @@ interface Shooped extends
 
     public function string(): ESString;
 
-// - Comparison
-    public function is($compare);
-
-    public function isNot($compare);
-
-    public function isEmpty(\Closure $closure = null);
-
-    public function isNotEmpty(\Closure $closure = null);
-
 // - Getters/Setters
     public function get($member = 0);
 
     public function getUnfolded($name);
 
     public function set($value, $member = null, $overwrite = true);
-
-// - PHP interfaces and magic methods
-    public function __call(string $name, array $args = []);
-
-    public function __get($name);
-
-    public function __toString(): string;
-
-    public function __debugInfo();
-
-// - Array Access
-    public function offsetExists($offset): bool;
-
-    public function offsetGet($offset);
-
-    public function offsetSet($offset, $value): void;
-
-    public function offsetUnset($offset): void;
-
-// - Iterator
-    public function rewind(): void;
-
-    public function valid(): bool;
-
-    public function current();
-
-    public function key();
-
-    public function next(): void;
 }

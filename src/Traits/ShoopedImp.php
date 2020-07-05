@@ -61,13 +61,14 @@ trait ShoopedImp
 
     public function condition($bool, \Closure $closure = null)
     {
+        $bool = Type::sanitizeType($bool, ESBool::class);
         $value = $this->value();
         if ($closure === null) {
             $closure = function($bool, $value) {
-                return Shoop::this($bool);
+                return $bool;
             };
         }
-        return $closure(Shoop::this($bool), Shoop::this($value));
+        return $closure($bool, Shoop::this($value));
     }
 
 // - Type Juggling
@@ -140,6 +141,33 @@ trait ShoopedImp
         return $this->condition($bool, $closure);
     }
 
+    public function isGreaterThan($compare, \Closure $closure = null)
+    {
+        $compare = Type::sanitizeType($compare, static::class);
+        $bool = $this->unfold() > $compare->unfold();
+        return $this->condition($bool, $closure);
+    }
+
+    public function isGreaterThanOrEqual($compare, \Closure $closure = null)
+    {
+        $compare = Type::sanitizeType($compare, static::class);
+        $bool = $this->unfold() >= $compare->unfold();
+        return $this->condition($bool, $closure);
+    }
+
+    public function isLessThan($compare, \Closure $closure = null)
+    {
+        $compare = Type::sanitizeType($compare, static::class);
+        $bool = $this->unfold() < $compare->unfold();
+        return $this->condition($bool, $closure);
+    }
+
+    public function isLessThanOrEqual($compare, \Closure $closure = null)
+    {
+        $compare = Type::sanitizeType($compare, static::class);
+        $bool = $this->unfold() <= $compare->unfold();
+        return $this->condition($bool, $closure);
+    }
 // - Getters/Setters
     public function get($member = 0)
     {
@@ -304,6 +332,16 @@ trait ShoopedImp
         return [
             "value" => $this->value
         ];
+    }
+
+// - Countable
+    public function count()
+    {
+        $int = $this->int();
+        if (Type::is($this, ESString::class)) {
+            $int = strlen($this->value);
+        }
+        return Shoop::int($int);
     }
 
 // -> ArrayAccess

@@ -9,7 +9,6 @@ use Eightfold\Shoop\Helpers\{
 
 use Eightfold\Shoop\Interfaces\{
     Shooped,
-    Compare,
     MathOperations,
     Sort,
     Toggle,
@@ -22,7 +21,6 @@ use Eightfold\Shoop\Interfaces\{
 
 use Eightfold\Shoop\Traits\{
     ShoopedImp,
-    CompareImp,
     MathOperationsImp,
     SortImp,
     ToggleImp,
@@ -33,9 +31,9 @@ use Eightfold\Shoop\Traits\{
     EachImp
 };
 
-class ESObject implements Shooped, Compare, MathOperations, Sort, Toggle, Wrap, Drop, Has, IsIn, Each
+class ESObject implements Shooped, MathOperations, Sort, Toggle, Wrap, Drop, Has, IsIn, Each
 {
-    use ShoopedImp, CompareImp, MathOperationsImp, SortImp, ToggleImp, WrapImp, DropImp, HasImp, IsInImp, EachImp;
+    use ShoopedImp, MathOperationsImp, SortImp, ToggleImp, WrapImp, DropImp, HasImp, IsInImp, EachImp;
 
     static public function to(ESObject $instance, string $className)
     {
