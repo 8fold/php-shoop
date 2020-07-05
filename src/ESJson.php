@@ -35,7 +35,7 @@ use Eightfold\Shoop\Traits\{
 
 use Eightfold\Shoop\ESDictionary;
 
-class ESJson implements Shooped, MathOperations, Wrap, Drop, Has, IsIn, Each, \JsonSerializable
+class ESJson implements Shooped, MathOperations, Wrap, Drop, Has, IsIn, Each
 {
     use ShoopedImp, ToggleImp, MathOperationsImp, SortImp, WrapImp, DropImp, HasImp, IsInImp, EachImp;
 
@@ -79,9 +79,4 @@ class ESJson implements Shooped, MathOperations, Wrap, Drop, Has, IsIn, Each, \J
 
 		}
 	}
-
-    public function jsonSerialize()
-    {
-        return $this->value;
-    }
 }

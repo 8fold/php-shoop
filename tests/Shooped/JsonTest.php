@@ -46,7 +46,6 @@ class JsonTest extends TestCase
     public function testESBool()
     {
         $expected = '{"true":true,"false":false}';
-
         $actual = ESBool::fold(true)->json();
         $this->assertEquals($expected, $actual->unfold());
     }
@@ -57,7 +56,6 @@ class JsonTest extends TestCase
     public function testESDictionary()
     {
         $expected = '{}';
-
         $actual = ESDictionary::fold([])->json();
         $this->assertEquals($expected, $actual->unfold());
     }
@@ -68,7 +66,6 @@ class JsonTest extends TestCase
     public function testESInt()
     {
         $expected = '{"i0":0,"i1":1}';
-
         $actual = ESInt::fold(1)->json();
         $this->assertEquals($expected, $actual->unfold());
     }
@@ -79,7 +76,6 @@ class JsonTest extends TestCase
     public function testESJson()
     {
         $expected = '{"test":"test"}';
-
         $actual = ESJson::fold($expected)->json();
         $this->assertEquals($expected, $actual->unfold());
     }
@@ -90,7 +86,6 @@ class JsonTest extends TestCase
     public function testESObject()
     {
         $expected = "{}";
-
         $actual = ESObject::fold(new \stdClass())->json();
         $this->assertEquals($expected, $actual->unfold());
     }
@@ -101,7 +96,6 @@ class JsonTest extends TestCase
     public function testESString()
     {
         $expected = '{"scalar":"hello"}';
-
         $actual = ESString::fold('{"scalar":"hello"}')->json();
         $this->assertEquals($expected, $actual->unfold());
     }

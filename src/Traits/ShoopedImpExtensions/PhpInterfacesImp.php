@@ -233,4 +233,10 @@ trait PhpInterfacesImp
         }
         next($this->temp);
     }
+
+// - JsonSerializable
+    public function jsonSerialize()
+    {
+        return $this->object()->unfold();
+    }
 }

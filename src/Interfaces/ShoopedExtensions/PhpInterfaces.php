@@ -5,8 +5,9 @@ namespace Eightfold\Shoop\Interfaces\ShoopedExtensions;
 use \Countable;
 use \ArrayAccess;
 use \Iterator;
+use \JsonSerializable;
 
-interface PhpInterfaces extends Countable, ArrayAccess, Iterator
+interface PhpInterfaces extends Countable, ArrayAccess, Iterator, JsonSerializable
 {
 // - Countable
     public function count();
@@ -30,4 +31,7 @@ interface PhpInterfaces extends Countable, ArrayAccess, Iterator
     public function key();
 
     public function next(): void;
+
+// - JsonSerializable
+    public function jsonSerialize();
 }
