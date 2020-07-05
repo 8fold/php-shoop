@@ -4,11 +4,8 @@ namespace Eightfold\Shoop\Interfaces;
 
 use Eightfold\Shoop\ESInt;
 
-interface MathOperations extends \Countable
+interface MathOperations
 {
-    // Does not make sense on ESBool
-    public function count(): ESInt;
-
     public function plus(...$args);
 
     public function minus(...$args);

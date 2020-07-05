@@ -18,7 +18,7 @@ use Eightfold\Shoop\{
 };
 
 /**
- * The `rewind()` method from the `Iterator interface` from the PHP standard library moves the pointer to the beginning of the object that conforms to the `Iterator interface`.
+ * The `rewind()` method from the `Iterator` interface moves the pointer to the beginning of the object conforming to the `Iterator` interface`.
  */
 class InterfaceIteratorRewindTest extends TestCase
 {

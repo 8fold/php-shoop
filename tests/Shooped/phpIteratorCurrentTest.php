@@ -18,9 +18,13 @@ use Eightfold\Shoop\{
 };
 
 /**
- * The `current()` method from the `Iterator interface` from the PHP standard library returns the value of the member being pointed to.
+ * The `current()` method from the `Iterator` interface returns the value of the member being pointed to.
  *
- * @return multiple If the value is a `PHP type`, it will be converted to the equivalent `Shoop type`. If the value coforms to the `Shooped interface`, the instance is returned. Otherwise, the raw value is returned (instances of `non-Shoop types or class`, for example.
+ * @return mixed
+ *   - If the value is a PHP type, it will be converted to the equivalent Shoop type.
+ *   - If the value coforms to the `Shooped` interfac`, the instance is returned.
+ *   - Otherwise, the raw value is returned (instances of non-Shoop types or class, for example.
+ *
  */
 class InterfaceIteratorCurrentTest extends TestCase
 {

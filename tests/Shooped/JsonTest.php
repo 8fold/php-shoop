@@ -18,14 +18,14 @@ use Eightfold\Shoop\{
 };
 
 /**
- * The `json()` method converts the `Shoop type` to the JSON respresentation.
+ * The `json()` method converts the Shoop type to a representation using JSON.
  *
  * @return Eightfold\Shoop\ESString In JSON.
  */
 class JsonTest extends TestCase
 {
     /**
-     * @see PhpTypeJuggle::indexedArrayToJson
+     * @see PhpIndexedArray::toJson
      */
     public function testESArray()
     {
@@ -41,34 +41,31 @@ class JsonTest extends TestCase
     }
 
     /**
-     * @see PhpTypeJuggle::boolToJson
+     * @see PhpBool::toJson
      */
     public function testESBool()
     {
         $expected = '{"true":true,"false":false}';
-
         $actual = ESBool::fold(true)->json();
         $this->assertEquals($expected, $actual->unfold());
     }
 
     /**
-     * @see PhpTypeJuggle::associativeArrayToJson
+     * @see PhpAssociativeArray::toJson
      */
     public function testESDictionary()
     {
         $expected = '{}';
-
         $actual = ESDictionary::fold([])->json();
         $this->assertEquals($expected, $actual->unfold());
     }
 
     /**
-     * @see PhpTypeJuggle::intToJson
+     * @see PhpInt::toJson
      */
     public function testESInt()
     {
         $expected = '{"i0":0,"i1":1}';
-
         $actual = ESInt::fold(1)->json();
         $this->assertEquals($expected, $actual->unfold());
     }
@@ -79,29 +76,26 @@ class JsonTest extends TestCase
     public function testESJson()
     {
         $expected = '{"test":"test"}';
-
         $actual = ESJson::fold($expected)->json();
         $this->assertEquals($expected, $actual->unfold());
     }
 
     /**
-     * @see PhpTypeJuggle::objectToJson
+     * @see PhpObject::toJson
      */
     public function testESObject()
     {
         $expected = "{}";
-
         $actual = ESObject::fold(new \stdClass())->json();
         $this->assertEquals($expected, $actual->unfold());
     }
 
     /**
-     * @see PhpTypeJuggle::stringToJson
+     * @see PhpString::toJson
      */
     public function testESString()
     {
         $expected = '{"scalar":"hello"}';
-
         $actual = ESString::fold('{"scalar":"hello"}')->json();
         $this->assertEquals($expected, $actual->unfold());
     }

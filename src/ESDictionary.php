@@ -9,7 +9,6 @@ use Eightfold\Shoop\Helpers\{
 
 use Eightfold\Shoop\Interfaces\{
     Shooped,
-    Compare,
     MathOperations,
     Toggle,
     Sort,
@@ -22,7 +21,6 @@ use Eightfold\Shoop\Interfaces\{
 
 use Eightfold\Shoop\Traits\{
     ShoopedImp,
-    CompareImp,
     MathOperationsImp,
     ToggleImp,
     SortImp,
@@ -37,7 +35,6 @@ use Eightfold\Shoop\ESInt;
 
 class ESDictionary implements
     Shooped,
-    Compare,
     MathOperations,
     Toggle,
     Sort,
@@ -47,7 +44,7 @@ class ESDictionary implements
     IsIn,
     Each
 {
-    use ShoopedImp, CompareImp, MathOperationsImp, ToggleImp, SortImp, WrapImp, DropImp, HasImp, IsInImp, EachImp;
+    use ShoopedImp, MathOperationsImp, ToggleImp, SortImp, WrapImp, DropImp, HasImp, IsInImp, EachImp;
 
     static public function to(ESDictionary $instance, string $className)
     {

@@ -306,7 +306,7 @@ class Type
         return ! static::isPhp($potential);
     }
 
-    static private function for($potential): string
+    static public function for($potential): string
     {
         if (static::isShooped($potential)) {
             return get_class($potential);

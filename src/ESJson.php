@@ -11,7 +11,6 @@ use Eightfold\Shoop\Shoop;
 
 use Eightfold\Shoop\Interfaces\{
     Shooped,
-    Compare,
     MathOperations,
     Sort,
     Toggle,
@@ -24,7 +23,6 @@ use Eightfold\Shoop\Interfaces\{
 
 use Eightfold\Shoop\Traits\{
     ShoopedImp,
-    CompareImp,
     MathOperationsImp,
     SortImp,
     ToggleImp,
@@ -37,9 +35,9 @@ use Eightfold\Shoop\Traits\{
 
 use Eightfold\Shoop\ESDictionary;
 
-class ESJson implements Shooped, Compare, MathOperations, Wrap, Drop, Has, IsIn, Each, \JsonSerializable
+class ESJson implements Shooped, MathOperations, Wrap, Drop, Has, IsIn, Each
 {
-    use ShoopedImp, CompareImp, ToggleImp, MathOperationsImp, SortImp, WrapImp, DropImp, HasImp, IsInImp, EachImp;
+    use ShoopedImp, ToggleImp, MathOperationsImp, SortImp, WrapImp, DropImp, HasImp, IsInImp, EachImp;
 
     /**
      * @todo Need a solution for the path
@@ -81,9 +79,4 @@ class ESJson implements Shooped, Compare, MathOperations, Wrap, Drop, Has, IsIn,
 
 		}
 	}
-
-    public function jsonSerialize()
-    {
-        return $this->value;
-    }
 }

@@ -9,7 +9,6 @@ use Eightfold\Shoop\Helpers\{
 
 use Eightfold\Shoop\Interfaces\{
     Shooped,
-    Compare,
     MathOperations,
     Toggle,
     Shuffle,
@@ -23,7 +22,6 @@ use Eightfold\Shoop\Interfaces\{
 
 use Eightfold\Shoop\Traits\{
     ShoopedImp,
-    CompareImp,
     MathOperationsImp,
     ToggleImp,
     ShuffleImp,
@@ -37,7 +35,6 @@ use Eightfold\Shoop\Traits\{
 
 class ESArray implements
     Shooped,
-    Compare,
     MathOperations,
     Toggle,
     Shuffle,
@@ -48,7 +45,7 @@ class ESArray implements
     IsIn,
     Each
 {
-    use ShoopedImp, CompareImp, MathOperationsImp, ToggleImp, ShuffleImp, WrapImp, SortImp, DropImp, HasImp, IsInImp, EachImp;
+    use ShoopedImp, MathOperationsImp, ToggleImp, ShuffleImp, WrapImp, SortImp, DropImp, HasImp, IsInImp, EachImp;
 
     // TODO: Can't make part of interface because of typing
     static public function to(ESArray $instance, string $className)

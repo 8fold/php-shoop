@@ -17,7 +17,7 @@ use Eightfold\Shoop\{
     ESString
 };
 /**
- * All `Shoop types` can be converted to an `ESString`; therefore, all `Shoop types` can automaticaly be converted using the `__toString()` function from the PHP standard library.
+ * The `__toString()` method from the PHP standard library is available on all Shoop types. Therefore, all Shoop types can be used with `print`, `echo`, and similar methods from the PHP standard library.
  *
  * @return string
  */

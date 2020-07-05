@@ -18,9 +18,9 @@ use Eightfold\Shoop\{
 };
 
 /**
- * The `key()` method from the `Iterator interface` from the PHP standard library returns the member currently being pointed to.
+ * The `key()` method from the `Iterator` interface returns the member currently being pointed to.
  *
- * @return multiple If the value is a `PHP type`, it will be converted to the equivalent `Shoop type`.
+ * @return mixed If the value is a PHP type, it will be converted to the equivalent Shoop type.
  */
 class InterfaceIteratorKeyTest extends TestCase
 {

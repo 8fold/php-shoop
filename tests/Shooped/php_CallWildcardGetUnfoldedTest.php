@@ -19,7 +19,8 @@ use Eightfold\Shoop\{
 /**
  * The `get` and `Unfolded` modifiers can be used together, surrounding the method to call or the member to get.
  *
- * @return multiple The return value of the method will be unfolded, returning it to a `PHP type` or the class it started as.
+ * @return mixed The return value of the method will be unfolded, returning it to a `PHP type` or the class it started as.
+ *
  */
 class php_CallWildcardGetUnfoldedTest extends TestCase
 {

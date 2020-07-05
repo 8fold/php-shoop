@@ -31,7 +31,7 @@ class HasTest extends TestCase
 
         $expected = "h";
         $actual = ESArray::fold($base)->has("hello", function($result, $value) {
-            if ($result) {
+            if ($result->unfold()) {
                 return "h";
             }
             return null;
@@ -41,7 +41,7 @@ class HasTest extends TestCase
         $expected = "h";
         $actual = ESArray::fold($base)->doesNothave(
             "hi", function($result, $value) {
-                if ($result) {
+                if ($result->unfold()) {
                     return null;
                 }
                 return "h";
@@ -69,7 +69,7 @@ class HasTest extends TestCase
         $expected = "v";
         $actual = ESDictionary::fold($base)->has(
             "value", function($result, $value) {
-                if ($result) {
+                if ($result->unfold()) {
                     return "v";
                 }
                 return null;
@@ -79,7 +79,7 @@ class HasTest extends TestCase
         $expected = "v";
         $actual = ESDictionary::fold($base)->doesNothave(
             "hi", function($result, $value) {
-                if ($result) {
+                if ($result->unfold()) {
                     return null;
                 }
                 return "v";
@@ -106,7 +106,7 @@ class HasTest extends TestCase
 
         $expected = "v";
         $actual = ESJson::fold($base)->has("value3", function($result, $value) {
-            if ($result) {
+            if ($result->unfold()) {
                 return "v";
             }
             return null;
@@ -116,7 +116,7 @@ class HasTest extends TestCase
         $expected = "v";
         $actual = ESJson::fold($base)->doesNothave(
             "hi", function($result, $value) {
-                if ($result) {
+                if ($result->unfold()) {
                     return null;
                 }
                 return "v";
@@ -144,7 +144,7 @@ class HasTest extends TestCase
 
         $expected = "t";
         $actual = ESObject::fold($base)->has("test", function($result, $value) {
-            if ($result) {
+            if ($result->unfold()) {
                 return "t";
             }
             return null;
@@ -154,7 +154,7 @@ class HasTest extends TestCase
         $expected = "t";
         $actual = ESObject::fold($base)->doesNothave(
             "hi", function($result, $value) {
-                if ($result) {
+                if ($result->unfold()) {
                     return null;
                 }
                 return "t";
@@ -176,7 +176,7 @@ class HasTest extends TestCase
         $base = "test";
         $expected = "t";
         $actual = ESString::fold($base)->has("t", function($result, $value) {
-            if ($result) {
+            if ($result->unfold()) {
                 return "t";
             }
             return null;
@@ -186,7 +186,7 @@ class HasTest extends TestCase
         $expected = "t";
         $actual = ESString::fold($base)->doesNothave(
             "d", function($result, $value) {
-                if ($result) {
+                if ($result->unfold()) {
                     return null;
                 }
                 return "t";

@@ -16,7 +16,6 @@ use Eightfold\Shoop\Interfaces\{
     Sort,
     Has,
     Drop,
-    Compare,
     IsIn,
     Each
 };
@@ -30,7 +29,6 @@ use Eightfold\Shoop\Traits\{
     SortImp,
     HasImp,
     DropImp,
-    CompareImp,
     IsInImp,
     EachImp
 };
@@ -44,11 +42,10 @@ class ESString implements
     Sort,
     Drop,
     Has, // TODO: Consider different implementation (array splits on letters, words become issues)
-    Compare,
     IsIn,
     Each
 {
-    use ShoopedImp, MathOperationsImp, ToggleImp, ShuffleImp, WrapImp, SortImp, HasImp, DropImp, CompareImp, IsInImp, EachImp;
+    use ShoopedImp, MathOperationsImp, ToggleImp, ShuffleImp, WrapImp, SortImp, HasImp, DropImp, IsInImp, EachImp;
 
     static public function to(ESString $instance, string $className)
     {

@@ -18,7 +18,7 @@ use Eightfold\Shoop\{
 };
 
 /**
- * The `valid()` method from the `Iterator interface` from the PHP standard library returns whether the current pointer position is valid.
+ * The `valid()` method from the `Iterator` interface returns whether the current pointer position is valid.
  *
  * @return bool
  */
@@ -35,9 +35,6 @@ class InterfaceIteratorValidTest extends TestCase
         $this->assertFalse($array->valid());
     }
 
-    /**
-     * Equivalent to `array()->valid()`.
-     */
     public function testESBool()
     {
         $actual = ESBool::fold(true);
@@ -52,9 +49,6 @@ class InterfaceIteratorValidTest extends TestCase
         $this->assertEquals($expected, $actual->key());
     }
 
-    /**
-     * Resets value to original value.
-     */
     public function testESInt()
     {
         $actual = ESInt::fold(10);

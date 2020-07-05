@@ -18,7 +18,7 @@ use Eightfold\Shoop\{
 };
 
 /**
- * The `offsetUnset()` method is part of the `ArrayAccess interface` from the PHP standard library and removes the specified member.
+ * The `offsetUnset()` method is part of the `ArrayAccess` interface and removes the specified member.
  *
  * Most implementations are based on the array representation of the `Shoop type`.
  *

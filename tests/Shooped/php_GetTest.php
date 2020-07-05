@@ -17,15 +17,12 @@ use Eightfold\Shoop\{
     ESString
 };
 /**
- * `Shoop types` do not have accessible properties; however, attempting to get a property results in getting the unfolded (`PHP type`) value from the `Shoop type`.
+ * Using the `__get()` magic method from the PHP standard library allows you to use object access notation to call a method and unfold the result in one step, similar to `get*Unfolded()` with less characters.
  *
- * @return multiple Always a `PHP type`.
+ * @return mixed Always a `PHP type`.
  */
 class php_GetTest extends TestCase
 {
-    /**
-     * @see PhpTypeJuggle::indexedArrayToAssociativeArray
-     */
     public function testESArray()
     {
         $base = ESArray::fold([0 => "hi"]);

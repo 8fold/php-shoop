@@ -161,5 +161,9 @@ This library has been under development since the beginning of 2019 and has been
 
 
 
+***********
+Drawback to frameworks is often like learning a new language. Shoop is as close to interacting with native PHP types as we can get without writing a PHP extension and asking you to install it.
 
+Concierge: Does the hard work for you.
 
+Dupe...not sure if this is an acceptable term for the concept of making Shoop types as close to native PHP as possible.

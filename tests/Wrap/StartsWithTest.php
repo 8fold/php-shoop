@@ -34,7 +34,7 @@ class StartsWithTest extends TestCase
 
         $actual = Shoop::array($base)->startsWith(
             "something", "hello", function($result, $value) {
-                if ($result) {
+                if ($result->unfold()) {
                     return $value;
                 }
                 return false;
@@ -60,7 +60,7 @@ class StartsWithTest extends TestCase
 
         $actual = ESDictionary::fold($base)->startsWith(
             0, "zero", 1, "first", function($result, $value) {
-                if ($result) {
+                if ($result->unfold()) {
                     return $value;
                 }
                 return false;
@@ -86,7 +86,7 @@ class StartsWithTest extends TestCase
 
         $actual = ESJson::fold($base)->startsWith(
             "value", "member", function($result, $value) {
-                if ($result) {
+                if ($result->unfold()) {
                     return $value;
                 }
                 return false;
@@ -106,7 +106,7 @@ class StartsWithTest extends TestCase
 
         $actual = ESObject::fold($base)->startsWith(
             "test", "testMember", function($result, $value) {
-                if ($result) {
+                if ($result->unfold()) {
                     return $value;
                 }
                 return false;
@@ -123,7 +123,7 @@ class StartsWithTest extends TestCase
 
         $actual = ESString::fold($base)->startsWith(
             "Hello, ", function($result, $value) {
-                if ($result) {
+                if ($result->unfold()) {
                     return $value;
                 }
                 return false;

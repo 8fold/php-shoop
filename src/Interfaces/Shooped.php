@@ -2,6 +2,8 @@
 
 namespace Eightfold\Shoop\Interfaces;
 
+use Eightfold\Shoop\Interfaces\ShoopedExtensions\{PhpInterfaces, PhpMagicMethods};
+
 use Eightfold\Shoop\{
     ESArray,
     ESInt,
@@ -12,71 +14,32 @@ use Eightfold\Shoop\{
     ESJson
 };
 
-interface Shooped extends
-    \ArrayAccess,
+interface Shooped extends PhpInterfaces, PhpMagicMethods
     // ?? ObjectAccess = __unset, __isset, __get, __set
-    \Iterator
     // Serializable ??
+    // JsonSerializable
 {
     static public function fold($args);
 
     public function unfold();
 
+    public function value();
+
+    // TODO: Consider a method called "if" - then deprecate
+    public function condition($bool, \Closure $closure = null);
+
 // - Type Juggling
-    public function string(): ESString;
-
     public function array(): ESArray;
-
-    public function dictionary(): ESDictionary;
-
-    public function object(): ESObject;
-
-    public function int(): ESInt;
 
     public function bool(): ESBool;
 
+    public function dictionary(): ESDictionary;
+
+    public function int(): ESInt;
+
     public function json(): ESJson;
 
-// - Comparison
-    public function is($compare);
+    public function object(): ESObject;
 
-    public function isNot($compare);
-
-    public function isEmpty(\Closure $closure = null);
-
-    public function isNotEmpty(\Closure $closure = null);
-
-// - Getters/Setters
-    public function get($member = 0);
-
-    public function set($value, $member = null, $overwrite = true);
-
-// - PHP single-method interfaces
-    public function __call(string $name, array $args = []);
-
-    public function __get($name);
-
-    public function __toString(): string;
-
-    public function __debugInfo();
-
-// - Array Access
-    public function offsetExists($offset): bool;
-
-    public function offsetGet($offset);
-
-    public function offsetSet($offset, $value): void;
-
-    public function offsetUnset($offset): void;
-
-// - Iterator
-    public function rewind(): void;
-
-    public function valid(): bool;
-
-    public function current();
-
-    public function key();
-
-    public function next(): void;
+    public function string(): ESString;
 }

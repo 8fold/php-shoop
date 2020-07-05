@@ -22,15 +22,6 @@ use Eightfold\Shoop\{
 
 trait MathOperationsImp
 {
-    public function count(): ESInt
-    {
-        $int = $this->int();
-        if (Type::is($this, ESString::class)) {
-            $int = strlen($this->value);
-        }
-        return Shoop::int($int);
-    }
-
     public function plus(...$args)
     {
         if (Type::is($this, ESArray::class)) {
