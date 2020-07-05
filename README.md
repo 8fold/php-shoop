@@ -116,17 +116,17 @@ print $path; // both should be: /Users/8fold/Documents/ProjectMaxEffort/SecretFo
 
 [Rasmus](https://en.wikipedia.org/wiki/Rasmus_Lerdorf), the creator of PHP, has mentioned criticisms of PHP in multiple talks over the years. In [one talk](https://youtu.be/Qa_xVjTiOUw?t=1007) (that I had close at hand), Rasmus mentions a criticism I've often heard and even made in the past: Naming inconsistencies. To which he responded (paraphrased):
 
-> PHP is perfectly consistent, just not the way you expect. It's vertically consistent. So, for every function in PHP,  if you look at what's underneath it, the `libc` function under some of the string functions, for example, the argument order and naming matches what they're built upon. So, there's not consistency horitzontally, but there's perfect consistency vertically digging down into the stack. [There] was just no way, that I could create a horizontally consistent design of a language that I didn't know was going to be come a languge at all in an environment that was changing to rapidly. [So, all the people coming from Oracle it was easy for them to interact with those parts. But, if you jumped from MySQL to Oracle, it would be painful.]
+> PHP is perfectly consistent, just not the way you expect. It's vertically consistent. So, for every function in PHP,  if you look at what's underneath it, the `libc` function under some of the string functions, for example, the argument order and naming matches what they're built upon. So, there's not consistency horitzontally, but there's perfect consistency vertically digging down into the stack. [There] was just no way, that I could create a horizontally consistent design of a language that I didn't know was going to become a languge at all in an environment that was changing too rapidly. [So, all the people coming from Oracle, it was easy for them to interact with the parts sitting on top of Oracle. But, if you jumped from MySQL to Oracle, it would be painful, like a different language.]
 
-That was long, but we like to be as fair as we can. This makes sense, and why I don't complain so much about the inconsisttencies in the language, as such. With that said, I think we can make Shoop be that for PHP base types. Not only that, but I think many developers (self included) want it but maybe don't know it yet.
+That was a long quote, but we like to be as fair as we can. This makes sense. This is also why I don't complain so much about the inconsisttencies in the language, as such. With that said, I think we can make Shoop be that more horizontally satisfying variant for interacting with PHP base types. Not only that, but I think many developers (self included) want it but maybe don't know it yet.
 
 One of the praise points for the popular Laravel framework is its drive toward generic interfaces into multiple, disparate underlying structures. Switch from MySQL to NoSQL to something custom without having to revisit your other code. Use Stripe, PayPal, or something else, without having to rewrite your checkout code.
 
 So, I think this particular criticism of PHP is justified *and* at the same time completely understandable.
 
-After using Shoop to develop multiple live projects from low-level libraries to higher-level websites, I can honestly say:
+I don't like dependencies, even when I write them. Therefore, I can also honestly say, after using Shoop to develop multiple live projects from low-level libraries to higher-level websites:
 
-> I always start by avoiding using Shoop (I don't like dependencies, even when I write them). And, I always end up grabbing Shoop.
+> I always start by avoiding using Shoop &mdash; and, I always end up grabbing it after about the first class or two.
 
 ## What's in a name?
 
@@ -161,15 +161,3 @@ We use the term "member" as an umbrella that covers an index for values in index
 ## History
 
 This library has been under development since the beginning of 2019 and has been used in the majority of 8fold projects since the middle of 2019. With every new project created we tried to go without it but found ourselves becoming annoyed, which is why we've decided to make it a more formal project and library consumable by others.
-
-***********
-
-## Scratchpath
-
-Concierge: Does the hard work for you.
-
-Dupe...not sure if this is an acceptable term for the concept of making Shoop types as close to native PHP as possible.
-
-Idiom: Appreciating this.
-
-Cipher: Could be more marketable.
