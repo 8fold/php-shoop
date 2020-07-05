@@ -174,4 +174,38 @@ class StringTest extends TestCase
         $actual = Shoop::string($base)->dropTags("<p>");
         $this->assertEquals($expected, $actual->unfold());
     }
+
+    public function testReadMe()
+    {
+        $path = "/Users/8fold/Desktop/ProjectSupreme/SecretFolder/SecretSubfolder";
+        $expected = "/Users/8fold/Documents/ProjectMaxEffort/SecretFolder/SecretSubfolder";
+
+        $actual = Shoop::string($path)
+            ->divide("/")
+            ->dropLast(4)
+            ->plus("Documents", "ProjectMaxEffort", "SecretFolder", "SecretSubfolder")
+            ->countIsGreaterThanOrEqualTo(6, function($result, $array) {
+                return ($result)
+                    ? $array->join("/")
+                    : "Not the Middle Path.";
+            });
+        $this->assertEquals($expected, $actual);
+
+        $parts = explode("/", $path);
+        array_pop($parts); // ../
+        array_pop($parts); // ../
+        array_pop($parts); // ../
+        array_pop($parts); // ../
+        $parts[] = "Documents";
+        $parts[] = "ProjectMaxEffort";
+        $parts[] = "SecretFolder";
+        $parts[] = "SecretSubfolder";
+        if (count($parts) === 6) {
+            $actual = "/". implode("/", $parts);
+
+        } else {
+            $path = "Not the Middle Path.";
+        }
+        $this->assertEquals($expected, $actual);
+    }
 }
