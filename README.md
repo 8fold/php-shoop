@@ -47,7 +47,7 @@ print $reversed[0];
 
 // output: 2
 ```
-To make Shoop as unobtrusive to your developer workflow as possible, it is also relatively painless to get back to PHP in those case where we don't know how to respond to a PHP function or fixture.
+Shoop is unobtrusive to your developer workflow even when PHP can't interact with it directly.
 
 ```php
 $array = [true, false, false];
