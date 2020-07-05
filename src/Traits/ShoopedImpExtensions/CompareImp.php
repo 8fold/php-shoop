@@ -44,6 +44,11 @@ trait CompareImp
 
     public function isGreaterThanOrEqual($compare, Closure $closure = null)
     {
+        return $this->isGreaterThanOrEqualTo($compare, $closure);
+    }
+
+    public function isGreaterThanOrEqualTo($compare, Closure $closure = null)
+    {
         $compare = Type::sanitizeType($compare, static::class);
         $bool = $this->unfold() >= $compare->unfold();
         return $this->condition($bool, $closure);
@@ -65,6 +70,18 @@ trait CompareImp
     {
         $compare = Type::sanitizeType($compare, static::class);
         $bool = $this->unfold() <= $compare->unfold();
+        return $this->condition($bool, $closure);
+    }
+
+    public function countIsGreaterThan($compare, \Closure $closure = null)
+    {
+        $bool = $this->count()->isGreaterThan($compare);
+        return $this->condition($bool, $closure);
+    }
+
+    public function countIsGreaterThanOrEqualTo($compare, Closure $closure = null)
+    {
+        $bool = $this->count()->isGreaterThanOrEqualTo($compare);
         return $this->condition($bool, $closure);
     }
 

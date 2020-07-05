@@ -24,6 +24,10 @@ interface Compare
     // TODO: Rename "isLessThanOrEqualTo" then deprecate
     public function isLessThanOrEqual($compare, \Closure $closure = null);
 
+    public function countIsGreaterThan($compare, \Closure $closure = null);
+
+    public function coutIsGreaterThanOrEqualTo($compare, \Closure $closure = null);
+
     public function countIsLessThan($compare, \Closure $closure = null);
 
     public function countIsLessThanOrEqualTo($compare, \Closure $closure = null);
