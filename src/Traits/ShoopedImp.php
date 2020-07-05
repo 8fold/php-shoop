@@ -148,6 +148,7 @@ trait ShoopedImp
         return $this->condition($bool, $closure);
     }
 
+    // TODO: Rename "isGreaterThanOrEqualTo" then deprecate
     public function isGreaterThanOrEqual($compare, \Closure $closure = null)
     {
         $compare = Type::sanitizeType($compare, static::class);
@@ -162,12 +163,14 @@ trait ShoopedImp
         return $this->condition($bool, $closure);
     }
 
+    // TODO: Rename "isLessThanOrEqualTo" then deprecate
     public function isLessThanOrEqual($compare, \Closure $closure = null)
     {
         $compare = Type::sanitizeType($compare, static::class);
         $bool = $this->unfold() <= $compare->unfold();
         return $this->condition($bool, $closure);
     }
+
 // - Getters/Setters
     public function get($member = 0)
     {

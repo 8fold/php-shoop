@@ -11,7 +11,6 @@ use Eightfold\Shoop\Interfaces\{
     Shooped,
     MathOperations,
     Toggle,
-    Compare,
     IsIn,
     Each
 };
@@ -20,7 +19,6 @@ use Eightfold\Shoop\Traits\{
     ShoopedImp,
     MathOperationsImp,
     ToggleImp,
-    CompareImp,
     IsInImp,
     EachImp
 };
@@ -32,7 +30,7 @@ use Eightfold\Shoop\{
 
 class ESInt implements Shooped, MathOperations, Toggle, IsIn, Each
 {
-    use ShoopedImp, MathOperationsImp, ToggleImp, CompareImp, IsInImp, EachImp;
+    use ShoopedImp, MathOperationsImp, ToggleImp, IsInImp, EachImp;
 
     static public function to(ESInt $instance, string $className)
     {

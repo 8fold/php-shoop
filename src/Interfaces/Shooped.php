@@ -25,6 +25,7 @@ interface Shooped extends PhpInterfaces, PhpMagicMethods
 
     public function value();
 
+    // TODO: Consider a method called "if" - then deprecate
     public function condition($bool, \Closure $closure = null);
 
 // - Type Juggling
