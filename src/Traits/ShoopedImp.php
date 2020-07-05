@@ -54,6 +54,23 @@ trait ShoopedImp
         return $return;
     }
 
+    public function value()
+    {
+        return $this->value;
+    }
+
+    public function condition($bool, \Closure $closure = null)
+    {
+        $value = $this->value();
+        if ($closure === null) {
+            $closure = function($bool, $value) {
+                return Shoop::this($bool);
+            };
+        }
+        return $closure(Shoop::this($bool), Shoop::this($value));
+    }
+
+// - Type Juggling
     private function juggleTo(string $className)
     {
         $instanceClass = get_class($this); // TODO: PHP 8 allows for $instance::class
@@ -123,11 +140,7 @@ trait ShoopedImp
         return $this->condition($bool, $closure);
     }
 
-    public function value()
-    {
-        return $this->value;
-    }
-
+// - Getters/Setters
     public function get($member = 0)
     {
         if (Type::is($this, ESArray::class, ESInt::class, ESString::class)) {
@@ -208,18 +221,6 @@ trait ShoopedImp
         }
     }
 
-    private function condition($bool, \Closure $closure = null)
-    {
-        $value = $this->value();
-        if ($closure === null) {
-            $closure = function($bool, $value) {
-                return Shoop::this($bool);
-            };
-        }
-        return $closure($bool, Shoop::this($value));
-    }
-
-// - __call helpers
     private function isGetter(string $name): bool
     {
         return PhpString::startsAndEndsWith($name, "get", "Unfolded") or
@@ -234,19 +235,7 @@ trait ShoopedImp
     }
 
 // - PHP interfaces and magic methods
-    public function __toString(): string
-    {
-        return $this->string()->unfold();
-    }
-
-    public function __debugInfo()
-    {
-        return [
-            "value" => $this->value
-        ];
-    }
-
-    public function __call(string $name, array $args = [])
+     public function __call(string $name, array $args = [])
     {
         $remove = [];
         if (PhpString::startsAndEndsWith($name, "get", "Unfolded")) {
@@ -302,6 +291,19 @@ trait ShoopedImp
 
         }
         return (Type::isShooped($value)) ? $value->unfold() : $value;
+    }
+
+    public function __toString(): string
+    {
+        return $this->string()->unfold();
+    }
+
+    // TODO: Can this be improved somehow??
+    public function __debugInfo()
+    {
+        return [
+            "value" => $this->value
+        ];
     }
 
 // -> ArrayAccess
@@ -433,6 +435,7 @@ trait ShoopedImp
         }
     }
 
+// - Iterator
     private $temp;
 
     /**

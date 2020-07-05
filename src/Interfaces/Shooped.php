@@ -22,20 +22,24 @@ interface Shooped extends
 
     public function unfold();
 
+    public function value();
+
+    public function condition($bool, \Closure $closure = null);
+
 // - Type Juggling
-    public function string(): ESString;
-
     public function array(): ESArray;
-
-    public function dictionary(): ESDictionary;
-
-    public function object(): ESObject;
-
-    public function int(): ESInt;
 
     public function bool(): ESBool;
 
+    public function dictionary(): ESDictionary;
+
+    public function int(): ESInt;
+
     public function json(): ESJson;
+
+    public function object(): ESObject;
+
+    public function string(): ESString;
 
 // - Comparison
     public function is($compare);
@@ -49,9 +53,11 @@ interface Shooped extends
 // - Getters/Setters
     public function get($member = 0);
 
+    public function getUnfolded($name);
+
     public function set($value, $member = null, $overwrite = true);
 
-// - PHP single-method interfaces
+// - PHP interfaces and magic methods
     public function __call(string $name, array $args = []);
 
     public function __get($name);
