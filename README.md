@@ -114,7 +114,7 @@ print $path; // both should be: /Users/8fold/Documents/ProjectMaxEffort/SecretFo
 
 ## Why?
 
-Rasmus has mentioned criticisms of PHP in multiple talks over the years. In [one talk](https://youtu.be/Qa_xVjTiOUw?t=1007) (that I had close at hand), Rasmus mentions a criticism I've often heard and even made in the past: Naming inconsistencies. To which he responded (paraphrased):
+[Rasmus](https://en.wikipedia.org/wiki/Rasmus_Lerdorf), the creator of PHP, has mentioned criticisms of PHP in multiple talks over the years. In [one talk](https://youtu.be/Qa_xVjTiOUw?t=1007) (that I had close at hand), Rasmus mentions a criticism I've often heard and even made in the past: Naming inconsistencies. To which he responded (paraphrased):
 
 > PHP is perfectly consistent, just not the way you expect. It's vertically consistent. So, for every function in PHP, if you look at the argument order, [and] if you look at what's underneath it, the `libc` function under some of the string function, for example, the argument order a naming matches what they're built upon. So, there's not consistency horitzontally, but there's perfect consistency vertically digging down into the stack. [There] was just no way, that I could create a horizontally consistent design of a language that I didn't know was going to be come a languge at all in an environment that was changing to rapidly. [So, all the people coming from Oracle it was easy for them to interact with those parts. But, if you jumped from MySQL to Oracle, it would be painful.]
 
