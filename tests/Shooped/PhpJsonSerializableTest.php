@@ -10,11 +10,11 @@ use Eightfold\Shoop\{
     Helpers\Type
 };
 
+/**
+ * The `jsonSerialize()` method from the `JsonSerializable` interface allows the instance of a Shoop type to be passed to the `json_encode()` function from the PHP standard library. All Shoop types conform to the `JsonSerializable` interface.
+ */
 class PhpJsonSerializableTest extends TestCase
 {
-    /**
-     * @return Eightfold\Shoop\ESArray The original value.
-     */
     public function testESArray()
     {
         $expected = "{}";
@@ -23,9 +23,6 @@ class PhpJsonSerializableTest extends TestCase
         $this->assertEquals($expected, $actual);
     }
 
-    /**
-     * @see PhpTypeJuggle::boolToIndexedArray
-     */
     public function testESBool()
     {
         $expected = '{"true":true,"false":false}';
@@ -33,9 +30,6 @@ class PhpJsonSerializableTest extends TestCase
         $this->assertEquals($expected, $actual);
     }
 
-    /**
-     * @see PhpTypeJuggle::associativeArrayToIndexedArray
-     */
     public function testESDictionary()
     {
         $expected = '{}';
@@ -43,9 +37,6 @@ class PhpJsonSerializableTest extends TestCase
         $this->assertEquals($expected, $actual);
     }
 
-    /**
-     * @see PhpTypeJuggle::intToIndexedArray
-     */
     public function testESInt()
     {
         $expected = '{"i0":0,"i1":1}';
@@ -53,11 +44,6 @@ class PhpJsonSerializableTest extends TestCase
         $this->assertEquals($expected, $actual);
     }
 
-    /**
-     * An instance of ESJson can be passed directly to the `json_decoded()` function in the PHP standard library.
-     *
-     * @return \stdClass
-     */
     public function testESJson()
     {
         $json = Shoop::json('{"member":"test"}');
@@ -68,9 +54,6 @@ class PhpJsonSerializableTest extends TestCase
         $this->assertEquals($expected, $actual);
     }
 
-    /**
-     * @see PhpTypeJuggle::objectToIndexedArray
-     */
     public function testESObject()
     {
         $expected = "{}";
@@ -78,9 +61,6 @@ class PhpJsonSerializableTest extends TestCase
         $this->assertEquals($expected, $actual);
     }
 
-    /**
-     * @see PhpTypeJuggle::stringToIndexedArray
-     */
     public function testESString()
     {
         $expected = '{"string":"hello"}';

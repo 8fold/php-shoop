@@ -18,7 +18,7 @@ use Eightfold\Shoop\{
 };
 
 /**
- * The `array()` method typically converts the `Shoop type` to a `PHP indexed array` representation of the original.
+ * The `array()` method typically converts the `Shoop type` to a `PHP indexed array` equivalent.
  *
  * @return Eightfold\Shoop\ESArray
  */
@@ -36,7 +36,7 @@ class ArrayTest extends TestCase
     }
 
     /**
-     * @see PhpTypeJuggle::boolToIndexedArray
+     * @see PhpBool::toIndexedArray
      */
     public function testESBool()
     {
@@ -47,7 +47,7 @@ class ArrayTest extends TestCase
     }
 
     /**
-     * @see PhpTypeJuggle::associativeArrayToIndexedArray
+     * @see PhpAssociativeArray::toIndexedArray
      */
     public function testESDictionary()
     {
@@ -58,7 +58,7 @@ class ArrayTest extends TestCase
     }
 
     /**
-     * @see PhpTypeJuggle::intToIndexedArray
+     * @see PhpInt::toIndexedArray
      */
     public function testESInt()
     {
@@ -69,7 +69,7 @@ class ArrayTest extends TestCase
     }
 
     /**
-     * @see PhpTypeJuggle::jsonToIndexedArray
+     * @see PhpJson::toIndexedArray
      */
     public function testESJson()
     {
@@ -80,7 +80,7 @@ class ArrayTest extends TestCase
     }
 
     /**
-     * @see PhpTypeJuggle::objectToIndexedArray
+     * @see PhpObject::toIndexedArray
      */
     public function testESObject()
     {
@@ -91,7 +91,7 @@ class ArrayTest extends TestCase
     }
 
     /**
-     * @see PhpTypeJuggle::stringToIndexedArray
+     * @see PhpString::toIndexedArray
      */
     public function testESString()
     {

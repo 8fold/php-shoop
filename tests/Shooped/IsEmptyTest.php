@@ -18,7 +18,7 @@ use Eightfold\Shoop\{
 };
 
 /**
- * @see Type::isEmpty
+ * @see Eightfold\Helpers\Type::isEmpty
  */
 class IsEmptyTest extends TestCase
 {

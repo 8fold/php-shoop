@@ -18,11 +18,11 @@ use Eightfold\Shoop\{
 };
 
 /**
- * @see isGreaterThanOrEqualTo() Uses less than or equal to comparison (<=) as opposed to greater than or equal to (>=).
+ * @see `isLesThanOrEqualTo()` uses less than or equal to comparison (<=) as opposed to greater than or equal to (>=).
  *
  * @return Eightfold\Shoop\ESBool
  */
-class IsLessThanOrEqualTest extends TestCase
+class IsLessThanOrEqualToTest extends TestCase
 {
     public function testESArray()
     {

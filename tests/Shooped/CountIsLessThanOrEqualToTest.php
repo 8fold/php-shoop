@@ -18,7 +18,9 @@ use Eightfold\Shoop\{
 };
 
 /**
- * @see isGreaterThanOrEqualTo() Uses less than or equal to comparison (<=) as opposed to greater than or equal to (>=).
+ * The `countIsLessThanOrEqualTo()` method converts the Shoop type using the `count()` method (using the PHP Countable interface) and uses the result to compare the given value to. The result ESBool and closure, if available, is then passed to the `isLessThanOrEqualTo()` method.
+ *
+ * Note: Expects both values to be of the same type, Shoop type, or combination (cannot compare an `int` to a `bool`, for example).
  *
  * @return Eightfold\Shoop\ESBool
  */

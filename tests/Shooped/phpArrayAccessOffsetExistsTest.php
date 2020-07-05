@@ -18,7 +18,7 @@ use Eightfold\Shoop\{
 };
 
 /**
- * The `offsetExists()` method is part of the `ArrayAccess interface` from the PHP standard library and checks if the value has the specified member.
+ * The `offsetExists()` method is part of the `ArrayAccess` interface and checks if the value has the specified member.
  *
  * Most implementations are based on the array representation of the `Shoop type`.
  *
@@ -32,9 +32,6 @@ class OffsetExistsTest extends TestCase
         $this->assertTrue($actual);
     }
 
-    /**
-     * Equivalent to calling `unfold()` regardless of argument value.
-     */
     public function testESBool()
     {
         $actual = ESBool::fold(true)->offsetExists("true");

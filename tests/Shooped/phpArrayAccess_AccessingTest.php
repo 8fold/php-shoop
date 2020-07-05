@@ -17,9 +17,9 @@ use Eightfold\Shoop\{
     ESString
 };
 /**
- * All `Shoop types` conform to the `ArrayAccess` interface from the PHP standard library; therefore, can be interacted with as if they were arrays.
+ * PHP's `ArrayAccess` interface and methods are available on all Shoop types. Therefore, all Shoop types can be accessed using array notation ($x[]).
  *
- * @return multiple
+ * @return mixed
  */
 class ArrayAccessAccessingTest extends TestCase
 {

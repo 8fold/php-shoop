@@ -18,7 +18,7 @@ use Eightfold\Shoop\{
 };
 
 /**
- * @see isGreaterThanOrEqualTo() Uses less than comparison (<) as opposed to greater than or equal to (>=).
+ * The `isLessThan()` method uses less than comparison (<) as opposed to greater than (>).
  *
  * @return Eightfold\Shoop\ESBool
  */

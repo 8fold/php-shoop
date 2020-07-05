@@ -18,9 +18,9 @@ use Eightfold\Shoop\{
 };
 
 /**
- * All `Shoop types` conform to the `Iterator interface` from the PHP standard library.
+ * All Shoop types conform to the `Iterator` interface and may be iterated over using stand PHP syntax.
  *
- * In most cases the iterator will use the array representation of the `Shoop type`.
+ * In most cases the iterator will use the array representation of the Shoop type.
  */
 class InterfaceIteratorLoopTest extends TestCase
 {

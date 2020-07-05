@@ -18,7 +18,7 @@ use Eightfold\Shoop\{
 };
 
 /**
- * The `next()` method from the `Iterator interface` from the PHP standard library moves the pointer to the following member of the object that conforms to the `Iterator interface`.
+ * The `next()` method from the `Iterator` interface moves the pointer to the next member of the object that conforming to the `Iterator` interface.
  */
 class InterfaceIteratorNextTest extends TestCase
 {
@@ -31,9 +31,6 @@ class InterfaceIteratorNextTest extends TestCase
         $this->assertEquals($expected, $actual);
     }
 
-    /**
-     * Equivalent to `array()->next()`.
-     */
     public function testESBool()
     {
         $actual = ESBool::fold(true);
@@ -50,9 +47,6 @@ class InterfaceIteratorNextTest extends TestCase
         $this->assertEquals($expected, $actual);
     }
 
-    /**
-     * Equivalent to `array()->next()`.
-     */
     public function testESInt()
     {
         $actual = ESInt::fold(10);

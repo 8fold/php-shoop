@@ -17,7 +17,7 @@ use Eightfold\Shoop\{
     ESString
 };
 /**
- * @see Type::isNotEmpty
+ * @see Eightfold\Shoop\Helpers\Type::isNotEmpty
  */
 class IsNotEmptyTest extends TestCase
 {

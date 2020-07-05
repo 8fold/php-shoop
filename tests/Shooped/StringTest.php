@@ -18,14 +18,14 @@ use Eightfold\Shoop\{
 };
 
 /**
- * The `string()` method converts the `Shoop type` to a `PHP string` representation.
+ * The `string()` method converts the Shoop type to a PHP string representation.
  *
  * @return Eightfold\Shoop\ESString
  */
 class StringTest extends TestCase
 {
     /**
-     * @see PhpTypeJuggle::indexedArrayToString
+     * @see PhpIndexedArray::toString
      */
     public function testESArray()
     {
@@ -41,7 +41,7 @@ class StringTest extends TestCase
     }
 
     /**
-     * @see PhpTypeJuggle::boolToString
+     * @see PhpBool::toString
      */
     public function testESBool()
     {
@@ -52,7 +52,7 @@ class StringTest extends TestCase
     }
 
     /**
-     * @see PhpTypeJuggle::associativeArrayToString
+     * @see PhpAssociativeArray::toString
      */
     public function testESDictionary()
     {
@@ -63,7 +63,7 @@ class StringTest extends TestCase
     }
 
     /**
-     * @see PhpTypeJuggle::intToString
+     * @see PhpInt::toString
      */
     public function testESInt()
     {
@@ -74,7 +74,7 @@ class StringTest extends TestCase
     }
 
     /**
-     * @see PhpTypeJuggle::jsonToString
+     * @see PhpJson::toString
      */
     public function testESJson()
     {
@@ -85,7 +85,7 @@ class StringTest extends TestCase
     }
 
     /**
-     * @see PhpTypeJuggle::objectToString
+     * @see PhpObject::toString
      */
     public function testESObject()
     {

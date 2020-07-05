@@ -17,14 +17,14 @@ use Eightfold\Shoop\{
     ESString
 };
 /**
- * The `dictionary()` method converts the original value to the `PHP associative array` equivalent.
+ * The `dictionary()` method converts the Shoop type to the `PHP associative array` equivalent.
  *
  * @return Eightfold\Shoop\ESDictionary
  */
 class DictionaryTest extends TestCase
 {
     /**
-     * @see PhpTypeJuggle::indexedArrayToAssociativeArray
+     * @see PhpIndexedArray::toAssociativeArray
      */
     public function testESArray()
     {
@@ -35,7 +35,7 @@ class DictionaryTest extends TestCase
     }
 
     /**
-     * @see PhpTypeJuggle::boolToAssociativeArray
+     * @see PhpBool::toAssociativeArray
      */
     public function testESBool()
     {
@@ -57,7 +57,7 @@ class DictionaryTest extends TestCase
     }
 
     /**
-     * @see PhpTypeJuggle::intToAssociativeArray
+     * @see PhpInt::toAssociativeArray
      */
     public function testESInt()
     {
@@ -68,7 +68,7 @@ class DictionaryTest extends TestCase
     }
 
     /**
-     * @see PhpTypeJuggle::jsonoAssociativeArray
+     * @see PhpJson::toAssociativeArray
      */
     public function testESJson()
     {
@@ -79,7 +79,7 @@ class DictionaryTest extends TestCase
     }
 
     /**
-     * @see PhpTypeJuggle::objectToAssociativeArray
+     * @see PhpObject::toAssociativeArray
      */
     public function testESObject()
     {
@@ -93,7 +93,7 @@ class DictionaryTest extends TestCase
     }
 
     /**
-     * @see PhpTypeJuggle::stringToAssociativeArray
+     * @see PhpString::toAssociativeArray
      */
     public function testESString()
     {

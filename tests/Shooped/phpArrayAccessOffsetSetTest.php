@@ -18,9 +18,9 @@ use Eightfold\Shoop\{
 };
 
 /**
- * The `offsetSet()` method is part of the `ArrayAccess interface` from the PHP standard library and updates (or inserts) the value of the specified member.
+ * The `offsetSet()` method is part of the `ArrayAccess` interface and updates (or inserts) the value of the specified member.
  *
- * Most implementations are based on the array representation of the `Shoop type`.
+ * Most implementations are based on the array representation of the Shoop type.
  *
  * @return bool
  */

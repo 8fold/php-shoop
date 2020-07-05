@@ -17,7 +17,7 @@ use Eightfold\Shoop\{
     ESString
 };
 /**
- * The `int()` method converts the `Shoop type` to the integer representation and `ESInt type`.
+ * The `int()` method converts the Shoop type to the `PHP integer` equivalent.
  *
  * @return Eightfold\Shoop\ESInt
  */

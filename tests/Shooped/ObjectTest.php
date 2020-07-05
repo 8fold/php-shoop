@@ -16,14 +16,14 @@ use Eightfold\Shoop\{
 };
 
 /**
- * The `object()` method converts the `Shoop type` to the `PHP object` equivalent.
+ * The `object()` method converts the Shoop type to a `PHP object` equivalent.
  *
  * @return Eightfold\Shoop\ESObject
  */
 class ObjectTest extends TestCase
 {
     /**
-     * @see PhpTypeJuggle::indexedArrayToObject
+     * @see PhpIndexedArray::toObject
      */
     public function testESArray()
     {
@@ -35,7 +35,7 @@ class ObjectTest extends TestCase
     }
 
     /**
-     * @see PhpTypeJuggle::boolToObject
+     * @see PhpBool::toObject
      */
     public function testESBool()
     {
@@ -55,7 +55,7 @@ class ObjectTest extends TestCase
     }
 
     /**
-     * @see PhpTypeJuggle::associativeArrayToObject
+     * @see PhpAssociativeArray::toObject
      */
     public function testESDictionary()
     {
@@ -66,7 +66,7 @@ class ObjectTest extends TestCase
     }
 
     /**
-     * @see PhpTypeJuggle::intToObject
+     * @see PhpInt::toObject
      */
     public function testESInt()
     {
@@ -79,7 +79,7 @@ class ObjectTest extends TestCase
     }
 
     /**
-     * @see PhpTypeJuggle::jsonToObject
+     * @see PhpJson::toObject
      */
     public function testESJson()
     {
@@ -102,7 +102,7 @@ class ObjectTest extends TestCase
     }
 
     /**
-     * @see PhpTypeJuggle::stringToObject
+     * @see PhpString::toObject
      */
     public function testESString()
     {

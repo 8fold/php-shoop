@@ -18,14 +18,14 @@ use Eightfold\Shoop\{
 };
 
 /**
- * The `json()` method converts the `Shoop type` to the JSON respresentation.
+ * The `json()` method converts the Shoop type to a representation using JSON.
  *
  * @return Eightfold\Shoop\ESString In JSON.
  */
 class JsonTest extends TestCase
 {
     /**
-     * @see PhpTypeJuggle::indexedArrayToJson
+     * @see PhpIndexedArray::toJson
      */
     public function testESArray()
     {
@@ -41,7 +41,7 @@ class JsonTest extends TestCase
     }
 
     /**
-     * @see PhpTypeJuggle::boolToJson
+     * @see PhpBool::toJson
      */
     public function testESBool()
     {
@@ -51,7 +51,7 @@ class JsonTest extends TestCase
     }
 
     /**
-     * @see PhpTypeJuggle::associativeArrayToJson
+     * @see PhpAssociativeArray::toJson
      */
     public function testESDictionary()
     {
@@ -61,7 +61,7 @@ class JsonTest extends TestCase
     }
 
     /**
-     * @see PhpTypeJuggle::intToJson
+     * @see PhpInt::toJson
      */
     public function testESInt()
     {
@@ -81,7 +81,7 @@ class JsonTest extends TestCase
     }
 
     /**
-     * @see PhpTypeJuggle::objectToJson
+     * @see PhpObject::toJson
      */
     public function testESObject()
     {
@@ -91,7 +91,7 @@ class JsonTest extends TestCase
     }
 
     /**
-     * @see PhpTypeJuggle::stringToJson
+     * @see PhpString::toJson
      */
     public function testESString()
     {

@@ -18,7 +18,7 @@ use Eightfold\Shoop\{
 };
 
 /**
- * The `fold()` static method is an alias for the common constructor and converts a `PHP type` to the given `Shoop type`.
+ * The `fold()` static method is an alias for the common constructor. If the given type can be derived, it will be instantiated as the Shoop type equivalent.
  *
  * Note: The `PHP type` should be equivalent to the `Shoop type`.
  */

@@ -18,13 +18,10 @@ use Eightfold\Shoop\{
 };
 
 /**
- * The `unfold()` method return `PHP type` value of the `Shoop type`.
+ * The `unfold()` method returns the value of the Shoop type usually as a PHP type.
  */
 class UnfoldTest extends TestCase
 {
-    /**
-     * @return array
-     */
     public function testESArray()
     {
         $expected = ["testing"];
@@ -35,9 +32,6 @@ class UnfoldTest extends TestCase
         $this->assertEquals($expected, $actual->unfold());
     }
 
-    /**
-     * @return bool
-     */
     public function testESBool()
     {
         $expected = true;
@@ -48,9 +42,6 @@ class UnfoldTest extends TestCase
         $this->assertEquals($expected, $actual->unfold());
     }
 
-    /**
-     * @return array (associative)
-     */
     public function testESDictionary()
     {
         $expected = ["hello" => "world"];
@@ -61,9 +52,6 @@ class UnfoldTest extends TestCase
         $this->assertEquals($expected, $actual->unfold());
     }
 
-    /**
-     * @return integer
-     */
     public function testESInt()
     {
         $expected = 1;
@@ -82,9 +70,6 @@ class UnfoldTest extends TestCase
         $this->assertEquals($expected, $actual->unfold());
     }
 
-    /**
-     * @return string
-     */
     public function testESJson()
     {
         $expected = '{"test":"test"}';
@@ -95,9 +80,6 @@ class UnfoldTest extends TestCase
         $this->assertEquals($expected, $actual->unfold());
     }
 
-    /**
-     * @return stdClass
-     */
     public function testESObject()
     {
         $expected = new \stdClass();
@@ -108,9 +90,6 @@ class UnfoldTest extends TestCase
         $this->assertEquals($expected, $actual->unfold());
     }
 
-    /**
-     * @return string
-     */
     public function testESString()
     {
         $expected = "hello";

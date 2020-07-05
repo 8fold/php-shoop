@@ -18,14 +18,14 @@ use Eightfold\Shoop\{
 };
 
 /**
- * The `bool()` method converts the 8fold type to an `ESBool` type.
+ * The `bool()` method converts the Shoop type to an `ESBool` type.
  *
  * @return Eightfold\Shoop\ESBool
  */
 class BoolTest extends TestCase
 {
     /**
-     * @see PhpTypeJuggle::indexedArrayToBool
+     * @see PhpIndexedArray::toBool
      */
     public function testESArray()
     {
@@ -49,7 +49,7 @@ class BoolTest extends TestCase
     }
 
     /**
-     * @see PhpTypeJuggle::associativeArrayToBool
+     * @see PhpAssociativeArray::toBool
      */
     public function testESDictionary()
     {
@@ -58,7 +58,7 @@ class BoolTest extends TestCase
     }
 
     /**
-     * @see PhpTypeJuggle::intToBool
+     * @see Phpint::toBool
      */
     public function testESInt()
     {
@@ -70,7 +70,7 @@ class BoolTest extends TestCase
     }
 
     /**
-     * @see PhpTypeJuggle::jsonToBool
+     * @see PhpJson::toBool
      */
     public function testESJson()
     {
@@ -82,7 +82,7 @@ class BoolTest extends TestCase
     }
 
     /**
-     * @see PhpTypeJuggle::objectToBool
+     * @see PhpObject::toBool
      */
     public function testESObject()
     {
@@ -97,7 +97,7 @@ class BoolTest extends TestCase
     }
 
     /**
-     * @see PhpTypeJuggle::stringToBool
+     * @see PhpString::toBool
      */
     public function testESString()
     {

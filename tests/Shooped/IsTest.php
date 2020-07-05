@@ -18,7 +18,7 @@ use Eightfold\Shoop\{
 };
 
 /**
- * @see Type::is
+ * @see Eightfold\Shoop\Helpers\Type::is
  *
  * @return Eightfold\Shoop\ESBool
  */
