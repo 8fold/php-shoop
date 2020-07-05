@@ -22,7 +22,7 @@ use Eightfold\Shoop\{
  *
  * @return Eightfold\Shoop\ESBool
  */
-class ToBoolTest extends TestCase
+class BoolTest extends TestCase
 {
     /**
      * @see PhpTypeJuggle::indexedArrayToBool

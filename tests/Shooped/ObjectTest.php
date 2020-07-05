@@ -20,7 +20,7 @@ use Eightfold\Shoop\{
  *
  * @return Eightfold\Shoop\ESObject
  */
-class ToObjecctTest extends TestCase
+class ObjectTest extends TestCase
 {
     /**
      * @see PhpTypeJuggle::indexedArrayToObject

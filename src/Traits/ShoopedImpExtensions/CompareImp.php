@@ -1,0 +1,67 @@
+<?php
+
+namespace Eightfold\Shoop\Traits\ShoopedImpExtensions;
+
+use \Closure;
+
+use Eightfold\Shoop\Helpers\Type;
+
+trait CompareImp
+{
+    public function is($compare, Closure $closure = null)
+    {
+        if (Type::isNotShooped($compare)) {
+            $compare = Type::sanitizeType($compare, static::class);
+        }
+        $bool = $this->unfold() === $compare->unfold();
+        return $this->condition($bool, $closure);
+    }
+
+    public function isNot($compare, Closure $closure = null)
+    {
+        $bool = $this->is($compare)->toggle();
+        return $this->condition($bool, $closure);
+    }
+
+    public function isEmpty(Closure $closure = null)
+    {
+        $bool = Type::isEmpty($this);
+        return $this->condition($bool, $closure);
+    }
+
+    public function isNotEmpty(Closure $closure = null)
+    {
+        $bool = $this->isEmpty()->not();
+        return $this->condition($bool, $closure);
+    }
+
+    public function isGreaterThan($compare, Closure $closure = null)
+    {
+        $compare = Type::sanitizeType($compare, static::class);
+        $bool = $this->unfold() > $compare->unfold();
+        return $this->condition($bool, $closure);
+    }
+
+    // TODO: Rename "isGreaterThanOrEqualTo" then deprecate
+    public function isGreaterThanOrEqual($compare, Closure $closure = null)
+    {
+        $compare = Type::sanitizeType($compare, static::class);
+        $bool = $this->unfold() >= $compare->unfold();
+        return $this->condition($bool, $closure);
+    }
+
+    public function isLessThan($compare, Closure $closure = null)
+    {
+        $compare = Type::sanitizeType($compare, static::class);
+        $bool = $this->unfold() < $compare->unfold();
+        return $this->condition($bool, $closure);
+    }
+
+    // TODO: Rename "isLessThanOrEqualTo" then deprecate
+    public function isLessThanOrEqual($compare, Closure $closure = null)
+    {
+        $compare = Type::sanitizeType($compare, static::class);
+        $bool = $this->unfold() <= $compare->unfold();
+        return $this->condition($bool, $closure);
+    }
+}

@@ -51,8 +51,8 @@ class php_CallWildcardGetTest extends TestCase
     public function testESBool()
     {
         $base = true;
-        // $actual = ESBool::fold($base)->get();
-        // $this->assertTrue($actual->unfold());
+        $actual = ESBool::fold($base)->get();
+        $this->assertTrue($actual->unfold());
 
         $actual = ESBool::fold(false)->get("true");
         $this->assertFalse($actual->unfold());

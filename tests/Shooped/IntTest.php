@@ -21,7 +21,7 @@ use Eightfold\Shoop\{
  *
  * @return Eightfold\Shoop\ESInt
  */
-class ToIntTest extends TestCase
+class IntTest extends TestCase
 {
     /**
      * @see PhpTypeJuggle::indexedArrayToInt
