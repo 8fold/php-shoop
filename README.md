@@ -1,4 +1,4 @@
-![Illustration of final code sample](https://github.com/8fold/php-shoop/blob/master/shoop-flow.png?raw=true)
+![Illustration of final code sample](https://github.com/8fold/php-shoop/blob/master/zzAssets/shoop-flow.png?raw=true)
 
 # 8fold Shoop for PHP
 
