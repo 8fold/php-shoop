@@ -106,7 +106,7 @@ $path = Shoop::string($path)
 	->dropLast(4)
 	->plus("Documents", "ProjectMaxEffort", "SecretFolder", "SecretSubfolder")
 	->countIsGreaterThanOrEqualTo(6, function($result, $array) {
-		return ($result)
+		return ($result->unfold())
 			? $array->join("/")
 			: "Not the Middle Path.";
 	});
