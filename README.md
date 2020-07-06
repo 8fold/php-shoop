@@ -1,3 +1,5 @@
+![Illustration of final code sample](https://github.com/8fold/php-shoop/blob/master/shoop-flow.png?raw=true)
+
 # 8fold Shoop for PHP
 
 8fold Shoop provides minimal linguistic differentiation and maximum utility for manipulating base data types.
