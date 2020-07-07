@@ -94,22 +94,26 @@ $parts[] = "ProjectMaxEffort";
 $parts[] = "SecretFolder";
 $parts[] = "SecretSubfolder";
 if (count($parts) === 6) {
-	$path = "/". implode("/", $parts);
+  $path = "/". implode("/", $parts);
 
 } else {
-	$path = "Not the Middle Path.";
+  $path = "Not the Middle Path.";
 }
 
 // Shoop
 $path = Shoop::string($path)
-	->divide("/")
-	->dropLast(4)
-	->plus("Documents", "ProjectMaxEffort", "SecretFolder", "SecretSubfolder")
-	->countIsGreaterThanOrEqualTo(6, function($result, $array) {
-		return ($result->unfold())
-			? $array->join("/")
-			: "Not the Middle Path.";
-	});
+  ->divide("/")
+  ->dropLast(4)
+  ->plus(
+  	  "Documents",
+  	  "ProjectMaxEffort",
+  	  "SecretFolder",
+  	  "SecretSubfolder"
+  )->countIsGreaterThanOrEqualTo(6, function($result, $array) {
+    return ($result->unfold())
+      ? $array->join("/")
+      : "Not the Middle Path.";
+  });
 
 print $path; // both should be: /Users/8fold/Documents/ProjectMaxEffort/SecretFolder/SecretSubfolder
 ```
