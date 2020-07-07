@@ -39,9 +39,9 @@ trait ShoopedImp
 
     protected $dictionary;
 
-    static public function fold($args)
+    static public function fold($main, ...$args)
     {
-        return new static($args);
+        return new static($main, ...$args);
     }
 
     public function unfold()
