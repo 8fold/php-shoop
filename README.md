@@ -105,10 +105,10 @@ $path = Shoop::string($path)
   ->divide("/")
   ->dropLast(4)
   ->plus(
-  	  "Documents",
-  	  "ProjectMaxEffort",
-  	  "SecretFolder",
-  	  "SecretSubfolder"
+      "Documents",
+      "ProjectMaxEffort",
+      "SecretFolder",
+      "SecretSubfolder"
   )->countIsGreaterThanOrEqualTo(6, function($result, $array) {
     return ($result->unfold())
       ? $array->join("/")
