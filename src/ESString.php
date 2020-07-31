@@ -211,10 +211,16 @@ class ESString implements
         return Shoop::string("");
     }
 
-    public function writeToPath($path)
+    /**
+     * @deprecated PHP Shoop Extras
+     */
+    public function writeToPath($path, $makeFolder = true)
     {
         $string = $this->stringUnfolded();
+
         $path = Type::sanitizeType($path, ESString::class)->unfold();
+        $makeFolder = Type::sanitizeType($makeFolder, ESBool::class)->unfold();
+
         $bytesOrFalse = file_put_contents($path, $string);
         return (is_bool($bytesOrFalse))
             ? Shoop::bool($bytesOrFalse)
