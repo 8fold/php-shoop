@@ -160,6 +160,20 @@ class ESString implements
         return Shoop::string($string);
     }
 
+    public function urlencode()
+    {
+        $string = $this->stringUnfolded();
+        $string = urlencode($string);
+        return Shoop::string($string);
+    }
+
+    public function urldecode()
+    {
+        $string = $this->stringUnfolded();
+        $string = urldecode($string);
+        return Shoop::string($string);
+    }
+
     /**
      * @deprecated PHP Shoop Extras
      */
