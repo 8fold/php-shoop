@@ -11,6 +11,7 @@ use Eightfold\Shoop\Helpers\{
 };
 
 use Eightfold\Shoop\{
+    Interfaces\Foldable,
     Shoop,
     ESArray,
     ESBool,
@@ -23,7 +24,7 @@ use Eightfold\Shoop\{
 
 trait SortImp
 {
-    public function sort($asc = true, $caseSensitive = true)
+    public function sort($asc = true, $caseSensitive = true): Foldable
     {
         if (Type::is($this, ESArray::class)) {
             $array = $this->arrayUnfolded();
@@ -55,7 +56,7 @@ trait SortImp
         }
     }
 
-    public function sortMembers($asc = true, $caseSensitive = true)
+    public function sortMembers($asc = true, $caseSensitive = true): Foldable
     {
         if (Type::is($this, ESArray::class)) {
             $array = $this->arrayUnfolded();
