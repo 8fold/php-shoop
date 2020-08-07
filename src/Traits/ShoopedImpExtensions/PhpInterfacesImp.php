@@ -2,6 +2,8 @@
 
 namespace Eightfold\Shoop\Traits\ShoopedImpExtensions;
 
+use \stdClass;
+
 use Eightfold\Shoop\Helpers\{
     Type,
     PhpIndexedArray,
@@ -26,7 +28,7 @@ use Eightfold\Shoop\{
 trait PhpInterfacesImp
 {
 // - Countable
-    public function count()
+    public function count(): ESInt
     {
         $int = $this->int();
         if (Type::is($this, ESString::class)) {
@@ -235,7 +237,7 @@ trait PhpInterfacesImp
     }
 
 // - JsonSerializable
-    public function jsonSerialize()
+    public function jsonSerialize(): stdClass
     {
         return $this->object()->unfold();
     }
