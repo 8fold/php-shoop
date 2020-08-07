@@ -79,6 +79,7 @@ class ESInt implements Shooped, MathOperations, Toggle, IsIn, Each
         return $main;
     }
 
+    // TODO: PHP 8.0 int|ESInt
     public function range($int = 0): ESArray
     {
         $int = Type::sanitizeType($int, ESInt::class)->unfold();
@@ -89,6 +90,7 @@ class ESInt implements Shooped, MathOperations, Toggle, IsIn, Each
         return Shoop::array($range);
     }
 
+    // TODO: PHP 8.0 float|int|ESInt
     public function roundUp($divisor = 0): ESInt
     {
         $result = $this->divideNatural($divisor);
@@ -96,6 +98,7 @@ class ESInt implements Shooped, MathOperations, Toggle, IsIn, Each
         return Shoop::this($int);
     }
 
+    // TODO: PHP 8.0 float|int|ESInt
     public function roundDown($divisor = 0): ESInt
     {
         $result = $this->divideNatural($divisor);
@@ -103,6 +106,7 @@ class ESInt implements Shooped, MathOperations, Toggle, IsIn, Each
         return Shoop::this($int);
     }
 
+    // TODO: PHP 8.0 float|int|ESInt
     private function divideNatural($divisor = 0): float
     {
         $divisor = Type::sanitizeType($divisor, ESInt::class)->unfold();

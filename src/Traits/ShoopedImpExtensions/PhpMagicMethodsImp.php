@@ -189,7 +189,7 @@ trait PhpMagicMethodsImp
     }
 
     // TODO: Can this be improved somehow??
-    public function __debugInfo()
+    public function __debugInfo(): string
     {
         return [
             "value" => $this->main()

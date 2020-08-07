@@ -31,7 +31,7 @@ trait CompareImp
 
     public function isNotEmpty(Closure $closure = null)
     {
-        $bool = $this->isEmpty()->not();
+        $bool = $this->isEmpty()->toggle();
         return $this->condition($bool, $closure);
     }
 

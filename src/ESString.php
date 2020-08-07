@@ -95,6 +95,7 @@ class ESString implements
         return Shoop::string($string);
     }
 
+    // TODO: PHP 8.0 array|ESDictionary = $replacements bool|ESBool = $caseSensitive
     public function replace($replacements = [], $caseSensitive = true): ESString
     {
         $replacements = Type::sanitizeType($replacements, ESDictionary::class)->unfold();
@@ -110,6 +111,7 @@ class ESString implements
         return Shoop::string($string);
     }
 
+    // TODO: PHP 8.0 string|ESString, int|ESInt, int|ESInt
     public function replaceRange($replacement, $start = 0, $length = null): ESString
     {
         $replacement = Type::sanitizeType($replacement, ESString::class)->unfold();
@@ -121,6 +123,7 @@ class ESString implements
         return Shoop::string($string);
     }
 
+    // TODO: PHP 8.0 bool|ESBool, bool|ESBool, string|ESString
     public function trim($fromStart = true, $fromEnd = true, $charMask = " \t\n\r\0\x0B"): ESString
     {
         $fromStart = Type::sanitizeType($fromStart, ESBool::class)->unfold();
@@ -156,6 +159,9 @@ class ESString implements
         return Shoop::string($string);
     }
 
+    /**
+     * @deprecated - move to extras URL
+     */
     public function urlencode(): ESString
     {
         $string = $this->stringUnfolded();
@@ -163,6 +169,9 @@ class ESString implements
         return Shoop::string($string);
     }
 
+    /**
+     * @deprecated - move to extras URL
+     */
     public function urldecode(): ESString
     {
         $string = $this->stringUnfolded();

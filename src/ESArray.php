@@ -2,6 +2,8 @@
 
 namespace Eightfold\Shoop;
 
+use \Closure;
+
 use Eightfold\Shoop\Helpers\{
     Type,
     PhpIndexedArray
@@ -86,6 +88,7 @@ class ESArray implements
         return $main;
     }
 
+    // TODO: PHP 8.0 string|ESString = $delimiter
     public function join($delimiter = ""): ESString
     {
         $delimiter = Type::sanitizeType($delimiter, ESString::class);
@@ -99,6 +102,7 @@ class ESArray implements
         return Shoop::int($sum);
     }
 
+    // TODO: PHP 8.0 int|ESInt
     public function random($limit = 1): ESArray
     {
         $array = $this->main();
@@ -116,7 +120,8 @@ class ESArray implements
         });
     }
 
-    public function filter(\Closure $closure, $useValues = true, $useMembers = false): ESArray
+    // TODO: bool|ESBool
+    public function filter(Closure $closure, $useValues = true, $useMembers = false): ESArray
     {
         $flag = 0;
         if ($useValues and $useMembers) {
