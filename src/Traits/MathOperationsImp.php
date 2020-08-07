@@ -10,6 +10,7 @@ use Eightfold\Shoop\Helpers\{
 };
 
 use Eightfold\Shoop\{
+    Interfaces\Foldable,
     Shoop,
     ESArray,
     ESBool,
@@ -22,7 +23,7 @@ use Eightfold\Shoop\{
 
 trait MathOperationsImp
 {
-    public function plus(...$args)
+    public function plus(...$args): Foldable
     {
         if (Type::is($this, ESArray::class)) {
             $array = $this->main();
@@ -76,7 +77,7 @@ trait MathOperationsImp
         }
     }
 
-    public function minus(...$args)
+    public function minus(...$args): Foldable
     {
         if (Type::is($this, ESArray::class)) {
             $array = $this->arrayUnfolded();
@@ -119,7 +120,11 @@ trait MathOperationsImp
         }
     }
 
-    public function divide($divisor = 0, $includeEmpties = true, $limit = PHP_INT_MAX)
+    public function divide(
+        $divisor = 0,
+        $includeEmpties = true,
+        $limit = PHP_INT_MAX
+    ): Foldable
     {
         if (Type::is($this, ESArray::class)) {
             $divisor = Type::sanitizeType($divisor, ESInt::class)->unfold();
@@ -174,7 +179,7 @@ trait MathOperationsImp
         }
     }
 
-    public function multiply($multiplier = 1)
+    public function multiply($multiplier = 1): Foldable
     {
         if (Type::is($this, ESArray::class, ESDictionary::class, ESJson::class, ESObject::class)) {
             $product = [];
