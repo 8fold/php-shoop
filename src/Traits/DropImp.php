@@ -9,6 +9,7 @@ use Eightfold\Shoop\Helpers\{
 };
 
 use Eightfold\Shoop\{
+    Interfaces\Shooped,
     Shoop,
     ESArray,
     ESBool,
@@ -21,7 +22,7 @@ use Eightfold\Shoop\{
 
 trait DropImp
 {
-    public function drop(...$members)
+    public function drop(...$members): Shooped
     {
         if (Type::is($this, ESArray::class, ESDictionary::class, ESJson::class, ESObject::class)) {
             foreach ($members as $member) {
@@ -41,7 +42,7 @@ trait DropImp
         }
     }
 
-    public function dropFirst($length = 1)
+    public function dropFirst($length = 1): Shooped
     {
         $length = Type::sanitizeType($length, ESInt::class)->unfold();
         if (Type::is($this, ESArray::class)) {
@@ -75,7 +76,7 @@ trait DropImp
         }
     }
 
-    public function dropLast($length = 1)
+    public function dropLast($length = 1): Shooped
     {
         $length = Type::sanitizeType($length, ESInt::class)->unfold();
         if (Type::is($this, ESArray::class)) {
@@ -109,7 +110,7 @@ trait DropImp
         }
     }
 
-    public function noEmpties()
+    public function noEmpties(): Shooped
     {
         if (Type::is($this, ESArray::class)) {
             $array = $this->arrayUnfolded();
