@@ -7,6 +7,7 @@ use \Closure;
 use Eightfold\Shoop\Traits\ShoopedImpExtensions\CompareImp;
 use Eightfold\Shoop\Traits\ShoopedImpExtensions\PhpInterfacesImp;
 // use Eightfold\Shoop\Traits\ShoopedImpExtensions\PhpMagicMethodsImp;
+use Eightfold\Shoop\Traits\Foldable;
 use Eightfold\Shoop\Traits\FoldableImp;
 
 use Eightfold\Shoop\{

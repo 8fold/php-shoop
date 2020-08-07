@@ -77,7 +77,7 @@ class Type
         return $potential instanceOf Foldable;
     }
 
-    static public function isNotFoldable($potential)
+    static public function isNotFoldable($potential): bool
     {
         return ! static::isFoldable($potential);
     }
@@ -87,12 +87,12 @@ class Type
         return $potential instanceOf Shooped;
     }
 
-    static public function isNotShooped($potential)
+    static public function isNotShooped($potential): bool
     {
         return ! static::isShooped($potential);
     }
 
-    static public function shoopFor($potential)
+    static public function shoopFor($potential): string
     {
         if (static::isShooped($potential)) {
             return get_class($potential);
