@@ -87,7 +87,7 @@ class ESDictionary implements
         return $main;
     }
 
-    public function interleave()
+    public function interleave(): ESArray
     {
         $build = [];
         foreach ($this->main as $member => $value) {
