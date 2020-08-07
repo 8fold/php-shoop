@@ -58,7 +58,7 @@ class ESInt implements Shooped, MathOperations, Toggle, IsIn, Each
         }
     }
 
-    static public function processedMain($main)
+    static public function processedMain($main): int
     {
         if (is_int($main)) {
             $main = $main;

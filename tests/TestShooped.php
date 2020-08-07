@@ -11,7 +11,7 @@ class TestShooped implements Shooped
 {
     use ShoopedImp;
 
-    static public function processedMain($main)
+    static public function processedMain($main): string
     {
         return Type::sanitizeType($main, ESString::class)->unfold();
     }

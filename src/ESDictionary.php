@@ -72,7 +72,7 @@ class ESDictionary implements
         }
     }
 
-    static public function processedMain($main)
+    static public function processedMain($main): array
     {
         if (is_array($main) && Type::isDictionary($main)) {
             $main = $main;

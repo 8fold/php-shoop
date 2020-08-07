@@ -2,6 +2,8 @@
 
 namespace Eightfold\Shoop;
 
+use \stdClass;
+
 use Eightfold\Shoop\Helpers\{
     Type,
     PhpObject
@@ -61,7 +63,7 @@ class ESObject implements Shooped, MathOperations, Sort, Toggle, Wrap, Drop, Has
         }
     }
 
-    static public function processedMain($main)
+    static public function processedMain($main): stdClass
     {
         if (is_object($main)) {
             $main = $main;

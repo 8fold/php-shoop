@@ -51,7 +51,7 @@ class ESBool implements Shooped, Toggle, IsIn
         }
     }
 
-    static public function processedMain($main)
+    static public function processedMain($main): bool
     {
         if (is_bool($main)) {
             $main = $main;

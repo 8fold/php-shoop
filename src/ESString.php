@@ -73,7 +73,7 @@ class ESString implements
         }
     }
 
-    static public function processedMain($main)
+    static public function processedMain($main): string
     {
         if (is_string($main)) {
             $main = $main;
