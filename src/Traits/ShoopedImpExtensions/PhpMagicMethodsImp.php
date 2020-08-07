@@ -14,6 +14,7 @@ use Eightfold\Shoop\Helpers\{
 };
 
 use Eightfold\Shoop\{
+    Interfaces\Foldable,
     Shoop,
     ESArray,
     ESBool,
@@ -28,9 +29,6 @@ trait PhpMagicMethodsImp
 {
      public function __call(string $name, array $args = [])
     {
-// var_dump($name);
-// var_dump(__LINE__);
-// die(var_dump(__FILE__));
         $remove = [];
         if (PhpString::startsAndEndsWith($name, "get", "Unfolded")) {
             $remove = ["get", "Unfolded"];
@@ -76,9 +74,6 @@ trait PhpMagicMethodsImp
 
     public function __get($name)
     {
-// var_dump($name);
-// var_dump(__LINE__);
-// die(var_dump(__FILE__));
         $value = null;
         if (method_exists($this, $name)) {
             $value = $this->{$name}();
@@ -90,11 +85,8 @@ trait PhpMagicMethodsImp
         return (Type::isShooped($value)) ? $value->unfold() : $value;
     }
 
-    private function needsUnfolding($name)
+    private function needsUnfolding($name): bool
     {
-// var_dump($name);
-// var_dump(__LINE__);
-// die(var_dump(__FILE__));
         return PhpString::startsAndEndsWith($name, "get", "Unfolded") or
             PhpString::endsWithUnfolded($name);
     }
@@ -102,9 +94,6 @@ trait PhpMagicMethodsImp
 // - Getters/Setters
     public function get($member = 0)
     {
-// var_dump($name);
-// var_dump(__LINE__);
-// die(var_dump(__FILE__));
         if (Type::is($this, ESArray::class, ESInt::class, ESString::class)) {
             $member = Type::sanitizeType($member, ESInt::class)->unfold();
 
@@ -142,18 +131,12 @@ trait PhpMagicMethodsImp
 
     public function getUnfolded($name)
     {
-// var_dump($name);
-// var_dump(__LINE__);
-// die(var_dump(__FILE__));
         $value = $this->get($name);
         return (Type::isShooped($value)) ? $value->unfold() : $value;
     }
 
-    public function set($value, $member = null, $overwrite = true)
+    public function set($value, $member = null, $overwrite = true): Foldable
     {
-// var_dump($name);
-// var_dump(__LINE__);
-// die(var_dump(__FILE__));
         if (Type::is($this, ESArray::class, ESDictionary::class)) {
             $array = $this->main();
             $array = (Type::is($this, ESArray::class))
@@ -195,9 +178,6 @@ trait PhpMagicMethodsImp
 
     private function isGetter(string $name): bool
     {
-// var_dump($name);
-// var_dump(__LINE__);
-// die(var_dump(__FILE__));
         return PhpString::startsAndEndsWith($name, "get", "Unfolded") or
             PhpString::startsWithGet($name) or
             (! method_exists($this, $name) and ! PhpString::startsWithGet($name));
@@ -205,18 +185,12 @@ trait PhpMagicMethodsImp
 
     public function __toString(): string
     {
-// var_dump($name);
-// var_dump(__LINE__);
-// die(var_dump(__FILE__));
         return $this->string()->unfold();
     }
 
     // TODO: Can this be improved somehow??
     public function __debugInfo()
     {
-// var_dump($name);
-// var_dump(__LINE__);
-// die(var_dump(__FILE__));
         return [
             "value" => $this->main()
         ];
