@@ -73,18 +73,19 @@ class ESString implements
         }
     }
 
-    public function __construct($main, ...$args)
+    static public function processedMain($main)
     {
         if (is_string($main)) {
-            $this->value = $main;
+            $main = $main;
 
         } elseif (is_a($main, ESString::class)) {
-            $this->value = $main->unfold();
+            $main = $main->unfold();
 
         } else {
-            $this->value = "";
+            $main = "";
 
         }
+        return $main;
     }
 
     // public function part($start, $length)
@@ -95,7 +96,7 @@ class ESString implements
     public function dropTags(...$allow)
     {
         $allow = implode("", $allow);
-        $string = strip_tags($this->value(), $allow);
+        $string = strip_tags($this->main(), $allow);
         return Shoop::string($string);
     }
 
@@ -106,11 +107,11 @@ class ESString implements
         $search = array_keys($replacements);
         $replace = array_values($replacements);
         if ($caseSensitive) {
-            $string = str_replace($search, $replace, $this->value());
+            $string = str_replace($search, $replace, $this->main());
             return Shoop::string($string);
 
         }
-        $string = str_ireplace($search, $replace, $this->value());
+        $string = str_ireplace($search, $replace, $this->main());
         return Shoop::string($string);
     }
 
@@ -121,7 +122,7 @@ class ESString implements
         $length = ($length === null)
             ? Type::sanitizeType(strlen($replacement), ESInt::class)->unfold()
             : Type::sanitizeType($length, ESInt::class)->unfold();
-        $string = substr_replace($this->value(), $replacement, $start, $length);
+        $string = substr_replace($this->main(), $replacement, $start, $length);
         return Shoop::string($string);
     }
 
@@ -179,7 +180,7 @@ class ESString implements
      */
     public function isFile(\Closure $closure = null)
     {
-        $value = $this->value();
+        $value = $this->main();
         $bool = is_file($value);
         if ($closure === null) {
             $closure = function($bool) {
@@ -194,7 +195,7 @@ class ESString implements
      */
     public function isFolder($value='')
     {
-        return is_dir($this->value());
+        return is_dir($this->main());
     }
 
     /**

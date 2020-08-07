@@ -72,24 +72,25 @@ class ESDictionary implements
         }
     }
 
-    public function __construct($dictionary)
+    static public function processedMain($main)
     {
-        if (is_array($dictionary) && Type::isDictionary($dictionary)) {
-            $this->value = $dictionary;
+        if (is_array($main) && Type::isDictionary($main)) {
+            $main = $main;
 
-        } elseif (is_a($dictionary, ESDictionary::class)) {
-            $this->value = $dictionary->unfold();
+        } elseif (is_a($main, ESDictionary::class)) {
+            $main = $main->unfold();
 
         } else {
-            $this->value = [];
+            $main = [];
 
         }
+        return $main;
     }
 
     public function interleave()
     {
         $build = [];
-        foreach ($this->value as $member => $value) {
+        foreach ($this->main as $member => $value) {
             $build[] = $value;
             $build[] = $member;
         }

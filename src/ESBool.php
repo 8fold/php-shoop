@@ -51,18 +51,19 @@ class ESBool implements Shooped, Toggle, IsIn
         }
     }
 
-    public function __construct($bool)
+    static public function processedMain($main)
     {
-        if (is_bool($bool)) {
-            $this->value = $bool;
+        if (is_bool($main)) {
+            $main = $main;
 
-        } elseif (is_a($bool, ESBool::class)) {
-            $this->value = $bool->unfold();
+        } elseif (is_a($main, ESBool::class)) {
+            $main = $main->unfold();
 
         } else {
-            $this->value = false;
+            $main = false;
 
         }
+        return $main;
     }
 
     public function not(): ESBool

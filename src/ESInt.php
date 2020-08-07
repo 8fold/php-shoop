@@ -58,24 +58,25 @@ class ESInt implements Shooped, MathOperations, Toggle, IsIn, Each
         }
     }
 
-    public function __construct($int)
+    static public function processedMain($main)
     {
-        if (is_int($int)) {
-            $this->value = $int;
+        if (is_int($main)) {
+            $main = $main;
 
-        } elseif (is_string($int)) {
-            $this->value = intval($int);
+        } elseif (is_string($main)) {
+            $main = intval($main);
 
-        } elseif (is_a($int, ESInt::class)) {
-            $this->value = $int->unfold();
+        } elseif (is_a($main, ESInt::class)) {
+            $main = $main->unfold();
 
-        } elseif (is_float($int) || is_double($int)) {
-            $this->value = round($int);
+        } elseif (is_float($main) || is_double($main)) {
+            $main = round($main);
 
         } else {
-            $this->value = 0;
+            $main = 0;
 
         }
+        return $main;
     }
 
     public function range($int = 0)
@@ -105,31 +106,31 @@ class ESInt implements Shooped, MathOperations, Toggle, IsIn, Each
     private function divideNatural($divisor = 0)
     {
         $divisor = Type::sanitizeType($divisor, ESInt::class)->unfold();
-        $value = $this->value();
+        $value = $this->main();
         return $value/$divisor;
     }
 
     public function max(...$comparisons)
     {
-        return Shoop::array($comparisons)->plus($this->value())->each(function($int) {
+        return Shoop::array($comparisons)->plus($this->main())->each(function($int) {
             return Type::sanitizeType($int, ESInt::class);
         })->sort(false)->first();
     }
 
     public function min(...$comparisons)
     {
-        return Shoop::array($comparisons)->plus($this->value())->each(function($int) {
+        return Shoop::array($comparisons)->plus($this->main())->each(function($int) {
             return Type::sanitizeType($int, ESInt::class);
         })->sort()->first();
     }
 
     public function isEven(\Closure $closure = null)
     {
-        return $this->condition(PhpInt::isEven($this->value()), $closure);
+        return $this->condition(PhpInt::isEven($this->main()), $closure);
     }
 
     public function isOdd(\Closure $closure = null)
     {
-        return $this->condition(PhpInt::isOdd($this->value()), $closure);
+        return $this->condition(PhpInt::isOdd($this->main()), $closure);
     }
 }

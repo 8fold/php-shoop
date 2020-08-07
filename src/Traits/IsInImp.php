@@ -19,7 +19,7 @@ trait IsInImp
 {
     public function isIn($haystack, \Closure $closure = null)
     {
-        $needle = $this->value;
+        $needle = $this->main();
         $h = Type::sanitizeType($haystack, ESArray::class)->unfold();
         $bool = in_array($needle, $h);
         if (Type::is($this, ESString::class, ESJson::class)) {

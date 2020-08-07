@@ -69,14 +69,9 @@ class ESJson implements Shooped, MathOperations, Wrap, Drop, Has, IsIn, Each
 
         }
     }
-	public function __construct($initial)
+
+    static public function processedMain($main)
 	{
-		if (Type::isJson($initial)) {
-			$this->value = $initial;
-
-		} else {
-			trigger_error("Given string does not appear to be valid JSON: {$initial}", E_USER_ERROR);
-
-		}
+		return (Type::isJson($main)) ? $main : '{"valid":false}';
 	}
 }

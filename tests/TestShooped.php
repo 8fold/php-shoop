@@ -11,8 +11,8 @@ class TestShooped implements Shooped
 {
     use ShoopedImp;
 
-    public function __construct($path)
+    static public function processedMain($main)
     {
-        $this->value = Type::sanitizeType($path, ESString::class)->unfold();
+        return Type::sanitizeType($main, ESString::class)->unfold();
     }
 }

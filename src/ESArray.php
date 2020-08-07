@@ -74,17 +74,22 @@ class ESArray implements
         }
     }
 
-    public function __construct($array = [])
+    static public function processedMain($main)
     {
-        if (is_a($array, ESArray::class)) {
-            $array = $array->unfold();
+        if (is_a($main, ESArray::class)) {
+            $main = $main->unfold();
 
-        } elseif (! is_array($array)) {
-            $array = [$array];
+        } elseif (! is_array($main)) {
+            $main = [$main];
 
         }
-        $this->value = $array;
+        return $main;
     }
+
+    // public function __construct($array = [])
+    // {
+    //     $this->main = $array;
+    // }
 
     public function join($delimiter = ""): ESString
     {
@@ -101,7 +106,7 @@ class ESArray implements
 
     public function random($limit = 1)
     {
-        $array = $this->value();
+        $array = $this->main();
         if (count($array) === 0) {
             return Shoop::array([]);
         }
@@ -126,21 +131,21 @@ class ESArray implements
             $flag = ARRAY_FILTER_USE_KEY;
 
         }
-        $filtered = array_filter($this->value(), $closure, $flag);
+        $filtered = array_filter($this->main(), $closure, $flag);
         $array = array_values($filtered);
         return Shoop::array($array);
     }
 
     public function reindex()
     {
-        $array = $this->value();
+        $array = $this->main();
         $reindexed = array_values($array);
         return Shoop::array($reindexed);
     }
 
     public function flatten()
     {
-        $array = $this->value();
+        $array = $this->main();
         $a = Shoop::array([]);
         array_walk_recursive($array, function($value, $index) use (&$a) {
             $shooped = Shoop::this($value);

@@ -79,7 +79,7 @@ trait DropImp
     {
         $length = Type::sanitizeType($length, ESInt::class)->unfold();
         if (Type::is($this, ESArray::class)) {
-            $array = $this->value;
+            $array = $this->main();
             $array = PhpIndexedArray::afterDropping($array, -$length);
             return Shoop::array($array);
 

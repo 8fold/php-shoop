@@ -28,6 +28,9 @@ trait PhpMagicMethodsImp
 {
      public function __call(string $name, array $args = [])
     {
+// var_dump($name);
+// var_dump(__LINE__);
+// die(var_dump(__FILE__));
         $remove = [];
         if (PhpString::startsAndEndsWith($name, "get", "Unfolded")) {
             $remove = ["get", "Unfolded"];
@@ -73,12 +76,15 @@ trait PhpMagicMethodsImp
 
     public function __get($name)
     {
+// var_dump($name);
+// var_dump(__LINE__);
+// die(var_dump(__FILE__));
         $value = null;
-        if ($this->offsetExists($name)) {
-            $value = $this->offsetGet($name);
-
-        } elseif (method_exists($this, $name)) {
+        if (method_exists($this, $name)) {
             $value = $this->{$name}();
+
+        } elseif ($this->offsetExists($name)) {
+            $value = $this->offsetGet($name);
 
         }
         return (Type::isShooped($value)) ? $value->unfold() : $value;
@@ -86,6 +92,9 @@ trait PhpMagicMethodsImp
 
     private function needsUnfolding($name)
     {
+// var_dump($name);
+// var_dump(__LINE__);
+// die(var_dump(__FILE__));
         return PhpString::startsAndEndsWith($name, "get", "Unfolded") or
             PhpString::endsWithUnfolded($name);
     }
@@ -93,6 +102,9 @@ trait PhpMagicMethodsImp
 // - Getters/Setters
     public function get($member = 0)
     {
+// var_dump($name);
+// var_dump(__LINE__);
+// die(var_dump(__FILE__));
         if (Type::is($this, ESArray::class, ESInt::class, ESString::class)) {
             $member = Type::sanitizeType($member, ESInt::class)->unfold();
 
@@ -113,16 +125,16 @@ trait PhpMagicMethodsImp
             }
 
         } elseif (Type::is($this, ESInt::class)) {
-            $array = PhpInt::toIndexedArray($this->value);
+            $array = PhpInt::toIndexedArray($this->main());
 
         } elseif (Type::is($this, ESJson::class)) {
-            $array = PhpJson::toAssociativeArray($this->value);
+            $array = PhpJson::toAssociativeArray($this->main());
 
         } elseif (Type::is($this, ESObject::class)) {
-            $array = PhpObject::toAssociativeArray($this->value);
+            $array = PhpObject::toAssociativeArray($this->main());
 
         } elseif (Type::is($this, ESString::class)) {
-            $array = PhpString::toIndexedArray($this->value);
+            $array = PhpString::toIndexedArray($this->main());
 
         }
         return Shoop::this($array)->get($member);
@@ -130,14 +142,20 @@ trait PhpMagicMethodsImp
 
     public function getUnfolded($name)
     {
+// var_dump($name);
+// var_dump(__LINE__);
+// die(var_dump(__FILE__));
         $value = $this->get($name);
         return (Type::isShooped($value)) ? $value->unfold() : $value;
     }
 
     public function set($value, $member = null, $overwrite = true)
     {
+// var_dump($name);
+// var_dump(__LINE__);
+// die(var_dump(__FILE__));
         if (Type::is($this, ESArray::class, ESDictionary::class)) {
-            $array = $this->value;
+            $array = $this->main();
             $array = (Type::is($this, ESArray::class))
                 ? PhpIndexedArray::afterSettingValue($array, $value, $member, $overwrite)
                 : PhpAssociativeArray::afterSettingValue($array, $value, $member, $overwrite);
@@ -146,7 +164,7 @@ trait PhpMagicMethodsImp
                 : Shoop::dictionary($array);
 
         } elseif (Type::is($this, ESBool::class, ESString::class)) {
-            $v = $this->value;
+            $v = $this->main();
             $v = (Type::is($this, ESBool::class))
                 ? Type::sanitizeType($value, ESBool::class)->unfold()
                 : Type::sanitizeType($value, ESString::class)->unfold();
@@ -155,19 +173,19 @@ trait PhpMagicMethodsImp
                 : Shoop::string($v);
 
         } elseif (Type::is($this, ESInt::class)) {
-            $int = $this->value;
+            $int = $this->main();
             $int = Type::sanitizeType($value, ESInt::class)->unfold();
             return Shoop::int($int);
 
         } elseif (Type::is($this, ESJson::class)) {
-            $json = $this->value;
+            $json = $this->main();
             $array = PhpJson::toAssociativeArray($json);
             $array = PhpAssociativeArray::afterSettingValue($array, $value, $member, $overwrite);
             $json = PhpAssociativeArray::toJson($array);
             return Shoop::json($json);
 
         } elseif (Type::is($this, ESObject::class)) {
-            $object = $this->value;
+            $object = $this->main();
             $array = PhpObject::toAssociativeArray($object);
             $array = PhpAssociativeArray::afterSettingValue($array, $value, $member, $overwrite);
             $object = PhpAssociativeArray::toObject($array);
@@ -177,6 +195,9 @@ trait PhpMagicMethodsImp
 
     private function isGetter(string $name): bool
     {
+// var_dump($name);
+// var_dump(__LINE__);
+// die(var_dump(__FILE__));
         return PhpString::startsAndEndsWith($name, "get", "Unfolded") or
             PhpString::startsWithGet($name) or
             (! method_exists($this, $name) and ! PhpString::startsWithGet($name));
@@ -184,14 +205,20 @@ trait PhpMagicMethodsImp
 
     public function __toString(): string
     {
+// var_dump($name);
+// var_dump(__LINE__);
+// die(var_dump(__FILE__));
         return $this->string()->unfold();
     }
 
     // TODO: Can this be improved somehow??
     public function __debugInfo()
     {
+// var_dump($name);
+// var_dump(__LINE__);
+// die(var_dump(__FILE__));
         return [
-            "value" => $this->value
+            "value" => $this->main()
         ];
     }
 }

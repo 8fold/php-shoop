@@ -61,23 +61,24 @@ class ESObject implements Shooped, MathOperations, Sort, Toggle, Wrap, Drop, Has
         }
     }
 
-    public function __construct($object)
+    static public function processedMain($main)
     {
-        if (is_object($object)) {
-            $this->value = $object;
+        if (is_object($main)) {
+            $main = $main;
 
-        } elseif (is_a($object, ESObject::class)) {
-            $this->value = $object->unfold();
+        } elseif (is_a($main, ESObject::class)) {
+            $main = $main->unfold();
 
-        } elseif (Type::is($object, ESArray::class, ESDictionary::class)) {
-            $this->value = (object) $object->unfold();
+        } elseif (Type::is($main, ESArray::class, ESDictionary::class)) {
+            $main = (object) $main->unfold();
 
-        } elseif (is_array($object)) {
-            $this->value = (object) $object;
+        } elseif (is_array($main)) {
+            $main = (object) $main;
 
         } else {
-            $this->value = new \stdClass();
+            $main = new \stdClass();
 
         }
+        return $main;
     }
 }

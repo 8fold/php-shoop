@@ -35,7 +35,13 @@ trait FoldableImp
      */
     public function __construct($main, ...$args)
     {
-        $this->main = $main;
+        if (method_exists($this, "processedMain")) {
+            $this->main = static::processedMain($main);
+
+        } else {
+            $this->main = $main;
+
+        }
         $this->args = $args;
     }
 
@@ -62,7 +68,7 @@ trait FoldableImp
     {
         // Preserve Shoop internally: unfold($preserve = false)
         // only implement if needed; otherwise, we're good.
-        $return = (isset($this->temp)) ? $this->temp : $this->value;
+        $return = (isset($this->temp)) ? $this->temp : $this->main();
         if (Type::isArray($return) || Type::isDictionary($return)) {
             $array = $return;
             $return = [];
@@ -79,7 +85,7 @@ trait FoldableImp
     public function condition($bool, Closure $closure = null)
     {
         $bool = Type::sanitizeType($bool, ESBool::class);
-        $value = $this->value();
+        $value = $this->main();
         if ($closure === null) {
             $closure = function($bool, $value) {
                 return $bool;
