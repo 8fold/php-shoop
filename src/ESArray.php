@@ -92,14 +92,14 @@ class ESArray implements
         return Shoop::string(implode($delimiter->unfold(), $this->unfold()));
     }
 
-    public function sum()
+    public function sum(): ESInt
     {
         $array = $this->unfold();
         $sum = array_sum($array);
         return Shoop::int($sum);
     }
 
-    public function random($limit = 1)
+    public function random($limit = 1): ESArray
     {
         $array = $this->main();
         if (count($array) === 0) {
@@ -116,7 +116,7 @@ class ESArray implements
         });
     }
 
-    public function filter(\Closure $closure, $useValues = true, $useMembers = false)
+    public function filter(\Closure $closure, $useValues = true, $useMembers = false): ESArray
     {
         $flag = 0;
         if ($useValues and $useMembers) {
@@ -131,14 +131,14 @@ class ESArray implements
         return Shoop::array($array);
     }
 
-    public function reindex()
+    public function reindex(): ESArray
     {
         $array = $this->main();
         $reindexed = array_values($array);
         return Shoop::array($reindexed);
     }
 
-    public function flatten()
+    public function flatten(): ESArray
     {
         $array = $this->main();
         $a = Shoop::array([]);
