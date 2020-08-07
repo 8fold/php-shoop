@@ -28,25 +28,25 @@ class ESBool implements Shooped, Toggle, IsIn
     static public function to(ESBool $instance, string $className)
     {
         if ($className === ESArray::class) {
-            return PhpBool::toIndexedArray($instance->value());
+            return PhpBool::toIndexedArray($instance->main());
 
         } elseif ($className === ESBool::class) {
-            return $instance->value();
+            return $instance->main();
 
         } elseif ($className === ESDictionary::class) {
-            return PhpBool::toAssociativeArray($instance->value());
+            return PhpBool::toAssociativeArray($instance->main());
 
         } elseif ($className === ESInt::class) {
-            return PhpBool::toInt($instance->value());
+            return PhpBool::toInt($instance->main());
 
         } elseif ($className === ESJson::class) {
-            return PhpBool::toJson($instance->value());
+            return PhpBool::toJson($instance->main());
 
         } elseif ($className === ESObject::class) {
-            return PhpBool::toObject($instance->value());
+            return PhpBool::toObject($instance->main());
 
         } elseif ($className === ESString::class) {
-            return PhpBool::toString($instance->value());
+            return PhpBool::toString($instance->main());
 
         }
     }

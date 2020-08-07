@@ -47,25 +47,25 @@ class ESJson implements Shooped, MathOperations, Wrap, Drop, Has, IsIn, Each
     static public function to(ESJson $instance, string $className)
     {
         if ($className === ESArray::class) {
-            return PhpJson::toIndexedArray($instance->value());
+            return PhpJson::toIndexedArray($instance->main());
 
         } elseif ($className === ESBool::class) {
-            return PhpJson::toBool($instance->value());
+            return PhpJson::toBool($instance->main());
 
         } elseif ($className === ESDictionary::class) {
-            return PhpJson::toAssociativeArray($instance->value());
+            return PhpJson::toAssociativeArray($instance->main());
 
         } elseif ($className === ESInt::class) {
-            return PhpJson::toInt($instance->value());
+            return PhpJson::toInt($instance->main());
 
         } elseif ($className === ESJson::class) {
-            return $instance->value();
+            return $instance->main();
 
         } elseif ($className === ESObject::class) {
-            return PhpJson::toObject($instance->value());
+            return PhpJson::toObject($instance->main());
 
         } elseif ($className === ESString::class) {
-            return $instance->value();
+            return $instance->main();
 
         }
     }

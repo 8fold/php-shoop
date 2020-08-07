@@ -35,25 +35,25 @@ class ESInt implements Shooped, MathOperations, Toggle, IsIn, Each
     static public function to(ESInt $instance, string $className)
     {
         if ($className === ESArray::class) {
-            return PhpInt::toIndexedArray($instance->value());
+            return PhpInt::toIndexedArray($instance->main());
 
         } elseif ($className === ESBool::class) {
-            return PhpInt::toBool($instance->value());
+            return PhpInt::toBool($instance->main());
 
         } elseif ($className === ESDictionary::class) {
-            return PhpInt::toAssociativeArray($instance->value());
+            return PhpInt::toAssociativeArray($instance->main());
 
         } elseif ($className === ESInt::class) {
-            return $instance->value();
+            return $instance->main();
 
         } elseif ($className === ESJson::class) {
-            return PhpInt::toJson($instance->value());
+            return PhpInt::toJson($instance->main());
 
         } elseif ($className === ESObject::class) {
-            return PhpInt::toObject($instance->value());
+            return PhpInt::toObject($instance->main());
 
         } elseif ($className === ESString::class) {
-            return PhpInt::toString($instance->value());
+            return PhpInt::toString($instance->main());
 
         }
     }

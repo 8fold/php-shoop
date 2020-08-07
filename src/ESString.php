@@ -50,25 +50,25 @@ class ESString implements
     static public function to(ESString $instance, string $className)
     {
         if ($className === ESArray::class) {
-            return PhpString::toIndexedArray($instance->value());
+            return PhpString::toIndexedArray($instance->main());
 
         } elseif ($className === ESBool::class) {
-            return PhpString::toBool($instance->value());
+            return PhpString::toBool($instance->main());
 
         } elseif ($className === ESDictionary::class) {
-            return PhpString::toAssociativeArray($instance->value());
+            return PhpString::toAssociativeArray($instance->main());
 
         } elseif ($className === ESInt::class) {
-            return PhpString::toInt($instance->value());
+            return PhpString::toInt($instance->main());
 
         } elseif ($className === ESJson::class) {
-            return $instance->value();
+            return $instance->main();
 
         } elseif ($className === ESObject::class) {
-            return PhpString::toObject($instance->value());
+            return PhpString::toObject($instance->main());
 
         } elseif ($className === ESString::class) {
-            return $instance->value();
+            return $instance->main();
 
         }
     }

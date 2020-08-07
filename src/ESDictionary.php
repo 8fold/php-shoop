@@ -49,25 +49,25 @@ class ESDictionary implements
     static public function to(ESDictionary $instance, string $className)
     {
         if ($className === ESArray::class) {
-            return PhpAssociativeArray::toIndexedArray($instance->value());
+            return PhpAssociativeArray::toIndexedArray($instance->main());
 
         } elseif ($className === ESBool::class) {
-            return PhpAssociativeArray::toBool($instance->value());;
+            return PhpAssociativeArray::toBool($instance->main());;
 
         } elseif ($className === ESDictionary::class) {
-            return $instance->value();
+            return $instance->main();
 
         } elseif ($className === ESInt::class) {
-            return PhpAssociativeArray::toInt($instance->value());
+            return PhpAssociativeArray::toInt($instance->main());
 
         } elseif ($className === ESJson::class) {
-            return PhpAssociativeArray::toJson($instance->value());
+            return PhpAssociativeArray::toJson($instance->main());
 
         } elseif ($className === ESObject::class) {
-            return PhpAssociativeArray::toObject($instance->value());
+            return PhpAssociativeArray::toObject($instance->main());
 
         } elseif ($className === ESString::class) {
-            return PhpAssociativeArray::toString($instance->value());
+            return PhpAssociativeArray::toString($instance->main());
 
         }
     }

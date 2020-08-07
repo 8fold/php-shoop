@@ -51,25 +51,25 @@ class ESArray implements
     static public function to(ESArray $instance, string $className)
     {
         if ($className === ESArray::class) {
-            return $instance->value();
+            return $instance->main();
 
         } elseif ($className === ESBool::class) {
-            return PhpIndexedArray::toBool($instance->value());
+            return PhpIndexedArray::toBool($instance->main());
 
         } elseif ($className === ESDictionary::class) {
-            return PhpIndexedArray::toAssociativeArray($instance->value());
+            return PhpIndexedArray::toAssociativeArray($instance->main());
 
         } elseif ($className === ESInt::class) {
-            return PhpIndexedArray::toInt($instance->value());
+            return PhpIndexedArray::toInt($instance->main());
 
         } elseif ($className === ESJson::class) {
-            return PhpIndexedArray::toJson($instance->value());
+            return PhpIndexedArray::toJson($instance->main());
 
         } elseif ($className === ESObject::class) {
-            return PhpIndexedArray::toObject($instance->value());
+            return PhpIndexedArray::toObject($instance->main());
 
         } elseif ($className === ESString::class) {
-            return PhpIndexedArray::toString($instance->value());
+            return PhpIndexedArray::toString($instance->main());
 
         }
     }
