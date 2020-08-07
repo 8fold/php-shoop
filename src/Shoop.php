@@ -4,11 +4,12 @@ namespace Eightfold\Shoop;
 
 use Eightfold\Shoop\Helpers\Type;
 
+use Eightfold\Shoop\Interfaces\Foldable;
 use Eightfold\Shoop\Interfaces\Shooped;
 
 class Shoop
 {
-    static public function this($potential, string $shoopType = "")
+    static public function this($potential, string $shoopType = ""): Foldable
     {
         return Type::sanitizeType($potential, $shoopType);
     }

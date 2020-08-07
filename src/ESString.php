@@ -88,11 +88,6 @@ class ESString implements
         return $main;
     }
 
-    // public function part($start, $length)
-    // {
-
-    // }
-
     public function dropTags(...$allow)
     {
         $allow = implode("", $allow);

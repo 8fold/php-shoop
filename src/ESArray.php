@@ -86,11 +86,6 @@ class ESArray implements
         return $main;
     }
 
-    // public function __construct($array = [])
-    // {
-    //     $this->main = $array;
-    // }
-
     public function join($delimiter = ""): ESString
     {
         $delimiter = Type::sanitizeType($delimiter, ESString::class);
