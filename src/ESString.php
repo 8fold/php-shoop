@@ -98,8 +98,9 @@ class ESString implements
     // TODO: PHP 8.0 array|ESDictionary = $replacements bool|ESBool = $caseSensitive
     public function replace($replacements = [], $caseSensitive = true): ESString
     {
-        $replacements = Type::sanitizeType($replacements, ESDictionary::class)->unfold();
+        $replacements  = Type::sanitizeType($replacements, ESDictionary::class)->unfold();
         $caseSensitive = Type::sanitizeType($caseSensitive, ESBool::class)->unfold();
+
         $search = array_keys($replacements);
         $replace = array_values($replacements);
         if ($caseSensitive) {
@@ -119,6 +120,7 @@ class ESString implements
         $length = ($length === null)
             ? Type::sanitizeType(strlen($replacement), ESInt::class)->unfold()
             : Type::sanitizeType($length, ESInt::class)->unfold();
+
         $string = substr_replace($this->main(), $replacement, $start, $length);
         return Shoop::string($string);
     }
@@ -127,8 +129,8 @@ class ESString implements
     public function trim($fromStart = true, $fromEnd = true, $charMask = " \t\n\r\0\x0B"): ESString
     {
         $fromStart = Type::sanitizeType($fromStart, ESBool::class)->unfold();
-        $fromEnd = Type::sanitizeType($fromEnd, ESBool::class)->unfold();
-        $charMask = Type::sanitizeType($charMask, ESString::class)->unfold();
+        $fromEnd   = Type::sanitizeType($fromEnd, ESBool::class)->unfold();
+        $charMask  = Type::sanitizeType($charMask, ESString::class)->unfold();
 
         $string = $this->stringUnfolded();
         $trimmed = $string;

@@ -105,6 +105,7 @@ class ESArray implements
     // TODO: PHP 8.0 int|ESInt
     public function random($limit = 1): ESArray
     {
+        $limit = Type::sanitizeType($limit, ESInt::fold($limit))->unfold();
         $array = $this->main();
         if (count($array) === 0) {
             return Shoop::array([]);
@@ -123,6 +124,9 @@ class ESArray implements
     // TODO: bool|ESBool
     public function filter(Closure $closure, $useValues = true, $useMembers = false): ESArray
     {
+        $useValues  = Type::sanitizeType($useValues, ESBool::class);
+        $useMembers = Type::sanitizeType($useMembers, ESBool::class);
+
         $flag = 0;
         if ($useValues and $useMembers) {
             $flag = ARRAY_FILTER_USE_BOTH;

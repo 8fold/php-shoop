@@ -109,7 +109,6 @@ class ESInt implements Shooped, MathOperations, Toggle, IsIn, Each
     // TODO: PHP 8.0 float|int|ESInt
     private function divideNatural($divisor = 0): float
     {
-        $divisor = Type::sanitizeType($divisor, ESInt::class)->unfold();
         $value = $this->main();
         return $value/$divisor;
     }
