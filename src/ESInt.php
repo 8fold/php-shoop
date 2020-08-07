@@ -79,7 +79,7 @@ class ESInt implements Shooped, MathOperations, Toggle, IsIn, Each
         return $main;
     }
 
-    public function range($int = 0)
+    public function range($int = 0): ESArray
     {
         $int = Type::sanitizeType($int, ESInt::class)->unfold();
         $range = range($int, $this->unfold());
@@ -89,47 +89,47 @@ class ESInt implements Shooped, MathOperations, Toggle, IsIn, Each
         return Shoop::array($range);
     }
 
-    public function roundUp($divisor = 0)
+    public function roundUp($divisor = 0): ESInt
     {
         $result = $this->divideNatural($divisor);
         $int = (int) ceil($result);
         return Shoop::this($int);
     }
 
-    public function roundDown($divisor = 0)
+    public function roundDown($divisor = 0): ESInt
     {
         $result = $this->divideNatural($divisor);
         $int = (int) floor($result);
         return Shoop::this($int);
     }
 
-    private function divideNatural($divisor = 0)
+    private function divideNatural($divisor = 0): float
     {
         $divisor = Type::sanitizeType($divisor, ESInt::class)->unfold();
         $value = $this->main();
         return $value/$divisor;
     }
 
-    public function max(...$comparisons)
+    public function max(...$comparisons): ESInt
     {
         return Shoop::array($comparisons)->plus($this->main())->each(function($int) {
             return Type::sanitizeType($int, ESInt::class);
         })->sort(false)->first();
     }
 
-    public function min(...$comparisons)
+    public function min(...$comparisons): ESInt
     {
         return Shoop::array($comparisons)->plus($this->main())->each(function($int) {
             return Type::sanitizeType($int, ESInt::class);
         })->sort()->first();
     }
 
-    public function isEven(\Closure $closure = null)
+    public function isEven(Closure $closure = null): ESBool
     {
         return $this->condition(PhpInt::isEven($this->main()), $closure);
     }
 
-    public function isOdd(\Closure $closure = null)
+    public function isOdd(Closure $closure = null): ESBool
     {
         return $this->condition(PhpInt::isOdd($this->main()), $closure);
     }
