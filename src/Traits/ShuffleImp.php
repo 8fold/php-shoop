@@ -5,6 +5,7 @@ namespace Eightfold\Shoop\Traits;
 use Eightfold\Shoop\Helpers\Type;
 
 use Eightfold\Shoop\{
+    Interfaces\Foldable,
     Shoop,
     ESArray,
     ESBool,
@@ -17,7 +18,7 @@ use Eightfold\Shoop\{
 
 trait ShuffleImp
 {
-    public function shuffle()
+    public function shuffle(): Foldable
     {
         $array = $this->arrayUnfolded();
         shuffle($array);
