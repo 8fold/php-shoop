@@ -78,7 +78,7 @@ class ESObject implements Shooped, MathOperations, Sort, Toggle, Wrap, Drop, Has
             $main = (object) $main;
 
         } else {
-            $main = new \stdClass();
+            $main = new stdClass();
 
         }
         return $main;
