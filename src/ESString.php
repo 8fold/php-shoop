@@ -88,7 +88,7 @@ class ESString implements
         return $main;
     }
 
-    public function dropTags(...$allow)
+    public function dropTags(...$allow): ESString
     {
         $allow = implode("", $allow);
         $string = strip_tags($this->main(), $allow);
@@ -110,7 +110,7 @@ class ESString implements
         return Shoop::string($string);
     }
 
-    public function replaceRange($replacement, $start = 0, $length = null)
+    public function replaceRange($replacement, $start = 0, $length = null): ESString
     {
         $replacement = Type::sanitizeType($replacement, ESString::class)->unfold();
         $start = Type::sanitizeType($start, ESInt::class)->unfold();
@@ -156,14 +156,14 @@ class ESString implements
         return Shoop::string($string);
     }
 
-    public function urlencode()
+    public function urlencode(): ESString
     {
         $string = $this->stringUnfolded();
         $string = urlencode($string);
         return Shoop::string($string);
     }
 
-    public function urldecode()
+    public function urldecode(): ESString
     {
         $string = $this->stringUnfolded();
         $string = urldecode($string);
