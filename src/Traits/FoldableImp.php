@@ -14,15 +14,47 @@ trait FoldableImp
 {
     use PhpMagicMethodsImp;
 
+    /**
+     * @deprecated
+     */
     protected $value;
+
+    protected $main;
+    protected $args;
 
     static public function fold($main, ...$args)
     {
         return new static($main, ...$args);
     }
 
+    /**
+     * Try not to override this.
+     *
+     * If you do, be sure to store both `main` and `args` to avoid unintended
+     * errors.
+     */
+    public function __construct($main, ...$args)
+    {
+        $this->main = $main;
+        $this->args = $args;
+    }
+
+    public function main()
+    {
+        return $this->main;
+    }
+
+    public function args()
+    {
+        return $this->args;
+    }
+
+    /**
+     * @deprecated
+     */
     public function value()
     {
+        return $this->main();
         return $this->value;
     }
 

@@ -73,13 +73,13 @@ class ESString implements
         }
     }
 
-    public function __construct($string)
+    public function __construct($main, ...$args)
     {
-        if (is_string($string)) {
-            $this->value = $string;
+        if (is_string($main)) {
+            $this->value = $main;
 
-        } elseif (is_a($string, ESString::class)) {
-            $this->value = $string->unfold();
+        } elseif (is_a($main, ESString::class)) {
+            $this->value = $main->unfold();
 
         } else {
             $this->value = "";
