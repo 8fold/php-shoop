@@ -23,7 +23,7 @@ trait FoldableImp
     protected $main;
     protected $args;
 
-    static public function fold($main, ...$args)
+    static public function fold($main, ...$args): Foldable
     {
         return new static($main, ...$args);
     }
