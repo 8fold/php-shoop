@@ -6,7 +6,8 @@ use \Closure;
 
 use Eightfold\Shoop\Traits\ShoopedImpExtensions\CompareImp;
 use Eightfold\Shoop\Traits\ShoopedImpExtensions\PhpInterfacesImp;
-use Eightfold\Shoop\Traits\ShoopedImpExtensions\PhpMagicMethodsImp;
+// use Eightfold\Shoop\Traits\ShoopedImpExtensions\PhpMagicMethodsImp;
+use Eightfold\Shoop\Traits\FoldableImp;
 
 use Eightfold\Shoop\{
     Shoop,
@@ -33,53 +34,10 @@ use Eightfold\Shoop\Helpers\{
 
 trait ShoopedImp
 {
-    use CompareImp, PhpInterfacesImp, PhpMagicMethodsImp;
-
-    protected $value;
+    use FoldableImp, CompareImp, PhpInterfacesImp;
 
     protected $dictionary;
 
-    static public function fold($main, ...$args)
-    {
-        return new static($main, ...$args);
-    }
-
-    public function unfold()
-    {
-        // Preserve Shoop internally: unfold($preserve = false)
-        // only implement if needed; otherwise, we're good.
-        $return = (isset($this->temp)) ? $this->temp : $this->value;
-        if (Type::isArray($return) || Type::isDictionary($return)) {
-            $array = $return;
-            $return = [];
-            foreach ($array as $member => $value) {
-                if (Type::isShooped($value)) {
-                    $value = $value->unfold();
-                }
-                $return[$member] = $value;
-            }
-        }
-        return $return;
-    }
-
-    public function value()
-    {
-        return $this->value;
-    }
-
-    public function condition($bool, Closure $closure = null)
-    {
-        $bool = Type::sanitizeType($bool, ESBool::class);
-        $value = $this->value();
-        if ($closure === null) {
-            $closure = function($bool, $value) {
-                return $bool;
-            };
-        }
-        return $closure($bool, Shoop::this($value));
-    }
-
-// - Type Juggling
     private function juggleTo(string $className)
     {
         $instanceClass = get_class($this); // TODO: PHP 8 allows for $instance::class

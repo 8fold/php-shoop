@@ -34,6 +34,7 @@ trait MathOperationsImp
             return Shoop::array($merged);
 
         } elseif (Type::is($this, ESDictionary::class)) {
+            // TODO: Pretty sure this should be the same expections as set()
             $dictionary = $this->value;
             $suffixes = PhpIndexedArray::toValueMemberAssociativeArray($args);
             $dictionary = array_merge($dictionary, $suffixes);
@@ -48,6 +49,7 @@ trait MathOperationsImp
             return Shoop::int($total);
 
         } elseif (Type::is($this, ESJson::class)) {
+            // TODO: Pretty sure this should be the same expectations as set()
             $dictionary = PhpIndexedArray::toValueMemberAssociativeArray($args);
             $object = json_decode($this->value);
             foreach ($dictionary as $member => $value) {
@@ -57,6 +59,8 @@ trait MathOperationsImp
             return Shoop::json($json);
 
         } elseif (Type::is($this, ESObject::class)) {
+            // TODO: Pretty sure this should be the same expectations as set()
+            //      or that set, should use plus()
             $dictionary = PhpIndexedArray::toValueMemberAssociativeArray($args);
             $object = (object) $dictionary;
             return Shoop::object($object);

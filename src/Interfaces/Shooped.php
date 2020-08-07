@@ -2,7 +2,13 @@
 
 namespace Eightfold\Shoop\Interfaces;
 
-use Eightfold\Shoop\Interfaces\ShoopedExtensions\{PhpInterfaces, PhpMagicMethods};
+// use Eightfold\Shoop\Interfaces\ShoopedExtensions\{
+//     PhpInterfaces,
+//     PhpMagicMethods
+// };
+
+use Eightfold\Shoop\Interfaces\Foldable;
+use Eightfold\Shoop\Interfaces\ShoopedExtensions\PhpInterfaces;
 
 use Eightfold\Shoop\{
     ESArray,
@@ -14,21 +20,8 @@ use Eightfold\Shoop\{
     ESJson
 };
 
-interface Shooped extends PhpInterfaces, PhpMagicMethods
-    // ?? ObjectAccess = __unset, __isset, __get, __set
-    // Serializable ??
-    // JsonSerializable
+interface Shooped extends Foldable, PhpInterfaces
 {
-    static public function fold($args);
-
-    public function unfold();
-
-    public function value();
-
-    // TODO: Consider a method called "if" - then deprecate
-    public function condition($bool, \Closure $closure = null);
-
-// - Type Juggling
     public function array(): ESArray;
 
     public function bool(): ESBool;
