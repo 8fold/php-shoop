@@ -2,9 +2,12 @@
 
 namespace Eightfold\Shoop\Traits;
 
+use \Closure;
+
 use Eightfold\Shoop\Helpers\Type;
 
 use Eightfold\Shoop\{
+    Interfaces\Foldable,
     Shoop,
     ESArray,
     ESBool,
@@ -17,7 +20,7 @@ use Eightfold\Shoop\{
 
 trait IsInImp
 {
-    public function isIn($haystack, \Closure $closure = null)
+    public function isIn($haystack, Closure $closure = null)
     {
         $needle = $this->main();
         $h = Type::sanitizeType($haystack, ESArray::class)->unfold();
@@ -30,7 +33,7 @@ trait IsInImp
         return $this->condition($bool, $closure);
     }
 
-    public function isNotIn($haystack, \Closure $closure = null)
+    public function isNotIn($haystack, Closure $closure = null)
     {
         $bool = $this->isIn($haystack)->toggle();
         return $this->condition($bool, $closure);
