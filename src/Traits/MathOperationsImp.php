@@ -10,6 +10,7 @@ use Eightfold\Shoop\Helpers\{
 };
 
 use Eightfold\Shoop\{
+    Interfaces\Foldable,
     Shoop,
     ESArray,
     ESBool,
@@ -22,10 +23,10 @@ use Eightfold\Shoop\{
 
 trait MathOperationsImp
 {
-    public function plus(...$args)
+    public function plus(...$args): Foldable
     {
         if (Type::is($this, ESArray::class)) {
-            $array = $this->value;
+            $array = $this->main();
             $count = count($args);
             if ($count === 0) {
                 return static::fold($array);
@@ -35,13 +36,13 @@ trait MathOperationsImp
 
         } elseif (Type::is($this, ESDictionary::class)) {
             // TODO: Pretty sure this should be the same expections as set()
-            $dictionary = $this->value;
+            $dictionary = $this->main();
             $suffixes = PhpIndexedArray::toValueMemberAssociativeArray($args);
             $dictionary = array_merge($dictionary, $suffixes);
             return Shoop::dictionary($dictionary);
 
         } elseif (Type::is($this, ESInt::class)) {
-            $total = $this->value;
+            $total = $this->main();
             foreach ($args as $term) {
                 $term = Type::sanitizeType($term, ESInt::class)->unfold();
                 $total += $term;
@@ -51,7 +52,7 @@ trait MathOperationsImp
         } elseif (Type::is($this, ESJson::class)) {
             // TODO: Pretty sure this should be the same expectations as set()
             $dictionary = PhpIndexedArray::toValueMemberAssociativeArray($args);
-            $object = json_decode($this->value);
+            $object = json_decode($this->main());
             foreach ($dictionary as $member => $value) {
                 $object->{$member} = $value;
             }
@@ -76,7 +77,7 @@ trait MathOperationsImp
         }
     }
 
-    public function minus(...$args)
+    public function minus(...$args): Foldable
     {
         if (Type::is($this, ESArray::class)) {
             $array = $this->arrayUnfolded();
@@ -95,7 +96,7 @@ trait MathOperationsImp
             return Shoop::dictionary($a);
 
         } elseif (Type::is($this, ESInt::class)) {
-            $total = $this->value;
+            $total = $this->main();
             foreach ($args as $term) {
                 $term = Type::sanitizeType($term, ESInt::class)->unfold();
                 $total -= $term;
@@ -119,12 +120,16 @@ trait MathOperationsImp
         }
     }
 
-    public function divide($divisor = 0, $includeEmpties = true, $limit = PHP_INT_MAX)
+    public function divide(
+        $divisor = 0,
+        $includeEmpties = true,
+        $limit = PHP_INT_MAX
+    ): Foldable
     {
         if (Type::is($this, ESArray::class)) {
             $divisor = Type::sanitizeType($divisor, ESInt::class)->unfold();
-            $lhs = array_slice($this->value(), 0, $divisor);
-            $rhs = array_slice($this->value(), $divisor);
+            $lhs = array_slice($this->main(), 0, $divisor);
+            $rhs = array_slice($this->main(), $divisor);
             if ( ! $includeEmpties) {
                 $lhs = Shoop::array($lhs)->noEmpties()->reindexUnfolded();
                 $rhs = Shoop::array($rhs)->noEmpties()->reindexUnfolded();
@@ -174,7 +179,7 @@ trait MathOperationsImp
         }
     }
 
-    public function multiply($multiplier = 1)
+    public function multiply($multiplier = 1): Foldable
     {
         if (Type::is($this, ESArray::class, ESDictionary::class, ESJson::class, ESObject::class)) {
             $product = [];

@@ -2,6 +2,8 @@
 
 namespace Eightfold\Shoop;
 
+use \stdClass;
+
 use Eightfold\Shoop\Helpers\{
     Type,
     PhpObject
@@ -38,46 +40,47 @@ class ESObject implements Shooped, MathOperations, Sort, Toggle, Wrap, Drop, Has
     static public function to(ESObject $instance, string $className)
     {
         if ($className === ESArray::class) {
-            return PhpObject::toIndexedArray($instance->value());
+            return PhpObject::toIndexedArray($instance->main());
 
         } elseif ($className === ESBool::class) {
-            return PhpObject::toBool($instance->value());
+            return PhpObject::toBool($instance->main());
 
         } elseif ($className === ESDictionary::class) {
-            return PhpObject::toAssociativeArray($instance->value());
+            return PhpObject::toAssociativeArray($instance->main());
 
         } elseif ($className === ESInt::class) {
-            return PhpObject::toInt($instance->value());
+            return PhpObject::toInt($instance->main());
 
         } elseif ($className === ESJson::class) {
-            return PhpObject::toJson($instance->value());
+            return PhpObject::toJson($instance->main());
 
         } elseif ($className === ESObject::class) {
-            return $instance->value();
+            return $instance->main();
 
         } elseif ($className === ESString::class) {
-            return PhpObject::toString($instance->value());
+            return PhpObject::toString($instance->main());
 
         }
     }
 
-    public function __construct($object)
+    static public function processedMain($main): stdClass
     {
-        if (is_object($object)) {
-            $this->value = $object;
+        if (is_object($main)) {
+            $main = $main;
 
-        } elseif (is_a($object, ESObject::class)) {
-            $this->value = $object->unfold();
+        } elseif (is_a($main, ESObject::class)) {
+            $main = $main->unfold();
 
-        } elseif (Type::is($object, ESArray::class, ESDictionary::class)) {
-            $this->value = (object) $object->unfold();
+        } elseif (Type::is($main, ESArray::class, ESDictionary::class)) {
+            $main = (object) $main->unfold();
 
-        } elseif (is_array($object)) {
-            $this->value = (object) $object;
+        } elseif (is_array($main)) {
+            $main = (object) $main;
 
         } else {
-            $this->value = new \stdClass();
+            $main = new stdClass();
 
         }
+        return $main;
     }
 }

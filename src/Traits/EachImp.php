@@ -2,6 +2,8 @@
 
 namespace Eightfold\Shoop\Traits;
 
+use \Closure;
+
 use Eightfold\Shoop\Helpers\Type;
 
 use Eightfold\Shoop\{
@@ -17,10 +19,11 @@ use Eightfold\Shoop\{
 
 trait EachImp
 {
-    public function each(\Closure $closure): ESArray
+    // TODO: is there a way to return a dictionary??
+    public function each(Closure $closure): ESArray
     {
         if (Type::is($this, ESArray::class, ESDictionary::class)) {
-            $items = $this->value();
+            $items = $this->main();
             $break = false;
             $array = [];
             foreach ($items as $member => $value) {

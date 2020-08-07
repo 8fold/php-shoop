@@ -14,6 +14,7 @@ use Eightfold\Shoop\Helpers\{
 };
 
 use Eightfold\Shoop\{
+    Interfaces\Foldable,
     Shoop,
     ESArray,
     ESBool,
@@ -74,17 +75,17 @@ trait PhpMagicMethodsImp
     public function __get($name)
     {
         $value = null;
-        if ($this->offsetExists($name)) {
-            $value = $this->offsetGet($name);
-
-        } elseif (method_exists($this, $name)) {
+        if (method_exists($this, $name)) {
             $value = $this->{$name}();
+
+        } elseif ($this->offsetExists($name)) {
+            $value = $this->offsetGet($name);
 
         }
         return (Type::isShooped($value)) ? $value->unfold() : $value;
     }
 
-    private function needsUnfolding($name)
+    private function needsUnfolding($name): bool
     {
         return PhpString::startsAndEndsWith($name, "get", "Unfolded") or
             PhpString::endsWithUnfolded($name);
@@ -113,16 +114,16 @@ trait PhpMagicMethodsImp
             }
 
         } elseif (Type::is($this, ESInt::class)) {
-            $array = PhpInt::toIndexedArray($this->value);
+            $array = PhpInt::toIndexedArray($this->main());
 
         } elseif (Type::is($this, ESJson::class)) {
-            $array = PhpJson::toAssociativeArray($this->value);
+            $array = PhpJson::toAssociativeArray($this->main());
 
         } elseif (Type::is($this, ESObject::class)) {
-            $array = PhpObject::toAssociativeArray($this->value);
+            $array = PhpObject::toAssociativeArray($this->main());
 
         } elseif (Type::is($this, ESString::class)) {
-            $array = PhpString::toIndexedArray($this->value);
+            $array = PhpString::toIndexedArray($this->main());
 
         }
         return Shoop::this($array)->get($member);
@@ -134,10 +135,10 @@ trait PhpMagicMethodsImp
         return (Type::isShooped($value)) ? $value->unfold() : $value;
     }
 
-    public function set($value, $member = null, $overwrite = true)
+    public function set($value, $member = null, $overwrite = true): Foldable
     {
         if (Type::is($this, ESArray::class, ESDictionary::class)) {
-            $array = $this->value;
+            $array = $this->main();
             $array = (Type::is($this, ESArray::class))
                 ? PhpIndexedArray::afterSettingValue($array, $value, $member, $overwrite)
                 : PhpAssociativeArray::afterSettingValue($array, $value, $member, $overwrite);
@@ -146,7 +147,7 @@ trait PhpMagicMethodsImp
                 : Shoop::dictionary($array);
 
         } elseif (Type::is($this, ESBool::class, ESString::class)) {
-            $v = $this->value;
+            $v = $this->main();
             $v = (Type::is($this, ESBool::class))
                 ? Type::sanitizeType($value, ESBool::class)->unfold()
                 : Type::sanitizeType($value, ESString::class)->unfold();
@@ -155,19 +156,19 @@ trait PhpMagicMethodsImp
                 : Shoop::string($v);
 
         } elseif (Type::is($this, ESInt::class)) {
-            $int = $this->value;
+            $int = $this->main();
             $int = Type::sanitizeType($value, ESInt::class)->unfold();
             return Shoop::int($int);
 
         } elseif (Type::is($this, ESJson::class)) {
-            $json = $this->value;
+            $json = $this->main();
             $array = PhpJson::toAssociativeArray($json);
             $array = PhpAssociativeArray::afterSettingValue($array, $value, $member, $overwrite);
             $json = PhpAssociativeArray::toJson($array);
             return Shoop::json($json);
 
         } elseif (Type::is($this, ESObject::class)) {
-            $object = $this->value;
+            $object = $this->main();
             $array = PhpObject::toAssociativeArray($object);
             $array = PhpAssociativeArray::afterSettingValue($array, $value, $member, $overwrite);
             $object = PhpAssociativeArray::toObject($array);
@@ -188,10 +189,10 @@ trait PhpMagicMethodsImp
     }
 
     // TODO: Can this be improved somehow??
-    public function __debugInfo()
+    public function __debugInfo(): string
     {
         return [
-            "value" => $this->value
+            "value" => $this->main()
         ];
     }
 }

@@ -7,6 +7,8 @@ use \Closure;
 use Eightfold\Shoop\Traits\ShoopedImpExtensions\CompareImp;
 use Eightfold\Shoop\Traits\ShoopedImpExtensions\PhpInterfacesImp;
 // use Eightfold\Shoop\Traits\ShoopedImpExtensions\PhpMagicMethodsImp;
+use Eightfold\Shoop\Interfaces\Shooped;
+use Eightfold\Shoop\Traits\Foldable;
 use Eightfold\Shoop\Traits\FoldableImp;
 
 use Eightfold\Shoop\{
@@ -20,7 +22,6 @@ use Eightfold\Shoop\{
     ESString
 };
 
-use Eightfold\Shoop\Interfaces\Shooped;
 use Eightfold\Shoop\Helpers\{
     Type,
     PhpIndexedArray,
@@ -38,7 +39,7 @@ trait ShoopedImp
 
     protected $dictionary;
 
-    private function juggleTo(string $className)
+    private function juggleTo(string $className) // TODO: should be : Foldable
     {
         $instanceClass = get_class($this); // TODO: PHP 8 allows for $instance::class
         $value = $instanceClass::to($this, $className);

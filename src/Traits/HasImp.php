@@ -2,6 +2,8 @@
 
 namespace Eightfold\Shoop\Traits;
 
+use \Closure;
+
 use Eightfold\Shoop\Helpers\{
     Type,
     PhpAssociativeArray,
@@ -15,6 +17,7 @@ use Eightfold\Shoop\Helpers\{
 use Eightfold\Shoop\Helpers\PhpTypeJuggle;
 
 use Eightfold\Shoop\{
+    Interfaces\Foldable,
     Shoop,
     ESArray,
     ESBool,
@@ -27,19 +30,19 @@ use Eightfold\Shoop\{
 
 trait HasImp
 {
-    public function has($needle, \Closure $closure = null)
+    public function has($needle, Closure $closure = null)
     {
         $array = $this->arrayUnfolded();
         $bool = in_array($needle, $array);
         return Shoop::this($this->condition($bool, $closure));
     }
 
-    public function doesNotHave($needle, \Closure $closure = null)
+    public function doesNotHave($needle, Closure $closure = null)
     {
         return $this->has($needle, $closure)->toggle();
     }
 
-    public function hasMember($member, \Closure $closure = null)
+    public function hasMember($member, Closure $closure = null)
     {
         if (Type::is($this, ESDictionary::class, ESJson::class, ESObject::class)) {
             $member = Type::sanitizeType($member, ESString::class)->unfold();
@@ -72,7 +75,7 @@ trait HasImp
         return Shoop::this($this->condition($bool, $closure));
     }
 
-    public function doesNotHaveMember($member, \Closure $closure = null)
+    public function doesNotHaveMember($member, Closure $closure = null)
     {
         return $this->hasMember($member, $closure)->toggle();
     }

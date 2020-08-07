@@ -111,7 +111,13 @@ class PhpAssociativeArray
         return $dictionary;
     }
 
-    static public function afterSettingValue(array $array, $value, $member, bool $overwrite): array
+    // TODO: PHP 8.0 int|string = $member
+    static public function afterSettingValue(
+        array $array,
+        $value,
+        $member,
+        bool $overwrite
+    ): array
     {
         if ($member === null) {
             trigger_error("Null is not a valid member on array.");

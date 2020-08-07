@@ -139,7 +139,12 @@ class PhpIndexedArray
         return $array;
     }
 
-    static public function afterSettingValue(array $array, $value, int $member, bool $overwrite = true): array
+    static public function afterSettingValue(
+        array $array,
+        $value,
+        int $member,
+        bool $overwrite = true
+    ): array
     {
         if ($member === null) {
             trigger_error("Null is not a valid member on array.");

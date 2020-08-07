@@ -35,50 +35,52 @@ class ESInt implements Shooped, MathOperations, Toggle, IsIn, Each
     static public function to(ESInt $instance, string $className)
     {
         if ($className === ESArray::class) {
-            return PhpInt::toIndexedArray($instance->value());
+            return PhpInt::toIndexedArray($instance->main());
 
         } elseif ($className === ESBool::class) {
-            return PhpInt::toBool($instance->value());
+            return PhpInt::toBool($instance->main());
 
         } elseif ($className === ESDictionary::class) {
-            return PhpInt::toAssociativeArray($instance->value());
+            return PhpInt::toAssociativeArray($instance->main());
 
         } elseif ($className === ESInt::class) {
-            return $instance->value();
+            return $instance->main();
 
         } elseif ($className === ESJson::class) {
-            return PhpInt::toJson($instance->value());
+            return PhpInt::toJson($instance->main());
 
         } elseif ($className === ESObject::class) {
-            return PhpInt::toObject($instance->value());
+            return PhpInt::toObject($instance->main());
 
         } elseif ($className === ESString::class) {
-            return PhpInt::toString($instance->value());
+            return PhpInt::toString($instance->main());
 
         }
     }
 
-    public function __construct($int)
+    static public function processedMain($main): int
     {
-        if (is_int($int)) {
-            $this->value = $int;
+        if (is_int($main)) {
+            $main = $main;
 
-        } elseif (is_string($int)) {
-            $this->value = intval($int);
+        } elseif (is_string($main)) {
+            $main = intval($main);
 
-        } elseif (is_a($int, ESInt::class)) {
-            $this->value = $int->unfold();
+        } elseif (is_a($main, ESInt::class)) {
+            $main = $main->unfold();
 
-        } elseif (is_float($int) || is_double($int)) {
-            $this->value = round($int);
+        } elseif (is_float($main) || is_double($main)) {
+            $main = round($main);
 
         } else {
-            $this->value = 0;
+            $main = 0;
 
         }
+        return $main;
     }
 
-    public function range($int = 0)
+    // TODO: PHP 8.0 int|ESInt
+    public function range($int = 0): ESArray
     {
         $int = Type::sanitizeType($int, ESInt::class)->unfold();
         $range = range($int, $this->unfold());
@@ -88,48 +90,50 @@ class ESInt implements Shooped, MathOperations, Toggle, IsIn, Each
         return Shoop::array($range);
     }
 
-    public function roundUp($divisor = 0)
+    // TODO: PHP 8.0 float|int|ESInt
+    public function roundUp($divisor = 0): ESInt
     {
         $result = $this->divideNatural($divisor);
         $int = (int) ceil($result);
         return Shoop::this($int);
     }
 
-    public function roundDown($divisor = 0)
+    // TODO: PHP 8.0 float|int|ESInt
+    public function roundDown($divisor = 0): ESInt
     {
         $result = $this->divideNatural($divisor);
         $int = (int) floor($result);
         return Shoop::this($int);
     }
 
-    private function divideNatural($divisor = 0)
+    // TODO: PHP 8.0 float|int|ESInt
+    private function divideNatural($divisor = 0): float
     {
-        $divisor = Type::sanitizeType($divisor, ESInt::class)->unfold();
-        $value = $this->value();
+        $value = $this->main();
         return $value/$divisor;
     }
 
-    public function max(...$comparisons)
+    public function max(...$comparisons): ESInt
     {
-        return Shoop::array($comparisons)->plus($this->value())->each(function($int) {
+        return Shoop::array($comparisons)->plus($this->main())->each(function($int) {
             return Type::sanitizeType($int, ESInt::class);
         })->sort(false)->first();
     }
 
-    public function min(...$comparisons)
+    public function min(...$comparisons): ESInt
     {
-        return Shoop::array($comparisons)->plus($this->value())->each(function($int) {
+        return Shoop::array($comparisons)->plus($this->main())->each(function($int) {
             return Type::sanitizeType($int, ESInt::class);
         })->sort()->first();
     }
 
-    public function isEven(\Closure $closure = null)
+    public function isEven(Closure $closure = null): ESBool
     {
-        return $this->condition(PhpInt::isEven($this->value()), $closure);
+        return $this->condition(PhpInt::isEven($this->main()), $closure);
     }
 
-    public function isOdd(\Closure $closure = null)
+    public function isOdd(Closure $closure = null): ESBool
     {
-        return $this->condition(PhpInt::isOdd($this->value()), $closure);
+        return $this->condition(PhpInt::isOdd($this->main()), $closure);
     }
 }

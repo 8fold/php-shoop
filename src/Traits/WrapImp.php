@@ -2,6 +2,8 @@
 
 namespace Eightfold\Shoop\Traits;
 
+use \Closure;
+
 use Eightfold\Shoop\Helpers\{
     Type,
     PhpIndexedArray,
@@ -11,6 +13,7 @@ use Eightfold\Shoop\Helpers\{
 };
 
 use Eightfold\Shoop\{
+    Interfaces\Foldable,
     Shoop,
     ESArray,
     ESBool,
@@ -91,7 +94,7 @@ trait WrapImp
         return $result;
     }
 
-    public function start(...$prefixes)
+    public function start(...$prefixes): Foldable
     {
         if (Type::is($this, ESArray::class)) {
             $array = $this->arrayUnfolded();
@@ -134,8 +137,9 @@ trait WrapImp
         }
     }
 
-    public function end(...$suffixes)
+    public function end(...$suffixes): Foldable
     {
+        // TODO: Not returning a new instance, is that a problem??
         return $this->plus(...$suffixes);
     }
 
@@ -143,7 +147,7 @@ trait WrapImp
     {
         $copy = $needles;
         $closure = array_pop($copy);
-        if ($closure instanceof \Closure) {
+        if ($closure instanceof Closure) {
             array_pop($needles);
             $bool = $this->startsWith(...$needles);
             return Shoop::this($this->condition($bool, $closure));
@@ -171,7 +175,7 @@ trait WrapImp
     {
         $copy = $needles;
         $closure = array_pop($copy);
-        if ($closure instanceof \Closure) {
+        if ($closure instanceof Closure) {
             array_pop($needles);
             $bool = $this->endsWith(...$needles);
             return Shoop::this($this->condition($bool, $closure));

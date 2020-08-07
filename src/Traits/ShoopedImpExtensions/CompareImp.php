@@ -31,7 +31,7 @@ trait CompareImp
 
     public function isNotEmpty(Closure $closure = null)
     {
-        $bool = $this->isEmpty()->not();
+        $bool = $this->isEmpty()->toggle();
         return $this->condition($bool, $closure);
     }
 
@@ -73,7 +73,7 @@ trait CompareImp
         return $this->condition($bool, $closure);
     }
 
-    public function countIsGreaterThan($compare, \Closure $closure = null)
+    public function countIsGreaterThan($compare, Closure $closure = null)
     {
         $bool = $this->count()->isGreaterThan($compare);
         return $this->condition($bool, $closure);
@@ -85,13 +85,13 @@ trait CompareImp
         return $this->condition($bool, $closure);
     }
 
-    public function countIsLessThan($compare, \Closure $closure = null)
+    public function countIsLessThan($compare, Closure $closure = null)
     {
         $bool = $this->count()->isLessThan($compare);
         return $this->condition($bool, $closure);
     }
 
-    public function countIsLessThanOrEqualTo($compare, \Closure $closure = null)
+    public function countIsLessThanOrEqualTo($compare, Closure $closure = null)
     {
         $bool = $this->count()->isLessThanOrEqualTo($compare);
         return $this->condition($bool, $closure);

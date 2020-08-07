@@ -1,6 +1,6 @@
 <?php
 
-namespace Eightfold\Shoop\Tests\Shooped;
+namespace Eightfold\Shoop\Tests\Foldable;
 
 use PHPUnit\Framework\TestCase;
 

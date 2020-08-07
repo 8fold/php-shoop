@@ -11,6 +11,7 @@ use Eightfold\Shoop\Helpers\{
 };
 
 use Eightfold\Shoop\{
+    Interfaces\Foldable,
     Shoop,
     ESArray,
     ESBool,
@@ -23,7 +24,7 @@ use Eightfold\Shoop\{
 
 trait ToggleImp
 {
-    public function toggle($preserveMembers = true)
+    public function toggle($preserveMembers = true): Foldable
     {
         if (Type::is($this, ESArray::class)) {
             $array = $this->arrayUnfolded();

@@ -49,47 +49,48 @@ class ESDictionary implements
     static public function to(ESDictionary $instance, string $className)
     {
         if ($className === ESArray::class) {
-            return PhpAssociativeArray::toIndexedArray($instance->value());
+            return PhpAssociativeArray::toIndexedArray($instance->main());
 
         } elseif ($className === ESBool::class) {
-            return PhpAssociativeArray::toBool($instance->value());;
+            return PhpAssociativeArray::toBool($instance->main());;
 
         } elseif ($className === ESDictionary::class) {
-            return $instance->value();
+            return $instance->main();
 
         } elseif ($className === ESInt::class) {
-            return PhpAssociativeArray::toInt($instance->value());
+            return PhpAssociativeArray::toInt($instance->main());
 
         } elseif ($className === ESJson::class) {
-            return PhpAssociativeArray::toJson($instance->value());
+            return PhpAssociativeArray::toJson($instance->main());
 
         } elseif ($className === ESObject::class) {
-            return PhpAssociativeArray::toObject($instance->value());
+            return PhpAssociativeArray::toObject($instance->main());
 
         } elseif ($className === ESString::class) {
-            return PhpAssociativeArray::toString($instance->value());
+            return PhpAssociativeArray::toString($instance->main());
 
         }
     }
 
-    public function __construct($dictionary)
+    static public function processedMain($main): array
     {
-        if (is_array($dictionary) && Type::isDictionary($dictionary)) {
-            $this->value = $dictionary;
+        if (is_array($main) && Type::isDictionary($main)) {
+            $main = $main;
 
-        } elseif (is_a($dictionary, ESDictionary::class)) {
-            $this->value = $dictionary->unfold();
+        } elseif (is_a($main, ESDictionary::class)) {
+            $main = $main->unfold();
 
         } else {
-            $this->value = [];
+            $main = [];
 
         }
+        return $main;
     }
 
-    public function interleave()
+    public function interleave(): ESArray
     {
         $build = [];
-        foreach ($this->value as $member => $value) {
+        foreach ($this->main as $member => $value) {
             $build[] = $value;
             $build[] = $member;
         }

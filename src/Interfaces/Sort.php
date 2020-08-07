@@ -5,6 +5,7 @@ namespace Eightfold\Shoop\Interfaces;
 interface Sort
 {
     // Does not make sense on ESBool, ESInt
+    // TODO: bool|ESBool
     public function sort($asc = true, $caseSensitive = true);
 
     // public function sortNum($asc = true, $caseSensitive = true);

@@ -2,6 +2,7 @@
 
 namespace Eightfold\Shoop\Helpers;
 
+use Eightfold\Shoop\Interfaces\Foldable;
 use Eightfold\Shoop\Interfaces\Shooped;
 
 use Eightfold\Shoop\{
@@ -71,17 +72,27 @@ class Type
         }
     }
 
+    static public function isFoldable($potential): bool
+    {
+        return $potential instanceOf Foldable;
+    }
+
+    static public function isNotFoldable($potential): bool
+    {
+        return ! static::isFoldable($potential);
+    }
+
     static public function isShooped($potential): bool
     {
         return $potential instanceOf Shooped;
     }
 
-    static public function isNotShooped($potential)
+    static public function isNotShooped($potential): bool
     {
         return ! static::isShooped($potential);
     }
 
-    static public function shoopFor($potential)
+    static public function shoopFor($potential): string
     {
         if (static::isShooped($potential)) {
             return get_class($potential);

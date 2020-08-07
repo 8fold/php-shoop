@@ -50,86 +50,87 @@ class ESString implements
     static public function to(ESString $instance, string $className)
     {
         if ($className === ESArray::class) {
-            return PhpString::toIndexedArray($instance->value());
+            return PhpString::toIndexedArray($instance->main());
 
         } elseif ($className === ESBool::class) {
-            return PhpString::toBool($instance->value());
+            return PhpString::toBool($instance->main());
 
         } elseif ($className === ESDictionary::class) {
-            return PhpString::toAssociativeArray($instance->value());
+            return PhpString::toAssociativeArray($instance->main());
 
         } elseif ($className === ESInt::class) {
-            return PhpString::toInt($instance->value());
+            return PhpString::toInt($instance->main());
 
         } elseif ($className === ESJson::class) {
-            return $instance->value();
+            return $instance->main();
 
         } elseif ($className === ESObject::class) {
-            return PhpString::toObject($instance->value());
+            return PhpString::toObject($instance->main());
 
         } elseif ($className === ESString::class) {
-            return $instance->value();
+            return $instance->main();
 
         }
     }
 
-    public function __construct($string)
+    static public function processedMain($main): string
     {
-        if (is_string($string)) {
-            $this->value = $string;
+        if (is_string($main)) {
+            $main = $main;
 
-        } elseif (is_a($string, ESString::class)) {
-            $this->value = $string->unfold();
+        } elseif (is_a($main, ESString::class)) {
+            $main = $main->unfold();
 
         } else {
-            $this->value = "";
+            $main = "";
 
         }
+        return $main;
     }
 
-    // public function part($start, $length)
-    // {
-
-    // }
-
-    public function dropTags(...$allow)
+    public function dropTags(...$allow): ESString
     {
         $allow = implode("", $allow);
-        $string = strip_tags($this->value(), $allow);
+        $string = strip_tags($this->main(), $allow);
         return Shoop::string($string);
     }
 
+    // TODO: PHP 8.0 array|ESDictionary = $replacements bool|ESBool = $caseSensitive
     public function replace($replacements = [], $caseSensitive = true): ESString
     {
-        $replacements = Type::sanitizeType($replacements, ESDictionary::class)->unfold();
+        $replacements  = Type::sanitizeType($replacements, ESDictionary::class)->unfold();
         $caseSensitive = Type::sanitizeType($caseSensitive, ESBool::class)->unfold();
+
         $search = array_keys($replacements);
         $replace = array_values($replacements);
         if ($caseSensitive) {
-            $string = str_replace($search, $replace, $this->value());
+            $string = str_replace($search, $replace, $this->main());
             return Shoop::string($string);
 
         }
-        $string = str_ireplace($search, $replace, $this->value());
+        $string = str_ireplace($search, $replace, $this->main());
         return Shoop::string($string);
     }
 
-    public function replaceRange($replacement, $start = 0, $length = null)
+    // TODO: PHP 8.0 string|ESString, int|ESInt, int|ESInt
+    public function replaceRange($replacement, $start = 0, $length = null): ESString
     {
         $replacement = Type::sanitizeType($replacement, ESString::class)->unfold();
         $start = Type::sanitizeType($start, ESInt::class)->unfold();
         $length = ($length === null)
             ? Type::sanitizeType(strlen($replacement), ESInt::class)->unfold()
             : Type::sanitizeType($length, ESInt::class)->unfold();
-        $string = substr_replace($this->value(), $replacement, $start, $length);
+
+        $string = substr_replace($this->main(), $replacement, $start, $length);
         return Shoop::string($string);
     }
 
+    // TODO: PHP 8.0 bool|ESBool, bool|ESBool, string|ESString
     public function trim($fromStart = true, $fromEnd = true, $charMask = " \t\n\r\0\x0B"): ESString
     {
         $fromStart = Type::sanitizeType($fromStart, ESBool::class)->unfold();
-        $fromEnd = Type::sanitizeType($fromEnd, ESBool::class)->unfold();
-        $charMask = Type::sanitizeType($charMask, ESString::class)->unfold();
+        $fromEnd   = Type::sanitizeType($fromEnd, ESBool::class)->unfold();
+        $charMask  = Type::sanitizeType($charMask, ESString::class)->unfold();
 
         $string = $this->stringUnfolded();
         $trimmed = $string;
@@ -160,84 +161,23 @@ class ESString implements
         return Shoop::string($string);
     }
 
-    public function urlencode()
+    /**
+     * @deprecated - move to extras URL
+     */
+    public function urlencode(): ESString
     {
         $string = $this->stringUnfolded();
         $string = urlencode($string);
         return Shoop::string($string);
     }
 
-    public function urldecode()
+    /**
+     * @deprecated - move to extras URL
+     */
+    public function urldecode(): ESString
     {
         $string = $this->stringUnfolded();
         $string = urldecode($string);
         return Shoop::string($string);
-    }
-
-    /**
-     * @deprecated PHP Shoop Extras
-     */
-    public function isFile(\Closure $closure = null)
-    {
-        $value = $this->value();
-        $bool = is_file($value);
-        if ($closure === null) {
-            $closure = function($bool) {
-                return Shoop::this($bool);
-            };
-        }
-        return $closure($bool, Shoop::this($value));
-    }
-
-    /**
-     * @deprecated PHP Shoop Extras
-     */
-    public function isFolder($value='')
-    {
-        return is_dir($this->value());
-    }
-
-    /**
-     * @deprecated PHP Shoop Extras
-     */
-    public function pathContent($trim = true)
-    {
-        $path = $this->stringUnfolded();
-        if (file_exists($path) and is_file($path)) {
-            $contents = file_get_contents($path);
-            if (strlen($contents) > 0) {
-                if ($trim) {
-                    return Shoop::string($contents)->trim();
-                }
-                return Shoop::string($contents);
-            }
-
-        } elseif (is_dir($path)) {
-            $array = Shoop::array(scandir($path))->each(function($item) use ($path, $trim) {
-                if ($trim and ($item === "." or $item === ".." or $item === ".DS_Store")) {
-                    return Shoop::string("");
-                }
-                return Shoop::string($path ."/{$item}");
-            })->noEmpties();
-            $array = array_values($array->unfold());
-            return Shoop::array($array);
-        }
-        return Shoop::string("");
-    }
-
-    /**
-     * @deprecated PHP Shoop Extras
-     */
-    public function writeToPath($path, $makeFolder = true)
-    {
-        $string = $this->stringUnfolded();
-
-        $path = Type::sanitizeType($path, ESString::class)->unfold();
-        $makeFolder = Type::sanitizeType($makeFolder, ESBool::class)->unfold();
-
-        $bytesOrFalse = file_put_contents($path, $string);
-        return (is_bool($bytesOrFalse))
-            ? Shoop::bool($bytesOrFalse)
-            : Shoop::int($bytesOrFalse);
     }
 }

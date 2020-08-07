@@ -2,6 +2,8 @@
 
 namespace Eightfold\Shoop\Traits\ShoopedImpExtensions;
 
+use \stdClass;
+
 use Eightfold\Shoop\Helpers\{
     Type,
     PhpIndexedArray,
@@ -26,11 +28,11 @@ use Eightfold\Shoop\{
 trait PhpInterfacesImp
 {
 // - Countable
-    public function count()
+    public function count(): ESInt
     {
         $int = $this->int();
         if (Type::is($this, ESString::class)) {
-            $int = strlen($this->value);
+            $int = strlen($this->main());
         }
         return Shoop::int($int);
     }
@@ -40,37 +42,37 @@ trait PhpInterfacesImp
     {
         $bool = false;
         if (Type::is($this, ESArray::class)) {
-            $bool = isset($this->value[$offset]);
+            $bool = isset($this->main[$offset]);
             if (! $bool) {
-                $array = PhpIndexedArray::toAssociativeArray($this->value);
+                $array = PhpIndexedArray::toAssociativeArray($this->main());
                 $bool = isset($array[$offset]);
             }
 
         } elseif (Type::is($this, ESBool::class)) {
-            $array = PhpBool::toAssociativeArray($this->value);
+            $array = PhpBool::toAssociativeArray($this->main());
             $bool = isset($array[$offset]);
 
         } elseif (Type::is($this, ESDictionary::class)) {
-            $bool = isset($this->value[$offset]);
+            $bool = isset($this->main[$offset]);
 
         } elseif (Type::is($this, ESInt::class)) {
-            $array = PhpInt::toIndexedArray($this->value);
+            $array = PhpInt::toIndexedArray($this->main());
             $bool = isset($array[$offset]);
             if (! $bool) {
-                $array = PhpInt::toAssociativeArray($this->value);
+                $array = PhpInt::toAssociativeArray($this->main());
                 $bool = isset($array[$offset]);
             }
 
         } elseif (Type::is($this, ESJson::class)) {
-            $array = PhpJson::toAssociativeArray($this->value);
+            $array = PhpJson::toAssociativeArray($this->main());
             $bool = isset($array[$offset]);
 
         } elseif (Type::is($this,  ESObject::class)) {
-            $array = PhpObject::toAssociativeArray($this->value);
+            $array = PhpObject::toAssociativeArray($this->main());
             $bool = isset($array[$offset]);
 
         } elseif (Type::is($this, ESString::class)) {
-            $array = PhpString::toIndexedArray($this->value);
+            $array = PhpString::toIndexedArray($this->main());
             $bool = isset($array[$offset]);
             if (! $bool) {
                 $array = PhpIndexedArray::toAssociativeArray($array);
@@ -85,31 +87,31 @@ trait PhpInterfacesImp
     {
         $array = [];
         if (Type::is($this, ESArray::class)) {
-            $array = $this->value;
+            $array = $this->main();
             if (is_string($offset)) {
                 $array = PhpIndexedArray::toAssociativeArray($array);
             }
 
         } elseif (Type::is($this, ESBool::class)) {
-            $array = PhpBool::toAssociativeArray($this->value);
+            $array = PhpBool::toAssociativeArray($this->main());
 
         } elseif (Type::is($this, ESDictionary::class)) {
-            $array = $this->value;
+            $array = $this->main();
 
         } elseif (Type::is($this, ESInt::class)) {
-            $array = PhpInt::toIndexedArray($this->value);
+            $array = PhpInt::toIndexedArray($this->main());
             if (is_string($offset)) {
-                $array = PhpInt::toAssociativeArray($this->value);
+                $array = PhpInt::toAssociativeArray($this->main());
             }
 
         } elseif (Type::is($this, ESJson::class)) {
-            $array = PhpJson::toAssociativeArray($this->value);
+            $array = PhpJson::toAssociativeArray($this->main());
 
         } elseif (Type::is($this, ESObject::class)) {
-            $array = PhpObject::toAssociativeArray($this->value);
+            $array = PhpObject::toAssociativeArray($this->main());
 
         } elseif (Type::is($this, ESString::class)) {
-            $array = PhpString::toIndexedArray($this->value);
+            $array = PhpString::toIndexedArray($this->main());
             if (is_string($offset)) {
                 $array = PhpIndexedArray::toAssociativeArray($array);
             }
@@ -126,18 +128,18 @@ trait PhpInterfacesImp
     public function offsetSet($offset, $value): void
     {
         if (Type::is($this, ESInt::class, ESBool::class)) {
-            $this->value = $value;
+            $this->main = $value;
 
         } elseif (Type::is($this, ESJson::class)) {
-            $object = json_decode($this->value);
+            $object = json_decode($this->main());
             $object->{$offset} = $value;
-            $this->value = json_encode($object);
+            $this->main = json_encode($object);
 
         } elseif (Type::is($this, ESObject::class)) {
-            $this->value->{$offset} = $value;
+            $this->main->{$offset} = $value;
 
         } else {
-            $this->value[$offset] = $value;
+            $this->main[$offset] = $value;
 
         }
     }
@@ -147,18 +149,18 @@ trait PhpInterfacesImp
         if (Type::is($this, ESString::class)) {
             $array = $this->array();
             $array->offsetUnset($offset);
-            $this->value = join("", $array->unfold());
+            $this->main = join("", $array->unfold());
 
         } elseif (Type::is($this, ESObject::class)) {
-            unset($this->value->{$offset});
+            unset($this->main->{$offset});
 
         } elseif (Type::is($this, ESJson::class)) {
-            $object = json_decode($this->value);
+            $object = json_decode($this->main());
             unset($object->{$offset});
-            $this->value = json_encode($object);
+            $this->main = json_encode($object);
 
         } else {
-            unset($this->value[$offset]);
+            unset($this->main[$offset]);
 
         }
     }
@@ -172,25 +174,25 @@ trait PhpInterfacesImp
     public function rewind(): void
     {
         if (Type::is($this, ESArray::class)) {
-            $this->temp = $this->value;
+            $this->temp = $this->main();
 
         } elseif (Type::is($this, ESBool::class)) {
-            $this->temp = PhpBool::toAssociativeArray($this->value);
+            $this->temp = PhpBool::toAssociativeArray($this->main());
 
         } elseif (Type::is($this, ESDictionary::class)) {
-            $this->temp = $this->value;
+            $this->temp = $this->main();
 
         } elseif (Type::is($this, ESInt::class)) {
-            $this->temp = PhpInt::toIndexedArray($this->value);
+            $this->temp = PhpInt::toIndexedArray($this->main());
 
         } elseif (Type::is($this, ESJson::class)) {
-            $this->temp = PhpJson::toAssociativeArray($this->value);
+            $this->temp = PhpJson::toAssociativeArray($this->main());
 
         } elseif (Type::is($this, ESObject::class)) {
-            $this->temp = PhpObject::toAssociativeArray($this->value);
+            $this->temp = PhpObject::toAssociativeArray($this->main());
 
         } elseif (Type::is($this, ESString::class)) {
-            $this->temp = PhpString::toIndexedArray($this->value);
+            $this->temp = PhpString::toIndexedArray($this->main());
 
         }
     }
@@ -235,7 +237,7 @@ trait PhpInterfacesImp
     }
 
 // - JsonSerializable
-    public function jsonSerialize()
+    public function jsonSerialize(): stdClass
     {
         return $this->object()->unfold();
     }

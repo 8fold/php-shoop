@@ -15,6 +15,7 @@ interface Wrap
 
     public function end(...$suffixes);
 
+    // TODO: PHP 8.0 uncomment
     // public function startsWith(string|array $needles, \Closure $closure = null)
     public function startsWith(...$needles);
 

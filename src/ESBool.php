@@ -28,63 +28,41 @@ class ESBool implements Shooped, Toggle, IsIn
     static public function to(ESBool $instance, string $className)
     {
         if ($className === ESArray::class) {
-            return PhpBool::toIndexedArray($instance->value());
+            return PhpBool::toIndexedArray($instance->main());
 
         } elseif ($className === ESBool::class) {
-            return $instance->value();
+            return $instance->main();
 
         } elseif ($className === ESDictionary::class) {
-            return PhpBool::toAssociativeArray($instance->value());
+            return PhpBool::toAssociativeArray($instance->main());
 
         } elseif ($className === ESInt::class) {
-            return PhpBool::toInt($instance->value());
+            return PhpBool::toInt($instance->main());
 
         } elseif ($className === ESJson::class) {
-            return PhpBool::toJson($instance->value());
+            return PhpBool::toJson($instance->main());
 
         } elseif ($className === ESObject::class) {
-            return PhpBool::toObject($instance->value());
+            return PhpBool::toObject($instance->main());
 
         } elseif ($className === ESString::class) {
-            return PhpBool::toString($instance->value());
+            return PhpBool::toString($instance->main());
 
         }
     }
 
-    public function __construct($bool)
+    static public function processedMain($main): bool
     {
-        if (is_bool($bool)) {
-            $this->value = $bool;
+        if (is_bool($main)) {
+            $main = $main;
 
-        } elseif (is_a($bool, ESBool::class)) {
-            $this->value = $bool->unfold();
+        } elseif (is_a($main, ESBool::class)) {
+            $main = $main->unfold();
 
         } else {
-            $this->value = false;
+            $main = false;
 
         }
-    }
-
-    public function not(): ESBool
-    {
-        return $this->toggle();
-    }
-
-    /**
-     * @deprecated
-     */
-    public function or($bool): ESBool
-    {
-        $bool = Type::sanitizeType($bool, ESBool::class);
-        return Shoop::bool($this->unfold() || $bool->unfold());
-    }
-
-    /**
-     * @deprecated
-     */
-    public function and($bool): ESBool
-    {
-        $bool = Type::sanitizeType($bool, ESBool::class);
-        return Shoop::bool($this->unfold() && $bool->unfold());
+        return $main;
     }
 }
