@@ -9,6 +9,7 @@ use Eightfold\Shoop\Traits\ShoopedImpExtensions\PhpMagicMethodsImp;
 use Eightfold\Shoop\Helpers\Type;
 
 use Eightfold\Shoop\Shoop;
+use Eightfold\Shoop\Interfaces\Foldable;
 
 trait FoldableImp
 {
@@ -50,18 +51,9 @@ trait FoldableImp
         return $this->main;
     }
 
-    public function args()
+    public function args(): array
     {
         return $this->args;
-    }
-
-    /**
-     * @deprecated
-     */
-    public function value()
-    {
-        return $this->main();
-        return $this->value;
     }
 
     public function unfold()
