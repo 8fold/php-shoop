@@ -2,6 +2,8 @@
 
 namespace Eightfold\Shoop\Tests\Foldable;
 
+use \stdClass;
+
 use PHPUnit\Framework\TestCase;
 
 use Eightfold\Shoop\Helpers\Type;
@@ -26,6 +28,10 @@ class FoldTest extends TestCase
 {
     public function testESArray()
     {
+        $expected = [];
+        $actual = new ESArray([]);
+        $this->assertSame($expected, $actual->main);
+
         $actual = new ESArray(['testing']);
         $this->assertTrue(is_a($actual, ESArray::class));
 
@@ -35,6 +41,10 @@ class FoldTest extends TestCase
 
     public function testESBool()
     {
+        $expected = true;
+        $actual = new ESBool(true);
+        $this->assertSame($expected, $actual->main);
+
         $actual = new ESBool(true);
         $this->assertTrue(is_a($actual, ESBool::class));
 
@@ -44,6 +54,10 @@ class FoldTest extends TestCase
 
     public function testESDictionary()
     {
+        $expected = [];
+        $actual = new ESDictionary([]);
+        $this->assertSame($expected, $actual->main);
+
         $actual = new ESDictionary([]);
         $this->assertTrue(is_a($actual, ESDictionary::class));
 
@@ -53,6 +67,10 @@ class FoldTest extends TestCase
 
     public function testESInt()
     {
+        $expected = 1;
+        $actual = new ESInt(1);
+        $this->assertSame($expected, $actual->main);
+
         $actual = new ESInt(1);
         $this->assertTrue(is_a($actual, ESInt::class));
 
@@ -62,6 +80,10 @@ class FoldTest extends TestCase
 
     public function testESJson()
     {
+        $expected = '{}';
+        $actual = new ESJson('{}');
+        $this->assertSame($expected, $actual->main);
+
         $actual = new ESJson('{"test":"test"}');
         $this->assertTrue(is_a($actual, ESJson::class));
 
@@ -71,15 +93,23 @@ class FoldTest extends TestCase
 
     public function testESObject()
     {
-        $actual = new ESObject(new \stdClass());
+        $expected = new stdClass();
+        $actual = new ESObject(new stdClass());
+        $this->assertEquals($expected, $actual->main);
+
+        $actual = new ESObject(new stdClass());
         $this->assertTrue(is_a($actual, ESObject::class));
 
-        $actual = ESObject::fold(new \stdClass());
+        $actual = ESObject::fold(new stdClass());
         $this->assertTrue(is_a($actual, ESObject::class));
     }
 
     public function testESString()
     {
+        $expected = "";
+        $actual = new ESString("");
+        $this->assertSame($expected, $actual->main);
+
         $actual = new ESString("");
         $this->assertTrue(is_a($actual, ESString::class));
 
