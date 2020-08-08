@@ -79,6 +79,6 @@ trait FoldableImp
                 return $bool;
             };
         }
-        return $closure($bool, Shoop::this($value));
+        return $closure($bool, static::fold($value, ...$this->args()));
     }
 }
