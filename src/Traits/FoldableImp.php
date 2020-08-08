@@ -36,7 +36,7 @@ trait FoldableImp
      */
     public function __construct($main, ...$args)
     {
-        $this->main (method_exists($this, "processedMain"))
+        $this->main = (method_exists($this, "processedMain"))
             ? static::processedMain($main)
             : $main;
         $this->args = static::processedArgs(...$args);

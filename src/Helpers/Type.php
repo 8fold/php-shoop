@@ -139,7 +139,7 @@ class Type
             $check = $check->unfold();
         }
 
-        if (self::isJson($check) && $check === "{}") {
+        if (self::isJson($check) and $check === "{}") {
             return true;
         }
         return empty($check);

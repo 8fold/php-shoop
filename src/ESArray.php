@@ -49,6 +49,18 @@ class ESArray implements
 {
     use ShoopedImp, MathOperationsImp, ToggleImp, ShuffleImp, WrapImp, SortImp, DropImp, HasImp, IsInImp, EachImp;
 
+    static public function processedMain($main): array
+    {
+        if (is_a($main, ESArray::class)) {
+            $main = $main->unfold();
+
+        } elseif (! is_array($main)) {
+            $main = [$main];
+
+        }
+        return $main;
+    }
+
     // TODO: Can't make part of interface because of typing
     static public function to(ESArray $instance, string $className)
     {
@@ -74,18 +86,6 @@ class ESArray implements
             return PhpIndexedArray::toString($instance->main());
 
         }
-    }
-
-    static public function processedMain($main): array
-    {
-        if (is_a($main, ESArray::class)) {
-            $main = $main->unfold();
-
-        } elseif (! is_array($main)) {
-            $main = [$main];
-
-        }
-        return $main;
     }
 
     // TODO: PHP 8.0 string|ESString = $delimiter
