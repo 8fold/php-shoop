@@ -23,7 +23,7 @@ trait FoldableImp
         return new static($main, ...$args);
     }
 
-    static public function processedArgs(...$args)
+    static public function processedArgs(...$args): array
     {
         return $args;
     }
@@ -43,7 +43,7 @@ trait FoldableImp
             $this->main = $main;
 
         }
-        $this->args = static::processedArgs($args);
+        $this->args = static::processedArgs(...$args);
     }
 
     public function main()
