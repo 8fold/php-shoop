@@ -82,7 +82,7 @@ trait PhpMagicMethodsImp
             $value = $this->offsetGet($name);
 
         }
-        return (Type::isShooped($value)) ? $value->unfold() : $value;
+        return (Type::isFoldable($value)) ? $value->unfold() : $value;
     }
 
     private function needsUnfolding($name): bool
@@ -192,7 +192,8 @@ trait PhpMagicMethodsImp
     public function __debugInfo(): array
     {
         return [
-            "value" => $this->main()
+            "main" => $this->main(),
+            "args" => $this->args()
         ];
     }
 }
