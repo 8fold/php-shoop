@@ -16,5 +16,5 @@ interface PhpMagicMethods
 
     public function __toString(): string;
 
-    public function __debugInfo(): string;
+    public function __debugInfo(): array;
 }
