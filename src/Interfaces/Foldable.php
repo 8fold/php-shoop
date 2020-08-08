@@ -10,6 +10,8 @@ interface Foldable extends PhpMagicMethods
 {
     static public function processedMain($main);
 
+    static public function processedArgs(...$args);
+
     // TODO: Return type can't be an interface
     static public function fold($main, ...$args): Foldable;
 
