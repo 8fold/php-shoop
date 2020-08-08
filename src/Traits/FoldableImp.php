@@ -15,17 +15,17 @@ trait FoldableImp
 {
     use PhpMagicMethodsImp;
 
-    /**
-     * @deprecated
-     */
-    protected $value;
-
     protected $main;
     protected $args;
 
     static public function fold($main, ...$args): Foldable
     {
         return new static($main, ...$args);
+    }
+
+    static public function processedArgs(...$args)
+    {
+        return $args;
     }
 
     /**
@@ -43,7 +43,7 @@ trait FoldableImp
             $this->main = $main;
 
         }
-        $this->args = $args;
+        $this->args = static::processedArgs($args);
     }
 
     public function main()
