@@ -2,6 +2,8 @@
 
 namespace Eightfold\Shoop;
 
+use \Closure;
+
 use Eightfold\Shoop\Helpers\{
     Type,
     PhpInt
