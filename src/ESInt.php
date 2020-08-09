@@ -132,12 +132,12 @@ class ESInt implements Shooped, MathOperations, Toggle, IsIn, Each
         })->sort()->first();
     }
 
-    public function isEven(Closure $closure = null): ESBool
+    public function isEven(Closure $closure = null)
     {
         return $this->condition(PhpInt::isEven($this->main()), $closure);
     }
 
-    public function isOdd(Closure $closure = null): ESBool
+    public function isOdd(Closure $closure = null)
     {
         return $this->condition(PhpInt::isOdd($this->main()), $closure);
     }
