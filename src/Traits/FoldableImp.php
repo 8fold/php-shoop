@@ -61,7 +61,7 @@ trait FoldableImp
             $array = $return;
             $return = [];
             foreach ($array as $member => $value) {
-                if (Type::isShooped($value)) {
+                if (Type::isFoldable($value)) {
                     $value = $value->unfold();
                 }
                 $return[$member] = $value;
