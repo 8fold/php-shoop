@@ -54,12 +54,12 @@ class PhpIndexedArray
         return trim($fixSpacingWhenEmpty);
     }
 
-    static public function reversed(array $array, bool $preserveMembers): array
-    {
-        return ($preserveMembers)
-            ? array_reverse($array, true)
-            : array_reverse($array);
-    }
+    // static public function reversed(array $array, bool $preserveMembers): array
+    // {
+    //     return ($preserveMembers)
+    //         ? array_reverse($array, true)
+    //         : array_reverse($array);
+    // }
 
     static public function toValueMemberAssociativeArray(array $array): array
     {

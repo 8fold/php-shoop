@@ -5,6 +5,8 @@ namespace Eightfold\Shoop;
 
 use \Closure;
 
+use Eightfold\Shoop\Php;
+
 use Eightfold\Shoop\Helpers\{
     Type,
     PhpString
@@ -82,7 +84,7 @@ class ESString implements
 // -> Type juggling
 
 // -> Rearrange
-    public function toggle($preserveMembers = true)
+    public function reverse($preserveMembers = true)
     {
         $array  = $this->array()->unfold();
         // $array->toggle()->join("") - this has caused issues in the passed
@@ -111,7 +113,7 @@ class ESString implements
     // TODO: PHP 8.0 - string|ESString
     public function minus(...$terms): ESString
     {
-        return $this->stripAll(...$terms);
+        return $this->strip(implode("", $terms), false, false);
     }
 
     // TODO: PHP 8.0 - int|ESInt
@@ -177,42 +179,23 @@ class ESString implements
 
 // -> Strip characters
     // TODO: PHP 8.0 bool|ESBool, bool|ESBool, string|ESString
+    /**
+     * |           |From end |From start |Result                                                  |
+     * |From end   |true     |true       |Characters are removed from beginning & end, not middle |
+     * |From start |false    |false      |All characters are moved from string                    |
+     * |Result     |Characters are stripped from end, not beginning |Characters are stripped from beginning, not end ||
+     * @param  string  $charMask  [description]
+     * @param  boolean $fromEnd   [description]
+     * @param  boolean $fromStart [description]
+     * @return [type]             [description]
+     */
     public function strip(
         $charMask  = " \t\n\r\0\x0B",
         $fromEnd   = true,
         $fromStart = true
     ): ESString
     {
-        if (! is_string($charMask) and ! is_a($charMask, ESString::class)) {
-            $this->typeError(1, "string or ESString", "strip()", gettype($charMask));
-        }
-
-        if (! is_bool($fromEnd) and ! is_a($fromEnd, ESBool::class)) {
-            $this->typeError(3, "bool or ESBool", "strip()", gettype($fromEnd));
-        }
-
-        if (! is_bool($fromStart) and ! is_a($fromStart, ESBool::class)) {
-            $this->typeError(3, "bool or ESBool", "strip()", gettype($fromEnd));
-        }
-
-        $string = $this->main;
-        if ($fromStart and $fromEnd) {
-            $string = trim($string, $charMask);
-
-        } elseif ($fromStart and ! $fromEnd) {
-            $string = ltrim($string, $charMask);
-
-        } elseif (! $fromStart and $fromEnd) {
-            $string = rtrim($string, $charMask);
-
-        }
-        return static::fold($string);
-    }
-
-    // TODO: PHP 8.0 - Stringable
-    public function stripAll(...$terms): ESString
-    {
-        $string = str_replace($terms, "", $this->main);
+        $string = Php::stringStrippedOf($this->main, $fromEnd, $fromStart, $charMask);
         return static::fold($string);
     }
 
@@ -270,7 +253,7 @@ class ESString implements
 // -> Arrayable
     public function array(): ESArray
     {
-        $array = preg_split('//u', $this->main, -1, PREG_SPLIT_NO_EMPTY);
+        $array = Php::stringToArray($this->main);
         return ESArray::fold($array);
     }
 
@@ -348,6 +331,14 @@ class ESString implements
 
         $string = substr_replace($this->main(), $replacement, $start, $length);
         return Shoop::string($string);
+    }
+
+    /**
+     * @deprecated - Use reverse
+     */
+    public function toggle($preserveMembers = true)
+    {
+        return $this->reverse($preserveMembers);
     }
 
 // -> Utilities

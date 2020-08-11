@@ -16,7 +16,7 @@ interface Arrayable
     public function hasMember($member, Closure $closure = null);
 
     // TODO: Consider moving to get interface or member interface
-    public function getMember($member);
+    // public function getMember($member);
 
     // public function setMember($member): self;
 
@@ -27,7 +27,7 @@ interface Arrayable
     public function offsetExists($offset): bool;
 
     // TODO: PHP 8.0 string|int|ESString|ESInt $offset
-    public function offsetGet($offset);
+    // public function offsetGet($offset);
 
     // public function offsetSet($offset, $value): void;
 

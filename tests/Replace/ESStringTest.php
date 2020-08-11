@@ -18,12 +18,17 @@ class ESStringTest extends TestCase
     {
         $expected = ["8", "f", "o", "l", "d"];
         $actual = ESString::fold("8fold")->array()->unfold();
-        $this->assertEqualsWithPerformance($expected, $actual, 3);
+        $this->assertEqualsWithPerformance($expected, $actual, 3.25);
 
         $this->start = hrtime(true);
         $expected = true;
         $actual = ESString::fold("8fold")->hasMember(2)->unfold();
         $this->assertEqualsWithPerformance($expected, $actual);
+
+        // $this->start = hrtime(true);
+        // $expected = "o";
+        // $actual = ESString::fold("8fold")->getMember(2)->unfold();
+        // $this->assertEqualsWithPerformance($expected, $actual);
     }
 
     public function test_rearrange()
@@ -90,11 +95,6 @@ class ESStringTest extends TestCase
         $this->start = hrtime(true);
         $expected = "<i>Hello!</i>";
         $actual = ESString::fold($html)->stripTags("<i>")->unfold();
-        $this->assertEqualsWithPerformance($expected, $actual);
-
-        $this->start = hrtime(true);
-        $expected = "8fold";
-        $actual = ESString::fold("8!ifoli!d")->stripAll("!", "i")->unfold();
         $this->assertEqualsWithPerformance($expected, $actual);
 
         $this->start = hrtime(true);
