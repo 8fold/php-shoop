@@ -65,7 +65,7 @@ class Php
         string $splitter       = "",
         bool   $includeEmpties = true,
         int    $limit          = PHP_INT_MAX
-    )
+    ): array
     {
         $payload = [
             "string"         => $payload,
@@ -78,7 +78,33 @@ class Php
             ->process($payload);
     }
 
-    static public function stringStrippedOfTags(string $payload, string ...$allowed)
+    static public function stringAppendedWith(string $payload, string ...$terms): string
+    {
+        $string = $payload;
+        foreach ($terms as $term) {
+            $string .= $term;
+        }
+        return $string;
+    }
+
+    static public function stringRepeated(string $payload, int $multiplier = 1): string
+    {
+        return str_repeat($payload, $multiplier);
+    }
+
+    static public function stringStrippedOfFirst(string $payload, int $length = 1): string
+    {
+        $sLength = strlen($payload) - $length;
+        return substr($payload, $length, $sLength);
+    }
+
+    static public function stringStrippedOfLast(string $payload, int $length = 1): string
+    {
+        $sLength = strlen($payload) - $length;
+        return substr($payload, 0, $sLength);
+    }
+
+    static public function stringStrippedOfTags(string $payload, string ...$allowed): string
     {
         $payload = ["string" => $payload, "allowed" => $allowed];
         return (new Pipeline())
@@ -91,7 +117,7 @@ class Php
         bool   $fromEnd     = true,
         bool   $fromStart   = true,
         string $charMask    = " \t\n\r\0\x0B"
-    )
+    ): string
     {
         $payload = [
             "string"    => $payload,

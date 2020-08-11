@@ -86,10 +86,7 @@ class ESString implements
 // -> Rearrange
     public function reverse($preserveMembers = true)
     {
-        $array  = $this->array()->unfold();
-        // $array->toggle()->join("") - this has caused issues in the passed
-        $array  = array_reverse($array);
-        $string = implode("", $array);
+        $string = Php::stringReversed($this->main);
         return static::fold($string);
     }
 
@@ -97,13 +94,7 @@ class ESString implements
     // TODO: PHP 8.0 - string|ESString
     public function plus(...$terms): ESString
     {
-        $string = $this->main;
-        foreach ($terms as $term) {
-            if (! is_string($term) and !is_a($term, ESString::class)) {
-                $this->typeError("All terms must be", "string or ESString", "plus()", print_r($terms, true));
-            }
-            $string .= $term;
-        }
+        $string = Php::stringAppendedWith($this->main, ...$terms);
         return static::fold($string);
     }
 
@@ -119,11 +110,7 @@ class ESString implements
     // TODO: PHP 8.0 - int|ESInt
     public function multiply($multiplier = 1)
     {
-        if (! is_int($multiplier) and ! is_a($multiplier, ESInt::class)) {
-            $this->typeError(1, "integer or ESInt", "stripFirst()", gettype($length));
-        }
-
-        $string = str_repeat($this->main, $multiplier);
+        $string = Php::stringRepeated($this->main, $multiplier);
         return static::fold($string);
     }
 
@@ -198,24 +185,14 @@ class ESString implements
     // TODO: PHP 8.0 - int|ESInt
     public function stripFirst($length = 1): ESString
     {
-        if (! is_int($length) and ! is_a($length, ESInt::class)) {
-            $this->typeError(1, "integer or ESInt", "stripFirst()", gettype($length));
-        }
-
-        $sLength = strlen($this->main) - $length;
-        $string = substr($this->main, $length, $sLength);
+        $string = Php::stringStrippedOfFirst($this->main, $length);
         return static::fold($string);
     }
 
     // TODO: PHP 8.0 - int|ESInt
     public function stripLast($length = 1): ESString
     {
-        if (! is_int($length) and ! is_a($length, ESInt::class)) {
-            $this->typeError(1, "integer or ESInt", "stripFirst()", gettype($length));
-        }
-
-        $sLength = strlen($this->main) - $length;
-        $string = substr($this->main, 0, $sLength);
+        $string = Php::stringStrippedOfLast($this->main, $length);
         return static::fold($string);
     }
 

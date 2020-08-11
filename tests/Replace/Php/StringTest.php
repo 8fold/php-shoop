@@ -10,6 +10,14 @@ class StringTest extends TestCase
 {
     public function test_transformations()
     {
+        $expected = "8fold";
+        $actual = Php::stringAppendedWith("8", "fold");
+        $this->assertEqualsWithPerformance($expected, $actual);
+
+        $expected = "88888888";
+        $actual = Php::stringRepeated("8", 8);
+        $this->assertEqualsWithPerformance($expected, $actual);
+
         $expected = "eightfold";
         $actual = Php::stringToLowercaseFirst("Eightfold");
         $this->assertEqualsWithPerformance($expected, $actual);
@@ -37,6 +45,11 @@ class StringTest extends TestCase
 
     public function test_strippers()
     {
+        $expected = "8fold";
+        $actual = Php::stringStrippedOfLast("8fold!");
+        $this->assertEqualsWithPerformance($expected, $actual);
+
+        $this->start = hrtime(true);
         $expected = "8fold";
         $actual = Php::stringStrippedOfTags("<p><i>8fold</i></p>");
         $this->assertEqualsWithPerformance($expected, $actual);
