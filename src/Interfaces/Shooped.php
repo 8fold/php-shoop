@@ -2,13 +2,11 @@
 
 namespace Eightfold\Shoop\Interfaces;
 
-// use Eightfold\Shoop\Interfaces\ShoopedExtensions\{
-//     PhpInterfaces,
-//     PhpMagicMethods
-// };
+use Eightfold\Foldable\Foldable;
+use Eightfold\Foldable\FoldableImp;
 
-use Eightfold\Shoop\Interfaces\Foldable;
 use Eightfold\Shoop\Interfaces\ShoopedExtensions\PhpInterfaces;
+use Eightfold\Shoop\Traits\ShoopedExtensions\PhpMagicMethods;
 
 use Eightfold\Shoop\{
     ESArray,
@@ -20,19 +18,19 @@ use Eightfold\Shoop\{
     ESJson
 };
 
-interface Shooped extends Foldable, PhpInterfaces
+interface Shooped extends Foldable //, PhpInterfaces, PhpMagicMethods
 {
-    public function array(): ESArray;
+    // public function array(): ESArray;
 
-    public function bool(): ESBool;
+    // public function bool(): ESBool;
 
-    public function dictionary(): ESDictionary;
+    // public function dictionary(): ESDictionary;
 
-    public function int(): ESInt;
+    // public function int(): ESInt;
 
-    public function json(): ESJson;
+    // public function json(): ESJson;
 
-    public function object(): ESObject;
+    // public function object(): ESObject;
 
-    public function string(): ESString;
+    // public function string(): ESString;
 }
