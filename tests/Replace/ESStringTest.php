@@ -14,6 +14,33 @@ use Eightfold\Shoop\{ESString};
 
 class ESStringTest extends TestCase
 {
+    public function test_math_operations()
+    {
+        $expected = "8fold!";
+        $actual = ESString::fold("8fold")->plus("!")->unfold();
+        $this->assertEqualsWithPerformance($expected, $actual, 1);
+
+        $this->start = hrtime(true);
+        $expected = "8fold";
+        $actual = ESString::fold("8!f0o7ld")->minus("!", "7", "0")->unfold();
+        $this->assertEqualsWithPerformance($expected, $actual, 0.7);
+
+        $this->start = hrtime(true);
+        $expected = ["", "f", "o", "l", "d"];
+        $actual = ESString::fold("8f8o8l8d")->divide("8")->unfold();
+        $this->assertEqualsWithPerformance($expected, $actual, 2.25);
+
+        $this->start = hrtime(true);
+        $expected = ["f", "o", "l", "d"];
+        $actual = ESString::fold("8f8o8l8d")->divide("8", false)->unfold();
+        $this->assertEqualsWithPerformance($expected, $actual);
+
+        $this->start = hrtime(true);
+        $expected = "88888888";
+        $actual = ESString::fold("8")->multiply(8)->unfold();
+        $this->assertEqualsWithPerformance($expected, $actual);
+    }
+
     public function test_replacements()
     {
         $expected = "Eightfold";

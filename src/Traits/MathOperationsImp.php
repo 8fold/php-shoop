@@ -67,13 +67,13 @@ trait MathOperationsImp
             return Shoop::object($object);
 
         } elseif (Type::is($this, ESString::class)) {
-            $total = $this->unfold();
-            $terms = $args;
-            foreach ($terms as $term) {
-                $term = Type::sanitizeType($term, ESString::class)->unfold();
-                $total .= $term;
-            }
-            return Shoop::string($total);
+            // $total = $this->unfold();
+            // $terms = $args;
+            // foreach ($terms as $term) {
+            //     $term = Type::sanitizeType($term, ESString::class)->unfold();
+            //     $total .= $term;
+            // }
+            // return Shoop::string($total);
         }
     }
 
@@ -115,7 +115,7 @@ trait MathOperationsImp
             return Shoop::object($object);
 
         } elseif (Type::is($this, ESString::class)) {
-            return Shoop::string(str_replace($args, "", $this->unfold()));
+            // return Shoop::string(str_replace($args, "", $this->unfold()));
 
         }
     }
@@ -168,13 +168,13 @@ trait MathOperationsImp
             return Shoop::object($object);
 
         } elseif (Type::is($this, ESString::class)) {
-            $string = $this->stringUnfolded();
-            $array = explode($divisor, $string, $limit);
-            $array = Shoop::array($array);
-            if (! $includeEmpties) {
-                $array = $array->noEmpties();
-            }
-            return $array;
+            // $string = $this->stringUnfolded();
+            // $array = explode($divisor, $string, $limit);
+            // $array = Shoop::array($array);
+            // if (! $includeEmpties) {
+            //     $array = $array->noEmpties();
+            // }
+            // return $array;
 
         }
     }
@@ -195,11 +195,11 @@ trait MathOperationsImp
             return Shoop::int($product);
 
         } elseif (Type::is($this, ESString::class)) {
-            $string = $this->stringUnfolded();
-            $multiplier = Type::sanitizeType($multiplier, ESInt::class)->unfold();
-            $repeated = str_repeat($string, $multiplier);
+            // $string = $this->stringUnfolded();
+            // $multiplier = Type::sanitizeType($multiplier, ESInt::class)->unfold();
+            // $repeated = str_repeat($string, $multiplier);
 
-            return Shoop::string($repeated);
+            // return Shoop::string($repeated);
 
         }
     }

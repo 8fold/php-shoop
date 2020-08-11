@@ -79,6 +79,67 @@ class ESString implements
         $this->main = $main;
     }
 
+// -> Math operations
+    // TODO: PHP 8.0 - string|ESString
+    public function plus(...$terms): ESString
+    {
+        $string = $this->main;
+        foreach ($terms as $term) {
+            if (! is_string($term) and !is_a($term, ESString::class)) {
+                $this->typeError("All terms must be", "string or ESString", "plus()", print_r($terms, true));
+            }
+            $string .= $term;
+        }
+        return static::fold($string);
+    }
+
+    /**
+     * @see stripAll()
+     */
+    // TODO: PHP 8.0 - string|ESString
+    public function minus(...$terms): ESString
+    {
+        return $this->stripAll(...$terms);
+    }
+
+    // TODO: PHP 8.0 - int|ESInt
+    public function multiply($multiplier = 1)
+    {
+        if (! is_int($multiplier) and ! is_a($multiplier, ESInt::class)) {
+            $this->typeError(1, "integer or ESInt", "stripFirst()", gettype($length));
+        }
+
+        $string = str_repeat($this->main, $multiplier);
+        return static::fold($string);
+    }
+
+    // TODO: PHP 8.0 - string|int|ESString|ESInt, bool|ESBool, int|ESInt
+    public function divide(
+        $divisor = 0,
+        $includeEmpties = true,
+        $limit = PHP_INT_MAX
+    )
+    {
+        if (! is_string($divisor) and ! is_a($divisor, ESString::class)) {
+            $this->typeError(1, "string or ESString", "divide()", gettype($divisor));
+        }
+
+        if (! is_bool($includeEmpties) and ! is_a($includeEmpties, ESBool::class)) {
+            $this->typeError(2, "bool or ESBool", "divide()", gettype($includeEmpties));
+        }
+
+        if (! $limit !== PHP_INT_MAX and ! is_int($limit) and ! is_a($limit, ESBool::class)) {
+            $this->typeError(3, "int or ESInt", "divide()", gettype($limit));
+        }
+
+        $array = explode($divisor, $this->main, $limit);
+        if (! $includeEmpties) {
+            $array = array_filter($array);
+            $array = array_values($array);
+        }
+        return ESArray::fold($array);
+    }
+
 // -> Replacements
     // TODO: PHP 8.0 array|ESDictionary = $replacements bool|ESBool = $caseSensitive
     public function replace($replacements = [], $caseSensitive = true): ESString
@@ -137,9 +198,9 @@ class ESString implements
     }
 
     // TODO: PHP 8.0 - Stringable
-    public function stripAll(...$chars): ESString
+    public function stripAll(...$terms): ESString
     {
-        $string = str_replace($chars, "", $this->main);
+        $string = str_replace($terms, "", $this->main);
         return static::fold($string);
     }
 
@@ -267,7 +328,7 @@ class ESString implements
     }
 
     private function typeError(
-        int $argNumber,
+        string $argNumber,
         string $expectedType,
         string $method,
         string $givenType
