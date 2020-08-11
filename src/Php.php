@@ -42,7 +42,10 @@ class Php
             ->process($payload);
     }
 
-    static public function arrayToString(array $payload, string $glue = ""): string
+    static public function arrayToString(
+        array $payload,
+        string $glue = ""
+    ): string
     {
         $payload = ["array" => $payload, "glue" => $glue];
         return (new Pipeline())
@@ -50,14 +53,37 @@ class Php
             ->process($payload);
     }
 
-// -> String
-    static public function stringSplitAt(
-        string $payload,
-        int    $splitter       = 0,
-        bool   $includeEmpties = true
-    )
+    // TODO: PHP 8.0 - test directly
+    static public function arraySetOffset(
+        array $payload,
+        int $offset = 0,
+        $value = ""
+    ): array
     {
+        $payload[$offset] = $value;
+        return $payload;
+    }
 
+    static public function arrayStripOffset(
+        array $payload,
+        int $offset = 0
+    ): array
+    {
+        unset($payload[$offset]);
+        return $payload;
+    }
+
+// -> String
+    static public function stringToObject(string $payload): objet
+    {
+        $object = new \stdClass();
+        $object->string = $string;
+        return $object;
+    }
+
+    static public function stringToInt(string $payload): int
+    {
+        return strlen($payload);
     }
 
     static public function stringSplitOn(
@@ -78,7 +104,46 @@ class Php
             ->process($payload);
     }
 
-    static public function stringAppendedWith(string $payload, string ...$terms): string
+    static public function stringHasOffset(
+        string $payload,
+        int $offset = 0
+    ): bool
+    {
+        return isset($payload[$offset]);
+    }
+
+    static public function stringGetOffset(
+        string $payload,
+        int $offset = 0
+    ): string
+    {
+        return (static::stringHasOffset($payload, $offset))
+            ? $payload[$offset]
+            : "";
+    }
+
+    static public function stringSetOffset(
+        string $payload,
+        int $offset   = 0,
+        string $value = ""
+    ): string
+    {
+        $array = static::stringToArray($payload);
+        $array = static::arraySetOffset($array, $offset, $value);
+        return static::arrayToString($array);
+    }
+
+    static public function stringStripOffset(string $payload, int $offset = 0)
+    {
+        $array = static::stringToArray($payload);
+        $array = static::arrayStripOffset($array, $offset);
+        return static::arrayToString($array);
+    }
+
+    static public function stringAppendedWith(
+        string $payload,
+        string ...$terms
+    ): string
     {
         $string = $payload;
         foreach ($terms as $term) {
@@ -87,24 +152,50 @@ class Php
         return $string;
     }
 
-    static public function stringRepeated(string $payload, int $multiplier = 1): string
+    static public function stringRepeated(
+        string $payload,
+        int $multiplier = 1
+    ): string
     {
         return str_repeat($payload, $multiplier);
     }
 
-    static public function stringStrippedOfFirst(string $payload, int $length = 1): string
+    static public function stringAfterReplacing(
+        string $payload,
+        array  $replacements,
+        bool   $caseSensitive = true
+    ): string
+    {
+        $search = array_keys($replacements);
+        $replace = array_values($replacements);
+        $string = ($caseSensitive)
+            ? str_replace($search, $replace, $payload)
+            : str_ireplace($search, $replace, $payload);
+        return $string;
+    }
+
+    static public function stringStrippedOfFirst(
+        string $payload,
+        int $length = 1
+    ): string
     {
         $sLength = strlen($payload) - $length;
         return substr($payload, $length, $sLength);
     }
 
-    static public function stringStrippedOfLast(string $payload, int $length = 1): string
+    static public function stringStrippedOfLast(
+        string $payload,
+        int $length = 1
+    ): string
     {
         $sLength = strlen($payload) - $length;
         return substr($payload, 0, $sLength);
     }
 
-    static public function stringStrippedOfTags(string $payload, string ...$allowed): string
+    static public function stringStrippedOfTags(
+        string $payload,
+        string ...$allowed
+    ): string
     {
         $payload = ["string" => $payload, "allowed" => $allowed];
         return (new Pipeline())
@@ -138,7 +229,10 @@ class Php
             ->process($payload);
     }
 
-    static public function stringStartsWith(string $payload, string $prefix): bool
+    static public function stringStartsWith(
+        string $payload,
+        string $prefix
+    ): bool
     {
         $payload = ["string" => $payload, "prefix" => $prefix];
         return (new Pipeline())

@@ -14,6 +14,16 @@ use Eightfold\Shoop\{ESString};
 
 class ESStringTest extends TestCase
 {
+    public function test_countable()
+    {
+        $expected = 5;
+        $actual = ESString::fold("8fold")->int()->unfold();
+        $this->assertEqualsWithPerformance($expected, $actual);
+
+        $actual = ESString::fold("8fold")->count();
+        $this->assertEqualsWithPerformance($expected, $actual);
+    }
+
     public function test_arrayable()
     {
         $expected = ["8", "f", "o", "l", "d"];
@@ -117,7 +127,7 @@ class ESStringTest extends TestCase
     {
         $expected = "string";
         $actual = ESString::fold("STRING")->lowercase();
-        $this->assertEqualsWithPerformance($expected, $actual->unfold());
+        $this->assertEqualsWithPerformance($expected, $actual->unfold(), 0.8);
 
         $this->start = hrtime(true);
         $expected = "STRING";

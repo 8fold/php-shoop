@@ -3,7 +3,7 @@ declare(strict_types=1);
 
 namespace Eightfold\Shoop;
 
-use \Closure;
+use \Countable;
 
 use Eightfold\Shoop\Php;
 
@@ -39,6 +39,7 @@ use Eightfold\Shoop\Traits\{
 
 class ESString implements
     Shooped,
+    Countable,
     Arrayable
     // Shuffle,
     // Wrap,
@@ -49,6 +50,8 @@ class ESString implements
     // Each
 {
     use ShoopedImp;// ToggleImp, ShuffleImp, WrapImp, SortImp, HasImp, DropImp, IsInImp, EachImp;
+
+    private $temp;
 
     // static public function to(ESString $instance, string $className)
     // {
@@ -76,14 +79,73 @@ class ESString implements
     //     }
     // }
 
+    // TODO: PHP 8.0 - string|ESString
     public function __construct($main)
     {
         $this->main = $main;
     }
 
-// -> Type juggling
+// -> Countable
+    public function int(): ESInt
+    {
+        return $this->count();
+    }
 
+    public function count(): int
+    {
+        return Php::stringToInt($this->main);
+    }
+
+// -> Iterator
+    /**
+     * rewind() -> valid() -> current() -> key() -> next() -> valid()...repeat
+     */
+    public function rewind(): void
+    {
+        $this->temp = Php::stringToArray($this->main);
+    }
+
+    // TODO: Should be able to make part of a generic implementation
+    public function valid(): bool
+    {
+        if (! isset($this->temp)) {
+            $this->rewind();
+        }
+        return array_key_exists(key($this->temp), $this->temp);
+    }
+
+    public function current()
+    {
+        if (! isset($this->temp)) {
+            $this->rewind();
+        }
+        $temp = $this->temp;
+        $member = key($temp);
+        return $temp[$member];
+    }
+
+    public function key()
+    {
+        if (! isset($this->temp)) {
+            $this->rewind();
+        }
+        $temp = $this->temp;
+        $member = key($temp);
+        if (is_int($member)) {
+            return Type::sanitizeType($member, ESInt::class, "int")->unfold();
+        }
+        return Type::sanitizeType($member, ESString::class, "string")->unfold();
+    }
+
+    public function next(): void
+    {
+        if (! isset($this->temp)) {
+            $this->rewind();
+        }
+        next($this->temp);
+    }
 // -> Rearrange
+    // TODO: PHP 8.0 - bool|ESBool
     public function reverse($preserveMembers = true)
     {
         $string = Php::stringReversed($this->main);
@@ -134,22 +196,7 @@ class ESString implements
     // TODO: PHP 8.0 array|ESDictionary = $replacements bool|ESBool = $caseSensitive
     public function replace($replacements = [], $caseSensitive = true): ESString
     {
-        if (! $this->isDictionary($replacements)) {
-            $this->typeError(1, "associative array or ESDictionary", "replace()", print_r($replacements, true));
-        }
-
-        if (! $this->isDictionary($replacements)) {
-            $this->typeError(1, "bool or ESBool", "replace()", gettype($caseSensitive));
-        }
-
-        $search = array_keys($replacements);
-        $replace = array_values($replacements);
-        if ($caseSensitive) {
-            $string = str_replace($search, $replace, $this->main);
-            return static::fold($string);
-
-        }
-        $string = str_ireplace($search, $replace, $this->main);
+        $string = Php::stringAfterReplacing($this->main, $replacements, $caseSensitive);
         return static::fold($string);
     }
 
@@ -223,24 +270,54 @@ class ESString implements
     }
 
     // TODO: PHP 8.0 - int|ESInt -> any|ESBool
-    public function hasMember($member, Closure $closure = null)
+    // TODO: Test callable
+    public function hasMember($member, callable $closure = null)
     {
-        if (! is_int($member) and ! is_a($member, ESInt::class)) {
-            $this->typeError(1, "integer or ESInt", "stripFirst()", gettype($member));
-        }
-
-        $bool = $this->offsetExists($member);
-        if ($closure === null) {
-            return ESBool::fold($bool);
-        }
-        return $closure($bool, static::fold($this->main));
+        $bool   =  $this->offsetExists($member);
+        $bool   = ESBool::fold($bool);
+        $string = static::fold($this->main);
+        return ($closure === null) ? $bool : $closure($bool, $string);
     }
 
     public function offsetExists($offset): bool
     {
-        return isset($this->main[$offset]);
+        return Php::stringHasOffset($this->main, $offset);
     }
 
+    public function getMember($member, callable $callable = null)
+    {
+        $character = $this->offsetGet($member);
+        return ($callable === null)
+            ? $character
+            : $callable($character);
+    }
+
+    public function offsetGet($offset)
+    {
+        return Php::stringGetOffset($this->main, $offset);
+    }
+
+    public function setMember($member, $value)
+    {
+        $this->offsetSet($member, $value);
+        return ESString::fold($this->main);
+    }
+
+    public function offsetSet($offset, $value): void
+    {
+        $this->main = Php::stringSetOffset($this->main, $offset, $value);
+    }
+
+    public function stripMember($member)
+    {
+        $this->offsetUnset($member);
+        return ESString::fold($this->main);
+    }
+
+    public function offsetUnset($offset): void
+    {
+        $this->main = Php::stringStripOffset($offset);
+    }
 
 // -> Deprecated
     /**

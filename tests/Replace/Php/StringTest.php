@@ -8,8 +8,48 @@ use Eightfold\Shoop\Php;
 
 class StringTest extends TestCase
 {
+    public function test_countable()
+    {
+        $expected = 5;
+        $actual = Php::stringToInt("8fold");
+        $this->assertEqualsWithPerformance($expected, $actual);
+    }
+
+    public function test_arrayable()
+    {
+        $expected = "8fold";
+        $actual = Php::stringStripOffset("8fold!", 5);
+        $this->assertEqualsWithPerformance($expected, $actual, 1);
+
+        $this->start = hrtime(true);
+        $expected = "8fold!";
+        $actual = Php::stringSetOffset("8fold?", 5, "!");
+        $this->assertEqualsWithPerformance($expected, $actual, 1);
+
+        $this->start = hrtime(true);
+        $expected = "";
+        $actual = Php::stringGetOffset("8fold", 8);
+        $this->assertEqualsWithPerformance($expected, $actual);
+
+        $expected = "o";
+        $actual = Php::stringGetOffset("8fold", 2);
+        $this->assertEqualsWithPerformance($expected, $actual);
+
+        $expected = false;
+        $actual = Php::stringHasOffset("8fold", 12);
+        $this->assertEqualsWithPerformance($expected, $actual);
+
+        $expected = true;
+        $actual = Php::stringHasOffset("8fold", 2);
+        $this->assertEqualsWithPerformance($expected, $actual);
+    }
+
     public function test_transformations()
     {
+        $expected = "8fold";
+        $actual = Php::stringAfterReplacing("Eightfold", ["Eight" => "8"]);
+        $this->assertEqualsWithPerformance($expected, $actual);
+
         $expected = "8fold";
         $actual = Php::stringAppendedWith("8", "fold");
         $this->assertEqualsWithPerformance($expected, $actual);

@@ -31,9 +31,6 @@ trait PhpInterfacesImp
     public function count(): ESInt
     {
         $int = $this->int();
-        if (Type::is($this, ESString::class)) {
-            $int = strlen($this->main());
-        }
         return Shoop::int($int);
     }
 
@@ -72,13 +69,13 @@ trait PhpInterfacesImp
             $bool = isset($array[$offset]);
 
         } elseif (Type::is($this, ESString::class)) {
-            $array = PhpString::toIndexedArray($this->main());
-            $bool = isset($array[$offset]);
-            if (! $bool) {
-                $array = PhpIndexedArray::toAssociativeArray($array);
-                $bool = isset($array[$offset]);
+            // $array = PhpString::toIndexedArray($this->main());
+            // $bool = isset($array[$offset]);
+            // if (! $bool) {
+            //     $array = PhpIndexedArray::toAssociativeArray($array);
+            //     $bool = isset($array[$offset]);
 
-            }
+            // }
         }
         return $bool;
     }
@@ -111,10 +108,10 @@ trait PhpInterfacesImp
             $array = PhpObject::toAssociativeArray($this->main());
 
         } elseif (Type::is($this, ESString::class)) {
-            $array = PhpString::toIndexedArray($this->main());
-            if (is_string($offset)) {
-                $array = PhpIndexedArray::toAssociativeArray($array);
-            }
+            // $array = PhpString::toIndexedArray($this->main());
+            // if (is_string($offset)) {
+            //     $array = PhpIndexedArray::toAssociativeArray($array);
+            // }
         }
 
         if (isset($array[$offset])) {
@@ -139,7 +136,7 @@ trait PhpInterfacesImp
             $this->main->{$offset} = $value;
 
         } else {
-            $this->main[$offset] = $value;
+            // $this->main[$offset] = $value;
 
         }
     }
@@ -160,7 +157,7 @@ trait PhpInterfacesImp
             $this->main = json_encode($object);
 
         } else {
-            unset($this->main[$offset]);
+            // unset($this->main[$offset]);
 
         }
     }
@@ -192,7 +189,7 @@ trait PhpInterfacesImp
             $this->temp = PhpObject::toAssociativeArray($this->main());
 
         } elseif (Type::is($this, ESString::class)) {
-            $this->temp = PhpString::toIndexedArray($this->main());
+            // $this->temp = PhpString::toIndexedArray($this->main());
 
         }
     }

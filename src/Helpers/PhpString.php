@@ -76,16 +76,16 @@ class PhpString
         return $int;
     }
 
-    static public function toObject(string $string): object
-    {
-        $object = new \stdClass();
-        $object->string = $string;
-        return $object;
-    }
+    // static public function toObject(string $string): object
+    // {
+    //     $object = new \stdClass();
+    //     $object->string = $string;
+    //     return $object;
+    // }
 
-    static public function hasMember(string $string, int $member): bool
-    {
-        $dictionary = self::toIndexedArray($string);
-        return array_key_exists($member, $dictionary);
-    }
+    // static public function hasMember(string $string, int $member): bool
+    // {
+    //     $dictionary = self::toIndexedArray($string);
+    //     return array_key_exists($member, $dictionary);
+    // }
 }

@@ -12,35 +12,31 @@ interface Arrayable
 {
     public function array(): ESArray;
 
-    // TODO: Consider moving to has interface or member interface
-    public function hasMember($member, Closure $closure = null);
-
-    // TODO: Consider moving to get interface or member interface
-    // public function getMember($member);
-
-    // public function setMember($member): self;
-
-    // public function stripMember($member): self;
-
-// - Array Access
     // TODO: PHP 8.0 string|int|ESString|ESInt $offset
-    public function offsetExists($offset): bool;
+    public function hasMember($member, callable $callable = null);
 
-    // TODO: PHP 8.0 string|int|ESString|ESInt $offset
-    // public function offsetGet($offset);
+    public function offsetExists($offset): bool; // ArrayAccess
 
-    // public function offsetSet($offset, $value): void;
+    public function getMember($member, callable $callable = null);
 
-    // public function offsetUnset($offset): void;
+    public function offsetGet($offset); // ArrayAccess
+
+    public function setMember($member, $value);
+
+    public function offsetSet($offset, $value): void; // ArrayAccess
+
+    public function stripMember($member);
+
+    public function offsetUnset($offset): void; // ArrayAcces
 
 // - Iterator
-    // public function rewind(): void;
+    public function rewind(): void;
 
-    // public function valid(): bool;
+    public function valid(): bool;
 
-    // public function current();
+    public function current();
 
-    // public function key();
+    public function key();
 
-    // public function next(): void;
+    public function next(): void;
 }
