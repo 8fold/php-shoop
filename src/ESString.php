@@ -3,6 +3,8 @@ declare(strict_types=1);
 
 namespace Eightfold\Shoop;
 
+use \Closure;
+
 use Eightfold\Shoop\Helpers\{
     Type,
     PhpString
@@ -10,6 +12,7 @@ use Eightfold\Shoop\Helpers\{
 
 use Eightfold\Shoop\Interfaces\{
     Shooped,
+    Arrayable // should be part of Shooped
     // MathOperations,
     // Toggle,
     // Shuffle,
@@ -33,7 +36,8 @@ use Eightfold\Shoop\Traits\{
 };
 
 class ESString implements
-    Shooped
+    Shooped,
+    Arrayable
     // Shuffle,
     // Wrap,
     // Sort,
@@ -76,11 +80,6 @@ class ESString implements
     }
 
 // -> Type juggling
-    public function array(): ESArray
-    {
-        $array = preg_split('//u', $this->main, -1, PREG_SPLIT_NO_EMPTY);
-        return ESArray::fold($array);
-    }
 
 // -> Rearrange
     public function toggle($preserveMembers = true)
@@ -267,6 +266,33 @@ class ESString implements
         $string = lcfirst($this->main);
         return static::fold($string);
     }
+
+// -> Arrayable
+    public function array(): ESArray
+    {
+        $array = preg_split('//u', $this->main, -1, PREG_SPLIT_NO_EMPTY);
+        return ESArray::fold($array);
+    }
+
+    // TODO: PHP 8.0 - int|ESInt -> any|ESBool
+    public function hasMember($member, Closure $closure = null)
+    {
+        if (! is_int($member) and ! is_a($member, ESInt::class)) {
+            $this->typeError(1, "integer or ESInt", "stripFirst()", gettype($member));
+        }
+
+        $bool = $this->offsetExists($member);
+        if ($closure === null) {
+            return ESBool::fold($bool);
+        }
+        return $closure($bool, static::fold($this->main));
+    }
+
+    public function offsetExists($offset): bool
+    {
+        return isset($this->main[$offset]);
+    }
+
 
 // -> Deprecated
     /**
