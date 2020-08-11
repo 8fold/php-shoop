@@ -7,14 +7,20 @@ use League\Pipeline\Pipeline;
 
 use Eightfold\Shoop\Php\ToArrayFromString;
 
-use Eightfold\Shoop\Php\ReverseArray;
-use Eightfold\Shoop\Php\ReverseString;
+use Eightfold\Shoop\Php\DivideString;
 
 use Eightfold\Shoop\Php\EndsWithString;
 
+use Eightfold\Shoop\Php\ReverseArray;
+use Eightfold\Shoop\Php\ReverseString;
+
+use Eightfold\Shoop\Php\SplitStringOn;
+
 use Eightfold\Shoop\Php\StartsWithString;
 
-use Eightfold\Shoop\Php\StrippedOfString;
+use Eightfold\Shoop\Php\StrippedFromString;
+
+use Eightfold\Shoop\Php\TagsStrippedFromString;
 
 use Eightfold\Shoop\Php\ToStringFromArray;
 use Eightfold\Shoop\Php\ToStringFromArrayGlue;
@@ -22,6 +28,13 @@ use Eightfold\Shoop\Php\ToStringFromArrayGlue;
 class Php
 {
 // -> Array
+    static public function arrayWithoutEmpties(array $payload): array
+    {
+        // TODO: Make pipeline
+        $array = array_filter($payload);
+        return array_values($array);
+    }
+
     static public function arrayReversed(array $payload): array
     {
         return (new Pipeline())
@@ -38,9 +51,39 @@ class Php
     }
 
 // -> String
-    static public function stringStrippedOfTags(string $payload, string ...$allow)
+    static public function stringSplitAt(
+        string $payload,
+        int    $splitter       = 0,
+        bool   $includeEmpties = true
+    )
     {
 
+    }
+
+    static public function stringSplitOn(
+        string $payload,
+        string $splitter       = "",
+        bool   $includeEmpties = true,
+        int    $limit          = PHP_INT_MAX
+    )
+    {
+        $payload = [
+            "string"         => $payload,
+            "splitter"       => $splitter,
+            "includeEmpties" => $includeEmpties,
+            "limit"          => $limit
+        ];
+        return (new Pipeline())
+            ->pipe(new SplitStringOn)
+            ->process($payload);
+    }
+
+    static public function stringStrippedOfTags(string $payload, string ...$allowed)
+    {
+        $payload = ["string" => $payload, "allowed" => $allowed];
+        return (new Pipeline())
+            ->pipe(new TagsStrippedFromString)
+            ->process($payload);
     }
 
     static public function stringStrippedOf(
@@ -57,7 +100,7 @@ class Php
             "fromStart" => $fromStart
         ];
         return (new Pipeline())
-            ->pipe(new StrippedOfString)
+            ->pipe(new StrippedFromString)
             ->process($payload);
     }
 
@@ -82,6 +125,21 @@ class Php
         return (new Pipeline())
             ->pipe(new ReverseString)
             ->process($payload);
+    }
+
+    static public function stringToLowercaseFirst(string $payload): string
+    {
+        return lcfirst($payload);
+    }
+
+    static public function stringToLowercase(string $payload): string
+    {
+        return mb_strtolower($payload);
+    }
+
+    static public function stringToUppercase(string $payload): string
+    {
+        return mb_strtoupper($payload);
     }
 
     static public function stringToArray(string $payload): array

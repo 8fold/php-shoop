@@ -132,25 +132,14 @@ class ESString implements
         $divisor = 0,
         $includeEmpties = true,
         $limit = PHP_INT_MAX
-    )
+    ): ESArray
     {
-        if (! is_string($divisor) and ! is_a($divisor, ESString::class)) {
-            $this->typeError(1, "string or ESString", "divide()", gettype($divisor));
-        }
-
-        if (! is_bool($includeEmpties) and ! is_a($includeEmpties, ESBool::class)) {
-            $this->typeError(2, "bool or ESBool", "divide()", gettype($includeEmpties));
-        }
-
-        if (! $limit !== PHP_INT_MAX and ! is_int($limit) and ! is_a($limit, ESBool::class)) {
-            $this->typeError(3, "int or ESInt", "divide()", gettype($limit));
-        }
-
-        $array = explode($divisor, $this->main, $limit);
-        if (! $includeEmpties) {
-            $array = array_filter($array);
-            $array = array_values($array);
-        }
+        $array = Php::stringSplitOn(
+            $this->main,
+            $divisor,
+            $includeEmpties,
+            $limit
+        );
         return ESArray::fold($array);
     }
 
@@ -202,8 +191,7 @@ class ESString implements
     // TODO: PHP 8.0 - Stringable
     public function stripTags(...$allow): ESString
     {
-        $allow = implode("", $allow);
-        $string = strip_tags($this->main, $allow);
+        $string = Php::stringStrippedOfTags($this->main, ...$allow);
         return static::fold($string);
     }
 
@@ -234,19 +222,19 @@ class ESString implements
 // -> Case changes
     public function lowercase(): ESString
     {
-        $string = strtolower($this->main);
+        $string = Php::stringToLowercase($this->main);
         return static::fold($string);
     }
 
     public function uppercase(): ESString
     {
-        $string = strtoupper($this->main);
+        $string = Php::stringToUppercase($this->main);
         return static::fold($string);
     }
 
     public function lowerFirst(): ESString
     {
-        $string = lcfirst($this->main);
+        $string = Php::stringToLowercaseFirst($this->main);
         return static::fold($string);
     }
 

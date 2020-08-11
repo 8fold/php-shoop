@@ -8,6 +8,33 @@ use Eightfold\Shoop\Php;
 
 class StringTest extends TestCase
 {
+    public function test_transformations()
+    {
+        $expected = "eightfold";
+        $actual = Php::stringToLowercaseFirst("Eightfold");
+        $this->assertEqualsWithPerformance($expected, $actual);
+
+        $expected = "8fold";
+        $actual = Php::stringToLowercase("8FOLD");
+        $this->assertEqualsWithPerformance($expected, $actual);
+
+        $expected = "8FOLD";
+        $actual = Php::stringToUppercase("8fold");
+        $this->assertEqualsWithPerformance($expected, $actual);
+    }
+
+    public function test_splits()
+    {
+        $expected = ["", "8", "f", "o", "l", "d", ""];
+        $actual = Php::stringSplitOn(":8:f:o:l:d:", ":");
+        $this->assertEqualsWithPerformance($expected, $actual);
+
+        $this->start = hrtime(true);
+        $expected = ["8", "f", "o", "l", "d"];
+        $actual = Php::stringSplitOn(":8:f:o:l:d:", ":", false);
+        $this->assertEqualsWithPerformance($expected, $actual);
+    }
+
     public function test_strippers()
     {
         $expected = "8fold";

@@ -5,7 +5,7 @@ namespace Eightfold\Shoop\Php;
 
 use Eightfold\Shoop\Php;
 
-class StrippedOfString
+class StrippedFromString
 {
     public function __invoke(array $payload): string
     {
