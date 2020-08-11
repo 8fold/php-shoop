@@ -58,9 +58,9 @@ trait ToggleImp
             return Shoop::object($object);
 
         } elseif (Type::is($this, ESString::class)) {
-            $string = $this->stringUnfolded();
-            $string = PhpString::reversed($string);
-            return Shoop::string($string);
+            // $string = $this->stringUnfolded();
+            // $string = PhpString::reversed($string);
+            // return Shoop::string($string);
         }
     }
 }

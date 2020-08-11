@@ -23,8 +23,6 @@ use Eightfold\Shoop\Interfaces\{
 
 use Eightfold\Shoop\Traits\{
     ShoopedImp,
-    // MathOperationsImp,
-    // ToggleImp,
     // ShuffleImp,
     // WrapImp,
     // SortImp,
@@ -36,8 +34,6 @@ use Eightfold\Shoop\Traits\{
 
 class ESString implements
     Shooped
-    // MathOperations,
-    // Toggle,
     // Shuffle,
     // Wrap,
     // Sort,
@@ -46,7 +42,7 @@ class ESString implements
     // IsIn,
     // Each
 {
-    use ShoopedImp;//, MathOperationsImp, ToggleImp, ShuffleImp, WrapImp, SortImp, HasImp, DropImp, IsInImp, EachImp;
+    use ShoopedImp;// ToggleImp, ShuffleImp, WrapImp, SortImp, HasImp, DropImp, IsInImp, EachImp;
 
     // static public function to(ESString $instance, string $className)
     // {
@@ -77,6 +73,23 @@ class ESString implements
     public function __construct($main)
     {
         $this->main = $main;
+    }
+
+// -> Type juggling
+    public function array(): ESArray
+    {
+        $array = preg_split('//u', $this->main, -1, PREG_SPLIT_NO_EMPTY);
+        return ESArray::fold($array);
+    }
+
+// -> Rearrange
+    public function toggle($preserveMembers = true)
+    {
+        $array  = $this->array()->unfold();
+        // $array->toggle()->join("") - this has caused issues in the passed
+        $array  = array_reverse($array);
+        $string = implode("", $array);
+        return static::fold($string);
     }
 
 // -> Math operations

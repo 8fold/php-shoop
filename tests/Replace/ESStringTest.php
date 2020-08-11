@@ -14,6 +14,13 @@ use Eightfold\Shoop\{ESString};
 
 class ESStringTest extends TestCase
 {
+    public function test_rearrange()
+    {
+        $expected = "8fold";
+        $actual = ESString::fold("dlof8")->toggle()->unfold();
+        $this->assertEqualsWithPerformance($expected, $actual, 3);
+    }
+
     public function test_math_operations()
     {
         $expected = "8fold!";
