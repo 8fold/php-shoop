@@ -2,26 +2,11 @@
 
 namespace Eightfold\Shoop;
 
-use Eightfold\Shoop\Helpers\{
-    Type,
-    PhpBool
-};
+use Eightfold\Shoop\Interfaces\Shooped;
+use Eightfold\Shoop\Traits\ShoopedImp;
 
-use Eightfold\Shoop\ESInt;
-
-use Eightfold\Shoop\Interfaces\{
-    Shooped,
-    Typeable,
-    Toggle,
-    IsIn
-};
-
-use Eightfold\Shoop\Traits\{
-    ShoopedImp,
-    TypeableImp,
-    ToggleImp,
-    IsInImp
-};
+use Eightfold\Shoop\Contracts\Typeable;
+use Eightfold\Shoop\Contracts\TypeableImp;
 
 class ESBool implements Shooped, Typeable//, Toggle, IsIn
 {

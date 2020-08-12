@@ -1,6 +1,6 @@
 <?php
 
-namespace Eightfold\Shoop\Traits;
+namespace Eightfold\Shoop\Contracts;
 
 use Eightfold\Shoop\Php;
 
@@ -28,7 +28,6 @@ trait TypeableImp
         {
             return "json";
         }
-            die(var_dump(Php::stringIsJson($this->main)));
         return gettype($this->main);
     }
 

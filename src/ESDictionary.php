@@ -1,39 +1,16 @@
 <?php
 
 namespace Eightfold\Shoop;
+use Eightfold\Shoop\Interfaces\Shooped;
+use Eightfold\Shoop\Traits\ShoopedImp;
+
+use Eightfold\Shoop\Contracts\Typeable;
+use Eightfold\Shoop\Contracts\TypeableImp;
 
 use Eightfold\Shoop\Helpers\{
     Type,
     PhpAssociativeArray
 };
-
-use Eightfold\Shoop\Interfaces\{
-    Shooped,
-    Typeable
-    // MathOperations,
-    // Toggle,
-    // Sort,
-    // Wrap,
-    // Drop,
-    // Has,
-    // IsIn,
-    // Each
-};
-
-use Eightfold\Shoop\Traits\{
-    ShoopedImp,
-    TypeableImp
-    // MathOperationsImp,
-    // ToggleImp,
-    // SortImp,
-    // WrapImp,
-    // DropImp,
-    // HasImp,
-    // IsInImp,
-    // EachImp
-};
-
-use Eightfold\Shoop\ESInt;
 
 class ESDictionary implements
     Shooped,

@@ -4,27 +4,15 @@ namespace Eightfold\Shoop;
 
 use \Closure;
 
+use Eightfold\Shoop\Interfaces\Shooped;
+use Eightfold\Shoop\Traits\ShoopedImp;
+
+use Eightfold\Shoop\Contracts\Typeable;
+use Eightfold\Shoop\Contracts\TypeableImp;
+
 use Eightfold\Shoop\Helpers\{
     Type,
     PhpInt
-};
-
-use Eightfold\Shoop\Interfaces\{
-    Shooped,
-    Typeable,
-    MathOperations,
-    Toggle,
-    IsIn,
-    Each
-};
-
-use Eightfold\Shoop\Traits\{
-    ShoopedImp,
-    TypeableImp,
-    MathOperationsImp,
-    ToggleImp,
-    IsInImp,
-    EachImp
 };
 
 use Eightfold\Shoop\{

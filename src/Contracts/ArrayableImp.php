@@ -1,29 +1,11 @@
 <?php
 
-namespace Eightfold\Shoop\Traits;
+namespace Eightfold\Shoop\Contracts;
 
 use Eightfold\Shoop\Php;
 
 use Eightfold\Shoop\ESArray;
 use Eightfold\Shoop\ESBool;
-
-// use Eightfold\Shoop\Helpers\{
-//     Type,
-//     PhpIndexedArray,
-//     PhpAssociativeArray
-// };
-
-// use Eightfold\Shoop\{
-//     Interfaces\Shooped,
-//     Shoop,
-//     ESArray,
-//     ESBool,
-//     ESInt,
-//     ESString,
-//     ESObject,
-//     ESJson,
-//     ESDictionary
-// };
 
 trait ArrayableImp
 {

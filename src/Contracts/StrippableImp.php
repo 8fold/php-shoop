@@ -1,6 +1,6 @@
 <?php
 
-namespace Eightfold\Shoop\Traits;
+namespace Eightfold\Shoop\Contracts;
 
 use Eightfold\Shoop\Php;
 

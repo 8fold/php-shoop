@@ -9,33 +9,11 @@ use Eightfold\Shoop\Helpers\{
 
 use Eightfold\Shoop\Shoop;
 
-use Eightfold\Shoop\Interfaces\{
-    Shooped,
-    Typeable,
-    // MathOperations,
-    // Sort,
-    // Toggle,
-    // Wrap,
-    // Drop,
-    // Has,
-    // IsIn,
-    // Each
-};
+use Eightfold\Shoop\Interfaces\Shooped;
+use Eightfold\Shoop\Traits\ShoopedImp;
 
-use Eightfold\Shoop\Traits\{
-    ShoopedImp,
-    TypeableImp
-    // MathOperationsImp,
-    // SortImp,
-    // ToggleImp,
-    // WrapImp,
-    // DropImp,
-    // HasImp,
-    // IsInImp,
-    // EachImp
-};
-
-// use Eightfold\Shoop\ESDictionary;
+use Eightfold\Shoop\Contracts\Typeable;
+use Eightfold\Shoop\Contracts\TypeableImp;
 
 class ESJson implements Shooped, Typeable//, MathOperations, Wrap, Drop, Has, IsIn, Each
 {

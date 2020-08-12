@@ -8,39 +8,21 @@ use \JsonSerializable;
 
 use Eightfold\Shoop\Php;
 
+use Eightfold\Shoop\Interfaces\Shooped;
+use Eightfold\Shoop\Traits\ShoopedImp;
+
+use Eightfold\Shoop\Contracts\Typeable; // Shoop??
+use Eightfold\Shoop\Contracts\TypeableImp;
+
+use Eightfold\Shoop\Contracts\Arrayable; // Shoop??
+use Eightfold\Shoop\Contracts\ArrayableImp;
+
+use Eightfold\Shoop\Contracts\Strippable;
+use Eightfold\Shoop\Contracts\StrippableImp;
+
 use Eightfold\Shoop\Helpers\{
     Type,
     PhpString
-};
-
-use Eightfold\Shoop\Interfaces\{
-    Shooped,
-    Arrayable, // should be part of Shooped
-    Strippable,
-    Typeable
-    // MathOperations,
-    // Toggle,
-    // Shuffle,
-    // Wrap,
-    // Sort,
-    // Has,
-    // Drop,
-    // IsIn,
-    // Each
-};
-
-use Eightfold\Shoop\Traits\{
-    ShoopedImp,
-    ArrayableImp,
-    StrippableImp,
-    TypeableImp
-    // ShuffleImp,
-    // WrapImp,
-    // SortImp,
-    // HasImp,
-    // DropImp,
-    // IsInImp,
-    // EachImp
 };
 
 class ESString implements
@@ -57,32 +39,6 @@ class ESString implements
     // Each
 {
     use ShoopedImp, ArrayableImp, StrippableImp, TypeableImp;// ToggleImp, ShuffleImp, WrapImp, SortImp, HasImp, DropImp, IsInImp, EachImp;
-
-    // static public function to(ESString $instance, string $className)
-    // {
-    //     if ($className === ESArray::class) {
-    //         return PhpString::toIndexedArray($instance->main());
-
-    //     } elseif ($className === ESBool::class) {
-    //         return PhpString::toBool($instance->main());
-
-    //     } elseif ($className === ESDictionary::class) {
-    //         return PhpString::toAssociativeArray($instance->main());
-
-    //     } elseif ($className === ESInt::class) {
-    //         return PhpString::toInt($instance->main());
-
-    //     } elseif ($className === ESJson::class) {
-    //         return $instance->main();
-
-    //     } elseif ($className === ESObject::class) {
-    //         return PhpString::toObject($instance->main());
-
-    //     } elseif ($className === ESString::class) {
-    //         return $instance->main();
-
-    //     }
-    // }
 
     // // TODO: PHP 8.0 - string|ESString
     // public function __construct($main)

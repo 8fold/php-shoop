@@ -1,17 +1,14 @@
 <?php
 
-namespace Eightfold\Shoop\Interfaces;
+namespace Eightfold\Shoop\Contracts;
 
 use \ArrayAccess;
 use \Iterator;
-use \Closure;
 
 use Eightfold\Shoop\ESArray;
 
-interface Arrayable extends Iterator
+interface Arrayable extends ArrayAccess, Iterator
 {
-    public function array(): ESArray;
-
     // TODO: PHP 8.0 string|int|ESString|ESInt $offset
     public function hasMember($member, callable $callable = null);
 
