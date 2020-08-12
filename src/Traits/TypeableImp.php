@@ -71,17 +71,17 @@ trait TypeableImp
         return ESJson::fold($object);
     }
 
+    public function jsonSerialize(): object
+    {
+        $method = "{$this->getType()}ToObject";
+        return Php::{$method}($this->main);
+    }
+
     public function object(): ESObject
     {
         $method = "{$this->getType()}ToObject";
         $object = Php::{$method}($this->main);
         return ESObject::fold($object);
-    }
-
-    public function jsonSerialize(): object
-    {
-        $method = "{$this->getType()}ToObject";
-        return Php::{$method}($this->main);
     }
 
     public function string($arg): ESString

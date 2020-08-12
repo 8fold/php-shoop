@@ -18,7 +18,7 @@ class ESJsonTest extends TestCase
 
         $expected = true;
         $actual = Php::stringIsJson($json);
-        $this->assertEqualsWithPerformance($expected, $actual, 1);
+        $this->assertEqualsWithPerformance($expected, $actual, 1.5);
 
         $this->start = hrtime(true);
         $expected = ["8fold", true];
@@ -28,12 +28,14 @@ class ESJsonTest extends TestCase
         $this->start = hrtime(true);
         $expected = false;
         $actual = ESJson::fold('{}')->bool()->unfold();
-        $this->assertEqualsWithPerformance($expected, $actual);
+        $this->assertEqualsWithPerformance($expected, $actual, 1);
 
+        $this->start = hrtime(true);
         $expected = ["key" => "value"];
         $actual = ESJson::fold('{"key":"value"}')->dictionary()->unfold();
         $this->assertEqualsWithPerformance($expected, $actual);
 
+        $this->start = hrtime(true);
         $expected = 1;
         $actual = ESJson::fold('{"key":"value"}')->int()->unfold();
         $this->assertEqualsWithPerformance($expected, $actual);
