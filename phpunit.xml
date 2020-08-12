@@ -23,7 +23,7 @@
     <testsuite name="base">
       <directory suffix="Test.php">./tests/</directory>
     </testsuite>
-    <testsuite name="base">
+    <testsuite name="replace">
       <directory suffix="Test.php">./tests/Replace</directory>
     </testsuite>
   </testsuites>
