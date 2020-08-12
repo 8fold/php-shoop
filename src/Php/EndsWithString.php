@@ -10,6 +10,6 @@ class EndsWithString
         $string = $payload["string"];
         $suffix = $payload["suffix"];
         $length = strlen($suffix);
-        return substr($string, 0, $length) === $suffix;
+        return substr($string, -$length) === $suffix;
     }
 }

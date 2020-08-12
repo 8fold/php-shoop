@@ -3,6 +3,8 @@ declare(strict_types=1);
 
 namespace Eightfold\Shoop;
 
+use \stdClass;
+
 use League\Pipeline\Pipeline;
 
 use Eightfold\Shoop\Php\ToArrayFromString;
@@ -47,7 +49,7 @@ class Php
 
     static public function arrayToBool(array $payload): bool
     {
-        return self::arrayToInt($payload) > 0;
+        return self::arrayToInt($payload) !== 0;
     }
 
     static public function arrayToInt(array $payload): int
@@ -109,6 +111,13 @@ class Php
         return $payload;
     }
 
+    static public function arrayIsDictionary(array $payload): bool
+    {
+        $members = array_keys($payload);
+        $firstMember = array_shift($members);
+        return is_string($firstMember) and ! is_int($firstMember);
+    }
+
 // -> Boolean
     static public function booleanToArray(bool $payload): array
     {
@@ -146,15 +155,39 @@ class Php
     }
 
 // -> Dictionary
-    static public function dictionaryToObject(array $payload): object
+    static public function dictionaryToArray(array $payload): array
     {
-        return (object) $payload;
+        return (self::arrayIsDictionary($payload))
+            ? array_values($payload)
+            : [];
     }
 
-    static public function dictionaryToString(array $payload): string
+    static public function dictionaryToBool(array $payload): bool
     {
-        $array = array_values($payload);
-        return self::arrayToString($array);
+        return self::arrayToBool($payload);
+    }
+
+    static public function dictionaryToInt(array $payload): int
+    {
+        return self::arrayToInt($payload);
+    }
+
+    static public function dictionaryToJson(array $payload): string
+    {
+        $object = self::dictionaryToObject($payload);
+        return self::objectToJson($object);
+    }
+
+    static public function dictionaryToObject(array $payload): object
+    {
+        return (self::arrayIsDictionary($payload))
+            ? (object) $payload
+            : new stdClass;
+    }
+
+    static public function dictionaryToString(array $payload, string $glue = ""): string
+    {
+        return self::arrayToString($payload, $glue);
     }
 
 // -> Integer
@@ -194,6 +227,49 @@ class Php
     }
 
 // -> JSON
+    static public function jsonToArray(string $payload): array
+    {
+        if (! self::stringIsJson($payload)) {
+            return "";
+        }
+        $object = self::jsonToObject($payload);
+        return self::objectToArray($object);
+    }
+
+    static public function jsonToBool(string $payload): bool
+    {
+        if (! self::stringIsJson($payload)) {
+            return false;
+        }
+        $object = self::jsonToObject($payload);
+        return self::objectToBool($object);
+    }
+
+    static public function jsonToDictionary(string $payload): array
+    {
+        if (! self::stringIsJson($payload)) {
+            return [];
+        }
+        $object = self::jsonToObject($payload);
+        return self::objectToDictionary($object);
+    }
+
+    static public function jsonToInt(string $payload): int
+    {
+        if (! self::stringIsJson($payload)) {
+            return 0;
+        }
+        $object = self::jsonToObject($payload);
+        return self::objectToInt($object);
+    }
+
+    static public function jsonToObject(string $payload): object
+    {
+        if (! self::stringIsJson($payload)) {
+            return new stdClass;
+        }
+        return json_decode($payload);
+    }
 
 // -> Object
     static public function objectToArray(object $payload): array
@@ -236,7 +312,24 @@ class Php
     }
 
 // -> String
-    static public function stringToObject(string $payload): objet
+    static public function stringIsJson(string $payload): bool
+    {
+        if (! self::stringStartsWith($payload, "{")) {
+            return false;
+        }
+
+        if (! self::stringEndsWith($payload, "}")) {
+            return false;
+        }
+
+        if (! is_array(json_decode($payload, true))) {
+            return false;
+        }
+
+        return json_last_error() === JSON_ERROR_NONE;
+    }
+
+    static public function stringToObject(string $payload): object
     {
         return (object) ["string" => $payload];
     }

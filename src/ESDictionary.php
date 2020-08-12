@@ -9,42 +9,45 @@ use Eightfold\Shoop\Helpers\{
 
 use Eightfold\Shoop\Interfaces\{
     Shooped,
-    MathOperations,
-    Toggle,
-    Sort,
-    Wrap,
-    Drop,
-    Has,
-    IsIn,
-    Each
+    Typeable
+    // MathOperations,
+    // Toggle,
+    // Sort,
+    // Wrap,
+    // Drop,
+    // Has,
+    // IsIn,
+    // Each
 };
 
 use Eightfold\Shoop\Traits\{
     ShoopedImp,
-    MathOperationsImp,
-    ToggleImp,
-    SortImp,
-    WrapImp,
-    DropImp,
-    HasImp,
-    IsInImp,
-    EachImp
+    TypeableImp
+    // MathOperationsImp,
+    // ToggleImp,
+    // SortImp,
+    // WrapImp,
+    // DropImp,
+    // HasImp,
+    // IsInImp,
+    // EachImp
 };
 
 use Eightfold\Shoop\ESInt;
 
 class ESDictionary implements
     Shooped,
-    MathOperations,
-    Toggle,
-    Sort,
-    Wrap,
-    Drop,
-    Has,
-    IsIn,
-    Each
+    Typeable
+    // MathOperations,
+    // Toggle,
+    // Sort,
+    // Wrap,
+    // Drop,
+    // Has,
+    // IsIn,
+    // Each
 {
-    use ShoopedImp, MathOperationsImp, ToggleImp, SortImp, WrapImp, DropImp, HasImp, IsInImp, EachImp;
+    use ShoopedImp, TypeableImp;//, MathOperationsImp, ToggleImp, SortImp, WrapImp, DropImp, HasImp, IsInImp, EachImp;
 
     static public function to(ESDictionary $instance, string $className)
     {

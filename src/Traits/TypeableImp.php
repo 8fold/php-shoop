@@ -7,32 +7,48 @@ use Eightfold\Shoop\Php;
 use Eightfold\Shoop\ESArray;
 use Eightfold\Shoop\ESBool;
 use Eightfold\Shoop\ESDictionary;
+use Eightfold\Shoop\ESInt;
 use Eightfold\Shoop\ESJson;
 use Eightfold\Shoop\ESObject;
 use Eightfold\Shoop\ESString;
 
 trait TypeableImp
 {
+    public function getType(): string
+    {
+        if (is_a($this, ESDictionary::class) and
+            Php::arrayIsDictionary($this->main)
+        )
+        {
+            return "dictionary";
+
+        } elseif (is_a($this, ESJson::class) and
+            Php::stringIsJson($this->main)
+        )
+        {
+            return "json";
+        }
+            die(var_dump(Php::stringIsJson($this->main)));
+        return gettype($this->main);
+    }
+
     public function array(): ESArray
     {
-        $type   = gettype($this->main);
-        $method = "{$type}ToArray";
+        $method = "{$this->getType()}ToArray";
         $array  = Php::{$method}($this->main);
         return ESArray::fold($array);
     }
 
     public function bool(): ESBool
     {
-        $type = gettype($this->main);
-        $method = "{$type}ToBool";
+        $method = "{$this->getType()}ToBool";
         $bool = Php::{$method}($this->main);
         return ESBool::fold($bool);
     }
 
     public function dictionary(): ESDictionary
     {
-        $type = gettype($this->main);
-        $method = "{$type}ToDictionary";
+        $method = "{$this->getType()}ToDictionary";
         $array = Php::{$method}($this->main);
         return ESDictionary::fold($array);
     }
@@ -44,38 +60,33 @@ trait TypeableImp
 
     public function count(): int
     {
-        $type = gettype($this->main);
-        $method = $type ."ToInt";
+        $method = "{$this->getType()}ToInt";
         return Php::{$method}($this->main);
     }
 
     public function json(): ESJson
     {
-        $type   = gettype($this->main);
-        $method = "{$type}ToJson";
+        $method = "{$this->getType()}ToJson";
         $object = Php::{$method}($this->main);
         return ESJson::fold($object);
     }
 
     public function object(): ESObject
     {
-        $type   = gettype($this->main);
-        $method = "{$type}ToObject";
+        $method = "{$this->getType()}ToObject";
         $object = Php::{$method}($this->main);
         return ESObject::fold($object);
     }
 
     public function jsonSerialize(): object
     {
-        $type = gettype($this->main);
-        $method = "{$type}ToObject";
+        $method = "{$this->getType()}ToObject";
         return Php::{$method}($this->main);
     }
 
     public function string($arg): ESString
     {
-        $type   = gettype($this->main);
-        $method = "{$type}ToString";
+        $method = "{$this->getType()}ToString";
         $string = Php::{$method}($this->main, $arg);
         return ESString::fold($string);
     }
