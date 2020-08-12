@@ -109,10 +109,53 @@ class Php
         return ($payload) ? "true" : "false";
     }
 
+// -> Dictionary
+    static public function dictionaryToString(array $payload): string
+    {
+        $array = array_values($payload);
+        return self::arrayToString($array);
+    }
+
 // -> JSON
+
+// -> Object
+    static public function objectToArray(object $payload): array
+    {
+        $array = self::objectToDictionary($payload);
+        $array = array_values($array);
+        return $array;
+    }
+
+    static public function objectToBool(object $payload): bool
+    {
+        return self::objectToInt($payload) > 0;
+    }
+
+    static public function objectToDictionary(object $payload): array
+    {
+        return (array) $payload;
+    }
+
+    static public function objectToInt(object $payload): int
+    {
+        $array = self::objectToDictionary($payload);
+        return count($array);
+    }
+
     static public function objectToJson(object $payload): string
     {
         return json_encode($payload);
+    }
+
+    static public function objectToString(object $payload): string
+    {
+        if (method_exists($payload, "__toString")) {
+            return (string) $payload;
+        }
+
+        $array = self::objectToDictionary($payload);
+        $string = self::dictionaryToString($array);
+        return $string;
     }
 
 // -> String

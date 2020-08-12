@@ -10,6 +10,7 @@ class ToStringFromArray
     public function __invoke(array $payload): string
     {
         // TODO: Test directly
-        return implode($payload["array"], $payload["glue"]);
+        $strings = array_filter($payload["array"], "is_string");
+        return implode($strings, $payload["glue"]);
     }
 }
