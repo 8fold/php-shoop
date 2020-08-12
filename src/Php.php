@@ -13,6 +13,10 @@ use Eightfold\Shoop\Php\DivideString;
 
 use Eightfold\Shoop\Php\EndsWithString;
 
+use Eightfold\Shoop\Php\EqualStrings;
+
+use Eightfold\Shoop\Php\IntFromString;
+
 use Eightfold\Shoop\Php\ReverseArray;
 use Eightfold\Shoop\Php\ReverseString;
 
@@ -20,6 +24,9 @@ use Eightfold\Shoop\Php\SplitStringOn;
 
 use Eightfold\Shoop\Php\StartsWithString;
 
+use Eightfold\Shoop\Php\StringFromString;
+
+use Eightfold\Shoop\Php\StripEmptiesFromArray;
 use Eightfold\Shoop\Php\StrippedFromString;
 
 use Eightfold\Shoop\Php\TagsStrippedFromString;
@@ -35,9 +42,8 @@ class Php
 // -> Array
     static public function arrayWithoutEmpties(array $payload): array
     {
-        // TODO: Make pipeline
-        $array = array_filter($payload);
-        return array_values($array);
+        return Shoop::pipeline($payload, StripEmptiesFromArray::bend())
+            ->unfold();
     }
 
     static public function arrayReversed(
@@ -45,9 +51,9 @@ class Php
         bool $preserveMembers = true
     ): array
     {
-        return (new Pipeline())
-            ->pipe(new ReverseArray($preserveMembers))
-            ->process($payload);
+        return Shoop::pipeline($payload,
+            ReverseArray::bendWith($preserveMembers)
+        )->unfold();
     }
 
     static public function arrayToBool(array $payload): bool
@@ -78,9 +84,8 @@ class Php
         string $glue = ""
     ): string
     {
-        return (new Pipeline())
-            ->pipe(new ToStringFromArray($glue))
-            ->process($payload);
+        return Shoop::pipeline($payload, ToStringFromArray::bendWith($glue))
+            ->unfold();
     }
 
     static public function arrayToDictionary(array $payload): array
@@ -348,9 +353,9 @@ class Php
         int    $limit          = PHP_INT_MAX
     ): array
     {
-        return (new Pipeline())
-            ->pipe(new SplitStringOn($splitter, $includeEmpties, $limit))
-            ->process($payload);
+        return Shoop::pipeline($payload,
+            SplitStringOn::bendWith($splitter, $includeEmpties, $limit)
+        )->unfold();
     }
 
     static public function stringHasOffset(
@@ -446,9 +451,9 @@ class Php
         string ...$allowed
     ): string
     {
-        return (new Pipeline())
-            ->pipe(new TagsStrippedFromString(...$allowed))
-            ->process($payload);
+        return Shoop::pipeline($payload,
+            TagsStrippedFromString::bendWith(...$allowed)
+        )->unfold();
     }
 
     static public function stringStrippedOf(
@@ -458,16 +463,15 @@ class Php
         string $charMask    = " \t\n\r\0\x0B"
     ): string
     {
-        return (new Pipeline())
-            ->pipe(new StrippedFromString($fromEnd, $fromStart, $charMask))
-            ->process($payload);
+        return Shoop::pipeline($payload,
+            StrippedFromString::bendWith($fromEnd, $fromStart, $charMask)
+        )->unfold();
     }
 
     static public function stringEndsWith(string $payload, string $suffix): bool
     {
-        return (new Pipeline())
-            ->pipe(new EndsWithString($suffix))
-            ->process($payload);
+        return Shoop::pipeline($payload, EndsWithString::bendWith($suffix))
+            ->unfold();
     }
 
     static public function stringStartsWith(
@@ -475,9 +479,8 @@ class Php
         string $prefix
     ): bool
     {
-        return (new Pipeline())
-            ->pipe(new StartsWithString($prefix))
-            ->process($payload);
+        return Shoop::pipeline($payload, StartsWithString::bendWith($prefix))
+            ->unfold();
     }
 
     static public function stringReversed(string $payload): string

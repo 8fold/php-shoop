@@ -3,7 +3,9 @@ declare(strict_types=1);
 
 namespace Eightfold\Shoop\Php;
 
-class TagsStrippedFromString
+use Eightfold\Foldable\Bend;
+
+class TagsStrippedFromString extends Bend
 {
     private $allowed = [];
 

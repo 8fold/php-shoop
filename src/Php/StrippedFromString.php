@@ -5,7 +5,9 @@ namespace Eightfold\Shoop\Php;
 
 use Eightfold\Shoop\Php;
 
-class StrippedFromString
+use Eightfold\Foldable\Bend;
+
+class StrippedFromString extends Bend
 {
     private $fromEnd = true;
     private $fromStart = true;

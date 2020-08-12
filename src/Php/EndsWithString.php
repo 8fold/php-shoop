@@ -3,7 +3,9 @@ declare(strict_types=1);
 
 namespace Eightfold\Shoop\Php;
 
-class EndsWithString
+use Eightfold\Foldable\Bend;
+
+class EndsWithString extends Bend
 {
     private $suffix = "";
 

@@ -101,7 +101,7 @@ class StringTest extends TestCase
     {
         $expected = true;
         $actual = Php::stringStartsWith("8fold", "8");
-        $this->assertEqualsWithPerformance($expected, $actual, 0.9);
+        $this->assertEqualsWithPerformance($expected, $actual, 1.5);
 
         // TODO: verify - this seems like it should have failed
         $this->start = hrtime(true);
