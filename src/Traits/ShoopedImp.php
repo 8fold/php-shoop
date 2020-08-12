@@ -16,25 +16,4 @@ trait ShoopedImp
     {
         $this->main = $main;
     }
-
-// -> JsonSerializable
-    public function jsonSerialize(): object
-    {
-        $type = gettype($this->main);
-        $method = "{$type}ToObject";
-        return Php::{$method}($this->main);
-    }
-
-// -> Countable
-    public function int(): ESInt
-    {
-        return ESInt::fold($this->count());
-    }
-
-    public function count(): int
-    {
-        $type = gettype($this->main);
-        $method = $type ."ToInt";
-        return Php::{$method}($this->main);
-    }
 }

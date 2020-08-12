@@ -16,7 +16,8 @@ use Eightfold\Shoop\Helpers\{
 use Eightfold\Shoop\Interfaces\{
     Shooped,
     Arrayable, // should be part of Shooped
-    Strippable
+    Strippable,
+    Typeable
     // MathOperations,
     // Toggle,
     // Shuffle,
@@ -31,7 +32,8 @@ use Eightfold\Shoop\Interfaces\{
 use Eightfold\Shoop\Traits\{
     ShoopedImp,
     ArrayableImp,
-    StrippableImp
+    StrippableImp,
+    TypeableImp
     // ShuffleImp,
     // WrapImp,
     // SortImp,
@@ -44,7 +46,8 @@ use Eightfold\Shoop\Traits\{
 class ESString implements
     Shooped,
     Arrayable,
-    Strippable
+    Strippable,
+    Typeable
     // Shuffle,
     // Wrap,
     // Sort,
@@ -53,7 +56,7 @@ class ESString implements
     // IsIn,
     // Each
 {
-    use ShoopedImp, ArrayableImp, StrippableImp;// ToggleImp, ShuffleImp, WrapImp, SortImp, HasImp, DropImp, IsInImp, EachImp;
+    use ShoopedImp, ArrayableImp, StrippableImp, TypeableImp;// ToggleImp, ShuffleImp, WrapImp, SortImp, HasImp, DropImp, IsInImp, EachImp;
 
     // static public function to(ESString $instance, string $className)
     // {

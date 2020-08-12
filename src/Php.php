@@ -73,10 +73,46 @@ class Php
         return $payload;
     }
 
-// -> bool
+// -> Boolean
+    static public function booleanToArray(bool $payload): array
+    {
+        return [$payload];
+    }
+
+    static public function booleanToDictionary(bool $payload): array
+    {
+        return ($payload === true)
+            ? ["true" => true, "false" => false]
+            : ["true" => false, "false" => true];
+    }
+
+    static public function booleanToInteger(bool $payload): int
+    {
+        return (int) $payload;
+    }
+
+    // TODO: Consider moving JSON to Shoop Extras
+    static public function booleanToJson(bool $payload): string
+    {
+        $object = self::booleanToObject($payload);
+        $json = self::objectToJson($object);
+        return $json;
+    }
+
+    static public function booleanToObject(bool $payload): object
+    {
+        return (object) self::booleanToDictionary($payload);
+    }
+
     static public function booleanToString(bool $payload): string
     {
         return ($payload) ? "true" : "false";
+    }
+
+// -> JSON
+    static public function objectToJson(object $payload): string
+    {
+        return json_encode($payload);
     }
 
 // -> String

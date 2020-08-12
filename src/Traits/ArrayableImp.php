@@ -29,15 +29,6 @@ trait ArrayableImp
 {
     private $temp;
 
-// -> Arrayable
-    public function array(): ESArray
-    {
-        $type = gettype($this->main);
-        $method = "{$type}ToArray";
-        $array = Php::{$method}($this->main);
-        return ESArray::fold($array);
-    }
-
     // TODO: PHP 8.0 - int|ESInt -> any|ESBool
     // TODO: Test callable
     public function hasMember($member, callable $closure = null)
