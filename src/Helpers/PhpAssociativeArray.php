@@ -32,11 +32,11 @@ class PhpAssociativeArray
         return $json;
     }
 
-    static public function toObject(array $array = []): object
-    {
-        $object = (object) $array;
-        return $object;
-    }
+    // static public function toObject(array $array = []): object
+    // {
+    //     $object = (object) $array;
+    //     return $object;
+    // }
 
     static public function toString(array $array = []): string
     {

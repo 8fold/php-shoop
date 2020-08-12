@@ -15,7 +15,7 @@ interface Typeable extends Countable, JsonSerializable
 {
     // public function array(): ESArray;
 
-    public function string(): ESString;
+    public function string($arg): ESString;
 
     public function jsonSerialize(): object;
 }

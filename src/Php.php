@@ -25,6 +25,9 @@ use Eightfold\Shoop\Php\TagsStrippedFromString;
 use Eightfold\Shoop\Php\ToStringFromArray;
 use Eightfold\Shoop\Php\ToStringFromArrayGlue;
 
+// TODO: Divide this up into separate classes - probaly matching the interfaces??
+//      - Arrayable
+//      - Typeable
 class Php
 {
 // -> Array
@@ -42,6 +45,29 @@ class Php
             ->process($payload);
     }
 
+    static public function arrayToBool(array $payload): bool
+    {
+        return self::arrayToInt($payload) > 0;
+    }
+
+    static public function arrayToInt(array $payload): int
+    {
+        return count($payload);
+    }
+
+    static public function arrayToJson(array $payload): string
+    {
+        $object = self::arrayToObject($payload);
+        $json = json_encode($object);
+        return $json;
+    }
+
+    static public function arrayToObject(array $payload): object
+    {
+        $array = self::arrayToDictionary($payload);
+        return (object) $array;
+    }
+
     static public function arrayToString(
         array $payload,
         string $glue = ""
@@ -51,6 +77,16 @@ class Php
         return (new Pipeline())
             ->pipe(new ToStringFromArray)
             ->process($payload);
+    }
+
+    static public function arrayToDictionary(array $payload): array
+    {
+        $array = [];
+        foreach ($payload as $member => $value) {
+            $member = "i". $member;
+            $array[$member] = $value;
+        }
+        return $array;
     }
 
     // TODO: PHP 8.0 - test directly
@@ -110,10 +146,51 @@ class Php
     }
 
 // -> Dictionary
+    static public function dictionaryToObject(array $payload): object
+    {
+        return (object) $payload;
+    }
+
     static public function dictionaryToString(array $payload): string
     {
         $array = array_values($payload);
         return self::arrayToString($array);
+    }
+
+// -> Integer
+    static public function integerToArray(int $payload, int $start = 0): array
+    {
+        return ($start > $int)
+            ? range($payload, $start)
+            : range($start, $payload);
+    }
+
+    static public function integerToBool(int $payload): bool
+    {
+        return (bool) $payload;
+    }
+
+    static public function integerToDictionary(int $payload): array
+    {
+        $array = self::integerToArray($payload);
+        return self::arrayToDictionary($array);
+    }
+
+    static public function integerToJson(int $payload): string
+    {
+        $object = self::integerToObject($payload);
+        return self::objectToJson($object);
+    }
+
+    static public function integerToObject(int $payload): object
+    {
+        $array = self::integerToDictionary($payload);
+        return self::dictionaryToObject($array);
+    }
+
+    static public function integerToString(int $payload): string
+    {
+        return (string) $payload;
     }
 
 // -> JSON

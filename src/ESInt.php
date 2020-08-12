@@ -11,6 +11,7 @@ use Eightfold\Shoop\Helpers\{
 
 use Eightfold\Shoop\Interfaces\{
     Shooped,
+    Typeable,
     MathOperations,
     Toggle,
     IsIn,
@@ -19,6 +20,7 @@ use Eightfold\Shoop\Interfaces\{
 
 use Eightfold\Shoop\Traits\{
     ShoopedImp,
+    TypeableImp,
     MathOperationsImp,
     ToggleImp,
     IsInImp,
@@ -30,9 +32,9 @@ use Eightfold\Shoop\{
     ESJson
 };
 
-class ESInt implements Shooped//, MathOperations, Toggle, IsIn, Each
+class ESInt implements Shooped, Typeable//, MathOperations, Toggle, IsIn, Each
 {
-    use ShoopedImp;//, MathOperationsImp, ToggleImp, IsInImp, EachImp;
+    use ShoopedImp, TypeableImp;//, MathOperationsImp, ToggleImp, IsInImp, EachImp;
 
     // static public function to(ESInt $instance, string $className)
     // {

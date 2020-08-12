@@ -11,82 +11,85 @@ use Eightfold\Shoop\Helpers\{
 
 use Eightfold\Shoop\Interfaces\{
     Shooped,
-    MathOperations,
-    Toggle,
-    Shuffle,
-    Wrap,
-    Sort,
-    Drop,
-    Has,
-    IsIn,
-    Each
+    Typeable
+    // MathOperations,
+    // Toggle,
+    // Shuffle,
+    // Wrap,
+    // Sort,
+    // Drop,
+    // Has,
+    // IsIn,
+    // Each
 };
 
 use Eightfold\Shoop\Traits\{
     ShoopedImp,
-    MathOperationsImp,
-    ToggleImp,
-    ShuffleImp,
-    WrapImp,
-    SortImp,
-    DropImp,
-    HasImp,
-    IsInImp,
-    EachImp
+    TypeableImp
+    // MathOperationsImp,
+    // ToggleImp,
+    // ShuffleImp,
+    // WrapImp,
+    // SortImp,
+    // DropImp,
+    // HasImp,
+    // IsInImp,
+    // EachImp
 };
 
 class ESArray implements
     Shooped,
-    MathOperations,
-    Toggle,
-    Shuffle,
-    Wrap,
-    Sort,
-    Drop,
-    Has,
-    IsIn,
-    Each
+    Typeable
+    // MathOperations,
+    // Toggle,
+    // Shuffle,
+    // Wrap,
+    // Sort,
+    // Drop,
+    // Has,
+    // IsIn,
+    // Each
 {
-    use ShoopedImp, MathOperationsImp, ToggleImp, ShuffleImp, WrapImp, SortImp, DropImp, HasImp, IsInImp, EachImp;
+    use ShoopedImp, TypeableImp;//, MathOperationsImp, ToggleImp, ShuffleImp, WrapImp, SortImp, DropImp, HasImp, IsInImp, EachImp;
 
-    static public function processedMain($main): array
-    {
-        if (is_a($main, ESArray::class)) {
-            $main = $main->unfold();
+    // static public function processedMain($main): array
+    // {
+    //     if (is_a($main, ESArray::class)) {
+    //         $main = $main->unfold();
 
-        } elseif (! is_array($main)) {
-            $main = [$main];
+    //     } elseif (! is_array($main)) {
+    //         $main = [$main];
 
-        }
-        return $main;
-    }
+    //     }
+    //     return $main;
+    // }
 
-    // TODO: Can't make part of interface because of typing
-    static public function to(ESArray $instance, string $className)
-    {
-        if ($className === ESArray::class) {
-            return $instance->main();
+    // // TODO: Can't make part of interface because of typing
+    // static public function to(ESArray $instance, string $className)
+    // {
+    //     if ($className === ESArray::class) {
+    //         return $instance->main();
 
-        } elseif ($className === ESBool::class) {
-            return PhpIndexedArray::toBool($instance->main());
+    //     } elseif ($className === ESBool::class) {
+    //         return PhpIndexedArray::toBool($instance->main());
 
-        } elseif ($className === ESDictionary::class) {
-            return PhpIndexedArray::toAssociativeArray($instance->main());
+    //     } elseif ($className === ESDictionary::class) {
+    //         return PhpIndexedArray::toAssociativeArray($instance->main());
 
-        } elseif ($className === ESInt::class) {
-            return PhpIndexedArray::toInt($instance->main());
+    //     } elseif ($className === ESInt::class) {
+    //         return PhpIndexedArray::toInt($instance->main());
 
-        } elseif ($className === ESJson::class) {
-            return PhpIndexedArray::toJson($instance->main());
+    //     } elseif ($className === ESJson::class) {
+    //         return PhpIndexedArray::toJson($instance->main());
 
-        } elseif ($className === ESObject::class) {
-            return PhpIndexedArray::toObject($instance->main());
+    //     } elseif ($className === ESObject::class) {
+    //         return PhpIndexedArray::toObject($instance->main());
 
-        } elseif ($className === ESString::class) {
-            return PhpIndexedArray::toString($instance->main());
+    //     } elseif ($className === ESString::class) {
+    //         return PhpIndexedArray::toString($instance->main());
 
-        }
-    }
+    //     }
+    // }
 
     // TODO: PHP 8.0 string|ESString = $delimiter
     public function join($delimiter = ""): ESString
