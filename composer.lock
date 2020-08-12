@@ -4,23 +4,24 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "c001c1e6875e1883cca98be75211bc73",
+    "content-hash": "bd5d97e194a0725ad2a720372b3f1f88",
     "packages": [
         {
             "name": "8fold/php-foldable",
-            "version": "0.0.1",
+            "version": "0.0.4",
             "source": {
                 "type": "git",
                 "url": "https://github.com/8fold/php-foldable.git",
-                "reference": "0b1f659ae541dd5c09822a110d8273cc0ae9db15"
+                "reference": "aa07048faeb99cc4a4c6594b797be74bdb7a7975"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/8fold/php-foldable/zipball/0b1f659ae541dd5c09822a110d8273cc0ae9db15",
-                "reference": "0b1f659ae541dd5c09822a110d8273cc0ae9db15",
+                "url": "https://api.github.com/repos/8fold/php-foldable/zipball/aa07048faeb99cc4a4c6594b797be74bdb7a7975",
+                "reference": "aa07048faeb99cc4a4c6594b797be74bdb7a7975",
                 "shasum": ""
             },
             "require": {
+                "league/pipeline": "^1.0",
                 "php": "~7"
             },
             "require-dev": {
@@ -53,7 +54,7 @@
                     "type": "github"
                 }
             ],
-            "time": "2020-08-10T19:29:50+00:00"
+            "time": "2020-08-12T21:40:33+00:00"
         },
         {
             "name": "league/pipeline",
@@ -898,16 +899,16 @@
         },
         {
             "name": "phpunit/phpunit",
-            "version": "9.3.5",
+            "version": "9.3.7",
             "source": {
                 "type": "git",
                 "url": "https://github.com/sebastianbergmann/phpunit.git",
-                "reference": "7115b00b23bcd4f62a73855c9615694d2f206e71"
+                "reference": "c638a0cac77347980352485912de48c99b42ad00"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/sebastianbergmann/phpunit/zipball/7115b00b23bcd4f62a73855c9615694d2f206e71",
-                "reference": "7115b00b23bcd4f62a73855c9615694d2f206e71",
+                "url": "https://api.github.com/repos/sebastianbergmann/phpunit/zipball/c638a0cac77347980352485912de48c99b42ad00",
+                "reference": "c638a0cac77347980352485912de48c99b42ad00",
                 "shasum": ""
             },
             "require": {
@@ -992,7 +993,7 @@
                     "type": "github"
                 }
             ],
-            "time": "2020-08-10T06:50:08+00:00"
+            "time": "2020-08-11T15:36:12+00:00"
         },
         {
             "name": "sebastian/code-unit",

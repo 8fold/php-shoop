@@ -3,7 +3,9 @@ declare(strict_types=1);
 
 namespace Eightfold\Shoop\Php;
 
-class ToArrayFromString
+use Eightfold\Foldable\Bend;
+
+class ToArrayFromString extends Bend
 {
     public function __invoke(string $payload): array
     {

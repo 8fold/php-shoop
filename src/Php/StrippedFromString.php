@@ -7,23 +7,40 @@ use Eightfold\Shoop\Php;
 
 class StrippedFromString
 {
-    public function __invoke(array $payload): string
+    private $fromEnd = true;
+    private $fromStart = true;
+    private $charMask = " \t\n\r\0\x0B";
+
+    public function __construct(
+        bool $fromEnd = true,
+        bool $fromStart = true,
+        string $charMask = " \t\n\r\0\x0B"
+    )
     {
-        $string    = $payload["string"];
-        $fromEnd   = $payload["fromEnd"];
-        $fromStart = $payload["fromStart"];
-        $charMask  = $payload["charsMask"];
+        $this->fromEnd = $fromEnd;
+        $this->fromStart = $fromStart;
+        $this->charMask = $charMask;
+    }
 
-        if ($fromStart and $fromEnd) {
-            return trim($string, $charMask);
+    public function __invoke(string $payload): string
+    {
+        $string    = $payload;
+        $fromEnd   = $this->fromEnd;
+        $fromStart = $this->fromStart;
+        $charMask  = $this->charMask;
 
-        } elseif ($fromStart and ! $fromEnd) {
-            return ltrim($string, $charMask);
+        if ($this->fromStart and $this->fromEnd) {
+            return trim($payload, $charMask);
 
-        } elseif (! $fromStart and $fromEnd) {
-            return rtrim($string, $charMask);
+        } elseif ($this->fromStart and ! $this->fromEnd) {
+            return ltrim($payload, $charMask);
+
+        } elseif (! $this->fromStart and $this->fromEnd) {
+            return rtrim($payload, $charMask);
 
         }
-        return str_replace(Php::stringToArray($charMask), "", $string);
+        // TODO: Use pipeline
+        $chars = Php::stringToArray($charMask);
+        return str_replace($chars, "", $payload);
     }
 }

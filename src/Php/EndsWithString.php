@@ -5,11 +5,19 @@ namespace Eightfold\Shoop\Php;
 
 class EndsWithString
 {
-    public function __invoke(array $payload): bool
+    private $suffix = "";
+
+    public function __construct(string $suffix = "")
     {
-        $string = $payload["string"];
-        $suffix = $payload["suffix"];
-        $length = strlen($suffix);
-        return substr($string, -$length) === $suffix;
+        $this->suffix = $suffix;
+    }
+
+    // TODO: PHP 8.0 array|string
+    public function __invoke(string $payload): bool
+    {
+        // TODO: PHP 8.0 - str_ends_with()
+        // TODO: Use pip - stringToInt()->intReversed()
+        $length = strlen($this->suffix);
+        return substr($payload, -$length) === $this->suffix;
     }
 }

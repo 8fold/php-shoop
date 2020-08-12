@@ -5,10 +5,16 @@ namespace Eightfold\Shoop\Php;
 
 class TagsStrippedFromString
 {
-    public function __invoke(array $payload): string
+    private $allowed = [];
+
+    public function __construct(string ...$allowed)
     {
-        $string = $payload["string"];
-        $allow  = implode("", $payload["allowed"]);
-        return strip_tags($string, $allow);
+        $this->allowed = $allowed;
+    }
+
+    public function __invoke(string $payload): string
+    {
+        $allow  = implode("", $this->allowed);
+        return strip_tags($payload, $allow);
     }
 }

@@ -40,10 +40,13 @@ class Php
         return array_values($array);
     }
 
-    static public function arrayReversed(array $payload): array
+    static public function arrayReversed(
+        array $payload,
+        bool $preserveMembers = true
+    ): array
     {
         return (new Pipeline())
-            ->pipe(new ReverseArray)
+            ->pipe(new ReverseArray($preserveMembers))
             ->process($payload);
     }
 
@@ -75,9 +78,8 @@ class Php
         string $glue = ""
     ): string
     {
-        $payload = ["array" => $payload, "glue" => $glue];
         return (new Pipeline())
-            ->pipe(new ToStringFromArray)
+            ->pipe(new ToStringFromArray($glue))
             ->process($payload);
     }
 
@@ -346,14 +348,8 @@ class Php
         int    $limit          = PHP_INT_MAX
     ): array
     {
-        $payload = [
-            "string"         => $payload,
-            "splitter"       => $splitter,
-            "includeEmpties" => $includeEmpties,
-            "limit"          => $limit
-        ];
         return (new Pipeline())
-            ->pipe(new SplitStringOn)
+            ->pipe(new SplitStringOn($splitter, $includeEmpties, $limit))
             ->process($payload);
     }
 
@@ -450,9 +446,8 @@ class Php
         string ...$allowed
     ): string
     {
-        $payload = ["string" => $payload, "allowed" => $allowed];
         return (new Pipeline())
-            ->pipe(new TagsStrippedFromString)
+            ->pipe(new TagsStrippedFromString(...$allowed))
             ->process($payload);
     }
 
@@ -463,22 +458,15 @@ class Php
         string $charMask    = " \t\n\r\0\x0B"
     ): string
     {
-        $payload = [
-            "string"    => $payload,
-            "charsMask" => $charMask,
-            "fromEnd"   => $fromEnd,
-            "fromStart" => $fromStart
-        ];
         return (new Pipeline())
-            ->pipe(new StrippedFromString)
+            ->pipe(new StrippedFromString($fromEnd, $fromStart, $charMask))
             ->process($payload);
     }
 
     static public function stringEndsWith(string $payload, string $suffix): bool
     {
-        $payload = ["string" => $payload, "suffix" => $suffix];
         return (new Pipeline())
-            ->pipe(new EndsWithString)
+            ->pipe(new EndsWithString($suffix))
             ->process($payload);
     }
 
@@ -487,17 +475,14 @@ class Php
         string $prefix
     ): bool
     {
-        $payload = ["string" => $payload, "prefix" => $prefix];
         return (new Pipeline())
-            ->pipe(new StartsWithString)
+            ->pipe(new StartsWithString($prefix))
             ->process($payload);
     }
 
     static public function stringReversed(string $payload): string
     {
-        return (new Pipeline())
-            ->pipe(new ReverseString)
-            ->process($payload);
+        return Shoop::pipeline($payload, ReverseString::bend())->unfold();
     }
 
     static public function stringToLowercaseFirst(string $payload): string
@@ -517,7 +502,6 @@ class Php
 
     static public function stringToArray(string $payload): array
     {
-        $pipeline = (new Pipeline())->pipe(new ToArrayFromString);
-        return $pipeline->process($payload);
+        return Shoop::pipeline($payload, ToArrayFromString::bend())->unfold();
     }
 }

@@ -15,35 +15,6 @@ class StringTest extends TestCase
         $this->assertEqualsWithPerformance($expected, $actual, 1);
     }
 
-    public function test_arrayable()
-    {
-        $expected = "8fold";
-        $actual = Php::stringStripOffset("8fold!", 5);
-        $this->assertEqualsWithPerformance($expected, $actual, 2);
-
-        $this->start = hrtime(true);
-        $expected = "8fold!";
-        $actual = Php::stringSetOffset("8fold?", 5, "!");
-        $this->assertEqualsWithPerformance($expected, $actual, 1);
-
-        $this->start = hrtime(true);
-        $expected = "";
-        $actual = Php::stringGetOffset("8fold", 8);
-        $this->assertEqualsWithPerformance($expected, $actual);
-
-        $expected = "o";
-        $actual = Php::stringGetOffset("8fold", 2);
-        $this->assertEqualsWithPerformance($expected, $actual);
-
-        $expected = false;
-        $actual = Php::stringHasOffset("8fold", 12);
-        $this->assertEqualsWithPerformance($expected, $actual);
-
-        $expected = true;
-        $actual = Php::stringHasOffset("8fold", 2);
-        $this->assertEqualsWithPerformance($expected, $actual);
-    }
-
     public function test_transformations()
     {
         $expected = "8fold";

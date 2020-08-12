@@ -3,13 +3,22 @@ declare(strict_types=1);
 
 namespace Eightfold\Shoop\Php;
 
+use Eightfold\Shoop\Php;
+
 class StartsWithString
 {
-    public function __invoke(array $payload): bool
+    private $prefix = "";
+
+    public function __construct(string $prefix = "")
     {
-        $string = $payload["string"];
-        $prefix = $payload["prefix"];
-        $length = strlen($prefix);
-        return substr($string, 0, $length) === $prefix;
+        $this->prefix = $prefix;
+    }
+
+    // TODO: PHP 8.0 - string|array
+    public function __invoke(string $payload): bool
+    {
+        // TODO: PHP 8.0 - str_starts_with()
+        // TODO:: replace with pipe - stringToInt
+        return substr($payload, 0, Php::stringToInt($this->prefix)) === $this->prefix;
     }
 }

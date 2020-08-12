@@ -7,18 +7,26 @@ use Eightfold\Shoop\Php;
 
 class SplitStringOn
 {
-    public function __invoke(array $payload): array
-    {
-        $string         = $payload["string"];
-        $splitter       = $payload["splitter"];
-        $includeEmpties = $payload["includeEmpties"];
-        $limit          = $payload["limit"];
+    private $splitter;
+    private $includeEmpties = true;
+    private $limit = PHP_INT_MAX;
 
-        $array = explode($splitter, $string, $limit);
-        return ($includeEmpties)
+    public function __construct(
+        string $splitter,
+        bool $includeEmpties = true,
+        int $limit = PHP_INT_MAX
+    )
+    {
+        $this->splitter = $splitter;
+        $this->includeEmpties = $includeEmpties;
+        $this->limit = $limit;
+    }
+
+    public function __invoke(string $payload): array
+    {
+        $array = explode($this->splitter, $payload, $this->limit);
+        return ($this->includeEmpties)
             ? $array
-            : Php::arrayWithoutEmpties($array);
-            // $array = array_filter($array);
-            // $array = array_values($array);
+            : Php::arrayWithoutEmpties($array); // TODO: Call another pipe
     }
 }
