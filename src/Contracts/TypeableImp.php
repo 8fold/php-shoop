@@ -83,7 +83,7 @@ trait TypeableImp
         return ESObject::fold($object);
     }
 
-    public function string($arg): ESString
+    public function string($arg = ""): ESString
     {
         $method = "{$this->getType()}ToString";
         $string = Php::{$method}($this->main, $arg);
