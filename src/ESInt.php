@@ -30,35 +30,35 @@ use Eightfold\Shoop\{
     ESJson
 };
 
-class ESInt implements Shooped, MathOperations, Toggle, IsIn, Each
+class ESInt implements Shooped//, MathOperations, Toggle, IsIn, Each
 {
-    use ShoopedImp, MathOperationsImp, ToggleImp, IsInImp, EachImp;
+    use ShoopedImp;//, MathOperationsImp, ToggleImp, IsInImp, EachImp;
 
-    static public function to(ESInt $instance, string $className)
-    {
-        if ($className === ESArray::class) {
-            return PhpInt::toIndexedArray($instance->main());
+    // static public function to(ESInt $instance, string $className)
+    // {
+    //     if ($className === ESArray::class) {
+    //         return PhpInt::toIndexedArray($instance->main());
 
-        } elseif ($className === ESBool::class) {
-            return PhpInt::toBool($instance->main());
+    //     } elseif ($className === ESBool::class) {
+    //         return PhpInt::toBool($instance->main());
 
-        } elseif ($className === ESDictionary::class) {
-            return PhpInt::toAssociativeArray($instance->main());
+    //     } elseif ($className === ESDictionary::class) {
+    //         return PhpInt::toAssociativeArray($instance->main());
 
-        } elseif ($className === ESInt::class) {
-            return $instance->main();
+    //     } elseif ($className === ESInt::class) {
+    //         return $instance->main();
 
-        } elseif ($className === ESJson::class) {
-            return PhpInt::toJson($instance->main());
+    //     } elseif ($className === ESJson::class) {
+    //         return PhpInt::toJson($instance->main());
 
-        } elseif ($className === ESObject::class) {
-            return PhpInt::toObject($instance->main());
+    //     } elseif ($className === ESObject::class) {
+    //         return PhpInt::toObject($instance->main());
 
-        } elseif ($className === ESString::class) {
-            return PhpInt::toString($instance->main());
+    //     } elseif ($className === ESString::class) {
+    //         return PhpInt::toString($instance->main());
 
-        }
-    }
+    //     }
+    // }
 
     static public function processedMain($main): int
     {

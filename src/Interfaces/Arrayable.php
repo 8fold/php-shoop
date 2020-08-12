@@ -8,7 +8,7 @@ use \Closure;
 
 use Eightfold\Shoop\ESArray;
 
-interface Arrayable
+interface Arrayable extends Iterator
 {
     public function array(): ESArray;
 

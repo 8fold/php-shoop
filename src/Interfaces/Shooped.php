@@ -2,35 +2,22 @@
 
 namespace Eightfold\Shoop\Interfaces;
 
+use \JsonSerializable;
+use \Countable;
+
 use Eightfold\Foldable\Foldable;
-use Eightfold\Foldable\FoldableImp;
 
-use Eightfold\Shoop\Interfaces\ShoopedExtensions\PhpInterfaces;
-use Eightfold\Shoop\Traits\ShoopedExtensions\PhpMagicMethods;
+use Eightfold\Shoop\ESInt;
 
-use Eightfold\Shoop\{
-    ESArray,
-    ESInt,
-    ESBool,
-    ESString,
-    ESObject,
-    ESDictionary,
-    ESJson
-};
-
-interface Shooped extends Foldable //, PhpInterfaces, PhpMagicMethods
+interface Shooped extends Foldable, JsonSerializable, Countable //, PhpInterfaces, PhpMagicMethods
 {
-    // public function array(): ESArray;
+    public function __construct($main);
 
-    // public function bool(): ESBool;
+// -> Countable
+    public function int();
 
-    // public function dictionary(): ESDictionary;
+    public function count(): int;
 
-    // public function int(): ESInt;
-
-    // public function json(): ESJson;
-
-    // public function object(): ESObject;
-
-    // public function string(): ESString;
+// -> JsonSerializable
+    public function jsonSerialize(): object;
 }

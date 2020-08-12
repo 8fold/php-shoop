@@ -10,7 +10,7 @@ use Eightfold\Shoop\Interfaces\Shooped;
 use Eightfold\Foldable\Foldable;
 
 use Eightfold\Shoop\Shoop;
-use Eightfold\Shoop\{ESString};
+use Eightfold\Shoop\ESString;
 
 class ESStringTest extends TestCase
 {
@@ -18,8 +18,9 @@ class ESStringTest extends TestCase
     {
         $expected = 5;
         $actual = ESString::fold("8fold")->int()->unfold();
-        $this->assertEqualsWithPerformance($expected, $actual);
+        $this->assertEqualsWithPerformance($expected, $actual, 2.3);
 
+        $this->start = hrtime(true);
         $actual = ESString::fold("8fold")->count();
         $this->assertEqualsWithPerformance($expected, $actual);
     }
@@ -35,6 +36,13 @@ class ESStringTest extends TestCase
         $actual = ESString::fold("8fold")->hasMember(2)->unfold();
         $this->assertEqualsWithPerformance($expected, $actual);
 
+        $count = 0;
+        $expected = 5;
+        $actual = ESString::fold("8fold");
+        foreach($actual as $letter) {
+            $count += 1;
+        }
+        $this->assertEqualsWithPerformance($expected, $count);
         // $this->start = hrtime(true);
         // $expected = "o";
         // $actual = ESString::fold("8fold")->getMember(2)->unfold();

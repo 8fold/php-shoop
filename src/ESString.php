@@ -4,6 +4,7 @@ declare(strict_types=1);
 namespace Eightfold\Shoop;
 
 use \Countable;
+use \JsonSerializable;
 
 use Eightfold\Shoop\Php;
 
@@ -14,7 +15,8 @@ use Eightfold\Shoop\Helpers\{
 
 use Eightfold\Shoop\Interfaces\{
     Shooped,
-    Arrayable // should be part of Shooped
+    Arrayable, // should be part of Shooped
+    Strippable
     // MathOperations,
     // Toggle,
     // Shuffle,
@@ -28,6 +30,8 @@ use Eightfold\Shoop\Interfaces\{
 
 use Eightfold\Shoop\Traits\{
     ShoopedImp,
+    ArrayableImp,
+    StrippableImp
     // ShuffleImp,
     // WrapImp,
     // SortImp,
@@ -39,8 +43,8 @@ use Eightfold\Shoop\Traits\{
 
 class ESString implements
     Shooped,
-    Countable,
-    Arrayable
+    Arrayable,
+    Strippable
     // Shuffle,
     // Wrap,
     // Sort,
@@ -49,9 +53,7 @@ class ESString implements
     // IsIn,
     // Each
 {
-    use ShoopedImp;// ToggleImp, ShuffleImp, WrapImp, SortImp, HasImp, DropImp, IsInImp, EachImp;
-
-    private $temp;
+    use ShoopedImp, ArrayableImp, StrippableImp;// ToggleImp, ShuffleImp, WrapImp, SortImp, HasImp, DropImp, IsInImp, EachImp;
 
     // static public function to(ESString $instance, string $className)
     // {
@@ -79,71 +81,12 @@ class ESString implements
     //     }
     // }
 
-    // TODO: PHP 8.0 - string|ESString
-    public function __construct($main)
-    {
-        $this->main = $main;
-    }
+    // // TODO: PHP 8.0 - string|ESString
+    // public function __construct($main)
+    // {
+    //     $this->main = $main;
+    // }
 
-// -> Countable
-    public function int(): ESInt
-    {
-        return $this->count();
-    }
-
-    public function count(): int
-    {
-        return Php::stringToInt($this->main);
-    }
-
-// -> Iterator
-    /**
-     * rewind() -> valid() -> current() -> key() -> next() -> valid()...repeat
-     */
-    public function rewind(): void
-    {
-        $this->temp = Php::stringToArray($this->main);
-    }
-
-    // TODO: Should be able to make part of a generic implementation
-    public function valid(): bool
-    {
-        if (! isset($this->temp)) {
-            $this->rewind();
-        }
-        return array_key_exists(key($this->temp), $this->temp);
-    }
-
-    public function current()
-    {
-        if (! isset($this->temp)) {
-            $this->rewind();
-        }
-        $temp = $this->temp;
-        $member = key($temp);
-        return $temp[$member];
-    }
-
-    public function key()
-    {
-        if (! isset($this->temp)) {
-            $this->rewind();
-        }
-        $temp = $this->temp;
-        $member = key($temp);
-        if (is_int($member)) {
-            return Type::sanitizeType($member, ESInt::class, "int")->unfold();
-        }
-        return Type::sanitizeType($member, ESString::class, "string")->unfold();
-    }
-
-    public function next(): void
-    {
-        if (! isset($this->temp)) {
-            $this->rewind();
-        }
-        next($this->temp);
-    }
 // -> Rearrange
     // TODO: PHP 8.0 - bool|ESBool
     public function reverse($preserveMembers = true)
@@ -200,49 +143,6 @@ class ESString implements
         return static::fold($string);
     }
 
-// -> Strip characters
-    // TODO: PHP 8.0 bool|ESBool, bool|ESBool, string|ESString
-    /**
-     * |           |From end |From start |Result                                                  |
-     * |From end   |true     |true       |Characters are removed from beginning & end, not middle |
-     * |From start |false    |false      |All characters are moved from string                    |
-     * |Result     |Characters are stripped from end, not beginning |Characters are stripped from beginning, not end ||
-     * @param  string  $charMask  [description]
-     * @param  boolean $fromEnd   [description]
-     * @param  boolean $fromStart [description]
-     * @return [type]             [description]
-     */
-    public function strip(
-        $charMask  = " \t\n\r\0\x0B",
-        $fromEnd   = true,
-        $fromStart = true
-    ): ESString
-    {
-        $string = Php::stringStrippedOf($this->main, $fromEnd, $fromStart, $charMask);
-        return static::fold($string);
-    }
-
-    // TODO: PHP 8.0 - Stringable
-    public function stripTags(...$allow): ESString
-    {
-        $string = Php::stringStrippedOfTags($this->main, ...$allow);
-        return static::fold($string);
-    }
-
-    // TODO: PHP 8.0 - int|ESInt
-    public function stripFirst($length = 1): ESString
-    {
-        $string = Php::stringStrippedOfFirst($this->main, $length);
-        return static::fold($string);
-    }
-
-    // TODO: PHP 8.0 - int|ESInt
-    public function stripLast($length = 1): ESString
-    {
-        $string = Php::stringStrippedOfLast($this->main, $length);
-        return static::fold($string);
-    }
-
 // -> Case changes
     public function lowercase(): ESString
     {
@@ -260,63 +160,6 @@ class ESString implements
     {
         $string = Php::stringToLowercaseFirst($this->main);
         return static::fold($string);
-    }
-
-// -> Arrayable
-    public function array(): ESArray
-    {
-        $array = Php::stringToArray($this->main);
-        return ESArray::fold($array);
-    }
-
-    // TODO: PHP 8.0 - int|ESInt -> any|ESBool
-    // TODO: Test callable
-    public function hasMember($member, callable $closure = null)
-    {
-        $bool   =  $this->offsetExists($member);
-        $bool   = ESBool::fold($bool);
-        $string = static::fold($this->main);
-        return ($closure === null) ? $bool : $closure($bool, $string);
-    }
-
-    public function offsetExists($offset): bool
-    {
-        return Php::stringHasOffset($this->main, $offset);
-    }
-
-    public function getMember($member, callable $callable = null)
-    {
-        $character = $this->offsetGet($member);
-        return ($callable === null)
-            ? $character
-            : $callable($character);
-    }
-
-    public function offsetGet($offset)
-    {
-        return Php::stringGetOffset($this->main, $offset);
-    }
-
-    public function setMember($member, $value)
-    {
-        $this->offsetSet($member, $value);
-        return ESString::fold($this->main);
-    }
-
-    public function offsetSet($offset, $value): void
-    {
-        $this->main = Php::stringSetOffset($this->main, $offset, $value);
-    }
-
-    public function stripMember($member)
-    {
-        $this->offsetUnset($member);
-        return ESString::fold($this->main);
-    }
-
-    public function offsetUnset($offset): void
-    {
-        $this->main = Php::stringStripOffset($offset);
     }
 
 // -> Deprecated

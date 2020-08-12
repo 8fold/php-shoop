@@ -73,12 +73,16 @@ class Php
         return $payload;
     }
 
+// -> bool
+    static public function booleanToString(bool $payload): string
+    {
+        return ($payload) ? "true" : "false";
+    }
+
 // -> String
     static public function stringToObject(string $payload): objet
     {
-        $object = new \stdClass();
-        $object->string = $string;
-        return $object;
+        return (object) ["string" => $payload];
     }
 
     static public function stringToInt(string $payload): int

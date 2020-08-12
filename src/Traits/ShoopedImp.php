@@ -2,87 +2,39 @@
 
 namespace Eightfold\Shoop\Traits;
 
-use \Closure;
-
 use Eightfold\Foldable\FoldableImp;
 
-use Eightfold\Shoop\Interfaces\Shooped;
-use Eightfold\Shoop\Traits\ShoopedImp;
-
-// use Eightfold\Shoop\Traits\ShoopedImpExtensions\CompareImp;
-// use Eightfold\Shoop\Traits\ShoopedImpExtensions\PhpInterfacesImp;
-// use Eightfold\Shoop\Traits\ShoopedImpExtensions\PhpMagicMethodsImp;
-
-// use Eightfold\Shoop\Traits\Foldable;
-
-
-// use Eightfold\Shoop\{
-//     Shoop,
-//     ESArray,
-//     ESBool,
-//     ESDictionary,
-//     ESInt,
-//     ESJson,
-//     ESObject,
-//     ESString
-// };
-
-// use Eightfold\Shoop\Helpers\{
-//     Type,
-//     PhpIndexedArray,
-//     PhpBool,
-//     PhpAssociativeArray,
-//     PhpInt,
-//     PhpJson,
-//     PhpObject,
-//     PhpString
-// };
+use Eightfold\Shoop\Php;
+use Eightfold\Shoop\ESInt;
 
 trait ShoopedImp
 {
     use FoldableImp;//, CompareImp, PhpInterfacesImp;
 
-    // protected $dictionary;
+    // TODO: PHP 8.0 - string|ESString
+    public function __construct($main)
+    {
+        $this->main = $main;
+    }
 
-    // private function juggleTo(string $className) // TODO: should be : Foldable
-    // {
-    //     $instanceClass = get_class($this); // TODO: PHP 8 allows for $instance::class
-    //     $value = $instanceClass::to($this, $className);
-    //     return $className::fold($value);
-    // }
+// -> JsonSerializable
+    public function jsonSerialize(): object
+    {
+        $type = gettype($this->main);
+        $method = "{$type}ToObject";
+        return Php::{$method}($this->main);
+    }
 
-    // public function array(): ESArray
-    // {
-    //     return $this->juggleTo(ESArray::class);
-    // }
+// -> Countable
+    public function int(): ESInt
+    {
+        return ESInt::fold($this->count());
+    }
 
-    // public function bool(): ESBool
-    // {
-    //     return $this->juggleTo(ESBool::class);
-    // }
-
-    // public function dictionary(): ESDictionary
-    // {
-    //     return $this->juggleTo(ESDictionary::class);
-    // }
-
-    // public function int(): ESInt
-    // {
-    //     return $this->juggleTo(ESInt::class);
-    // }
-
-    // public function json(): ESJson
-    // {
-    //     return $this->juggleTo(ESJson::class);
-    // }
-
-    // public function object(): ESObject
-    // {
-    //     return $this->juggleTo(ESObject::class);
-    // }
-
-    // public function string(): ESString
-    // {
-    //     return $this->juggleTo(ESString::class);
-    // }
+    public function count(): int
+    {
+        $type = gettype($this->main);
+        $method = $type ."ToInt";
+        return Php::{$method}($this->main);
+    }
 }

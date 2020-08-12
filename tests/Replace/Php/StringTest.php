@@ -12,14 +12,14 @@ class StringTest extends TestCase
     {
         $expected = 5;
         $actual = Php::stringToInt("8fold");
-        $this->assertEqualsWithPerformance($expected, $actual);
+        $this->assertEqualsWithPerformance($expected, $actual, 1);
     }
 
     public function test_arrayable()
     {
         $expected = "8fold";
         $actual = Php::stringStripOffset("8fold!", 5);
-        $this->assertEqualsWithPerformance($expected, $actual, 1);
+        $this->assertEqualsWithPerformance($expected, $actual, 2);
 
         $this->start = hrtime(true);
         $expected = "8fold!";
@@ -130,7 +130,7 @@ class StringTest extends TestCase
     {
         $expected = true;
         $actual = Php::stringStartsWith("8fold", "8");
-        $this->assertEqualsWithPerformance($expected, $actual);
+        $this->assertEqualsWithPerformance($expected, $actual, 0.9);
 
         $this->start = hrtime(true);
         $expected = false;
