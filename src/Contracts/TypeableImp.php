@@ -4,6 +4,7 @@ namespace Eightfold\Shoop\Contracts;
 
 use Eightfold\Shoop\Php;
 
+use Eightfold\Shoop\Shoop;
 use Eightfold\Shoop\ESArray;
 use Eightfold\Shoop\ESBool;
 use Eightfold\Shoop\ESDictionary;
@@ -11,6 +12,8 @@ use Eightfold\Shoop\ESInt;
 use Eightfold\Shoop\ESJson;
 use Eightfold\Shoop\ESObject;
 use Eightfold\Shoop\ESString;
+
+use Eightfold\Shoop\Php\ToArray;
 
 trait TypeableImp
 {
@@ -33,8 +36,9 @@ trait TypeableImp
 
     public function array(): ESArray
     {
-        $method = "{$this->getType()}ToArray";
-        $array  = Php::{$method}($this->main);
+        $array = Shoop::pipeline($this->main, ToArray::bend());
+        // $method = "{$this->getType()}ToArray";
+        // $array  = Php::{$method}($this->main);
         return ESArray::fold($array);
     }
 

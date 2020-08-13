@@ -6,7 +6,6 @@ namespace Eightfold\Shoop\Php;
 use Eightfold\Foldable\Bend;
 
 use Eightfold\Shoop\Shoop;
-use Eightfold\Shoop\Php\IntFromString;
 
 class StartsWithString extends Bend
 {
@@ -21,7 +20,7 @@ class StartsWithString extends Bend
     public function __invoke(string $payload): bool
     {
         // TODO: PHP 8.0 - str_starts_with()
-        $length = Shoop::pipeline($this->prefix, IntFromString::bend())
+        $length = Shoop::pipeline($this->prefix, ToIntegerFromString::bend())
             ->unfold();
         return Shoop::pipeline($payload,
             StringFromString::bendWith(0, $length),

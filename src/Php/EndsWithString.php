@@ -21,7 +21,7 @@ class EndsWithString extends Bend
     {
         // TODO: PHP 8.0 - str_ends_with()
         // TODO: Use pip - stringToInt()->intReversed()
-        $length = Shoop::pipeline($this->suffix, IntFromString::bend())
+        $length = Shoop::pipeline($this->suffix, ToIntegerFromString::bend())
             ->unfold();
         return Shoop::pipeline($payload,
             StringFromString::bendWith(-$length),

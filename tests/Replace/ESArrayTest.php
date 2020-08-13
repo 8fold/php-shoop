@@ -14,7 +14,7 @@ class ESArrayTest extends TestCase
     {
         $expected = false;
         $actual = ESArray::fold([])->bool()->unfold();
-        $this->assertEqualsWithPerformance($expected, $actual, 1.25);
+        $this->assertEqualsWithPerformance($expected, $actual, 2.6);
 
         $this->start = hrtime(true);
         $expected = ["i0" => 1, "i1" => 2];

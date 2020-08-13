@@ -7,7 +7,11 @@ use \stdClass;
 
 use League\Pipeline\Pipeline;
 
-use Eightfold\Shoop\Php\ToArrayFromString;
+use Eightfold\Shoop\Php\ArrayFromBoolean;
+
+use Eightfold\Shoop\Php\ArrayIsDictionary;
+
+use Eightfold\Shoop\Php\BooleanFromArray;
 
 use Eightfold\Shoop\Php\DivideString;
 
@@ -15,7 +19,7 @@ use Eightfold\Shoop\Php\EndsWithString;
 
 use Eightfold\Shoop\Php\EqualStrings;
 
-use Eightfold\Shoop\Php\IntFromString;
+use Eightfold\Shoop\Php\IntegerIsGreaterThan;
 
 use Eightfold\Shoop\Php\ReverseArray;
 use Eightfold\Shoop\Php\ReverseString;
@@ -25,14 +29,34 @@ use Eightfold\Shoop\Php\SplitStringOn;
 use Eightfold\Shoop\Php\StartsWithString;
 
 use Eightfold\Shoop\Php\StringFromString;
+use Eightfold\Shoop\Php\StringIsJson;
 
-use Eightfold\Shoop\Php\StripEmptiesFromArray;
 use Eightfold\Shoop\Php\StrippedFromString;
 
 use Eightfold\Shoop\Php\TagsStrippedFromString;
 
+use Eightfold\Shoop\Php\ToArrayFromInteger;
+use Eightfold\Shoop\Php\ToArrayFromObject;
+use Eightfold\Shoop\Php\ToArrayFromString;
+use Eightfold\Shoop\Php\ToArrayFromJson;
+
+use Eightfold\Shoop\Php\ToDictionaryFromArray;
+use Eightfold\Shoop\Php\ToDictionaryFromInteger;
+use Eightfold\Shoop\Php\ToDictionaryFromBoolean;
+use Eightfold\Shoop\Php\ToDictionaryFromObject;
+
+use Eightfold\Shoop\Php\ToIntegerFromArray;
+use Eightfold\Shoop\Php\ToIntegerFromString;
+
+use Eightfold\Shoop\Php\ToJsonFromObject;
+
 use Eightfold\Shoop\Php\ToStringFromArray;
-use Eightfold\Shoop\Php\ToStringFromArrayGlue;
+use Eightfold\Shoop\Php\ToStringFromObject;
+
+use Eightfold\Shoop\Php\ToObjectFromArray;
+use Eightfold\Shoop\Php\ToObjectFromJson;
+
+use Eightfold\Shoop\Php\ValuesFromArray;
 
 // TODO: Divide this up into separate classes - probaly matching the interfaces??
 //      - Arrayable
@@ -40,103 +64,41 @@ use Eightfold\Shoop\Php\ToStringFromArrayGlue;
 class Php
 {
 // -> Array
-    static public function arrayWithoutEmpties(array $payload): array
-    {
-        return Shoop::pipeline($payload, StripEmptiesFromArray::bend())
-            ->unfold();
-    }
-
-    static public function arrayReversed(
-        array $payload,
-        bool $preserveMembers = true
-    ): array
-    {
-        return Shoop::pipeline($payload,
-            ReverseArray::bendWith($preserveMembers)
-        )->unfold();
-    }
-
-    static public function arrayToBool(array $payload): bool
-    {
-        return self::arrayToInt($payload) !== 0;
-    }
-
-    static public function arrayToInt(array $payload): int
-    {
-        return count($payload);
-    }
-
     static public function arrayToJson(array $payload): string
     {
-        $object = self::arrayToObject($payload);
+        $object = Shoop::pipeline($payload, ToObjectFromArray::bend())->unfold();
         $json = json_encode($object);
         return $json;
     }
 
-    static public function arrayToObject(array $payload): object
-    {
-        $array = self::arrayToDictionary($payload);
-        return (object) $array;
-    }
-
-    static public function arrayToString(
-        array $payload,
-        string $glue = ""
-    ): string
-    {
-        return Shoop::pipeline($payload, ToStringFromArray::bendWith($glue))
-            ->unfold();
-    }
-
-    static public function arrayToDictionary(array $payload): array
-    {
-        $array = [];
-        foreach ($payload as $member => $value) {
-            $member = "i". $member;
-            $array[$member] = $value;
-        }
-        return $array;
-    }
-
-    // TODO: PHP 8.0 - test directly
+    // TODO: Test directly
     static public function arraySetOffset(
         array $payload,
         int $offset = 0,
         $value = ""
     ): array
     {
-        $payload[$offset] = $value;
-        return $payload;
+        return Shoop::pipeline($payload,
+            SetOffsetForArray::bend($value, $offset)
+        )->unfold();
+        // $payload[$offset] = $value;
+        // return $payload;
     }
 
+    // TODO: Test directly
     static public function arrayStripOffset(
         array $payload,
         int $offset = 0
     ): array
     {
-        unset($payload[$offset]);
-        return $payload;
-    }
-
-    static public function arrayIsDictionary(array $payload): bool
-    {
-        $members = array_keys($payload);
-        $firstMember = array_shift($members);
-        return is_string($firstMember) and ! is_int($firstMember);
+        return Shoop::pipeline($payload,
+            StripOffsetFromArray::bendWith($offset)
+        )->unfold();
+        // unset($payload[$offset]);
+        // return $payload;
     }
 
 // -> Boolean
-    static public function booleanToArray(bool $payload): array
-    {
-        return [$payload];
-    }
-
-    static public function booleanToDictionary(bool $payload): array
-    {
-        return ($payload === true)
-            ? ["true" => true, "false" => false]
-            : ["true" => false, "false" => true];
-    }
 
     static public function booleanToInteger(bool $payload): int
     {
@@ -164,68 +126,43 @@ class Php
 // -> Dictionary
     static public function dictionaryToArray(array $payload): array
     {
-        return (self::arrayIsDictionary($payload))
-            ? array_values($payload)
+        $isDict = Shoop::pipeline($payload, ArrayIsDictionary::bend())->unfold();
+        return ($isDict)
+            ? Shoop::pipeline($payload, ValuesFromArray::bend())->unfold()
             : [];
-    }
-
-    static public function dictionaryToBool(array $payload): bool
-    {
-        return self::arrayToBool($payload);
-    }
-
-    static public function dictionaryToInt(array $payload): int
-    {
-        return self::arrayToInt($payload);
     }
 
     static public function dictionaryToJson(array $payload): string
     {
-        $object = self::dictionaryToObject($payload);
-        return self::objectToJson($object);
+        return Shoop::pipeline($payload,
+            ToObjectFromArray::bend(),
+            ToJsonFromObject::bend()
+        )->unfold();
     }
 
     static public function dictionaryToObject(array $payload): object
     {
-        return (self::arrayIsDictionary($payload))
-            ? (object) $payload
-            : new stdClass;
-    }
-
-    static public function dictionaryToString(array $payload, string $glue = ""): string
-    {
-        return self::arrayToString($payload, $glue);
+        $isDict = Shoop::pipeline($payload, ArrayIsDictionary::bend())->unfold();
+        return ($isDict) ? (object) $payload : new stdClass;
     }
 
 // -> Integer
-    static public function integerToArray(int $payload, int $start = 0): array
-    {
-        return ($start > $int)
-            ? range($payload, $start)
-            : range($start, $payload);
-    }
 
     static public function integerToBool(int $payload): bool
     {
         return (bool) $payload;
     }
 
-    static public function integerToDictionary(int $payload): array
-    {
-        $array = self::integerToArray($payload);
-        return self::arrayToDictionary($array);
-    }
-
     static public function integerToJson(int $payload): string
     {
         $object = self::integerToObject($payload);
-        return self::objectToJson($object);
+        return Shoop::pipeline($object, ToJsonFromObject::bend())->unfold();
     }
 
     static public function integerToObject(int $payload): object
     {
         $array = self::integerToDictionary($payload);
-        return self::dictionaryToObject($array);
+        return Shoop::pipeline($array, ToObjectFromArray::bend())->unfold();
     }
 
     static public function integerToString(int $payload): string
@@ -234,61 +171,32 @@ class Php
     }
 
 // -> JSON
-    static public function jsonToArray(string $payload): array
-    {
-        if (! self::stringIsJson($payload)) {
-            return "";
-        }
-        $object = self::jsonToObject($payload);
-        return self::objectToArray($object);
-    }
-
     static public function jsonToBool(string $payload): bool
     {
-        if (! self::stringIsJson($payload)) {
-            return false;
-        }
-        $object = self::jsonToObject($payload);
+        $object = Shoop::pipeline($payload, ToObjectFromJson::bend())->unfold();
         return self::objectToBool($object);
     }
 
     static public function jsonToDictionary(string $payload): array
     {
-        if (! self::stringIsJson($payload)) {
-            return [];
-        }
-        $object = self::jsonToObject($payload);
+        $object = Shoop::pipeline($payload, ToObjectFromJson::bend())->unfold();
         return self::objectToDictionary($object);
     }
 
     static public function jsonToInt(string $payload): int
     {
-        if (! self::stringIsJson($payload)) {
-            return 0;
-        }
-        $object = self::jsonToObject($payload);
+        $object = Shoop::pipeline($payload, ToObjectFromJson::bend())->unfold();
         return self::objectToInt($object);
     }
 
-    static public function jsonToObject(string $payload): object
-    {
-        if (! self::stringIsJson($payload)) {
-            return new stdClass;
-        }
-        return json_decode($payload);
-    }
-
 // -> Object
-    static public function objectToArray(object $payload): array
-    {
-        $array = self::objectToDictionary($payload);
-        $array = array_values($array);
-        return $array;
-    }
-
     static public function objectToBool(object $payload): bool
     {
-        return self::objectToInt($payload) > 0;
+        return Shoop::pipeline($payload,
+            ToDictionaryFromObject::bend(),
+            ToIntegerFromArray::bend(),
+            IntegerIsGreaterThan::bendWith(0)
+        )->unfold();
     }
 
     static public function objectToDictionary(object $payload): array
@@ -298,52 +206,16 @@ class Php
 
     static public function objectToInt(object $payload): int
     {
-        $array = self::objectToDictionary($payload);
-        return count($array);
-    }
-
-    static public function objectToJson(object $payload): string
-    {
-        return json_encode($payload);
-    }
-
-    static public function objectToString(object $payload): string
-    {
-        if (method_exists($payload, "__toString")) {
-            return (string) $payload;
-        }
-
-        $array = self::objectToDictionary($payload);
-        $string = self::dictionaryToString($array);
-        return $string;
+        return Shoop::pipeline($payload,
+            ToDictionaryFromObject::bend(),
+            ToIntegerFromArray::bend()
+        )->unfold();
     }
 
 // -> String
-    static public function stringIsJson(string $payload): bool
-    {
-        if (! self::stringStartsWith($payload, "{")) {
-            return false;
-        }
-
-        if (! self::stringEndsWith($payload, "}")) {
-            return false;
-        }
-
-        if (! is_array(json_decode($payload, true))) {
-            return false;
-        }
-
-        return json_last_error() === JSON_ERROR_NONE;
-    }
-
     static public function stringToObject(string $payload): object
     {
         return (object) ["string" => $payload];
-    }
-
-    static public function stringToInt(string $payload): int
-    {
-        return strlen($payload);
     }
 
     static public function stringSplitOn(
@@ -387,11 +259,16 @@ class Php
         return static::arrayToString($array);
     }
 
+    /**
+     * @untested
+     */
     static public function stringStripOffset(string $payload, int $offset = 0)
     {
-        $array = static::stringToArray($payload);
-        $array = static::arrayStripOffset($array, $offset);
-        return static::arrayToString($array);
+        return Shoop::pipeline($payload,
+            ToArrayFromString::bend(),
+            StripArrayAt::bendWith($offset),
+            ToStringFromArray::bend()
+        )->unfold();
     }
 
     static public function stringAppendedWith(
@@ -468,21 +345,6 @@ class Php
         )->unfold();
     }
 
-    static public function stringEndsWith(string $payload, string $suffix): bool
-    {
-        return Shoop::pipeline($payload, EndsWithString::bendWith($suffix))
-            ->unfold();
-    }
-
-    static public function stringStartsWith(
-        string $payload,
-        string $prefix
-    ): bool
-    {
-        return Shoop::pipeline($payload, StartsWithString::bendWith($prefix))
-            ->unfold();
-    }
-
     static public function stringReversed(string $payload): string
     {
         return Shoop::pipeline($payload, ReverseString::bend())->unfold();
@@ -503,8 +365,205 @@ class Php
         return mb_strtoupper($payload);
     }
 
+// -> deprecated
+    /**
+     * @deprecated
+     */
+    static public function stringEndsWith(string $payload, string $suffix): bool
+    {
+        return Shoop::pipeline($payload, EndsWithString::bendWith($suffix))
+            ->unfold();
+    }
+
+    /**
+     * @deprecated
+     */
+    static public function stringStartsWith(
+        string $payload,
+        string $prefix
+    ): bool
+    {
+        return Shoop::pipeline($payload, StartsWithString::bendWith($prefix))
+            ->unfold();
+    }
+
+    /**
+     * @deprecated
+     */
     static public function stringToArray(string $payload): array
     {
         return Shoop::pipeline($payload, ToArrayFromString::bend())->unfold();
+    }
+
+    /**
+     * @deprecated
+     */
+    static public function stringIsJson(string $payload): bool
+    {
+        return Shoop::pipeline($payload, StringIsJson::bend())->unfold();
+    }
+
+    /**
+     * @deprecated
+     */
+    static public function stringToInt(string $payload): int
+    {
+        return Shoop::pipeline($payload, ToIntegerFromString::bend())->unfold();
+    }
+
+    /**
+     * @deprecated
+     */
+    static public function jsonToObject(string $payload): object
+    {
+        return Shoop::pipeline($payload, ToObjectFromJson::bend())->unfold();
+    }
+
+    /**
+     * @deprecated
+     */
+    static public function objectToString(object $payload): string
+    {
+        return Shoop::pipeline($payload,
+            ToStringFromObject::bend()
+        )->unfold();
+    }
+
+    /**
+     * @deprecated
+     */
+    static public function objectToArray(object $payload): array
+    {
+        return Shoop::pipeline($payload, ToArrayFromObject::bend())->unfold();
+    }
+
+    /**
+     * @deprecated
+     */
+    static public function jsonToArray(string $payload): array
+    {
+        return Shoop::pipeline($payload, ToArrayFromJson::bend())->unfold();
+    }
+
+    /**
+     * @deprecated
+     */
+    static public function integerToDictionary(int $payload): array
+    {
+        return Shoop::pipeline($payload, ToDictionaryFromInteger::bend())
+            ->unfold();
+    }
+
+    /**
+     * @deprecated
+     */
+    static public function integerToArray(int $payload, int $start = 0): array
+    {
+        return Shoop::pipeline($payload,
+            ToArrayFromInteger::bend($start)
+        )->unfold();
+    }
+
+    /**
+     * @deprecated
+     */
+    static public function objectToJson(object $payload): string
+    {
+        return Shoop::pipeline($payload, ToJsonFromObject::bend())->unfold();
+    }
+
+    /**
+     * @deprecated
+     */
+    static public function dictionaryToString(array $payload, string $glue = ""): string
+    {
+        return Shoop::pipeline($payload, ToStringFromArray::bendWith($glue))
+            ->unfold();
+    }
+
+    /**
+     * @deprecated
+     */
+    static public function dictionaryToBool(array $payload): bool
+    {
+        return Shoop::pipeline($payload,
+            BooleanFromArray::bend()
+        )->unfold();
+    }
+
+    /**
+     * @deprecated
+     */
+    static public function dictionaryToInt(array $payload): int
+    {
+        return Shoop::pipeline($payload, ToIntegerFromArray::bend())->unfold();
+    }
+
+    /**
+     * @deprecated
+     */
+    static public function booleanToArray(bool $payload): array
+    {
+        return Shoop::pipeline($payload, ArrayFromBoolean::bend())->unfold();
+    }
+
+    /**
+     * @deprecated
+     */
+    static public function booleanToDictionary(bool $payload): array
+    {
+        return Shoop::pipeline($payload, ToDictionaryFromBoolean::bend())
+            ->unfold();
+    }
+
+    /**
+     * @deprecated
+     */
+    static public function arrayIsDictionary(array $payload): bool
+    {
+        return Shoop::pipeline($payload, ArrayIsDictionary::bend())->unfold();
+    }
+
+    /**
+     * @deprecated
+     */
+    static public function arrayToString(
+        array $payload,
+        string $glue = ""
+    ): string
+    {
+        return Shoop::pipeline($payload, ToStringFromArray::bendWith($glue))
+            ->unfold();
+    }
+
+    /**
+     * @deprecated
+     */
+    static public function arrayToDictionary(array $payload): array
+    {
+        return Shoop::pipeline($payload, ToDictionaryFromArray::bend())
+            ->unfold();
+    }
+
+    /**
+     * @deprecated
+     */
+    // static public function arrayWithoutEmpties(array $payload): array
+    // {
+    //     return Shoop::pipeline($payload, StripEmptiesFromArray::bend())
+    //         ->unfold();
+    // }
+
+    /**
+     * @deprecated
+     */
+    static public function arrayReversed(
+        array $payload,
+        bool $preserveMembers = true
+    ): array
+    {
+        return Shoop::pipeline($payload,
+            ReverseArray::bendWith($preserveMembers)
+        )->unfold();
     }
 }

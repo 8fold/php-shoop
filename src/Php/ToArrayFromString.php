@@ -32,6 +32,6 @@ class ToArrayFromString extends Bend
         $array = explode($this->splitter, $payload, $this->limit);
         return ($this->includeEmpties)
             ? $array
-            : Shoop::pipeline($array, StripEmptiesFromArray::bend())->unfold();
+            : Shoop::pipeline($array, StripArray::bend(), ValuesFromArray::bend())->unfold();
     }
 }
