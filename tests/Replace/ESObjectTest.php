@@ -17,11 +17,6 @@ class ESObjectTest extends TestCase
         $object = new stdClass;
         $object->member = true;
 
-        $expected = [true];
-        $actual = Php::objectToArray($object);
-        $this->assertEqualsWithPerformance($expected, $actual);
-        $this->assertTrue($object->member);
-
         $this->start = hrtime(true);
         $expected = true;
         $actual = Php::objectToBool($object);
@@ -36,17 +31,9 @@ class ESObjectTest extends TestCase
         $actual = Php::objectToInt($object);
         $this->assertEqualsWithPerformance($expected, $actual);
 
-        $expected = '{"member":true}';
-        $actual = Php::objectToJson($object);
-        $this->assertEqualsWithPerformance($expected, $actual);
-
         $object = new stdClass;
         $object->member = "H";
         $object->member2 = true;
         $object->member3 = "i";
-
-        $expected = "Hi";
-        $actual = Php::objectToString($object);
-        $this->assertEqualsWithPerformance($expected, $actual);
     }
 }

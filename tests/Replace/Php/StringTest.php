@@ -8,24 +8,6 @@ use Eightfold\Shoop\Php;
 
 class StringTest extends TestCase
 {
-    public function test_is_json()
-    {
-        $expected = true;
-        $actual = Php::stringIsJson('{}');
-        $this->assertEqualsWithPerformance($expected, $actual, 1.7);
-
-        $this->start = hrtime(true);
-        $expected = false;
-        $actual = Php::stringIsJson('');
-        $this->assertEqualsWithPerformance($expected, $actual);
-    }
-    public function test_countable()
-    {
-        $expected = 5;
-        $actual = Php::stringToInt("8fold");
-        $this->assertEqualsWithPerformance($expected, $actual, 1);
-    }
-
     public function test_transformations()
     {
         $expected = "8fold";

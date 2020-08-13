@@ -64,13 +64,6 @@ use Eightfold\Shoop\Php\ValuesFromArray;
 class Php
 {
 // -> Array
-    static public function arrayToJson(array $payload): string
-    {
-        $object = Shoop::pipeline($payload, ToObjectFromArray::bend())->unfold();
-        $json = json_encode($object);
-        return $json;
-    }
-
     // TODO: Test directly
     static public function arraySetOffset(
         array $payload,
@@ -105,24 +98,6 @@ class Php
         return (int) $payload;
     }
 
-    // TODO: Consider moving JSON to Shoop Extras
-    static public function booleanToJson(bool $payload): string
-    {
-        $object = self::booleanToObject($payload);
-        $json = self::objectToJson($object);
-        return $json;
-    }
-
-    static public function booleanToObject(bool $payload): object
-    {
-        return (object) self::booleanToDictionary($payload);
-    }
-
-    static public function booleanToString(bool $payload): string
-    {
-        return ($payload) ? "true" : "false";
-    }
-
 // -> Dictionary
     static public function dictionaryToArray(array $payload): array
     {
@@ -151,18 +126,6 @@ class Php
     static public function integerToBool(int $payload): bool
     {
         return (bool) $payload;
-    }
-
-    static public function integerToJson(int $payload): string
-    {
-        $object = self::integerToObject($payload);
-        return Shoop::pipeline($object, ToJsonFromObject::bend())->unfold();
-    }
-
-    static public function integerToObject(int $payload): object
-    {
-        $array = self::integerToDictionary($payload);
-        return Shoop::pipeline($array, ToObjectFromArray::bend())->unfold();
     }
 
     static public function integerToString(int $payload): string
@@ -398,160 +361,9 @@ class Php
     /**
      * @deprecated
      */
-    static public function stringIsJson(string $payload): bool
-    {
-        return Shoop::pipeline($payload, StringIsJson::bend())->unfold();
-    }
-
-    /**
-     * @deprecated
-     */
-    static public function stringToInt(string $payload): int
-    {
-        return Shoop::pipeline($payload, ToIntegerFromString::bend())->unfold();
-    }
-
-    /**
-     * @deprecated
-     */
-    static public function jsonToObject(string $payload): object
-    {
-        return Shoop::pipeline($payload, ToObjectFromJson::bend())->unfold();
-    }
-
-    /**
-     * @deprecated
-     */
-    static public function objectToString(object $payload): string
-    {
-        return Shoop::pipeline($payload,
-            ToStringFromObject::bend()
-        )->unfold();
-    }
-
-    /**
-     * @deprecated
-     */
-    static public function objectToArray(object $payload): array
-    {
-        return Shoop::pipeline($payload, ToArrayFromObject::bend())->unfold();
-    }
-
-    /**
-     * @deprecated
-     */
-    static public function jsonToArray(string $payload): array
-    {
-        return Shoop::pipeline($payload, ToArrayFromJson::bend())->unfold();
-    }
-
-    /**
-     * @deprecated
-     */
-    static public function integerToDictionary(int $payload): array
-    {
-        return Shoop::pipeline($payload, ToDictionaryFromInteger::bend())
-            ->unfold();
-    }
-
-    /**
-     * @deprecated
-     */
-    static public function integerToArray(int $payload, int $start = 0): array
-    {
-        return Shoop::pipeline($payload,
-            ToArrayFromInteger::bend($start)
-        )->unfold();
-    }
-
-    /**
-     * @deprecated
-     */
-    static public function objectToJson(object $payload): string
-    {
-        return Shoop::pipeline($payload, ToJsonFromObject::bend())->unfold();
-    }
-
-    /**
-     * @deprecated
-     */
-    static public function dictionaryToString(array $payload, string $glue = ""): string
-    {
-        return Shoop::pipeline($payload, ToStringFromArray::bendWith($glue))
-            ->unfold();
-    }
-
-    /**
-     * @deprecated
-     */
-    static public function dictionaryToBool(array $payload): bool
-    {
-        return Shoop::pipeline($payload,
-            BooleanFromArray::bend()
-        )->unfold();
-    }
-
-    /**
-     * @deprecated
-     */
-    static public function dictionaryToInt(array $payload): int
-    {
-        return Shoop::pipeline($payload, ToIntegerFromArray::bend())->unfold();
-    }
-
-    /**
-     * @deprecated
-     */
-    static public function booleanToArray(bool $payload): array
-    {
-        return Shoop::pipeline($payload, ArrayFromBoolean::bend())->unfold();
-    }
-
-    /**
-     * @deprecated
-     */
-    static public function booleanToDictionary(bool $payload): array
-    {
-        return Shoop::pipeline($payload, ToDictionaryFromBoolean::bend())
-            ->unfold();
-    }
-
-    /**
-     * @deprecated
-     */
-    static public function arrayIsDictionary(array $payload): bool
-    {
-        return Shoop::pipeline($payload, ArrayIsDictionary::bend())->unfold();
-    }
-
-    /**
-     * @deprecated
-     */
-    static public function arrayToString(
-        array $payload,
-        string $glue = ""
-    ): string
-    {
-        return Shoop::pipeline($payload, ToStringFromArray::bendWith($glue))
-            ->unfold();
-    }
-
-    /**
-     * @deprecated
-     */
-    static public function arrayToDictionary(array $payload): array
-    {
-        return Shoop::pipeline($payload, ToDictionaryFromArray::bend())
-            ->unfold();
-    }
-
-    /**
-     * @deprecated
-     */
-    // static public function arrayWithoutEmpties(array $payload): array
+    // static public function stringIsJson(string $payload): bool
     // {
-    //     return Shoop::pipeline($payload, StripEmptiesFromArray::bend())
-    //         ->unfold();
+    //     return Shoop::pipeline($payload, StringIsJson::bend())->unfold();
     // }
 
     /**
