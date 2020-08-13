@@ -2,7 +2,9 @@
 
 namespace Eightfold\Shoop\Contracts;
 
-use Eightfold\Shoop\Php;
+use Eightfold\Shoop\Shoop;
+
+use Eightfold\Shoop\Php\Minus;
 
 trait StrippableImp
 {
@@ -13,9 +15,9 @@ trait StrippableImp
         $fromStart = true
     ): self
     {
-        $type = gettype($this->main);
-        $method = "{$type}StrippedOf";
-        $string = Php::{$method}($this->main, $fromEnd, $fromStart, $charMask);
+        $string = Shoop::pipe($this->main,
+            Minus::applyWith($fromEnd, $fromStart, $charMask)
+        )->unfold();
         return static::fold($string);
     }
 
