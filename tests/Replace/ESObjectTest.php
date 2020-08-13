@@ -22,10 +22,6 @@ class ESObjectTest extends TestCase
         $actual = Php::objectToBool($object);
         $this->assertEqualsWithPerformance($expected, $actual);
 
-        $this->start = hrtime(true);
-        $expected = ["member" => true];
-        $actual = Php::objectToDictionary($object);
-        $this->assertEqualsWithPerformance($expected, $actual);
 
         $expected = 1;
         $actual = Php::objectToInt($object);

@@ -13,31 +13,31 @@ use Eightfold\Shoop\ESJson;
 use Eightfold\Shoop\ESObject;
 use Eightfold\Shoop\ESString;
 
-use Eightfold\Shoop\Php\ToArray;
-use Eightfold\Shoop\Php\ToBool;
-use Eightfold\Shoop\Php\ToDictionary;
-use Eightfold\Shoop\Php\ToInt;
-use Eightfold\Shoop\Php\ToJson;
-use Eightfold\Shoop\Php\ToObject;
-use Eightfold\Shoop\Php\ToString;
+use Eightfold\Shoop\Php\AsArray;
+use Eightfold\Shoop\Php\AsBool;
+use Eightfold\Shoop\Php\AsDictionary;
+use Eightfold\Shoop\Php\AsInt;
+use Eightfold\Shoop\Php\AsJson;
+use Eightfold\Shoop\Php\AsObject;
+use Eightfold\Shoop\Php\AsString;
 
 trait TypeableImp
 {
     public function array(): ESArray
     {
-        $array = Shoop::pipeline($this->main, ToArray::bend());
+        $array = Shoop::pipe($this->main, AsArray::apply());
         return ESArray::fold($array);
     }
 
     public function bool(): ESBool
     {
-        $bool = Shoop::pipeline($this->main, ToBool::bend());
+        $bool = Shoop::pipe($this->main, AsBool::apply());
         return ESBool::fold($bool);
     }
 
     public function dictionary(): ESDictionary
     {
-        $array = Shoop::pipeline($this->main, ToDictionary::bend());
+        $array = Shoop::pipe($this->main, AsDictionary::apply());
         return ESDictionary::fold($array);
     }
 
@@ -48,12 +48,12 @@ trait TypeableImp
 
     public function count(): int
     {
-        return Shoop::pipeline($this->main, ToInt::bend())->unfold();
+        return Shoop::pipe($this->main, AsInt::apply())->unfold();
     }
 
     public function json(): ESJson
     {
-        $string = Shoop::pipeline($this->main, ToJson::bend())->unfold();
+        $string = Shoop::pipe($this->main, AsJson::apply())->unfold();
         return ESJson::fold($string);
     }
 
@@ -65,7 +65,7 @@ trait TypeableImp
 
     public function object(): ESObject
     {
-        $object = Shoop::pipeline($this->main, ToObject::bend())->unfold();
+        $object = Shoop::pipe($this->main, AsObject::apply())->unfold();
         // $method = "{$this->getType()}ToObject";
         // $object = Php::{$method}($this->main);
         return ESObject::fold($object);
@@ -73,7 +73,7 @@ trait TypeableImp
 
     public function string($arg = ""): ESString
     {
-        $string = Shoop::pipeline($this->main, ToString::bendWith($arg))->unfold();
+        $string = Shoop::pipe($this->main, AsString::applyWith($arg))->unfold();
         return ESString::fold($string);
     }
 }

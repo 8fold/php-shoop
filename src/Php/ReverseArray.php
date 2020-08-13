@@ -3,9 +3,9 @@ declare(strict_types=1);
 
 namespace Eightfold\Shoop\Php;
 
-use Eightfold\Foldable\Bend;
+use Eightfold\Foldable\Filter;
 
-class ReverseArray extends Bend
+class ReverseArray extends Filter
 {
     private $preserveMembers = true;
 

@@ -3,11 +3,11 @@ declare(strict_types=1);
 
 namespace Eightfold\Shoop\Php;
 
-use Eightfold\Foldable\Bend;
+use Eightfold\Foldable\Filter;
 
 use Eightfold\Shoop\Shoop;
 
-class TagsStrippedFromString extends Bend
+class AsStringWithTags extends Filter
 {
     private $allowed = [];
 
@@ -18,7 +18,7 @@ class TagsStrippedFromString extends Bend
 
     public function __invoke(string $payload): string
     {
-        $allow = Shoop::pipeline($this->allowed, ToStringFromArray::bend())
+        $allow = Shoop::pipe($this->allowed, AsString::apply())
             ->unfold();
         return strip_tags($payload, $allow);
     }

@@ -3,19 +3,19 @@ declare(strict_types=1);
 
 namespace Eightfold\Shoop\Php;
 
-use Eightfold\Foldable\Bend;
+use Eightfold\Foldable\Filter;
 
 use Eightfold\Shoop\Shoop;
 
-class StringIsJson extends Bend
+class StringIsJson extends Filter
 {
     public function __invoke(string $payload): bool
     {
-        $start = Shoop::pipeline($payload, StartsWithString::bendWith("{"))
+        $start = Shoop::pipe($payload, StartsWithString::applyWith("{"))
             ->unfold();
         if (! $start) { return false; }
 
-        $end = Shoop::pipeline($payload, EndsWithString::bendWith("}"))
+        $end = Shoop::pipe($payload, EndsWithString::applyWith("}"))
             ->unfold();
         if (! $end) { return false; }
 

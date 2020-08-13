@@ -3,9 +3,9 @@ declare(strict_types=1);
 
 namespace Eightfold\Shoop\Php;
 
-use Eightfold\Foldable\Bend;
+use Eightfold\Foldable\Filter;
 
-class FirstFromArray extends Bend
+class FirstFromArray extends Filter
 {
     // TODO: Test using this for string starts with
     public function __invoke(array $payload)

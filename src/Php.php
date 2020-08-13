@@ -21,8 +21,7 @@ use Eightfold\Shoop\Php\EqualStrings;
 
 use Eightfold\Shoop\Php\IntegerIsGreaterThan;
 
-use Eightfold\Shoop\Php\ReverseArray;
-use Eightfold\Shoop\Php\ReverseString;
+use Eightfold\Shoop\Php\Reverse;
 
 use Eightfold\Shoop\Php\SplitStringOn;
 
@@ -33,28 +32,29 @@ use Eightfold\Shoop\Php\StringIsJson;
 
 use Eightfold\Shoop\Php\StrippedFromString;
 
-use Eightfold\Shoop\Php\TagsStrippedFromString;
+use Eightfold\Shoop\Php\AsArrayFromInteger;
+use Eightfold\Shoop\Php\AsArrayFromObject;
+use Eightfold\Shoop\Php\AsArrayFromString;
+use Eightfold\Shoop\Php\AsArrayFromJson;
 
-use Eightfold\Shoop\Php\ToArrayFromInteger;
-use Eightfold\Shoop\Php\ToArrayFromObject;
-use Eightfold\Shoop\Php\ToArrayFromString;
-use Eightfold\Shoop\Php\ToArrayFromJson;
+use Eightfold\Shoop\Php\AsDictionary;
+use Eightfold\Shoop\Php\AsDictionaryFromArray;
+use Eightfold\Shoop\Php\AsDictionaryFromInteger;
+use Eightfold\Shoop\Php\AsDictionaryFromBoolean;
+use Eightfold\Shoop\Php\AsDictionaryFromObject;
 
-use Eightfold\Shoop\Php\ToDictionaryFromArray;
-use Eightfold\Shoop\Php\ToDictionaryFromInteger;
-use Eightfold\Shoop\Php\ToDictionaryFromBoolean;
-use Eightfold\Shoop\Php\ToDictionaryFromObject;
+use Eightfold\Shoop\Php\AsInt;
+use Eightfold\Shoop\Php\AsIntegerFromArray;
+use Eightfold\Shoop\Php\AsIntegerFromString;
 
-use Eightfold\Shoop\Php\ToIntegerFromArray;
-use Eightfold\Shoop\Php\ToIntegerFromString;
+use Eightfold\Shoop\Php\AsJsonFromObject;
 
-use Eightfold\Shoop\Php\ToJsonFromObject;
+use Eightfold\Shoop\Php\AsStringFromArray;
+use Eightfold\Shoop\Php\AsStringFromObject;
+use Eightfold\Shoop\Php\AsStringWithTags;
 
-use Eightfold\Shoop\Php\ToStringFromArray;
-use Eightfold\Shoop\Php\ToStringFromObject;
-
-use Eightfold\Shoop\Php\ToObjectFromArray;
-use Eightfold\Shoop\Php\ToObjectFromJson;
+use Eightfold\Shoop\Php\AsObjectFromArray;
+use Eightfold\Shoop\Php\AsObjectFromJson;
 
 use Eightfold\Shoop\Php\ValuesFromArray;
 
@@ -71,8 +71,8 @@ class Php
         $value = ""
     ): array
     {
-        return Shoop::pipeline($payload,
-            SetOffsetForArray::bend($value, $offset)
+        return Shoop::pipe($payload,
+            SetOffsetForArray::apply($value, $offset)
         )->unfold();
         // $payload[$offset] = $value;
         // return $payload;
@@ -84,115 +84,38 @@ class Php
         int $offset = 0
     ): array
     {
-        return Shoop::pipeline($payload,
-            StripOffsetFromArray::bendWith($offset)
+        return Shoop::pipe($payload,
+            StripOffsetFromArray::applyWith($offset)
         )->unfold();
         // unset($payload[$offset]);
         // return $payload;
     }
 
-// -> Boolean
-
-    static public function booleanToInteger(bool $payload): int
-    {
-        return (int) $payload;
-    }
-
 // -> Dictionary
-    static public function dictionaryToArray(array $payload): array
-    {
-        $isDict = Shoop::pipeline($payload, ArrayIsDictionary::bend())->unfold();
-        return ($isDict)
-            ? Shoop::pipeline($payload, ValuesFromArray::bend())->unfold()
-            : [];
-    }
-
-    static public function dictionaryToJson(array $payload): string
-    {
-        return Shoop::pipeline($payload,
-            ToObjectFromArray::bend(),
-            ToJsonFromObject::bend()
-        )->unfold();
-    }
-
-    static public function dictionaryToObject(array $payload): object
-    {
-        $isDict = Shoop::pipeline($payload, ArrayIsDictionary::bend())->unfold();
-        return ($isDict) ? (object) $payload : new stdClass;
-    }
 
 // -> Integer
 
-    static public function integerToBool(int $payload): bool
-    {
-        return (bool) $payload;
-    }
-
-    static public function integerToString(int $payload): string
-    {
-        return (string) $payload;
-    }
-
 // -> JSON
-    static public function jsonToBool(string $payload): bool
-    {
-        $object = Shoop::pipeline($payload, ToObjectFromJson::bend())->unfold();
-        return self::objectToBool($object);
-    }
-
-    static public function jsonToDictionary(string $payload): array
-    {
-        $object = Shoop::pipeline($payload, ToObjectFromJson::bend())->unfold();
-        return self::objectToDictionary($object);
-    }
-
-    static public function jsonToInt(string $payload): int
-    {
-        $object = Shoop::pipeline($payload, ToObjectFromJson::bend())->unfold();
-        return self::objectToInt($object);
-    }
 
 // -> Object
     static public function objectToBool(object $payload): bool
     {
-        return Shoop::pipeline($payload,
-            ToDictionaryFromObject::bend(),
-            ToIntegerFromArray::bend(),
-            IntegerIsGreaterThan::bendWith(0)
+        return Shoop::pipe($payload,
+            AsDictionary::apply(),
+            AsInt::apply(),
+            IntegerIsGreaterThan::applyWith(0)
         )->unfold();
-    }
-
-    static public function objectToDictionary(object $payload): array
-    {
-        return (array) $payload;
     }
 
     static public function objectToInt(object $payload): int
     {
-        return Shoop::pipeline($payload,
-            ToDictionaryFromObject::bend(),
-            ToIntegerFromArray::bend()
+        return Shoop::pipe($payload,
+            AsDictionary::apply(),
+            AsInt::apply()
         )->unfold();
     }
 
 // -> String
-    static public function stringToObject(string $payload): object
-    {
-        return (object) ["string" => $payload];
-    }
-
-    static public function stringSplitOn(
-        string $payload,
-        string $splitter       = "",
-        bool   $includeEmpties = true,
-        int    $limit          = PHP_INT_MAX
-    ): array
-    {
-        return Shoop::pipeline($payload,
-            ToArrayFromString::bendWith($splitter, $includeEmpties, $limit)
-        )->unfold();
-    }
-
     static public function stringHasOffset(
         string $payload,
         int $offset = 0
@@ -227,24 +150,24 @@ class Php
      */
     static public function stringStripOffset(string $payload, int $offset = 0)
     {
-        return Shoop::pipeline($payload,
-            ToArrayFromString::bend(),
-            StripArrayAt::bendWith($offset),
-            ToStringFromArray::bend()
+        return Shoop::pipe($payload,
+            AsArrayFromString::apply(),
+            StripArrayAt::applyWith($offset),
+            ToStringFromArray::apply()
         )->unfold();
     }
 
-    static public function stringAppendedWith(
-        string $payload,
-        string ...$terms
-    ): string
-    {
-        $string = $payload;
-        foreach ($terms as $term) {
-            $string .= $term;
-        }
-        return $string;
-    }
+    // static public function stringAppendedWith(
+    //     string $payload,
+    //     string ...$terms
+    // ): string
+    // {
+    //     $string = $payload;
+    //     foreach ($terms as $term) {
+    //         $string .= $term;
+    //     }
+    //     return $string;
+    // }
 
     static public function stringRepeated(
         string $payload,
@@ -291,8 +214,8 @@ class Php
         string ...$allowed
     ): string
     {
-        return Shoop::pipeline($payload,
-            TagsStrippedFromString::bendWith(...$allowed)
+        return Shoop::pipe($payload,
+            AsStringWithTags::applyWith(...$allowed)
         )->unfold();
     }
 
@@ -303,14 +226,14 @@ class Php
         string $charMask    = " \t\n\r\0\x0B"
     ): string
     {
-        return Shoop::pipeline($payload,
-            StrippedFromString::bendWith($fromEnd, $fromStart, $charMask)
+        return Shoop::pipe($payload,
+            StrippedFromString::applyWith($fromEnd, $fromStart, $charMask)
         )->unfold();
     }
 
     static public function stringReversed(string $payload): string
     {
-        return Shoop::pipeline($payload, ReverseString::bend())->unfold();
+        return Shoop::pipe($payload, Reverse::apply())->unfold();
     }
 
     static public function stringToLowercaseFirst(string $payload): string
@@ -334,7 +257,7 @@ class Php
      */
     static public function stringEndsWith(string $payload, string $suffix): bool
     {
-        return Shoop::pipeline($payload, EndsWithString::bendWith($suffix))
+        return Shoop::pipe($payload, EndsWithString::applyWith($suffix))
             ->unfold();
     }
 
@@ -346,7 +269,7 @@ class Php
         string $prefix
     ): bool
     {
-        return Shoop::pipeline($payload, StartsWithString::bendWith($prefix))
+        return Shoop::pipe($payload, StartsWithString::applyWith($prefix))
             ->unfold();
     }
 
@@ -355,16 +278,8 @@ class Php
      */
     static public function stringToArray(string $payload): array
     {
-        return Shoop::pipeline($payload, ToArrayFromString::bend())->unfold();
+        return Shoop::pipe($payload, AsArrayFromString::apply())->unfold();
     }
-
-    /**
-     * @deprecated
-     */
-    // static public function stringIsJson(string $payload): bool
-    // {
-    //     return Shoop::pipeline($payload, StringIsJson::bend())->unfold();
-    // }
 
     /**
      * @deprecated
@@ -374,8 +289,8 @@ class Php
         bool $preserveMembers = true
     ): array
     {
-        return Shoop::pipeline($payload,
-            ReverseArray::bendWith($preserveMembers)
+        return Shoop::pipe($payload,
+            ReverseArray::applyWith($preserveMembers)
         )->unfold();
     }
 }

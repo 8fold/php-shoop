@@ -4,16 +4,16 @@ namespace Eightfold\Shoop;
 
 use Eightfold\Shoop\Helpers\Type;
 
-use Eightfold\Foldable\Pipeline;
+use Eightfold\Foldable\Pipe;
 
 use Eightfold\Shoop\Interfaces\Foldable;
 use Eightfold\Shoop\Interfaces\Shooped;
 
 class Shoop
 {
-    static public function pipeline($payload, callable ...$elbows): Pipeline
+    static public function pipe($payload, callable ...$elbows): Pipe
     {
-        return Pipeline::fold($payload, ...$elbows);
+        return Pipe::fold($payload, ...$elbows);
     }
 
     static public function this($potential, string $shoopType = ""): Foldable

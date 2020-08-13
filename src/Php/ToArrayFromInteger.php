@@ -3,13 +3,13 @@ declare(strict_types=1);
 
 namespace Eightfold\Shoop\Php;
 
-use Eightfold\Foldable\Bend;
+use Eightfold\Foldable\Filter;
 
 use Eightfold\Shoop\Shoop;
 
 use Eightfold\Shoop\Php\StringIsJson;
 
-class ToArrayFromInteger extends Bend
+class ToArrayFromInteger extends Filter
 {
     private $start = 0;
 

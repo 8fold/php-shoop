@@ -3,37 +3,36 @@ declare(strict_types=1);
 
 namespace Eightfold\Shoop\Php;
 
-use Eightfold\Foldable\Bend;
+use Eightfold\Foldable\Filter;
 
 use Eightfold\Shoop\Shoop;
 
-class ToInt extends Bend
+class AsInt extends Filter
 {
     public function __invoke($payload): int
     {
         if (is_bool($payload)) {
-        //     // ToArrayFromBoolean
+            return (int) $payload;
+
         } elseif (is_int($payload)) {
-            // return Shoop::pipeline($payload, IntegerIsNot::bendWith(0))
+            // return Shoop::pipe($payload, IntegerIsNot::applyWith(0))
             //     ->unfold();
 
         // } elseif (is_object($payload)) {
         //     // ToArrayFromObject
 
         } elseif (is_array($payload)) {
-            return Shoop::pipeline($payload,
-                ToIntegerFromArray::bend()
-            )->unfold();
+            return count($payload);
 
         } elseif (is_string($payload)) {
-            $isJson = Shoop::pipeline($payload, StringIsJson::bend())->unfold();
+            $isJson = Shoop::pipe($payload, StringIsJson::apply())->unfold();
             if ($isJson) {
-                return Shoop::pipeline($payload,
-                    ToArrayFromJson::bend(),
-                    ToIntegerFromArray::bend()
+                return Shoop::pipe($payload,
+                    ToArrayFromJson::apply(),
+                    ToIntegerFromArray::apply()
                 )->unfold();
             }
-            return Shoop::pipeline($payload, ToIntegerFromString::bend())
+            return Shoop::pipe($payload, ToIntegerFromString::apply())
                 ->unfold();
         }
         var_dump(__FILE__);

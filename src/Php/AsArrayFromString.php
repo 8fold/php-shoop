@@ -3,11 +3,11 @@ declare(strict_types=1);
 
 namespace Eightfold\Shoop\Php;
 
-use Eightfold\Foldable\Bend;
+use Eightfold\Foldable\Filter;
 
 use Eightfold\Shoop\Shoop;
 
-class ToArrayFromString extends Bend
+class AsArrayFromString extends Filter
 {
     private $splitter = "";
     private $includeEmpties = true;
@@ -32,6 +32,6 @@ class ToArrayFromString extends Bend
         $array = explode($this->splitter, $payload, $this->limit);
         return ($this->includeEmpties)
             ? $array
-            : Shoop::pipeline($array, StripArray::bend(), ValuesFromArray::bend())->unfold();
+            : Shoop::pipe($array, StripArray::apply(), ValuesFromArray::apply())->unfold();
     }
 }

@@ -3,9 +3,9 @@ declare(strict_types=1);
 
 namespace Eightfold\Shoop\Php;
 
-use Eightfold\Foldable\Bend;
+use Eightfold\Foldable\Filter;
 
-class EqualStrings extends Bend
+class EqualStrings extends Filter
 {
     private $compare = "";
 

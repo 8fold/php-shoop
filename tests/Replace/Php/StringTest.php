@@ -14,10 +14,6 @@ class StringTest extends TestCase
         $actual = Php::stringAfterReplacing("Eightfold", ["Eight" => "8"]);
         $this->assertEqualsWithPerformance($expected, $actual);
 
-        $expected = "8fold";
-        $actual = Php::stringAppendedWith("8", "fold");
-        $this->assertEqualsWithPerformance($expected, $actual);
-
         $expected = "88888888";
         $actual = Php::stringRepeated("8", 8);
         $this->assertEqualsWithPerformance($expected, $actual);
@@ -32,18 +28,6 @@ class StringTest extends TestCase
 
         $expected = "8FOLD";
         $actual = Php::stringToUppercase("8fold");
-        $this->assertEqualsWithPerformance($expected, $actual);
-    }
-
-    public function test_splits()
-    {
-        $expected = ["", "8", "f", "o", "l", "d", ""];
-        $actual = Php::stringSplitOn(":8:f:o:l:d:", ":");
-        $this->assertEqualsWithPerformance($expected, $actual);
-
-        $this->start = hrtime(true);
-        $expected = ["8", "f", "o", "l", "d"];
-        $actual = Php::stringSplitOn(":8:f:o:l:d:", ":", false);
         $this->assertEqualsWithPerformance($expected, $actual);
     }
 

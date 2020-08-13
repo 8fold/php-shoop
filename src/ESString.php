@@ -20,6 +20,9 @@ use Eightfold\Shoop\Contracts\ArrayableImp;
 use Eightfold\Shoop\Contracts\Strippable;
 use Eightfold\Shoop\Contracts\StrippableImp;
 
+use Eightfold\Shoop\Php\AsArrayFromString;
+use Eightfold\Shoop\Php\Plus;
+
 use Eightfold\Shoop\Helpers\{
     Type,
     PhpString
@@ -58,7 +61,8 @@ class ESString implements
     // TODO: PHP 8.0 - string|ESString
     public function plus(...$terms): ESString
     {
-        $string = Php::stringAppendedWith($this->main, ...$terms);
+        $string = Shoop::pipe($this->main, Plus::applyWith(...$terms))
+            ->unfold();
         return static::fold($string);
     }
 
@@ -85,12 +89,15 @@ class ESString implements
         $limit = PHP_INT_MAX
     ): ESArray
     {
-        $array = Php::stringSplitOn(
-            $this->main,
-            $divisor,
-            $includeEmpties,
-            $limit
-        );
+        $array = Shoop::pipe($this->main,
+            AsArrayFromString::applyWith($divisor, $includeEmpties, $limit)
+        )->unfold();
+        // $array = Php::stringSplitOn(
+        //     $this->main,
+        //     $divisor,
+        //     $includeEmpties,
+        //     $limit
+        // );
         return ESArray::fold($array);
     }
 

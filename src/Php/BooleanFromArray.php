@@ -3,17 +3,17 @@ declare(strict_types=1);
 
 namespace Eightfold\Shoop\Php;
 
-use Eightfold\Foldable\Bend;
+use Eightfold\Foldable\Filter;
 
 use Eightfold\Shoop\Shoop;
 
-class BooleanFromArray extends Bend
+class BooleanFromArray extends Filter
 {
     public function __invoke(array $payload): bool
     {
-        return Shoop::pipeline($payload,
-            ToIntegerFromArray::bend(),
-            IntegerIsGreaterThan::bendWith(0)
+        return Shoop::pipe($payload,
+            ToIntegerFromArray::apply(),
+            IntegerIsGreaterThan::applyWith(0)
         )->unfold();
     }
 }

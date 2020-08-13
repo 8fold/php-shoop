@@ -3,9 +3,9 @@ declare(strict_types=1);
 
 namespace Eightfold\Shoop\Php;
 
-use Eightfold\Foldable\Bend;
+use Eightfold\Foldable\Filter;
 
-class StringFromString extends Bend
+class StringFromString extends Filter
 {
     private $start = 0;
     private $length = 0;

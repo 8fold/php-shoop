@@ -3,11 +3,11 @@ declare(strict_types=1);
 
 namespace Eightfold\Shoop\Php;
 
-use Eightfold\Foldable\Bend;
+use Eightfold\Foldable\Filter;
 
 use Eightfold\Shoop\Shoop;
 
-class StrippedFromString extends Bend
+class StrippedFromString extends Filter
 {
     private $fromEnd = true;
     private $fromStart = true;
@@ -41,13 +41,13 @@ class StrippedFromString extends Bend
             return rtrim($payload, $charMask);
 
         }
-        $needles      = Shoop::pipeline($charMask, ToArrayFromString::bend())->unfold();
+        $needles      = Shoop::pipe($charMask, AsArrayFromString::apply())->unfold();
         $replacements = array_fill(0, count($needles), "");
 
-        //TODO: ArrayToDictionary::bendWith($members);
+        //TODO: ArrayToDictionary::applyWith($members);
         // $combined = array_combine($members, $keys);
-        // TODO: MembersFromArray::bend();
-        // TODO: MembersFromDictionary::bend();
+        // TODO: MembersFromArray::apply();
+        // TODO: MembersFromDictionary::apply();
         return str_replace($needles, $replacements, $payload);
     }
 }

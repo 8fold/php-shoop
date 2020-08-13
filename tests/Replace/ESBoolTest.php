@@ -14,7 +14,7 @@ class ESBoolTest extends TestCase
     {
         $expected = "true";
         $actual = ESBool::fold(true)->string()->unfold();
-        $this->assertEqualsWithPerformance($expected, $actual, 1.75);
+        $this->assertEqualsWithPerformance($expected, $actual, 2);
 
         $this->start = hrtime(true);
         $expected = '{"true":true,"false":false}';

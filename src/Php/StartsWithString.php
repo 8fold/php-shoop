@@ -3,11 +3,11 @@ declare(strict_types=1);
 
 namespace Eightfold\Shoop\Php;
 
-use Eightfold\Foldable\Bend;
+use Eightfold\Foldable\Filter;
 
 use Eightfold\Shoop\Shoop;
 
-class StartsWithString extends Bend
+class StartsWithString extends Filter
 {
     private $prefix = "";
 
@@ -20,11 +20,11 @@ class StartsWithString extends Bend
     public function __invoke(string $payload): bool
     {
         // TODO: PHP 8.0 - str_starts_with()
-        $length = Shoop::pipeline($this->prefix, ToIntegerFromString::bend())
+        $length = Shoop::pipe($this->prefix, ToIntegerFromString::apply())
             ->unfold();
-        return Shoop::pipeline($payload,
-            StringFromString::bendWith(0, $length),
-            EqualStrings::bendWith($this->prefix)
+        return Shoop::pipe($payload,
+            StringFromString::applyWith(0, $length),
+            EqualStrings::applyWith($this->prefix)
         )->unfold();
     }
 }

@@ -3,9 +3,9 @@ declare(strict_types=1);
 
 namespace Eightfold\Shoop\Php;
 
-use Eightfold\Foldable\Bend;
+use Eightfold\Foldable\Filter;
 
-class IntegerIsGreaterThan extends Bend
+class IntegerIsGreaterThan extends Filter
 {
     private $int = 0;
 

@@ -3,11 +3,11 @@ declare(strict_types=1);
 
 namespace Eightfold\Shoop\Php;
 
-use Eightfold\Foldable\Bend;
+use Eightfold\Foldable\Filter;
 
 use Eightfold\Shoop\Shoop;
 
-class StripArray extends Bend
+class StripArray extends Filter
 {
     private $callback;
 

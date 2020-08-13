@@ -3,11 +3,11 @@ declare(strict_types=1);
 
 namespace Eightfold\Shoop\Php;
 
-use Eightfold\Foldable\Bend;
+use Eightfold\Foldable\Filter;
 
 use Eightfold\Shoop\Shoop;
 
-class StrippedWithinString extends Bend
+class StrippedWithinString extends Filter
 {
     private $replacements = [];
 
@@ -18,8 +18,8 @@ class StrippedWithinString extends Bend
 
     public function __invoke(string $payload): string
     {
-        $members = Shoop::pipeline($payload, MembersFromArray::bend())->unfold();
-        $values  = Shoop::pipeline($payload, ValuesFromArray::bend())->unfold();
+        $members = Shoop::pipe($payload, MembersFromArray::apply())->unfold();
+        $values  = Shoop::pipe($payload, ValuesFromArray::apply())->unfold();
         return str_replace($members, $values, $payload);
 
         // $string    = $payload;
@@ -37,6 +37,6 @@ class StrippedWithinString extends Bend
         //     return rtrim($payload, $charMask);
 
         // }
-        // $chars = Shoop::pipeline($charMask, ToArrayFromString::bend())->unfold();
+        // $chars = Shoop::pipe($charMask, AsArrayFromString::apply())->unfold();
     }
 }
