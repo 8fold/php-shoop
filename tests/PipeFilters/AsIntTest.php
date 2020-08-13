@@ -76,8 +76,9 @@ class AsIntTest extends TestCase
 
         $expected = 1;
         $actual = Shoop::pipe($payload, AsInt::apply())->unfold();
-        $this->assertEqualsWithPerformance($expected, $actual);
+        $this->assertEqualsWithPerformance($expected, $actual, 0.75);
 
+        $this->start = hrtime(true);
         $expected = 1;
         $actual = Shoop::pipe($payload, FromJson::apply())->unfold();
         $this->assertEqualsWithPerformance($expected, $actual);
@@ -107,6 +108,38 @@ class AsIntTest extends TestCase
 
         $expected = 5;
         $actual = Shoop::pipe($payload, FromString::apply())->unfold();
+        $this->assertEqualsWithPerformance($expected, $actual);
+
+        $payload = "I remember. A long time ago.";
+
+        $expected = 1;
+        $actual = Shoop::pipe($payload, AsInt::applyWith(false, "I"))->unfold();
+        $this->assertEqualsWithPerformance($expected, $actual);
+
+        $expected = 1;
+        $actual = Shoop::pipe($payload, FromString::applyWith(false, "i"))
+            ->unfold();
+        $this->assertEqualsWithPerformance($expected, $actual);
+
+        $expected = 2;
+        $actual = Shoop::pipe($payload, AsInt::applyWith(false, "a", false)
+            )->unfold();
+        $this->assertEqualsWithPerformance($expected, $actual);
+
+        $expected = 2;
+        $actual = Shoop::pipe($payload, FromString::applyWith(false, "A", false)
+            )->unfold();
+        $this->assertEqualsWithPerformance($expected, $actual);
+
+        $this->start = hrtime(true);
+        $payload = "8";
+
+        $expected = 8;
+        $actual = Shoop::pipe($payload, AsInt::applyWith(true))->unfold();
+        $this->assertEqualsWithPerformance($expected, $actual, 1.5);
+
+        $expected = 8;
+        $actual = Shoop::pipe($payload, FromString::applyWith(true))->unfold();
         $this->assertEqualsWithPerformance($expected, $actual);
     }
 }

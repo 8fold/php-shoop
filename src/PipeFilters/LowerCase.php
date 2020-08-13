@@ -1,7 +1,7 @@
 <?php
 declare(strict_types=1);
 
-namespace Eightfold\Shoop\Php;
+namespace Eightfold\Shoop\PipeFilters;
 
 use Eightfold\Foldable\Filter;
 
@@ -9,7 +9,7 @@ use Eightfold\Shoop\Shoop;
 
 use Eightfold\Shoop\Php\StringIsJson;
 
-class First extends Filter
+class LowerCase extends Filter
 {
     private $length = 1;
 
@@ -31,7 +31,7 @@ class First extends Filter
         } elseif (is_array($payload)) {
 
         } elseif (is_string($payload)) {
-            $isJson = Shoop::pipe($payload, StringIsJson::apply())->unfold();
+            $isJson = Shoop::pipe($payload, IsJson::apply())->unfold();
             if ($isJson) {
                 // return Shoop::pipe($payload, ToArrayFromJson::apply())
                 //     ->unfold();

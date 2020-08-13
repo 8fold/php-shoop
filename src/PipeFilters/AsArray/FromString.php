@@ -13,6 +13,7 @@ class FromString extends Filter
     private $includeEmpties = true;
     private $limit = PHP_INT_MAX;
 
+    // TODO: Allow case sensitivity
     public function __construct(
         string $splitter = "",
         bool $includeEmpties = true,

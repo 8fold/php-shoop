@@ -32,7 +32,8 @@ class AsInt extends Filter
             $isJson = Shoop::pipe($payload, IsJson::apply())->unfold();
             return ($isJson)
                 ? Shoop::pipe($payload, FromJson::apply())->unfold()
-                : Shoop::pipe($payload, FromString::apply())->unfold();
+                : Shoop::pipe($payload, FromString::applyWith(...$this->args(true)))
+                    ->unfold();
 
         }
         return 0;
