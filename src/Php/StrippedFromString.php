@@ -3,9 +3,9 @@ declare(strict_types=1);
 
 namespace Eightfold\Shoop\Php;
 
-use Eightfold\Shoop\Php;
-
 use Eightfold\Foldable\Bend;
+
+use Eightfold\Shoop\Shoop;
 
 class StrippedFromString extends Bend
 {
@@ -41,8 +41,13 @@ class StrippedFromString extends Bend
             return rtrim($payload, $charMask);
 
         }
-        // TODO: Use pipeline
-        $chars = Php::stringToArray($charMask);
-        return str_replace($chars, "", $payload);
+        $needles      = Shoop::pipeline($charMask, ToArrayFromString::bend())->unfold();
+        $replacements = array_fill(0, count($needles), "");
+
+        //TODO: ArrayToDictionary::bendWith($members);
+        // $combined = array_combine($members, $keys);
+        // TODO: MembersFromArray::bend();
+        // TODO: MembersFromDictionary::bend();
+        return str_replace($needles, $replacements, $payload);
     }
 }

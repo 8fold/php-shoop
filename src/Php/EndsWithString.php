@@ -5,6 +5,8 @@ namespace Eightfold\Shoop\Php;
 
 use Eightfold\Foldable\Bend;
 
+use Eightfold\Shoop\Shoop;
+
 class EndsWithString extends Bend
 {
     private $suffix = "";
@@ -19,7 +21,11 @@ class EndsWithString extends Bend
     {
         // TODO: PHP 8.0 - str_ends_with()
         // TODO: Use pip - stringToInt()->intReversed()
-        $length = strlen($this->suffix);
-        return substr($payload, -$length) === $this->suffix;
+        $length = Shoop::pipeline($this->suffix, IntFromString::bend())
+            ->unfold();
+        return Shoop::pipeline($payload,
+            StringFromString::bendWith(-$length),
+            EqualStrings::bendWith($this->suffix)
+        )->unfold();
     }
 }

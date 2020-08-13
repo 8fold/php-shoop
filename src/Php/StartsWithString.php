@@ -10,7 +10,6 @@ use Eightfold\Shoop\Php\IntFromString;
 
 class StartsWithString extends Bend
 {
-    private $original = "";
     private $prefix = "";
 
     public function __construct(string $prefix = "")
@@ -22,12 +21,11 @@ class StartsWithString extends Bend
     public function __invoke(string $payload): bool
     {
         // TODO: PHP 8.0 - str_starts_with()
-        // TODO:: replace with pipe - stringToInt
-        $length = Shoop::pipeline($this->prefix, IntFromString::bend())->unfold();
+        $length = Shoop::pipeline($this->prefix, IntFromString::bend())
+            ->unfold();
         return Shoop::pipeline($payload,
-            StringFromString::bend(0, $length),
-            EqualStrings::bend($this->prefix)
+            StringFromString::bendWith(0, $length),
+            EqualStrings::bendWith($this->prefix)
         )->unfold();
-        // return substr($payload, 0, Php::stringToInt($this->prefix)) === $this->prefix;
     }
 }

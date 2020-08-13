@@ -7,10 +7,16 @@ use Eightfold\Foldable\Bend;
 
 use Eightfold\Shoop\Shoop;
 
+use Eightfold\Shoop\Php\StripArray;
+use Eightfold\Shoop\Php\ValuesFromArray;
+
 class StripEmptiesFromArray extends Bend
 {
     public function __invoke(array $payload): array
     {
-        return array_values(array_filter($payload));
+        return Shoop::pipeline($payload,
+            StripArray::bend(),
+            ValuesFromArray::bend()
+        )->unfold();
     }
 }

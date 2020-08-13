@@ -5,6 +5,8 @@ namespace Eightfold\Shoop\Php;
 
 use Eightfold\Foldable\Bend;
 
+use Eightfold\Shoop\Shoop;
+
 class ToStringFromArray extends Bend
 {
     private $glue = "";
@@ -17,7 +19,8 @@ class ToStringFromArray extends Bend
     public function __invoke(array $payload): string
     {
         // TODO: Test directly
-        $strings = array_filter($payload, "is_string");
+        $strings = Shoop::pipeline($payload, StripArray::bendWith("is_string"))
+            ->unfold();
         return implode($strings, $this->glue);
     }
 }

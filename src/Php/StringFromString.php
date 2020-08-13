@@ -10,16 +10,22 @@ class StringFromString extends Bend
     private $start = 0;
     private $length = 0;
 
+    static public function bendWith(...$args)
+    {
+        return new static(...$args);
+    }
+
     public function __construct(int $start = 0, int $length = 0)
     {
-        $this->start = 0;
+        $this->start = $start;
         $this->length = $length;
     }
 
     public function __invoke(string $payload): string
     {
-        return ($length === 0)
-            ? substr($payload, $length)
-            : substr($payload, $this->start, $this->length);
+        if ($this->length === 0) {
+            return substr($payload, $this->start);
+        }
+        return substr($payload, $this->start, $this->length);
     }
 }

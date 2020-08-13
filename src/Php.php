@@ -354,7 +354,7 @@ class Php
     ): array
     {
         return Shoop::pipeline($payload,
-            SplitStringOn::bendWith($splitter, $includeEmpties, $limit)
+            ToArrayFromString::bendWith($splitter, $includeEmpties, $limit)
         )->unfold();
     }
 

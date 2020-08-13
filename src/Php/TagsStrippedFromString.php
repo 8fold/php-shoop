@@ -5,6 +5,8 @@ namespace Eightfold\Shoop\Php;
 
 use Eightfold\Foldable\Bend;
 
+use Eightfold\Shoop\Shoop;
+
 class TagsStrippedFromString extends Bend
 {
     private $allowed = [];
@@ -16,7 +18,8 @@ class TagsStrippedFromString extends Bend
 
     public function __invoke(string $payload): string
     {
-        $allow  = implode("", $this->allowed);
+        $allow = Shoop::pipeline($this->allowed, ToStringFromArray::bend())
+            ->unfold();
         return strip_tags($payload, $allow);
     }
 }
