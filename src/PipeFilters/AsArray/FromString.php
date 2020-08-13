@@ -1,13 +1,13 @@
 <?php
 declare(strict_types=1);
 
-namespace Eightfold\Shoop\Php;
+namespace Eightfold\Shoop\PipeFilters\AsArray;
 
 use Eightfold\Foldable\Filter;
 
 use Eightfold\Shoop\Shoop;
 
-class AsArrayFromString extends Filter
+class FromString extends Filter
 {
     private $splitter = "";
     private $includeEmpties = true;

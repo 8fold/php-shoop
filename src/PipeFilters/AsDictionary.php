@@ -1,11 +1,13 @@
 <?php
 declare(strict_types=1);
 
-namespace Eightfold\Shoop\Php;
+namespace Eightfold\Shoop\PipeFilters;
 
 use Eightfold\Foldable\Filter;
 
 use Eightfold\Shoop\Shoop;
+
+use Eightfold\Shoop\PipeFilters\AsDictionary\FromObject;
 
 class AsDictionary extends Filter
 {
@@ -23,7 +25,7 @@ class AsDictionary extends Filter
             )->unfold();
 
         } elseif (is_object($payload)) {
-            return (array) $payload;
+            return Shoop::pipe($payload, FromObject::apply())->unfold();
 
         } elseif (is_array($payload)) {
             $isNotDict = Shoop::pipe($payload,

@@ -1,13 +1,13 @@
 <?php
 declare(strict_types=1);
 
-namespace Eightfold\Shoop\Php;
+namespace Eightfold\Shoop\PipeFilters;
 
 use Eightfold\Foldable\Filter;
 
 use Eightfold\Shoop\Shoop;
 
-use Eightfold\Shoop\Php\StringIsJson;
+use Eightfold\Shoop\PipeFilters\AsArray\FromString;
 
 class AsArray extends Filter
 {
@@ -34,15 +34,14 @@ class AsArray extends Filter
             return Shoop::pipe($payload, ValuesFromArray::apply())->unfold();
 
         } elseif (is_string($payload)) {
-            $isJson = Shoop::pipe($payload, StringIsJson::apply())->unfold();
+            $isJson = Shoop::pipe($payload, IsJson::apply())->unfold();
             if ($isJson) {
                 return Shoop::pipe($payload,
                     AsObject::apply(),
                     AsArray::apply()
                 )->unfold();
             }
-            return Shoop::pipe($payload, AsArrayFromString::apply())
-                ->unfold();
+            return Shoop::pipe($payload, FromString::apply())->unfold();
         }
         return [];
     }

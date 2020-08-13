@@ -23,8 +23,8 @@
     <testsuite name="base">
       <directory suffix="Test.php">./tests/</directory>
     </testsuite>
-    <testsuite name="replace">
-      <directory suffix="Test.php">./tests/Replace</directory>
+    <testsuite name="pipe_filters">
+      <directory suffix="Test.php">./tests/PipeFilters</directory>
     </testsuite>
   </testsuites>
   <php>

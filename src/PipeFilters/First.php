@@ -1,7 +1,7 @@
 <?php
 declare(strict_types=1);
 
-namespace Eightfold\Shoop\Php;
+namespace Eightfold\Shoop\PipeFilters;
 
 use Eightfold\Foldable\Filter;
 
@@ -29,11 +29,15 @@ class First extends Filter
             // ToArrayFromObject
 
         } elseif (is_array($payload)) {
-            return ($first = array_shift($payload) === null) ? false : $first;
-            // return Shoop::pipe($payload, ValuesFromArray::apply())->unfold();
+            $range = Shoop::pipe($this->length, AsArray::apply())->unfold();
+            $array = [];
+            foreach ($range as $shift) {
+                $array[] = array_shift($payload);
+            }
+            return $array;
 
         } elseif (is_string($payload)) {
-            $isJson = Shoop::pipe($payload, StringIsJson::apply())->unfold();
+            $isJson = Shoop::pipe($payload, IsJson::apply())->unfold();
             if ($isJson) {
                 // return Shoop::pipe($payload, ToArrayFromJson::apply())
                 //     ->unfold();

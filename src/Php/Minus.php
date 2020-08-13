@@ -53,23 +53,17 @@ class Minus extends Filter
             $fromEnd   = ($this->args[0]) ? true : false;
             $fromStart = ($this->args[1]) ? true : false;
             $charMask  = $this->args[2];
-var_dump($fromEnd);
-var_dump($fromStart);
-var_dump($charMask);
             if ($this->fromStart and $this->fromEnd) {
-                die("true:true");
                 return trim($payload, $charMask);
 
             } elseif ($this->fromStart and ! $this->fromEnd) {
-                die("true:false");
                 return ltrim($payload, $charMask);
 
             } elseif (! $this->fromStart and $this->fromEnd) {
-                die("false:true");
                 return rtrim($payload, $charMask);
 
             }
-die("false:false");
+
             $needles      = Shoop::pipe($charMask, AsArray::apply())->unfold();
             $replacements = array_fill(0, count($needles), "");
 die(var_dump($needles));

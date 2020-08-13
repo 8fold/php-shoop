@@ -1,7 +1,7 @@
 <?php
 declare(strict_types=1);
 
-namespace Eightfold\Shoop\Php;
+namespace Eightfold\Shoop\PipeFilters;
 
 use Eightfold\Foldable\Filter;
 
@@ -23,13 +23,14 @@ class AsBool extends Filter
             return Shoop::pipe($payload,
                 AsDictionary::apply(),
                 AsInt::apply(),
-                IntIsNot::applyWith(0)
+                IsNot::applyWith(0)
             )->unfold();
 
         } elseif (is_array($payload)) {
+die(var_dump($payload, AsInt::apply()));
             return Shoop::pipe($payload,
                 AsInt::apply(),
-                IntIsNot::apply(0)
+                IsNot::apply(0)
             )->unfold();
 
         } elseif (is_string($payload)) {
@@ -38,7 +39,7 @@ class AsBool extends Filter
                 return Shoop::pipe($payload,
                     ToArrayFromJson::apply(),
                     ToIntegerFromArray::apply(),
-                    IntegerIsNot::applyWith(0)
+                    IsNot::applyWith(0)
                 )->unfold();
             }
         //     return Shoop::pipe($payload, AsArrayFromString::apply())
