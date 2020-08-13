@@ -18,8 +18,11 @@ class AsInt extends Filter
             // return Shoop::pipe($payload, IntegerIsNot::applyWith(0))
             //     ->unfold();
 
-        // } elseif (is_object($payload)) {
-        //     // ToArrayFromObject
+        } elseif (is_object($payload)) {
+            return Shoop::pipe($payload,
+                AsDictionary::apply(),
+                AsInt::apply()
+            )->unfold();
 
         } elseif (is_array($payload)) {
             return count($payload);

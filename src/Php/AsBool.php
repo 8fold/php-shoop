@@ -19,6 +19,13 @@ class AsBool extends Filter
         } elseif (is_int($payload)) {
             return (bool) $payload;
 
+        } elseif (is_object($payload)) {
+            return Shoop::pipe($payload,
+                AsDictionary::apply(),
+                AsInt::apply(),
+                IntIsNot::applyWith(0)
+            )->unfold();
+
         } elseif (is_array($payload)) {
             return Shoop::pipe($payload,
                 AsInt::apply(),

@@ -98,22 +98,6 @@ class Php
 // -> JSON
 
 // -> Object
-    static public function objectToBool(object $payload): bool
-    {
-        return Shoop::pipe($payload,
-            AsDictionary::apply(),
-            AsInt::apply(),
-            IntegerIsGreaterThan::applyWith(0)
-        )->unfold();
-    }
-
-    static public function objectToInt(object $payload): int
-    {
-        return Shoop::pipe($payload,
-            AsDictionary::apply(),
-            AsInt::apply()
-        )->unfold();
-    }
 
 // -> String
     static public function stringHasOffset(
@@ -191,34 +175,6 @@ class Php
         return $string;
     }
 
-    static public function stringStrippedOfFirst(
-        string $payload,
-        int $length = 1
-    ): string
-    {
-        $sLength = strlen($payload) - $length;
-        return substr($payload, $length, $sLength);
-    }
-
-    static public function stringStrippedOfLast(
-        string $payload,
-        int $length = 1
-    ): string
-    {
-        $sLength = strlen($payload) - $length;
-        return substr($payload, 0, $sLength);
-    }
-
-    static public function stringStrippedOfTags(
-        string $payload,
-        string ...$allowed
-    ): string
-    {
-        return Shoop::pipe($payload,
-            AsStringWithTags::applyWith(...$allowed)
-        )->unfold();
-    }
-
     static public function stringStrippedOf(
         string $payload,
         bool   $fromEnd     = true,
@@ -228,69 +184,6 @@ class Php
     {
         return Shoop::pipe($payload,
             StrippedFromString::applyWith($fromEnd, $fromStart, $charMask)
-        )->unfold();
-    }
-
-    static public function stringReversed(string $payload): string
-    {
-        return Shoop::pipe($payload, Reverse::apply())->unfold();
-    }
-
-    static public function stringToLowercaseFirst(string $payload): string
-    {
-        return lcfirst($payload);
-    }
-
-    static public function stringToLowercase(string $payload): string
-    {
-        return mb_strtolower($payload);
-    }
-
-    static public function stringToUppercase(string $payload): string
-    {
-        return mb_strtoupper($payload);
-    }
-
-// -> deprecated
-    /**
-     * @deprecated
-     */
-    static public function stringEndsWith(string $payload, string $suffix): bool
-    {
-        return Shoop::pipe($payload, EndsWithString::applyWith($suffix))
-            ->unfold();
-    }
-
-    /**
-     * @deprecated
-     */
-    static public function stringStartsWith(
-        string $payload,
-        string $prefix
-    ): bool
-    {
-        return Shoop::pipe($payload, StartsWithString::applyWith($prefix))
-            ->unfold();
-    }
-
-    /**
-     * @deprecated
-     */
-    static public function stringToArray(string $payload): array
-    {
-        return Shoop::pipe($payload, AsArrayFromString::apply())->unfold();
-    }
-
-    /**
-     * @deprecated
-     */
-    static public function arrayReversed(
-        array $payload,
-        bool $preserveMembers = true
-    ): array
-    {
-        return Shoop::pipe($payload,
-            ReverseArray::applyWith($preserveMembers)
         )->unfold();
     }
 }

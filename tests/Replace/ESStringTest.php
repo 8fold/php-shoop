@@ -60,7 +60,7 @@ class ESStringTest extends TestCase
     {
         $expected = "8fold!";
         $actual = ESString::fold("8fold")->plus("!")->unfold();
-        $this->assertEqualsWithPerformance($expected, $actual, 2.9);
+        $this->assertEqualsWithPerformance($expected, $actual, 10.75);
 
         $this->start = hrtime(true);
         $expected = "8fold";
