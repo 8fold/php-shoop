@@ -1,13 +1,11 @@
 <?php
 declare(strict_types=1);
 
-namespace Eightfold\Shoop\Php;
+namespace Eightfold\Shoop\PipeFilters\Values;
 
 use Eightfold\Foldable\Filter;
 
-use Eightfold\Shoop\Shoop;
-
-class ValuesFromArray extends Filter
+class FromArray extends Filter
 {
     public function __invoke(array $payload): array
     {

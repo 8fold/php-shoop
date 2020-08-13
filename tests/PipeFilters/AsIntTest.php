@@ -106,6 +106,7 @@ class AsIntTest extends TestCase
         $actual = Shoop::pipe($payload, AsInt::apply())->unfold();
         $this->assertEqualsWithPerformance($expected, $actual, 1.5);
 
+        $this->start = hrtime(true);
         $expected = 5;
         $actual = Shoop::pipe($payload, FromString::apply())->unfold();
         $this->assertEqualsWithPerformance($expected, $actual);
@@ -121,6 +122,7 @@ class AsIntTest extends TestCase
             ->unfold();
         $this->assertEqualsWithPerformance($expected, $actual);
 
+        $this->start = hrtime(true);
         $expected = 2;
         $actual = Shoop::pipe($payload, AsInt::applyWith(false, "a", false)
             )->unfold();

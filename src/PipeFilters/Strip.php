@@ -1,13 +1,13 @@
 <?php
 declare(strict_types=1);
 
-namespace Eightfold\Shoop\Php;
+namespace Eightfold\Shoop\PipeFilters;
 
 use Eightfold\Foldable\Filter;
 
 use Eightfold\Shoop\Shoop;
 
-class StripArray extends Filter
+class Strip extends Filter
 {
     private $callback;
 

@@ -7,41 +7,33 @@ use Eightfold\Foldable\Filter;
 
 use Eightfold\Shoop\Shoop;
 
+use Eightfold\Shoop\PipeFilters\Values;
+use Eightfold\Shoop\PipeFilters\AsArray\FromBool;
+use Eightfold\Shoop\PipeFilters\AsArray\FromInt;
+use Eightfold\Shoop\PipeFilters\AsArray\FromJson;
+use Eightfold\Shoop\PipeFilters\AsArray\FromObject;
 use Eightfold\Shoop\PipeFilters\AsArray\FromString;
 
 class AsArray extends Filter
 {
-    public function __construct(...$args)
-    {
-        $this->args = $args;
-    }
-
     public function __invoke($payload): array
     {
         if (is_bool($payload)) {
-            // ToArrayFromBoolean
+            return Shoop::pipe($payload, FromBool::apply())->unfold();
+
         } elseif (is_int($payload)) {
-            $start = Shoop::pipe($this->args, First::apply(), AsInt::apply())
-                ->unfold();
-            return ($start > $int)
-                ? range($payload, $start)
-                : range($start, $payload);
+            return Shoop::pipe($payload, FromInt::applyWith(...$this->args()))->unfold();
 
         } elseif (is_object($payload)) {
-            // ToArrayFromObject
+            return Shoop::pipe($payload, FromObject::apply())->unfold();
 
         } elseif (is_array($payload)) {
-            return Shoop::pipe($payload, ValuesFromArray::apply())->unfold();
+            return Shoop::pipe($payload, Values::apply())->unfold();
 
         } elseif (is_string($payload)) {
-            $isJson = Shoop::pipe($payload, IsJson::apply())->unfold();
-            if ($isJson) {
-                return Shoop::pipe($payload,
-                    AsObject::apply(),
-                    AsArray::apply()
-                )->unfold();
-            }
-            return Shoop::pipe($payload, FromString::apply())->unfold();
+            return (Shoop::pipe($payload, IsJson::apply())->unfold())
+                ? Shoop::pipe($payload, FromJson::apply())->unfold()
+                : Shoop::pipe($payload, FromString::applyWith(...$this->args(true)))->unfold();
         }
         return [];
     }
