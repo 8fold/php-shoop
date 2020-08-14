@@ -35,6 +35,7 @@ class AsDictionary extends Filter
             return (Shoop::pipe($payload, IsJson::apply())->unfold())
                 ? Shoop::pipe($payload, FromJson::apply())->unfold()
                 : Shoop::pipe($payload, FromString::apply())->unfold();
+
         }
         return [];
     }

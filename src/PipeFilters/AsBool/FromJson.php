@@ -6,17 +6,20 @@ namespace Eightfold\Shoop\PipeFilters\AsBool;
 use Eightfold\Foldable\Filter;
 
 use Eightfold\Shoop\Shoop;
-
+use Eightfold\Shoop\PipeFilters\AsObject;
 use Eightfold\Shoop\PipeFilters\AsInt;
+use Eightfold\Shoop\PipeFilters\IsJson;
 use Eightfold\Shoop\PipeFilters\IsNot;
 
-use Eightfold\Shoop\Php\StringIsJson;
-
-class FromArray extends Filter
+class FromJson extends Filter
 {
-    public function __invoke(array $payload): bool
+    public function __invoke(string $payload): bool
     {
+        $isJson = Shoop::pipe($payload, IsJson::apply())->unfold();
+        if (! $isJson) { return false; }
+
         return Shoop::pipe($payload,
+            AsObject::apply(),
             AsInt::apply(),
             IsNot::applyWith(0)
         )->unfold();

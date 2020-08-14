@@ -6,8 +6,12 @@ namespace Eightfold\Shoop\PipeFilters;
 use Eightfold\Foldable\Filter;
 
 use Eightfold\Shoop\Shoop;
-
-use Eightfold\Shoop\Php\StringIsJson;
+use Eightfold\Shoop\PipeFilters\AsBool\FromArray;
+use Eightfold\Shoop\PipeFilters\AsBool\FromInt;
+use Eightfold\Shoop\PipeFilters\AsBool\FromJson;
+use Eightfold\Shoop\PipeFilters\AsBool\FromObject;
+use Eightfold\Shoop\PipeFilters\AsBool\FromString;
+use Eightfold\Shoop\PipeFilters\IsJson;
 
 class AsBool extends Filter
 {
@@ -17,36 +21,20 @@ class AsBool extends Filter
             return $payload;
 
         } elseif (is_int($payload)) {
-            return (bool) $payload;
+            return Shoop::pipe($payload, FromInt::apply())->unfold();
 
         } elseif (is_object($payload)) {
-            return Shoop::pipe($payload,
-                AsDictionary::apply(),
-                AsInt::apply(),
-                IsNot::applyWith(0)
-            )->unfold();
+            return Shoop::pipe($payload, FromObject::apply())->unfold();
 
         } elseif (is_array($payload)) {
-die(var_dump($payload, AsInt::apply()));
-            return Shoop::pipe($payload,
-                AsInt::apply(),
-                IsNot::apply(0)
-            )->unfold();
+            return Shoop::pipe($payload, FromArray::apply())->unfold();
 
         } elseif (is_string($payload)) {
-            $isJson = Shoop::pipe($payload, StringIsJson::apply())->unfold();
-            if ($isJson) {
-                return Shoop::pipe($payload,
-                    ToArrayFromJson::apply(),
-                    ToIntegerFromArray::apply(),
-                    IsNot::applyWith(0)
-                )->unfold();
-            }
-        //     return Shoop::pipe($payload, AsArrayFromString::apply())
-        //         ->unfold();
+            return (Shoop::pipe($payload, IsJson::apply())->unfold())
+                ? Shoop::pipe($payload, FromJson::apply())->unfold()
+                : Shoop::pipe($payload, FromString::apply())->unfold();
+
         }
-        var_dump(__FILE__);
-        die(var_dump($payload));
-        // return [];
+        return false;
     }
 }
