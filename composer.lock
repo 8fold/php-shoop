@@ -8,16 +8,16 @@
     "packages": [
         {
             "name": "8fold/php-foldable",
-            "version": "0.0.7",
+            "version": "0.0.9",
             "source": {
                 "type": "git",
                 "url": "https://github.com/8fold/php-foldable.git",
-                "reference": "ac95ac4c154cb008c839561aa7ac5173e6939111"
+                "reference": "17bc1c1597e2d35cd916e4c864790ac22a81ce78"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/8fold/php-foldable/zipball/ac95ac4c154cb008c839561aa7ac5173e6939111",
-                "reference": "ac95ac4c154cb008c839561aa7ac5173e6939111",
+                "url": "https://api.github.com/repos/8fold/php-foldable/zipball/17bc1c1597e2d35cd916e4c864790ac22a81ce78",
+                "reference": "17bc1c1597e2d35cd916e4c864790ac22a81ce78",
                 "shasum": ""
             },
             "require": {
@@ -54,7 +54,7 @@
                     "type": "github"
                 }
             ],
-            "time": "2020-08-13T20:46:10+00:00"
+            "time": "2020-08-14T04:02:31+00:00"
         },
         {
             "name": "league/pipeline",

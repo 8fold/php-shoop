@@ -22,18 +22,23 @@ class AsArray extends Filter
             return Shoop::pipe($payload, FromBool::apply())->unfold();
 
         } elseif (is_int($payload)) {
-            return Shoop::pipe($payload, FromInt::applyWith(...$this->args()))->unfold();
+            return Shoop::pipe($payload,
+                FromInt::applyWith(...$this->args(true))
+            )->unfold();
 
         } elseif (is_object($payload)) {
             return Shoop::pipe($payload, FromObject::apply())->unfold();
 
         } elseif (is_array($payload)) {
+            // return Values::apply()->unfoldUsing($payload);
+            // return array_values($payload);
             return Shoop::pipe($payload, Values::apply())->unfold();
 
         } elseif (is_string($payload)) {
             return (Shoop::pipe($payload, IsJson::apply())->unfold())
                 ? Shoop::pipe($payload, FromJson::apply())->unfold()
                 : Shoop::pipe($payload, FromString::applyWith(...$this->args(true)))->unfold();
+
         }
         return [];
     }

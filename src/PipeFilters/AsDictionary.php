@@ -12,6 +12,7 @@ use Eightfold\Shoop\PipeFilters\AsDictionary\FromBool;
 use Eightfold\Shoop\PipeFilters\AsDictionary\FromInt;
 use Eightfold\Shoop\PipeFilters\AsDictionary\FromJson;
 use Eightfold\Shoop\PipeFilters\AsDictionary\FromObject;
+use Eightfold\Shoop\PipeFilters\AsDictionary\FromString;
 
 class AsDictionary extends Filter
 {
@@ -21,7 +22,9 @@ class AsDictionary extends Filter
             return Shoop::pipe($payload, FromBool::apply())->unfold();
 
         } elseif (is_int($payload)) {
-            return Shoop::pipe($payload, FromInt::apply())->unfold();
+            return Shoop::pipe($payload,
+                FromInt::applyWith(...$this->args(true))
+            )->unfold();
 
         } elseif (is_object($payload)) {
             return Shoop::pipe($payload, FromObject::apply())->unfold();

@@ -25,8 +25,9 @@ class AsObject extends Filter
             return Shoop::pipe($payload, FromBool::apply())->unfold();
 
         } elseif (is_int($payload)) {
-            // return Shoop::pipe($payload, IntegerIsNot::applyWith(0))
-            //     ->unfold();
+            return Shoop::pipe($payload,
+                FromInt::applyWith(...$this->args(true))
+            )->unfold();
 
         } elseif (is_object($payload)) {
             return $payload;
@@ -40,7 +41,7 @@ class AsObject extends Filter
             $isJson = Shoop::pipe($payload, IsJson::apply())->unfold();
             return ($isJson)
                 ? Shoop::pipe($payload, FromJson::apply())->unfold()
-                : (object) ["string" => $payload];
+                : Shoop::pipe($payload, FromString::apply())->unfold();
         }
         return new stdClass;
     }

@@ -66,6 +66,14 @@ class AsDictionaryTest extends TestCase
         $expected = ["i0" => 0, "i1" => 1, "i2" => 2];
         $actual = Shoop::pipe($payload, FromInt::apply())->unfold();
         $this->assertEqualsWithPerformance($expected, $actual);
+
+        $expected = ["i0" => 1, "i1" => 2];
+        $actual = Shoop::pipe($payload, AsDictionary::applyWith(1))->unfold();
+        $this->assertEqualsWithPerformance($expected, $actual);
+
+        $expected = ["i0" => 1, "i1" => 2];
+        $actual = Shoop::pipe($payload, FromInt::applyWith(1))->unfold();
+        $this->assertEqualsWithPerformance($expected, $actual);
     }
 
     public function test_from_json()
@@ -97,6 +105,14 @@ class AsDictionaryTest extends TestCase
 
     public function test_from_string()
     {
-        $this->assertTrue(false);
+        // TODO: Discuss what should happen when a string becomes a dictionary.
+        //      Setting member "string" with it as the value.
+        $payload = "payload";
+        $expected = ["string" => "payload"];
+        $actual = Shoop::pipe($payload, AsDictionary::apply())->unfold();
+        $this->assertEqualsWithPerformance($expected, $actual);
+
+        $actual = Shoop::pipe($payload, FromString::apply())->unfold();
+        $this->assertEqualsWithPerformance($expected, $actual);
     }
 }

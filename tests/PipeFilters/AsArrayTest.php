@@ -23,7 +23,10 @@ class AsArrayTest extends TestCase
 
         $expected = $payload;
         $actual   = Shoop::pipe($payload, AsArray::apply())->unfold();
-        $this->assertEqualsWithPerformance($expected, $actual, 4.2);
+        $this->assertEqualsWithPerformance($expected, $actual, 1.3);
+        # pipe:   1.11 - 1.12 - 1.01 - 1.14
+        # filter: 0.99 - 1.00 - 1.09 - 1.1
+        # php:    0.93 - 0.96 - 0.86 - 0.82
 
         $this->start = hrtime(true);
         $payload = [0 => 1, 1 => 0, 2 => 3, 3 => 2];
@@ -63,8 +66,14 @@ class AsArrayTest extends TestCase
     {
         $payload = 3;
 
+        $this->start = hrtime(true);
         $expected = [0, 1, 2, 3];
         $actual = Shoop::pipe($payload, AsArray::apply())->unfold();
+        $this->assertEqualsWithPerformance($expected, $actual);
+
+        $this->start = hrtime(true);
+        $expected = [2, 3];
+        $actual = Shoop::pipe($payload, AsArray::applyWith(2))->unfold();
         $this->assertEqualsWithPerformance($expected, $actual);
 
         $expected = [2, 3];
@@ -79,7 +88,9 @@ class AsArrayTest extends TestCase
         $this->start = hrtime(true);
         $expected = [true];
         $actual = Shoop::pipe($payload, AsArray::apply())->unfold();
-        $this->assertEqualsWithPerformance($expected, $actual, 2.25);
+        $this->assertEqualsWithPerformance($expected, $actual, 1.8);
+        # pipe:   1.60 - 1.64 - 1.55 - 1.52
+        # filter: 1.72 - 1.54 - 1.54 - 1.50
 
         $this->start = hrtime(true);
         $expected = [true];
@@ -105,10 +116,12 @@ class AsArrayTest extends TestCase
     {
         $payload = "8fold";
 
+        $this->start = hrtime(true);
         $expected = ["8", "f", "o", "l", "d"];
         $actual = Shoop::pipe($payload, AsArray::apply())->unfold();
-        $this->assertEqualsWithPerformance($expected, $actual);
+        $this->assertEqualsWithPerformance($expected, $actual, 1.4);
 
+        $this->start = hrtime(true);
         $expected = ["8", "f", "o", "l", "d"];
         $actual = Shoop::pipe($payload, FromString::apply())->unfold();
         $this->assertEqualsWithPerformance($expected, $actual);
@@ -119,6 +132,7 @@ class AsArrayTest extends TestCase
         $actual = Shoop::pipe($payload, AsArray::applyWith(" "))->unfold();
         $this->assertEqualsWithPerformance($expected, $actual);
 
+        $this->start = hrtime(true);
         $expected = ["I", "remember.", "A long time ago."];
         $actual = Shoop::pipe($payload, FromString::applyWith(" ", true, 3))
             ->unfold();
