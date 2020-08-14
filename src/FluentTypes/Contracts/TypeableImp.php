@@ -48,7 +48,7 @@ trait TypeableImp
 
     public function count(): int
     {
-        return Shoop::pipe($this->main, AsInt::apply())->unfold();
+        return Shoop::pipe($this->main, AsInteger::apply())->unfold();
     }
 
     public function json(): ESJson

@@ -1,14 +1,14 @@
 <?php
 declare(strict_types=1);
 
-namespace Eightfold\Shoop\PipeFilters\AsInt;
+namespace Eightfold\Shoop\PipeFilters\AsInteger;
 
 use Eightfold\Foldable\Filter;
 
 use Eightfold\Shoop\Shoop;
 
 use Eightfold\Shoop\PipeFilters\AsDictionary;
-use Eightfold\Shoop\PipeFilters\AsInt;
+use Eightfold\Shoop\PipeFilters\AsInteger;
 
 class FromObject extends Filter
 {
@@ -16,7 +16,7 @@ class FromObject extends Filter
     {
         return Shoop::pipe($payload,
             AsDictionary::apply(),
-            AsInt::apply()
+            AsInteger::apply()
         )->unfold();
 
     }

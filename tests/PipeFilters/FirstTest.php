@@ -95,9 +95,10 @@ class FirstTest extends TestCase
     {
         $payload = "8fold?";
 
+        $this->start = hrtime(true);
         $expected = "8";
         $actual = Shoop::pipe($payload, PullFirst::apply())->unfold();
-        $this->assertEqualsWithPerformance($expected, $actual);
+        $this->assertEqualsWithPerformance($expected, $actual, 0.7);
 
         $expected = "8fold";
         $actual = Shoop::pipe($payload, FromString::applyWith(5))->unfold();

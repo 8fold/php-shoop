@@ -9,7 +9,7 @@ use Eightfold\Shoop\Shoop;
 
 use Eightfold\Shoop\Php\StringIsJson;
 
-class LowerCase extends Filter
+class AsStringLowerCased extends Filter
 {
     private $length = 1;
 

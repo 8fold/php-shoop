@@ -6,13 +6,13 @@ namespace Eightfold\Shoop\PipeFilters;
 use Eightfold\Foldable\Filter;
 
 use Eightfold\Shoop\Shoop;
-use Eightfold\Shoop\PipeFilters\AsInt\FromArray;
-use Eightfold\Shoop\PipeFilters\AsInt\FromBool;
-use Eightfold\Shoop\PipeFilters\AsInt\FromJson;
-use Eightfold\Shoop\PipeFilters\AsInt\FromObject;
-use Eightfold\Shoop\PipeFilters\AsInt\FromString;
+use Eightfold\Shoop\PipeFilters\AsInteger\FromArray;
+use Eightfold\Shoop\PipeFilters\AsInteger\FromBool;
+use Eightfold\Shoop\PipeFilters\AsInteger\FromJson;
+use Eightfold\Shoop\PipeFilters\AsInteger\FromObject;
+use Eightfold\Shoop\PipeFilters\AsInteger\FromString;
 
-class AsInt extends Filter
+class AsInteger extends Filter
 {
     public function __invoke($payload): int
     {
