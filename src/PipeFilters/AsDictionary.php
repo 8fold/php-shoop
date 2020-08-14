@@ -6,7 +6,11 @@ namespace Eightfold\Shoop\PipeFilters;
 use Eightfold\Foldable\Filter;
 
 use Eightfold\Shoop\Shoop;
-
+use Eightfold\Shoop\PipeFilters\Reverse;
+use Eightfold\Shoop\PipeFilters\AsDictionary\FromArray;
+use Eightfold\Shoop\PipeFilters\AsDictionary\FromBool;
+use Eightfold\Shoop\PipeFilters\AsDictionary\FromInt;
+use Eightfold\Shoop\PipeFilters\AsDictionary\FromJson;
 use Eightfold\Shoop\PipeFilters\AsDictionary\FromObject;
 
 class AsDictionary extends Filter
@@ -14,47 +18,24 @@ class AsDictionary extends Filter
     public function __invoke($payload): array
     {
         if (is_bool($payload)) {
-            return ($payload === true)
-                ? ["true" => true, "false" => false]
-                : ["true" => false, "false" => true];
+            return Shoop::pipe($payload, FromBool::apply())->unfold();
 
         } elseif (is_int($payload)) {
-            return Shoop::pipe($payload,
-                AsArray::apply(),
-                AsDictionary::apply()
-            )->unfold();
+            return Shoop::pipe($payload, FromInt::apply())->unfold();
 
         } elseif (is_object($payload)) {
             return Shoop::pipe($payload, FromObject::apply())->unfold();
 
         } elseif (is_array($payload)) {
-            $isNotDict = Shoop::pipe($payload,
-                IsDictionary::apply(),
-                Reverse::apply()
-            )->unfold();
-            if ($isNotDict) {
-                $array = [];
-                foreach ($payload as $member => $value) {
-                    $member = "i". $member;
-                    $array[$member] = $value;
-                }
-                return $array;
-
-            }
-            return $payload;
+            return (Shoop::pipe($payload, IsDictionary::apply())->unfold())
+                ? $payload
+                : Shoop::pipe($payload, FromArray::apply())->unfold();
 
         } elseif (is_string($payload)) {
-            $isJson = Shoop::pipe($payload, StringIsJson::apply())->unfold();
-            if ($isJson) {
-                return Shoop::pipe($payload,
-                    AsObject::apply(),
-                    AsDictionary::apply()
-                )->unfold();
-            }
-            return Shoop::pipe($payload, AsArray::apply())->unfold();
+            return (Shoop::pipe($payload, IsJson::apply())->unfold())
+                ? Shoop::pipe($payload, FromJson::apply())->unfold()
+                : Shoop::pipe($payload, FromString::apply())->unfold();
         }
-        var_dump(__FILE__);
-        die(var_dump($payload));
-        // return [];
+        return [];
     }
 }
