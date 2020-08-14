@@ -7,8 +7,8 @@ use Eightfold\Foldable\Filter;
 
 class FromDictionary extends Filter
 {
-    public function __invoke(array $payload): object
+    public function __invoke(array $using): object
     {
-        return (object) $payload;
+        return (object) $using;
     }
 }

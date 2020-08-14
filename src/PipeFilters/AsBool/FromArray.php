@@ -14,9 +14,9 @@ use Eightfold\Shoop\Php\StringIsJson;
 
 class FromArray extends Filter
 {
-    public function __invoke(array $payload): bool
+    public function __invoke(array $using): bool
     {
-        return Shoop::pipe($payload,
+        return Shoop::pipe($using,
             AsInteger::apply(),
             IsNot::applyWith(0)
         )->unfold();

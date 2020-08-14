@@ -21,46 +21,46 @@ class Minus extends Filter
         $this->args = $args;
     }
 
-    public function __invoke($payload)
+    public function __invoke($using)
     {
-        if (is_bool($payload)) {
-            return Shoop::pipe($payload, Reverse::apply())->unfold();
+        if (is_bool($using)) {
+            return Shoop::pipe($using, Reverse::apply())->unfold();
 
-        } elseif (is_int($payload)) {
+        } elseif (is_int($using)) {
             $int = Shoop::pipe($this->args, PullFirst::apply(), AsInteger::apply())
                 ->unfold();
-            return $payload - 1;
+            return $using - 1;
 
-        } elseif (is_object($payload)) {
-            return Shoop::pipe($payload,
+        } elseif (is_object($using)) {
+            return Shoop::pipe($using,
                 AsDictionary::apply(),
                 Minus::applyWith(...$this->args),
                 AsObject::apply()
             )->unfold();
 
-        } elseif (is_array($payload)) {
-            return Shoop::pipe($payload, AsString::applyWith(...$this->args))
+        } elseif (is_array($using)) {
+            return Shoop::pipe($using, AsString::applyWith(...$this->args))
                 ->unfold();
 
-        } elseif (is_string($payload)) {
-            $isJson = Shoop::pipe($payload, StringIsJson::apply())->unfold();
+        } elseif (is_string($using)) {
+            $isJson = Shoop::pipe($using, StringIsJson::apply())->unfold();
             if ($isJson) {
-                // return Shoop::pipe($payload, ToArrayFromJson::apply())
+                // return Shoop::pipe($using, ToArrayFromJson::apply())
                 //     ->unfold();
             }
 
-            $string    = $payload;
+            $string    = $using;
             $fromEnd   = ($this->args[0]) ? true : false;
             $fromStart = ($this->args[1]) ? true : false;
             $charMask  = $this->args[2];
             if ($this->fromStart and $this->fromEnd) {
-                return trim($payload, $charMask);
+                return trim($using, $charMask);
 
             } elseif ($this->fromStart and ! $this->fromEnd) {
-                return ltrim($payload, $charMask);
+                return ltrim($using, $charMask);
 
             } elseif (! $this->fromStart and $this->fromEnd) {
-                return rtrim($payload, $charMask);
+                return rtrim($using, $charMask);
 
             }
 
@@ -71,7 +71,7 @@ die(var_dump($needles));
             // $combined = array_combine($members, $keys);
             // TODO: MembersFromArray::apply();
             // TODO: MembersFromDictionary::apply();
-            return str_replace($needles, $replacements, $payload);
+            return str_replace($needles, $replacements, $using);
         }
         return [];
     }

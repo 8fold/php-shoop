@@ -17,35 +17,35 @@ use Eightfold\Shoop\PipeFilters\IsJson;
 
 class PullFirst extends Filter
 {
-    public function __invoke($payload)
+    public function __invoke($using)
     {
-        if (is_bool($payload)) {
+        if (is_bool($using)) {
             return [];
 
-        } elseif (is_int($payload)) {
-            return Shoop::pipe($payload,
+        } elseif (is_int($using)) {
+            return Shoop::pipe($using,
                 FromInt::applyWith(...$this->args(true))
             )->unfold();
 
-        } elseif (is_object($payload)) {
-            return Shoop::pipe($payload,
+        } elseif (is_object($using)) {
+            return Shoop::pipe($using,
                 FromObject::applyWith(...$this->args(true))
             )->unfold();
 
-        } elseif (is_array($payload)) {
-            return Shoop::pipe($payload,
+        } elseif (is_array($using)) {
+            return Shoop::pipe($using,
                 FromArray::applyWith(...$this->args(true))
             )->unfold();
 
-        } elseif (is_string($payload)) {
-            if (Shoop::pipe($payload, IsJson::apply())->unfold()) {
-                return Shoop::pipe($payload,
+        } elseif (is_string($using)) {
+            if (Shoop::pipe($using, IsJson::apply())->unfold()) {
+                return Shoop::pipe($using,
                     FromJson::applyWith(...$this->args())
                 )->unfold();
 
             }
 
-            return Shoop::pipe($payload,
+            return Shoop::pipe($using,
                 FromString::applyWith(...$this->args(true))
             )->unfold();
 

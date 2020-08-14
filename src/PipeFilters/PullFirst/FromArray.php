@@ -16,8 +16,8 @@ class FromArray extends Filter
         $this->length = $length;
     }
 
-    public function __invoke(array $payload): array
+    public function __invoke(array $using): array
     {
-        return array_slice($payload, 0, $this->length);
+        return array_slice($using, 0, $this->length);
     }
 }

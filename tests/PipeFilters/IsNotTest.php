@@ -12,10 +12,10 @@ class IsNotTest extends TestCase
 {
     public function test_from_array()
     {
-        $payload = [0, 1, 2, 3];
+        $using = [0, 1, 2, 3];
 
         $expected = false;
-        $actual   = Shoop::pipe($payload, IsNot::applyWith([0, 1, 2, 3]))
+        $actual   = Shoop::pipe($using, IsNot::applyWith([0, 1, 2, 3]))
             ->unfold();
         $this->assertEqualsWithPerformance($expected, $actual);
     }

@@ -16,8 +16,8 @@ class Int extends Filter
         $this->compare = $compare;
     }
 
-    public function __invoke(int $payload): bool
+    public function __invoke(int $using): bool
     {
-        return $payload !== $this->compare;
+        return $using !== $this->compare;
     }
 }

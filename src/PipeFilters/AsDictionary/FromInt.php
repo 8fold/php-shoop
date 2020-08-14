@@ -11,9 +11,9 @@ use Eightfold\Shoop\PipeFilters\AsDictionary;
 
 class FromInt extends Filter
 {
-    public function __invoke(int $payload): array
+    public function __invoke(int $using): array
     {
-        return Shoop::pipe($payload,
+        return Shoop::pipe($using,
             AsArray::applyWith(...$this->args(true)),
             AsDictionary::apply()
         )->unfold();

@@ -13,12 +13,12 @@ use Eightfold\Shoop\PipeFilters\IsNot;
 
 class FromJson extends Filter
 {
-    public function __invoke(string $payload): bool
+    public function __invoke(string $using): bool
     {
-        $isJson = Shoop::pipe($payload, IsJson::apply())->unfold();
+        $isJson = Shoop::pipe($using, IsJson::apply())->unfold();
         if (! $isJson) { return false; }
 
-        return Shoop::pipe($payload,
+        return Shoop::pipe($using,
             AsObject::apply(),
             AsInteger::apply(),
             IsNot::applyWith(0)

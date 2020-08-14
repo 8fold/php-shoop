@@ -18,9 +18,9 @@ class FromObject extends Filter
         $this->length = $length;
     }
 
-    public function __invoke(object $payload): array
+    public function __invoke(object $using): array
     {
-        return Shoop::pipe($payload,
+        return Shoop::pipe($using,
             AsDictionary::apply(),
             PullFirst::applyWith($this->length)
         )->unfold();

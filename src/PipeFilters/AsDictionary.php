@@ -16,28 +16,28 @@ use Eightfold\Shoop\PipeFilters\AsDictionary\FromString;
 
 class AsDictionary extends Filter
 {
-    public function __invoke($payload): array
+    public function __invoke($using): array
     {
-        if (is_bool($payload)) {
-            return Shoop::pipe($payload, FromBool::apply())->unfold();
+        if (is_bool($using)) {
+            return Shoop::pipe($using, FromBool::apply())->unfold();
 
-        } elseif (is_int($payload)) {
-            return Shoop::pipe($payload,
+        } elseif (is_int($using)) {
+            return Shoop::pipe($using,
                 FromInt::applyWith(...$this->args(true))
             )->unfold();
 
-        } elseif (is_object($payload)) {
-            return Shoop::pipe($payload, FromObject::apply())->unfold();
+        } elseif (is_object($using)) {
+            return Shoop::pipe($using, FromObject::apply())->unfold();
 
-        } elseif (is_array($payload)) {
-            return (Shoop::pipe($payload, IsDictionary::apply())->unfold())
-                ? $payload
-                : Shoop::pipe($payload, FromArray::apply())->unfold();
+        } elseif (is_array($using)) {
+            return (Shoop::pipe($using, IsDictionary::apply())->unfold())
+                ? $using
+                : Shoop::pipe($using, FromArray::apply())->unfold();
 
-        } elseif (is_string($payload)) {
-            return (Shoop::pipe($payload, IsJson::apply())->unfold())
-                ? Shoop::pipe($payload, FromJson::apply())->unfold()
-                : Shoop::pipe($payload, FromString::apply())->unfold();
+        } elseif (is_string($using)) {
+            return (Shoop::pipe($using, IsJson::apply())->unfold())
+                ? Shoop::pipe($using, FromJson::apply())->unfold()
+                : Shoop::pipe($using, FromString::apply())->unfold();
 
         }
         return [];

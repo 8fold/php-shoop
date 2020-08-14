@@ -19,12 +19,12 @@ class FromJson extends Filter
         $this->length = $length;
     }
 
-    public function __invoke(string $payload): array
+    public function __invoke(string $using): array
     {
-        $isJson = Shoop::pipe($payload, IsJson::apply())->unfold();
+        $isJson = Shoop::pipe($using, IsJson::apply())->unfold();
         if (! $isJson) { return []; }
 
-        return Shoop::pipe($payload,
+        return Shoop::pipe($using,
             AsDictionary::apply(),
             PullFirst::applyWith($this->length)
         )->unfold();

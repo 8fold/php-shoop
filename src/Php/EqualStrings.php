@@ -14,8 +14,8 @@ class EqualStrings extends Filter
         $this->compare = $compare;
     }
 
-    public function __invoke(string $payload): bool
+    public function __invoke(string $using): bool
     {
-        return $payload === $this->compare;
+        return $using === $this->compare;
     }
 }

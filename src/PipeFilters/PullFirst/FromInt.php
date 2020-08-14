@@ -21,9 +21,9 @@ class FromInt extends Filter
         $this->start = $start;
     }
 
-    public function __invoke(int $payload): array
+    public function __invoke(int $using): array
     {
-        return Shoop::pipe($payload,
+        return Shoop::pipe($using,
             AsArray::applyWith($this->start),
             PullFirst::applyWith($this->length)
         )->unfold();

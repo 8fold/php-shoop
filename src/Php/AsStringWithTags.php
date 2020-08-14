@@ -16,10 +16,10 @@ class AsStringWithTags extends Filter
         $this->allowed = $allowed;
     }
 
-    public function __invoke(string $payload): string
+    public function __invoke(string $using): string
     {
         $allow = Shoop::pipe($this->allowed, AsString::apply())
             ->unfold();
-        return strip_tags($payload, $allow);
+        return strip_tags($using, $allow);
     }
 }

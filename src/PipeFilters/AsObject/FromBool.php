@@ -11,9 +11,9 @@ use Eightfold\Shoop\PipeFilters\AsObject;
 
 class FromBool extends Filter
 {
-    public function __invoke(bool $payload): object
+    public function __invoke(bool $using): object
     {
-        return Shoop::pipe($payload,
+        return Shoop::pipe($using,
             AsDictionary::apply(),
             AsObject::apply()
         )->unfold();

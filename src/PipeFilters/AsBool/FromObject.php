@@ -11,9 +11,9 @@ use Eightfold\Shoop\PipeFilters\IsNot;
 
 class FromObject extends Filter
 {
-    public function __invoke(object $payload): bool
+    public function __invoke(object $using): bool
     {
-        return Shoop::pipe($payload,
+        return Shoop::pipe($using,
             AsInteger::apply(),
             IsNot::applyWith(0)
         )->unfold();

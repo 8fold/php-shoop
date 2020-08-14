@@ -30,22 +30,22 @@ class FromString extends Filter
         $this->caseSensitive = $caseSensitive;
     }
 
-    public function __invoke(string $payload): int
+    public function __invoke(string $using): int
     {
         if ($this->stringToInt) {
-            return intval($payload);
+            return intval($using);
 
         } elseif (strlen($this->occurrences) > 0) {
             if ($this->caseSensitive) {
-                return substr_count($payload, $this->occurrences);
+                return substr_count($using, $this->occurrences);
 
             }
-            $lPayload = Shoop::pipe($payload, AsStringLowerCased::apply())->unfold();
+            $lPayload = Shoop::pipe($using, AsStringLowerCased::apply())->unfold();
             $lOccurrences = Shoop::pipe($this->occurrences, AsStringLowerCased::apply())
                 ->unfold();
             return substr_count($lPayload, $lOccurrences);
 
         }
-        return Shoop::pipe($payload, AsArray::apply(), AsInteger::apply())->unfold();
+        return Shoop::pipe($using, AsArray::apply(), AsInteger::apply())->unfold();
     }
 }

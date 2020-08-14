@@ -9,8 +9,8 @@ use Eightfold\Shoop\Shoop;
 
 class FromString extends Filter
 {
-    public function __invoke(string $payload): bool
+    public function __invoke(string $using): bool
     {
-        return (bool) $payload;
+        return (bool) $using;
     }
 }

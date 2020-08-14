@@ -12,20 +12,20 @@ use Eightfold\Shoop\PipeFilters\Last;
 
 class IsJson extends Filter
 {
-    public function __invoke(string $payload): bool
+    public function __invoke(string $using): bool
     {
         // Don't use pipe - could result in infinite loop
-        $length = strlen($payload);
+        $length = strlen($using);
         if ($length < 2) {
             return false;
 
-        } elseif ($payload[0] !== "{") {
+        } elseif ($using[0] !== "{") {
             return false;
 
-        } elseif ($payload[$length - 1] !== "}") {
+        } elseif ($using[$length - 1] !== "}") {
             return false;
 
-        } elseif (! is_array(json_decode($payload, true))) {
+        } elseif (! is_array(json_decode($using, true))) {
             return false;
 
         }

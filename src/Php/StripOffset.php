@@ -16,33 +16,33 @@ class Plus extends Filter
         $this->args = $args;
     }
 
-    public function __invoke($payload)
+    public function __invoke($using)
     {
-        if (is_bool($payload)) {
+        if (is_bool($using)) {
             // ToArrayFromBoolean
-        } elseif (is_int($payload)) {
-            // return Shoop::pipe($payload, ToArrayFromInteger::apply())->unfold();
+        } elseif (is_int($using)) {
+            // return Shoop::pipe($using, ToArrayFromInteger::apply())->unfold();
 
-        } elseif (is_object($payload)) {
+        } elseif (is_object($using)) {
             // ToArrayFromObject
 
-        } elseif (is_array($payload)) {
+        } elseif (is_array($using)) {
             $offset = Shoop::pipe($this->args, OffsetGet::applyWith(1))
                 ->unfold();
-            $exists = Shoop::pipe($payload, OffsetExists::applyWith($offset))
+            $exists = Shoop::pipe($using, OffsetExists::applyWith($offset))
                 ->unfold();
             if ($exists) {
-                unset($payload[$offset]);
-                return $payload;
+                unset($using[$offset]);
+                return $using;
             }
             return false;
 
-        } elseif (is_string($payload)) {
-            $isJson = Shoop::pipe($payload, StringIsJson::apply())->unfold();
+        } elseif (is_string($using)) {
+            $isJson = Shoop::pipe($using, StringIsJson::apply())->unfold();
             if ($isJson) {
             }
             // TOOD: Not fully implemented
-                return Shoop::pipe($payload,
+                return Shoop::pipe($using,
                     AsArray::apply(),
                     StripOffset::applyWith($offset),
                     AsString::apply()

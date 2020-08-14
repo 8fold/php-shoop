@@ -26,12 +26,12 @@ class FromString extends Filter
         $this->limit       = $limit;
     }
 
-    public function __invoke(string $payload): array
+    public function __invoke(string $using): array
     {
         if (strlen($this->divisor) === 0) {
-            return preg_split('//u', $payload, -1, PREG_SPLIT_NO_EMPTY);
+            return preg_split('//u', $using, -1, PREG_SPLIT_NO_EMPTY);
         }
-        $array = explode($this->divisor, $payload, $this->limit);
+        $array = explode($this->divisor, $using, $this->limit);
         return ($this->withEmpties)
             ? $array
             : Shoop::pipe($array, DropEmpties::apply(), AsArray::apply())->unfold();

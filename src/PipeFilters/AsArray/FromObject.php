@@ -11,9 +11,9 @@ use Eightfold\Shoop\PipeFilters\AsArray;
 
 class FromObject extends Filter
 {
-    public function __invoke(object $payload): array
+    public function __invoke(object $using): array
     {
-        return Shoop::pipe($payload, AsDictionary::apply(), AsArray::apply())
+        return Shoop::pipe($using, AsDictionary::apply(), AsArray::apply())
             ->unfold();
     }
 }

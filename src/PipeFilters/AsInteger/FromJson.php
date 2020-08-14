@@ -12,10 +12,10 @@ use Eightfold\Shoop\PipeFilters\AsInteger;
 
 class FromJson extends Filter
 {
-    public function __invoke(string $payload): int
+    public function __invoke(string $using): int
     {
-        $isJson = Shoop::pipe($payload, IsJson::apply())->unfold();
-        return Shoop::pipe($payload, AsObject::apply(), AsInteger::apply())
+        $isJson = Shoop::pipe($using, IsJson::apply())->unfold();
+        return Shoop::pipe($using, AsObject::apply(), AsInteger::apply())
             ->unfold();
     }
 }

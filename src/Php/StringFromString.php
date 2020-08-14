@@ -21,11 +21,11 @@ class StringFromString extends Filter
         $this->length = $length;
     }
 
-    public function __invoke(string $payload): string
+    public function __invoke(string $using): string
     {
         if ($this->length === 0) {
-            return substr($payload, $this->start);
+            return substr($using, $this->start);
         }
-        return substr($payload, $this->start, $this->length);
+        return substr($using, $this->start, $this->length);
     }
 }

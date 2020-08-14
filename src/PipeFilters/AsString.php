@@ -8,7 +8,9 @@ use Eightfold\Foldable\Filter;
 use Eightfold\Shoop\Shoop;
 
 use Eightfold\Shoop\PipeFilters\IsJson;
-use Eightfold\Shoop\PipeFilters\DropEmpties;
+use Eightfold\Shoop\PipeFilters\AsString\FromArray;
+use Eightfold\Shoop\PipeFilters\AsString\FromBool;
+use Eightfold\Shoop\PipeFilters\AsString\FromInteger;
 
 class AsString extends Filter
 {
@@ -19,46 +21,46 @@ class AsString extends Filter
         $this->glue = $glue;
     }
 
-    public function __invoke($payload): string
+    public function __invoke($using): string
     {
-        if (is_bool($payload)) {
-            return ($payload) ? "true" : "false";
+        if (is_bool($using)) {
+            return Shoop::pipe($using, FromBool::apply())->unfold();
 
-        } elseif (is_int($payload)) {
-            return strval($payload);
+        } elseif (is_int($using)) {
+            return Shoop::pipe($using, FromInteger::apply())->unfold();
 
-        } elseif (is_object($payload)) {
-var_dump(__FILE__);
-var_dump(__LINE__);
-var_dump($payload);
-die("object");
-        if (method_exists($payload, "__toString")) {
-            return (string) $payload;
+        } elseif (is_object($using)) {
+            return Shoop::pipe($using,
+                AsArrayOfStrings::apply(),
+                AsString::applyWith($this->glue)
+            )->unfold();
+
+        if (method_exists($using, "__toString")) {
+            return (string) $using;
         }
 
-        return Shoop::pipe($payload,
-            AsDictionary::apply($payload),
+        return Shoop::pipe($using,
+            AsDictionary::apply($using),
             AsString::apply($array)
         )->unfold();
 
-        } elseif (is_array($payload)) {
-            $strings = Shoop::pipe($payload, DropEmpties::applyWith("is_string"))
+        } elseif (is_array($using)) {
+            return Shoop::pipe($using, FromArray::applyWith($this->glue))
                 ->unfold();
-            return implode($strings, $this->glue);
 
-        } elseif (is_string($payload)) {
-            $isJson = Shoop::pipe($payload, StringIsJson::apply())->unfold();
+        } elseif (is_string($using)) {
+            $isJson = Shoop::pipe($using, StringIsJson::apply())->unfold();
             if ($isJson) {
 var_dump(__FILE__);
 var_dump(__LINE__);
-var_dump($payload);
-                // return Shoop::pipe($payload, ToArrayFromJson::apply())
+var_dump($using);
+                // return Shoop::pipe($using, ToArrayFromJson::apply())
                     // ->unfold();
             }
-            return $payload;
+            return $using;
         }
 var_dump(__FILE__);
-var_dump($payload);
+var_dump($using);
         return "";
     }
 }

@@ -7,9 +7,9 @@ use Eightfold\Foldable\Filter;
 
 class FromBool extends Filter
 {
-    public function __invoke(bool $payload): array
+    public function __invoke(bool $using): array
     {
-        return ($payload === true)
+        return ($using === true)
             ? ["true" => true, "false" => false]
             : ["true" => false, "false" => true];
     }

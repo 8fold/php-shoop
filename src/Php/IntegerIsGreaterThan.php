@@ -14,8 +14,8 @@ class IntegerIsGreaterThan extends Filter
         $this->int = $int;
     }
 
-    public function __invoke(int $payload): bool
+    public function __invoke(int $using): bool
     {
-        return $payload > $this->int;
+        return $using > $this->int;
     }
 }

@@ -11,9 +11,9 @@ use Eightfold\Shoop\Interfaces\Shooped;
 
 class Shoop
 {
-    static public function pipe($payload, callable ...$elbows): Pipe
+    static public function pipe($using, callable ...$elbows): Pipe
     {
-        return Pipe::fold($payload, ...$elbows);
+        return Pipe::fold($using, ...$elbows);
     }
 
     static public function this($potential, string $shoopType = ""): Foldable

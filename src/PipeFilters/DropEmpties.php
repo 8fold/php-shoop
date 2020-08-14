@@ -17,10 +17,10 @@ class DropEmpties extends Filter
         $this->callback = $callback;
     }
 
-    public function __invoke(array $payload): array
+    public function __invoke(array $using): array
     {
         return ($this->callback === null)
-            ? array_filter($payload)
-            : array_filter($payload, $this->callback);
+            ? array_filter($using)
+            : array_filter($using, $this->callback);
     }
 }

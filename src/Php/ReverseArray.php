@@ -14,9 +14,9 @@ class ReverseArray extends Filter
         $this->preserveMembers = $preserveMembers;
     }
 
-    public function __invoke(array $payload): array
+    public function __invoke(array $using): array
     {
         // TODO: Test directly
-        return array_reverse($payload, $this->preserveMembers);
+        return array_reverse($using, $this->preserveMembers);
     }
 }

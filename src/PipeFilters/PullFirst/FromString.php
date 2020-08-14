@@ -19,9 +19,9 @@ class FromString extends Filter
         $this->length = $length;
     }
 
-    public function __invoke(string $payload): string
+    public function __invoke(string $using): string
     {
-        return Shoop::pipe($payload,
+        return Shoop::pipe($using,
             AsArray::apply(),
             PullFirst::applyWith($this->length),
             AsString::apply()

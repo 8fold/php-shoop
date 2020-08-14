@@ -7,23 +7,27 @@ use Eightfold\Foldable\Filter;
 
 use Eightfold\Shoop\Shoop;
 
-use Eightfold\Shoop\PipeFilters\PullContent\FromArray;
+use Eightfold\Shoop\PipeFilters\PullContent;
+use Eightfold\Shoop\PipeFilters\AsArrayOfStrings\FromArray;
 
-class PullContent extends Filter
+class AsArrayOfStrings extends Filter
 {
     public function __invoke($using): array
     {
         if (is_bool($using)) {
-            // ToArrayFromBoolean
+die("is bool");
+
         } elseif (is_int($using)) {
+die("is int");
 
         } elseif (is_object($using)) {
-            // ToArrayFromObject
+die("is object");
 
         } elseif (is_array($using)) {
             return Shoop::pipe($using, FromArray::apply())->unfold();
 
         } elseif (is_string($using)) {
+die("is string");
 
         }
         return [];

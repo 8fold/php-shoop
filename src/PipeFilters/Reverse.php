@@ -18,27 +18,27 @@ class Reverse extends Filter
         $this->preserveMembers = $preserveMembers;
     }
 
-    public function __invoke($payload)
+    public function __invoke($using)
     {
-        if (is_bool($payload)) {
-            return ! $payload;
+        if (is_bool($using)) {
+            return ! $using;
 
-        } elseif (is_int($payload)) {
-            // return Shoop::pipe($payload, ToArrayFromInteger::apply())->unfold();
+        } elseif (is_int($using)) {
+            // return Shoop::pipe($using, ToArrayFromInteger::apply())->unfold();
 
-        } elseif (is_object($payload)) {
+        } elseif (is_object($using)) {
             // ToArrayFromObject
 
-        } elseif (is_array($payload)) {
-            return array_reverse($payload, $this->preserveMembers);
+        } elseif (is_array($using)) {
+            return array_reverse($using, $this->preserveMembers);
 
-        } elseif (is_string($payload)) {
-            $isJson = Shoop::pipe($payload, StringIsJson::apply())->unfold();
+        } elseif (is_string($using)) {
+            $isJson = Shoop::pipe($using, StringIsJson::apply())->unfold();
             if ($isJson) {
-                // return Shoop::pipe($payload, ToArrayFromJson::apply())
+                // return Shoop::pipe($using, ToArrayFromJson::apply())
                 //     ->unfold();
             }
-            return Shoop::pipe($payload,
+            return Shoop::pipe($using,
                 AsArray::apply(),
                 Reverse::apply(),
                 AsString::apply()

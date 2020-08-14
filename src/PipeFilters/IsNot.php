@@ -9,8 +9,8 @@ use Eightfold\Shoop\Shoop;
 
 class IsNot extends Filter
 {
-    public function __invoke($payload): bool
+    public function __invoke($using): bool
     {
-        return $payload !== Shoop::pipe($this->args, PullFirst::apply())->unfold();
+        return $using !== Shoop::pipe($this->args, PullFirst::apply())->unfold();
     }
 }

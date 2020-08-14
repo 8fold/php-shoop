@@ -8,8 +8,8 @@ use Eightfold\Foldable\Filter;
 class FirstFromArray extends Filter
 {
     // TODO: Test using this for string starts with
-    public function __invoke(array $payload)
+    public function __invoke(array $using)
     {
-        return array_shift($payload);
+        return array_shift($using);
     }
 }

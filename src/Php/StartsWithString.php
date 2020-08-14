@@ -17,12 +17,12 @@ class StartsWithString extends Filter
     }
 
     // TODO: PHP 8.0 - string|array
-    public function __invoke(string $payload): bool
+    public function __invoke(string $using): bool
     {
         // TODO: PHP 8.0 - str_starts_with()
         $length = Shoop::pipe($this->prefix, ToIntegerFromString::apply())
             ->unfold();
-        return Shoop::pipe($payload,
+        return Shoop::pipe($using,
             StringFromString::applyWith(0, $length),
             EqualStrings::applyWith($this->prefix)
         )->unfold();

@@ -10,8 +10,8 @@ use Eightfold\Shoop\PipeFilters\AsDictionary;
 
 class FromString extends Filter
 {
-    public function __invoke(string $payload): object
+    public function __invoke(string $using): object
     {
-        return (object) Shoop::pipe($payload, AsDictionary::apply())->unfold();
+        return (object) Shoop::pipe($using, AsDictionary::apply())->unfold();
     }
 }

@@ -19,29 +19,29 @@ use Eightfold\Shoop\PipeFilters\AsObject\FromString;
 
 class AsObject extends Filter
 {
-    public function __invoke($payload): object
+    public function __invoke($using): object
     {
-        if (is_bool($payload)) {
-            return Shoop::pipe($payload, FromBool::apply())->unfold();
+        if (is_bool($using)) {
+            return Shoop::pipe($using, FromBool::apply())->unfold();
 
-        } elseif (is_int($payload)) {
-            return Shoop::pipe($payload,
+        } elseif (is_int($using)) {
+            return Shoop::pipe($using,
                 FromInt::applyWith(...$this->args(true))
             )->unfold();
 
-        } elseif (is_object($payload)) {
-            return $payload;
+        } elseif (is_object($using)) {
+            return $using;
 
-        } elseif (is_array($payload)) {
-            return (Shoop::pipe($payload, IsDictionary::apply())->unfold())
-                ? Shoop::pipe($payload, FromDictionary::apply())->unfold()
-                : Shoop::pipe($payload, FromArray::apply())->unfold();
+        } elseif (is_array($using)) {
+            return (Shoop::pipe($using, IsDictionary::apply())->unfold())
+                ? Shoop::pipe($using, FromDictionary::apply())->unfold()
+                : Shoop::pipe($using, FromArray::apply())->unfold();
 
-        } elseif (is_string($payload)) {
-            $isJson = Shoop::pipe($payload, IsJson::apply())->unfold();
+        } elseif (is_string($using)) {
+            $isJson = Shoop::pipe($using, IsJson::apply())->unfold();
             return ($isJson)
-                ? Shoop::pipe($payload, FromJson::apply())->unfold()
-                : Shoop::pipe($payload, FromString::apply())->unfold();
+                ? Shoop::pipe($using, FromJson::apply())->unfold()
+                : Shoop::pipe($using, FromString::apply())->unfold();
         }
         return new stdClass;
     }

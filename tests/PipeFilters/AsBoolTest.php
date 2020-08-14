@@ -15,58 +15,61 @@ use Eightfold\Shoop\PipeFilters\AsBool\FromJson;
 use Eightfold\Shoop\PipeFilters\AsBool\FromObject;
 use Eightfold\Shoop\PipeFilters\AsBool\FromString;
 
-class AsBoolTest extends TestCase
+/**
+ * @group AsBool
+ */
+class AsBoolTestSuite extends TestCase
 {
     public function test_from_array()
     {
-        $payload = [0, 1, 2, 3];
+        $using = [0, 1, 2, 3];
 
         $this->start = hrtime(true);
         $expected = true;
-        $actual   = Shoop::pipe($payload, AsBool::apply())->unfold();
+        $actual   = Shoop::pipe($using, AsBool::apply())->unfold();
         $this->assertEqualsWithPerformance($expected, $actual, 2.05);
 
         $this->start = hrtime(true);
         $expected = true;
-        $actual   = Shoop::pipe($payload, FromArray::apply())->unfold();
+        $actual   = Shoop::pipe($using, FromArray::apply())->unfold();
         $this->assertEqualsWithPerformance($expected, $actual);
     }
 
     public function test_from_bool()
     {
-        $payload = true;
+        $using = true;
         $expected = true;
-        $actual = Shoop::pipe($payload, AsBool::apply())->unfold();
+        $actual = Shoop::pipe($using, AsBool::apply())->unfold();
         $this->assertEqualsWithPerformance($expected, $actual);
     }
 
     public function test_from_dictionary()
     {
-        $payload = ["true" => false];
+        $using = ["true" => false];
 
         $expected = true;
-        $actual = Shoop::pipe($payload, AsBool::apply())->unfold();
+        $actual = Shoop::pipe($using, AsBool::apply())->unfold();
         $this->assertEqualsWithPerformance($expected, $actual);
 
-        $actual = Shoop::pipe($payload, FromArray::apply())->unfold();
+        $actual = Shoop::pipe($using, FromArray::apply())->unfold();
         $this->assertEqualsWithPerformance($expected, $actual);
     }
 
     public function test_from_int()
     {
-        $payload = 0;
+        $using = 0;
         $expected = false;
-        $actual = Shoop::pipe($payload, AsBool::apply())->unfold();
+        $actual = Shoop::pipe($using, AsBool::apply())->unfold();
         $this->assertEqualsWithPerformance($expected, $actual);
 
-        $payload = 100;
+        $using = 100;
         $expected = true;
-        $actual = Shoop::pipe($payload, FromInt::apply())->unfold();
+        $actual = Shoop::pipe($using, FromInt::apply())->unfold();
         $this->assertEqualsWithPerformance($expected, $actual);
 
-        $payload = -3;
+        $using = -3;
         $expected = true;
-        $actual = Shoop::pipe($payload, FromInt::apply())->unfold();
+        $actual = Shoop::pipe($using, FromInt::apply())->unfold();
         $this->assertEqualsWithPerformance($expected, $actual);
     }
 
@@ -75,15 +78,15 @@ class AsBoolTest extends TestCase
         // TODO: Should an empty JSON object return false
         //      how close should empty and bool be??
         $this->start = hrtime(true);
-        $payload = '{}';
+        $using = '{}';
         $expected = true;//false
-        $actual = Shoop::pipe($payload, AsBool::apply())->unfold();
+        $actual = Shoop::pipe($using, AsBool::apply())->unfold();
         $this->assertEqualsWithPerformance($expected, $actual, 0.85);
 
         $this->start = hrtime(true);
-        $payload = '{"member":false}';
+        $using = '{"member":false}';
         $expected = true;
-        $actual = Shoop::pipe($payload, FromJson::apply())->unfold();
+        $actual = Shoop::pipe($using, FromJson::apply())->unfold();
         $this->assertEqualsWithPerformance($expected, $actual);
     }
 
@@ -93,30 +96,30 @@ class AsBoolTest extends TestCase
         //      how close should empty and bool be??
         //      we did say that an empty array is a
         //      ditionary because it could become one
-        $payload = new stdClass;
+        $using = new stdClass;
         $expected = true;// false
-        $actual = Shoop::pipe($payload, AsBool::apply())->unfold();
+        $actual = Shoop::pipe($using, AsBool::apply())->unfold();
         $this->assertEqualsWithPerformance($expected, $actual);
 
-        $payload->member = false;
+        $using->member = false;
         $expected = true;
-        $actual = Shoop::pipe($payload, FromObject::apply())->unfold();
+        $actual = Shoop::pipe($using, FromObject::apply())->unfold();
         $this->assertEqualsWithPerformance($expected, $actual);
     }
 
     public function test_from_string()
     {
-        $payload = "";
+        $using = "";
         $expected = false;
-        $actual = Shoop::pipe($payload, AsBool::apply())->unfold();
+        $actual = Shoop::pipe($using, AsBool::apply())->unfold();
         $this->assertEqualsWithPerformance($expected, $actual);
 
         // TODO: Should we convert the strings of "true" and "false"
         //      directly?? Basically, as long as the string is not
         //      empty, it is considered true by PHP type juggling.
-        $payload = "false";
+        $using = "false";
         $expected = true; // false
-        $actual = Shoop::pipe($payload, FromString::apply())->unfold();
+        $actual = Shoop::pipe($using, FromString::apply())->unfold();
         $this->assertEqualsWithPerformance($expected, $actual);
     }
 }

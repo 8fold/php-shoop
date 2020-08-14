@@ -21,27 +21,27 @@ class StrippedWithinString extends Filter
         $this->casesensitive = $casesensitive;
     }
 
-    public function __invoke(string $payload): string
+    public function __invoke(string $using): string
     {
-        $members = Shoop::pipe($payload, MembersFromArray::apply())->unfold();
-        $values  = Shoop::pipe($payload, ValuesFromArray::apply())->unfold();
+        $members = Shoop::pipe($using, MembersFromArray::apply())->unfold();
+        $values  = Shoop::pipe($using, ValuesFromArray::apply())->unfold();
         return ($casesensitive)
-            ? str_replace($members, $values, $payload)
-            : str_ireplace($members, $values, $payload);
+            ? str_replace($members, $values, $using)
+            : str_ireplace($members, $values, $using);
 
-        // $string    = $payload;
+        // $string    = $using;
         // $fromEnd   = $this->fromEnd;
         // $fromStart = $this->fromStart;
         // $charMask  = $this->charMask;
 
         // if ($this->fromStart and $this->fromEnd) {
-        //     return trim($payload, $charMask);
+        //     return trim($using, $charMask);
 
         // } elseif ($this->fromStart and ! $this->fromEnd) {
-        //     return ltrim($payload, $charMask);
+        //     return ltrim($using, $charMask);
 
         // } elseif (! $this->fromStart and $this->fromEnd) {
-        //     return rtrim($payload, $charMask);
+        //     return rtrim($using, $charMask);
 
         // }
         // $chars = Shoop::pipe($charMask, AsArrayFromString::apply())->unfold();

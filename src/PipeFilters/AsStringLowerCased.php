@@ -18,29 +18,29 @@ class AsStringLowerCased extends Filter
         $this->length = $length;
     }
 
-    public function __invoke($payload)
+    public function __invoke($using)
     {
-        if (is_bool($payload)) {
+        if (is_bool($using)) {
             // ToArrayFromBoolean
-        } elseif (is_int($payload)) {
-            // return Shoop::pipe($payload, ToArrayFromInteger::apply())->unfold();
+        } elseif (is_int($using)) {
+            // return Shoop::pipe($using, ToArrayFromInteger::apply())->unfold();
 
-        } elseif (is_object($payload)) {
+        } elseif (is_object($using)) {
             // ToArrayFromObject
 
-        } elseif (is_array($payload)) {
+        } elseif (is_array($using)) {
 
-        } elseif (is_string($payload)) {
-            $isJson = Shoop::pipe($payload, IsJson::apply())->unfold();
+        } elseif (is_string($using)) {
+            $isJson = Shoop::pipe($using, IsJson::apply())->unfold();
             if ($isJson) {
-                // return Shoop::pipe($payload, ToArrayFromJson::apply())
+                // return Shoop::pipe($using, ToArrayFromJson::apply())
                 //     ->unfold();
             }
             if ($length === 1) {
-                return lcfirst($payload);
+                return lcfirst($using);
 
             }
-            return mb_strtolower($payload);
+            return mb_strtolower($using);
         }
         return [];
     }

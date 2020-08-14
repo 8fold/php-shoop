@@ -12,9 +12,9 @@ use Eightfold\Shoop\PipeFilters\AsInteger;
 
 class FromObject extends Filter
 {
-    public function __invoke(object $payload): int
+    public function __invoke(object $using): int
     {
-        return Shoop::pipe($payload,
+        return Shoop::pipe($using,
             AsDictionary::apply(),
             AsInteger::apply()
         )->unfold();

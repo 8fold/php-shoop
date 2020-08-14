@@ -10,16 +10,16 @@ use Eightfold\Shoop\PipeFilters\IsDictionary;
 
 class FromArray extends Filter
 {
-    public function __invoke(array $payload): array
+    public function __invoke(array $using): array
     {
-        $isDict = Shoop::pipe($payload, IsDictionary::apply())->unfold();
+        $isDict = Shoop::pipe($using, IsDictionary::apply())->unfold();
         if ($isDict) {
-            return $payload;
+            return $using;
         }
         // TODO: test performance comparison to alternatives to foreach,
         //      hypothesis is that foreach is the fastest.
         $array = [];
-        foreach ($payload as $member => $value) {
+        foreach ($using as $member => $value) {
             $member = "i". $member;
             $array[$member] = $value;
         }

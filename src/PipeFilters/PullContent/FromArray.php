@@ -7,8 +7,8 @@ use Eightfold\Foldable\Filter;
 
 class FromArray extends Filter
 {
-    public function __invoke(array $payload): array
+    public function __invoke(array $using): array
     {
-        return array_values($payload);
+        return array_values($using);
     }
 }

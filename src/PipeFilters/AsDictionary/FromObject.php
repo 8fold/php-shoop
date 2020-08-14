@@ -7,8 +7,8 @@ use Eightfold\Foldable\Filter;
 
 class FromObject extends Filter
 {
-    public function __invoke(object $payload): array
+    public function __invoke(object $using): array
     {
-        return (array) $payload;
+        return (array) $using;
     }
 }

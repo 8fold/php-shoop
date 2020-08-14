@@ -5,20 +5,12 @@ namespace Eightfold\Shoop\PipeFilters;
 
 use Eightfold\Foldable\Filter;
 
-use Eightfold\Shoop\Shoop;
+use Eightfold\Shoop\PipeFilters\IsArray;
 
 class IsDictionary extends Filter
 {
-    public function __invoke(array $payload): bool
+    public function __invoke(array $using): bool
     {
-        if (count($payload) === 0) {
-            // Empty array could become a dictionary; therefore, is true.
-            return true;
-
-        }
-        // TODO: Consider using pipe for this.
-        $members = array_keys($payload);
-        $firstMember = $members[0];
-        return is_string($firstMember) and ! is_int($firstMember);
+        return (IsArray::apply()->unfoldUsing($using)) ? false : true;
     }
 }

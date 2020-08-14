@@ -24,21 +24,21 @@ class StrippedFromString extends Filter
         $this->charMask = $charMask;
     }
 
-    public function __invoke(string $payload): string
+    public function __invoke(string $using): string
     {
-        $string    = $payload;
+        $string    = $using;
         $fromEnd   = $this->fromEnd;
         $fromStart = $this->fromStart;
         $charMask  = $this->charMask;
 
         if ($this->fromStart and $this->fromEnd) {
-            return trim($payload, $charMask);
+            return trim($using, $charMask);
 
         } elseif ($this->fromStart and ! $this->fromEnd) {
-            return ltrim($payload, $charMask);
+            return ltrim($using, $charMask);
 
         } elseif (! $this->fromStart and $this->fromEnd) {
-            return rtrim($payload, $charMask);
+            return rtrim($using, $charMask);
 
         }
         $needles      = Shoop::pipe($charMask, AsArrayFromString::apply())->unfold();
@@ -48,6 +48,6 @@ class StrippedFromString extends Filter
         // $combined = array_combine($members, $keys);
         // TODO: MembersFromArray::apply();
         // TODO: MembersFromDictionary::apply();
-        return str_replace($needles, $replacements, $payload);
+        return str_replace($needles, $replacements, $using);
     }
 }

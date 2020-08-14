@@ -14,10 +14,10 @@ class FromInt extends Filter
         $this->start = $start;
     }
 
-    public function __invoke(int $payload): array
+    public function __invoke(int $using): array
     {
-        return ($this->start > $payload)
-            ? range($payload, $this->start)
-            : range($this->start, $payload);
+        return ($this->start > $using)
+            ? range($using, $this->start)
+            : range($this->start, $using);
     }
 }

@@ -13,135 +13,138 @@ use Eightfold\Shoop\PipeFilters\AsInteger\FromJson;
 use Eightfold\Shoop\PipeFilters\AsInteger\FromObject;
 use Eightfold\Shoop\PipeFilters\AsInteger\FromString;
 
-class AsIntegerTest extends TestCase
+/**
+ * @group AsInteger
+ */
+class AsIntegerTestSuite extends TestCase
 {
     public function test_from_array()
     {
-        $payload = [0, 1, 2, 3];
+        $using = [0, 1, 2, 3];
 
         $expected = 4;
-        $actual   = Shoop::pipe($payload, AsInteger::apply())->unfold();
+        $actual   = Shoop::pipe($using, AsInteger::apply())->unfold();
         $this->assertEqualsWithPerformance($expected, $actual, 1.5);
 
         $this->start = hrtime(true);
         $expected = 4;
-        $actual   = Shoop::pipe($payload, FromArray::apply())->unfold();
+        $actual   = Shoop::pipe($using, FromArray::apply())->unfold();
         $this->assertEqualsWithPerformance($expected, $actual);
     }
 
     public function test_from_bool()
     {
-        $payload = true;
+        $using = true;
 
         $expected = 1;
-        $actual = Shoop::pipe($payload, AsInteger::apply())->unfold();
+        $actual = Shoop::pipe($using, AsInteger::apply())->unfold();
         $this->assertEqualsWithPerformance($expected, $actual);
 
         $expected = 1;
-        $actual = Shoop::pipe($payload, FromBool::apply())->unfold();
+        $actual = Shoop::pipe($using, FromBool::apply())->unfold();
         $this->assertEqualsWithPerformance($expected, $actual);
 
-        $payload = false;
+        $using = false;
         $expected = 0;
-        $actual = Shoop::pipe($payload, FromBool::apply())->unfold();
+        $actual = Shoop::pipe($using, FromBool::apply())->unfold();
         $this->assertEqualsWithPerformance($expected, $actual);
     }
 
     public function test_from_dictionary()
     {
-        $payload = ["a" => 0, "b" => 1];
+        $using = ["a" => 0, "b" => 1];
 
         $expected = 2;
-        $actual   = Shoop::pipe($payload, AsInteger::apply())->unfold();
+        $actual   = Shoop::pipe($using, AsInteger::apply())->unfold();
         $this->assertEqualsWithPerformance($expected, $actual, 1.2);
 
         $this->start = hrtime(true);
         $expected = 2;
-        $actual   = Shoop::pipe($payload, FromArray::apply())->unfold();
+        $actual   = Shoop::pipe($using, FromArray::apply())->unfold();
         $this->assertEqualsWithPerformance($expected, $actual);
     }
 
     public function test_from_int()
     {
-        $payload = 100;
+        $using = 100;
 
         $expected = 100;
-        $actual = Shoop::pipe($payload, AsInteger::apply())->unfold();
+        $actual = Shoop::pipe($using, AsInteger::apply())->unfold();
         $this->assertEqualsWithPerformance($expected, $actual);
     }
 
     public function test_from_json()
     {
-        $payload = '{"member":true}';
+        $using = '{"member":true}';
 
         $expected = 1;
-        $actual = Shoop::pipe($payload, AsInteger::apply())->unfold();
+        $actual = Shoop::pipe($using, AsInteger::apply())->unfold();
         $this->assertEqualsWithPerformance($expected, $actual, 0.75);
 
         $this->start = hrtime(true);
         $expected = 1;
-        $actual = Shoop::pipe($payload, FromJson::apply())->unfold();
+        $actual = Shoop::pipe($using, FromJson::apply())->unfold();
         $this->assertEqualsWithPerformance($expected, $actual);
     }
 
     public function test_from_object()
     {
-        $payload = new \stdClass;
-        $payload->member = "hello";
+        $using = new \stdClass;
+        $using->member = "hello";
 
         $expected = 1;
-        $actual = Shoop::pipe($payload, AsInteger::apply())->unfold();
+        $actual = Shoop::pipe($using, AsInteger::apply())->unfold();
         $this->assertEqualsWithPerformance($expected, $actual);
 
         $expected = 1;
-        $actual = Shoop::pipe($payload, FromObject::apply())->unfold();
+        $actual = Shoop::pipe($using, FromObject::apply())->unfold();
         $this->assertEqualsWithPerformance($expected, $actual);
     }
 
     public function test_from_string()
     {
-        $payload = "8fold";
+        $using = "8fold";
 
         $expected = 5;
-        $actual = Shoop::pipe($payload, AsInteger::apply())->unfold();
+        $actual = Shoop::pipe($using, AsInteger::apply())->unfold();
         $this->assertEqualsWithPerformance($expected, $actual, 1.5);
 
         $this->start = hrtime(true);
         $expected = 5;
-        $actual = Shoop::pipe($payload, FromString::apply())->unfold();
+        $actual = Shoop::pipe($using, FromString::apply())->unfold();
         $this->assertEqualsWithPerformance($expected, $actual);
 
-        $payload = "I remember. A long time ago.";
+        $using = "I remember. A long time ago.";
 
         $expected = 1;
-        $actual = Shoop::pipe($payload, AsInteger::applyWith(false, "I"))->unfold();
+        $actual = Shoop::pipe($using, AsInteger::applyWith(false, "I"))->unfold();
         $this->assertEqualsWithPerformance($expected, $actual);
 
         $expected = 1;
-        $actual = Shoop::pipe($payload, FromString::applyWith(false, "i"))
+        $actual = Shoop::pipe($using, FromString::applyWith(false, "i"))
             ->unfold();
         $this->assertEqualsWithPerformance($expected, $actual);
 
         $this->start = hrtime(true);
         $expected = 2;
-        $actual = Shoop::pipe($payload, AsInteger::applyWith(false, "a", false)
+        $actual = Shoop::pipe($using, AsInteger::applyWith(false, "a", false)
             )->unfold();
         $this->assertEqualsWithPerformance($expected, $actual, 0.9);
 
         $expected = 2;
-        $actual = Shoop::pipe($payload, FromString::applyWith(false, "A", false)
+        $actual = Shoop::pipe($using, FromString::applyWith(false, "A", false)
             )->unfold();
         $this->assertEqualsWithPerformance($expected, $actual);
 
         $this->start = hrtime(true);
-        $payload = "8";
+        $using = "8";
 
         $expected = 8;
-        $actual = Shoop::pipe($payload, AsInteger::applyWith(true))->unfold();
+        $actual = Shoop::pipe($using, AsInteger::applyWith(true))->unfold();
         $this->assertEqualsWithPerformance($expected, $actual, 1.5);
 
         $expected = 8;
-        $actual = Shoop::pipe($payload, FromString::applyWith(true))->unfold();
+        $actual = Shoop::pipe($using, FromString::applyWith(true))->unfold();
         $this->assertEqualsWithPerformance($expected, $actual);
     }
 }

@@ -11,9 +11,9 @@ use Eightfold\Shoop\PipeFilters\AsArray;
 
 class FromJson extends Filter
 {
-    public function __invoke(string $payload): array
+    public function __invoke(string $using): array
     {
-        return Shoop::pipe($payload,
+        return Shoop::pipe($using,
             AsObject::apply(),
             AsArray::apply()
         )->unfold();

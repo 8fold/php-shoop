@@ -12,11 +12,11 @@ use Eightfold\Shoop\PipeFilters\IsJson;
 
 class FromJson extends Filter
 {
-    public function __invoke(string $payload): array
+    public function __invoke(string $using): array
     {
-        $isJson = Shoop::pipe($payload, IsJson::apply())->unfold();
+        $isJson = Shoop::pipe($using, IsJson::apply())->unfold();
         if ($isJson) {
-            return Shoop::pipe($payload,
+            return Shoop::pipe($using,
                 AsObject::apply(),
                 AsDictionary::apply()
             )->unfold();

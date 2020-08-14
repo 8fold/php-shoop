@@ -7,8 +7,8 @@ use Eightfold\Foldable\Filter;
 
 class FromBool extends Filter
 {
-    public function __invoke(bool $payload): int
+    public function __invoke(bool $using): int
     {
-        return (int) $payload;
+        return (int) $using;
     }
 }
