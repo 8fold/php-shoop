@@ -8,7 +8,7 @@ use Eightfold\Foldable\Filter;
 use Eightfold\Shoop\Shoop;
 
 // TODO: rename to "clear"??
-class Strip extends Filter
+class DropEmpties extends Filter
 {
     private $callback;
 

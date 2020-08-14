@@ -1,7 +1,7 @@
 <?php
 declare(strict_types=1);
 
-namespace Eightfold\Shoop\PipeFilters\Values;
+namespace Eightfold\Shoop\PipeFilters\PullContent;
 
 use Eightfold\Foldable\Filter;
 

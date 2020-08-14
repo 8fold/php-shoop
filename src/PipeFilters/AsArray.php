@@ -7,7 +7,7 @@ use Eightfold\Foldable\Filter;
 
 use Eightfold\Shoop\Shoop;
 
-use Eightfold\Shoop\PipeFilters\Values;
+use Eightfold\Shoop\PipeFilters\PullContent;
 use Eightfold\Shoop\PipeFilters\AsArray\FromBool;
 use Eightfold\Shoop\PipeFilters\AsArray\FromInt;
 use Eightfold\Shoop\PipeFilters\AsArray\FromJson;
@@ -30,7 +30,7 @@ class AsArray extends Filter
             return Shoop::pipe($payload, FromObject::apply())->unfold();
 
         } elseif (is_array($payload)) {
-            return Shoop::pipe($payload, Values::apply())->unfold();
+            return Shoop::pipe($payload, PullContent::apply())->unfold();
 
         } elseif (is_string($payload)) {
             return (Shoop::pipe($payload, IsJson::apply())->unfold())

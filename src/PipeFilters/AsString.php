@@ -8,7 +8,7 @@ use Eightfold\Foldable\Filter;
 use Eightfold\Shoop\Shoop;
 
 use Eightfold\Shoop\PipeFilters\IsJson;
-use Eightfold\Shoop\PipeFilters\Strip;
+use Eightfold\Shoop\PipeFilters\DropEmpties;
 
 class AsString extends Filter
 {
@@ -42,7 +42,7 @@ die("object");
         )->unfold();
 
         } elseif (is_array($payload)) {
-            $strings = Shoop::pipe($payload, Strip::applyWith("is_string"))
+            $strings = Shoop::pipe($payload, DropEmpties::applyWith("is_string"))
                 ->unfold();
             return implode($strings, $this->glue);
 

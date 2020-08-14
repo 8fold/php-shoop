@@ -4,7 +4,7 @@ namespace Eightfold\Shoop\Tests;
 
 use PHPUnit\Framework\TestCase as PHPUnitTestCase;
 
-class TestCase extends PHPUnitTestCase
+abstract class TestCase extends PHPUnitTestCase
 {
     /**
      * Seems to be upper limit of local machine. More typical is around 0.05.

@@ -7,7 +7,7 @@ use Eightfold\Foldable\Filter;
 
 use Eightfold\Shoop\Shoop;
 use Eightfold\Shoop\PipeFilters\AsArray;
-use Eightfold\Shoop\PipeFilters\Strip;
+use Eightfold\Shoop\PipeFilters\DropEmpties;
 
 class FromString extends Filter
 {
@@ -34,6 +34,6 @@ class FromString extends Filter
         $array = explode($this->divisor, $payload, $this->limit);
         return ($this->withEmpties)
             ? $array
-            : Shoop::pipe($array, Strip::apply(), AsArray::apply())->unfold();
+            : Shoop::pipe($array, DropEmpties::apply(), AsArray::apply())->unfold();
     }
 }

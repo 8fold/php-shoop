@@ -7,9 +7,9 @@ use Eightfold\Foldable\Filter;
 
 use Eightfold\Shoop\Shoop;
 
-use Eightfold\Shoop\PipeFilters\Values\FromArray;
+use Eightfold\Shoop\PipeFilters\PullContent\FromArray;
 
-class Values extends Filter
+class PullContent extends Filter
 {
     public function __invoke($payload): array
     {
