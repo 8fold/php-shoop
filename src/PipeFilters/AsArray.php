@@ -30,8 +30,6 @@ class AsArray extends Filter
             return Shoop::pipe($payload, FromObject::apply())->unfold();
 
         } elseif (is_array($payload)) {
-            // return Values::apply()->unfoldUsing($payload);
-            // return array_values($payload);
             return Shoop::pipe($payload, Values::apply())->unfold();
 
         } elseif (is_string($payload)) {

@@ -7,42 +7,48 @@ use Eightfold\Foldable\Filter;
 
 use Eightfold\Shoop\Shoop;
 
-use Eightfold\Shoop\Php\StringIsJson;
+use Eightfold\Shoop\PipeFilters\First\FromArray;
+use Eightfold\Shoop\PipeFilters\First\FromInt;
+use Eightfold\Shoop\PipeFilters\First\FromJson;
+use Eightfold\Shoop\PipeFilters\First\FromObject;
+use Eightfold\Shoop\PipeFilters\First\FromString;
+
+use Eightfold\Shoop\PipeFilters\IsJson;
 
 class First extends Filter
 {
-    private $length = 1;
-
-    public function __construct(int $length = 1)
-    {
-        $this->length = $length;
-    }
-
     public function __invoke($payload)
     {
         if (is_bool($payload)) {
-            // ToArrayFromBoolean
+            return [];
+
         } elseif (is_int($payload)) {
-            // return Shoop::pipe($payload, ToArrayFromInteger::apply())->unfold();
+            return Shoop::pipe($payload,
+                FromInt::applyWith(...$this->args(true))
+            )->unfold();
 
         } elseif (is_object($payload)) {
-            // ToArrayFromObject
+            return Shoop::pipe($payload,
+                FromObject::applyWith(...$this->args(true))
+            )->unfold();
 
         } elseif (is_array($payload)) {
-            $range = Shoop::pipe($this->length, AsArray::apply())->unfold();
-            $array = [];
-            foreach ($range as $shift) {
-                $array[] = array_shift($payload);
-            }
-            return $array;
+            return Shoop::pipe($payload,
+                FromArray::applyWith(...$this->args(true))
+            )->unfold();
 
         } elseif (is_string($payload)) {
-            $isJson = Shoop::pipe($payload, IsJson::apply())->unfold();
-            if ($isJson) {
-                // return Shoop::pipe($payload, ToArrayFromJson::apply())
-                //     ->unfold();
+            if (Shoop::pipe($payload, IsJson::apply())->unfold()) {
+                return Shoop::pipe($payload,
+                    FromJson::applyWith(...$this->args())
+                )->unfold();
+
             }
-            return $payload . $this->value;
+
+            return Shoop::pipe($payload,
+                FromString::applyWith(...$this->args(true))
+            )->unfold();
+
         }
         return [];
     }

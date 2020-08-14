@@ -6,11 +6,11 @@ namespace Eightfold\Shoop\PipeFilters\First;
 use Eightfold\Foldable\Filter;
 
 use Eightfold\Shoop\Shoop;
-use Eightfold\Shoop\PipeFilters\AsArray;
-use Eightfold\Shoop\PipeFilters\AsString;
+use Eightfold\Shoop\PipeFilters\AsDictionary;
 use Eightfold\Shoop\PipeFilters\First;
+use Eightfold\Shoop\PipeFilters\IsJson;
 
-class FromString extends Filter
+class FromJson extends Filter
 {
     private $length = 1;
 
@@ -19,12 +19,14 @@ class FromString extends Filter
         $this->length = $length;
     }
 
-    public function __invoke(string $payload): string
+    public function __invoke(string $payload): array
     {
+        $isJson = Shoop::pipe($payload, IsJson::apply())->unfold();
+        if (! $isJson) { return []; }
+
         return Shoop::pipe($payload,
-            AsArray::apply(),
-            First::applyWith($this->length),
-            AsString::apply()
+            AsDictionary::apply(),
+            First::applyWith($this->length)
         )->unfold();
     }
 }
