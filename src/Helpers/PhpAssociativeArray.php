@@ -10,40 +10,6 @@ use Eightfold\Shoop\Helpers\{
 
 class PhpAssociativeArray
 {
-    // static public function toIndexedArray(array $array = []): array
-    // {
-    //     return array_values($array);
-    // }
-
-    // static public function toBool(array $array = []): bool
-    // {
-    //     return self::toInt($array);
-    // }
-
-    // static public function toInt(array $array = []): int
-    // {
-    //     return count($array);
-    // }
-
-    // static public function toJson(array $array = []): string
-    // {
-    //     $object = self::toObject($array);
-    //     $json = PhpObject::toJson($object);
-    //     return $json;
-    // }
-
-    // static public function toObject(array $array = []): object
-    // {
-    //     $object = (object) $array;
-    //     return $object;
-    // }
-
-    // static public function toString(array $array = []): string
-    // {
-    //     $string = PhpIndexedArray::toString($array);
-    //     return str_replace("Array(", "Dictionary(", $string);
-    // }
-
     static public function endsWith(array $dictionary, array $needles): bool
     {
         $dictionary = self::reversed($dictionary, true);
@@ -158,11 +124,6 @@ class PhpAssociativeArray
 
         }
         return $array;
-    }
-
-    static public function afterDroppingEmpties(array $array): array
-    {
-        return array_filter($array);
     }
 
     static public function hasMember(array $array, string $member): bool
