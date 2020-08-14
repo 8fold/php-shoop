@@ -7,15 +7,15 @@ use Eightfold\Foldable\Filter;
 
 use Eightfold\Shoop\Shoop;
 
-use Eightfold\Shoop\PipeFilters\First\FromArray;
-use Eightfold\Shoop\PipeFilters\First\FromInt;
-use Eightfold\Shoop\PipeFilters\First\FromJson;
-use Eightfold\Shoop\PipeFilters\First\FromObject;
-use Eightfold\Shoop\PipeFilters\First\FromString;
+use Eightfold\Shoop\PipeFilters\PullFirst\FromArray;
+use Eightfold\Shoop\PipeFilters\PullFirst\FromInt;
+use Eightfold\Shoop\PipeFilters\PullFirst\FromJson;
+use Eightfold\Shoop\PipeFilters\PullFirst\FromObject;
+use Eightfold\Shoop\PipeFilters\PullFirst\FromString;
 
 use Eightfold\Shoop\PipeFilters\IsJson;
 
-class First extends Filter
+class PullFirst extends Filter
 {
     public function __invoke($payload)
     {

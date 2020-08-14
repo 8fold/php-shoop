@@ -1,16 +1,15 @@
 <?php
 declare(strict_types=1);
 
-namespace Eightfold\Shoop\PipeFilters\First;
+namespace Eightfold\Shoop\PipeFilters\PullFirst;
 
 use Eightfold\Foldable\Filter;
 
 use Eightfold\Shoop\Shoop;
 use Eightfold\Shoop\PipeFilters\AsDictionary;
-use Eightfold\Shoop\PipeFilters\First;
-use Eightfold\Shoop\PipeFilters\IsJson;
+use Eightfold\Shoop\PipeFilters\PullFirst;
 
-class FromJson extends Filter
+class FromObject extends Filter
 {
     private $length = 1;
 
@@ -19,14 +18,11 @@ class FromJson extends Filter
         $this->length = $length;
     }
 
-    public function __invoke(string $payload): array
+    public function __invoke(object $payload): array
     {
-        $isJson = Shoop::pipe($payload, IsJson::apply())->unfold();
-        if (! $isJson) { return []; }
-
         return Shoop::pipe($payload,
             AsDictionary::apply(),
-            First::applyWith($this->length)
+            PullFirst::applyWith($this->length)
         )->unfold();
     }
 }

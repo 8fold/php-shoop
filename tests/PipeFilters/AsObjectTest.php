@@ -113,6 +113,7 @@ class AsObjectTest extends TestCase
     {
         $payload = "";
 
+        $this->start = hrtime(true);
         $expected = new stdClass;
         $expected->string = "";
         $actual = Shoop::pipe($payload, AsObject::apply())->unfold();

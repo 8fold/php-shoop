@@ -8,12 +8,12 @@ use Eightfold\Shoop\Tests\TestCase;
 
 use Eightfold\Shoop\Shoop;
 
-use Eightfold\Shoop\PipeFilters\First;
-use Eightfold\Shoop\PipeFilters\First\FromArray;
-use Eightfold\Shoop\PipeFilters\First\FromInt;
-use Eightfold\Shoop\PipeFilters\First\FromJson;
-use Eightfold\Shoop\PipeFilters\First\FromObject;
-use Eightfold\Shoop\PipeFilters\First\FromString;
+use Eightfold\Shoop\PipeFilters\PullFirst;
+use Eightfold\Shoop\PipeFilters\PullFirst\FromArray;
+use Eightfold\Shoop\PipeFilters\PullFirst\FromInt;
+use Eightfold\Shoop\PipeFilters\PullFirst\FromJson;
+use Eightfold\Shoop\PipeFilters\PullFirst\FromObject;
+use Eightfold\Shoop\PipeFilters\PullFirst\FromString;
 
 class FirstTest extends TestCase
 {
@@ -23,7 +23,7 @@ class FirstTest extends TestCase
 
         $this->start = hrtime(true);
         $expected = [3];
-        $actual   = Shoop::pipe($payload, First::apply())->unfold();
+        $actual   = Shoop::pipe($payload, PullFirst::apply())->unfold();
         $this->assertEqualsWithPerformance($expected, $actual, 1.05);
 
         $this->start = hrtime(true);
@@ -42,7 +42,7 @@ class FirstTest extends TestCase
         $payload = ["a" => 3, "b" => 2, "c" => 5, "d" => 4];
 
         $expected = ["a" => 3];
-        $actual   = Shoop::pipe($payload, First::apply())->unfold();
+        $actual   = Shoop::pipe($payload, PullFirst::apply())->unfold();
         $this->assertEqualsWithPerformance($expected, $actual);
 
         $expected = ["a" => 3, "b" => 2];
@@ -55,7 +55,7 @@ class FirstTest extends TestCase
         $payload = 5;
 
         $expected = [1, 2];
-        $actual = Shoop::pipe($payload, First::applyWith(2, 1))->unfold();
+        $actual = Shoop::pipe($payload, PullFirst::applyWith(2, 1))->unfold();
         $this->assertEqualsWithPerformance($expected, $actual);
 
         $expected = [4, 5];
@@ -68,7 +68,7 @@ class FirstTest extends TestCase
         $payload = '{}';
 
         $expected = [];
-        $actual = Shoop::pipe($payload, First::apply())->unfold();
+        $actual = Shoop::pipe($payload, PullFirst::apply())->unfold();
         $this->assertEqualsWithPerformance($expected, $actual);
 
         $expected = [];
@@ -83,7 +83,7 @@ class FirstTest extends TestCase
         $payload->second = "8fold";
 
         $expected = ["first" => 1];
-        $actual = Shoop::pipe($payload, First::apply())->unfold();
+        $actual = Shoop::pipe($payload, PullFirst::apply())->unfold();
         $this->assertEqualsWithPerformance($expected, $actual);
 
         $expected = ["first" => 1, "second" => "8fold"];
@@ -96,7 +96,7 @@ class FirstTest extends TestCase
         $payload = "8fold?";
 
         $expected = "8";
-        $actual = Shoop::pipe($payload, First::apply())->unfold();
+        $actual = Shoop::pipe($payload, PullFirst::apply())->unfold();
         $this->assertEqualsWithPerformance($expected, $actual);
 
         $expected = "8fold";

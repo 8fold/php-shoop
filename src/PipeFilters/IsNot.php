@@ -11,6 +11,6 @@ class IsNot extends Filter
 {
     public function __invoke($payload): bool
     {
-        return $payload !== Shoop::pipe($this->args, First::apply())->unfold();
+        return $payload !== Shoop::pipe($this->args, PullFirst::apply())->unfold();
     }
 }

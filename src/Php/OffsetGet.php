@@ -27,7 +27,7 @@ class Plus extends Filter
             // ToArrayFromObject
 
         } elseif (is_array($payload)) {
-            $offset = Shoop::pipe($this->args, First::apply())->unfold();
+            $offset = Shoop::pipe($this->args, PullFirst::apply())->unfold();
             $exists = Shoop::pipe($payload, OffsetExists::applyWith($offset))->unfold();
             if ($exists) {
                 return $payload[$offset];

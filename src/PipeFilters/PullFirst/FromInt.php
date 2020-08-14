@@ -1,14 +1,14 @@
 <?php
 declare(strict_types=1);
 
-namespace Eightfold\Shoop\PipeFilters\First;
+namespace Eightfold\Shoop\PipeFilters\PullFirst;
 
 use Eightfold\Foldable\Filter;
 
 use Eightfold\Shoop\Shoop;
 
 use Eightfold\Shoop\PipeFilters\AsArray;
-use Eightfold\Shoop\PipeFilters\First;
+use Eightfold\Shoop\PipeFilters\PullFirst;
 
 class FromInt extends Filter
 {
@@ -25,7 +25,7 @@ class FromInt extends Filter
     {
         return Shoop::pipe($payload,
             AsArray::applyWith($this->start),
-            First::applyWith($this->length)
+            PullFirst::applyWith($this->length)
         )->unfold();
     }
 }

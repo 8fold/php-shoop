@@ -24,7 +24,7 @@ class AsBoolTest extends TestCase
         $this->start = hrtime(true);
         $expected = true;
         $actual   = Shoop::pipe($payload, AsBool::apply())->unfold();
-        $this->assertEqualsWithPerformance($expected, $actual, 1.7);
+        $this->assertEqualsWithPerformance($expected, $actual, 2.05);
 
         $this->start = hrtime(true);
         $expected = true;

@@ -27,7 +27,7 @@ class Minus extends Filter
             return Shoop::pipe($payload, Reverse::apply())->unfold();
 
         } elseif (is_int($payload)) {
-            $int = Shoop::pipe($this->args, First::apply(), AsInt::apply())
+            $int = Shoop::pipe($this->args, PullFirst::apply(), AsInt::apply())
                 ->unfold();
             return $payload - 1;
 

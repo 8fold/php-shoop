@@ -32,7 +32,7 @@ class Plus extends Filter
             $exists = Shoop::pipe($payload, OffsetExists::applyWith($offset))
                 ->unfold();
             if ($exists) {
-                $value = Shoop::pipe($this->args, First::apply())->unfold();
+                $value = Shoop::pipe($this->args, PullFirst::apply())->unfold();
                 return $payload[$offset] = $value;
             }
             return false;
@@ -41,7 +41,7 @@ class Plus extends Filter
             $isJson = Shoop::pipe($payload, StringIsJson::apply())->unfold();
             if ($isJson) {
             }
-            $value = Shoop::pipe($this->args, First::apply())->unfold();
+            $value = Shoop::pipe($this->args, PullFirst::apply())->unfold();
             $offset = Shoop::pipe($this->args, OffsetGet::applyWith(1))
                 ->unfold();
             return Shoop::pipe($payload,

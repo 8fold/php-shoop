@@ -7,7 +7,7 @@ use Eightfold\Foldable\Filter;
 
 use Eightfold\Shoop\Shoop;
 
-use Eightfold\Shoop\PipeFilters\First;
+use Eightfold\Shoop\PipeFilters\PullFirst;
 use Eightfold\Shoop\PipeFilters\Last;
 
 class IsJson extends Filter

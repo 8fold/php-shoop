@@ -2,13 +2,23 @@
 
 # 8fold Shoop for PHP
 
-8fold Shoop provides minimal linguistic differentiation and maximum utility for manipulating base data types.
+8fold Shoop is a horizontally-consistent interface into PHP, whereas PHP is described as a vertically-consistent interface into C.
 
-Shoop is as close to interacting with native PHP types as we can get without writing a PHP extension and asking you to install it.
+An oft cited criticism of PHP is its inconsistent API. PHP's creator, [Rasmus, has explained it](https://youtu.be/Qa_xVjTiOUw) this way (paraphrased):
 
-Shoop is not a framework. A drawback to many frameworks is they're often like learning a new language that exists on top of the base language.
+> PHP is perfectly consistent, just not the way you expect. It's vertically consistent. So, for every function in PHP,  if you look at what's underneath it, the `libc` function under some of the string functions, for example, the argument order and naming matches what they're built upon. So, there's not consistency horitzontally, but there's perfect consistency vertically digging down into the stack.
 
-While the immplementations are language-specific, the fundamental concepts strive to be language agnostic: contracts, inheritence, and generic implementations via traits (in PHP).
+If you are familiar with and use classes form [Illuminate Support](https://laravel.com/api/5.5/Illuminate/Support.html) portion of Laravel or some of the [Symfony Components](https://symfony.com/doc/current/components/index.html), you're familiar with this desire and other solutions to the same horizontally inconsistent API problem.
+
+Shoop's approach emphasizes, in no particular order:
+
+* Human-readability: Chaining methods and applying filters should result in a relatively easy to follow sentence-like structure.
+* Ubiquitous naming across types: Fluent Shoop types should minimize type-specific methods whenever possible. Filter functions should have a rational output across all supported PHP types.
+* Immutability: Methods and Filters return new instances of types, not a mutated variation of the same instance.
+* Type-safety: Methods use Filters, Filters specify the PHP type whenever possible, without limiting flexibility.
+* `null` is not a type.
+
+While this immplementation is language-specific, the fundamental concepts, patterns, and naming strive to be language agnostic.
 
 ## Installation
 
@@ -85,10 +95,7 @@ $path = "/Users/8fold/Desktop/ProjectSupreme/SecretFolder/SecretSubfolder";
 
 // PHP standard library - one way
 $parts = explode("/", $path);
-array_pop($parts); // ../
-array_pop($parts); // ../
-array_pop($parts); // ../
-array_pop($parts); // ../
+$slice = array_slice($parts, -4);
 $parts[] = "Documents";
 $parts[] = "ProjectMaxEffort";
 $parts[] = "SecretFolder";
@@ -118,23 +125,59 @@ $path = Shoop::string($path)
 print $path; // both should be: /Users/8fold/Documents/ProjectMaxEffort/SecretFolder/SecretSubfolder
 ```
 
-## Why?
+## Definitions
 
-[Rasmus](https://en.wikipedia.org/wiki/Rasmus_Lerdorf), the creator of PHP, has mentioned criticisms of PHP in multiple talks over the years. In [one talk](https://youtu.be/Qa_xVjTiOUw?t=1007) (that I had close at hand), Rasmus mentions a criticism I've often heard and even made in the past: Naming inconsistencies. To which he responded (paraphrased):
+> Communication is hard because language is soft.
 
-> PHP is perfectly consistent, just not the way you expect. It's vertically consistent. So, for every function in PHP,  if you look at what's underneath it, the `libc` function under some of the string functions, for example, the argument order and naming matches what they're built upon. So, there's not consistency horitzontally, but there's perfect consistency vertically digging down into the stack. [There] was just no way, that I could create a horizontally consistent design of a language that I didn't know was going to become a languge at all in an environment that was changing too rapidly. [So, all the people coming from Oracle, it was easy for them to interact with the parts sitting on top of Oracle. But, if you jumped from MySQL to Oracle, it would be painful, like a different language.]
+These definitions are meant to be accessible to new developers, not necessarily technically accurate.
 
-That was a long quote, but we like to be as fair as we can. This makes sense. This is also why I don't complain so much about the inconsisttencies in the language, as such. With that said, I think we can make Shoop be that more horizontally satisfying variant for interacting with PHP base types. Not only that, but I think many developers (self included) want it but maybe don't know it yet.
+### Nouns
 
-One of the praise points for the popular Laravel framework is its drive toward generic interfaces into multiple, disparate underlying structures. Switch from MySQL to NoSQL to something custom without having to revisit your other code. Use Stripe, PayPal, or something else, without having to rewrite your checkout code.
+* Member: An assignable or callable property or method of a class.
+* Content: What has been assigned to a Member.
+* Data type:
+* Method:
+* Filter:
 
-So, I think this particular criticism of PHP is justified *and* at the same time completely understandable.
+### Verbs
 
-I don't like dependencies, even when I write them. Therefore, I can also honestly say, after using Shoop to develop multiple live projects from low-level libraries to higher-level websites:
+We strive for minimal verbs to maximize capability while minimizing cognitive load. Verbs are the root of Method and Filter names.
 
-> I always start by avoiding using Shoop &mdash; and, I always end up grabbing it after about the first class or two.
+* Drop:
+* Assign:
+* Pull:
+* Split:
+* Join:
+* Add:
+* Subtract:
+* Multiply:
+* Divide:
+* Has:
+* Lacks:
+* Is:
 
-## What's in a name?
+### Supported PHP- and non-types
+
+* Array: An ordered Dictionary using integer members initially sorted in ascending order, with no gaps (Methods and Filters on arrays will maintain this rule by default). `[0 => "zero", 1 => "one"]`
+* Boolean: A binary value represented true and false.
+* Dictionary: An unordered list of assigned content accessed using string or integer members. Note: The string of `"8"` is converted to the integer of `8` when made the member.
+* Integer: Any whole number.
+* JSON: Think of it as a Dictionary written as a plain-text string that is JavaScript-native but can be interpreted outside of JavaScript. Note: PHP supports converting such string to Object types.
+* Object: (This might hurt.) This of it as a Dictionary with a different access notation.
+    * `$dictionary["member"]`
+    * `$object->member`
+* String: (This might also hurt.) An Array of glyphs, which are also ordered arrays. You may access parts of PHP strings using array notation; however, a PHP string cannot be the main argument of a loop. ex:
+
+```php
+$string = "8fold Shoop";
+$first = $string[0];
+print $first;
+
+// output: 8
+```
+
+
+### What's in a name?
 
 Shoop, as an acronym, points to the insipirations of the library: Swift, Haskell (functional programming and immutability), Object-Oriented (encapsulation, composition, and communication), and Procedural (sequential, logical programming).
 
