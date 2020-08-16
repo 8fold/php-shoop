@@ -156,25 +156,17 @@ We strive for minimal verbs to maximize capability while minimizing cognitive lo
 * Lacks:
 * Is:
 
-### Supported PHP- and non-types
+### Types
 
-* Array: An ordered Dictionary using integer members initially sorted in ascending order, with no gaps (Methods and Filters on arrays will maintain this rule by default). `[0 => "zero", 1 => "one"]`
-* Boolean: A binary value represented true and false.
-* Dictionary: An unordered list of assigned content accessed using string or integer members. Note: The string of `"8"` is converted to the integer of `8` when made the member.
-* Integer: Any whole number.
-* JSON: Think of it as a Dictionary written as a plain-text string that is JavaScript-native but can be interpreted outside of JavaScript. Note: PHP supports converting such string to Object types.
-* Object: (This might hurt.) This of it as a Dictionary with a different access notation.
-    * `$dictionary["member"]`
-    * `$object->member`
-* String: (This might also hurt.) An Array of glyphs, which are also ordered arrays. You may access parts of PHP strings using array notation; however, a PHP string cannot be the main argument of a loop. ex:
-
-```php
-$string = "8fold Shoop";
-$first = $string[0];
-print $first;
-
-// output: 8
-```
+* Boolean: A binary value represented true and false. ex. false; (uses PHP float)
+* Number: Any real number. eg. -∞ ...0... ∞. ex. 1.2 (uses PHP float - not implemented)
+* Integer: Any whole number. eg. No floating points. ex. 1; (uses PHP integer)
+* String: An ordered collection of characters. ex. "content"; (uses PHP string)
+* Array: An ordered collection of a variety of content types excluding CALLABLES/CLOSURES accessed using array notation. ex. $a[0]; (uses PHP array and Shoop allows filtering by types)
+* Dictionary: An unordered array. ex. $a["name"];
+* Tuple: A dictionary accessed using object notation. ex. $a->name; (uses PHP stdClass - object)
+* JSON: A plain text string that can be decoded as a dictionary or tuple. The first character MUST be the left curly brace ({) and the last character MUST be the right curly brace (}) and there must be no errors produced from decoding the string.
+* Object: A wrapper for properties (content) and methods (actions performed on that content). Due to security concerns related to the dynamic creation or manipulation of a defined object, Shoop does not allow for their creation; however, Shoop uses this definition to differentiate between an object and a tuple. (Note: When type juggling away from an object, methods are lost as a result of native PHP behavior.)
 
 
 ### What's in a name?

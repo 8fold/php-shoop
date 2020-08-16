@@ -12,8 +12,10 @@ use Eightfold\Shoop\PipeFilters\Last;
 
 class IsJson extends Filter
 {
-    public function __invoke(string $using): bool
+    public function __invoke($using): bool
     {
+        if (is_bool($using) or ! is_string($using)) return false;
+
         // Don't use pipe - could result in infinite loop
         $length = strlen($using);
         if ($length < 2) {
@@ -25,10 +27,11 @@ class IsJson extends Filter
         } elseif ($using[$length - 1] !== "}") {
             return false;
 
-        } elseif (! is_array(json_decode($using, true))) {
+        } elseif (! is_object(json_decode($using))) {
             return false;
 
         }
+
         return json_last_error() === JSON_ERROR_NONE;
     }
 }

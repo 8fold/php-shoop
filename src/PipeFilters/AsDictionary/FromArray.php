@@ -5,24 +5,33 @@ namespace Eightfold\Shoop\PipeFilters\AsDictionary;
 
 use Eightfold\Foldable\Filter;
 
-use Eightfold\Shoop\Shoop;
 use Eightfold\Shoop\PipeFilters\IsDictionary;
 
 class FromArray extends Filter
 {
+    private $prefix = "i";
+
+    /**
+     * TODO: PHP 8.0 can be accomplished with empty constructor
+     */
+    public function __construct(string $prefix = "i")
+    {
+        $this->prefix = $prefix;
+    }
+
     public function __invoke(array $using): array
     {
-        $isDict = Shoop::pipe($using, IsDictionary::apply())->unfold();
-        if ($isDict) {
-            return $using;
+        // if (IsDictionary::apply()->unfoldUsing($using)) return $using;
+
+        $prefix = $this->prefix;
+        $prefix = ($prefix !== null and strlen($prefix) > 0) ? $prefix : "i";
+
+        $dictionary = [];
+        foreach ($using as $key => $value) {
+            $key = $prefix . $key;
+            $dictionary[$key] = $value;
         }
-        // TODO: test performance comparison to alternatives to foreach,
-        //      hypothesis is that foreach is the fastest.
-        $array = [];
-        foreach ($using as $member => $value) {
-            $member = "i". $member;
-            $array[$member] = $value;
-        }
-        return $array;
+
+        return $dictionary;
     }
 }

@@ -8,36 +8,43 @@ use Eightfold\Foldable\Filter;
 use Eightfold\Shoop\Shoop;
 
 use Eightfold\Shoop\PipeFilters\PullContent;
-use Eightfold\Shoop\PipeFilters\AsArray\FromBool;
-use Eightfold\Shoop\PipeFilters\AsArray\FromInt;
-use Eightfold\Shoop\PipeFilters\AsArray\FromJson;
-use Eightfold\Shoop\PipeFilters\AsArray\FromObject;
+use Eightfold\Shoop\PipeFilters\AsArray\FromBoolean;
+use Eightfold\Shoop\PipeFilters\AsArray\FromDictionary;
+use Eightfold\Shoop\PipeFilters\AsArray\FromInteger;
 use Eightfold\Shoop\PipeFilters\AsArray\FromString;
 
 class AsArray extends Filter
 {
     public function __invoke($using): array
     {
-        if (is_bool($using)) {
-            return Shoop::pipe($using, FromBool::apply())->unfold();
+        if (IsArray::apply()->unfoldUsing($using)) return $using;
 
-        } elseif (is_int($using)) {
+        if (IsBoolean::apply()->unfoldUsing($using)) {
+            return FromBoolean::apply()->unfoldUsing($using);
+
+        } elseif (IsInteger::apply()->unfoldUsing($using)) {
+            return FromInteger::apply()->unfoldUsing($using);
+
+        } elseif (IsDictionary::apply()->unfoldUsing($using)) {
+            return FromDictionary::apply()->unfoldUsing($using);
+
+        } elseif (IsString::apply()->unfoldUsing($using)) {
+            return FromString::apply()->unfoldUsing($using);
+
+        } elseif (IsNumber::apply()->unfoldUsing($using)) {
             return Shoop::pipe($using,
-                FromInt::applyWith(...$this->args(true))
+                AsInteger::apply(),
+                AsArray::apply()
             )->unfold();
 
-        } elseif (is_object($using)) {
-            return Shoop::pipe($using, FromObject::apply())->unfold();
-
-        } elseif (is_array($using)) {
-            return Shoop::pipe($using, PullContent::apply())->unfold();
-
-        } elseif (is_string($using)) {
-            return (Shoop::pipe($using, IsJson::apply())->unfold())
-                ? Shoop::pipe($using, FromJson::apply())->unfold()
-                : Shoop::pipe($using, FromString::applyWith(...$this->args(true)))->unfold();
-
+        } else {
+            // IsObject
+            // IsTuple
+            // IsJson
+            return Shoop::pipe($using,
+                AsDictionary::apply(),
+                AsArray::apply()
+            )->unfold();
         }
-        return [];
     }
 }

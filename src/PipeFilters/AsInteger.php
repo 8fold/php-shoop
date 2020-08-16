@@ -7,35 +7,33 @@ use Eightfold\Foldable\Filter;
 
 use Eightfold\Shoop\Shoop;
 use Eightfold\Shoop\PipeFilters\AsInteger\FromArray;
-use Eightfold\Shoop\PipeFilters\AsInteger\FromBool;
-use Eightfold\Shoop\PipeFilters\AsInteger\FromJson;
-use Eightfold\Shoop\PipeFilters\AsInteger\FromObject;
-use Eightfold\Shoop\PipeFilters\AsInteger\FromString;
+use Eightfold\Shoop\PipeFilters\AsInteger\FromNumber;
 
 class AsInteger extends Filter
 {
     public function __invoke($using): int
     {
-        if (is_bool($using)) {
-            return Shoop::pipe($using, FromBool::apply())->unfold();
+        if (IsInteger::apply()->unfoldUsing($using)) return $using;
 
-        } elseif (is_int($using)) {
-            return $using;
+        if (IsArray::apply()->unfoldUsing($using) or
+            IsDictionary::apply()->unfoldUsing($using)
+        ) {
+            return FromArray::apply()->unfoldUsing($using);
 
-        } elseif (is_object($using)) {
-            return Shoop::pipe($using, FromObject::apply())->unfold();
+        } elseif (IsNumber::apply()->unfoldUsing($using) or
+            IsBoolean::apply()->unfoldUsing($using)
+        ) {
+            return FromNumber::apply()->unfoldUsing($using);
 
-        } elseif (is_array($using)) {
-            return Shoop::pipe($using, FromArray::apply())->unfold();
-
-        } elseif (is_string($using)) {
-            $isJson = Shoop::pipe($using, IsJson::apply())->unfold();
-            return ($isJson)
-                ? Shoop::pipe($using, FromJson::apply())->unfold()
-                : Shoop::pipe($using, FromString::applyWith(...$this->args(true)))
-                    ->unfold();
-
+        } else {
+            // IsObject
+            // IsTuple
+            // IsJson
+            // IsString
+            return Shoop::pipe($using,
+                AsArray::apply(),
+                AsInteger::apply()
+            )->unfold();
         }
-        return 0;
     }
 }

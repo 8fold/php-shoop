@@ -10,10 +10,14 @@ use Eightfold\Shoop\Shoop;
 class IsArray extends Filter
 {
     /**
-     * Derived from: https://stackoverflow.com/questions/173400
+     * Based on Swift Array: https://docs.swift.org/swift-book/LanguageGuide/CollectionTypes.html
+     *
+     * Implementation derived from: https://stackoverflow.com/questions/173400
      */
-    public function __invoke(array $using): bool
+    public function __invoke($using): bool
     {
+        if (! is_array($using)) return false;
+
         if ($using === array()) return false;
 
         $rangeEnd = count($using) - 1;

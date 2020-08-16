@@ -26,6 +26,9 @@
     <testsuite name="pipe">
 		<directory suffix="Test.php">./tests/PipeFilters</directory>
     </testsuite>
+    <testsuite name="type_juggling">
+		<directory prefix="TypeJuggling">./tests/PipeFilters</directory>
+    </testsuite>
   </testsuites>
   <php>
     <ini name="display_errors" value="On"/>
