@@ -18,6 +18,6 @@ class IsEmpty extends Filter
 {
     public function __invoke($using): bool
     {
-        return ! AsBoolean::apply()->unfoldUsing($using);
+        return empty($using);
     }
 }
