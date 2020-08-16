@@ -1,11 +1,11 @@
 <?php
 declare(strict_types=1);
 
-namespace Eightfold\Shoop\Php;
+namespace Eightfold\Shoop\PipeFilters;
 
 use Eightfold\Foldable\Filter;
 
-class EqualStrings extends Filter
+class Is extends Filter
 {
     private $compare = "";
 

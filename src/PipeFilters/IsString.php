@@ -5,7 +5,7 @@ namespace Eightfold\Shoop\PipeFilters;
 
 use Eightfold\Foldable\Filter;
 
-use Eightfold\Shoop\Shoop;
+use Eightfold\Shoop\PipeFilters\IsJson;
 
 class IsString extends Filter
 {
