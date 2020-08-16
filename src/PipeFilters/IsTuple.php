@@ -24,6 +24,9 @@ class IsTuple extends Filter
         // specifically is a tuple
         if (is_a($using, \stdClass::class)) return true;
 
+        // JSON result in a tuple
+        if (IsJson::apply()->unfoldUsing($using)) return true;
+
         // anonymous class without actions
         $methods = get_class_methods($using);
 

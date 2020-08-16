@@ -58,7 +58,7 @@ class EmptinessAndFalsinessTest extends TestCase
         $expected = false;
 
         $bool = AsBoolean::apply()->unfoldUsing($using);
-        $this->assertEqualsWithPerformance($expected, $bool, 2.4);
+        $this->assertEqualsWithPerformance($expected, $bool, 2.95);
 
         $this->start = hrtime(true);
         $expected = true;
@@ -319,6 +319,7 @@ class EmptinessAndFalsinessTest extends TestCase
 
     /**
      * @test
+     * @group  current
      */
     public function json_as_tuple_falsiness_is_inversely_related_to_its_emptiness()
     {
@@ -340,7 +341,7 @@ class EmptinessAndFalsinessTest extends TestCase
         $expected = false;
 
         $bool = AsBoolean::apply()->unfoldUsing($tuple);
-        $this->assertEqualsWithPerformance($expected, $bool, 1.5);
+        $this->assertEqualsWithPerformance($expected, $bool, 2.25);
 
         $this->start = hrtime(true); // deviation
         $expected = true;
