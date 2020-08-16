@@ -7,6 +7,7 @@ use \stdClass;
 use Eightfold\Shoop\Tests\TestCase;
 
 use Eightfold\Shoop\PipeFilters\AsTuple;
+use Eightfold\Shoop\PipeFilters\AsJson;
 use Eightfold\Shoop\PipeFilters\AsDictionary;
 use Eightfold\Shoop\PipeFilters\AsArray;
 use Eightfold\Shoop\PipeFilters\AsInteger;
@@ -70,5 +71,10 @@ class TypeJugglingStringTest extends TestCase
 
         $bool = AsBoolean::apply()->unfoldUsing($string);
         $this->assertEqualsWithPerformance($expected, $bool);
+
+        $expected = '{"content":"8fold"}';
+
+        $json = AsJson::apply()->unfoldUsing($string);
+        $this->assertEqualsWithPerformance($expected, $json);
     }
 }

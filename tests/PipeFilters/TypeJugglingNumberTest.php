@@ -7,6 +7,7 @@ use \stdClass;
 use Eightfold\Shoop\Tests\TestCase;
 
 use Eightfold\Shoop\PipeFilters\AsTuple;
+use Eightfold\Shoop\PipeFilters\AsJson;
 use Eightfold\Shoop\PipeFilters\AsDictionary;
 use Eightfold\Shoop\PipeFilters\AsArray;
 use Eightfold\Shoop\PipeFilters\AsInteger;
@@ -72,5 +73,10 @@ class TypeJugglingNumerTest extends TestCase
 
         $bool = AsBoolean::apply()->unfoldUsing($number);
         $this->assertEqualsWithPerformance($expected, $bool);
+
+        $expected = '{"i0":0,"i1":1,"i2":2}';
+
+        $json = AsJson::apply()->unfoldUsing($number);
+        $this->assertEqualsWithPerformance($expected, $json);
     }
 }

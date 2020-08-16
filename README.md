@@ -20,6 +20,8 @@ Shoop's approach emphasizes, in no particular order:
 
 While this immplementation is language-specific, the fundamental concepts, patterns, and naming strive to be language agnostic.
 
+PHP is extremely [simple for new developers](https://www.php.net/manual/en/intro-whatis.php), Shoop follows this tradition.
+
 ## Installation
 
 ```
@@ -170,9 +172,32 @@ We strive for minimal verbs to maximize capability while minimizing cognitive lo
 
 Any Shoop type can be juggled (cast) as any other Shoop type, except an object as those are defined by users and fed into Shoop.
 
-Each filter (function) identifies a canonical type and response. For example, the canonical type for `pullFirst` is a Shoop Array.
+Each filter (function) identifies a canonical type and response. For example, the canonical type for `pullFirst` is a Shoop Array. Most types uses an alternative type to start the juggle to whatever other type is desired. The following identifies the first alternate Shoop type for each type:
 
-PHP is extremely [simple for new developers](https://www.php.net/manual/en/intro-whatis.php), Shoop follows this tradition.
+```
+Object      -> Tuple (removes all privates and methods, public properties only)
+Json       <-> Tuple
+Tuple      <-> Dictionary
+Dictionary  -> Array (replaces string keys with sequential integers)
+String     <-> Array
+Array      <-> Integer
+Integer    <-> Number
+Boolean    <-> Integer (0 or 1)
+```
+
+This flow means Shoop primarily has two types: Dictionary and Number. The former are key-value associations and the latter is all real numbers. This flow also means mutations moving upward may be more dramatic than moving down. For example:
+
+```
+Integer -> Array (results in an array from a user-specified starting number up to and including the value of the original integer, default is 0)
+Array   -> Integer (the count of elements in the array - or other non-number type)
+Array   -> Dictionary (prefixes each integer index with a user-specified string prefix, default is "efs")
+Integer -> Dictionary (goes through an Array transformation first)
+Boolean -> Dictionary (has a "true" and "false" key; if the original boolean is true, the value of "true" will be true, otherwise will be false, the oppisite applies to the "false" key.)
+```
+
+We do our best to ensure results of transformations are rational. For example, Dictionary, Tuple, and Json types have string-based, named members that store values. Therefore, juggling between those three mainly changes the preferred access method or native language in the case of JSON. Finally, juggling from one type to another may not include all options available for any in-between steps.
+
+If you have a recommendation for what you believe is a more rational default, please do submit a PR or issue.
 
 ### What's in a name?
 

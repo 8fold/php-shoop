@@ -7,6 +7,7 @@ use \stdClass;
 use Eightfold\Shoop\Tests\TestCase;
 
 use Eightfold\Shoop\PipeFilters\AsTuple;
+use Eightfold\Shoop\PipeFilters\AsJson;
 use Eightfold\Shoop\PipeFilters\AsDictionary;
 use Eightfold\Shoop\PipeFilters\AsArray;
 use Eightfold\Shoop\PipeFilters\AsInteger;
@@ -71,6 +72,11 @@ class TypeJugglingBooleanTest extends TestCase
 
         $bool = AsBoolean::apply()->unfoldUsing($bool);
         $this->assertEqualsWithPerformance($expected, $bool);
+
+        $expected = '{"true":true,"false":false}';
+
+        $json = AsJson::apply()->unfoldUsing($bool);
+        $this->assertEqualsWithPerformance($expected, $json);
     }
 
     private function sutFalse()
@@ -126,5 +132,10 @@ class TypeJugglingBooleanTest extends TestCase
 
         $bool = AsBoolean::apply()->unfoldUsing($bool);
         $this->assertEqualsWithPerformance($expected, $bool);
+
+        $expected = '{"true":false,"false":true}';
+
+        $json = AsJson::apply()->unfoldUsing($bool);
+        $this->assertEqualsWithPerformance($expected, $json);
     }
 }

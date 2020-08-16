@@ -7,9 +7,9 @@ use Eightfold\Foldable\Filter;
 
 use Eightfold\Shoop\Shoop;
 
-use Eightfold\Shoop\PipeFilters\AsStringLowerCased\FromString;
+use Eightfold\Shoop\PipeFilters\AsStringUpperCased\FromString;
 
-class AsStringLowerCased extends Filter
+class AsStringUpperCased extends Filter
 {
     public function __invoke($using)
     {
@@ -19,7 +19,7 @@ class AsStringLowerCased extends Filter
         } else {
             return Shoop::pipe($using,
                 AsString::apply(),
-                AsStringLowerCased::apply())
+                AsStringUpperCased::apply())
             ->unfold();
         }
     }

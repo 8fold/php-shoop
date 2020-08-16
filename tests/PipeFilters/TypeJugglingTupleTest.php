@@ -12,6 +12,7 @@ use Eightfold\Shoop\PipeFilters\AsArray;
 use Eightfold\Shoop\PipeFilters\AsInteger;
 use Eightfold\Shoop\PipeFilters\AsNumber;
 use Eightfold\Shoop\PipeFilters\AsBoolean;
+use Eightfold\Shoop\PipeFilters\AsJson;
 
 /**
  * @group TupleTypeJuggling
@@ -74,5 +75,10 @@ class TypeJugglingTupleTest extends TestCase
 
         $bool = AsBoolean::apply()->unfoldUsing($tuple);
         $this->assertEqualsWithPerformance($expected, $bool);
+
+        $expected = '{"public":"content","publicEmptyString":""}';
+
+        $json = AsJson::apply()->unfoldUsing($tuple);
+        $this->assertEqualsWithPerformance($expected, $json);
     }
 }

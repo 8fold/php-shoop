@@ -9,8 +9,19 @@ use Eightfold\Shoop\Shoop;
 
 class IsNumber extends Filter
 {
+    private $floatStrict = false;
+
+    public function __construct(bool $floatStrict = false)
+    {
+        $this->floatStrict = $floatStrict;
+    }
+
     public function __invoke($using): bool
     {
-        return is_float($using);
+        if (! is_int($using) and ! is_float($using)) return false;
+
+        if ($this->floatStrict) return is_float($using);
+
+        return true;
     }
 }
