@@ -7,6 +7,8 @@ use Eightfold\Foldable\Filter;
 
 use Eightfold\Shoop\Shoop;
 use Eightfold\Shoop\PipeFilters\Is;
+use Eightfold\Shoop\PipeFilters\AsArray\FromString as AsArrayFromString;
+
 
 class StringStartsWith extends Filter
 {
@@ -21,8 +23,8 @@ class StringStartsWith extends Filter
     {
         $length = AsInteger::apply()->unfoldUsing($this->prefix);
         return Shoop::pipe($using,
-            AsArray::apply(),
-            PullFirst::applyWith($length),
+            AsArrayFromString::apply(),
+            PullRange::applyWith(0, $length),
             AsString::apply(),
             Is::applyWith($this->prefix)
         )->unfold();
