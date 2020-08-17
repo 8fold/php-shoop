@@ -13,11 +13,6 @@ use Eightfold\Shoop\PipeFilters\IsObject;
 
 class IsTuple extends Filter
 {
-    /**
-     * TODO: Need to test all the type checks - type juggling is the backbone
-     *
-     * A Tuple MUST be an instance of stdClass - not an anonymous class.
-     */
     public function __invoke($using): bool
     {
         // must be PHP object

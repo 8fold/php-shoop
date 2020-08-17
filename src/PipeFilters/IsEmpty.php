@@ -11,7 +11,6 @@ class IsEmpty extends Filter
 {
     public function __invoke($using): bool
     {
-
         if (is_string($using)) {
             $length = strlen($using);
             if ($length >= 2 and

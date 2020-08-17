@@ -6,20 +6,42 @@ namespace Eightfold\Shoop\PipeFilters;
 use Eightfold\Foldable\Filter;
 
 use Eightfold\Shoop\Shoop;
-
 use Eightfold\Shoop\PipeFilters\IsJson;
+
+use Eightfold\Shoop\PipeFilters\Reverse\FromList;
 
 class Reverse extends Filter
 {
-    private $preserveMembers = true;
-
-    public function __construct(bool $preserveMembers = true)
-    {
-        $this->preserveMembers = $preserveMembers;
-    }
-
     public function __invoke($using)
     {
+        if (IsBoolean::apply()->unfoldUsing($using)) {
+            var_dump(__NAMESPACE__);
+            die("is bool");
+
+        } elseif (IsNumber::apply()->unfoldUsing($using)) {
+            var_dump(__NAMESPACE__);
+            die("is number");
+
+        } elseif (IsString::applyWith(true)->unfoldUsing($using)) {
+            if (IsJson::apply()->unfoldUsing($using)) {
+                var_dump(__NAMESPACE__);
+                die("is json");
+            }
+            var_dump(__NAMESPACE__);
+            die("is string");
+
+        } elseif (IsList::apply()->unfoldUsing($using)) {
+            return FromList::apply()->unfoldUsing($using);
+
+        } elseif (IsTuple::apply()->unfoldUsing($using)) {
+            var_dump(__NAMESPACE__);
+            die("is tuple");
+
+        } elseif (IsObject::apply()->unfoldUsing($using)) {
+            var_dump(__NAMESPACE__);
+            die("is object");
+        }
+        die("fell through");
         if (is_bool($using)) {
             return ! $using;
 
