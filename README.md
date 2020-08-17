@@ -160,20 +160,19 @@ We strive for minimal verbs to maximize capability while minimizing cognitive lo
 
 ### Types and type juggling
 
-* Basic:
-	* Boolean: A binary value represented true and false. ex. false; (uses PHP float)
-	* String: An ordered collection of characters. ex. "content"; (uses PHP string)
-	* Number: Any real number. eg. -∞ ...0... ∞. ex. 1.2 (uses PHP float - not implemented)
-		* Integer: Any whole number. eg. No floating points. ex. 1; (uses PHP integer; if a PHP float type is a whole number, it will be considered an integer and float using the is integer check)
-* Content crates (storage types):
-	* Uses integer members:
-		* Array: An ordered collection of a variety of content types excluding CALLABLES/CLOSURES accessed using array notation. ex. $a[0]; (uses PHP array and Shoop allows filtering by types)
-	* Uses string members:
-		* JSON: A plain text string that can be decoded as a dictionary or tuple. The first character MUST be the left curly brace ({) and the last character MUST be the right curly brace (}) and there must be no errors produced from decoding the string.
-		* Dictionary: An unordered array (the order usually doesn't change). ex. $a["name"];
-		* Tuple: A dictionary accessed using object notation. ex. $a->name; (uses PHP stdClass or class with no public methods - object)
-		* Object: A wrapper for properties (content) and methods (actions performed on that content). Due to security concerns related to the dynamic creation or manipulation of a defined object, Shoop does not allow for their creation; however, Shoop uses this definition to differentiate between an object and a tuple. (Any PHP object that is not an instance of stdClass)
-* List: A faux type incoporating Shoop Array and Dictionary where one is ordered and the other not, respectively.
+|Shoop      |PHP                |content\|storage |Details and deviations                           |
+|:---------:|:-----------------:|:---------------:|:------------------------------------------------|
+|Boolean    |boolean            |content          |Same as PHP                                      |
+|Integer    |integer or float   |content          |All whole numbers. ex. 1 or 1.0                  |
+|Number     |integer or float   |content          |All real numbers. ex. 1 or 1.0 or 1.1            |
+|List       |array              |storage          |Abstract: Any Shoop Array or Dictionary          |
+|Array      |array              |storage          |Integer members in sequence, using array access. |
+|Dictionary |array              |storage          |String members unordered, using array access.    |
+|Tuple      |stdClass or object |storage          |String members unordered, using object access. All instances of PHP stdClass are Shoop Tuples. Class instances with public properties and no public methods are also considered Shoop Tuples. |
+|Json       |string             |storage          |A Tuple represented as a String starting and ending with left and right curly braces, respectively. |
+|Object     |object             |storage          |Abstract: A PHP object (excluding stdClass) implementing at least one public method. |
+
+Abstract Shoop types are types that can be juggled *from* but not *to*. When juggling from the abstract type to a concrete type, the rules of that type are applied. ex. Juggling from Object to Dictionary removes all methods and private properties.
 
 Any Shoop type can be juggled (cast) as any other Shoop type, except an object as those are defined by users and fed into Shoop.
 
