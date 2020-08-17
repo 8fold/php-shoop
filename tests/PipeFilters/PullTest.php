@@ -6,6 +6,7 @@ use Eightfold\Shoop\Tests\TestCase;
 
 use Eightfold\Shoop\PipeFilters\PullRange;
 use Eightfold\Shoop\PipeFilters\PullFirst;
+use Eightfold\Shoop\PipeFilters\PullLast;
 
 /**
  * @group Pull
@@ -76,7 +77,10 @@ class PullTest extends TestCase
         $this->assertEqualsWithPerformance($expected, $actual);
     }
 
-    public function uses_string_members()
+    /**
+     * @test
+     */
+    public function pull_range_of_types_using_string_members()
     {
         $using = new class {
             public $public = "content";
@@ -88,5 +92,49 @@ class PullTest extends TestCase
         $expected = ["public2" => 2];
 
         $actual = PullRange::applyWith(1, 1)->unfoldUsing($using);
+        $this->assertEqualsWithPerformance($expected, $actual);
+    }
+
+    public function pull_first()
+    {
+        $using = "Life is ours and we live it our way.";
+
+        $this->start = hrtime(true);
+        $expected = "Life";
+
+        $actual = PullFirst::applyWith(5)->unfoldUsing($using);
+        $this->assertEqualsWithPerformance($expected, $actual, 3.65);
+    }
+
+    /**
+     * @test
+     *
+     * @group zanadu
+     */
+    public function pull_last__from_object_juggle()
+    {
+        $using = new class {
+            public $z = true;
+            public $y;
+            public $x;
+
+            public function __construct()
+            {
+                $this->y = PullFirst::apply();
+                $this->x = function() { return "x"; };
+            }
+        };
+
+        $this->start = hrtime(true);
+        $expected = ["z" => true];
+
+        $actual = PullFirst::apply()->unfoldUsing($using);
+        $this->assertEqualsWithPerformance($expected, $actual, 2);
+
+        $this->start = hrtime(true);
+        $expected = ["z" => true, "y" => PullFirst::apply()];
+
+        $actual = PullFirst::applyWith(5)->unfoldUsing($using);
+        $this->assertEqualsWithPerformance($expected, $actual);
     }
 }
