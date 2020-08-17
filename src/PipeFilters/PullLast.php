@@ -10,25 +10,35 @@ use Eightfold\Shoop\Shoop;
 class PullLast extends Filter
 {
     private $length = 1;
-    private $startAt = 0;
 
-    public function __construct(int $length = 1, int $startAt = 0)
+    public function __construct(int $length = 1)
     {
         if ($length > 0) {
-            // always from start
+            // always from end
             $length = -$length;
         }
         $this->length = $length;
-        $this->startAt = $startAt;
     }
 
     public function __invoke($using): array
     {
-        return Shoop::pipe($using,
-            AsArray::apply(),
-            Reverse::apply(),
-            PullFirst::applyWith($this->length, $this->startAt),
-            Reverse::apply()
-        )->unfold();
+        if (IsList::apply()->unfoldUsing($using)) {
+            return PullRange::applyWith($this->length)->unfoldUsing($using);
+
+        }
+
+        if (UsesStringMembers::apply()->unfoldUsing($using)) {
+            return Shoop::pipe($using,
+                AsDictionary::apply(),
+                PullLast::applyWith($this->length)
+            )->unfold();
+
+        } else {
+            return Shoop::pipe($using,
+                AsArray::apply(),
+                PullFirst::applyWith($this->length)
+            )->unfold();
+
+        }
     }
 }

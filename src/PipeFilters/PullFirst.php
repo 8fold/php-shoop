@@ -32,13 +32,13 @@ class PullFirst extends Filter
         if (UsesStringMembers::apply()->unfoldUsing($using)) {
             return Shoop::pipe($using,
                 AsDictionary::apply(),
-                PullFirst::applyWith($this->length, $this->startAt)
+                PullFirst::applyWith($this->length)
             )->unfold();
 
         } else {
             return Shoop::pipe($using,
                 AsArray::apply(),
-                PullFirst::applyWith($this->length, $this->startAt)
+                PullFirst::applyWith($this->length)
             )->unfold();
 
         }

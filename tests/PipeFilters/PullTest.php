@@ -126,15 +126,9 @@ class PullTest extends TestCase
         };
 
         $this->start = hrtime(true);
-        $expected = ["z" => true];
+        $expected = ["y" => PullFirst::apply()];
 
-        $actual = PullFirst::apply()->unfoldUsing($using);
+        $actual = PullLast::apply()->unfoldUsing($using);
         $this->assertEqualsWithPerformance($expected, $actual, 2);
-
-        $this->start = hrtime(true);
-        $expected = ["z" => true, "y" => PullFirst::apply()];
-
-        $actual = PullFirst::applyWith(5)->unfoldUsing($using);
-        $this->assertEqualsWithPerformance($expected, $actual);
     }
 }
