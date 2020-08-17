@@ -5,6 +5,8 @@ namespace Eightfold\Shoop\PipeFilters;
 
 use Eightfold\Foldable\Filter;
 
+use Eightfold\Shoop\Shoop;
+
 class PullRange extends Filter
 {
     private $start = 0;
@@ -16,14 +18,41 @@ class PullRange extends Filter
         $this->length = $length;
     }
 
-    public function __invoke($using): array
+    public function __invoke($using)
     {
         if (IsList::apply()->unfoldUsing($using)) {
-            $list = array_slice($using, $this->start, $this->length, true);
-            if (IsArray::applyWith(true)->unfoldUsing($list)) {
-                return AsArray::apply()->unfoldUsing($list);
+            $preserveKeys = true;
+            if (IsArray::applyWith(true)->unfoldUsing($using)) {
+                $preserveKeys = false;
+
             }
-            return $list;
+            return array_slice($using, $this->start, $this->length, $preserveKeys);
+        }
+
+        if (IsString::apply()->unfoldUsing($using)) {
+            return Shoop::pipe($using,
+                AsArray::apply(),
+                PullRange::applyWith($this->start, $this->length),
+                AsString::apply()
+            )->unfold();
+
+        // TODO: Maybe all of these need to return the original type?? Running
+        //      into issue when attempting, not sure how critical that is. Let's
+        //      get the migration done first.
+        } elseif (IsBoolean::apply()->unfoldUsing($using) or
+            UsesStringMembers::apply()->unfoldUsing($using)
+        ) {
+            return Shoop::pipe($using,
+                AsDictionary::apply(),
+                PullRange::applyWith($this->start, $this->length)
+            )->unfold();
+
+        } else {
+            return Shoop::pipe($using,
+                AsArray::apply(),
+                PullRange::applyWith($this->start, $this->length)
+            )->unfold();
+
         }
     }
 }

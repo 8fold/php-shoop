@@ -23,111 +23,70 @@ class PullTest extends TestCase
         $expected = [3, 2, 5, 4];
 
         $actual = PullRange::apply()->unfoldUsing($using);
-        $this->assertEqualsWithPerformance($expected, $actual, 0.7);
+        $this->assertEqualsWithPerformance($expected, $actual, 0.85);
 
         $this->start = hrtime(true);
         $expected = [5, 4];
 
         $actual = PullRange::applyWith(-2)->unfoldUsing($using);
         $this->assertEqualsWithPerformance($expected, $actual, 0.75);
+
+        $using = ["a" => 1, "b" => 2, "c" => 3, "d" => 4];
+
+        $this->start = hrtime(true);
+        $expected = ["b" => 2, "c" => 3];
+
+        $actual = PullRange::applyWith(1, 2)->unfoldUsing($using);
+        $this->assertEqualsWithPerformance($expected, $actual);
     }
 
-    // /**
-    //  * @test
-    //  */
-    // public function from_bool__invalid_length_does_not_error()
-    // {
-    //     $using = true;
+    /**
+     * @test
+     */
+    public function pull_range_of_content_from_string()
+    {
+        $using = "So, raise your glass!";
 
-    //     $expected = [true];
+        $this->start = hrtime(true);
+        $expected = "raise";
 
-    //     $actual = PullFirst::applyWith(3)->unfoldUsing($using);
-    //     $this->assertEqualsWithPerformance($expected, $actual, 4.65);
-    // }
+        $actual = PullRange::applyWith(4, 5)->unfoldUsing($using);
+        $this->assertEqualsWithPerformance($expected, $actual, 1.7);
+    }
 
-    // /**
-    //  * @test
-    //  */
-    // public function from_int__can_specifying_starting_position()
-    // {
-    //     $using = 5;
+    /**
+     * @test
+     *
+     * TODO: Maybe this should return boolean - running into stack overflow when
+     *     attempting. Not used often - skipping for now.
+     */
+    public function pull_range_from_boolean_allows_invalid_index()
+    {
+        $using = true;
 
-    //     $this->start = hrtime(true);
-    //     $expected = [1, 2];
-    //     $actual = PullFirst::applyWith(2, 1)->unfoldUsing($using);
-    //     $this->assertEqualsWithPerformance($expected, $actual, 1.1);
-    // }
+        $this->start = hrtime(true);
+        $expected = ["false" => false];
 
-    // /**
-    //  * @test
-    //  */
-    // public function from_string_defaults_to_array_without_other_options_available()
-    // {
-    //     $using = "8fold?";
+        $actual = PullRange::applyWith(1, 5)->unfoldUsing($using);
+        $this->assertEqualsWithPerformance($expected, $actual);
 
-    //     $this->start = hrtime(true);
-    //     $expected = ["8"];
+        $expected = [];
 
-    //     $actual = PullFirst::apply()->unfoldUsing($using);
-    //     $this->assertEqualsWithPerformance($expected, $actual, 0.7);
-    // }
+        $actual = PullRange::applyWith(3, 20)->unfoldUsing($using);
+        $this->assertEqualsWithPerformance($expected, $actual);
+    }
 
-    // /**
-    //  * @test
-    //  */
-    // public function from_dictionary__maintains_named_members()
-    // {
-    //     $using = ["a" => 3, "b" => 2, "c" => 5, "d" => 4];
+    public function uses_string_members()
+    {
+        $using = new class {
+            public $public = "content";
+            public $public2 = 2;
+            public $public3 = false;
+        };
 
-    //     $this->start = hrtime(true);
-    //     $expected = ["b" => 2, "c" => 5, "d" => 4];
+        $this->start = hrtime(true);
+        $expected = ["public2" => 2];
 
-    //     $actual = PullFirst::applyWith(3, 1)->unfoldUsing($using);
-    //     $this->assertEqualsWithPerformance($expected, $actual);
-    // }
-
-    // /**
-    //  * @test
-    //  */
-    // public function from_json__empty_does_not_cause_halt()
-    // {
-    //     $using = '{}';
-
-    //     $expected = [];
-
-    //     $actual = PullFirst::applyWith(8)->unfoldUsing($using);
-    //     $this->assertEqualsWithPerformance($expected, $actual, 3.35);
-    // }
-
-    // /**
-    //  * @test
-    //  */
-    // public function from_object()
-    // {
-    //     $using = new class {
-    //         public $first = 1;
-    //         public $second = "8fold";
-    //         private $null;
-    //         private $default = "";
-    //     };
-
-    //     $expected = ["second" => "8fold"];
-
-    //     $actual = PullFirst::applyWith(2, 1)->unfoldUsing($using);
-    //     $this->assertEqualsWithPerformance($expected, $actual, 2);
-    // }
-
-    // /**
-    //  * @test
-    //  */
-    // public function always_from_start_even_when_length_is_negative()
-    // {
-    //     $using = [3, 2, 5, 4];
-
-    //     $this->start = hrtime(true);
-    //     $expected = [3, 2];
-
-    //     $actual = PullFirst::applyWith(-2)->unfoldUsing($using);
-    //     $this->assertEqualsWithPerformance($expected, $actual, 3.9);
-    // }
+        $actual = PullRange::applyWith(1, 1)->unfoldUsing($using);
+    }
 }
