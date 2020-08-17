@@ -2,9 +2,9 @@
 
 namespace Eightfold\Shoop\Tests\PipeFilters;
 
-use \stdClass;
-
 use Eightfold\Shoop\Tests\TestCase;
+
+use \stdClass;
 
 use Eightfold\Shoop\Shoop;
 

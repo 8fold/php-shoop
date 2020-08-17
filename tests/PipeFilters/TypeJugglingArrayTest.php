@@ -79,7 +79,7 @@ class TypeJugglingArrayTest extends TestCase
         $expected = '{"i0":"content","i1":""}';
 
         $json = AsJson::apply()->unfoldUsing($array);
-        $this->assertEqualsWithPerformance($expected, $json);
+        $this->assertEqualsWithPerformance($expected, $json, 1.5);
     }
 
     /**

@@ -15,9 +15,7 @@ class AsInteger extends Filter
     {
         if (IsInteger::apply()->unfoldUsing($using)) return $using;
 
-        if (IsArray::apply()->unfoldUsing($using) or
-            IsDictionary::apply()->unfoldUsing($using)
-        ) {
+        if (IsList::apply()->unfoldUsing($using)) {
             return FromArray::apply()->unfoldUsing($using);
 
         } elseif (IsNumber::apply()->unfoldUsing($using) or

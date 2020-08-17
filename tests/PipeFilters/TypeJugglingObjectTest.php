@@ -94,4 +94,17 @@ class TypeJugglingObjectTest extends TestCase
         $json = AsJson::apply()->unfoldUsing($object);
         $this->assertEqualsWithPerformance($expected, $json);
     }
+
+    /**
+     * @test
+     */
+    public function sut_can_jump_to_boolean()
+    {
+        $object = $this->sut();
+
+        $expected = true;
+
+        $bool = AsBoolean::apply()->unfoldUsing($object);
+        $this->assertEqualsWithPerformance($expected, $bool);
+    }
 }

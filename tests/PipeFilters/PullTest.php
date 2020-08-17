@@ -108,8 +108,6 @@ class PullTest extends TestCase
 
     /**
      * @test
-     *
-     * @group zanadu
      */
     public function pull_last__from_object_juggle()
     {

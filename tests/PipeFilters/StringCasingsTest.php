@@ -45,7 +45,7 @@ class StringCasingsTest extends TestCase
         $expected = "HELLO! 🎉";
 
         $actual = AsStringUpperCased::apply()->unfoldUsing($sut);
-        $this->assertEqualsWithPerformance($expected, $actual, 0.9);
+        $this->assertEqualsWithPerformance($expected, $actual, 1);
 
         $this->start = hrtime(true);
         $sut = ["H", 0, new \stdClass, "e", "LL", "o!", " 🎉"];

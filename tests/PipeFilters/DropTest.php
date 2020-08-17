@@ -18,18 +18,5 @@ class DropTest extends TestCase
      */
     public function string()
     {
-        $using = "Do you remember when, we using to sing?";
-
-        $this->start = hrtime(true);
-        $expected = true;
-
-        $actual = StringStartsWith::applyWith("Do you")->unfoldUsing($using);
-        $this->assertEqualsWithPerformance($expected, $actual, 2.8);
-
-        $this->start = hrtime(true);
-        $expected = false;
-
-        $actual = StringStartsWith::applyWith("Do you...")->unfoldUsing($using);
-        $this->assertEqualsWithPerformance($expected, $actual, 2.9);
     }
 }
