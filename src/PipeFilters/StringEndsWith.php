@@ -7,6 +7,8 @@ use Eightfold\Foldable\Filter;
 
 use Eightfold\Shoop\Shoop;
 
+use Eightfold\Shoop\PipeFilters\AsArray\FromString as AsArrayFromString;
+
 class StringEndsWith extends Filter
 {
     private $suffix = "";
@@ -21,9 +23,10 @@ class StringEndsWith extends Filter
     public function __invoke(string $using): bool
     {
         $length = AsInteger::apply()->unfoldUsing($this->suffix);
+
         return Shoop::pipe($using,
-            AsArray::apply(),
-            PullLast::applyWith($length),
+            AsArrayFromString::apply(),
+            PullRange::applyWith(-$length),
             AsString::apply(),
             Is::applyWith($this->suffix)
         )->unfold();

@@ -7,7 +7,7 @@ use Eightfold\Foldable\Filter;
 
 use Eightfold\Shoop\Shoop;
 
-class PullLast extends Filter
+class _PullLast extends Filter
 {
     private $length = 1;
 

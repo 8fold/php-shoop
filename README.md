@@ -165,7 +165,7 @@ We strive for minimal verbs to maximize capability while minimizing cognitive lo
 |Boolean    |boolean            |content          |Same as PHP                                      |
 |Integer    |integer or float   |content          |All whole numbers. ex. 1 or 1.0                  |
 |Number     |integer or float   |content          |All real numbers. ex. 1 or 1.0 or 1.1            |
-|List       |array              |storage          |Abstract: Any PPHP array type                    |
+|List       |array              |storage          |Abstract: Any PHP array type                     |
 |Array      |array              |storage          |Integer members in sequence, using array access. |
 |Dictionary |array              |storage          |String members unordered, using array access.    |
 |Tuple      |stdClass or object |storage          |String members unordered, using object access. All instances of PHP stdClass are Shoop Tuples. Class instances with public properties and no public methods are also considered Shoop Tuples. |

@@ -105,28 +105,4 @@ class PullTest extends TestCase
         $actual = PullFirst::applyWith(5)->unfoldUsing($using);
         $this->assertEqualsWithPerformance($expected, $actual, 3.65);
     }
-
-    /**
-     * @test
-     */
-    public function pull_last__from_object_juggle()
-    {
-        $using = new class {
-            public $z = true;
-            public $y;
-            public $x;
-
-            public function __construct()
-            {
-                $this->y = PullFirst::apply();
-                $this->x = function() { return "x"; };
-            }
-        };
-
-        $this->start = hrtime(true);
-        $expected = ["y" => PullFirst::apply()];
-
-        $actual = PullLast::apply()->unfoldUsing($using);
-        $this->assertEqualsWithPerformance($expected, $actual, 2);
-    }
 }
