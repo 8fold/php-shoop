@@ -319,20 +319,18 @@ class EmptinessAndFalsinessTest extends TestCase
 
     /**
      * @test
-     * @group  current
      */
     public function json_as_tuple_falsiness_is_inversely_related_to_its_emptiness()
     {
         // false
         $using = '{}';
-        $tuple = json_decode($using);
 
         // PHP
         // true | false
-        $bool = (bool) $tuple;
+        $bool = (bool) $using;
         $this->assertTrue($bool);
 
-        $bool = empty($tuple);
+        $bool = empty($using);
         $this->assertFalse($bool);
 
         // Shoop
@@ -340,34 +338,33 @@ class EmptinessAndFalsinessTest extends TestCase
         $this->start = hrtime(true);
         $expected = false;
 
-        $bool = AsBoolean::apply()->unfoldUsing($tuple);
+        $bool = AsBoolean::apply()->unfoldUsing($using);
         $this->assertEqualsWithPerformance($expected, $bool, 2.25);
 
         $this->start = hrtime(true); // deviation
         $expected = true;
 
-        $bool = IsEmpty::apply()->unfoldUsing($tuple);
+        $bool = IsEmpty::apply()->unfoldUsing($using);
         $this->assertEqualsWithPerformance($expected, $bool, 0.7);
 
         // true
         $using = '{"one":1}';
-        $tuple = json_decode($using);
 
         // PHP
         // true | false - no change
-        $bool = (bool) $tuple;
+        $bool = (bool) $using;
         $this->assertTrue($bool);
 
-        $bool = empty($tuple);
+        $bool = empty($using);
         $this->assertFalse($bool);
 
         // Shoop
         // true | false - no change
         $this->start = hrtime(true);
-        $bool = AsBoolean::apply()->unfoldUsing($tuple);
+        $bool = AsBoolean::apply()->unfoldUsing($using);
         $this->assertEqualsWithPerformance(true, $bool);
 
-        $bool = IsEmpty::apply()->unfoldUsing($tuple);
+        $bool = IsEmpty::apply()->unfoldUsing($using);
         $this->assertEqualsWithPerformance(false, $bool);
 
         // TODO: Consider - see dictionary. Should we allow a member "efToBool"

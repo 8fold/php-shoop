@@ -7,12 +7,10 @@ use Eightfold\Foldable\Filter;
 
 use Eightfold\Shoop\Shoop;
 
-class IsNumber extends Filter
+class IsFloat extends Filter
 {
     public function __invoke($using): bool
     {
-        if (! is_int($using) and ! is_float($using)) return false;
-
-        return true;
+        return is_float($using);
     }
 }

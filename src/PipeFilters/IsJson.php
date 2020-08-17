@@ -14,7 +14,7 @@ class IsJson extends Filter
 {
     public function __invoke($using): bool
     {
-        if (is_bool($using) or ! is_string($using)) return false;
+        if (! is_string($using)) return false;
 
         // Don't use pipe - could result in infinite loop
         $length = strlen($using);

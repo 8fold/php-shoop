@@ -11,9 +11,18 @@ use Eightfold\Shoop\PipeFilters\AsInteger\FromNumber;
 
 class AsInteger extends Filter
 {
+    private $roundingMode = PHP_ROUND_HALF_UP;
+
+    public function __construct(int $roundingMode = PHP_ROUND_HALF_UP)
+    {
+        $this->roundingMode = $roundingMode;
+    }
+
     public function __invoke($using): int
     {
-        if (IsInteger::apply()->unfoldUsing($using)) return $using;
+        if (IsInteger::apply()->unfoldUsing($using)) {
+            return (int) round($using, 0, $this->roundingMode);
+        }
 
         if (IsList::apply()->unfoldUsing($using)) {
             return FromArray::apply()->unfoldUsing($using);

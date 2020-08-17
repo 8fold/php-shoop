@@ -10,15 +10,22 @@ use Eightfold\Shoop\PipeFilters\IsJson;
 class IsString extends Filter
 {
     /**
-     * String must be PHP string type and not a more specific type of string.
-     *
-     * Only JSON account for.
+     * Whether to include anything passing PHP is_string
      */
+    private $anyString = false;
+
+    public function __construct(bool $anyString = false)
+    {
+        $this->anyString = $anyString;
+    }
+
     public function __invoke($using): bool
     {
         if (! is_string($using)) return false;
 
-        if (is_string($using) and IsJson::apply()->unfoldUsing($using)) return false;
+        if ($this->anyString) return is_string($using);
+
+        if (IsJson::apply()->unfoldUsing($using)) return false;
 
         return true;
     }

@@ -44,7 +44,7 @@ class StrippedFromString extends Filter
         $needles      = Shoop::pipe($charMask, AsArrayFromString::apply())->unfold();
         $replacements = array_fill(0, count($needles), "");
 
-        //TODO: ArrayToDictionary::applyWith($members);
+        // TODO: ArrayToDictionary::applyWith($members);
         // $combined = array_combine($members, $keys);
         // TODO: MembersFromArray::apply();
         // TODO: MembersFromDictionary::apply();

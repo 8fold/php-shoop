@@ -8,6 +8,7 @@ use Eightfold\Foldable\Filter;
 use Eightfold\Shoop\Shoop;
 use Eightfold\Shoop\PipeFilters\AsBoolean\FromNumber;
 use Eightfold\Shoop\PipeFilters\AsBoolean\FromObject;
+use Eightfold\Shoop\PipeFilters\AsBoolean\FromJson;
 
 // TODO: Consider an abstract parent
 class AsBoolean extends Filter
@@ -25,11 +26,13 @@ class AsBoolean extends Filter
         ) {
             return FromObject::apply()->unfoldUsing($using);
 
+        } elseif (IsJson::apply()->unfoldUsing($using)) {
+            return FromJson::apply()->unfoldUsing($using);
+
         } else {
             // IsNumber
             // IsArray
             // IsDictionary
-            // IsJson
             // IsString
             return Shoop::pipe($using,
                 AsNumber::apply(),

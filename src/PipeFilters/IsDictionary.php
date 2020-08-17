@@ -5,19 +5,21 @@ namespace Eightfold\Shoop\PipeFilters;
 
 use Eightfold\Foldable\Filter;
 
-use Eightfold\Shoop\PipeFilters\IsArray;
+use Eightfold\Shoop\PipeFilters\IsList;
 
 class IsDictionary extends Filter
 {
     public function __invoke($using): bool
     {
-        if (is_bool($using) or is_string($using)) return false;
+        if (! IsList::apply()->unfoldUsing($using)) return false;
 
-        if (!is_array($using)) return false;
+        // Shoop List but not enought data to differentiate.
+        if ($using === array()) return false;
 
+        // all members must be strings
         $keys = array_keys($using);
         $stringKeys = array_filter($keys, "is_string");
 
-        return count($stringKeys) > 0;
+        return count($stringKeys) === count($using);
     }
 }

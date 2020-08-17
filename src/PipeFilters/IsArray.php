@@ -9,40 +9,24 @@ use Eightfold\Shoop\Shoop;
 
 class IsArray extends Filter
 {
-    private $loose = false;
-
-    /**
-     * @param bool|boolean $loose Only requires all keys to be integers, not necessarily ordered.
-     */
-    public function __construct(bool $loose = false)
-    {
-        $this->loose = $loose;
-    }
-
-    /**
-     * Based on Swift Array: https://docs.swift.org/swift-book/LanguageGuide/CollectionTypes.html
-     *
-     * Implementation derived from: https://stackoverflow.com/questions/173400
-     */
     public function __invoke($using): bool
     {
         if (! is_array($using)) return false;
 
+        // Shoop List but not enought data to differentiate.
         if ($using === array()) return false;
 
-        $keys     = array_keys($using);
-        $ints     = array_filter($keys, "is_integer");
-        $keyCount = count($ints);
+        $count      = count($using);
+        $members    = array_keys($using);
+        $intMembers = array_filter($members, "is_integer");
 
-        // All keys must be integers
-        $isLooseArray = $keyCount === count($using);
-        if ($isLooseArray and $this->loose) return true;
+        if (count($intMembers) !== $count) return false;
 
         // Must be ordered.
-        $rangeEnd = count($using) - 1;
-        $range    = range(0, $rangeEnd);
-        $keys     = array_keys($using);
+        $start = $members[0];
+        $end   = $members[$count - 1];
+        $range = range($start, $end);
 
-        return $keys === $range;
+        return $members === $range;
     }
 }

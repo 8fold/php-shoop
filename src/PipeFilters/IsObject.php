@@ -11,14 +11,17 @@ use Eightfold\Shoop\Shoop;
 
 class IsObject extends Filter
 {
-    /**
-     * An object, is a PHP object, that is not an instance of `stdClass` and
-     * implements at least one public method.
-     */
     public function __invoke($using): bool
     {
-        return (is_object($using) and ! is_a($using, stdClass::class))
-            ? true
-            : false;
+        // must be an object PHP type
+        if (! is_object($using)) return false;
+
+        // must NOT be an instance of stdClass; reserved for Shoop Tuple
+        if (is_a($using, stdClass::class)) return false;
+
+        // must have methods; without this it's a strict data type - Shoop Tuple
+        $methods = get_class_methods($using);
+
+        return count($methods) > 0;
     }
 }

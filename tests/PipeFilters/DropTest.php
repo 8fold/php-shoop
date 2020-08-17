@@ -18,5 +18,6 @@ class DropTest extends TestCase
      */
     public function string()
     {
+        $this->assertFalse(true);
     }
 }
