@@ -18,8 +18,7 @@ class AsStringWithTags extends Filter
 
     public function __invoke(string $using): string
     {
-        $allow = Shoop::pipe($this->allowed, AsString::apply())
-            ->unfold();
+        $allow = Shoop::pipe($this->allowed, AsString::apply())->unfold();
         return strip_tags($using, $allow);
     }
 }

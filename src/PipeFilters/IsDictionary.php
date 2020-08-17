@@ -15,6 +15,9 @@ class IsDictionary extends Filter
 
         if (!is_array($using)) return false;
 
-        return (IsArray::apply()->unfoldUsing($using)) ? false : true;
+        $keys = array_keys($using);
+        $stringKeys = array_filter($keys, "is_string");
+
+        return count($stringKeys) > 0;
     }
 }

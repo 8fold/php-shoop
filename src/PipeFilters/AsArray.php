@@ -17,7 +17,8 @@ class AsArray extends Filter
 {
     public function __invoke($using): array
     {
-        if (IsArray::apply()->unfoldUsing($using)) return $using;
+        if (IsArray::applyWith(true)->unfoldUsing($using))
+            return array_values($using);
 
         if (IsBoolean::apply()->unfoldUsing($using)) {
             return FromBoolean::apply()->unfoldUsing($using);

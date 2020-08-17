@@ -4,12 +4,14 @@ namespace Eightfold\Shoop\Tests\PipeFilters;
 
 use Eightfold\Shoop\Tests\TestCase;
 
-use Eightfold\Shoop\PipeFilters\StringEndsWith;
+use \stdClass;
+
+use Eightfold\Shoop\PipeFilters\DropRange;
 
 /**
- * @group EndsWith
+ * @group Drop
  */
-class EndsWithTest extends TestCase
+class DropTest extends TestCase
 {
     /**
      * @test
@@ -21,13 +23,13 @@ class EndsWithTest extends TestCase
         $this->start = hrtime(true);
         $expected = true;
 
-        $actual = StringEndsWith::applyWith("sing?")->unfoldUsing($using);
+        $actual = StringStartsWith::applyWith("Do you")->unfoldUsing($using);
         $this->assertEqualsWithPerformance($expected, $actual, 2.8);
 
         $this->start = hrtime(true);
         $expected = false;
 
-        $actual = StringEndsWith::applyWith("Do you...")->unfoldUsing($using);
+        $actual = StringStartsWith::applyWith("Do you...")->unfoldUsing($using);
         $this->assertEqualsWithPerformance($expected, $actual, 2.9);
     }
 }
