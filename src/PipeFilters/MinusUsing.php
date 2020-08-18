@@ -15,46 +15,40 @@ use Eightfold\Shoop\PipeFilters\TypeJuggling\IsTuple;
 use Eightfold\Shoop\PipeFilters\TypeJuggling\IsObject;
 use Eightfold\Shoop\PipeFilters\TypeJuggling\IsJson;
 
-use Eightfold\Shoop\PipeFilters\Minus\FromList;
-use Eightfold\Shoop\PipeFilters\Minus\FromBoolean;
-use Eightfold\Shoop\PipeFilters\Minus\FromNumber;
-use Eightfold\Shoop\PipeFilters\Minus\FromString;
-use Eightfold\Shoop\PipeFilters\Minus\FromTuple;
-use Eightfold\Shoop\PipeFilters\Minus\FromObject;
-use Eightfold\Shoop\PipeFilters\Minus\FromJson;
+use Eightfold\Shoop\PipeFilters\MinusUsing\FromList;
 
-class Minus extends Filter
+class MinusUsing extends Filter
 {
     public function __invoke($using)
     {
-        if (IsNumber::apply()->unfoldUsing($using)) {
-            return FromNumber::applyWith(...$this->args(true))
+        if (IsList::apply()->unfoldUsing($using)) {
+            return FromList::applyWith($this->main)
                 ->unfoldUsing($using);
         }
 
-        if (IsBoolean::apply()->unfoldUsing($using)) {
-            return FromBoolean::applyWith(...$this->args(true))
+        if (IsNumber::apply()->unfoldUsing($using)) {
+            return FromNumber::applyWith($this->main)
                 ->unfoldUsing($using);
 
-        } elseif (IsList::apply()->unfoldUsing($using)) {
-            return FromList::applyWith(...$this->args(true))
+        } elseif (IsBoolean::apply()->unfoldUsing($using)) {
+            return FromBoolean::applyWith($this->main)
                 ->unfoldUsing($using);
 
         } elseif (IsString::applyWith(true)->unfoldUsing($using)) {
             if (IsJson::apply()->unfoldUsing($using)) {
-                return FromJson::applyWith(...$this->args(true))
+                return FromJson::applyWith($this->main)
                     ->unfoldUsing($using);
 
             }
-            return FromString::applyWith(...$this->args(true))
+            return FromString::applyWith($this->main)
                 ->unfoldUsing($using);
 
         } elseif (IsTuple::apply()->unfoldUsing($using)) {
-            return FromTuple::applyWith(...$this->args(true))
+            return FromTuple::applyWith($this->main)
                 ->unfoldUsing($using);
 
         } elseif (IsObject::apply()->unfoldUsing($using)) {
-            return FromObject::applyWith(...$this->args(true))
+            return FromObject::applyWith($this->main)
                 ->unfoldUsing($using);
 
         }

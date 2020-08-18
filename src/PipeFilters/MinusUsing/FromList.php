@@ -1,12 +1,13 @@
 <?php
 declare(strict_types=1);
 
-namespace Eightfold\Shoop\PipeFilters;
+namespace Eightfold\Shoop\PipeFilters\MinusUsing;
 
 use Eightfold\Foldable\Filter;
 
-// TODO: rename to "AsArray"??
-class DropEmpties extends Filter
+use Eightfold\Shoop\PipeFilters\TypeJuggling\AsArray\FromList as AsArrayFromList;
+
+class FromList extends Filter
 {
     private $callback;
 
@@ -17,8 +18,10 @@ class DropEmpties extends Filter
 
     public function __invoke(array $using): array
     {
-        return ($this->callback === null)
+        $filtered = ($this->callback === null)
             ? array_filter($using)
             : array_filter($using, $this->callback);
+
+        return AsArrayFromList::apply()->unfoldUsing($filtered);
     }
 }

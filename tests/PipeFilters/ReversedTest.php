@@ -124,7 +124,7 @@ class ReversedTest extends TestCase
         $expected->public  = "content";
 
         $actual = Reversed::apply()->unfoldUsing($using);
-        $this->assertEqualsWithPerformance($expected, $actual, 0.85);
+        $this->assertEqualsWithPerformance($expected, $actual, 1.2);
     }
 
     /**

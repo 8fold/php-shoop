@@ -41,6 +41,7 @@ class MinusTest extends TestCase
         $actual = Minus::applyWith(-6.5)->unfoldUsing($using);
         $this->assertEqualsWithPerformance($expected, $actual);
     }
+
     /**
      * @test
      */
