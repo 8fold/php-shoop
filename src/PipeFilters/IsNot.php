@@ -6,7 +6,7 @@ namespace Eightfold\Shoop\PipeFilters;
 use Eightfold\Foldable\Filter;
 
 // TODO: Increase type-safety by using established type-check pattern
-class Is extends Filter
+class IsNot extends Filter
 {
     private $compare = "";
 
@@ -17,6 +17,6 @@ class Is extends Filter
 
     public function __invoke($using): bool
     {
-        return $using === $this->compare;
+        return ! Is::applyWith($this->compare)->unfoldUsing($using);
     }
 }

@@ -5,7 +5,13 @@ namespace Eightfold\Shoop\PipeFilters\TypeJuggling;
 
 use Eightfold\Foldable\Filter;
 
+use Eightfold\Shoop\Shoop;
+use Eightfold\Shoop\PipeFilters\Members\FromList as MembersFromList;
+use Eightfold\Shoop\PipeFilters\MinusUsing;
+use Eightfold\Shoop\PipeFilters\Is;
+
 use Eightfold\Shoop\PipeFilters\TypeJuggling\IsList;
+use Eightfold\Shoop\PipeFilters\TypeJuggling\AsInteger\FromList as AsIntegerFromList;
 
 class IsDictionary extends Filter
 {
@@ -21,9 +27,13 @@ class IsDictionary extends Filter
         }
 
         // all members must be strings
-        $keys = array_keys($using);
-        $stringKeys = array_filter($keys, "is_string");
-
-        return count($stringKeys) === count($using);
+        return Shoop::pipe($using,
+            MembersFromList::apply(),
+            MinusUsing::applyWith("is_string"),
+            AsIntegerFromList::apply(),
+            Is::applyWith(
+                AsIntegerFromList::apply()->unfoldUsing($using)
+            )
+        )->unfold();
     }
 }

@@ -7,6 +7,7 @@ use Eightfold\Foldable\Filter;
 
 use Eightfold\Shoop\Shoop;
 
+use Eightfold\Shoop\PipeFilters\MinusUsing;
 use Eightfold\Shoop\PipeFilters\TypeJuggling\AsArray\FromBoolean;
 use Eightfold\Shoop\PipeFilters\TypeJuggling\AsArray\FromDictionary;
 use Eightfold\Shoop\PipeFilters\TypeJuggling\AsArray\FromInteger;
@@ -17,8 +18,8 @@ class AsArrayOfStrings extends Filter
     public function __invoke($using): array
     {
         if (IsArray::applyWith(true)->unfoldUsing($using)) {
-            $strings = array_filter($using, "is_string");
-            return array_values($strings);
+            return MinusUsing::applyWith("is_string")->unfoldUsing($using);
+
         }
 
         if (IsBoolean::apply()->unfoldUsing($using)) {

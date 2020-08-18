@@ -8,32 +8,6 @@ use Eightfold\Shoop\Helpers\{
 
 class PhpIndexedArray
 {
-    static public function toValueMemberAssociativeArray(array $array): array
-    {
-        if (PhpInt::isOdd(self::toInt($array))) {
-            $className = static::class;
-            $argCount = self::toInt($array);
-            trigger_error(
-                "{$className}::indexedArrayToValueMemberArray() expects two (or more) arguments. {$argCount} given."
-            );
-        }
-        $count = 0;
-        $members = [];
-        $values = [];
-        foreach ($array as $value) {
-            if ($count === 0 or $count % 2 === 0) {
-                $values[] = $value;
-
-            } else {
-                $members[] = $value;
-
-            }
-            $count++;
-        }
-        $dictionary = array_combine($members, $values);
-        return $dictionary;
-    }
-
     static public function startsWith(array $array, array $needles): bool
     {
         foreach ($needles as $member => $value) {

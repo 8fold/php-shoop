@@ -139,7 +139,7 @@ class MinusTest extends TestCase
         $expected = true;
 
         $actual = Minus::applyWith(0)->unfoldUsing($using);
-        $this->assertEqualsWithPerformance($expected, $actual, 0.85);
+        $this->assertEqualsWithPerformance($expected, $actual, 1.4);
 
         $this->start = hrtime(true);
         $expected = false;
@@ -164,7 +164,7 @@ class MinusTest extends TestCase
         $expected = (object) [1, true];
 
         $actual = Minus::applyWith("string")->unfoldUsing($using);
-        $this->assertEqualsWithPerformance($expected, $actual);
+        $this->assertEqualsWithPerformance($expected, $actual, 0.75);
 
         $expected = (object) ["string"];
 

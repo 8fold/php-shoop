@@ -8,10 +8,10 @@ use Eightfold\Foldable\Filter;
 /**
  * @deprecated replaced with FromList
  */
-class FromArray extends Filter
+class FromList extends Filter
 {
     public function __invoke(array $using): int
     {
-        return FromList::apply()->unfoldUsing($using);
+        return count($using);
     }
 }

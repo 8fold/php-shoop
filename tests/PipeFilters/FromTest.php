@@ -24,7 +24,7 @@ class FromTest extends TestCase
         $expected = [3, 2, 5, 4];
 
         $actual = From::apply()->unfoldUsing($using);
-        $this->assertEqualsWithPerformance($expected, $actual, 1);
+        $this->assertEqualsWithPerformance($expected, $actual, 2.1);
 
         $this->start = hrtime(true);
         $expected = [5, 4];
@@ -81,6 +81,7 @@ class FromTest extends TestCase
 
         $using = false;
 
+        $this->start = hrtime(true);
         $expected = false;
 
         $actual = From::applyWith(3, 20)->unfoldUsing($using);

@@ -6,6 +6,11 @@ namespace Eightfold\Shoop\PipeFilters\TypeJuggling;
 use Eightfold\Foldable\Filter;
 
 use Eightfold\Shoop\Shoop;
+use Eightfold\Shoop\PipeFilters\Members\FromList as MembersFromList;
+use Eightfold\Shoop\PipeFilters\MinusUsing;
+use Eightfold\Shoop\PipeFilters\IsNot;
+
+use Eightfold\Shoop\PipeFilters\TypeJuggling\AsInteger\FromList as AsIntegerFromList;
 
 class IsArray extends Filter
 {
@@ -20,11 +25,17 @@ class IsArray extends Filter
             return false;
         }
 
-        $count      = count($using);
-        $members    = array_keys($using);
-        $intMembers = array_filter($members, "is_integer");
+        $members = MembersFromList::apply()->unfoldUsing($using);
+        $count   = Shoop::pipe($members,
+            MinusUsing::applyWith("is_int"),
+            AsIntegerFromList::apply()
+        )->unfold();
 
-        if (count($intMembers) !== $count) {
+        $countsDoNotMatch = IsNot::applyWith(
+                AsIntegerFromList::apply()->unfoldUsing($using)
+            )->unfoldUsing($count);
+
+        if ($countsMatch) {
             return false;
         }
 
