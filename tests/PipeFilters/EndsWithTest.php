@@ -22,7 +22,7 @@ class EndsWithTest extends TestCase
         $expected = true;
 
         $actual = StringEndsWith::applyWith("sing?")->unfoldUsing($using);
-        $this->assertEqualsWithPerformance($expected, $actual, 3.9);
+        $this->assertEqualsWithPerformance($expected, $actual, 4.6);
 
         $this->start = hrtime(true);
         $expected = false;
