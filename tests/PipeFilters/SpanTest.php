@@ -15,8 +15,6 @@ class SpanTest extends TestCase
 {
     /**
      * @test
-     *
-     * @group current
      */
     public function span_from_lists()
     {
@@ -79,7 +77,7 @@ class SpanTest extends TestCase
         $expected = true;
 
         $actual = Span::applyWith(1, 5)->unfoldUsing($using);
-        $this->assertEqualsWithPerformance($expected, $actual, 0.85);
+        $this->assertEqualsWithPerformance($expected, $actual, 0.9);
 
         $using = false;
 

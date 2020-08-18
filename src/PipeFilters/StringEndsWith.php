@@ -6,10 +6,11 @@ namespace Eightfold\Shoop\PipeFilters;
 use Eightfold\Foldable\Filter;
 
 use Eightfold\Shoop\Shoop;
-
-use Eightfold\Shoop\PipeFilters\AsArray\FromString as AsArrayFromString;
 use Eightfold\Shoop\PipeFilters\Span\FromList as SpanFromList;
-use Eightfold\Shoop\PipeFilters\AsString\FromList as AsStringFromList;
+
+use Eightfold\Shoop\PipeFilters\TypeJuggling\AsInteger\FromString as AsIntegerFromString;
+use Eightfold\Shoop\PipeFilters\TypeJuggling\AsArray\FromString as AsArrayFromString;
+use Eightfold\Shoop\PipeFilters\TypeJuggling\AsString\FromList as AsStringFromList;
 
 class StringEndsWith extends Filter
 {
@@ -24,7 +25,7 @@ class StringEndsWith extends Filter
     // TODO: PHP 8.0 array|string
     public function __invoke(string $using): bool
     {
-        $length = AsInteger::apply()->unfoldUsing($this->suffix);
+        $length = AsIntegerFromString::apply()->unfoldUsing($this->suffix);
 
         return Shoop::pipe($using,
             AsArrayFromString::apply(),

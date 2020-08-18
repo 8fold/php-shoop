@@ -7,8 +7,7 @@ use Eightfold\Foldable\Filter;
 
 use Eightfold\Shoop\Shoop;
 
-use Eightfold\Shoop\Php\StringIsJson;
-
+// TODO: renem "MinusFrom"
 class First extends Filter
 {
     private $length = 1;

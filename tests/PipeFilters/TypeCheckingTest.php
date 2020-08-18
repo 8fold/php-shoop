@@ -6,16 +6,16 @@ use Eightfold\Shoop\Tests\TestCase;
 
 use \stdClass;
 
-use Eightfold\Shoop\PipeFilters\IsObject;
-use Eightfold\Shoop\PipeFilters\IsTuple;
-use Eightfold\Shoop\PipeFilters\IsList;
-use Eightfold\Shoop\PipeFilters\IsDictionary;
-use Eightfold\Shoop\PipeFilters\IsArray;
-use Eightfold\Shoop\PipeFilters\IsNumber;
-use Eightfold\Shoop\PipeFilters\IsFloat;
-use Eightfold\Shoop\PipeFilters\IsInteger;
-use Eightfold\Shoop\PipeFilters\IsString;
-use Eightfold\Shoop\PipeFilters\IsBoolean;
+use Eightfold\Shoop\PipeFilters\TypeJuggling\IsObject;
+use Eightfold\Shoop\PipeFilters\TypeJuggling\IsTuple;
+use Eightfold\Shoop\PipeFilters\TypeJuggling\IsList;
+use Eightfold\Shoop\PipeFilters\TypeJuggling\IsDictionary;
+use Eightfold\Shoop\PipeFilters\TypeJuggling\IsArray;
+use Eightfold\Shoop\PipeFilters\TypeJuggling\IsNumber;
+use Eightfold\Shoop\PipeFilters\TypeJuggling\IsFloat;
+use Eightfold\Shoop\PipeFilters\TypeJuggling\IsInteger;
+use Eightfold\Shoop\PipeFilters\TypeJuggling\IsString;
+use Eightfold\Shoop\PipeFilters\TypeJuggling\IsBoolean;
 
 /**
  * @group TypeChecking

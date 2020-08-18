@@ -6,13 +6,13 @@ namespace Eightfold\Shoop\PipeFilters\Reversed;
 use Eightfold\Foldable\Filter;
 
 use Eightfold\Shoop\Shoop;
-use Eightfold\Shoop\PipeFilters\IsJson;
-
-use Eightfold\Shoop\PipeFilters\AsTuple\FromJson as AsTupleFromJson;
-use Eightfold\Shoop\PipeFilters\AsDictionary\FromTuple as AsDictionaryFromTuple;
 use Eightfold\Shoop\PipeFilters\Reversed\FromList as ReversedFromList;
-use Eightfold\Shoop\PipeFilters\AsTuple\FromDictionary as AsTupleFromDictionary;
-use Eightfold\Shoop\PipeFilters\AsJson\FromTuple as AsJsonFromTuple;
+
+use Eightfold\Shoop\PipeFilters\TypeJuggling\IsJson;
+use Eightfold\Shoop\PipeFilters\TypeJuggling\AsTuple\FromJson as AsTupleFromJson;
+use Eightfold\Shoop\PipeFilters\TypeJuggling\AsDictionary\FromTuple as AsDictionaryFromTuple;
+use Eightfold\Shoop\PipeFilters\TypeJuggling\AsTuple\FromDictionary as AsTupleFromDictionary;
+use Eightfold\Shoop\PipeFilters\TypeJuggling\AsJson\FromTuple as AsJsonFromTuple;
 
 class FromJson extends Filter
 {

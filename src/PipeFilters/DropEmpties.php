@@ -5,9 +5,7 @@ namespace Eightfold\Shoop\PipeFilters;
 
 use Eightfold\Foldable\Filter;
 
-use Eightfold\Shoop\Shoop;
-
-// TODO: rename to "clear"??
+// TODO: rename to "MinusEmpties"??
 class DropEmpties extends Filter
 {
     private $callback;

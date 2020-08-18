@@ -10,7 +10,8 @@ use Eightfold\Shoop\Shoop;
 
 use Eightfold\Shoop\Interfaces\Falsifiable;
 
-use Eightfold\Shoop\PipeFilters\AsBoolean;
+use Eightfold\Shoop\PipeFilters\TypeJuggling\AsBoolean;
+
 use Eightfold\Shoop\PipeFilters\IsEmpty;
 
 /**

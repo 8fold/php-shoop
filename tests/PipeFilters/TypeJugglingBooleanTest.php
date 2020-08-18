@@ -6,13 +6,13 @@ use \stdClass;
 
 use Eightfold\Shoop\Tests\TestCase;
 
-use Eightfold\Shoop\PipeFilters\AsTuple;
-use Eightfold\Shoop\PipeFilters\AsJson;
-use Eightfold\Shoop\PipeFilters\AsDictionary;
-use Eightfold\Shoop\PipeFilters\AsArray;
-use Eightfold\Shoop\PipeFilters\AsInteger;
-use Eightfold\Shoop\PipeFilters\AsNumber;
-use Eightfold\Shoop\PipeFilters\AsBoolean;
+use Eightfold\Shoop\PipeFilters\TypeJuggling\AsTuple;
+use Eightfold\Shoop\PipeFilters\TypeJuggling\AsJson;
+use Eightfold\Shoop\PipeFilters\TypeJuggling\AsDictionary;
+use Eightfold\Shoop\PipeFilters\TypeJuggling\AsArray;
+use Eightfold\Shoop\PipeFilters\TypeJuggling\AsInteger;
+use Eightfold\Shoop\PipeFilters\TypeJuggling\AsNumber;
+use Eightfold\Shoop\PipeFilters\TypeJuggling\AsBoolean;
 
 /**
  * @group BooleanTypeJuggling

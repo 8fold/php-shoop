@@ -6,11 +6,11 @@ namespace Eightfold\Shoop\PipeFilters\Reversed;
 use Eightfold\Foldable\Filter;
 
 use Eightfold\Shoop\Shoop;
-use Eightfold\Shoop\PipeFilters\IsObject;
-
 use Eightfold\Shoop\PipeFilters\Reversed\FromList as ReversedFromList;
-use Eightfold\Shoop\PipeFilters\AsDictionary\FromTuple as AsDictionaryFromTuple;
-use Eightfold\Shoop\PipeFilters\AsTuple\FromDictionary as AsTupleFromDictionary;
+
+use Eightfold\Shoop\PipeFilters\TypeJuggling\IsObject;
+use Eightfold\Shoop\PipeFilters\TypeJuggling\AsDictionary\FromTuple as AsDictionaryFromTuple;
+use Eightfold\Shoop\PipeFilters\TypeJuggling\AsTuple\FromDictionary as AsTupleFromDictionary;
 
 class FromTuple extends Filter
 {

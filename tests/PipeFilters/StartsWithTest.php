@@ -15,6 +15,8 @@ class StartsWithTest extends TestCase
 {
     /**
      * @test
+     *
+     * @group current
      */
     public function string()
     {

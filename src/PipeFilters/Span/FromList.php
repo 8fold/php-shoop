@@ -5,7 +5,7 @@ namespace Eightfold\Shoop\PipeFilters\Span;
 
 use Eightfold\Foldable\Filter;
 
-use Eightfold\Shoop\PipeFilters\IsArray;
+use Eightfold\Shoop\PipeFilters\TypeJuggling\IsArray;
 
 class FromList extends Filter
 {

@@ -7,6 +7,14 @@ use Eightfold\Foldable\Filter;
 
 use Eightfold\Shoop\Shoop;
 
+use Eightfold\Shoop\PipeFilters\TypeJuggling\IsList;
+use Eightfold\Shoop\PipeFilters\TypeJuggling\IsBoolean;
+use Eightfold\Shoop\PipeFilters\TypeJuggling\IsNumber;
+use Eightfold\Shoop\PipeFilters\TypeJuggling\IsString;
+use Eightfold\Shoop\PipeFilters\TypeJuggling\IsTuple;
+use Eightfold\Shoop\PipeFilters\TypeJuggling\IsObject;
+use Eightfold\Shoop\PipeFilters\TypeJuggling\IsJson;
+
 use Eightfold\Shoop\PipeFilters\Span\FromList;
 use Eightfold\Shoop\PipeFilters\Span\FromBoolean;
 use Eightfold\Shoop\PipeFilters\Span\FromNumber;
@@ -15,6 +23,7 @@ use Eightfold\Shoop\PipeFilters\Span\FromTuple;
 use Eightfold\Shoop\PipeFilters\Span\FromObject;
 use Eightfold\Shoop\PipeFilters\Span\FromJson;
 
+// TODO: rename to "From(start, length, fromEnd)"
 class Span extends Filter
 {
     private $start = 0;

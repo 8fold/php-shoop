@@ -5,7 +5,7 @@ namespace Eightfold\Shoop\PipeFilters\Reversed;
 
 use Eightfold\Foldable\Filter;
 
-use Eightfold\Shoop\PipeFilters\IsNumber;
+use Eightfold\Shoop\PipeFilters\TypeJuggling\IsNumber;
 
 class FromNumber extends Filter
 {
