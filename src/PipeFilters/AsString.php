@@ -8,7 +8,7 @@ use Eightfold\Foldable\Filter;
 use Eightfold\Shoop\Shoop;
 
 use Eightfold\Shoop\PipeFilters\IsJson;
-use Eightfold\Shoop\PipeFilters\AsString\FromArray;
+use Eightfold\Shoop\PipeFilters\AsString\FromList;
 use Eightfold\Shoop\PipeFilters\AsString\FromBool;
 use Eightfold\Shoop\PipeFilters\AsString\FromInteger;
 
@@ -45,8 +45,7 @@ class AsString extends Filter
         )->unfold();
 
         } elseif (is_array($using)) {
-            return Shoop::pipe($using, FromArray::applyWith($this->glue))
-                ->unfold();
+            return FromList::applyWith($this->glue)->unfoldUsing($using);
 
         } elseif (is_string($using)) {
             $isJson = Shoop::pipe($using, StringIsJson::apply())->unfold();

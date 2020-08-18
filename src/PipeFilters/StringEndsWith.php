@@ -8,6 +8,8 @@ use Eightfold\Foldable\Filter;
 use Eightfold\Shoop\Shoop;
 
 use Eightfold\Shoop\PipeFilters\AsArray\FromString as AsArrayFromString;
+use Eightfold\Shoop\PipeFilters\Span\FromList as SpanFromList;
+use Eightfold\Shoop\PipeFilters\AsString\FromList as AsStringFromList;
 
 class StringEndsWith extends Filter
 {
@@ -26,8 +28,8 @@ class StringEndsWith extends Filter
 
         return Shoop::pipe($using,
             AsArrayFromString::apply(),
-            PullRange::applyWith(-$length),
-            AsString::apply(),
+            SpanFromList::applyWith(-$length),
+            AsStringFromList::apply(),
             Is::applyWith($this->suffix)
         )->unfold();
     }

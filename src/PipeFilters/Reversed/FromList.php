@@ -1,11 +1,9 @@
 <?php
 declare(strict_types=1);
 
-namespace Eightfold\Shoop\PipeFilters\Reverse;
+namespace Eightfold\Shoop\PipeFilters\Reversed;
 
 use Eightfold\Foldable\Filter;
-
-use Eightfold\Shoop\Shoop;
 
 class FromList extends Filter
 {

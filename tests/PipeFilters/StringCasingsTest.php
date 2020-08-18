@@ -21,6 +21,7 @@ class StringCasingsTest extends TestCase
     {
         $sut = "HeLLo! 🎉";
 
+        $this->start = hrtime(true);
         $expected = "hello! 🎉";
 
         $actual = AsStringLowerCased::apply()->unfoldUsing($sut);
@@ -42,6 +43,7 @@ class StringCasingsTest extends TestCase
     {
         $sut = "HeLLo! 🎉";
 
+        $this->start = hrtime(true);
         $expected = "HELLO! 🎉";
 
         $actual = AsStringUpperCased::apply()->unfoldUsing($sut);

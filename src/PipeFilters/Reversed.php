@@ -8,38 +8,42 @@ use Eightfold\Foldable\Filter;
 use Eightfold\Shoop\Shoop;
 use Eightfold\Shoop\PipeFilters\IsJson;
 
-use Eightfold\Shoop\PipeFilters\Reverse\FromList;
+use Eightfold\Shoop\PipeFilters\Reversed\FromList;
+use Eightfold\Shoop\PipeFilters\Reversed\FromBoolean;
+use Eightfold\Shoop\PipeFilters\Reversed\FromNumber;
+use Eightfold\Shoop\PipeFilters\Reversed\FromString;
+use Eightfold\Shoop\PipeFilters\Reversed\FromTuple;
+use Eightfold\Shoop\PipeFilters\Reversed\FromObject;
+use Eightfold\Shoop\PipeFilters\Reversed\FromJson;
 
-class Reverse extends Filter
+class Reversed extends Filter
 {
     public function __invoke($using)
     {
+        if (IsList::apply()->unfoldUsing($using)) {
+            return FromList::apply()->unfoldUsing($using);
+
+        }
+
         if (IsBoolean::apply()->unfoldUsing($using)) {
-            var_dump(__NAMESPACE__);
-            die("is bool");
+            return FromBoolean::apply()->unfoldUsing($using);
 
         } elseif (IsNumber::apply()->unfoldUsing($using)) {
-            var_dump(__NAMESPACE__);
-            die("is number");
+            return FromNumber::apply()->unfoldUsing($using);
 
         } elseif (IsString::applyWith(true)->unfoldUsing($using)) {
             if (IsJson::apply()->unfoldUsing($using)) {
-                var_dump(__NAMESPACE__);
-                die("is json");
-            }
-            var_dump(__NAMESPACE__);
-            die("is string");
+                return FromJson::apply()->unfoldUsing($using);
 
-        } elseif (IsList::apply()->unfoldUsing($using)) {
-            return FromList::apply()->unfoldUsing($using);
+            }
+            return FromString::apply()->unfoldUsing($using);
 
         } elseif (IsTuple::apply()->unfoldUsing($using)) {
-            var_dump(__NAMESPACE__);
-            die("is tuple");
+            return FromTuple::apply()->unfoldUsing($using);
 
         } elseif (IsObject::apply()->unfoldUsing($using)) {
-            var_dump(__NAMESPACE__);
-            die("is object");
+            return FromObject::apply()->unfoldUsing($using);
+
         }
         die("fell through");
         if (is_bool($using)) {
@@ -62,7 +66,7 @@ class Reverse extends Filter
             }
             return Shoop::pipe($using,
                 AsArray::apply(),
-                Reverse::apply(),
+                Reversed::apply(),
                 AsString::apply()
             )->unfold();
 

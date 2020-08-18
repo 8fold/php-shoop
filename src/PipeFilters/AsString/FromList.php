@@ -8,7 +8,7 @@ use Eightfold\Foldable\Filter;
 use Eightfold\Shoop\Shoop;
 use Eightfold\Shoop\PipeFilters\AsArrayOfStrings;
 
-class FromArray extends Filter
+class FromList extends Filter
 {
     private $glue = "";
 
@@ -19,8 +19,7 @@ class FromArray extends Filter
 
     public function __invoke(array $using): string
     {
-        $stringArray = Shoop::pipe($using, AsArrayOfStrings::apply())
-            ->unfold();
+        $stringArray = AsArrayOfStrings::apply()->unfoldUsing($using);
         return implode($this->glue, $stringArray);
     }
 }

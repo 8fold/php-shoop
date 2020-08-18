@@ -24,7 +24,7 @@ class Minus extends Filter
     public function __invoke($using)
     {
         if (is_bool($using)) {
-            return Shoop::pipe($using, Reverse::apply())->unfold();
+            return Shoop::pipe($using, Reversed::apply())->unfold();
 
         } elseif (is_int($using)) {
             $int = Shoop::pipe($this->args, PullFirst::apply(), AsInteger::apply())

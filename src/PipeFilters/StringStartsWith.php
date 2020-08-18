@@ -7,8 +7,10 @@ use Eightfold\Foldable\Filter;
 
 use Eightfold\Shoop\Shoop;
 use Eightfold\Shoop\PipeFilters\Is;
-use Eightfold\Shoop\PipeFilters\AsArray\FromString as AsArrayFromString;
 
+use Eightfold\Shoop\PipeFilters\AsArray\FromString as AsArrayFromString;
+use Eightfold\Shoop\PipeFilters\Span\FromList as SpanFromList;
+use Eightfold\Shoop\PipeFilters\AsString\FromList as AsStringFromList;
 
 class StringStartsWith extends Filter
 {
@@ -24,8 +26,8 @@ class StringStartsWith extends Filter
         $length = AsInteger::apply()->unfoldUsing($this->prefix);
         return Shoop::pipe($using,
             AsArrayFromString::apply(),
-            PullRange::applyWith(0, $length),
-            AsString::apply(),
+            SpanFromList::applyWith(0, $length),
+            AsStringFromList::apply(),
             Is::applyWith($this->prefix)
         )->unfold();
     }

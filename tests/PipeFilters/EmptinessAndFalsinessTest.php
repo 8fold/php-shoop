@@ -58,7 +58,7 @@ class EmptinessAndFalsinessTest extends TestCase
         $expected = false;
 
         $bool = AsBoolean::apply()->unfoldUsing($using);
-        $this->assertEqualsWithPerformance($expected, $bool, 11.04);
+        $this->assertEqualsWithPerformance($expected, $bool, 12.9);
 
         $this->start = hrtime(true);
         $expected = true;
@@ -151,6 +151,7 @@ class EmptinessAndFalsinessTest extends TestCase
         // true
         $using = true;
 
+        $this->start = hrtime(true);
         // PHP
         $bool = (bool) $using;
         $this->assertTrue($bool);
