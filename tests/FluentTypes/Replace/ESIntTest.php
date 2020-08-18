@@ -6,9 +6,9 @@ use \stdClass;
 
 use Eightfold\Shoop\Tests\TestCase;
 
-use Eightfold\Shoop\Php;
+use Eightfold\Shoop\PipeFilters;
 
-use Eightfold\Shoop\ESInt;
+use Eightfold\Shoop\FluentTypes\ESInt;
 
 class ESIntTest extends TestCase
 {

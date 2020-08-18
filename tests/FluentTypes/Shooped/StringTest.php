@@ -4,10 +4,10 @@ namespace Eightfold\Shoop\Tests\Shooped;
 
 use PHPUnit\Framework\TestCase;
 
-use Eightfold\Shoop\Helpers\Type;
 
-use Eightfold\Shoop\{
-    Shoop,
+
+use Eightfold\Shoop\Shoop;
+use Eightfold\Shoop\FluentTypes\{
     ESArray,
     ESBool,
     ESDictionary,
@@ -20,7 +20,7 @@ use Eightfold\Shoop\{
 /**
  * The `string()` method converts the Shoop type to a PHP string representation.
  *
- * @return Eightfold\Shoop\ESString
+ * @return Eightfold\Shoop\FluentTypes\ESString
  */
 class StringTest extends TestCase
 {
@@ -96,7 +96,7 @@ class StringTest extends TestCase
     }
 
     /**
-     * @return Eightfold\Shoop\ESString The same value.
+     * @return Eightfold\Shoop\FluentTypes\ESString The same value.
      */
     public function testESString()
     {

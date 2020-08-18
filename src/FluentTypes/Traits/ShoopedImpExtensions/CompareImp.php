@@ -4,7 +4,7 @@ namespace Eightfold\Shoop\Traits\ShoopedImpExtensions;
 
 use \Closure;
 
-use Eightfold\Shoop\Helpers\Type;
+
 
 trait CompareImp
 {

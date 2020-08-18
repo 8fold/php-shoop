@@ -1,11 +1,11 @@
 <?php
 
-namespace Eightfold\Shoop\Contracts;
+namespace Eightfold\Shoop\FluentTypes\Contracts;
 
-use Eightfold\Shoop\Php;
+use Eightfold\Shoop\PipeFilters;
 
-use Eightfold\Shoop\ESArray;
-use Eightfold\Shoop\ESBool;
+use Eightfold\Shoop\FluentTypes\ESArray;
+use Eightfold\Shoop\FluentTypes\ESBool;
 
 trait ArrayableImp
 {

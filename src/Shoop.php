@@ -2,12 +2,20 @@
 
 namespace Eightfold\Shoop;
 
+use Eightfold\Foldable\Pipe;
+use Eightfold\Foldable\Foldable;
+
 use Eightfold\Shoop\Helpers\Type;
 
-use Eightfold\Foldable\Pipe;
+use Eightfold\Shoop\FluentTypes\Interfaces\Shooped;
 
-use Eightfold\Shoop\Interfaces\Foldable;
-use Eightfold\Shoop\Interfaces\Shooped;
+use Eightfold\Shoop\FluentTypes\ESArray;
+use Eightfold\Shoop\FluentTypes\ESBool;
+use Eightfold\Shoop\FluentTypes\ESDictionary;
+use Eightfold\Shoop\FluentTypes\ESInt;
+use Eightfold\Shoop\FluentTypes\ESJson;
+use Eightfold\Shoop\FluentTypes\ESObject;
+use Eightfold\Shoop\FluentTypes\ESString;
 
 class Shoop
 {

@@ -4,8 +4,8 @@ namespace Eightfold\Shoop\Tests;
 
 use PHPUnit\Framework\TestCase;
 
-use Eightfold\Shoop\{
-    Shoop,
+use Eightfold\Shoop\Shoop;
+use Eightfold\Shoop\FluentTypes\{
     ESArray,
     Helpers\Type
 };
@@ -15,7 +15,7 @@ class StringTest extends TestCase
     /**
      * The `replace()` method on ESString replaces instances of characters with the given characters. You can also limit the number of replacements made.
      *
-     * @return Eightfold\Shoop\ESString
+     * @return Eightfold\Shoop\FluentTypes\ESString
      */
     public function testReplace()
     {
@@ -67,7 +67,7 @@ class StringTest extends TestCase
     /**
      * The `lowerFirst()` method on ESString returns the original value after ensuring the first character is lowercase.
      *
-     * @return Eightfold\Shoop\ESString
+     * @return Eightfold\Shoop\FluentTypes\ESString
      */
     public function testLowerFirst()
     {
@@ -80,7 +80,7 @@ class StringTest extends TestCase
     /**
      * The `uppercase()` method on ESString returns the original value after ensuring *all* letters are upper case.
      *
-     * @return Eightfold\Shoop\ESString
+     * @return Eightfold\Shoop\FluentTypes\ESString
      */
     public function testUppercase()
     {

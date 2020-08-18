@@ -2,8 +2,8 @@
 
 namespace Eightfold\Shoop\Traits\ShoopedImpExtensions;
 
-use Eightfold\Shoop\Helpers\{
-    Type,
+use Eightfold\Shoop\FluentTypes\Helpers\{
+
     PhpIndexedArray,
     PhpBool,
     PhpAssociativeArray,
@@ -13,9 +13,8 @@ use Eightfold\Shoop\Helpers\{
     PhpString
 };
 
-use Eightfold\Shoop\{
-    Interfaces\Foldable,
-    Shoop,
+use Eightfold\Shoop\Shoop;
+use Eightfold\Shoop\FluentTypes\{
     ESArray,
     ESBool,
     ESDictionary,

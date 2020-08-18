@@ -1,13 +1,13 @@
 <?php
 
-namespace Eightfold\Shoop\Traits;
+namespace Eightfold\Shoop\FluentTypes\Traits;
 
 use \Closure;
 
-use Eightfold\Shoop\Helpers\Type;
 
-use Eightfold\Shoop\{
-    Shoop,
+
+use Eightfold\Shoop\Shoop;
+use Eightfold\Shoop\FluentTypes\{
     ESArray,
     ESBool,
     ESInt,

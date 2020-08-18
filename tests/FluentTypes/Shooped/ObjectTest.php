@@ -4,8 +4,8 @@ namespace Eightfold\Shoop\Tests\Shooped;
 
 use PHPUnit\Framework\TestCase;
 
-use Eightfold\Shoop\{
-    Type,
+use Eightfold\Shoop\FluentTypes\{
+
     ESArray,
     ESBool,
     ESDictionary,

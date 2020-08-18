@@ -4,10 +4,10 @@ namespace Eightfold\Shoop\Tests\Shooped;
 
 use PHPUnit\Framework\TestCase;
 
-use Eightfold\Shoop\Helpers\Type;
 
-use Eightfold\Shoop\{
-    Shoop,
+
+use Eightfold\Shoop\Shoop;
+use Eightfold\Shoop\FluentTypes\{
     ESArray,
     ESBool,
     ESDictionary,
@@ -20,7 +20,7 @@ use Eightfold\Shoop\{
 /**
  * The `json()` method converts the Shoop type to a representation using JSON.
  *
- * @return Eightfold\Shoop\ESString In JSON.
+ * @return Eightfold\Shoop\FluentTypes\ESString In JSON.
  */
 class JsonTest extends TestCase
 {

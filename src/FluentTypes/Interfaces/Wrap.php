@@ -1,8 +1,8 @@
 <?php
 
-namespace Eightfold\Shoop\Interfaces;
+namespace Eightfold\Shoop\FluentTypes\Interfaces;
 
-use Eightfold\Shoop\ESBool;
+use Eightfold\Shoop\FluentTypes\ESBool;
 
 interface Wrap
 {

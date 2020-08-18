@@ -1,6 +1,6 @@
 <?php
 
-namespace Eightfold\Shoop\Interfaces\ShoopedExtensions;
+namespace Eightfold\Shoop\FluentTypes\Interfaces\ShoopedExtensions;
 
 interface PhpMagicMethods
 {

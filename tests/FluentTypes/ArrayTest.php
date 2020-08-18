@@ -4,8 +4,8 @@ namespace Eightfold\Shoop\Tests;
 
 use PHPUnit\Framework\TestCase;
 
-use Eightfold\Shoop\{
-    Shoop,
+use Eightfold\Shoop\Shoop;
+use Eightfold\Shoop\FluentTypes\{
     ESArray,
     Helpers\Type
 };
@@ -17,7 +17,7 @@ class ArrayTest extends TestCase
     /**
      * The `join()` method on ESArray is similar to the `imploded()` function from the PHP standard library.
      *
-     * @return Eightfold\Shoop\ESString
+     * @return Eightfold\Shoop\FluentTypes\ESString
      */
     public function testJoin()
     {

@@ -4,18 +4,14 @@ namespace Eightfold\Shoop\Tests\Shooped;
 
 use PHPUnit\Framework\TestCase;
 
-use Eightfold\Shoop\Helpers\Type;
-
-use Eightfold\Shoop\{
-    Shoop,
-    ESArray,
-    ESBool,
-    ESDictionary,
-    ESInt,
-    ESJson,
-    ESObject,
-    ESString
-};
+use Eightfold\Shoop\Shoop;
+use Eightfold\Shoop\FluentTypes\ESArray;
+use Eightfold\Shoop\FluentTypes\ESBool;
+use Eightfold\Shoop\FluentTypes\ESDictionary;
+use Eightfold\Shoop\FluentTypes\ESInt;
+use Eightfold\Shoop\FluentTypes\ESJson;
+use Eightfold\Shoop\FluentTypes\ESObject;
+use Eightfold\Shoop\FluentTypes\ESString;
 
 /**
  * The `array()` method typically converts the `Shoop type` to a `PHP indexed array` equivalent.

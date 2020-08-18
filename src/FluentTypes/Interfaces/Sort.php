@@ -1,6 +1,6 @@
 <?php
 
-namespace Eightfold\Shoop\Interfaces;
+namespace Eightfold\Shoop\FluentTypes\Interfaces;
 
 interface Sort
 {

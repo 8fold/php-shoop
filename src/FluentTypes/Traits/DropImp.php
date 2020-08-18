@@ -1,16 +1,16 @@
 <?php
 
-namespace Eightfold\Shoop\Traits;
+namespace Eightfold\Shoop\FluentTypes\Traits;
 
-use Eightfold\Shoop\Helpers\{
-    Type,
+use Eightfold\Shoop\FluentTypes\Helpers\{
+
     PhpIndexedArray,
     PhpAssociativeArray
 };
 
-use Eightfold\Shoop\{
+use Eightfold\Shoop\Shoop;
+use Eightfold\Shoop\FluentTypes\{
     Interfaces\Shooped,
-    Shoop,
     ESArray,
     ESBool,
     ESInt,

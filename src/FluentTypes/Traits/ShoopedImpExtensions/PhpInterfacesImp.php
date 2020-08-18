@@ -4,8 +4,8 @@ namespace Eightfold\Shoop\Traits\ShoopedImpExtensions;
 
 use \stdClass;
 
-use Eightfold\Shoop\Helpers\{
-    Type,
+use Eightfold\Shoop\FluentTypes\Helpers\{
+
     PhpIndexedArray,
     PhpBool,
     PhpInt,
@@ -14,8 +14,8 @@ use Eightfold\Shoop\Helpers\{
     PhpString
 };
 
-use Eightfold\Shoop\{
-    Shoop,
+use Eightfold\Shoop\Shoop;
+use Eightfold\Shoop\FluentTypes\{
     ESArray,
     ESBool,
     ESDictionary,

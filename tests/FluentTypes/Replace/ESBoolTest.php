@@ -6,7 +6,7 @@ use \stdClass;
 
 use Eightfold\Shoop\Tests\TestCase;
 
-use Eightfold\Shoop\ESBool;
+use Eightfold\Shoop\FluentTypes\ESBool;
 
 class ESBoolTest extends TestCase
 {

@@ -1,6 +1,6 @@
 <?php
 
-namespace Eightfold\Shoop\Contracts;
+namespace Eightfold\Shoop\FluentTypes\Contracts;
 
 interface Strippable
 {

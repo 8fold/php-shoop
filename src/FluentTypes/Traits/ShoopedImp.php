@@ -1,11 +1,11 @@
 <?php
 
-namespace Eightfold\Shoop\Traits;
+namespace Eightfold\Shoop\FluentTypes\Traits;
 
 use Eightfold\Foldable\FoldableImp;
 
-use Eightfold\Shoop\Php;
-use Eightfold\Shoop\ESInt;
+use Eightfold\Shoop\PipeFilters;
+use Eightfold\Shoop\FluentTypes\ESInt;
 
 trait ShoopedImp
 {

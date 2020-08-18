@@ -4,7 +4,7 @@ namespace Eightfold\Shoop\Tests\Helpers;
 
 use PHPUnit\Framework\TestCase;
 
-use Eightfold\Shoop\Helpers\{
+use Eightfold\Shoop\FluentTypes\Helpers\{
     PhpIndexedArray,
     PhpBool,
     PhpAssociativeArray,
@@ -14,8 +14,8 @@ use Eightfold\Shoop\Helpers\{
     PhpString
 };
 
-use Eightfold\Shoop\{
-    Shoop,
+use Eightfold\Shoop\Shoop;
+use Eightfold\Shoop\FluentTypes\{
     ESArray,
     ESBool,
     ESDictionary,

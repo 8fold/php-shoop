@@ -2,7 +2,7 @@
 
 namespace Eightfold\Shoop\Helpers;
 
-use Eightfold\Shoop\Helpers\{
+use Eightfold\Shoop\FluentTypes\Helpers\{
     PhpTypeJuggle,
     PhpIndexedArray,
     PhpObject

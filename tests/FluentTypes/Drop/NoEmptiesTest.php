@@ -4,10 +4,10 @@ namespace Eightfold\Shoop\Tests\Drop;
 
 use PHPUnit\Framework\TestCase;
 
-use Eightfold\Shoop\Helpers\Type;
 
-use Eightfold\Shoop\{
-    Shoop,
+
+use Eightfold\Shoop\Shoop;
+use Eightfold\Shoop\FluentTypes\{
     ESArray,
     ESBool,
     ESDictionary,
@@ -19,7 +19,7 @@ use Eightfold\Shoop\{
 /**
  * The `noEmpties()` method checks the values of all members of the object, checks them using the `empty()` function from the PHP standard library and removes any empty values from the object.
  *
- * @return Eightfold\Shoop\ESArray | Eightfold\Shoop\ESDictionary | Eightfold\Shoop\ESJson | Eightfold\Shoop\ESObject | Eightfold\Shoop\ESString
+ * @return Eightfold\Shoop\ESArray | Eightfold\Shoop\ESDictionary | Eightfold\Shoop\ESJson | Eightfold\Shoop\ESObject | Eightfold\Shoop\FluentTypes\ESString
  */
 class NoEmptiesTest extends TestCase
 {

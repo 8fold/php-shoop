@@ -1,10 +1,10 @@
 <?php
 
-namespace Eightfold\Shoop\Contracts;
+namespace Eightfold\Shoop\FluentTypes\Contracts;
 
 use Eightfold\Shoop\Shoop;
 
-use Eightfold\Shoop\Php\Minus;
+use Eightfold\Shoop\PipeFilters\Minus;
 
 trait StrippableImp
 {

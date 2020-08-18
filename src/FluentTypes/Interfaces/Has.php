@@ -1,11 +1,11 @@
 <?php
 
-namespace Eightfold\Shoop\Interfaces;
+namespace Eightfold\Shoop\FluentTypes\Interfaces;
 
 use \Closure;
 
-use Eightfold\Shoop\Interfaces\Foldable;
-use Eightfold\Shoop\ESBool;
+use Eightfold\Shoop\Foldable\Foldable;
+use Eightfold\Shoop\FluentTypes\ESBool;
 
 interface Has
 {

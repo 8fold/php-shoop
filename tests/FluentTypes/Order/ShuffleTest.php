@@ -4,10 +4,10 @@ namespace Eightfold\Shoop\Tests\Order;
 
 use PHPUnit\Framework\TestCase;
 
-use Eightfold\Shoop\Helpers\Type;
 
-use Eightfold\Shoop\{
-    Shoop,
+
+use Eightfold\Shoop\Shoop;
+use Eightfold\Shoop\FluentTypes\{
     ESArray,
     ESBool,
     ESDictionary,
@@ -71,7 +71,7 @@ class ShuffleTest extends TestCase
     }
 
     /**
-     * @return Eightfold\Shoop\ESString After shuffling the letters of the ofirinal `PHP string`.
+     * @return Eightfold\Shoop\FluentTypes\ESString After shuffling the letters of the ofirinal `PHP string`.
      */
     public function testESString()
     {

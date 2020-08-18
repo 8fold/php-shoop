@@ -4,10 +4,10 @@ namespace Eightfold\Shoop\Tests\MathOperations;
 
 use PHPUnit\Framework\TestCase;
 
-use Eightfold\Shoop\Helpers\Type;
 
-use Eightfold\Shoop\{
-    Shoop,
+
+use Eightfold\Shoop\Shoop;
+use Eightfold\Shoop\FluentTypes\{
     ESArray,
     ESBool,
     ESDictionary,
@@ -85,7 +85,7 @@ class PlusTest extends TestCase
     }
 
     /**
-     * @return Eightfold\Shoop\ESString After appending the original string with the values.
+     * @return Eightfold\Shoop\FluentTypes\ESString After appending the original string with the values.
      */
     public function testESString()
     {

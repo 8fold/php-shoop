@@ -1,13 +1,13 @@
 <?php
 
-namespace Eightfold\Shoop\Interfaces;
+namespace Eightfold\Shoop\FluentTypes\Interfaces;
 
 use \JsonSerializable;
 use \Countable;
 
 use Eightfold\Foldable\Foldable;
 
-use Eightfold\Shoop\ESInt;
+use Eightfold\Shoop\FluentTypes\ESInt;
 
 interface Shooped extends Foldable//, JsonSerializable, Countable //, PhpInterfaces, PhpMagicMethods
 {

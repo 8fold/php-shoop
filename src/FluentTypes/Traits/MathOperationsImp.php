@@ -1,17 +1,18 @@
 <?php
 
-namespace Eightfold\Shoop\Traits;
+namespace Eightfold\Shoop\FluentTypes\Traits;
 
-use Eightfold\Shoop\Helpers\{
-    Type,
+use Eightfold\Shoop\Foldable\Foldable;
+
+use Eightfold\Shoop\FluentTypes\Helpers\{
+
     PhpIndexedArray,
     PhpAssociativeArray, // TODO: Use facade
     PhpObject
 };
 
-use Eightfold\Shoop\{
-    Interfaces\Foldable,
-    Shoop,
+use Eightfold\Shoop\Shoop;
+use Eightfold\Shoop\FluentTypes\{
     ESArray,
     ESBool,
     ESInt,

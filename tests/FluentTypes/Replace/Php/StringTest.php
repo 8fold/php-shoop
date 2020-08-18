@@ -4,7 +4,7 @@ namespace Eightfold\Shoop\Tests\Replace\Php;
 
 use Eightfold\Shoop\Tests\TestCase;
 
-use Eightfold\Shoop\Php;
+use Eightfold\Shoop\PipeFilters;
 
 class StringTest extends TestCase
 {

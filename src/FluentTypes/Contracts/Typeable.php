@@ -1,17 +1,17 @@
 <?php
 
-namespace Eightfold\Shoop\Contracts;
+namespace Eightfold\Shoop\FluentTypes\Contracts;
 
 use \Countable;
 use \JsonSerializable;
 
-use Eightfold\Shoop\ESArray;
-use Eightfold\Shoop\ESBool;
+use Eightfold\Shoop\FluentTypes\ESArray;
+use Eightfold\Shoop\FluentTypes\ESBool;
 use Eightfold\Shoop\ESDictionary;
-use Eightfold\Shoop\ESInt;
+use Eightfold\Shoop\FluentTypes\ESInt;
 use Eightfold\Shoop\ESJson;
 use Eightfold\Shoop\ESObject;
-use Eightfold\Shoop\ESString;
+use Eightfold\Shoop\FluentTypes\ESString;
 
 interface Typeable extends Countable, JsonSerializable
 {

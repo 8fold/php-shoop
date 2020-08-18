@@ -4,10 +4,10 @@ namespace Eightfold\Shoop\Tests\Foldable;
 
 use PHPUnit\Framework\TestCase;
 
-use Eightfold\Shoop\Helpers\Type;
 
-use Eightfold\Shoop\{
-    Shoop,
+
+use Eightfold\Shoop\Shoop;
+use Eightfold\Shoop\FluentTypes\{
     ESArray,
     ESBool,
     ESDictionary,
@@ -90,7 +90,7 @@ class SetTest extends TestCase
     }
 
     /**
-     * @return Eightfold\Shoop\ESString Sets the value of the string to the given string.
+     * @return Eightfold\Shoop\FluentTypes\ESString Sets the value of the string to the given string.
      */
     public function testESString()
     {

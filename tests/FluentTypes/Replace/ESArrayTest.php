@@ -6,7 +6,7 @@ use \stdClass;
 
 use Eightfold\Shoop\Tests\TestCase;
 
-use Eightfold\Shoop\ESArray;
+use Eightfold\Shoop\FluentTypes\ESArray;
 
 class ESArrayTest extends TestCase
 {

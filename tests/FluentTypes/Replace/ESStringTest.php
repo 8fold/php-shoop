@@ -6,11 +6,11 @@ use Eightfold\Shoop\Tests\TestCase;
 
 use Eightfold\Shoop\Tests\Replace\ESGenericType;
 
-use Eightfold\Shoop\Interfaces\Shooped;
+use Eightfold\Shoop\FluentTypes\Interfaces\Shooped;
 use Eightfold\Foldable\Foldable;
 
 use Eightfold\Shoop\Shoop;
-use Eightfold\Shoop\ESString;
+use Eightfold\Shoop\FluentTypes\ESString;
 
 class ESStringTest extends TestCase
 {

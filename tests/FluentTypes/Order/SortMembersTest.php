@@ -6,8 +6,8 @@ use PHPUnit\Framework\TestCase;
 
 use Eightfold\Shoop\Type;
 
-use Eightfold\Shoop\{
-    Shoop,
+use Eightfold\Shoop\Shoop;
+use Eightfold\Shoop\FluentTypes\{
     ESArray,
     ESBool,
     ESDictionary,
@@ -169,7 +169,7 @@ class SortMembersTest extends TestCase
     }
 
     /**
-     * @return Eightfold\Shoop\ESString After sorting the individual characters of the original string.
+     * @return Eightfold\Shoop\FluentTypes\ESString After sorting the individual characters of the original string.
      */
     public function testESString()
     {

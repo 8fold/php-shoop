@@ -1,11 +1,11 @@
 <?php
 
-namespace Eightfold\Shoop\Traits;
+namespace Eightfold\Shoop\FluentTypes\Traits;
 
 use \Closure;
 
-use Eightfold\Shoop\Helpers\{
-    Type,
+use Eightfold\Shoop\FluentTypes\Helpers\{
+
     PhpAssociativeArray,
     PhpBool,
     PhpIndexedArray,
@@ -16,9 +16,9 @@ use Eightfold\Shoop\Helpers\{
 
 use Eightfold\Shoop\Helpers\PhpTypeJuggle;
 
-use Eightfold\Shoop\{
+use Eightfold\Shoop\Shoop;
+use Eightfold\Shoop\FluentTypes\{
     Interfaces\Foldable,
-    Shoop,
     ESArray,
     ESBool,
     ESInt,

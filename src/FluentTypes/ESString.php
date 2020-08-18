@@ -1,30 +1,30 @@
 <?php
 declare(strict_types=1);
 
-namespace Eightfold\Shoop;
+namespace Eightfold\Shoop\FluentTypes;
 
 use \Countable;
 use \JsonSerializable;
 
-use Eightfold\Shoop\Php;
+use Eightfold\Shoop\PipeFilters;
 
-use Eightfold\Shoop\Interfaces\Shooped;
-use Eightfold\Shoop\Traits\ShoopedImp;
+use Eightfold\Shoop\FluentTypes\Interfaces\Shooped;
+use Eightfold\Shoop\FluentTypes\Traits\ShoopedImp;
 
-use Eightfold\Shoop\Contracts\Typeable; // Shoop??
-use Eightfold\Shoop\Contracts\TypeableImp;
+use Eightfold\Shoop\FluentTypes\Contracts\Typeable; // Shoop??
+use Eightfold\Shoop\FluentTypes\Contracts\TypeableImp;
 
-use Eightfold\Shoop\Contracts\Arrayable; // Shoop??
-use Eightfold\Shoop\Contracts\ArrayableImp;
+use Eightfold\Shoop\FluentTypes\Contracts\Arrayable; // Shoop??
+use Eightfold\Shoop\FluentTypes\Contracts\ArrayableImp;
 
-use Eightfold\Shoop\Contracts\Strippable;
-use Eightfold\Shoop\Contracts\StrippableImp;
+use Eightfold\Shoop\FluentTypes\Contracts\Strippable;
+use Eightfold\Shoop\FluentTypes\Contracts\StrippableImp;
 
-use Eightfold\Shoop\Php\AsArrayFromString;
-use Eightfold\Shoop\Php\Plus;
+use Eightfold\Shoop\PipeFilters\AsArrayFromString;
+use Eightfold\Shoop\PipeFilters\Plus;
 
-use Eightfold\Shoop\Helpers\{
-    Type,
+use Eightfold\Shoop\FluentTypes\Helpers\{
+
     PhpString
 };
 

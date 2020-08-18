@@ -4,10 +4,10 @@ namespace Eightfold\Shoop\Tests\Drop;
 
 use PHPUnit\Framework\TestCase;
 
-use Eightfold\Shoop\Helpers\Type;
 
-use Eightfold\Shoop\{
-    Shoop,
+
+use Eightfold\Shoop\Shoop;
+use Eightfold\Shoop\FluentTypes\{
     ESArray,
     ESBool,
     ESDictionary,
@@ -19,7 +19,7 @@ use Eightfold\Shoop\{
 /**
  * The `drop()` method removes the value for the given member.
  *
- * @return Eightfold\Shoop\ESArray | Eightfold\Shoop\ESDictionary | Eightfold\Shoop\ESJson | Eightfold\Shoop\ESObject | Eightfold\Shoop\ESString
+ * @return Eightfold\Shoop\ESArray | Eightfold\Shoop\ESDictionary | Eightfold\Shoop\ESJson | Eightfold\Shoop\ESObject | Eightfold\Shoop\FluentTypes\ESString
  */
 class DropTest extends TestCase
 {

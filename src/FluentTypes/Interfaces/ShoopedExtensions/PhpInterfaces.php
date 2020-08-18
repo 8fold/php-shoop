@@ -1,13 +1,13 @@
 <?php
 
-namespace Eightfold\Shoop\Interfaces\ShoopedExtensions;
+namespace Eightfold\Shoop\FluentTypes\Interfaces\ShoopedExtensions;
 
 use \Countable;
 use \ArrayAccess;
 use \Iterator;
 use \JsonSerializable;
 
-use Eightfold\Shoop\ESInt;
+use Eightfold\Shoop\FluentTypes\ESInt;
 
 interface PhpInterfaces extends Countable, ArrayAccess, Iterator, JsonSerializable
 {

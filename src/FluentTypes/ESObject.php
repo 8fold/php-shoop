@@ -1,15 +1,15 @@
 <?php
 
-namespace Eightfold\Shoop;
+namespace Eightfold\Shoop\FluentTypes;
 
 use \stdClass;
 
-use Eightfold\Shoop\Helpers\{
-    Type,
+use Eightfold\Shoop\FluentTypes\Helpers\{
+
     PhpObject
 };
 
-use Eightfold\Shoop\Interfaces\{
+use Eightfold\Shoop\FluentTypes\Interfaces\{
     Shooped,
     MathOperations,
     Sort,
@@ -21,7 +21,7 @@ use Eightfold\Shoop\Interfaces\{
     Each
 };
 
-use Eightfold\Shoop\Traits\{
+use Eightfold\Shoop\FluentTypes\Traits\{
     ShoopedImp,
     MathOperationsImp,
     SortImp,

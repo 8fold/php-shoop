@@ -1,10 +1,10 @@
 <?php
 
-namespace Eightfold\Shoop\Interfaces\ShoopedExtensions;
+namespace Eightfold\Shoop\FluentTypes\Interfaces\ShoopedExtensions;
 
 use \Closure;
 
-use Eightfold\Shoop\ESBool;
+use Eightfold\Shoop\FluentTypes\ESBool;
 
 interface Compare
 {

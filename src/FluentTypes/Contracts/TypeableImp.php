@@ -1,25 +1,25 @@
 <?php
 
-namespace Eightfold\Shoop\Contracts;
+namespace Eightfold\Shoop\FluentTypes\Contracts;
 
-use Eightfold\Shoop\Php;
+use Eightfold\Shoop\PipeFilters;
 
 use Eightfold\Shoop\Shoop;
-use Eightfold\Shoop\ESArray;
-use Eightfold\Shoop\ESBool;
+use Eightfold\Shoop\FluentTypes\ESArray;
+use Eightfold\Shoop\FluentTypes\ESBool;
 use Eightfold\Shoop\ESDictionary;
-use Eightfold\Shoop\ESInt;
+use Eightfold\Shoop\FluentTypes\ESInt;
 use Eightfold\Shoop\ESJson;
 use Eightfold\Shoop\ESObject;
-use Eightfold\Shoop\ESString;
+use Eightfold\Shoop\FluentTypes\ESString;
 
-use Eightfold\Shoop\Php\AsArray;
-use Eightfold\Shoop\Php\AsBool;
-use Eightfold\Shoop\Php\AsDictionary;
-use Eightfold\Shoop\Php\AsInt;
-use Eightfold\Shoop\Php\AsJson;
-use Eightfold\Shoop\Php\AsObject;
-use Eightfold\Shoop\Php\AsString;
+use Eightfold\Shoop\PipeFilters\AsArray;
+use Eightfold\Shoop\PipeFilters\AsBool;
+use Eightfold\Shoop\PipeFilters\AsDictionary;
+use Eightfold\Shoop\PipeFilters\AsInt;
+use Eightfold\Shoop\PipeFilters\AsJson;
+use Eightfold\Shoop\PipeFilters\AsObject;
+use Eightfold\Shoop\PipeFilters\TypeJuggling\AsString;
 
 trait TypeableImp
 {

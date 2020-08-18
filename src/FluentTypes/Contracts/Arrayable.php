@@ -1,11 +1,11 @@
 <?php
 
-namespace Eightfold\Shoop\Contracts;
+namespace Eightfold\Shoop\FluentTypes\Contracts;
 
 use \ArrayAccess;
 use \Iterator;
 
-use Eightfold\Shoop\ESArray;
+use Eightfold\Shoop\FluentTypes\ESArray;
 
 interface Arrayable extends ArrayAccess, Iterator
 {

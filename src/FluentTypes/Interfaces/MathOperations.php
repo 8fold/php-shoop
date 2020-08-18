@@ -1,9 +1,9 @@
 <?php
 
-namespace Eightfold\Shoop\Interfaces;
+namespace Eightfold\Shoop\FluentTypes\Interfaces;
 
-use Eightfold\Shoop\ESInt;
-use Eightfold\Shoop\Interfaces\Foldable;
+use Eightfold\Shoop\FluentTypes\ESInt;
+use Eightfold\Shoop\Foldable\Foldable;
 
 interface MathOperations
 {

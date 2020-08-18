@@ -4,10 +4,10 @@ namespace Eightfold\Shoop\Tests\MathOperations;
 
 use PHPUnit\Framework\TestCase;
 
-use Eightfold\Shoop\Helpers\Type;
 
-use Eightfold\Shoop\{
-    Shoop,
+
+use Eightfold\Shoop\Shoop;
+use Eightfold\Shoop\FluentTypes\{
     ESArray,
     ESBool,
     ESDictionary,
@@ -83,7 +83,7 @@ class MinusTest extends TestCase
     }
 
     /**
-     * @return Eightfold\Shoop\ESString With the specified letters removed.
+     * @return Eightfold\Shoop\FluentTypes\ESString With the specified letters removed.
      */
     public function testESString()
     {

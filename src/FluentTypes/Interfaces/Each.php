@@ -1,10 +1,10 @@
 <?php
 
-namespace Eightfold\Shoop\Interfaces;
+namespace Eightfold\Shoop\FluentTypes\Interfaces;
 
 use \Closure;
 
-use Eightfold\Shoop\ESArray;
+use Eightfold\Shoop\FluentTypes\ESArray;
 
 interface Each
 {
