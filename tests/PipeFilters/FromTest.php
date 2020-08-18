@@ -6,12 +6,12 @@ use Eightfold\Shoop\Tests\TestCase;
 
 use \stdClass;
 
-use Eightfold\Shoop\PipeFilters\Span;
+use Eightfold\Shoop\PipeFilters\From;
 
 /**
- * @group Span
+ * @group From
  */
-class SpanTest extends TestCase
+class FromTest extends TestCase
 {
     /**
      * @test
@@ -23,13 +23,13 @@ class SpanTest extends TestCase
         $this->start = hrtime(true);
         $expected = [3, 2, 5, 4];
 
-        $actual = Span::apply()->unfoldUsing($using);
+        $actual = From::apply()->unfoldUsing($using);
         $this->assertEqualsWithPerformance($expected, $actual, 1);
 
         $this->start = hrtime(true);
         $expected = [5, 4];
 
-        $actual = Span::applyWith(-2)->unfoldUsing($using);
+        $actual = From::applyWith(-2)->unfoldUsing($using);
         $this->assertEqualsWithPerformance($expected, $actual, 0.75);
 
         $using = ["a" => 1, "b" => 2, "c" => 3, "d" => 4];
@@ -37,7 +37,7 @@ class SpanTest extends TestCase
         $this->start = hrtime(true);
         $expected = ["b" => 2, "c" => 3];
 
-        $actual = Span::applyWith(1, 2)->unfoldUsing($using);
+        $actual = From::applyWith(1, 2)->unfoldUsing($using);
         $this->assertEqualsWithPerformance($expected, $actual);
     }
 
@@ -51,7 +51,7 @@ class SpanTest extends TestCase
         $this->start = hrtime(true);
         $expected = "raise";
 
-        $actual = Span::applyWith(4, 5)->unfoldUsing($using);
+        $actual = From::applyWith(4, 5)->unfoldUsing($using);
         $this->assertEqualsWithPerformance($expected, $actual, 4.75);
 
         $using = '{"member":true,"member2":false}';
@@ -59,7 +59,7 @@ class SpanTest extends TestCase
         $this->start = hrtime(true);
         $expected = '{"member2":false}';
 
-        $actual = Span::applyWith(1, 1)->unfoldUsing($using);
+        $actual = From::applyWith(1, 1)->unfoldUsing($using);
         $this->assertEqualsWithPerformance($expected, $actual, 4.45);
     }
 
@@ -76,14 +76,14 @@ class SpanTest extends TestCase
         $this->start = hrtime(true);
         $expected = true;
 
-        $actual = Span::applyWith(1, 5)->unfoldUsing($using);
+        $actual = From::applyWith(1, 5)->unfoldUsing($using);
         $this->assertEqualsWithPerformance($expected, $actual, 0.9);
 
         $using = false;
 
         $expected = false;
 
-        $actual = Span::applyWith(3, 20)->unfoldUsing($using);
+        $actual = From::applyWith(3, 20)->unfoldUsing($using);
         $this->assertEqualsWithPerformance($expected, $actual);
     }
 
@@ -104,7 +104,7 @@ class SpanTest extends TestCase
         $expected = new stdClass;
         $expected->public2 = 2;
 
-        $actual = Span::applyWith(1, 1)->unfoldUsing($using);
+        $actual = From::applyWith(1, 1)->unfoldUsing($using);
         $this->assertEqualsWithPerformance($expected, $actual, 1.65);
     }
 
@@ -115,7 +115,7 @@ class SpanTest extends TestCase
         $this->start = hrtime(true);
         $expected = "Life";
 
-        $actual = Span::applyWith(5)->unfoldUsing($using);
+        $actual = From::applyWith(5)->unfoldUsing($using);
         $this->assertEqualsWithPerformance($expected, $actual, 3.65);
     }
 

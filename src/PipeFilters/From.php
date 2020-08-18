@@ -24,11 +24,13 @@ use Eightfold\Shoop\PipeFilters\Span\FromObject;
 use Eightfold\Shoop\PipeFilters\Span\FromJson;
 
 // TODO: rename to "From(start, length, fromEnd)"
-class Span extends Filter
+class From extends Filter
 {
     private $start = 0;
     private $length = PHP_INT_MAX;
 
+    // TODO: Consider adding argument of "fromEnd = false" or a method to avoid
+    //      users needing to put in PHP_INT_MAX
     public function __construct(int $start = 0, int $length = PHP_INT_MAX)
     {
         $this->start = $start;
