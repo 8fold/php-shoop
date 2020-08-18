@@ -84,8 +84,6 @@ class AtTest extends TestCase
 
     /**
      * @test
-     *
-     * @group current
      */
     public function from_tuples()
     {
