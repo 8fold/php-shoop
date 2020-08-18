@@ -1,12 +1,12 @@
 <?php
 declare(strict_types=1);
 
-namespace Eightfold\Shoop\PipeFilters\Span;
+namespace Eightfold\Shoop\PipeFilters\From;
 
 use Eightfold\Foldable\Filter;
 
 use Eightfold\Shoop\Shoop;
-use Eightfold\Shoop\PipeFilters\Span\FromList as SpanFromList;
+use Eightfold\Shoop\PipeFilters\From\FromList as SpanFromList;
 
 use Eightfold\Shoop\PipeFilters\TypeJuggling\IsJson;
 use Eightfold\Shoop\PipeFilters\TypeJuggling\AsTuple\FromJson as AsTupleFromJson;

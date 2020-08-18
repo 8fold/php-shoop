@@ -7,7 +7,7 @@ use Eightfold\Foldable\Filter;
 
 use Eightfold\Shoop\Shoop;
 use Eightfold\Shoop\PipeFilters\Is;
-use Eightfold\Shoop\PipeFilters\Span\FromList as SpanFromList;
+use Eightfold\Shoop\PipeFilters\From\FromList as SpanFromList;
 
 use Eightfold\Shoop\PipeFilters\TypeJuggling\AsInteger\FromString as AsIntegerFromString;
 use Eightfold\Shoop\PipeFilters\TypeJuggling\AsArray\FromString as AsArrayFromString;

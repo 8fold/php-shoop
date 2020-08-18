@@ -15,8 +15,6 @@ class StartsWithTest extends TestCase
 {
     /**
      * @test
-     *
-     * @group current
      */
     public function string()
     {
@@ -26,7 +24,7 @@ class StartsWithTest extends TestCase
         $expected = true;
 
         $actual = StringStartsWith::applyWith("Do you")->unfoldUsing($using);
-        $this->assertEqualsWithPerformance($expected, $actual, 2.8);
+        $this->assertEqualsWithPerformance($expected, $actual, 3.8);
 
         $this->start = hrtime(true);
         $expected = false;

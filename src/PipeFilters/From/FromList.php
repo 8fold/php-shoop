@@ -1,7 +1,7 @@
 <?php
 declare(strict_types=1);
 
-namespace Eightfold\Shoop\PipeFilters\Span;
+namespace Eightfold\Shoop\PipeFilters\From;
 
 use Eightfold\Foldable\Filter;
 

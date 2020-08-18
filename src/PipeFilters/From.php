@@ -15,13 +15,13 @@ use Eightfold\Shoop\PipeFilters\TypeJuggling\IsTuple;
 use Eightfold\Shoop\PipeFilters\TypeJuggling\IsObject;
 use Eightfold\Shoop\PipeFilters\TypeJuggling\IsJson;
 
-use Eightfold\Shoop\PipeFilters\Span\FromList;
-use Eightfold\Shoop\PipeFilters\Span\FromBoolean;
-use Eightfold\Shoop\PipeFilters\Span\FromNumber;
-use Eightfold\Shoop\PipeFilters\Span\FromString;
-use Eightfold\Shoop\PipeFilters\Span\FromTuple;
-use Eightfold\Shoop\PipeFilters\Span\FromObject;
-use Eightfold\Shoop\PipeFilters\Span\FromJson;
+use Eightfold\Shoop\PipeFilters\From\FromList;
+use Eightfold\Shoop\PipeFilters\From\FromBoolean;
+use Eightfold\Shoop\PipeFilters\From\FromNumber;
+use Eightfold\Shoop\PipeFilters\From\FromString;
+use Eightfold\Shoop\PipeFilters\From\FromTuple;
+use Eightfold\Shoop\PipeFilters\From\FromObject;
+use Eightfold\Shoop\PipeFilters\From\FromJson;
 
 // TODO: rename to "From(start, length, fromEnd)"
 class From extends Filter
@@ -71,56 +71,5 @@ class From extends Filter
                 ->unfoldUsing($using);
 
         }
-        // die("fell through");
-        // if (is_bool($using)) {
-        //     return ! $using;
-
-        // } elseif (is_int($using)) {
-        //     // return Shoop::pipe($using, ToArrayFromInteger::apply())->unfold();
-
-        // } elseif (is_object($using)) {
-        //     // ToArrayFromObject
-
-        // } elseif (is_array($using)) {
-        //     return array_reverse($using, $this->preserveMembers);
-
-        // } elseif (is_string($using)) {
-        //     $isJson = Shoop::pipe($using, StringIsJson::apply())->unfold();
-        //     if ($isJson) {
-        //         // return Shoop::pipe($using, ToArrayFromJson::apply())
-        //         //     ->unfold();
-        //     }
-        //     return Shoop::pipe($using,
-        //         AsArray::apply(),
-        //         Reversed::apply(),
-        //         AsString::apply()
-        //     )->unfold();
-
-        // }
-        // // if (IsString::apply()->unfoldUsing($using)) {
-        // //     return Shoop::pipe($using,
-        // //         AsArray::apply(),
-        // //         Span::applyWith($this->start, $this->length),
-        // //         AsString::apply()
-        // //     )->unfold();
-
-        // // // TODO: Maybe all of these need to return the original type?? Running
-        // // //      into issue when attempting, not sure how critical that is. Let's
-        // // //      get the migration done first.
-        // // } elseif (IsBoolean::apply()->unfoldUsing($using) or
-        // //     UsesStringMembers::apply()->unfoldUsing($using)
-        // // ) {
-        // //     return Shoop::pipe($using,
-        // //         AsDictionary::apply(),
-        // //         Span::applyWith($this->start, $this->length)
-        // //     )->unfold();
-
-        // // } else {
-        // //     return Shoop::pipe($using,
-        // //         AsArray::apply(),
-        // //         Span::applyWith($this->start, $this->length)
-        // //     )->unfold();
-
-        // // }
     }
 }
