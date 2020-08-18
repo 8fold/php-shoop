@@ -5,10 +5,7 @@ namespace Eightfold\Shoop\PipeFilters\TypeJuggling\AsArray;
 
 use Eightfold\Foldable\Filter;
 
-/**
- * @deprecated in favor of FromList
- */
-class FromDictionary extends Filter
+class FromList extends Filter
 {
     public function __invoke(array $using): array
     {

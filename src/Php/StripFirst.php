@@ -9,6 +9,7 @@ use Eightfold\Shoop\Shoop;
 
 use Eightfold\Shoop\Php\StringIsJson;
 
+// TODO: SubtractFirst
 class First extends Filter
 {
     private $length = 1;

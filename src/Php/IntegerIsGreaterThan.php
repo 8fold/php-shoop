@@ -5,6 +5,7 @@ namespace Eightfold\Shoop\Php;
 
 use Eightfold\Foldable\Filter;
 
+// TODO: rename IsGreaterThan
 class IntegerIsGreaterThan extends Filter
 {
     private $int = 0;

@@ -9,6 +9,7 @@ use Eightfold\Shoop\Shoop;
 
 use Eightfold\Shoop\Php\StringIsJson;
 
+// TODO: rename Add
 class Plus extends Filter
 {
     public function __construct(...$args)

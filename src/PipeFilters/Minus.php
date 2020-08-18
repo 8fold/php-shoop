@@ -23,6 +23,7 @@ use Eightfold\Shoop\PipeFilters\Minus\FromTuple;
 use Eightfold\Shoop\PipeFilters\Minus\FromObject;
 use Eightfold\Shoop\PipeFilters\Minus\FromJson;
 
+// TODO: rename Subtract
 class Minus extends Filter
 {
     public function __invoke($using)

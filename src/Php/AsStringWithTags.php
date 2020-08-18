@@ -7,6 +7,7 @@ use Eightfold\Foldable\Filter;
 
 use Eightfold\Shoop\Shoop;
 
+// TODO: move to TypeJuggling
 class AsStringWithTags extends Filter
 {
     private $allowed = [];
