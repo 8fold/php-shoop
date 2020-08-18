@@ -1,12 +1,12 @@
 <?php
 declare(strict_types=1);
 
-namespace Eightfold\Shoop\PipeFilters\From;
+namespace Eightfold\Shoop\PipeFilters\At;
 
 use Eightfold\Foldable\Filter;
 
 use Eightfold\Shoop\Shoop;
-use Eightfold\Shoop\PipeFilters\From\FromList as SpanFromList;
+use Eightfold\Shoop\PipeFilters\At\FromDictionary as AtFromDictionary;
 
 use Eightfold\Shoop\PipeFilters\TypeJuggling\IsJson;
 use Eightfold\Shoop\PipeFilters\TypeJuggling\AsTuple\FromJson as AsTupleFromJson;
@@ -16,24 +16,25 @@ use Eightfold\Shoop\PipeFilters\TypeJuggling\AsJson\FromTuple as AsJsonFromTuple
 
 class FromJson extends Filter
 {
-    private $start = 0;
-    private $length = PHP_INT_MAX;
+    private $members = [];
 
-    public function __construct(int $start = 0, int $length = PHP_INT_MAX)
+    public function __construct(...$members)
     {
-        $this->start = $start;
-        $this->length = $length;
+        $this->members = $members;
     }
 
-    public function __invoke(string $using): string
+    public function __invoke(string $using)
     {
-        if (! IsJson::apply()->unfoldUsing($using)) {
-            return "";
-        }
-        return Shoop::pipe($using,
+        $windUp = Shoop::pipe($using,
             AsTupleFromJson::apply(),
             AsDictionaryFromTuple::apply(),
-            SpanFromList::applyWith($this->start, $this->length),
+            AtFromDictionary::applyWith(...$this->members),
+        )->unfold();
+
+        if (count($this->members) === 1) {
+            return $windUp;
+        }
+        return Shoop::pipe($windUp,
             AsTupleFromDictionary::apply(),
             AsJsonFromTuple::apply()
         )->unfold();

@@ -17,13 +17,16 @@ use Eightfold\Shoop\PipeFilters\TypeJuggling\IsJson;
 
 use Eightfold\Shoop\PipeFilters\At\FromNumber;
 use Eightfold\Shoop\PipeFilters\At\FromList;
+use Eightfold\Shoop\PipeFilters\At\FromString;
+use Eightfold\Shoop\PipeFilters\At\FromTuple;
+use Eightfold\Shoop\PipeFilters\At\FromJson;
 
 class At extends Filter
 {
     public function __invoke($using)
     {
         if (IsList::apply()->unfoldUsing($using)) {
-            return FromList::applyWith($this->args(true))
+            return FromList::applyWith(...$this->args(true))
                 ->unfoldUsing($using);
         }
 
@@ -37,15 +40,15 @@ class At extends Filter
 
         } elseif (IsString::applyWith(true)->unfoldUsing($using)) {
             if (IsJson::apply()->unfoldUsing($using)) {
-                return FromJson::applyWith($this->main)
+                return FromJson::applyWith(...$this->args(true))
                     ->unfoldUsing($using);
 
             }
-            return FromString::applyWith($this->main)
+            return FromString::applyWith(...$this->args(true))
                 ->unfoldUsing($using);
 
         } elseif (IsTuple::apply()->unfoldUsing($using)) {
-            return FromTuple::applyWith($this->main)
+            return FromTuple::applyWith(...$this->args(true))
                 ->unfoldUsing($using);
 
         } elseif (IsObject::apply()->unfoldUsing($using)) {

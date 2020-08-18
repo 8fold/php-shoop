@@ -5,21 +5,34 @@ namespace Eightfold\Shoop\PipeFilters\At;
 
 use Eightfold\Foldable\Filter;
 
+use Eightfold\Shoop\PipeFilters\TypeJuggling\AsInteger\FromArray as AsIntegerFromArray;
+
 class FromDictionary extends Filter
 {
-    private $member = "";
+    private $members = "";
 
-    public function __construct(string $member = "")
+    public function __construct(string ...$members)
     {
-        $this->member = $member;
+        $this->members = $members;
     }
 
     // TODO: PHP 8.0 - not null -> int|float|string|array|object
     public function __invoke(array $using)
     {
-        if (isset($using[$this->member])) {
-            return $using[$this->member];
+        if (AsIntegerFromArray::apply()->unfoldUsing($this->members) === 1) {
+            $member = $this->members[0];
+            if (isset($using[$member])) {
+                return $using[$member];
+
+            }
         }
-        return [];
+
+        $build = [];
+        foreach ($this->members as $member) {
+            if (isset($using[$member])) {
+                $build[$member] = $using[$member];
+            }
+        }
+        return $build;
     }
 }
