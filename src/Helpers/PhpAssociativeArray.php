@@ -36,47 +36,6 @@ class PhpAssociativeArray
         return $needles === $dictionary;
     }
 
-    static public function reversed(array $array, bool $preserveMembers): array
-    {
-        return ($preserveMembers)
-            ? array_reverse($array, true)
-            : array_reverse($array);
-    }
-
-    static public function toSortedAssociativeArray(
-        array $dictionary,
-        bool  $asc,
-        bool  $caseSensitive,
-        bool  $useKeys = false
-    ): array
-    {
-        if ($asc) {
-            if ($useKeys) {
-                ksort($dictionary, SORT_NATURAL);
-
-            } elseif ($caseSensitive) {
-                asort($dictionary, SORT_NATURAL);
-
-            } else {
-                asort($dictionary, SORT_NATURAL | SORT_FLAG_CASE);
-
-            }
-
-        } else {
-            if ($useKeys) {
-                krsort($dictionary, SORT_NATURAL);
-
-            } elseif ($caseSensitive) {
-                arsort($dictionary, SORT_NATURAL);
-
-            } else {
-                arsort($dictionary, SORT_NATURAL | SORT_FLAG_CASE);
-
-            }
-        }
-        return $dictionary;
-    }
-
     // TODO: PHP 8.0 int|string = $member
     static public function afterSettingValue(
         array $array,
@@ -110,20 +69,6 @@ class PhpAssociativeArray
         $right = PhpAssociativeArray::toIndexedArray($dictionary);
         $dictionary = ["members" => $left, "values" => $right];
         return $dictionary;
-    }
-
-    static public function afterDropping(array $array, int $length): array
-    {
-        if ($length >= 0) {
-            // first
-            array_splice($array, 0, $length);
-
-        } else {
-            // last
-            array_splice($array, $length);
-
-        }
-        return $array;
     }
 
     static public function hasMember(array $array, string $member): bool

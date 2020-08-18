@@ -32,17 +32,4 @@ class PhpString
         $bool = ! $bool;
         return $bool;
     }
-
-    static public function toAssociativeArray(string $string): array
-    {
-        $array = self::toIndexedArray($string);
-        $dictionary = PhpIndexedArray::toAssociativeArray($array);
-        return $dictionary;
-    }
-
-    static public function toInt(string $string): int
-    {
-        $int = intval($string);
-        return $int;
-    }
 }

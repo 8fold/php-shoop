@@ -19,15 +19,6 @@ class PhpJson
         return $json;
     }
 
-    static public function toMembersAndValuesAssociativeArray(string $json): string
-    {
-        self::isJson($json);
-        $object = self::toObject($json);
-        $object = PhpObject::toMembersAndValuesAssociativeArray($object);
-        $json = PhpObject::toJson($object);
-        return $json;
-    }
-
     static public function hasMember(string $json, string $member): bool
     {
         self::isJson($json);

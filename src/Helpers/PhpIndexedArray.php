@@ -52,40 +52,6 @@ class PhpIndexedArray
         return $bool;
     }
 
-    static public function toSortedIndexedArray(
-        array $array,
-        bool  $asc,
-        bool  $caseSensitive,
-        bool  $useKeys = false
-    ): array
-    {
-        if ($asc) {
-            if ($useKeys) {
-                ksort($array, SORT_NATURAL);
-
-            } elseif ($caseSensitive) {
-                sort($array, SORT_NATURAL);
-
-            } else {
-                sort($array, SORT_NATURAL | SORT_FLAG_CASE);
-
-            }
-
-        } else {
-            if ($useKeys) {
-                krsort($array);
-
-            } elseif ($caseSensitive) {
-                rsort($array, SORT_NATURAL);
-
-            } else {
-                rsort($array, SORT_NATURAL | SORT_FLAG_CASE);
-
-            }
-        }
-        return $array;
-    }
-
     static public function afterSettingValue(
         array $array,
         $value,
@@ -107,20 +73,6 @@ class PhpIndexedArray
 
         } else {
             $array[$member] = $value;
-
-        }
-        return $array;
-    }
-
-    static public function afterDropping(array $array, int $length): array
-    {
-        if ($length >= 0) {
-            // first
-            array_splice($array, 0, $length);
-
-        } else {
-            // last
-            array_splice($array, $length);
 
         }
         return $array;
