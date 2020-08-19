@@ -6,7 +6,7 @@ use Eightfold\Shoop\FluentTypes\ESBoolean;
 
 interface Wrap
 {
-    // Does not make sense on ESBoolean, ESInt
+    // Does not make sense on ESBoolean, ESInteger
     public function first();
 
     public function last();

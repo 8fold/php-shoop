@@ -19,7 +19,7 @@ use Eightfold\Shoop\FluentTypes\{
     ESArray,
     ESBoolean,
     ESDictionary,
-    ESInt,
+    ESInteger,
     ESJson,
     ESObject,
     ESString
@@ -28,7 +28,7 @@ use Eightfold\Shoop\FluentTypes\{
 trait PhpInterfacesImp
 {
 // - Countable
-    public function count(): ESInt
+    public function count(): ESInteger
     {
         $int = $this->int();
         return Shoop::int($int);
@@ -52,7 +52,7 @@ trait PhpInterfacesImp
         } elseif (Type::is($this, ESDictionary::class)) {
             $bool = isset($this->main[$offset]);
 
-        } elseif (Type::is($this, ESInt::class)) {
+        } elseif (Type::is($this, ESInteger::class)) {
             $array = PhpInt::toIndexedArray($this->main());
             $bool = isset($array[$offset]);
             if (! $bool) {
@@ -95,7 +95,7 @@ trait PhpInterfacesImp
         } elseif (Type::is($this, ESDictionary::class)) {
             $array = $this->main();
 
-        } elseif (Type::is($this, ESInt::class)) {
+        } elseif (Type::is($this, ESInteger::class)) {
             $array = PhpInt::toIndexedArray($this->main());
             if (is_string($offset)) {
                 $array = PhpInt::toAssociativeArray($this->main());
@@ -124,7 +124,7 @@ trait PhpInterfacesImp
 
     public function offsetSet($offset, $value): void
     {
-        if (Type::is($this, ESInt::class, ESBoolean::class)) {
+        if (Type::is($this, ESInteger::class, ESBoolean::class)) {
             $this->main = $value;
 
         } elseif (Type::is($this, ESJson::class)) {
@@ -179,7 +179,7 @@ trait PhpInterfacesImp
         } elseif (Type::is($this, ESDictionary::class)) {
             $this->temp = $this->main();
 
-        } elseif (Type::is($this, ESInt::class)) {
+        } elseif (Type::is($this, ESInteger::class)) {
             $this->temp = PhpInt::toIndexedArray($this->main());
 
         } elseif (Type::is($this, ESJson::class)) {
@@ -220,7 +220,7 @@ trait PhpInterfacesImp
         $temp = $this->temp;
         $member = key($temp);
         if (is_int($member)) {
-            return Type::sanitizeType($member, ESInt::class, "int")->unfold();
+            return Type::sanitizeType($member, ESInteger::class, "int")->unfold();
         }
         return Type::sanitizeType($member, ESString::class, "string")->unfold();
     }

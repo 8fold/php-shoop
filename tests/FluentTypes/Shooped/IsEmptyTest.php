@@ -11,7 +11,7 @@ use Eightfold\Shoop\FluentTypes\{
     ESArray,
     ESBoolean,
     ESDictionary,
-    ESInt,
+    ESInteger,
     ESJson,
     ESObject,
     ESString
@@ -65,18 +65,18 @@ class IsEmptyTest extends TestCase
         $this->assertFalse($actual->unfold());
     }
 
-    public function testESInt()
+    public function testESInteger()
     {
         $base = 0;
-        $actual = ESInt::fold($base)->isEmpty();
+        $actual = ESInteger::fold($base)->isEmpty();
         $this->assertTrue($actual->unfold());
 
         $base = 10;
-        $actual = ESInt::fold($base)->isEmpty();
+        $actual = ESInteger::fold($base)->isEmpty();
         $this->assertFalse($actual->unfold());
 
         $base = -1;
-        $actual = ESInt::fold($base)->isEmpty();
+        $actual = ESInteger::fold($base)->isEmpty();
         $this->assertFalse($actual->unfold());
     }
 

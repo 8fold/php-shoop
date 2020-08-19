@@ -13,34 +13,39 @@ use Eightfold\Shoop\FluentTypes\Helpers\{
 use Eightfold\Shoop\FluentTypes\Contracts\Typeable;
 use Eightfold\Shoop\FluentTypes\Contracts\TypeableImp;
 
-use Eightfold\Shoop\FluentTypes\Interfaces\{
-    Shooped,
-    MathOperations,
-    Sort,
-    Toggle,
-    Wrap,
-    Drop,
-    Has,
-    IsIn,
-    Each
-};
+use Eightfold\Shoop\FluentTypes\Contracts\Comparable;
+use Eightfold\Shoop\FluentTypes\Contracts\ComparableImp;
 
+use Eightfold\Shoop\FluentTypes\Interfaces\Shooped;
+use Eightfold\Shoop\FluentTypes\Traits\ShoopedImp;
 
-use Eightfold\Shoop\FluentTypes\Traits\{
-    ShoopedImp,
-    MathOperationsImp,
-    SortImp,
-    ToggleImp,
-    WrapImp,
-    DropImp,
-    HasImp,
-    IsInImp,
-    EachImp
-};
+use Eightfold\Shoop\FluentTypes\Interfaces\MathOperations;
+use Eightfold\Shoop\FluentTypes\Traits\MathOperationsImp;
 
-class ESObject implements Shooped, Typeable, MathOperations, Sort, Toggle, Wrap, Drop, Has, IsIn, Each
+use Eightfold\Shoop\FluentTypes\Interfaces\Sort;
+use Eightfold\Shoop\FluentTypes\Traits\SortImp;
+
+use Eightfold\Shoop\FluentTypes\Interfaces\Toggle;
+use Eightfold\Shoop\FluentTypes\Traits\ToggleImp;
+
+use Eightfold\Shoop\FluentTypes\Interfaces\Wrap;
+use Eightfold\Shoop\FluentTypes\Traits\WrapImp;
+
+use Eightfold\Shoop\FluentTypes\Interfaces\Drop;
+use Eightfold\Shoop\FluentTypes\Traits\DropImp;
+
+use Eightfold\Shoop\FluentTypes\Interfaces\Has;
+use Eightfold\Shoop\FluentTypes\Traits\HasImp;
+
+use Eightfold\Shoop\FluentTypes\Interfaces\IsIn;
+use Eightfold\Shoop\FluentTypes\Traits\IsInImp;
+
+use Eightfold\Shoop\FluentTypes\Interfaces\Each;
+use Eightfold\Shoop\FluentTypes\Traits\EachImp;
+
+class ESObject implements Shooped, Typeable, MathOperations, Sort, Toggle, Wrap, Drop, Has, IsIn, Each, Comparable
 {
-    use ShoopedImp, TypeableImp, MathOperationsImp, SortImp, ToggleImp, WrapImp, DropImp, HasImp, IsInImp, EachImp;
+    use ShoopedImp, TypeableImp, MathOperationsImp, SortImp, ToggleImp, WrapImp, DropImp, HasImp, IsInImp, EachImp, ComparableImp;
 
     static public function to(ESObject $instance, string $className)
     {
@@ -53,7 +58,7 @@ class ESObject implements Shooped, Typeable, MathOperations, Sort, Toggle, Wrap,
         } elseif ($className === ESDictionary::class) {
             return PhpObject::toAssociativeArray($instance->main());
 
-        } elseif ($className === ESInt::class) {
+        } elseif ($className === ESInteger::class) {
             return PhpObject::toInt($instance->main());
 
         } elseif ($className === ESJson::class) {

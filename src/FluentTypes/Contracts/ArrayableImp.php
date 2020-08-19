@@ -11,7 +11,7 @@ trait ArrayableImp
 {
     private $temp;
 
-    // TODO: PHP 8.0 - int|ESInt -> any|ESBoolean
+    // TODO: PHP 8.0 - int|ESInteger -> any|ESBoolean
     // TODO: Test callable
     public function hasMember($member, callable $closure = null)
     {
@@ -106,7 +106,7 @@ trait ArrayableImp
         $temp = $this->temp;
         $member = key($temp);
         if (is_int($member)) {
-            return Type::sanitizeType($member, ESInt::class, "int")->unfold();
+            return Type::sanitizeType($member, ESInteger::class, "int")->unfold();
         }
         return Type::sanitizeType($member, ESString::class, "string")->unfold();
     }

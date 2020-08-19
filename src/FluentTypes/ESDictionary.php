@@ -8,14 +8,13 @@ use Eightfold\Shoop\FluentTypes\Traits\ShoopedImp;
 use Eightfold\Shoop\FluentTypes\Contracts\Typeable;
 use Eightfold\Shoop\FluentTypes\Contracts\TypeableImp;
 
-use Eightfold\Shoop\FluentTypes\Helpers\{
-
-    PhpAssociativeArray
-};
+use Eightfold\Shoop\FluentTypes\Contracts\Comparable;
+use Eightfold\Shoop\FluentTypes\Contracts\ComparableImp;
 
 class ESDictionary implements
     Shooped,
-    Typeable
+    Typeable,
+    Comparable
     // MathOperations,
     // Toggle,
     // Sort,
@@ -25,7 +24,7 @@ class ESDictionary implements
     // IsIn,
     // Each
 {
-    use ShoopedImp, TypeableImp;//, MathOperationsImp, ToggleImp, SortImp, WrapImp, DropImp, HasImp, IsInImp, EachImp;
+    use ShoopedImp, TypeableImp, ComparableImp;//, MathOperationsImp, ToggleImp, SortImp, WrapImp, DropImp, HasImp, IsInImp, EachImp;
 
     static public function to(ESDictionary $instance, string $className)
     {
@@ -38,7 +37,7 @@ class ESDictionary implements
         } elseif ($className === ESDictionary::class) {
             return $instance->main();
 
-        } elseif ($className === ESInt::class) {
+        } elseif ($className === ESInteger::class) {
             return PhpAssociativeArray::toInt($instance->main());
 
         } elseif ($className === ESJson::class) {

@@ -10,21 +10,17 @@ use Eightfold\Shoop\FluentTypes\Traits\ShoopedImp;
 use Eightfold\Shoop\FluentTypes\Contracts\Typeable;
 use Eightfold\Shoop\FluentTypes\Contracts\TypeableImp;
 
-use Eightfold\Shoop\FluentTypes\Helpers\{
+use Eightfold\Shoop\FluentTypes\Contracts\Comparable;
+use Eightfold\Shoop\FluentTypes\Contracts\ComparableImp;
 
-    PhpInt
-};
+use Eightfold\Shoop\FluentTypes\ESString;
+use Eightfold\Shoop\FluentTypes\ESJson;
 
-use Eightfold\Shoop\FluentTypes\{
-    ESString,
-    ESJson
-};
-
-class ESInt implements Shooped, Typeable//, MathOperations, Toggle, IsIn, Each
+class ESInteger implements Shooped, Typeable, Comparable //, MathOperations, Toggle, IsIn, Each
 {
-    use ShoopedImp, TypeableImp;//, MathOperationsImp, ToggleImp, IsInImp, EachImp;
+    use ShoopedImp, TypeableImp, ComparableImp;//, MathOperationsImp, ToggleImp, IsInImp, EachImp;
 
-    // static public function to(ESInt $instance, string $className)
+    // static public function to(ESInteger $instance, string $className)
     // {
     //     if ($className === ESArray::class) {
     //         return PhpInt::toIndexedArray($instance->main());
@@ -35,7 +31,7 @@ class ESInt implements Shooped, Typeable//, MathOperations, Toggle, IsIn, Each
     //     } elseif ($className === ESDictionary::class) {
     //         return PhpInt::toAssociativeArray($instance->main());
 
-    //     } elseif ($className === ESInt::class) {
+    //     } elseif ($className === ESInteger::class) {
     //         return $instance->main();
 
     //     } elseif ($className === ESJson::class) {
@@ -58,7 +54,7 @@ class ESInt implements Shooped, Typeable//, MathOperations, Toggle, IsIn, Each
         } elseif (is_string($main)) {
             $main = intval($main);
 
-        } elseif (is_a($main, ESInt::class)) {
+        } elseif (is_a($main, ESInteger::class)) {
             $main = $main->unfold();
 
         } elseif (is_float($main) || is_double($main)) {
@@ -71,10 +67,10 @@ class ESInt implements Shooped, Typeable//, MathOperations, Toggle, IsIn, Each
         return $main;
     }
 
-    // TODO: PHP 8.0 int|ESInt
+    // TODO: PHP 8.0 int|ESInteger
     public function range($int = 0): ESArray
     {
-        $int = Type::sanitizeType($int, ESInt::class)->unfold();
+        $int = Type::sanitizeType($int, ESInteger::class)->unfold();
         $range = range($int, $this->unfold());
         if ($int > $this->unfold()) {
             $range = range($this->unfold(), $int);
@@ -82,23 +78,23 @@ class ESInt implements Shooped, Typeable//, MathOperations, Toggle, IsIn, Each
         return Shoop::array($range);
     }
 
-    // TODO: PHP 8.0 float|int|ESInt
-    public function roundUp($divisor = 0): ESInt
+    // TODO: PHP 8.0 float|int|ESInteger
+    public function roundUp($divisor = 0): ESInteger
     {
         $result = $this->divideNatural($divisor);
         $int = (int) ceil($result);
         return Shoop::this($int);
     }
 
-    // TODO: PHP 8.0 float|int|ESInt
-    public function roundDown($divisor = 0): ESInt
+    // TODO: PHP 8.0 float|int|ESInteger
+    public function roundDown($divisor = 0): ESInteger
     {
         $result = $this->divideNatural($divisor);
         $int = (int) floor($result);
         return Shoop::this($int);
     }
 
-    // TODO: PHP 8.0 float|int|ESInt
+    // TODO: PHP 8.0 float|int|ESInteger
     private function divideNatural($divisor = 0): float
     {
         if (Type::isFoldable($divisor)) {
@@ -108,17 +104,17 @@ class ESInt implements Shooped, Typeable//, MathOperations, Toggle, IsIn, Each
         return $value/$divisor;
     }
 
-    public function max(...$comparisons): ESInt
+    public function max(...$comparisons): ESInteger
     {
         return Shoop::array($comparisons)->plus($this->main())->each(function($int) {
-            return Type::sanitizeType($int, ESInt::class);
+            return Type::sanitizeType($int, ESInteger::class);
         })->sort(false)->first();
     }
 
-    public function min(...$comparisons): ESInt
+    public function min(...$comparisons): ESInteger
     {
         return Shoop::array($comparisons)->plus($this->main())->each(function($int) {
-            return Type::sanitizeType($int, ESInt::class);
+            return Type::sanitizeType($int, ESInteger::class);
         })->sort()->first();
     }
 

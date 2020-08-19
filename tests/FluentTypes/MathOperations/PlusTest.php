@@ -11,7 +11,7 @@ use Eightfold\Shoop\FluentTypes\{
     ESArray,
     ESBoolean,
     ESDictionary,
-    ESInt,
+    ESInteger,
     ESJson,
     ESObject,
     ESString
@@ -51,12 +51,12 @@ class PlusTest extends TestCase
     }
 
     /**
-     * @return Eightfold\Shoop\ESInt After mathematically adding the original value to the given value.
+     * @return Eightfold\Shoop\ESInteger After mathematically adding the original value to the given value.
      */
-    public function testESInt()
+    public function testESInteger()
     {
         $expected = 8;
-        $actual = ESInt::fold(5)->plus(3);
+        $actual = ESInteger::fold(5)->plus(3);
         $this->assertEquals($expected, $actual->unfold());
     }
 

@@ -10,9 +10,13 @@ use Eightfold\Shoop\FluentTypes\Traits\ShoopedImp;
 use Eightfold\Shoop\FluentTypes\Contracts\Typeable;
 use Eightfold\Shoop\FluentTypes\Contracts\TypeableImp;
 
+use Eightfold\Shoop\FluentTypes\Contracts\Comparable;
+use Eightfold\Shoop\FluentTypes\Contracts\ComparableImp;
+
 class ESArray implements
     Shooped,
-    Typeable
+    Typeable,
+    Comparable
     // MathOperations,
     // Toggle,
     // Shuffle,
@@ -23,7 +27,7 @@ class ESArray implements
     // IsIn,
     // Each
 {
-    use ShoopedImp, TypeableImp;//, MathOperationsImp, ToggleImp, ShuffleImp, WrapImp, SortImp, DropImp, HasImp, IsInImp, EachImp;
+    use ShoopedImp, TypeableImp, ComparableImp;//, MathOperationsImp, ToggleImp, ShuffleImp, WrapImp, SortImp, DropImp, HasImp, IsInImp, EachImp;
 
     // static public function processedMain($main): array
     // {
@@ -49,7 +53,7 @@ class ESArray implements
     //     } elseif ($className === ESDictionary::class) {
     //         return PhpIndexedArray::toAssociativeArray($instance->main());
 
-    //     } elseif ($className === ESInt::class) {
+    //     } elseif ($className === ESInteger::class) {
     //         return PhpIndexedArray::toInt($instance->main());
 
     //     } elseif ($className === ESJson::class) {
@@ -71,17 +75,17 @@ class ESArray implements
         return Shoop::string(implode($delimiter->unfold(), $this->unfold()));
     }
 
-    public function sum(): ESInt
+    public function sum(): ESInteger
     {
         $array = $this->unfold();
         $sum = array_sum($array);
         return Shoop::int($sum);
     }
 
-    // TODO: PHP 8.0 int|ESInt
+    // TODO: PHP 8.0 int|ESInteger
     public function random($limit = 1): ESArray
     {
-        $limit = Type::sanitizeType($limit, ESInt::fold($limit))->unfold();
+        $limit = Type::sanitizeType($limit, ESInteger::fold($limit))->unfold();
         $array = $this->main();
         if (count($array) === 0) {
             return Shoop::array([]);

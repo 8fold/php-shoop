@@ -10,7 +10,7 @@ use Eightfold\Shoop\Shoop;
 use Eightfold\Shoop\FluentTypes\{
     ESArray,
     ESBoolean,
-    ESInt,
+    ESInteger,
     ESString,
     ESObject,
     ESJson,
@@ -34,7 +34,7 @@ trait EachImp
             }
             return Shoop::this($array);
 
-        } elseif (Type::is($this, ESInt::class, ESString::class)) {
+        } elseif (Type::is($this, ESInteger::class, ESString::class)) {
             return $this->array()->each($closure);
 
         } elseif (Type::is($this, ESJson::class, ESObject::class)) {

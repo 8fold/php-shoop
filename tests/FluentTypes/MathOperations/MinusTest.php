@@ -11,7 +11,7 @@ use Eightfold\Shoop\FluentTypes\{
     ESArray,
     ESBoolean,
     ESDictionary,
-    ESInt,
+    ESInteger,
     ESJson,
     ESObject,
     ESString
@@ -50,10 +50,10 @@ class MinusTest extends TestCase
         $this->assertEquals($expected, $actual->unfold());
     }
 
-    public function testESInt()
+    public function testESInteger()
     {
         $expected = 2;
-        $actual = ESInt::fold(5)->minus(3);
+        $actual = ESInteger::fold(5)->minus(3);
         $this->assertEquals($expected, $actual->unfold());
     }
 

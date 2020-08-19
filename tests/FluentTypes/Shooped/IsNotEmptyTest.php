@@ -11,7 +11,7 @@ use Eightfold\Shoop\FluentTypes\{
     ESArray,
     ESBoolean,
     ESDictionary,
-    ESInt,
+    ESInteger,
     ESJson,
     ESObject,
     ESString
@@ -64,14 +64,14 @@ class IsNotEmptyTest extends TestCase
         $this->assertFalse($actual->unfold());
     }
 
-    public function testESInt()
+    public function testESInteger()
     {
         $base = 0;
-        $actual = ESInt::fold($base)->isNotEmpty();
+        $actual = ESInteger::fold($base)->isNotEmpty();
         $this->assertFalse($actual->unfold());
 
         $base = 10;
-        $actual = ESInt::fold($base)->isNotEmpty();
+        $actual = ESInteger::fold($base)->isNotEmpty();
         $this->assertTrue($actual->unfold());
     }
 

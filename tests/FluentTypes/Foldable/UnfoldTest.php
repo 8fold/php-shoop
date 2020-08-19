@@ -11,7 +11,7 @@ use Eightfold\Shoop\FluentTypes\{
     ESArray,
     ESBoolean,
     ESDictionary,
-    ESInt,
+    ESInteger,
     ESJson,
     ESObject,
     ESString
@@ -52,21 +52,21 @@ class UnfoldTest extends TestCase
         $this->assertEquals($expected, $actual->unfold());
     }
 
-    public function testESInt()
+    public function testESInteger()
     {
         $expected = 1;
-        $actual = new ESInt($expected);
+        $actual = new ESInteger($expected);
         $this->assertEquals($expected, $actual->unfold());
 
-        $actual = ESInt::fold($expected);
+        $actual = ESInteger::fold($expected);
         $this->assertEquals($expected, $actual->unfold());
 
         $expected = 1;
-        $actual = ESInt::fold(1.1);
+        $actual = ESInteger::fold(1.1);
         $this->assertEquals($expected, $actual->unfold());
 
         $expected = 0;
-        $actual = ESInt::fold("hello");
+        $actual = ESInteger::fold("hello");
         $this->assertEquals($expected, $actual->unfold());
     }
 

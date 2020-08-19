@@ -11,7 +11,7 @@ use Eightfold\Shoop\FluentTypes\{
     ESArray,
     ESBoolean,
     ESDictionary,
-    ESInt,
+    ESInteger,
     ESJson,
     ESObject,
     ESString
@@ -49,7 +49,7 @@ class ShuffleTest extends TestCase
     /**
      * @not Could shuffle the range
      */
-    public function testESInt()
+    public function testESInteger()
     {
         $this->assertFalse(false);
     }

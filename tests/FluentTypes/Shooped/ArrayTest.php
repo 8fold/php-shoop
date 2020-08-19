@@ -6,9 +6,9 @@ use PHPUnit\Framework\TestCase;
 
 use Eightfold\Shoop\Shoop;
 use Eightfold\Shoop\FluentTypes\ESArray;
-use Eightfold\Shoop\FluentTypes\ESBooleanean;
+use Eightfold\Shoop\FluentTypes\ESBoolean;
 use Eightfold\Shoop\FluentTypes\ESDictionary;
-use Eightfold\Shoop\FluentTypes\ESInt;
+use Eightfold\Shoop\FluentTypes\ESInteger;
 use Eightfold\Shoop\FluentTypes\ESJson;
 use Eightfold\Shoop\FluentTypes\ESObject;
 use Eightfold\Shoop\FluentTypes\ESString;
@@ -36,11 +36,11 @@ class ArrayTest extends TestCase
     /**
      * @see PhpBool::toIndexedArray
      */
-    public function testESBooleanean()
+    public function testESBoolean()
     {
         $expected = [true];
 
-        $actual = ESBooleanean::fold(true)->array();
+        $actual = ESBoolean::fold(true)->array();
         $this->assertEquals($expected, $actual->unfold());
     }
 
@@ -58,11 +58,11 @@ class ArrayTest extends TestCase
     /**
      * @see PhpInt::toIndexedArray
      */
-    public function testESInt()
+    public function testESInteger()
     {
         $expected = [0, 1, 2, 3, 4, 5];
 
-        $actual = ESInt::fold(5)->array();
+        $actual = ESInteger::fold(5)->array();
         $this->assertEquals($expected, $actual->unfold());
     }
 

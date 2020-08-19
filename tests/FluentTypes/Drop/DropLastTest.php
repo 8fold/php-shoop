@@ -11,7 +11,7 @@ use Eightfold\Shoop\FluentTypes\{
     ESArray,
     ESBoolean,
     ESDictionary,
-    ESInt,
+    ESInteger,
     ESJson,
     ESObject,
     ESString
@@ -53,7 +53,7 @@ class DropLastTest extends TestCase
     /**
      * @not
      */
-    public function testESInt()
+    public function testESInteger()
     {
         $this->assertFalse(false);
     }

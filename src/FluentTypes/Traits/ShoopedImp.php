@@ -5,7 +5,7 @@ namespace Eightfold\Shoop\FluentTypes\Traits;
 use Eightfold\Foldable\FoldableImp;
 
 use Eightfold\Shoop\PipeFilters;
-use Eightfold\Shoop\FluentTypes\ESInt;
+use Eightfold\Shoop\FluentTypes\ESInteger;
 
 trait ShoopedImp
 {

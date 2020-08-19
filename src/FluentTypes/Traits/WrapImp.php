@@ -19,7 +19,7 @@ use Eightfold\Shoop\FluentTypes\{
     ESArray,
     ESBoolean,
     ESDictionary,
-    ESInt,
+    ESInteger,
     ESJson,
     ESObject,
     ESString
@@ -29,7 +29,7 @@ trait WrapImp
 {
     public function first($count = 1)
     {
-        $count = Type::sanitizeType($count, ESInt::class)->unfold();
+        $count = Type::sanitizeType($count, ESInteger::class)->unfold();
         $array = $this->array()->unfold();
         if (Type::is($this, ESBoolean::class)) {
             $array = $this->dictionary()->unfolded();
@@ -63,7 +63,7 @@ trait WrapImp
 
     public function last($count = 1)
     {
-        $count = Type::sanitizeType($count, ESInt::class)->unfold();
+        $count = Type::sanitizeType($count, ESInteger::class)->unfold();
         $array = $this->arrayUnfolded();
         if (Type::is($this, ESBoolean::class)) {
             $array = $this->dictionaryUnfolded();

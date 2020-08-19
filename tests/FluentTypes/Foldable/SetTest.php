@@ -11,7 +11,7 @@ use Eightfold\Shoop\FluentTypes\{
     ESArray,
     ESBoolean,
     ESDictionary,
-    ESInt,
+    ESInteger,
     ESJson,
     ESObject,
     ESString
@@ -57,12 +57,12 @@ class SetTest extends TestCase
     /**
      * @return Eightfold\Shoop\ESINt Sets the value of the integer to the given integer.
      */
-    public function testESInt()
+    public function testESInteger()
     {
         $base = 10;
 
         $expected = 12;
-        $actual = ESInt::fold($base)->set(12);
+        $actual = ESInteger::fold($base)->set(12);
         $this->assertEquals($expected, $actual->unfold());
     }
 

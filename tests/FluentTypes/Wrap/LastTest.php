@@ -11,7 +11,7 @@ use Eightfold\Shoop\FluentTypes\{
     ESArray,
     ESBoolean,
     ESDictionary,
-    ESInt,
+    ESInteger,
     ESJson,
     ESObject,
     ESString
@@ -64,7 +64,7 @@ class LastTest extends TestCase
 
         $expected = 2;
         $actual = ESDictionary::fold($base)->last();
-        $this->assertEquals(ESInt::class, get_class($actual));
+        $this->assertEquals(ESInteger::class, get_class($actual));
         $this->assertEquals($expected, $actual->unfold());
 
         $base = ["first" => 1, "second" => 2, "third" => 3];
@@ -76,7 +76,7 @@ class LastTest extends TestCase
     /**
      * @not
      */
-    public function testESInt()
+    public function testESInteger()
     {
         $this->assertFalse(false);
     }
@@ -103,7 +103,7 @@ class LastTest extends TestCase
 
         $expected = 2;
         $actual = ESObject::fold($base)->last();
-        $this->assertEquals(ESInt::class, get_class($actual));
+        $this->assertEquals(ESInteger::class, get_class($actual));
         $this->assertEquals($expected, $actual->unfold());
 
         $expected = [new \stdClass(), 2];

@@ -30,7 +30,7 @@ class ArrayTest extends TestCase
     /**
      * The `sum()` method on ESArray is similar to the `array_sum()` function from the PHP standard library.
      *
-     * @return Eightfold\Shoop\ESInt
+     * @return Eightfold\Shoop\ESInteger
      */
     public function testSum()
     {

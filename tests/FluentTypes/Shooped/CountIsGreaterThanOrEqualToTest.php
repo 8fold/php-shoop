@@ -5,18 +5,16 @@ namespace Eightfold\Shoop\Tests\Shooped;
 use PHPUnit\Framework\TestCase;
 
 use Eightfold\Shoop\Shoop;
-use Eightfold\Shoop\FluentTypes\{
-    ESArray,
-    ESBoolean,
-    ESDictionary,
-    ESInt,
-    ESJson,
-    ESObject,
-    ESString
-};
+use Eightfold\Shoop\FluentTypes\ESArray;
+use Eightfold\Shoop\FluentTypes\ESBoolean;
+use Eightfold\Shoop\FluentTypes\ESDictionary;
+use Eightfold\Shoop\FluentTypes\ESInteger;
+use Eightfold\Shoop\FluentTypes\ESJson;
+use Eightfold\Shoop\FluentTypes\ESObject;
+use Eightfold\Shoop\FluentTypes\ESString;
 
 /**
- * @group  IsGreaterThanOrEqualTo
+ * @group  CountIsGreaterThanOrEqualTo
  *
  * The `countIsGreaterThanOrEqualTo()` method converts the Shoop type using the `count()` method (using the PHP Countable interface) and uses the result to compare the given value to. The result ESBoolean and closure, if available, is then passed to the `isGreaterThanOrEqualTo()` method.
  *
@@ -47,10 +45,10 @@ class CountIsGreaterThanOrEqualToTest extends TestCase
         $this->assertTrue($actual->unfold());
     }
 
-    public function testESInt()
+    public function testESInteger()
     {
         $base = 11;
-        $actual = ESInt::fold(11)->countIsGreaterThanOrEqualTo($base);
+        $actual = ESInteger::fold(11)->countIsGreaterThanOrEqualTo($base);
         $this->assertTrue($actual->unfold());
     }
 
@@ -61,7 +59,10 @@ class CountIsGreaterThanOrEqualToTest extends TestCase
         $this->assertTrue($actual->unfold());
     }
 
-    public function testESObject()
+    /**
+     * @test
+     */
+    public function ESObject_has_count()
     {
         $base = new \stdClass();
         $base->test = "test";
@@ -70,7 +71,10 @@ class CountIsGreaterThanOrEqualToTest extends TestCase
         $this->assertTrue($actual->unfold());
     }
 
-    public function testESString()
+    /**
+     * @test
+     */
+    public function ESString_has_count()
     {
         $actual = ESString::fold("a")->countIsGreaterThanOrEqualTo(2);
         $this->assertFalse($actual->unfold());

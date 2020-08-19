@@ -15,7 +15,7 @@ use Eightfold\Shoop\Shoop;
 use Eightfold\Shoop\FluentTypes\{
     ESArray,
     ESBoolean,
-    ESInt,
+    ESInteger,
     ESString,
     ESObject,
     ESJson,
@@ -42,10 +42,10 @@ trait MathOperationsImp
             $dictionary = array_merge($dictionary, $suffixes);
             return Shoop::dictionary($dictionary);
 
-        } elseif (Type::is($this, ESInt::class)) {
+        } elseif (Type::is($this, ESInteger::class)) {
             $total = $this->main();
             foreach ($args as $term) {
-                $term = Type::sanitizeType($term, ESInt::class)->unfold();
+                $term = Type::sanitizeType($term, ESInteger::class)->unfold();
                 $total += $term;
             }
             return Shoop::int($total);
@@ -96,10 +96,10 @@ trait MathOperationsImp
             $a = array_values($a);
             return Shoop::dictionary($a);
 
-        } elseif (Type::is($this, ESInt::class)) {
+        } elseif (Type::is($this, ESInteger::class)) {
             $total = $this->main();
             foreach ($args as $term) {
-                $term = Type::sanitizeType($term, ESInt::class)->unfold();
+                $term = Type::sanitizeType($term, ESInteger::class)->unfold();
                 $total -= $term;
             }
             return Shoop::int($total);
@@ -128,7 +128,7 @@ trait MathOperationsImp
     ): Foldable
     {
         if (Type::is($this, ESArray::class)) {
-            $divisor = Type::sanitizeType($divisor, ESInt::class)->unfold();
+            $divisor = Type::sanitizeType($divisor, ESInteger::class)->unfold();
             $lhs = array_slice($this->main(), 0, $divisor);
             $rhs = array_slice($this->main(), $divisor);
             if ( ! $includeEmpties) {
@@ -145,9 +145,9 @@ trait MathOperationsImp
             $dictionary = PhpAssociativeArray::toMembersAndValuesAssociativeArray($dictionary);
             return Shoop::dictionary($dictionary);
 
-        } elseif (Type::is($this, ESInt::class)) {
+        } elseif (Type::is($this, ESInteger::class)) {
             $int = $this->intUnfolded();
-            $divisor = Type::sanitizeType($divisor, ESInt::class)->unfold();
+            $divisor = Type::sanitizeType($divisor, ESInteger::class)->unfold();
             $int = (int) round($int/$divisor);
             return Shoop::int($int);
 
@@ -189,15 +189,15 @@ trait MathOperationsImp
             }
             return Shoop::array($product);
 
-        } elseif (Type::is($this, ESInt::class)) {
+        } elseif (Type::is($this, ESInteger::class)) {
             $int = $this->intUnfolded();
-            $multiplier = Type::sanitizeType($multiplier, ESInt::class)->unfold();
+            $multiplier = Type::sanitizeType($multiplier, ESInteger::class)->unfold();
             $product = $int * $multiplier;
             return Shoop::int($product);
 
         } elseif (Type::is($this, ESString::class)) {
             // $string = $this->stringUnfolded();
-            // $multiplier = Type::sanitizeType($multiplier, ESInt::class)->unfold();
+            // $multiplier = Type::sanitizeType($multiplier, ESInteger::class)->unfold();
             // $repeated = str_repeat($string, $multiplier);
 
             // return Shoop::string($repeated);

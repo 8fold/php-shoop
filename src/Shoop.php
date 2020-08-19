@@ -12,7 +12,7 @@ use Eightfold\Shoop\FluentTypes\Interfaces\Shooped;
 use Eightfold\Shoop\FluentTypes\ESArray;
 use Eightfold\Shoop\FluentTypes\ESBoolean;
 use Eightfold\Shoop\FluentTypes\ESDictionary;
-use Eightfold\Shoop\FluentTypes\ESInt;
+use Eightfold\Shoop\FluentTypes\ESInteger;
 use Eightfold\Shoop\FluentTypes\ESJson;
 use Eightfold\Shoop\FluentTypes\ESObject;
 use Eightfold\Shoop\FluentTypes\ESString;
@@ -47,10 +47,10 @@ class Shoop
         return static::this($assocArray, ESDictionary::class);
     }
 
-    // TODO: PHP 8.0 int|ESInt
-    static public function int($int): ESInt
+    // TODO: PHP 8.0 int|ESInteger
+    static public function int($int): ESInteger
     {
-        return static::this($int, ESInt::class);
+        return static::this($int, ESInteger::class);
     }
 
     // TODO: PHP 8.0 string|ESString

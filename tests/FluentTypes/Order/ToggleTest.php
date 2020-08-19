@@ -11,7 +11,7 @@ use Eightfold\Shoop\FluentTypes\{
     ESArray,
     ESBoolean,
     ESDictionary,
-    ESInt,
+    ESInteger,
     ESJson,
     ESObject,
     ESString
@@ -58,9 +58,9 @@ class ToggleTest extends TestCase
     }
 
     /**
-     * @return Eightfold\Shoop\ESInt After multiplying the original value by negative one (-1).
+     * @return Eightfold\Shoop\ESInteger After multiplying the original value by negative one (-1).
      */
-    public function testESInt()
+    public function testESInteger()
     {
         $expected = 1;
         $actual = Shoop::int(-1)->toggle();

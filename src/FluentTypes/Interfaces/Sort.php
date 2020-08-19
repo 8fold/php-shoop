@@ -4,7 +4,7 @@ namespace Eightfold\Shoop\FluentTypes\Interfaces;
 
 interface Sort
 {
-    // Does not make sense on ESBoolean, ESInt
+    // Does not make sense on ESBoolean, ESInteger
     // TODO: bool|ESBoolean
     public function sort($asc = true, $caseSensitive = true);
 

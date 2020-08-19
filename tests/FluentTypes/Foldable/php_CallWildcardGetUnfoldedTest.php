@@ -11,7 +11,7 @@ use Eightfold\Shoop\FluentTypes\{
     ESArray,
     ESBoolean,
     ESDictionary,
-    ESInt,
+    ESInteger,
     ESJson,
     ESObject,
     ESString
@@ -48,9 +48,9 @@ class php_CallWildcardGetUnfoldedTest extends TestCase
         $this->assertFalse($actual);
     }
 
-    public function testESInt()
+    public function testESInteger()
     {
-        $base = ESInt::fold(1);
+        $base = ESInteger::fold(1);
 
         $expected = true;
         $actual = $base->bool;

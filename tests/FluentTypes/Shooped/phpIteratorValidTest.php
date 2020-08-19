@@ -11,7 +11,7 @@ use Eightfold\Shoop\FluentTypes\{
     ESArray,
     ESBoolean,
     ESDictionary,
-    ESInt,
+    ESInteger,
     ESJson,
     ESObject,
     ESString
@@ -49,9 +49,9 @@ class InterfaceIteratorValidTest extends TestCase
         $this->assertEquals($expected, $actual->key());
     }
 
-    public function testESInt()
+    public function testESInteger()
     {
-        $actual = ESInt::fold(10);
+        $actual = ESInteger::fold(10);
         $this->assertEquals(10, $actual->unfold());
     }
 

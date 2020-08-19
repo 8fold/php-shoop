@@ -11,7 +11,7 @@ use Eightfold\Shoop\FluentTypes\{
     ESArray,
     ESBoolean,
     ESDictionary,
-    ESInt,
+    ESInteger,
     ESJson,
     ESObject,
     ESString
@@ -77,7 +77,7 @@ class SortTest extends TestCase
     /**
      * @not Could sort the range
      */
-    public function testESInt()
+    public function testESInteger()
     {
         $this->assertFalse(false);
     }

@@ -11,7 +11,7 @@ use Eightfold\Shoop\FluentTypes\{
     ESArray,
     ESBoolean,
     ESDictionary,
-    ESInt,
+    ESInteger,
     ESJson,
     ESObject,
     ESString
@@ -51,7 +51,7 @@ class EachTest extends TestCase
         $this->assertEquals($expected, $actual->unfold());
     }
 
-    public function testESInt()
+    public function testESInteger()
     {
         $expected = 6;
         $actual = 0;

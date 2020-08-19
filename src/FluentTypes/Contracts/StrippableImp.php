@@ -30,7 +30,7 @@ trait StrippableImp
         return static::fold($string);
     }
 
-    // TODO: PHP 8.0 - int|ESInt
+    // TODO: PHP 8.0 - int|ESInteger
     public function stripFirst($length = 1): self
     {
         $type = gettype($this->main);
@@ -39,7 +39,7 @@ trait StrippableImp
         return static::fold($string);
     }
 
-    // TODO: PHP 8.0 - int|ESInt
+    // TODO: PHP 8.0 - int|ESInteger
     public function stripLast($length = 1): self
     {
         $type = gettype($this->main);

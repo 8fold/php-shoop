@@ -5,22 +5,20 @@ namespace Eightfold\Shoop\Tests\Shooped;
 use PHPUnit\Framework\TestCase;
 
 use Eightfold\Shoop\Shoop;
-use Eightfold\Shoop\FluentTypes\{
-    ESArray,
-    ESBooleanean,
-    ESDictionary,
-    ESInt,
-    ESJson,
-    ESObject,
-    ESString
-};
+use Eightfold\Shoop\FluentTypes\ESArray;
+use Eightfold\Shoop\FluentTypes\ESBoolean;
+use Eightfold\Shoop\FluentTypes\ESDictionary;
+use Eightfold\Shoop\FluentTypes\ESInteger;
+use Eightfold\Shoop\FluentTypes\ESJson;
+use Eightfold\Shoop\FluentTypes\ESObject;
+use Eightfold\Shoop\FluentTypes\ESString;
 
 /**
  * @group  BooleanFluent
  *
- * The `boolean()` method converts the Shoop type to an `ESBooleanean` type.
+ * The `boolean()` method converts the Shoop type to an `ESBoolean` type.
  *
- * @return Eightfold\Shoop\ESBooleanean
+ * @return Eightfold\Shoop\ESBoolean
  */
 class BoolTest extends TestCase
 {
@@ -37,14 +35,14 @@ class BoolTest extends TestCase
     }
 
     /**
-     * @return Eightfold\Shoop\ESBooleanean The same value.
+     * @return Eightfold\Shoop\ESBoolean The same value.
      */
-    public function testESBooleanean()
+    public function testESBoolean()
     {
-        $actual = ESBooleanean::fold(true)->boolean();
+        $actual = ESBoolean::fold(true)->boolean();
         $this->assertTrue($actual->unfold());
 
-        $actual = ESBooleanean::fold(false)->boolean();
+        $actual = ESBoolean::fold(false)->boolean();
         $this->assertFalse($actual->unfold());
     }
 
@@ -60,12 +58,12 @@ class BoolTest extends TestCase
     /**
      * @see Phpint::toBool
      */
-    public function testESInt()
+    public function testESInteger()
     {
-        $actual = ESInt::fold(1)->boolean();
+        $actual = ESInteger::fold(1)->boolean();
         $this->assertTrue($actual->unfold());
 
-        $actual = ESInt::fold(0)->boolean();
+        $actual = ESInteger::fold(0)->boolean();
         $this->assertFalse($actual->unfold());
     }
 

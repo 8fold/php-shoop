@@ -11,7 +11,7 @@ use Eightfold\Shoop\FluentTypes\{
     ESArray,
     ESBoolean,
     ESDictionary,
-    ESInt,
+    ESInteger,
     ESJson,
     ESObject,
     ESString
@@ -61,12 +61,12 @@ class DivideTest extends TestCase
     }
 
     /**
-     * @return Eightfold\Shoop\ESInt The original value is mathematically divided by the given integer and rounded to nearest half to return a true ESInt.
+     * @return Eightfold\Shoop\ESInteger The original value is mathematically divided by the given integer and rounded to nearest half to return a true ESInteger.
      */
-    public function testESInt()
+    public function testESInteger()
     {
         $expected = 2;
-        $actual = ESInt::fold(5)->divide(3);
+        $actual = ESInteger::fold(5)->divide(3);
         $this->assertEquals($expected, $actual->unfold());
     }
 

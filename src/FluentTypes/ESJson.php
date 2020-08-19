@@ -15,7 +15,10 @@ use Eightfold\Shoop\FluentTypes\Traits\ShoopedImp;
 use Eightfold\Shoop\FluentTypes\Contracts\Typeable;
 use Eightfold\Shoop\FluentTypes\Contracts\TypeableImp;
 
-class ESJson implements Shooped, Typeable//, MathOperations, Wrap, Drop, Has, IsIn, Each
+use Eightfold\Shoop\FluentTypes\Contracts\Comparable;
+use Eightfold\Shoop\FluentTypes\Contracts\ComparableImp;
+
+class ESJson implements Shooped, Typeable, Comparable //, MathOperations, Wrap, Drop, Has, IsIn, Each
 {
-    use ShoopedImp, TypeableImp;//, ToggleImp, MathOperationsImp, SortImp, WrapImp, DropImp, HasImp, IsInImp, EachImp;
+    use ShoopedImp, TypeableImp, ComparableImp;//, ToggleImp, MathOperationsImp, SortImp, WrapImp, DropImp, HasImp, IsInImp, EachImp;
 }

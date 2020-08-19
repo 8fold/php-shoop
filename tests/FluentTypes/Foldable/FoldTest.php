@@ -13,7 +13,7 @@ use Eightfold\Shoop\FluentTypes\{
     ESArray,
     ESBoolean,
     ESDictionary,
-    ESInt,
+    ESInteger,
     ESJson,
     ESObject,
     ESString
@@ -65,17 +65,17 @@ class FoldTest extends TestCase
         $this->assertTrue(is_a($actual, ESDictionary::class));
     }
 
-    public function testESInt()
+    public function testESInteger()
     {
         $expected = 1;
-        $actual = new ESInt(1);
+        $actual = new ESInteger(1);
         $this->assertSame($expected, $actual->main);
 
-        $actual = new ESInt(1);
-        $this->assertTrue(is_a($actual, ESInt::class));
+        $actual = new ESInteger(1);
+        $this->assertTrue(is_a($actual, ESInteger::class));
 
-        $actual = ESInt::fold(1);
-        $this->assertTrue(is_a($actual, ESInt::class));
+        $actual = ESInteger::fold(1);
+        $this->assertTrue(is_a($actual, ESInteger::class));
     }
 
     public function testESJson()

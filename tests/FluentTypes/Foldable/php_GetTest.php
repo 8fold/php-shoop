@@ -11,7 +11,7 @@ use Eightfold\Shoop\FluentTypes\{
     ESArray,
     ESBoolean,
     ESDictionary,
-    ESInt,
+    ESInteger,
     ESJson,
     ESObject,
     ESString
@@ -69,9 +69,9 @@ class php_GetTest extends TestCase
         $this->assertEquals($expected, $actual);
     }
 
-    public function testESInt()
+    public function testESInteger()
     {
-        $base = ESInt::fold(5);
+        $base = ESInteger::fold(5);
 
         $expected = ["i0" => 0, "i1" => 1, "i2" => 2, "i3" => 3, "i4" => 4, "i5" => 5];
         $actual = $base->dictionary;

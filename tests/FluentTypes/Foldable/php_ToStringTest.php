@@ -11,7 +11,7 @@ use Eightfold\Shoop\FluentTypes\{
     ESArray,
     ESBoolean,
     ESDictionary,
-    ESInt,
+    ESInteger,
     ESJson,
     ESObject,
     ESString
@@ -52,11 +52,11 @@ class php_ToStringTest extends TestCase
         $this->assertEquals($expected, $actual);
     }
 
-    public function testESInt()
+    public function testESInteger()
     {
         $expected = "1";
 
-        $actual = ESInt::fold(1);
+        $actual = ESInteger::fold(1);
         $this->assertEquals($expected, $actual);
     }
 

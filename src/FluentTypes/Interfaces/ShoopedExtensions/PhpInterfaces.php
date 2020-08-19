@@ -7,12 +7,12 @@ use \ArrayAccess;
 use \Iterator;
 use \JsonSerializable;
 
-use Eightfold\Shoop\FluentTypes\ESInt;
+use Eightfold\Shoop\FluentTypes\ESInteger;
 
 interface PhpInterfaces extends Countable, ArrayAccess, Iterator, JsonSerializable
 {
 // - Countable
-    public function count(): ESInt;
+    public function count(): ESInteger;
 
 // - Array Access
     // TODO: PHP 8.0 string|int $offset

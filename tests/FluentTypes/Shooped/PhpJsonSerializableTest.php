@@ -37,7 +37,7 @@ class PhpJsonSerializableTest extends TestCase
         $this->assertEquals($expected, $actual);
     }
 
-    public function testESInt()
+    public function testESInteger()
     {
         $expected = '{"i0":0,"i1":1}';
         $actual = json_encode(Shoop::int(1));

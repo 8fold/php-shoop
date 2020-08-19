@@ -11,7 +11,7 @@ use Eightfold\Shoop\FluentTypes\{
     ESArray,
     ESBoolean,
     ESDictionary,
-    ESInt,
+    ESInteger,
     ESJson,
     ESObject,
     ESString
@@ -50,9 +50,9 @@ class OffsetSetTest extends TestCase
         $this->assertTrue($actual->getUnfolded("member"));
     }
 
-    public function testESInt()
+    public function testESInteger()
     {
-        $actual = ESInt::fold(10);
+        $actual = ESInteger::fold(10);
         $actual->offsetSet(0, 8);
         $this->assertEquals(8, $actual->unfold());
     }

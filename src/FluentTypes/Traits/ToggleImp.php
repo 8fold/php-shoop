@@ -14,7 +14,7 @@ use Eightfold\Shoop\Shoop;
 use Eightfold\Shoop\FluentTypes\{
     ESArray,
     ESBoolean,
-    ESInt,
+    ESInteger,
     ESString,
     ESObject,
     ESJson,
@@ -40,7 +40,7 @@ trait ToggleImp
             $dictionary = PhpAssociativeArray::reversed($array, $preserveMembers);
             return Shoop::dictionary($dictionary);
 
-        } elseif (Type::is($this, ESInt::class)) {
+        } elseif (Type::is($this, ESInteger::class)) {
             $int = $this->intUnfolded();
             $int = -1 * $int;
             return Shoop::int($int);

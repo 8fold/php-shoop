@@ -11,7 +11,7 @@ use Eightfold\Shoop\FluentTypes\{
     ESArray,
     ESBoolean,
     ESDictionary,
-    ESInt,
+    ESInteger,
     ESJson,
     ESObject,
     ESString
@@ -31,7 +31,7 @@ class TypeTest extends TestCase
         $base = 3;
 
         $actual = Type::sanitizeType($base);
-        $this->assertEquals(ESInt::class, get_class($actual));
+        $this->assertEquals(ESInteger::class, get_class($actual));
 
         $expected = Shoop::array([]);
         $actual = Type::sanitizeType($expected);

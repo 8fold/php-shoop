@@ -18,7 +18,7 @@ use Eightfold\Shoop\FluentTypes\{
     ESArray,
     ESBoolean,
     ESDictionary,
-    ESInt,
+    ESInteger,
     ESJson,
     ESObject,
     ESString
@@ -93,8 +93,8 @@ trait PhpMagicMethodsImp
 // - Getters/Setters
     public function get($member = 0)
     {
-        if (Type::is($this, ESArray::class, ESInt::class, ESString::class)) {
-            $member = Type::sanitizeType($member, ESInt::class)->unfold();
+        if (Type::is($this, ESArray::class, ESInteger::class, ESString::class)) {
+            $member = Type::sanitizeType($member, ESInteger::class)->unfold();
 
         } elseif (Type::is($this, ESDictionary::class, ESJson::class, ESObject::class)) {
             $member = Type::sanitizeType($member, ESString::class)->unfold();
@@ -112,7 +112,7 @@ trait PhpMagicMethodsImp
                 $array = $array->array();
             }
 
-        } elseif (Type::is($this, ESInt::class)) {
+        } elseif (Type::is($this, ESInteger::class)) {
             $array = PhpInt::toIndexedArray($this->main());
 
         } elseif (Type::is($this, ESJson::class)) {
@@ -154,9 +154,9 @@ trait PhpMagicMethodsImp
                 ? Shoop::bool($v)
                 : Shoop::string($v);
 
-        } elseif (Type::is($this, ESInt::class)) {
+        } elseif (Type::is($this, ESInteger::class)) {
             $int = $this->main();
-            $int = Type::sanitizeType($value, ESInt::class)->unfold();
+            $int = Type::sanitizeType($value, ESInteger::class)->unfold();
             return Shoop::int($int);
 
         } elseif (Type::is($this, ESJson::class)) {

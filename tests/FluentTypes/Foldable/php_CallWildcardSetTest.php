@@ -11,7 +11,7 @@ use Eightfold\Shoop\FluentTypes\{
     ESArray,
     ESBoolean,
     ESDictionary,
-    ESInt,
+    ESInteger,
     ESJson,
     ESObject,
     ESString
@@ -65,11 +65,11 @@ class php_CallWildcardSetTest extends TestCase
     /**
      * Equivalent to creating a new instance with a new value.
      */
-    public function testESInt()
+    public function testESInteger()
     {
         $base = 10;
         $expected = 5;
-        $actual = ESInt::fold($base)->set(5);
+        $actual = ESInteger::fold($base)->set(5);
         $this->assertEquals($expected, $actual->unfold());
     }
 

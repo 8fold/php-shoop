@@ -13,7 +13,7 @@ use Eightfold\Shoop\FluentTypes\{
 class IntTest extends TestCase
 {
     /**
-     * The `range()` method on ESInt creates an ESArray of integers from the given value to the original value (or vice versa).
+     * The `range()` method on ESInteger creates an ESArray of integers from the given value to the original value (or vice versa).
      *
      * @return Eightfold\Shoop\ESArray
      */

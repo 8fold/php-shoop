@@ -11,7 +11,7 @@ use Eightfold\Shoop\FluentTypes\{
     ESArray,
     ESBoolean,
     ESDictionary,
-    ESInt,
+    ESInteger,
     ESJson,
     ESObject,
     ESString
@@ -76,16 +76,16 @@ class php_CallWildcardGetTest extends TestCase
     /**
      * Is converted to `ESArray` (range). No specified member results in first value in range.
      */
-    public function testESInt()
+    public function testESInteger()
     {
         $base = 10;
 
         $expected = 0;
-        $actual = ESInt::fold($base)->get();
+        $actual = ESInteger::fold($base)->get();
         $this->assertEquals($expected, $actual->unfold());
 
         $expected = 9;
-        $actual = ESInt::fold($base)->get(9);
+        $actual = ESInteger::fold($base)->get(9);
         $this->assertEquals($expected, $actual->unfold());
     }
 

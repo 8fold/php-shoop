@@ -11,7 +11,7 @@ use Eightfold\Shoop\FluentTypes\{
     ESArray,
     ESBoolean,
     ESDictionary,
-    ESInt,
+    ESInteger,
     ESJson,
     ESObject,
     ESString
@@ -63,10 +63,10 @@ class JsonTest extends TestCase
     /**
      * @see PhpInt::toJson
      */
-    public function testESInt()
+    public function testESInteger()
     {
         $expected = '{"i0":0,"i1":1}';
-        $actual = ESInt::fold(1)->json();
+        $actual = ESInteger::fold(1)->json();
         $this->assertEquals($expected, $actual->unfold());
     }
 

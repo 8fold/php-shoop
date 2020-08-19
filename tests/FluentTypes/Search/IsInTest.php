@@ -11,7 +11,7 @@ use Eightfold\Shoop\FluentTypes\{
     ESArray,
     ESBoolean,
     ESDictionary,
-    ESInt,
+    ESInteger,
     ESJson,
     ESObject,
     ESString
@@ -48,7 +48,7 @@ class IsInTest extends TestCase
         $this->assertTrue($actual->unfold());
     }
 
-    public function testESInt()
+    public function testESInteger()
     {
         $base = 1;
         $container = [0, 3, 2];

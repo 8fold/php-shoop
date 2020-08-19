@@ -7,7 +7,7 @@ use \Countable;
 
 use Eightfold\Foldable\Foldable;
 
-use Eightfold\Shoop\FluentTypes\ESInt;
+use Eightfold\Shoop\FluentTypes\ESInteger;
 
 interface Shooped extends Foldable//, JsonSerializable, Countable //, PhpInterfaces, PhpMagicMethods
 {

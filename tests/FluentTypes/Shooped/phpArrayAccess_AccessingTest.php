@@ -11,7 +11,7 @@ use Eightfold\Shoop\FluentTypes\{
     ESArray,
     ESBoolean,
     ESDictionary,
-    ESInt,
+    ESInteger,
     ESJson,
     ESObject,
     ESString
@@ -80,9 +80,9 @@ class ArrayAccessAccessingTest extends TestCase
         $this->assertEquals($dictionary->unfold()["one"], $dictionary["one"]);
     }
 
-    public function testESInt()
+    public function testESInteger()
     {
-        $integer = ESInt::fold(3);
+        $integer = ESInteger::fold(3);
 
         $expected = [0, 1, 2, 3];
         $actual = [];

@@ -9,7 +9,7 @@ use Eightfold\Shoop\FluentTypes\ESArray;
 
 interface Arrayable extends ArrayAccess, Iterator
 {
-    // TODO: PHP 8.0 string|int|ESString|ESInt $offset
+    // TODO: PHP 8.0 string|int|ESString|ESInteger $offset
     public function hasMember($member, callable $callable = null);
 
     public function offsetExists($offset): bool; // ArrayAccess

@@ -11,7 +11,7 @@ use Eightfold\Shoop\FluentTypes\{
     ESArray,
     ESBoolean,
     ESDictionary,
-    ESInt,
+    ESInteger,
     ESJson,
     ESObject,
     ESString
@@ -59,11 +59,11 @@ class DictionaryTest extends TestCase
     /**
      * @see PhpInt::toAssociativeArray
      */
-    public function testESInt()
+    public function testESInteger()
     {
         $expected = ["i0" => 0, "i1" => 1, "i2" => 2, "i3" => 3, "i4" => 4, "i5" => 5];
 
-        $actual = ESInt::fold(5)->dictionary();
+        $actual = ESInteger::fold(5)->dictionary();
         $this->assertEquals($expected, $actual->unfold());
     }
 

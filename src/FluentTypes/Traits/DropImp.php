@@ -13,7 +13,7 @@ use Eightfold\Shoop\FluentTypes\{
     Interfaces\Shooped,
     ESArray,
     ESBoolean,
-    ESInt,
+    ESInteger,
     ESString,
     ESObject,
     ESJson,
@@ -44,7 +44,7 @@ trait DropImp
 
     public function dropFirst($length = 1): Shooped
     {
-        $length = Type::sanitizeType($length, ESInt::class)->unfold();
+        $length = Type::sanitizeType($length, ESInteger::class)->unfold();
         if (Type::is($this, ESArray::class)) {
             $array = $this->arrayUnfolded();
             $array = PhpIndexedArray::afterDropping($array, $length);
@@ -78,7 +78,7 @@ trait DropImp
 
     public function dropLast($length = 1): Shooped
     {
-        $length = Type::sanitizeType($length, ESInt::class)->unfold();
+        $length = Type::sanitizeType($length, ESInteger::class)->unfold();
         if (Type::is($this, ESArray::class)) {
             $array = $this->main();
             $array = PhpIndexedArray::afterDropping($array, -$length);

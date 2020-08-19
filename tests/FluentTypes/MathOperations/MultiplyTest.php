@@ -11,7 +11,7 @@ use Eightfold\Shoop\FluentTypes\{
     ESArray,
     ESBoolean,
     ESDictionary,
-    ESInt,
+    ESInteger,
     ESJson,
     ESObject,
     ESString
@@ -63,10 +63,10 @@ class MultiplyTest extends TestCase
     /**
      * @return Eightfold\Shoop\Int Where the original value is multiplied by the given integer.
      */
-    public function testESInt()
+    public function testESInteger()
     {
         $expected = 15;
-        $actual = ESInt::fold(5)->multiply(3);
+        $actual = ESInteger::fold(5)->multiply(3);
         $this->assertEquals($expected, $actual->unfold());
     }
 

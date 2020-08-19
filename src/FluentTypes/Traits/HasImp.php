@@ -21,7 +21,7 @@ use Eightfold\Shoop\FluentTypes\{
     Interfaces\Foldable,
     ESArray,
     ESBoolean,
-    ESInt,
+    ESInteger,
     ESString,
     ESObject,
     ESJson,
@@ -48,7 +48,7 @@ trait HasImp
             $member = Type::sanitizeType($member, ESString::class)->unfold();
 
         } else {
-            $member = Type::sanitizeType($member, ESInt::class)->unfold();
+            $member = Type::sanitizeType($member, ESInteger::class)->unfold();
 
         }
 

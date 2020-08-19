@@ -8,7 +8,7 @@ use Eightfold\Shoop\FluentTypes\Interfaces\Shooped;
 use Eightfold\Shoop\Shoop;
 use Eightfold\Shoop\FluentTypes\{
     ESBoolean,
-    ESInt,
+    ESInteger,
     ESString,
     ESArray,
     ESDictionary,
@@ -47,7 +47,7 @@ class Type
                 return $shooped->dictionary();
                 break;
 
-            case ESInt::class:
+            case ESInteger::class:
                 return $shooped->int();
                 break;
 
@@ -108,7 +108,7 @@ class Type
             return ESDictionary::class;
 
         } elseif (self::isInt($potential)) {
-            return ESInt::class;
+            return ESInteger::class;
 
         } elseif (self::isJson($potential)) {
             return ESJson::class;
@@ -350,8 +350,8 @@ class Type
         return [
             "bool"       => ESBoolean::class,
             "boolean"    => ESBoolean::class,
-            "int"        => ESInt::class,
-            "integer"    => ESInt::class,
+            "int"        => ESInteger::class,
+            "integer"    => ESInteger::class,
             "string"     => ESString::class,
             "array"      => ESArray::class,
             "dictionary" => ESDictionary::class,

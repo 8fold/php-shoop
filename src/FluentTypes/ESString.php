@@ -14,6 +14,9 @@ use Eightfold\Shoop\FluentTypes\Traits\ShoopedImp;
 use Eightfold\Shoop\FluentTypes\Contracts\Typeable; // Shoop??
 use Eightfold\Shoop\FluentTypes\Contracts\TypeableImp;
 
+use Eightfold\Shoop\FluentTypes\Contracts\Comparable; // Shoop??
+use Eightfold\Shoop\FluentTypes\Contracts\ComparableImp;
+
 use Eightfold\Shoop\FluentTypes\Contracts\Arrayable; // Shoop??
 use Eightfold\Shoop\FluentTypes\Contracts\ArrayableImp;
 
@@ -32,7 +35,8 @@ class ESString implements
     Shooped,
     Arrayable,
     Strippable,
-    Typeable
+    Typeable,
+    Comparable
     // Shuffle,
     // Wrap,
     // Sort,
@@ -41,7 +45,7 @@ class ESString implements
     // IsIn,
     // Each
 {
-    use ShoopedImp, ArrayableImp, StrippableImp, TypeableImp;// ToggleImp, ShuffleImp, WrapImp, SortImp, HasImp, DropImp, IsInImp, EachImp;
+    use ShoopedImp, ArrayableImp, StrippableImp, TypeableImp, ComparableImp;// ToggleImp, ShuffleImp, WrapImp, SortImp, HasImp, DropImp, IsInImp, EachImp;
 
     // // TODO: PHP 8.0 - string|ESString
     // public function __construct($main)
@@ -75,14 +79,14 @@ class ESString implements
         return $this->strip(implode("", $terms), false, false);
     }
 
-    // TODO: PHP 8.0 - int|ESInt
+    // TODO: PHP 8.0 - int|ESInteger
     public function multiply($multiplier = 1)
     {
         $string = Php::stringRepeated($this->main, $multiplier);
         return static::fold($string);
     }
 
-    // TODO: PHP 8.0 - string|int|ESString|ESInt, bool|ESBoolean, int|ESInt
+    // TODO: PHP 8.0 - string|int|ESString|ESInteger, bool|ESBoolean, int|ESInteger
     public function divide(
         $divisor = 0,
         $includeEmpties = true,
@@ -175,10 +179,10 @@ class ESString implements
     public function replaceRange($replacement, $start = 0, $length = null): ESString
     {
         $replacement = Type::sanitizeType($replacement, ESString::class)->unfold();
-        $start = Type::sanitizeType($start, ESInt::class)->unfold();
+        $start = Type::sanitizeType($start, ESInteger::class)->unfold();
         $length = ($length === null)
-            ? Type::sanitizeType(strlen($replacement), ESInt::class)->unfold()
-            : Type::sanitizeType($length, ESInt::class)->unfold();
+            ? Type::sanitizeType(strlen($replacement), ESInteger::class)->unfold()
+            : Type::sanitizeType($length, ESInteger::class)->unfold();
 
         $string = substr_replace($this->main(), $replacement, $start, $length);
         return Shoop::string($string);

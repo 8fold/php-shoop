@@ -11,7 +11,7 @@ use Eightfold\Shoop\FluentTypes\{
     ESArray,
     ESBoolean,
     ESDictionary,
-    ESInt,
+    ESInteger,
     ESJson,
     ESObject,
     ESString
@@ -20,7 +20,7 @@ use Eightfold\Shoop\FluentTypes\{
 /**
  * The `count()` method returns the number of values in the ESArray or ESDictionary representation of the `Shooped type`.
  *
- * @return Eightfold\Shoop\ESInt
+ * @return Eightfold\Shoop\ESInteger
  */
 class CountTest extends TestCase
 {
@@ -46,10 +46,10 @@ class CountTest extends TestCase
         $this->assertEquals($expected, $actual->unfold());
     }
 
-    public function testESInt()
+    public function testESInteger()
     {
         $expected = 5;
-        $actual = ESInt::fold(5)->count();
+        $actual = ESInteger::fold(5)->count();
         $this->assertEquals($expected, $actual->unfold());
     }
 

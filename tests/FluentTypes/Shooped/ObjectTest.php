@@ -9,7 +9,7 @@ use Eightfold\Shoop\FluentTypes\{
     ESArray,
     ESBoolean,
     ESDictionary,
-    ESInt,
+    ESInteger,
     ESJson,
     ESObject,
     ESString
@@ -68,13 +68,13 @@ class ObjectTest extends TestCase
     /**
      * @see PhpInt::toObject
      */
-    public function testESInt()
+    public function testESInteger()
     {
         $expected = new \stdClass();
         $expected->i0 = 0;
         $expected->i1 = 1;
 
-        $actual = ESInt::fold(1)->object();
+        $actual = ESInteger::fold(1)->object();
         $this->assertEquals($expected, $actual->unfold());
     }
 

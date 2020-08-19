@@ -6,9 +6,9 @@ use Eightfold\Shoop\PipeFilters;
 
 use Eightfold\Shoop\Shoop;
 use Eightfold\Shoop\FluentTypes\ESArray;
-use Eightfold\Shoop\FluentTypes\ESBooleanean;
+use Eightfold\Shoop\FluentTypes\ESBoolean;
 use Eightfold\Shoop\FluentTypes\ESDictionary;
-use Eightfold\Shoop\FluentTypes\ESInt;
+use Eightfold\Shoop\FluentTypes\ESInteger;
 use Eightfold\Shoop\FluentTypes\ESJson;
 use Eightfold\Shoop\FluentTypes\ESObject; // TODO: rename to ESTuple
 use Eightfold\Shoop\FluentTypes\ESString;
@@ -17,7 +17,7 @@ use Eightfold\Shoop\PipeFilters\TypeJuggling\IsList;
 use Eightfold\Shoop\PipeFilters\TypeJuggling\AsArray;
 use Eightfold\Shoop\PipeFilters\TypeJuggling\AsBoolean;
 use Eightfold\Shoop\PipeFilters\TypeJuggling\AsDictionary;
-use Eightfold\Shoop\PipeFilters\TypeJuggling\AsInt;
+use Eightfold\Shoop\PipeFilters\TypeJuggling\AsInteger;
 use Eightfold\Shoop\PipeFilters\TypeJuggling\AsJson;
 use Eightfold\Shoop\PipeFilters\TypeJuggling\AsObject;
 use Eightfold\Shoop\PipeFilters\TypeJuggling\AsString;
@@ -30,10 +30,10 @@ trait TypeableImp
         return ESArray::fold($array);
     }
 
-    public function boolean(): ESBooleanean
+    public function boolean(): ESBoolean
     {
         $bool = AsBoolean::apply()->unfoldUsing($this->main);
-        return ESBooleanean::fold($bool);
+        return ESBoolean::fold($bool);
     }
 
     public function dictionary(): ESDictionary
@@ -42,14 +42,14 @@ trait TypeableImp
         return ESDictionary::fold($array);
     }
 
-    public function int(): ESInt
+    public function int(): ESInteger
     {
-        return ESInt::fold($this->count());
+        return ESInteger::fold($this->count());
     }
 
     public function count(): int
     {
-        return Shoop::pipe($this->main, AsInteger::apply())->unfold();
+        return AsInteger::apply()->unfoldUsing($this->main);
     }
 
     public function json(): ESJson

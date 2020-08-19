@@ -10,7 +10,7 @@ use Eightfold\Shoop\Shoop;
 use Eightfold\Shoop\FluentTypes\{
     ESArray,
     ESBoolean,
-    ESInt,
+    ESInteger,
     ESString,
     ESObject,
     ESJson,

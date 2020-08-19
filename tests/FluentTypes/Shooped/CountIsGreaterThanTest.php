@@ -11,13 +11,15 @@ use Eightfold\Shoop\FluentTypes\{
     ESArray,
     ESBoolean,
     ESDictionary,
-    ESInt,
+    ESInteger,
     ESJson,
     ESObject,
     ESString
 };
 
 /**
+ * @group CountIsGreaterThan
+ *
  * The `countIsGreaterThan()` method converts the Shoop type using the `count()` method (using the PHP Countable interface) and uses the result to compare the given value to. The result ESBoolean and closure, if available, is then passed to the `isGreaterThan()` method.
  *
  * Note: Expects both values to be of the same type, Shoop type, or combination (cannot compare an `int` to a `bool`, for example).
@@ -47,13 +49,13 @@ class CountIsGreaterThanTest extends TestCase
         $this->assertFalse($actual->unfold());
     }
 
-    public function testESInt()
+    public function testESInteger()
     {
         $base = 10;
-        $actual = ESInt::fold(11)->countIsGreaterThan($base);
+        $actual = ESInteger::fold(11)->countIsGreaterThan($base);
         $this->assertTrue($actual->unfold());
 
-        $actual = ESInt::fold(9)->countIsGreaterThan($base);
+        $actual = ESInteger::fold(9)->countIsGreaterThan($base);
         $this->assertFalse($actual->unfold());
     }
 

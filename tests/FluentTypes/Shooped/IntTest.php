@@ -11,7 +11,7 @@ use Eightfold\Shoop\FluentTypes\{
     ESArray,
     ESBoolean,
     ESDictionary,
-    ESInt,
+    ESInteger,
     ESJson,
     ESObject,
     ESString
@@ -19,7 +19,7 @@ use Eightfold\Shoop\FluentTypes\{
 /**
  * The `int()` method converts the Shoop type to the `PHP integer` equivalent.
  *
- * @return Eightfold\Shoop\ESInt
+ * @return Eightfold\Shoop\ESInteger
  */
 class IntTest extends TestCase
 {
@@ -62,13 +62,13 @@ class IntTest extends TestCase
     }
 
     /**
-     * @return Eightfold\Shoop\ESInt The same value.
+     * @return Eightfold\Shoop\ESInteger The same value.
      */
-    public function testESInt()
+    public function testESInteger()
     {
         $expected = 1;
 
-        $actual = ESInt::fold(1)->int();
+        $actual = ESInteger::fold(1)->int();
         $this->assertEquals($expected, $actual->unfold());
     }
 

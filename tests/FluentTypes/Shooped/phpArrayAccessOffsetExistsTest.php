@@ -11,7 +11,7 @@ use Eightfold\Shoop\FluentTypes\{
     ESArray,
     ESBoolean,
     ESDictionary,
-    ESInt,
+    ESInteger,
     ESJson,
     ESObject,
     ESString
@@ -47,15 +47,15 @@ class OffsetExistsTest extends TestCase
         $this->assertTrue($actual);
     }
 
-    public function testESInt()
+    public function testESInteger()
     {
-        $actual = ESInt::fold(10)->offsetExists(8);
+        $actual = ESInteger::fold(10)->offsetExists(8);
         $this->assertTrue($actual);
 
-        $actual = ESInt::fold(10)->offsetExists(9);
+        $actual = ESInteger::fold(10)->offsetExists(9);
         $this->assertTrue($actual);
 
-        $actual = ESInt::fold(10)->offsetExists(11);
+        $actual = ESInteger::fold(10)->offsetExists(11);
         $this->assertFalse($actual);
     }
 

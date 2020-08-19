@@ -11,7 +11,7 @@ use Eightfold\Shoop\FluentTypes\{
     ESArray,
     ESBoolean,
     ESDictionary,
-    ESInt,
+    ESInteger,
     ESJson,
     ESObject,
     ESString
@@ -57,7 +57,7 @@ class IsInTest extends TestCase
         $this->assertTrue($actual);
     }
 
-    public function testESInt()
+    public function testESInteger()
     {
         $base = [1, 2, 3, 4];
         $actual = Shoop::int(2)->isIn($base);
