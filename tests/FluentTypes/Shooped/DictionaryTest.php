@@ -4,19 +4,19 @@ namespace Eightfold\Shoop\Tests\Shooped;
 
 use PHPUnit\Framework\TestCase;
 
-
-
 use Eightfold\Shoop\Shoop;
-use Eightfold\Shoop\FluentTypes\{
-    ESArray,
-    ESBoolean,
-    ESDictionary,
-    ESInteger,
-    ESJson,
-    ESObject,
-    ESString
-};
+
+use Eightfold\Shoop\FluentTypes\ESArray;
+use Eightfold\Shoop\FluentTypes\ESBoolean;
+use Eightfold\Shoop\FluentTypes\ESDictionary;
+use Eightfold\Shoop\FluentTypes\ESInteger;
+use Eightfold\Shoop\FluentTypes\ESJson;
+use Eightfold\Shoop\FluentTypes\ESObject;
+use Eightfold\Shoop\FluentTypes\ESString;
+
 /**
+ * @group  Dictionary
+ *
  * The `dictionary()` method converts the Shoop type to the `PHP associative array` equivalent.
  *
  * @return Eightfold\Shoop\ESDictionary
@@ -97,7 +97,7 @@ class DictionaryTest extends TestCase
      */
     public function testESString()
     {
-        $expected = ["i0" => "h", "i1" => "e", "i2" => "l", "i3" => "l", "i4" => "o"];
+        $expected = ["content" => "hello"];
 
         $actual = ESString::fold("hello")->dictionary();
         $this->assertEquals($expected, $actual->unfold());
