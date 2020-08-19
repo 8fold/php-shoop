@@ -6,33 +6,34 @@ use Eightfold\Shoop\PipeFilters;
 
 use Eightfold\Shoop\Shoop;
 use Eightfold\Shoop\FluentTypes\ESArray;
-use Eightfold\Shoop\FluentTypes\ESBool;
-use Eightfold\Shoop\ESDictionary;
+use Eightfold\Shoop\FluentTypes\ESBooleanean;
+use Eightfold\Shoop\FluentTypes\ESDictionary;
 use Eightfold\Shoop\FluentTypes\ESInt;
-use Eightfold\Shoop\ESJson;
-use Eightfold\Shoop\ESObject;
+use Eightfold\Shoop\FluentTypes\ESJson;
+use Eightfold\Shoop\FluentTypes\ESObject; // TODO: rename to ESTuple
 use Eightfold\Shoop\FluentTypes\ESString;
 
-use Eightfold\Shoop\PipeFilters\AsArray;
-use Eightfold\Shoop\PipeFilters\AsBool;
-use Eightfold\Shoop\PipeFilters\AsDictionary;
-use Eightfold\Shoop\PipeFilters\AsInt;
-use Eightfold\Shoop\PipeFilters\AsJson;
-use Eightfold\Shoop\PipeFilters\AsObject;
+use Eightfold\Shoop\PipeFilters\TypeJuggling\IsList;
+use Eightfold\Shoop\PipeFilters\TypeJuggling\AsArray;
+use Eightfold\Shoop\PipeFilters\TypeJuggling\AsBoolean;
+use Eightfold\Shoop\PipeFilters\TypeJuggling\AsDictionary;
+use Eightfold\Shoop\PipeFilters\TypeJuggling\AsInt;
+use Eightfold\Shoop\PipeFilters\TypeJuggling\AsJson;
+use Eightfold\Shoop\PipeFilters\TypeJuggling\AsObject;
 use Eightfold\Shoop\PipeFilters\TypeJuggling\AsString;
 
 trait TypeableImp
 {
     public function array(): ESArray
     {
-        $array = Shoop::pipe($this->main, AsArray::apply());
+        $array = AsArray::apply()->unfoldUsing($this->main);
         return ESArray::fold($array);
     }
 
-    public function bool(): ESBool
+    public function boolean(): ESBooleanean
     {
-        $bool = Shoop::pipe($this->main, AsBool::apply());
-        return ESBool::fold($bool);
+        $bool = AsBoolean::apply()->unfoldUsing($this->main);
+        return ESBooleanean::fold($bool);
     }
 
     public function dictionary(): ESDictionary

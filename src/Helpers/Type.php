@@ -7,7 +7,7 @@ use Eightfold\Shoop\FluentTypes\Interfaces\Shooped;
 
 use Eightfold\Shoop\Shoop;
 use Eightfold\Shoop\FluentTypes\{
-    ESBool,
+    ESBoolean,
     ESInt,
     ESString,
     ESArray,
@@ -39,7 +39,7 @@ class Type
                 return $shooped->array();
                 break;
 
-            case ESBool::class:
+            case ESBoolean::class:
                 return $shooped->bool();
                 break;
 
@@ -102,7 +102,7 @@ class Type
             return ESArray::class;
 
         } elseif (self::isBool($potential)) {
-            return ESBool::class;
+            return ESBoolean::class;
 
         } elseif (self::isDictionary($potential)) {
             return ESDictionary::class;
@@ -348,8 +348,8 @@ class Type
     static private function map(): array
     {
         return [
-            "bool"       => ESBool::class,
-            "boolean"    => ESBool::class,
+            "bool"       => ESBoolean::class,
+            "boolean"    => ESBoolean::class,
             "int"        => ESInt::class,
             "integer"    => ESInt::class,
             "string"     => ESString::class,

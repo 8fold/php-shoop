@@ -9,7 +9,7 @@ use PHPUnit\Framework\TestCase;
 use Eightfold\Shoop\Shoop;
 use Eightfold\Shoop\FluentTypes\{
     ESArray,
-    ESBool,
+    ESBoolean,
     ESDictionary,
     ESInt,
     ESJson,
@@ -34,9 +34,9 @@ class InterfaceIteratorRewindTest extends TestCase
         $this->assertEquals("hello", $actual->current());
     }
 
-    public function testESBool()
+    public function testESBoolean()
     {
-        $actual = ESBool::fold(true);
+        $actual = ESBoolean::fold(true);
         $actual->next(); // false
         $actual->rewind(); // true
         $this->assertTrue($actual->current());

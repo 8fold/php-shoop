@@ -8,7 +8,7 @@ use Eightfold\Shoop\Tests\TestCase;
 
 use Eightfold\Shoop\PipeFilters;
 
-use Eightfold\Shoop\ESObject;
+use Eightfold\Shoop\FluentTypes\ESObject;
 
 class ESObjectTest extends TestCase
 {

@@ -43,7 +43,7 @@ class ESArray implements
     //     if ($className === ESArray::class) {
     //         return $instance->main();
 
-    //     } elseif ($className === ESBool::class) {
+    //     } elseif ($className === ESBoolean::class) {
     //         return PhpIndexedArray::toBool($instance->main());
 
     //     } elseif ($className === ESDictionary::class) {
@@ -97,11 +97,11 @@ class ESArray implements
         });
     }
 
-    // TODO: bool|ESBool
+    // TODO: bool|ESBoolean
     public function filter(Closure $closure, $useValues = true, $useMembers = false): ESArray
     {
-        $useValues  = Type::sanitizeType($useValues, ESBool::class);
-        $useMembers = Type::sanitizeType($useMembers, ESBool::class);
+        $useValues  = Type::sanitizeType($useValues, ESBoolean::class);
+        $useMembers = Type::sanitizeType($useMembers, ESBoolean::class);
 
         $flag = 0;
         if ($useValues and $useMembers) {

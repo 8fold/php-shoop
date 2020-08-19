@@ -9,7 +9,7 @@ use PHPUnit\Framework\TestCase;
 use Eightfold\Shoop\Shoop;
 use Eightfold\Shoop\FluentTypes\{
     ESArray,
-    ESBool,
+    ESBoolean,
     ESDictionary,
     ESInt,
     ESJson,
@@ -20,7 +20,7 @@ use Eightfold\Shoop\FluentTypes\{
 /**
  * The `isLessThan()` method uses less than comparison (<) as opposed to greater than (>).
  *
- * @return Eightfold\Shoop\ESBool
+ * @return Eightfold\Shoop\ESBoolean
  */
 class IsLessThanTest extends TestCase
 {
@@ -31,10 +31,10 @@ class IsLessThanTest extends TestCase
         $this->assertFalse($actual->unfold());
     }
 
-    public function testESBool()
+    public function testESBoolean()
     {
         $base = true;
-        $actual = ESBool::fold($base)->isLessThan(false);
+        $actual = ESBoolean::fold($base)->isLessThan(false);
         $this->assertFalse($actual->unfold());
     }
 

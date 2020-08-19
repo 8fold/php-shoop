@@ -50,7 +50,7 @@ class ESString implements
     // }
 
 // -> Rearrange
-    // TODO: PHP 8.0 - bool|ESBool
+    // TODO: PHP 8.0 - bool|ESBoolean
     public function reverse($preserveMembers = true)
     {
         $string = Php::stringReversed($this->main);
@@ -82,7 +82,7 @@ class ESString implements
         return static::fold($string);
     }
 
-    // TODO: PHP 8.0 - string|int|ESString|ESInt, bool|ESBool, int|ESInt
+    // TODO: PHP 8.0 - string|int|ESString|ESInt, bool|ESBoolean, int|ESInt
     public function divide(
         $divisor = 0,
         $includeEmpties = true,
@@ -102,7 +102,7 @@ class ESString implements
     }
 
 // -> Replacements
-    // TODO: PHP 8.0 array|ESDictionary = $replacements bool|ESBool = $caseSensitive
+    // TODO: PHP 8.0 array|ESDictionary = $replacements bool|ESBoolean = $caseSensitive
     public function replace($replacements = [], $caseSensitive = true): ESString
     {
         $string = Php::stringAfterReplacing($this->main, $replacements, $caseSensitive);

@@ -9,7 +9,7 @@ use \Closure;
 use Eightfold\Shoop\Shoop;
 use Eightfold\Shoop\FluentTypes\{
     ESArray,
-    ESBool,
+    ESBoolean,
     ESInt,
     ESString,
     ESObject,

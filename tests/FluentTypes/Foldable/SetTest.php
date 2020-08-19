@@ -9,7 +9,7 @@ use PHPUnit\Framework\TestCase;
 use Eightfold\Shoop\Shoop;
 use Eightfold\Shoop\FluentTypes\{
     ESArray,
-    ESBool,
+    ESBoolean,
     ESDictionary,
     ESInt,
     ESJson,
@@ -33,12 +33,12 @@ class SetTest extends TestCase
     }
 
     /**
-     * @return Eightfold\Shoop\ESBool Sets the value of the bool to the given bool.
+     * @return Eightfold\Shoop\ESBoolean Sets the value of the bool to the given bool.
      */
-    public function testESBool()
+    public function testESBoolean()
     {
         $base = true;
-        $actual = ESBool::fold($base)->set(false);
+        $actual = ESBoolean::fold($base)->set(false);
         $this->assertFalse($actual->unfold());
     }
 

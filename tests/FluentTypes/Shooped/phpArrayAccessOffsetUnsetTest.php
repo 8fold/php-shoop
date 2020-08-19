@@ -9,7 +9,7 @@ use PHPUnit\Framework\TestCase;
 use Eightfold\Shoop\Shoop;
 use Eightfold\Shoop\FluentTypes\{
     ESArray,
-    ESBool,
+    ESBoolean,
     ESDictionary,
     ESInt,
     ESJson,
@@ -36,9 +36,9 @@ class OffsetUnsetTest extends TestCase
     /**
      * No changes made.
      */
-    public function testESBool()
+    public function testESBoolean()
     {
-        $actual = ESBool::fold(true);
+        $actual = ESBoolean::fold(true);
         $actual->offsetUnset(0);
         $this->assertTrue($actual->unfold());
     }

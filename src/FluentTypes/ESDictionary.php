@@ -32,7 +32,7 @@ class ESDictionary implements
         if ($className === ESArray::class) {
             return PhpAssociativeArray::toIndexedArray($instance->main());
 
-        } elseif ($className === ESBool::class) {
+        } elseif ($className === ESBoolean::class) {
             return PhpAssociativeArray::toBool($instance->main());;
 
         } elseif ($className === ESDictionary::class) {

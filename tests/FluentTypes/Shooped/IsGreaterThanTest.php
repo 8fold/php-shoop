@@ -9,7 +9,7 @@ use PHPUnit\Framework\TestCase;
 use Eightfold\Shoop\Shoop;
 use Eightfold\Shoop\FluentTypes\{
     ESArray,
-    ESBool,
+    ESBoolean,
     ESDictionary,
     ESInt,
     ESJson,
@@ -20,7 +20,7 @@ use Eightfold\Shoop\FluentTypes\{
 /**
  * @see isGreaterThan() Uses greater than comparison (>) as opposed to less than (<).
  *
- * @return Eightfold\Shoop\ESBool
+ * @return Eightfold\Shoop\ESBoolean
  */
 class IsGreaterThanTest extends TestCase
 {
@@ -31,10 +31,10 @@ class IsGreaterThanTest extends TestCase
         $this->assertFalse($actual->unfold());
     }
 
-    public function testESBool()
+    public function testESBoolean()
     {
         $base = true;
-        $actual = ESBool::fold($base)->isGreaterThan(false);
+        $actual = ESBoolean::fold($base)->isGreaterThan(false);
         $this->assertTrue($actual->unfold());
     }
 

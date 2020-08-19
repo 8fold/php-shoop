@@ -16,7 +16,7 @@ use Eightfold\Shoop\FluentTypes\Helpers\{
 use Eightfold\Shoop\Shoop;
 use Eightfold\Shoop\FluentTypes\{
     ESArray,
-    ESBool,
+    ESBoolean,
     ESDictionary,
     ESInt,
     ESJson,
@@ -106,7 +106,7 @@ trait PhpMagicMethodsImp
         if (Type::is($this, ESArray::class, ESDictionary::class) and $this->offsetExists($member)) {
             return Shoop::this($this->offsetGet($member)); // The only return of consequence
 
-        } elseif (Type::is($this, ESBool::class)) {
+        } elseif (Type::is($this, ESBoolean::class)) {
             $array = $this->dictionary();
             if (Type::isInt($member)) {
                 $array = $array->array();
@@ -145,12 +145,12 @@ trait PhpMagicMethodsImp
                 ? Shoop::array($array)
                 : Shoop::dictionary($array);
 
-        } elseif (Type::is($this, ESBool::class, ESString::class)) {
+        } elseif (Type::is($this, ESBoolean::class, ESString::class)) {
             $v = $this->main();
-            $v = (Type::is($this, ESBool::class))
-                ? Type::sanitizeType($value, ESBool::class)->unfold()
+            $v = (Type::is($this, ESBoolean::class))
+                ? Type::sanitizeType($value, ESBoolean::class)->unfold()
                 : Type::sanitizeType($value, ESString::class)->unfold();
-            return (Type::is($this, ESBool::class))
+            return (Type::is($this, ESBoolean::class))
                 ? Shoop::bool($v)
                 : Shoop::string($v);
 

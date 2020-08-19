@@ -9,7 +9,7 @@ use PHPUnit\Framework\TestCase;
 use Eightfold\Shoop\Shoop;
 use Eightfold\Shoop\FluentTypes\{
     ESArray,
-    ESBool,
+    ESBoolean,
     ESDictionary,
     ESInt,
     ESJson,
@@ -22,7 +22,7 @@ use Eightfold\Shoop\FluentTypes\{
  *
  * Note: Expects both values to be of the same type, Shoop type, or combination (cannot compare an `int` to a `bool`, for example).
  *
- * @return Eightfold\Shoop\ESBool
+ * @return Eightfold\Shoop\ESBoolean
  */
 class IsGreaterThanOrEqualToTest extends TestCase
 {
@@ -33,10 +33,10 @@ class IsGreaterThanOrEqualToTest extends TestCase
         $this->assertTrue($actual->unfold());
     }
 
-    public function testESBool()
+    public function testESBoolean()
     {
         $base = true;
-        $actual = ESBool::fold($base)->isGreaterThanOrEqual(false);
+        $actual = ESBoolean::fold($base)->isGreaterThanOrEqual(false);
         $this->assertTrue($actual->unfold());
     }
 

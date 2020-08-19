@@ -6,7 +6,7 @@ use \stdClass;
 
 use Eightfold\Shoop\Tests\TestCase;
 
-use Eightfold\Shoop\ESDictionary;
+use Eightfold\Shoop\FluentTypes\ESDictionary;
 
 class ESDictionaryTest extends TestCase
 {

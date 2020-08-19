@@ -17,7 +17,7 @@ use Eightfold\Shoop\FluentTypes\Helpers\{
 use Eightfold\Shoop\Shoop;
 use Eightfold\Shoop\FluentTypes\{
     ESArray,
-    ESBool,
+    ESBoolean,
     ESDictionary,
     ESInt,
     ESJson,

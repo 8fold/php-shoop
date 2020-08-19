@@ -9,7 +9,7 @@ use PHPUnit\Framework\TestCase;
 use Eightfold\Shoop\Shoop;
 use Eightfold\Shoop\FluentTypes\{
     ESArray,
-    ESBool,
+    ESBoolean,
     ESDictionary,
     ESInt,
     ESJson,
@@ -34,9 +34,9 @@ class InterfaceIteratorKeyTest extends TestCase
     /**
      * Equivalent to `dictionary()->key()`.
      */
-    public function testESBool()
+    public function testESBoolean()
     {
-        $actual = ESBool::fold(true)->key();
+        $actual = ESBoolean::fold(true)->key();
         $this->assertEquals("true", $actual);
     }
 

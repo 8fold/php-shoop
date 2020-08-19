@@ -4,7 +4,7 @@ namespace Eightfold\Shoop\FluentTypes\Interfaces;
 
 interface Drop
 {
-    // Does not make sense on ESBool, ESInt
+    // Does not make sense on ESBoolean, ESInt
     public function drop(...$members);
 
     // TODO: php 8.0 int|ESInt = $length

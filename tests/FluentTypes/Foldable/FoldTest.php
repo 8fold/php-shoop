@@ -11,7 +11,7 @@ use PHPUnit\Framework\TestCase;
 use Eightfold\Shoop\Shoop;
 use Eightfold\Shoop\FluentTypes\{
     ESArray,
-    ESBool,
+    ESBoolean,
     ESDictionary,
     ESInt,
     ESJson,
@@ -39,17 +39,17 @@ class FoldTest extends TestCase
         $this->assertTrue(is_a($actual, ESArray::class));
     }
 
-    public function testESBool()
+    public function testESBoolean()
     {
         $expected = true;
-        $actual = new ESBool(true);
+        $actual = new ESBoolean(true);
         $this->assertSame($expected, $actual->main);
 
-        $actual = new ESBool(true);
-        $this->assertTrue(is_a($actual, ESBool::class));
+        $actual = new ESBoolean(true);
+        $this->assertTrue(is_a($actual, ESBoolean::class));
 
-        $actual = ESBool::fold(true);
-        $this->assertTrue(is_a($actual, ESBool::class));
+        $actual = ESBoolean::fold(true);
+        $this->assertTrue(is_a($actual, ESBoolean::class));
     }
 
     public function testESDictionary()

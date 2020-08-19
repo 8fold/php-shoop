@@ -5,7 +5,7 @@ namespace Eightfold\Shoop\FluentTypes\Interfaces;
 use \Closure;
 
 use Eightfold\Shoop\Foldable\Foldable;
-use Eightfold\Shoop\FluentTypes\ESBool;
+use Eightfold\Shoop\FluentTypes\ESBoolean;
 
 interface Has
 {

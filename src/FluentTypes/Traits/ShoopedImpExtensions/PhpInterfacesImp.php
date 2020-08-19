@@ -17,7 +17,7 @@ use Eightfold\Shoop\FluentTypes\Helpers\{
 use Eightfold\Shoop\Shoop;
 use Eightfold\Shoop\FluentTypes\{
     ESArray,
-    ESBool,
+    ESBoolean,
     ESDictionary,
     ESInt,
     ESJson,
@@ -45,7 +45,7 @@ trait PhpInterfacesImp
                 $bool = isset($array[$offset]);
             }
 
-        } elseif (Type::is($this, ESBool::class)) {
+        } elseif (Type::is($this, ESBoolean::class)) {
             $array = PhpBool::toAssociativeArray($this->main());
             $bool = isset($array[$offset]);
 
@@ -89,7 +89,7 @@ trait PhpInterfacesImp
                 $array = PhpIndexedArray::toAssociativeArray($array);
             }
 
-        } elseif (Type::is($this, ESBool::class)) {
+        } elseif (Type::is($this, ESBoolean::class)) {
             $array = PhpBool::toAssociativeArray($this->main());
 
         } elseif (Type::is($this, ESDictionary::class)) {
@@ -124,7 +124,7 @@ trait PhpInterfacesImp
 
     public function offsetSet($offset, $value): void
     {
-        if (Type::is($this, ESInt::class, ESBool::class)) {
+        if (Type::is($this, ESInt::class, ESBoolean::class)) {
             $this->main = $value;
 
         } elseif (Type::is($this, ESJson::class)) {
@@ -173,7 +173,7 @@ trait PhpInterfacesImp
         if (Type::is($this, ESArray::class)) {
             $this->temp = $this->main();
 
-        } elseif (Type::is($this, ESBool::class)) {
+        } elseif (Type::is($this, ESBoolean::class)) {
             $this->temp = PhpBool::toAssociativeArray($this->main());
 
         } elseif (Type::is($this, ESDictionary::class)) {

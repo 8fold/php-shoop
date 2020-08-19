@@ -17,7 +17,7 @@ use Eightfold\Shoop\FluentTypes\Helpers\{
 use Eightfold\Shoop\Shoop;
 use Eightfold\Shoop\FluentTypes\{
     ESArray,
-    ESBool,
+    ESBoolean,
     ESDictionary,
     ESInt,
     ESJson,
@@ -31,7 +31,7 @@ trait WrapImp
     {
         $count = Type::sanitizeType($count, ESInt::class)->unfold();
         $array = $this->array()->unfold();
-        if (Type::is($this, ESBool::class)) {
+        if (Type::is($this, ESBoolean::class)) {
             $array = $this->dictionary()->unfolded();
 
         }
@@ -65,7 +65,7 @@ trait WrapImp
     {
         $count = Type::sanitizeType($count, ESInt::class)->unfold();
         $array = $this->arrayUnfolded();
-        if (Type::is($this, ESBool::class)) {
+        if (Type::is($this, ESBoolean::class)) {
             $array = $this->dictionaryUnfolded();
 
         }
@@ -205,12 +205,12 @@ trait WrapImp
         }
     }
 
-    public function doesNotStartWith(...$needles): ESBool
+    public function doesNotStartWith(...$needles): ESBoolean
     {
         return $this->startsWith(...$needles)->toggle();
     }
 
-    public function doesNotEndWith(...$needles): ESBool
+    public function doesNotEndWith(...$needles): ESBoolean
     {
         return $this->endsWith(...$needles)->toggle();
     }

@@ -4,12 +4,10 @@ namespace Eightfold\Shoop\Tests\Shooped;
 
 use PHPUnit\Framework\TestCase;
 
-
-
 use Eightfold\Shoop\Shoop;
 use Eightfold\Shoop\FluentTypes\{
     ESArray,
-    ESBool,
+    ESBooleanean,
     ESDictionary,
     ESInt,
     ESJson,
@@ -18,9 +16,11 @@ use Eightfold\Shoop\FluentTypes\{
 };
 
 /**
- * The `bool()` method converts the Shoop type to an `ESBool` type.
+ * @group  BooleanFluent
  *
- * @return Eightfold\Shoop\ESBool
+ * The `boolean()` method converts the Shoop type to an `ESBooleanean` type.
+ *
+ * @return Eightfold\Shoop\ESBooleanean
  */
 class BoolTest extends TestCase
 {
@@ -29,22 +29,22 @@ class BoolTest extends TestCase
      */
     public function testESArray()
     {
-        $actual = ESArray::fold(['testing'])->bool();
+        $actual = ESArray::fold(['testing'])->boolean();
         $this->assertTrue($actual->unfold());
 
-        $actual = ESArray::fold([])->bool();
+        $actual = ESArray::fold([])->boolean();
         $this->assertFalse($actual->unfold());
     }
 
     /**
-     * @return Eightfold\Shoop\ESBool The same value.
+     * @return Eightfold\Shoop\ESBooleanean The same value.
      */
-    public function testESBool()
+    public function testESBooleanean()
     {
-        $actual = ESBool::fold(true)->bool();
+        $actual = ESBooleanean::fold(true)->boolean();
         $this->assertTrue($actual->unfold());
 
-        $actual = ESBool::fold(false)->bool();
+        $actual = ESBooleanean::fold(false)->boolean();
         $this->assertFalse($actual->unfold());
     }
 
@@ -53,7 +53,7 @@ class BoolTest extends TestCase
      */
     public function testESDictionary()
     {
-        $actual = ESDictionary::fold([])->bool();
+        $actual = ESDictionary::fold([])->boolean();
         $this->assertFalse($actual->unfold());
     }
 
@@ -62,10 +62,10 @@ class BoolTest extends TestCase
      */
     public function testESInt()
     {
-        $actual = ESInt::fold(1)->bool();
+        $actual = ESInt::fold(1)->boolean();
         $this->assertTrue($actual->unfold());
 
-        $actual = ESInt::fold(0)->bool();
+        $actual = ESInt::fold(0)->boolean();
         $this->assertFalse($actual->unfold());
     }
 
@@ -74,10 +74,10 @@ class BoolTest extends TestCase
      */
     public function testESJson()
     {
-        $actual = ESJson::fold('{"test":"test"}')->bool();
+        $actual = ESJson::fold('{"test":"test"}')->boolean();
         $this->assertTrue($actual->unfold());
 
-        $actual = ESJson::fold('{}')->bool();
+        $actual = ESJson::fold('{}')->boolean();
         $this->assertFalse($actual->unfold());
     }
 
@@ -88,11 +88,11 @@ class BoolTest extends TestCase
     {
         $object = new \stdClass();
 
-        $actual = ESObject::fold($object)->bool();
+        $actual = ESObject::fold($object)->boolean();
         $this->assertFalse($actual->unfold());
 
         $object->name = "hello";
-        $actual = ESObject::fold($object)->bool();
+        $actual = ESObject::fold($object)->boolean();
         $this->assertTrue($actual->unfold());
     }
 
@@ -101,10 +101,10 @@ class BoolTest extends TestCase
      */
     public function testESString()
     {
-        $actual = ESString::fold("")->bool();
+        $actual = ESString::fold("")->boolean();
         $this->assertFalse($actual->unfold());
 
-        $actual = ESString::fold("hello")->bool();
+        $actual = ESString::fold("hello")->boolean();
         $this->assertTrue($actual->unfold());
     }
 }

@@ -9,7 +9,7 @@ use PHPUnit\Framework\TestCase;
 use Eightfold\Shoop\Shoop;
 use Eightfold\Shoop\FluentTypes\{
     ESArray,
-    ESBool,
+    ESBoolean,
     ESDictionary,
     ESInt,
     ESJson,
@@ -37,16 +37,16 @@ class IntTest extends TestCase
     /**
      * @see PhpTypeJuggle::boolToInt
      */
-    public function testESBool()
+    public function testESBoolean()
     {
         $expected = 1;
 
-        $actual = ESBool::fold(true)->int();
+        $actual = ESBoolean::fold(true)->int();
         $this->assertEquals($expected, $actual->unfold());
 
         $expected = 0;
 
-        $actual = ESBool::fold(false)->int();
+        $actual = ESBoolean::fold(false)->int();
         $this->assertEquals($expected, $actual->unfold());
     }
 

@@ -2,11 +2,11 @@
 
 namespace Eightfold\Shoop\FluentTypes\Interfaces;
 
-use Eightfold\Shoop\FluentTypes\ESBool;
+use Eightfold\Shoop\FluentTypes\ESBoolean;
 
 interface Wrap
 {
-    // Does not make sense on ESBool, ESInt
+    // Does not make sense on ESBoolean, ESInt
     public function first();
 
     public function last();
@@ -20,11 +20,11 @@ interface Wrap
     public function startsWith(...$needles);
 
     // public function doesNotStartWith(string|array $needles, \Closure $closure = null)
-    public function doesNotStartWith(...$needles): ESBool;
+    public function doesNotStartWith(...$needles): ESBoolean;
 
     // public function endsWith(string|array $needles, \Closure $closure = null)
     public function endsWith(...$needles);
 
     // public function doesNotEndWith(string|array $needles, \Closure $closure = null)
-    public function doesNotEndWith(...$needles): ESBool;
+    public function doesNotEndWith(...$needles): ESBoolean;
 }

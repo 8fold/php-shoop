@@ -8,7 +8,7 @@ use Eightfold\Shoop\PipeFilters\Minus;
 
 trait StrippableImp
 {
-    // TODO: PHP 8.0 bool|ESBool, bool|ESBool, string|ESString
+    // TODO: PHP 8.0 bool|ESBoolean, bool|ESBoolean, string|ESString
     public function strip(
         $charMask  = " \t\n\r\0\x0B",
         $fromEnd   = true,

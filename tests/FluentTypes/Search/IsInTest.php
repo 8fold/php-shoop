@@ -9,7 +9,7 @@ use PHPUnit\Framework\TestCase;
 use Eightfold\Shoop\Shoop;
 use Eightfold\Shoop\FluentTypes\{
     ESArray,
-    ESBool,
+    ESBoolean,
     ESDictionary,
     ESInt,
     ESJson,
@@ -19,7 +19,7 @@ use Eightfold\Shoop\FluentTypes\{
 /**
  * The `isIn()` checks if the given `Shoop type` `has()` the value of the original `Shoop type`.
  *
- * @return Eightfold\Shoop\ESBool
+ * @return Eightfold\Shoop\ESBoolean
  */
 class IsInTest extends TestCase
 {
@@ -32,11 +32,11 @@ class IsInTest extends TestCase
         $this->assertTrue($actual->unfold());
     }
 
-    public function testESBool()
+    public function testESBoolean()
     {
         $base = true;
         $container = [false, false, false];
-        $actual = ESBool::fold($base)->isIn($container);
+        $actual = ESBoolean::fold($base)->isIn($container);
         $this->assertFalse($actual->unfold());
     }
 

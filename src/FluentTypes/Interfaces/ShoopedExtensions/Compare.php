@@ -4,7 +4,7 @@ namespace Eightfold\Shoop\FluentTypes\Interfaces\ShoopedExtensions;
 
 use \Closure;
 
-use Eightfold\Shoop\FluentTypes\ESBool;
+use Eightfold\Shoop\FluentTypes\ESBoolean;
 
 interface Compare
 {

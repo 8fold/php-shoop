@@ -9,7 +9,7 @@ use PHPUnit\Framework\TestCase;
 use Eightfold\Shoop\Shoop;
 use Eightfold\Shoop\FluentTypes\{
     ESArray,
-    ESBool,
+    ESBoolean,
     ESDictionary,
     ESInt,
     ESJson,
@@ -38,9 +38,9 @@ class InterfaceIteratorLoopTest extends TestCase
     /**
      * Uses ESDicionary
      */
-    public function testESBool()
+    public function testESBoolean()
     {
-        $base = ESBool::fold(false);
+        $base = ESBoolean::fold(false);
 
         $expectedTrue = ["true" => false];
         $expectedFalse = ["false" => true];

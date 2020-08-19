@@ -7,7 +7,7 @@ use PHPUnit\Framework\TestCase;
 use Eightfold\Shoop\FluentTypes\{
 
     ESArray,
-    ESBool,
+    ESBoolean,
     ESDictionary,
     ESInt,
     ESJson,
@@ -37,20 +37,20 @@ class ObjectTest extends TestCase
     /**
      * @see PhpBool::toObject
      */
-    public function testESBool()
+    public function testESBoolean()
     {
         $expected = new \stdClass();
         $expected->true = true;
         $expected->false = false;
 
-        $actual = ESBool::fold(true)->object();
+        $actual = ESBoolean::fold(true)->object();
         $this->assertEquals($expected, $actual->unfold());
 
         $expected = new \stdClass();
         $expected->true = false;
         $expected->false = true;
 
-        $actual = ESBool::fold(false)->object();
+        $actual = ESBoolean::fold(false)->object();
         $this->assertEquals($expected, $actual->unfold());
     }
 

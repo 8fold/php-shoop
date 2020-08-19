@@ -5,18 +5,18 @@ namespace Eightfold\Shoop\FluentTypes\Contracts;
 use Eightfold\Shoop\PipeFilters;
 
 use Eightfold\Shoop\FluentTypes\ESArray;
-use Eightfold\Shoop\FluentTypes\ESBool;
+use Eightfold\Shoop\FluentTypes\ESBoolean;
 
 trait ArrayableImp
 {
     private $temp;
 
-    // TODO: PHP 8.0 - int|ESInt -> any|ESBool
+    // TODO: PHP 8.0 - int|ESInt -> any|ESBoolean
     // TODO: Test callable
     public function hasMember($member, callable $closure = null)
     {
         $bool   =  $this->offsetExists($member);
-        $bool   = ESBool::fold($bool);
+        $bool   = ESBoolean::fold($bool);
         $string = static::fold($this->main);
         return ($closure === null) ? $bool : $closure($bool, $string);
     }

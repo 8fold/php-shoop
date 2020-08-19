@@ -9,7 +9,7 @@ use PHPUnit\Framework\TestCase;
 use Eightfold\Shoop\Shoop;
 use Eightfold\Shoop\FluentTypes\{
     ESArray,
-    ESBool,
+    ESBoolean,
     ESDictionary,
     ESInt,
     ESJson,
@@ -35,9 +35,9 @@ class InterfaceIteratorValidTest extends TestCase
         $this->assertFalse($array->valid());
     }
 
-    public function testESBool()
+    public function testESBoolean()
     {
-        $actual = ESBool::fold(true);
+        $actual = ESBoolean::fold(true);
         $this->assertTrue($actual->valid());
     }
 

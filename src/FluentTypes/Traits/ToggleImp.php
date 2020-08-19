@@ -13,7 +13,7 @@ use Eightfold\Shoop\FluentTypes\Helpers\{
 use Eightfold\Shoop\Shoop;
 use Eightfold\Shoop\FluentTypes\{
     ESArray,
-    ESBool,
+    ESBoolean,
     ESInt,
     ESString,
     ESObject,
@@ -30,7 +30,7 @@ trait ToggleImp
             $array = PhpAssociativeArray::reversed($array, $preserveMembers);
             return Shoop::array($array);
 
-        } elseif (Type::is($this, ESBool::class)) {
+        } elseif (Type::is($this, ESBoolean::class)) {
             $bool = $this->boolUnfolded();
             $bool = ! $bool;
             return Shoop::bool($bool);

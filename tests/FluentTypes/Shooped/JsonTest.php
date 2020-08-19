@@ -9,7 +9,7 @@ use PHPUnit\Framework\TestCase;
 use Eightfold\Shoop\Shoop;
 use Eightfold\Shoop\FluentTypes\{
     ESArray,
-    ESBool,
+    ESBoolean,
     ESDictionary,
     ESInt,
     ESJson,
@@ -43,10 +43,10 @@ class JsonTest extends TestCase
     /**
      * @see PhpBool::toJson
      */
-    public function testESBool()
+    public function testESBoolean()
     {
         $expected = '{"true":true,"false":false}';
-        $actual = ESBool::fold(true)->json();
+        $actual = ESBoolean::fold(true)->json();
         $this->assertEquals($expected, $actual->unfold());
     }
 

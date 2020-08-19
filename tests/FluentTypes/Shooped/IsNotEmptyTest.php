@@ -9,7 +9,7 @@ use PHPUnit\Framework\TestCase;
 use Eightfold\Shoop\Shoop;
 use Eightfold\Shoop\FluentTypes\{
     ESArray,
-    ESBool,
+    ESBoolean,
     ESDictionary,
     ESInt,
     ESJson,
@@ -46,14 +46,14 @@ class IsNotEmptyTest extends TestCase
 
     }
 
-    public function testESBool()
+    public function testESBoolean()
     {
         $base = true;
-        $actual = ESBool::fold($base)->isNotEmpty();
+        $actual = ESBoolean::fold($base)->isNotEmpty();
         $this->assertTrue($actual->unfold());
 
         $base = false;
-        $actual = ESBool::fold($base)->isNotEmpty();
+        $actual = ESBoolean::fold($base)->isNotEmpty();
         $this->assertFalse($actual->unfold());
     }
 

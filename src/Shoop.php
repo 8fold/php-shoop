@@ -10,7 +10,7 @@ use Eightfold\Shoop\Helpers\Type;
 use Eightfold\Shoop\FluentTypes\Interfaces\Shooped;
 
 use Eightfold\Shoop\FluentTypes\ESArray;
-use Eightfold\Shoop\FluentTypes\ESBool;
+use Eightfold\Shoop\FluentTypes\ESBoolean;
 use Eightfold\Shoop\FluentTypes\ESDictionary;
 use Eightfold\Shoop\FluentTypes\ESInt;
 use Eightfold\Shoop\FluentTypes\ESJson;
@@ -35,10 +35,10 @@ class Shoop
         return static::this($array, ESArray::class);
     }
 
-    // TODO: PHP 8.0 bool|ESBool
-    static public function bool($bool): ESBool
+    // TODO: PHP 8.0 bool|ESBoolean
+    static public function bool($bool): ESBoolean
     {
-        return static::this($bool, ESBool::class);
+        return static::this($bool, ESBoolean::class);
     }
 
     // TODO: PHP 8.0 dictionary|ESDictionary

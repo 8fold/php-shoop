@@ -9,7 +9,7 @@ use PHPUnit\Framework\TestCase;
 use Eightfold\Shoop\Shoop;
 use Eightfold\Shoop\FluentTypes\{
     ESArray,
-    ESBool,
+    ESBoolean,
     ESDictionary,
     ESInt,
     ESJson,
@@ -36,11 +36,11 @@ class php_ToStringTest extends TestCase
         $this->assertEquals($expected, $actual);
     }
 
-    public function testESBool()
+    public function testESBoolean()
     {
         $expected = "true";
 
-        $actual = ESBool::fold(true);
+        $actual = ESBoolean::fold(true);
         $this->assertEquals($expected, $actual);
     }
 

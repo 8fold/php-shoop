@@ -9,7 +9,7 @@ use PHPUnit\Framework\TestCase;
 use Eightfold\Shoop\Shoop;
 use Eightfold\Shoop\FluentTypes\{
     ESArray,
-    ESBool,
+    ESBoolean,
     ESDictionary,
     ESInt,
     ESJson,
@@ -18,11 +18,11 @@ use Eightfold\Shoop\FluentTypes\{
 };
 
 /**
- * The `countIsLessThanOrEqualTo()` method converts the Shoop type using the `count()` method (using the PHP Countable interface) and uses the result to compare the given value to. The result ESBool and closure, if available, is then passed to the `isLessThanOrEqualTo()` method.
+ * The `countIsLessThanOrEqualTo()` method converts the Shoop type using the `count()` method (using the PHP Countable interface) and uses the result to compare the given value to. The result ESBoolean and closure, if available, is then passed to the `isLessThanOrEqualTo()` method.
  *
  * Note: Expects both values to be of the same type, Shoop type, or combination (cannot compare an `int` to a `bool`, for example).
  *
- * @return Eightfold\Shoop\ESBool
+ * @return Eightfold\Shoop\ESBoolean
  */
 class CountIsLessThanOrEqualToTest extends TestCase
 {
@@ -39,10 +39,10 @@ class CountIsLessThanOrEqualToTest extends TestCase
         $this->assertEquals($base, $actual->unfold());
     }
 
-    public function testESBool()
+    public function testESBoolean()
     {
         $base = true;
-        $actual = ESBool::fold($base)->countIsLessThanOrEqualTo(false);
+        $actual = ESBoolean::fold($base)->countIsLessThanOrEqualTo(false);
         $this->assertFalse($actual->unfold());
     }
 

@@ -8,7 +8,7 @@ use Eightfold\Shoop\Tests\TestCase;
 
 use Eightfold\Shoop\PipeFilters;
 
-use Eightfold\Shoop\ESJson;
+use Eightfold\Shoop\FluentTypes\ESJson;
 
 class ESJsonTest extends TestCase
 {

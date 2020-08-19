@@ -9,7 +9,7 @@ use PHPUnit\Framework\TestCase;
 use Eightfold\Shoop\Shoop;
 use Eightfold\Shoop\FluentTypes\{
     ESArray,
-    ESBool,
+    ESBoolean,
     ESDictionary,
     ESInt,
     ESJson,
@@ -32,12 +32,12 @@ class OffsetExistsTest extends TestCase
         $this->assertTrue($actual);
     }
 
-    public function testESBool()
+    public function testESBoolean()
     {
-        $actual = ESBool::fold(true)->offsetExists("true");
+        $actual = ESBoolean::fold(true)->offsetExists("true");
         $this->assertTrue($actual);
 
-        $actual = ESBool::fold(true)->offsetExists("false");
+        $actual = ESBoolean::fold(true)->offsetExists("false");
         $this->assertTrue($actual);
     }
 

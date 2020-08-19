@@ -23,7 +23,7 @@ class PhpJsonSerializableTest extends TestCase
         $this->assertEquals($expected, $actual);
     }
 
-    public function testESBool()
+    public function testESBoolean()
     {
         $expected = '{"true":true,"false":false}';
         $actual = json_encode(Shoop::bool(true));

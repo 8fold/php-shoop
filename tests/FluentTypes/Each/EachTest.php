@@ -9,7 +9,7 @@ use PHPUnit\Framework\TestCase;
 use Eightfold\Shoop\Shoop;
 use Eightfold\Shoop\FluentTypes\{
     ESArray,
-    ESBool,
+    ESBoolean,
     ESDictionary,
     ESInt,
     ESJson,
@@ -37,7 +37,7 @@ class EachTest extends TestCase
     /**
      * @not
      */
-    public function testESBool()
+    public function testESBoolean()
     {
         $this->assertFalse(false);
     }

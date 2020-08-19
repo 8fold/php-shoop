@@ -6,7 +6,7 @@ use PHPUnit\Framework\TestCase;
 
 use Eightfold\Shoop\Shoop;
 use Eightfold\Shoop\FluentTypes\ESArray;
-use Eightfold\Shoop\FluentTypes\ESBool;
+use Eightfold\Shoop\FluentTypes\ESBooleanean;
 use Eightfold\Shoop\FluentTypes\ESDictionary;
 use Eightfold\Shoop\FluentTypes\ESInt;
 use Eightfold\Shoop\FluentTypes\ESJson;
@@ -14,6 +14,8 @@ use Eightfold\Shoop\FluentTypes\ESObject;
 use Eightfold\Shoop\FluentTypes\ESString;
 
 /**
+ * @group ArrayFluent
+ *
  * The `array()` method typically converts the `Shoop type` to a `PHP indexed array` equivalent.
  *
  * @return Eightfold\Shoop\ESArray
@@ -34,11 +36,11 @@ class ArrayTest extends TestCase
     /**
      * @see PhpBool::toIndexedArray
      */
-    public function testESBool()
+    public function testESBooleanean()
     {
         $expected = [true];
 
-        $actual = ESBool::fold(true)->array();
+        $actual = ESBooleanean::fold(true)->array();
         $this->assertEquals($expected, $actual->unfold());
     }
 

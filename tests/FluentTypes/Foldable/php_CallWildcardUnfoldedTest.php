@@ -9,7 +9,7 @@ use PHPUnit\Framework\TestCase;
 use Eightfold\Shoop\Shoop;
 use Eightfold\Shoop\FluentTypes\{
     ESArray,
-    ESBool,
+    ESBoolean,
     ESDictionary,
     ESInt,
     ESJson,
@@ -34,10 +34,10 @@ class php_CallWildcardUnfoldedTest extends TestCase
         $this->assertTrue($result);
     }
 
-    public function testESBool()
+    public function testESBoolean()
     {
         $expected = [true];
-        $actual = ESBool::fold(true)->arrayUnfolded();
+        $actual = ESBoolean::fold(true)->arrayUnfolded();
         $this->assertEquals($expected, $actual);
     }
 

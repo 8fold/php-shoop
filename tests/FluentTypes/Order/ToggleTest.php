@@ -9,7 +9,7 @@ use Eightfold\Shoop\Type;
 use Eightfold\Shoop\Shoop;
 use Eightfold\Shoop\FluentTypes\{
     ESArray,
-    ESBool,
+    ESBoolean,
     ESDictionary,
     ESInt,
     ESJson,
@@ -37,9 +37,9 @@ class ToggleTest extends TestCase
     }
 
     /**
-     * @return Eightfold\Shoop\ESBool True becomes false, and false becomes true.
+     * @return Eightfold\Shoop\ESBoolean True becomes false, and false becomes true.
      */
-    public function testESBool()
+    public function testESBoolean()
     {
         $actual = Shoop::bool(true)->toggle();
         $this->assertFalse($actual->unfold());

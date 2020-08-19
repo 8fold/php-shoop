@@ -9,7 +9,7 @@ use PHPUnit\Framework\TestCase;
 use Eightfold\Shoop\Shoop;
 use Eightfold\Shoop\FluentTypes\{
     ESArray,
-    ESBool,
+    ESBoolean,
     ESDictionary,
     ESInt,
     ESJson,
@@ -20,7 +20,7 @@ use Eightfold\Shoop\FluentTypes\{
 /**
  * The `startsWith()` method checks that the first atomic pieces of arrays, dictionary-like, and string objects end with the specified value.
  *
- * @return Eightfold\Shoop\ESBool
+ * @return Eightfold\Shoop\ESBoolean
  */
 class StartsWithTest extends TestCase
 {
@@ -29,7 +29,7 @@ class StartsWithTest extends TestCase
         $base = ["something", "hello", "world"];
 
         $actual = Shoop::array($base)->startsWith("something");
-        $this->assertEquals(ESBool::class, get_class($actual));
+        $this->assertEquals(ESBoolean::class, get_class($actual));
         $this->assertTrue($actual->unfold());
 
         $actual = Shoop::array($base)->startsWith(
@@ -45,7 +45,7 @@ class StartsWithTest extends TestCase
     /**
      * @not
      */
-    public function testESBool()
+    public function testESBoolean()
     {
         $this->assertFalse(false);
     }
@@ -55,7 +55,7 @@ class StartsWithTest extends TestCase
         $base = ["zero" => 0, "first" => 1, "second" => 2, "third" => 3];
 
         $actual = ESDictionary::fold($base)->startsWith(0, "zero", 1, "first");
-        $this->assertEquals(ESBool::class, get_class($actual));
+        $this->assertEquals(ESBoolean::class, get_class($actual));
         $this->assertTrue($actual->unfold());
 
         $actual = ESDictionary::fold($base)->startsWith(
@@ -81,7 +81,7 @@ class StartsWithTest extends TestCase
         $base = json_encode(["member" => "value", "member2" => "value2", "member3" => "value3"]);
 
         $actual = ESJson::fold($base)->startsWith("value", "member");
-        $this->assertEquals(ESBool::class, get_class($actual));
+        $this->assertEquals(ESBoolean::class, get_class($actual));
         $this->assertTrue($actual->unfold());
 
         $actual = ESJson::fold($base)->startsWith(
@@ -101,7 +101,7 @@ class StartsWithTest extends TestCase
         $base->testMember2 = 2;
 
         $actual = Shoop::object($base)->startsWith("test", "testMember");
-        $this->assertEquals(ESBool::class, get_class($actual));
+        $this->assertEquals(ESBoolean::class, get_class($actual));
         $this->assertTrue($actual->unfold());
 
         $actual = ESObject::fold($base)->startsWith(
@@ -118,7 +118,7 @@ class StartsWithTest extends TestCase
     {
         $base = "Hello, World!";
         $actual = Shoop::string($base)->startsWith("Hello, ");
-        $this->assertEquals(ESBool::class, get_class($actual));
+        $this->assertEquals(ESBoolean::class, get_class($actual));
         $this->assertTrue($actual->unfold());
 
         $actual = ESString::fold($base)->startsWith(

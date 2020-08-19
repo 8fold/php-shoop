@@ -20,7 +20,7 @@ use Eightfold\Shoop\Shoop;
 use Eightfold\Shoop\FluentTypes\{
     Interfaces\Foldable,
     ESArray,
-    ESBool,
+    ESBoolean,
     ESInt,
     ESString,
     ESObject,

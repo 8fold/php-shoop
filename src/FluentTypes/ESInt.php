@@ -29,7 +29,7 @@ class ESInt implements Shooped, Typeable//, MathOperations, Toggle, IsIn, Each
     //     if ($className === ESArray::class) {
     //         return PhpInt::toIndexedArray($instance->main());
 
-    //     } elseif ($className === ESBool::class) {
+    //     } elseif ($className === ESBoolean::class) {
     //         return PhpInt::toBool($instance->main());
 
     //     } elseif ($className === ESDictionary::class) {

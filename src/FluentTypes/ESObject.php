@@ -9,6 +9,10 @@ use Eightfold\Shoop\FluentTypes\Helpers\{
     PhpObject
 };
 
+// TODO: Shooped should probably extend these
+use Eightfold\Shoop\FluentTypes\Contracts\Typeable;
+use Eightfold\Shoop\FluentTypes\Contracts\TypeableImp;
+
 use Eightfold\Shoop\FluentTypes\Interfaces\{
     Shooped,
     MathOperations,
@@ -20,6 +24,7 @@ use Eightfold\Shoop\FluentTypes\Interfaces\{
     IsIn,
     Each
 };
+
 
 use Eightfold\Shoop\FluentTypes\Traits\{
     ShoopedImp,
@@ -33,16 +38,16 @@ use Eightfold\Shoop\FluentTypes\Traits\{
     EachImp
 };
 
-class ESObject implements Shooped, MathOperations, Sort, Toggle, Wrap, Drop, Has, IsIn, Each
+class ESObject implements Shooped, Typeable, MathOperations, Sort, Toggle, Wrap, Drop, Has, IsIn, Each
 {
-    use ShoopedImp, MathOperationsImp, SortImp, ToggleImp, WrapImp, DropImp, HasImp, IsInImp, EachImp;
+    use ShoopedImp, TypeableImp, MathOperationsImp, SortImp, ToggleImp, WrapImp, DropImp, HasImp, IsInImp, EachImp;
 
     static public function to(ESObject $instance, string $className)
     {
         if ($className === ESArray::class) {
             return PhpObject::toIndexedArray($instance->main());
 
-        } elseif ($className === ESBool::class) {
+        } elseif ($className === ESBoolean::class) {
             return PhpObject::toBool($instance->main());
 
         } elseif ($className === ESDictionary::class) {

@@ -9,7 +9,7 @@ use PHPUnit\Framework\TestCase;
 use Eightfold\Shoop\Shoop;
 use Eightfold\Shoop\FluentTypes\{
     ESArray,
-    ESBool,
+    ESBoolean,
     ESDictionary,
     ESInt,
     ESJson,
@@ -19,7 +19,7 @@ use Eightfold\Shoop\FluentTypes\{
 /**
  * The `hasMembers()` method checks if the given member exists in the `Shoop type`.
  *
- * @return Eightfold\Shoop\ESBool
+ * @return Eightfold\Shoop\ESBoolean
  */
 class HasMemberTest extends TestCase
 {
@@ -44,7 +44,7 @@ class HasMemberTest extends TestCase
     /**
      * @not
      */
-    public function testESBool()
+    public function testESBoolean()
     {
         $this->assertFalse(false);
     }

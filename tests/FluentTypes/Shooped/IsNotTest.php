@@ -9,7 +9,7 @@ use PHPUnit\Framework\TestCase;
 use Eightfold\Shoop\Shoop;
 use Eightfold\Shoop\FluentTypes\{
     ESArray,
-    ESBool,
+    ESBoolean,
     ESDictionary,
     ESInt,
     ESJson,
@@ -20,7 +20,7 @@ use Eightfold\Shoop\FluentTypes\{
 /**
  * @see Eightfold\Shoop\Helpers\Type::is
  *
- * @return Eightfold\Shoop\ESBool After toggling the return of `is()`.
+ * @return Eightfold\Shoop\ESBoolean After toggling the return of `is()`.
  */
 class IsNotTest extends TestCase
 {
@@ -31,10 +31,10 @@ class IsNotTest extends TestCase
         $this->assertFalse($actual->unfold());
     }
 
-    public function testESBool()
+    public function testESBoolean()
     {
         $base = true;
-        $actual = ESBool::fold($base)->isNot($base);
+        $actual = ESBoolean::fold($base)->isNot($base);
         $this->assertFalse($actual->unfold());
     }
 

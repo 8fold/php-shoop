@@ -12,7 +12,7 @@ use Eightfold\Shoop\Shoop;
 use Eightfold\Shoop\FluentTypes\{
     Interfaces\Shooped,
     ESArray,
-    ESBool,
+    ESBoolean,
     ESInt,
     ESString,
     ESObject,

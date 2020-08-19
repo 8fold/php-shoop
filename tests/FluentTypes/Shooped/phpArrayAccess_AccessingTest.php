@@ -9,7 +9,7 @@ use PHPUnit\Framework\TestCase;
 use Eightfold\Shoop\Shoop;
 use Eightfold\Shoop\FluentTypes\{
     ESArray,
-    ESBool,
+    ESBoolean,
     ESDictionary,
     ESInt,
     ESJson,
@@ -37,9 +37,9 @@ class ArrayAccessAccessingTest extends TestCase
         $this->assertEquals("goodbye", $array[1]);
     }
 
-    public function testESBool()
+    public function testESBoolean()
     {
-        $bool = ESBool::fold(false);
+        $bool = ESBoolean::fold(false);
 
         $expectedTrue = ["true" => false];
         $expectedFalse = ["false" => true];
