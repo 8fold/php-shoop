@@ -91,8 +91,6 @@ class TypeOfTest extends TestCase
 
     /**
      * @test
-     *
-     * @group current
      */
     public function collections()
     {

@@ -7,7 +7,14 @@ use Eightfold\Shoop\Tests\AssertEquals;
 
 use \stdClass;
 
-use Eightfold\Shoop\PipeFilters\TypeAs;
+use Eightfold\Shoop\PipeFilters\TypeAsBoolean;
+use Eightfold\Shoop\PipeFilters\TypeAsInteger;
+use Eightfold\Shoop\PipeFilters\TypeAsNumber;
+use Eightfold\Shoop\PipeFilters\TypeAsString;
+use Eightfold\Shoop\PipeFilters\TypeAsArray;
+use Eightfold\Shoop\PipeFilters\TypeAsDictionary;
+use Eightfold\Shoop\PipeFilters\TypeAsTuple;
+use Eightfold\Shoop\PipeFilters\TypeAsJson;
 
 /**
  * @group TypeChecking
@@ -23,45 +30,54 @@ class TypeAsTest extends TestCase
     {
         AssertEquals::applyWith(
             true,
-            TypeAs::applyWith("boolean"),
-            0.95
+            TypeAsBoolean::apply(),
+            1.102
         )->unfoldUsing(true);
 
         AssertEquals::applyWith(
-            0,
-            TypeAs::applyWith("integer")
-        )->unfoldUsing(false);
+            false,
+            TypeAsBoolean::apply()
+        )->unfoldUsing(0);
 
         AssertEquals::applyWith(
-            1.0,
-            TypeAs::applyWith("float")
-        )->unfoldUsing(true);
+            true,
+            TypeAsBoolean::apply()
+        )->unfoldUsing(100.0);
 
         AssertEquals::applyWith(
-            [true],
-            TypeAs::applyWith("array")
-        )->unfoldUsing(true);
+            false,
+            TypeAsBoolean::apply()
+        )->unfoldUsing([]);
 
         AssertEquals::applyWith(
-            ["true" => false, "false" => true],
-            TypeAs::applyWith("dictionary")
-        )->unfoldUsing(false);
+            false,
+            TypeAsBoolean::apply()
+        )->unfoldUsing(new stdClass);
 
         AssertEquals::applyWith(
-            (object) ["true" => true, "false" => false],
-            TypeAs::applyWith("tuple")
-        )->unfoldUsing(true);
+            false,
+            TypeAsBoolean::apply()
+        )->unfoldUsing(new class {});
 
         AssertEquals::applyWith(
-            '{"true":false,"false":true}',
-            TypeAs::applyWith("json")
-        )->unfoldUsing(false);
+            true,
+            TypeAsBoolean::apply()
+        )->unfoldUsing(new class {
+            public $public = "content";
+        });
+
+        AssertEquals::applyWith(
+            true,
+            TypeAsBoolean::apply()
+        )->unfoldUsing(["a" => true]);
     }
 
     /**
      * @test
+     *
+     * @group current
      */
-    public function numbers()
+    public function number()
     {
         AssertEquals::applyWith(
             true,

@@ -17,12 +17,12 @@ class AssertEquals extends TestCase implements Filterable
     private $filter;
 
     protected $start;
-    private $maxMs = 0.2; // 150 microseconds
+    private $maxMs = 0.3;
 
     public function __construct(
         $expected,
         Filterable $filter,
-        float $maxMs = 0.2
+        float $maxMs = 0.3
     )
     {
         $this->start = hrtime(true);

@@ -3,6 +3,7 @@
 namespace Eightfold\Shoop\Tests\PipeFilters;
 
 use Eightfold\Shoop\Tests\TestCase;
+use Eightfold\Shoop\Tests\AssertEquals;
 
 use \stdClass;
 
@@ -16,51 +17,44 @@ class FromTest extends TestCase
     /**
      * @test
      */
-    public function span_from_lists()
+    public function lists()
     {
         $using = [3, 2, 5, 4];
 
-        $this->start = hrtime(true);
-        $expected = [3, 2, 5, 4];
+        AssertEquals::applyWith(
+            [3, 2, 5, 4],
+            From::apply(),
+            0.3
+        )->unfoldUsing($using);
 
-        $actual = From::apply()->unfoldUsing($using);
-        $this->assertEqualsWithPerformance($expected, $actual, 2.1);
+        AssertEquals::applyWith(
+            [5, 4],
+            From::applyWith(-2),
+            0.35
+        )->unfoldUsing($using);
 
-        $this->start = hrtime(true);
-        $expected = [5, 4];
-
-        $actual = From::applyWith(-2)->unfoldUsing($using);
-        $this->assertEqualsWithPerformance($expected, $actual, 0.75);
-
-        $using = ["a" => 1, "b" => 2, "c" => 3, "d" => 4];
-
-        $this->start = hrtime(true);
-        $expected = ["b" => 2, "c" => 3];
-
-        $actual = From::applyWith(1, 2)->unfoldUsing($using);
-        $this->assertEqualsWithPerformance($expected, $actual);
+        AssertEquals::applyWith(
+            ["b" => 2, "c" => 3],
+            From::applyWith(1, 2),
+            0.35
+        )->unfoldUsing(["a" => 1, "b" => 2, "c" => 3, "d" => 4]);
     }
 
     /**
      * @test
      */
-    public function span_within_string()
+    public function strings()
     {
-        $using = "So, raise your glass!";
+        AssertEquals::applyWith(
+            "raise",
+            From::applyWith(4, 5),
+            0.8
+        )->unfoldUsing("So, raise your glass!");
 
-        $this->start = hrtime(true);
-        $expected = "raise";
-
-        $actual = From::applyWith(4, 5)->unfoldUsing($using);
-        $this->assertEqualsWithPerformance($expected, $actual, 4.75);
-
-        $using = '{"member":true,"member2":false}';
-
-        $this->start = hrtime(true);
-        $expected = '{"member2":false}';
-
-        $actual = From::applyWith(1, 1)->unfoldUsing($using);
-        $this->assertEqualsWithPerformance($expected, $actual, 4.45);
+        AssertEquals::applyWith(
+            '{"member2":false}',
+            From::applyWith(1, 1)
+        )->unfoldUsing('{"member":true,"member2":false}');
     }
 
     /**
