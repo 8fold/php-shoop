@@ -22,7 +22,25 @@ class TypeIs extends Filter
 
     public function __invoke($using): bool
     {
+        if ($this->type === "integer_list") {
+
+
+        } elseif ($this->type === "string_list") {
+
+        }
         $types = TypeOf::applyWith($this->strict)->unfoldUsing($using);
         return (in_array($this->type, $types)) ? true : false;
+    }
+
+    static public function integerList(array $using): bool
+    {
+        $integerList = array_filter($using, "is_int");
+        return count($using) === count($integerList);
+    }
+
+    static public function stringList(array $using): bool
+    {
+        $stringList = array_filter($using, "is_string");
+        return count($using) === count($stringList);
     }
 }
