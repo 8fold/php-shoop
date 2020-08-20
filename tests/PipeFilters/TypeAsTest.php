@@ -102,73 +102,48 @@ class TypeAsTest extends TestCase
             3,
             TypeAsInteger::apply()
         )->unfoldUsing((object) ["a" => 3, "b" => 4, "c" => 5]);
+
+        AssertEquals::applyWith(
+            3.2,
+            TypeAsNumber::apply()
+        )->unfoldUsing(3.2);
+    }
+
+    /**
+     * @test
+     */
+    public function strings()
+    {
+        AssertEquals::applyWith(
+            "true",
+            TypeAsString::apply()
+        )->unfoldUsing(true);
+
+        AssertEquals::applyWith(
+            "1",
+            TypeAsString::apply()
+        )->unfoldUsing(1);
+
+        AssertEquals::applyWith(
+            "1.25",
+            TypeAsString::apply()
+        )->unfoldUsing(1.25);
+
+        AssertEquals::applyWith(
+            "8fold!",
+            TypeAsString::apply()
+        )->unfoldUsing(["8", "f", "o", "l", "d", "!"]);
+
+        AssertEquals::applyWith(
+            "8!f!o!l!d!!",
+            TypeAsString::applyWith("!")
+        )->unfoldUsing(["8", "f", "o", "l", "d", "!"]);
     }
 
     /**
      * @test
      *
      * @group current
-     */
-    public function strings()
-    {
-        AssertEquals::applyWith(
-            ["8", "f", "o", "l", "d", "!"],
-            TypeAs::applyWith("array")
-        )->unfoldUsing("8fold!");
-
-        AssertEquals::applyWith(
-            ["8", "old!"],
-            TypeAs::applyWith("array", "f", false, 2)
-        )->unfoldUsing("8fold!");
-
-        AssertEquals::applyWith(
-            ["", "8", "f", "o", "l", "d", ""],
-            TypeAs::applyWith("array", "!", true)
-        )->unfoldUsing("!8!f!o!l!d!");
-
-        AssertEquals::applyWith(
-            true,
-            TypeAs::applyWith("boolean")
-        )->unfoldUsing("8fold!");
-
-        AssertEquals::applyWith(
-            false,
-            TypeAs::applyWith("boolean")
-        )->unfoldUsing("");
-
-        AssertEquals::applyWith(
-            6,
-            TypeAs::applyWith("integer")
-        )->unfoldUsing("8fold!");
-
-        AssertEquals::applyWith(
-            0,
-            TypeAs::applyWith("integer")
-        )->unfoldUsing("");
-
-        AssertEquals::applyWith(
-            ["i0" => "8", "i1" => "8!8"],
-            TypeAs::applyWith("dictionary", "!", false, 2)
-        )->unfoldUsing("8!8!8");
-
-        AssertEquals::applyWith(
-            (object) ["i0" => "8", "i1" => "8!8"],
-            TypeAs::applyWith("tuple", "!", false, 2)
-        )->unfoldUsing("8!8!8");
-
-        AssertEquals::applyWith(
-            '{"efs0":"8","efs1":"8!8"}',
-            TypeAs::applyWith("json", "!", false, 2, "efs")
-        )->unfoldUsing("8!8!8");
-
-        AssertEquals::applyWith(
-            "8fold!",
-            TypeAs::applyWith("string")
-        )->unfoldUsing(["8", "f", "o", "l", "d", "!"]);
-    }
-
-    /**
-     * @test
      */
     public function collections()
     {
