@@ -3,19 +3,9 @@
 namespace Eightfold\Shoop\Tests\PipeFilters;
 
 use Eightfold\Shoop\Tests\TestCase;
+use Eightfold\Shoop\Tests\AssertEquals;
 
 use \stdClass;
-
-use Eightfold\Shoop\PipeFilters\TypeJuggling\IsObject;
-use Eightfold\Shoop\PipeFilters\TypeJuggling\IsTuple;
-use Eightfold\Shoop\PipeFilters\TypeJuggling\IsList;
-use Eightfold\Shoop\PipeFilters\TypeJuggling\IsDictionary;
-use Eightfold\Shoop\PipeFilters\TypeJuggling\IsArray;
-use Eightfold\Shoop\PipeFilters\TypeJuggling\IsNumber;
-use Eightfold\Shoop\PipeFilters\TypeJuggling\IsFloat;
-use Eightfold\Shoop\PipeFilters\TypeJuggling\IsInteger;
-use Eightfold\Shoop\PipeFilters\TypeJuggling\IsString;
-use Eightfold\Shoop\PipeFilters\TypeJuggling\IsBoolean;
 
 use Eightfold\Shoop\PipeFilters\TypeIs;
 
@@ -31,21 +21,16 @@ class TypeIsTest extends TestCase
      */
     public function boolean()
     {
-        $using = true;
+        AssertEquals::applyWith(
+            true,
+            TypeIs::applyWith("boolean"),
+            0.25
+        )->unfoldUsing(true);
 
-        $this->start = hrtime(true);
-        $expected = true;
-
-        $actual = TypeIs::applyWith("boolean")->unfoldUsing($using);
-        $this->assertEqualsWithPerformance($expected, $actual, 0.75);
-
-        $using = false;
-
-        $this->start = hrtime(true);
-        $expected = true;
-
-        $actual = TypeIs::applyWith("boolean")->unfoldUsing($using);
-        $this->assertEqualsWithPerformance($expected, $actual);
+        AssertEquals::applyWith(
+            true,
+            TypeIs::applyWith("boolean")
+        )->unfoldUsing(false);
     }
 
     /**
@@ -53,30 +38,25 @@ class TypeIsTest extends TestCase
      */
     public function numbers()
     {
-        $using = 1;
+        AssertEquals::applyWith(
+            true,
+            TypeIs::applyWith("number")
+        )->unfoldUsing(1);
 
-        $expected = true;
+        AssertEquals::applyWith(
+            true,
+            TypeIs::applyWith("integer")
+        )->unfoldUsing(1);
 
-        $actual = TypeIs::applyWith("number")->unfoldUsing($using);
-        $this->assertEqualsWithPerformance($expected, $actual);
+        AssertEquals::applyWith(
+            true,
+            TypeIs::applyWith("integer")
+        )->unfoldUsing(1.0);
 
-        $actual = TypeIs::applyWith("integer")->unfoldUsing($using);
-        $this->assertEqualsWithPerformance($expected, $actual);
-
-        $using = 1.0;
-
-        $this->start = hrtime(true);
-        $expected = true;
-
-        $actual = TypeIs::applyWith("float")->unfoldUsing($using);
-        $this->assertEqualsWithPerformance($expected, $actual);
-
-        $using = 1.0;
-
-        $expected = true;
-
-        $actual = TypeIs::applyWith("float", true)->unfoldUsing($using);
-        $this->assertEqualsWithPerformance($expected, $actual);
+        AssertEquals::applyWith(
+            true,
+            TypeIs::applyWith("float")
+        )->unfoldUsing(1.0);
     }
 
     /**
@@ -84,69 +64,55 @@ class TypeIsTest extends TestCase
      */
     public function strings()
     {
-        $using = "";
+        AssertEquals::applyWith(
+            true,
+            TypeIs::applyWith("string")
+        )->unfoldUsing("");
 
-        $this->start = hrtime(true);
-        $expected = true;
+        AssertEquals::applyWith(
+            true,
+            TypeIs::applyWith("string")
+        )->unfoldUsing("8fold!");
 
-        $actual = TypeIs::applyWith("string")->unfoldUsing($using);
-        $this->assertEqualsWithPerformance($expected, $actual);
+        AssertEquals::applyWith(
+            true,
+            TypeIs::applyWith("string")
+        )->unfoldUsing("{}");
 
-        $using = "8fold!";
+        AssertEquals::applyWith(
+            true,
+            TypeIs::applyWith("json")
+        )->unfoldUsing("{}");
 
-        $this->start = hrtime(true);
-        $expected = true;
+        AssertEquals::applyWith(
+            true,
+            TypeIs::applyWith("tuple")
+        )->unfoldUsing("{}");
 
-        $actual = TypeIs::applyWith("string")->unfoldUsing($using);
-        $this->assertEqualsWithPerformance($expected, $actual);
+        AssertEquals::applyWith(
+            true,
+            TypeIs::applyWith("collection")
+        )->unfoldUsing("{}");
 
-        $using = "{}";
+        AssertEquals::applyWith(
+            true,
+            TypeIs::applyWith("string")
+        )->unfoldUsing("{hello}");
 
-        $expected = true;
+        AssertEquals::applyWith(
+            true,
+            TypeIs::applyWith("json")
+        )->unfoldUsing('{"hello":true}');
 
-        $actual = TypeIs::applyWith("string", true)->unfoldUsing($using);
-        $this->assertEqualsWithPerformance($expected, $actual);
+        AssertEquals::applyWith(
+            true,
+            TypeIs::applyWith("string")
+        )->unfoldUsing("{something");
 
-        $using = "{}";
-
-        $expected = true;
-
-        $actual = TypeIs::applyWith("json")->unfoldUsing($using);
-        $this->assertEqualsWithPerformance($expected, $actual);
-
-        $actual = TypeIs::applyWith("tuple")->unfoldUsing($using);
-        $this->assertEqualsWithPerformance($expected, $actual);
-
-        $actual = TypeIs::applyWith("collection")->unfoldUsing($using);
-        $this->assertEqualsWithPerformance($expected, $actual);
-
-        $using = "{hello}";
-
-        $expected = true;
-
-        $actual = TypeIs::applyWith("string")->unfoldUsing($using);
-        $this->assertEqualsWithPerformance($expected, $actual);
-
-        $using = '{"hello":true}';
-
-        $expected = true;
-
-        $actual = TypeIs::applyWith("json")->unfoldUsing($using);
-        $this->assertEqualsWithPerformance($expected, $actual);
-
-        $using = "{something";
-
-        $expected = true;
-
-        $actual = TypeIs::applyWith("string")->unfoldUsing($using);
-        $this->assertEqualsWithPerformance($expected, $actual);
-
-        $using = "somehing}";
-
-        $expected = true;
-
-        $actual = TypeIs::applyWith("string")->unfoldUsing($using);
-        $this->assertEqualsWithPerformance($expected, $actual);
+        AssertEquals::applyWith(
+            true,
+            TypeIs::applyWith("string")
+        )->unfoldUsing("somehing}");
     }
 
     /**
@@ -154,77 +120,70 @@ class TypeIsTest extends TestCase
      */
     public function collections()
     {
-        $using = [];
+        AssertEquals::applyWith(
+            true,
+            TypeIs::applyWith("collection")
+        )->unfoldUsing([]);
 
-        $expected = true;
+        AssertEquals::applyWith(
+            true,
+            TypeIs::applyWith("list")
+        )->unfoldUsing([]);
 
-        $actual = TypeIs::applyWith("collection")->unfoldUsing($using);
-        $this->assertEqualsWithPerformance($expected, $actual, 1.45);
+        AssertEquals::applyWith(
+            true,
+            TypeIs::applyWith("array")
+        )->unfoldUsing([0, 1, 2]);
 
-        $actual = TypeIs::applyWith("list")->unfoldUsing($using);
-        $this->assertEqualsWithPerformance($expected, $actual, 1.45);
+        AssertEquals::applyWith(
+            true,
+            TypeIs::applyWith("list")
+        )->unfoldUsing([0, 1, 2]);
 
-        $using = [0, 1, 2];
+        AssertEquals::applyWith(
+            true,
+            TypeIs::applyWith("array")
+        )->unfoldUsing([3 => "8fold", 4 => true]);
 
-        $this->start = hrtime(true);
-        $expected = true;
+        AssertEquals::applyWith(
+            false,
+            TypeIs::applyWith("array")
+        )->unfoldUsing(["a" => 1, "b" => 2, "c" => 3]);
 
-        $actual = TypeIs::applyWith("array")->unfoldUsing($using);
-        $this->assertEqualsWithPerformance($expected, $actual);
+        AssertEquals::applyWith(
+            false,
+            TypeIs::applyWith("dictionary")
+        )->unfoldUsing(["a" => 1, 1 => 2, "c" => 3]);
 
-        $expected = true;
+        AssertEquals::applyWith(
+            false,
+            TypeIs::applyWith("array")
+        )->unfoldUsing(["a" => 1, 1 => 2, "c" => 3]);
 
-        $actual = TypeIs::applyWith("list")->unfoldUsing($using);
-        $this->assertEqualsWithPerformance($expected, $actual);
+        AssertEquals::applyWith(
+            true,
+            TypeIs::applyWith("collection")
+        )->unfoldUsing(["a" => 1, 1 => 2, "c" => 3]);
 
-        $using = [3 => "8fold", 4 => true];
+        AssertEquals::applyWith(
+            true,
+            TypeIs::applyWith("list")
+        )->unfoldUsing(["a" => 1, 1 => 2, "c" => 3]);
 
-        $actual = TypeIs::applyWith("array")->unfoldUsing($using);
-        $this->assertEqualsWithPerformance($expected, $actual);
+        AssertEquals::applyWith(
+            true,
+            TypeIs::applyWith("tuple")
+        )->unfoldUsing(new stdClass);
 
-        $expected = ["collection", "list", "array"];
-
-        $using = ["a" => 1, "b" => 2, "c" => 3];
-
-        $expected = true;
-
-        $actual = TypeIs::applyWith("dictionary")->unfoldUsing($using);
-        $this->assertEqualsWithPerformance($expected, $actual);
-
-        $using = ["a" => 1, 1 => 2, "c" => 3];
-
-        $expected = false;
-
-        $actual = TypeIs::applyWith("dictionary")->unfoldUsing($using);
-        $this->assertEqualsWithPerformance($expected, $actual);
-
-        $actual = TypeIs::applyWith("array")->unfoldUsing($using);
-        $this->assertEqualsWithPerformance($expected, $actual);
-
-        $expected = true;
-
-        $actual = TypeIs::applyWith("collection")->unfoldUsing($using);
-        $this->assertEqualsWithPerformance($expected, $actual);
-
-        $actual = TypeIs::applyWith("list")->unfoldUsing($using);
-        $this->assertEqualsWithPerformance($expected, $actual);
-
-        $using = new stdClass;
-
-        $expected = true;
-
-        $actual = TypeIs::applyWith("tuple")->unfoldUsing($using);
-        $this->assertEqualsWithPerformance($expected, $actual);
-
-        $using = new class {
-            public $public = "content";
-            private $private = "private";
-        };
-
-        $expected = true;
-
-        $actual = TypeIs::applyWith("collection")->unfoldUsing($using);
-        $this->assertEqualsWithPerformance($expected, $actual);
+        AssertEquals::applyWith(
+            true,
+            TypeIs::applyWith("tuple")
+        )->unfoldUsing(
+            new class {
+               public $public = "content";
+                private $private = "private";
+            }
+        );
     }
 
     /**
@@ -232,18 +191,18 @@ class TypeIsTest extends TestCase
      */
     public function objects()
     {
-        $sut = new class {
-            public $public = "content";
-            private $private = "private";
-            public function someAction()
-            {
-                return false;
+        AssertEquals::applyWith(
+            true,
+            TypeIs::applyWith("object")
+        )->unfoldUsing(
+            new class {
+               public $public = "content";
+                private $private = "private";
+                public function someAction()
+                {
+                    return false;
+                }
             }
-        };
-
-        $expected = true;
-
-        $actual = TypeIs::applyWith("object")->unfoldUsing($sut);
-        $this->assertEqualsWithPerformance($expected, $actual);
+        );
     }
 }

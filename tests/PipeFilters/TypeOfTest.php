@@ -11,6 +11,8 @@ use Eightfold\Shoop\PipeFilters\TypeOf;
 
 /**
  * @group TypeChecking
+ *
+ * TODO: MaxMS = 0.01
  */
 class TypeOfTest extends TestCase
 {

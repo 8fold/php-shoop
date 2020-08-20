@@ -82,7 +82,9 @@ class TypeAs extends Filter
 
             }
 
-        } elseif (TypeIs::applyWith("string")->unfoldUsing($using)) {
+        } elseif (TypeIs::applyWith("string")->unfoldUsing($using) and
+            ! TypeIs::applyWith("json")->unfoldUsing($using)
+        ) {
             if (is_int($this->secondary)) {
                 $this->secondary = "";
             }
