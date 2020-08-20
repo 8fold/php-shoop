@@ -188,50 +188,43 @@ class TypeAsTest extends TestCase
 
     /**
      * @test
-     *
-     * @group current
      */
     public function dictionary()
     {
-        // AssertEquals::applyWith(
-        //     [false],
-        //     TypeAsArray::apply()
-        // )->unfoldUsing(false);
+        AssertEquals::applyWith(
+            ["true" => true, "false" => false],
+            TypeAsDictionary::apply()
+        )->unfoldUsing(true);
 
-        // AssertEquals::applyWith(
-        //     [0, 1, 2],
-        //     TypeAsArray::apply()
-        // )->unfoldUsing(2);
+        AssertEquals::applyWith(
+            ["true" => false, "false" => true],
+            TypeAsDictionary::apply()
+        )->unfoldUsing(false);
 
-        // AssertEquals::applyWith(
-        //     [1, 2],
-        //     TypeAsArray::applyWith(1)
-        // )->unfoldUsing(2);
+        AssertEquals::applyWith(
+            ["i0" => 0, "i1" => 1],
+            TypeAsDictionary::apply()
+        )->unfoldUsing(1);
 
-        // AssertEquals::applyWith(
-        //     ["8", "f", "o", "l", "d"],
-        //     TypeAsArray::apply()
-        // )->unfoldUsing("8fold");
+        AssertEquals::applyWith(
+            ["efs0" => 2, "efs1" => 3, "efs2" => 4],
+            TypeAsDictionary::applyWith(2, "efs")
+        )->unfoldUsing(4);
 
-        // AssertEquals::applyWith(
-        //     ["8f", "ld"],
-        //     TypeAsArray::applyWith("o")
-        // )->unfoldUsing("8fold");
+        AssertEquals::applyWith(
+            ["efs0" => 2, "efs1" => 3, "efs2" => 4],
+            TypeAsDictionary::applyWith("efs")
+        )->unfoldUsing([2, 3, 4]);
 
-        // AssertEquals::applyWith(
-        //     ["", "8", "8", ""],
-        //     TypeAsArray::applyWith("!")
-        // )->unfoldUsing("!8!8!");
+        AssertEquals::applyWith(
+            ["efs0" => 2, "efs1" => 3, "efs2" => 4],
+            TypeAsDictionary::applyWith("efs")
+        )->unfoldUsing([2, 3, 4]);
 
-        // AssertEquals::applyWith(
-        //     ["8", "8"],
-        //     TypeAsArray::applyWith("!", false)
-        // )->unfoldUsing("!8!8!");
-
-        // AssertEquals::applyWith(
-        //     ["8", "*!8!"],
-        //     TypeAsArray::applyWith("!", false, 2)
-        // )->unfoldUsing("8!*!8!");
+        AssertEquals::applyWith(
+            ["efs0" => "8", "efs1" => "f"],
+            TypeAsDictionary::applyWith("!", false, 2, "efs")
+        )->unfoldUsing("8!f");
     }
 
     /**
