@@ -7,6 +7,7 @@ use Eightfold\Foldable\Filter;
 
 use \stdClass;
 
+// TODO: TypesFor
 class TypeOf extends Filter
 {
     private $strict = false;
@@ -23,55 +24,41 @@ class TypeOf extends Filter
             $types[] = "boolean";
 
         } elseif (! is_string($using) and is_numeric($using)) {
-            if (! $this->strict) {
-                $types[] = "number";
-            }
+            $types[] = "number";
 
-            $string      = strval($using);
-            $pointCheck  = explode(".", $string, 2);
+            $string     = strval($using);
+            $pointCheck = explode(".", $string, 2);
 
-            if (($this->strict and is_integer($using)) or
-                (! $this->strict and count($pointCheck) === 1)
-            ) {
+            if (is_integer($using) or count($pointCheck) === 1) {
                 $types[] = "integer";
-
             }
 
             if (is_float($using)) {
                 $types[] = "float";
-
             }
 
         } elseif (is_string($using)) {
-            if ($this->strict) {
-                $types[] = "string";
+            $types[] = "string";
 
-            } elseif (! $this->strict) {
-                $length = strlen($using);
-                $mightBeJson = true;
-                if ($length < 2) {
-                    $mightBeJson = false;
+            $mightBeJson = true;
+            if (strlen($using) < 2) {
+                $mightBeJson = false;
 
-                } elseif ($using[0] !== "{") {
-                    $mightBeJson = false;
+            } elseif ($using[0] !== "{") {
+                $mightBeJson = false;
 
-                } elseif ($using[$length - 1] !== "}") {
-                    $mightBeJson = false;
+            } elseif ($using[strlen($using) - 1] !== "}") {
+                $mightBeJson = false;
 
-                } elseif (! is_object(json_decode($using))) {
-                    $mightBeJson = false;
+            } elseif (! is_object(json_decode($using))) {
+                $mightBeJson = false;
 
-                }
+            }
 
-                if ($mightBeJson and json_last_error() === JSON_ERROR_NONE) {
-                    $types[] = "collection";
-                    $types[] = "tuple";
-                    $types[] = "json";
-
-                } else {
-                    $types[] = "string";
-
-                }
+            if ($mightBeJson and json_last_error() === JSON_ERROR_NONE) {
+                $types[] = "collection";
+                $types[] = "tuple";
+                $types[] = "json";
             }
 
         } elseif (is_array($using) or is_object($using)) {
@@ -87,11 +74,19 @@ class TypeOf extends Filter
             } elseif (is_array($using)) {
                 $types[] = "collection";
                 $types[] = "list";
+
                 if (count($using) > 0) {
                     $members       = array_keys($using);
                     $intMembers    = array_filter($members, "is_int");
                     $stringMembers = array_filter($members, "is_string");
-                    if (count($intMembers) > 0 and
+
+                    if (count($stringMembers) > 0 and
+                        count($stringMembers) === count($using)
+                    ) {
+                        // all keys are strings
+                        $types[] = "dictionary";
+
+                    } elseif (count($intMembers) > 0 and
                         count($intMembers) === count($using)
                     ) {
                         // all keys are integers
@@ -99,22 +94,21 @@ class TypeOf extends Filter
                         $start = $members[0];
                         $end   = $members[$count - 1];
                         $range = range($start, $end);
+
                         if ($members === $range) {
                             // members are sequential
                             $types[] = "array";
 
                         }
-
-                    } elseif (count($stringMembers) > 0 and
-                        count($stringMembers) === count($using)
-                    ) {
-                        // all keys are strings
-                        $types[] = "dictionary";
-
                     }
                 }
             }
         }
         return $types;
+    }
+
+    static private function isBoolean($using, &$types = [])
+    {
+        $types[] = "boolean";
     }
 }

@@ -8,11 +8,13 @@ use \stdClass;
 
 use Eightfold\Shoop\Shoop;
 
-use Eightfold\Shoop\Interfaces\Falsifiable;
+use Eightfold\Shoop\FluentTypes\Contracts\Falsifiable;
 
-use Eightfold\Shoop\PipeFilters\TypeJuggling\AsBoolean;
+// use Eightfold\Shoop\PipeFilters\TypeJuggling\AsBoolean;
 
 use Eightfold\Shoop\PipeFilters\IsEmpty;
+
+use Eightfold\Shoop\PipeFilters\TypeAs;
 
 /**
  * @group PhpDeviations
@@ -41,7 +43,7 @@ class EmptinessAndFalsinessTest extends TestCase
      *
      * @see   https://wiki.php.net/rfc/objects-can-be-falsifiable
      */
-    public function empty_object_is_also_false()
+    public function empty_class_is_false_and_empty()
     {
         $using = new class {};
 
@@ -58,18 +60,22 @@ class EmptinessAndFalsinessTest extends TestCase
         $this->start = hrtime(true);
         $expected = false;
 
-        $bool = AsBoolean::apply()->unfoldUsing($using);
-        $this->assertEqualsWithPerformance($expected, $bool, 12.9);
+        $bool = TypeAs::applyWith("boolean")->unfoldUsing($using);
+        $this->assertEqualsWithPerformance($expected, $bool, 1.2);
 
         $this->start = hrtime(true);
         $expected = true;
 
         $bool = IsEmpty::apply()->unfoldUsing($using);
-        $this->assertEqualsWithPerformance($expected, $bool, 0.9);
+        $this->assertEqualsWithPerformance($expected, $bool);
     }
 
-    public function object_with_public_content_matches_php()
+    /**
+     * @test
+     */
+    public function class_with_public_property_true_and_not_empty()
     {
+        // tuple
         $using = new class {
             public $property = "8fold";
         };
@@ -87,15 +93,19 @@ class EmptinessAndFalsinessTest extends TestCase
         $this->start = hrtime(true);
         $expected = true;
 
-        $bool = AsBoolean::apply()->unfoldUsing($using);
-        $this->assertEqualsWithPerformance($expected, $bool);
+        $bool = TypeAs::applyWith("boolean")->unfoldUsing($using);
+        $this->assertEqualsWithPerformance($expected, $bool, 1.35);
 
+        $this->start = hrtime(true);
         $expected = false;
 
         $bool = IsEmpty::apply()->unfoldUsing($using);
         $this->assertEqualsWithPerformance($expected, $bool);
     }
 
+    /**
+     * @test
+     */
     public function falsifiable_object_returning_false_is_false_but_not_empty()
     {
         // falsifiable is false
@@ -116,14 +126,14 @@ class EmptinessAndFalsinessTest extends TestCase
         $this->start = hrtime(true);
         $expected = false;
 
-        $bool = AsBoolean::apply()->unfoldUsing($using);
-        $this->assertEqualsWithPerformance($expected, $bool, 0.65);
+        $bool = TypeAs::applyWith("boolean")->unfoldUsing($using);
+        $this->assertEqualsWithPerformance($expected, $bool, 1.35);
 
         $this->start = hrtime(true);
         $expected = false;
 
         $bool = IsEmpty::apply()->unfoldUsing($using);
-        $this->assertEqualsWithPerformance($expected, $bool, 1);
+        $this->assertEqualsWithPerformance($expected, $bool);
     }
 
     /**
@@ -142,17 +152,21 @@ class EmptinessAndFalsinessTest extends TestCase
         $this->assertTrue($bool);
 
         // Shoop
-        $bool = AsBoolean::apply()->unfoldUsing($using);
-        $this->assertEqualsWithPerformance(false, $bool, 1.3);
+        $this->start = hrtime(true);
+        $expected = false;
+
+        $bool = TypeAs::applyWith("boolean")->unfoldUsing($using);
+        $this->assertEqualsWithPerformance($expected, $bool, 1.4);
 
         $this->start = hrtime(true);
+        $expected = true;
+
         $bool = IsEmpty::apply()->unfoldUsing($using);
-        $this->assertEqualsWithPerformance(true, $bool, 0.9);
+        $this->assertEqualsWithPerformance($expected, $bool);
 
         // true
         $using = true;
 
-        $this->start = hrtime(true);
         // PHP
         $bool = (bool) $using;
         $this->assertTrue($bool);
@@ -161,8 +175,10 @@ class EmptinessAndFalsinessTest extends TestCase
         $this->assertFalse($bool);
 
         // Shoop
-        $bool = AsBoolean::apply()->unfoldUsing($using);
-        $this->assertEqualsWithPerformance(true, $bool);
+        $expected = true;
+
+        $bool = TypeAs::applyWith("boolean")->unfoldUsing($using);
+        $this->assertEqualsWithPerformance($expected, $bool);
 
         $bool = IsEmpty::apply()->unfoldUsing($using);
         $this->assertEqualsWithPerformance(false, $bool);
@@ -185,12 +201,16 @@ class EmptinessAndFalsinessTest extends TestCase
 
         // Shoop
         $this->start = hrtime(true);
-        $bool = AsBoolean::apply()->unfoldUsing($using);
-        $this->assertEqualsWithPerformance(false, $bool);
+        $expected = false;
+
+        $bool = TypeAs::applyWith("boolean")->unfoldUsing($using);
+        $this->assertEqualsWithPerformance($expected, $bool, 1.3);
 
         $this->start = hrtime(true);
+        $expected = true;
+
         $bool = IsEmpty::apply()->unfoldUsing($using);
-        $this->assertEqualsWithPerformance(true, $bool);
+        $this->assertEqualsWithPerformance($expected, $bool);
 
         // true
         $using = 100;
@@ -203,11 +223,11 @@ class EmptinessAndFalsinessTest extends TestCase
         $this->assertFalse($bool);
 
         // Shoop
-        $this->start = hrtime(true);
-        $bool = AsBoolean::apply()->unfoldUsing($using);
+        $expected = true;
+
+        $bool = TypeAs::applyWith("boolean")->unfoldUsing($using);
         $this->assertEqualsWithPerformance(true, $bool);
 
-        // $this->start = hrtime(true);
         $bool = IsEmpty::apply()->unfoldUsing($using);
         $this->assertEqualsWithPerformance(false, $bool);
 
@@ -222,11 +242,11 @@ class EmptinessAndFalsinessTest extends TestCase
         $this->assertFalse($bool);
 
         // Shoop
-        $this->start = hrtime(true);
-        $bool = AsBoolean::apply()->unfoldUsing($using);
-        $this->assertEqualsWithPerformance(true, $bool);
+        $expected = true;
 
-        // $this->start = hrtime(true);
+        $bool = TypeAs::applyWith("boolean")->unfoldUsing($using);
+        $this->assertEqualsWithPerformance($expected, $bool);
+
         $bool = IsEmpty::apply()->unfoldUsing($using);
         $this->assertEqualsWithPerformance(false, $bool);
     }
@@ -248,12 +268,16 @@ class EmptinessAndFalsinessTest extends TestCase
 
         // Shoop
         $this->start = hrtime(true);
-        $bool = AsBoolean::apply()->unfoldUsing($using);
-        $this->assertEqualsWithPerformance(false, $bool, 0.75);
+        $expected = false;
+
+        $bool = TypeAs::applyWith("boolean")->unfoldUsing($using);
+        $this->assertEqualsWithPerformance($expected, $bool, 1.15);
 
         $this->start = hrtime(true);
+        $expected = true;
+
         $bool = IsEmpty::apply()->unfoldUsing($using);
-        $this->assertEqualsWithPerformance(true, $bool, 0.7);
+        $this->assertEqualsWithPerformance($expected, $bool);
 
         // true
         $using = [1];
@@ -266,12 +290,16 @@ class EmptinessAndFalsinessTest extends TestCase
         $this->assertFalse($bool);
 
         // Shoop
-        $this->start = hrtime(true);
-        $bool = AsBoolean::apply()->unfoldUsing($using);
-        $this->assertEqualsWithPerformance(true, $bool);
+        // $this->start = hrtime(true);
+        $expected = true;
+
+        $bool = TypeAs::applyWith("boolean")->unfoldUsing($using);
+        $this->assertEqualsWithPerformance($expected, $bool);
+
+        $expected = false;
 
         $bool = IsEmpty::apply()->unfoldUsing($using);
-        $this->assertEqualsWithPerformance(false, $bool);
+        $this->assertEqualsWithPerformance($expected, $bool);
     }
 
 // -> Non-sequential types: most likely should behave similarly
@@ -293,8 +321,10 @@ class EmptinessAndFalsinessTest extends TestCase
 
         // Shoop
         $this->start = hrtime(true);
-        $bool = AsBoolean::apply()->unfoldUsing($using);
-        $this->assertEqualsWithPerformance(false, $bool);
+        $expected = false;
+
+        $bool = TypeAs::applyWith("boolean")->unfoldUsing($using);
+        $this->assertEqualsWithPerformance($expected, $bool, 2.8);
 
         $this->start = hrtime(true);
         $bool = IsEmpty::apply()->unfoldUsing($using);
@@ -311,12 +341,16 @@ class EmptinessAndFalsinessTest extends TestCase
         $this->assertFalse($bool);
 
         // Shoop
-        $this->start = hrtime(true);
-        $bool = AsBoolean::apply()->unfoldUsing($using);
-        $this->assertEqualsWithPerformance(true, $bool);
+        // $this->start = hrtime(true);
+        $expected = true;
+
+        $bool = TypeAs::applyWith("boolean")->unfoldUsing($using);
+        $this->assertEqualsWithPerformance($expected, $bool);
+
+        $expected = false;
 
         $bool = IsEmpty::apply()->unfoldUsing($using);
-        $this->assertEqualsWithPerformance(false, $bool);
+        $this->assertEqualsWithPerformance($expected, $bool);
     }
 
     /**
@@ -340,14 +374,14 @@ class EmptinessAndFalsinessTest extends TestCase
         $this->start = hrtime(true);
         $expected = false;
 
-        $bool = AsBoolean::apply()->unfoldUsing($using);
-        $this->assertEqualsWithPerformance($expected, $bool, 2.25);
+        $bool = TypeAs::applyWith("boolean")->unfoldUsing($using);
+        $this->assertEqualsWithPerformance($expected, $bool, 4.1);
 
         $this->start = hrtime(true); // deviation
         $expected = true;
 
         $bool = IsEmpty::apply()->unfoldUsing($using);
-        $this->assertEqualsWithPerformance($expected, $bool, 0.7);
+        $this->assertEqualsWithPerformance($expected, $bool, 1.3);
 
         // true
         $using = '{"one":1}';
@@ -363,7 +397,7 @@ class EmptinessAndFalsinessTest extends TestCase
         // Shoop
         // true | false - no change
         $this->start = hrtime(true);
-        $bool = AsBoolean::apply()->unfoldUsing($using);
+        $bool = TypeAs::applyWith("boolean")->unfoldUsing($using);
         $this->assertEqualsWithPerformance(true, $bool);
 
         $bool = IsEmpty::apply()->unfoldUsing($using);

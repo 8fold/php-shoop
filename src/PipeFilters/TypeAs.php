@@ -7,6 +7,7 @@ use Eightfold\Foldable\Filter;
 
 use \stdClass;
 
+use Eightfold\Shoop\FluentTypes\Contracts\Falsifiable;
 use Eightfold\Shoop\PipeFilters\TypeOf;
 
 class TypeAs extends Filter
@@ -37,6 +38,9 @@ class TypeAs extends Filter
         $type = TypeOf::apply()->unfoldUsing($using);
         $target = $this->targetType;
         if (TypeIs::applyWith($target)->unfoldUsing($using)) {
+            if (TypeIs::applyWith("json")->unfoldUsing($using)) {
+                $using = json_decode($using);
+            }
             return $using;
 
         } elseif (TypeIs::applyWith("boolean")->unfoldUsing($using)) {
@@ -123,10 +127,6 @@ class TypeAs extends Filter
             }
 
         } elseif (TypeIs::applyWith("list")->unfoldUsing($using)) {
-            if (is_int($this->secondary)) {
-                $this->secondary = "i";
-            }
-
             if ($target === "boolean") {
                 return $this->listToBoolean($using);
 
@@ -140,13 +140,50 @@ class TypeAs extends Filter
                 return $this->listToArray($using);
 
             } elseif ($target === "dictionary") {
+                if (is_int($this->secondary)) {
+                    $this->secondary = "i";
+                }
                 return $this->listToDictionary($using, $this->secondary);
 
+            } elseif ($target === "string") {
+                if (is_int($this->secondary)) {
+                    $this->secondary = "";
+                }
+                return $this->listToString($using, $this->secondary);
+
             } elseif ($target === "tuple") {
+                if (is_int($this->secondary)) {
+                    $this->secondary = "i";
+                }
                 return $this->listToTuple($using, $this->secondary);
 
             } elseif ($target === "json") {
                 return $this->listToJson($using, $this->secondary);
+
+            }
+
+        } elseif (TypeIs::applyWith("tuple")->unfoldUsing($using)) {
+            if (TypeIs::applyWith("json")->unfoldUsing($using)) {
+                $using = json_decode($using);
+            }
+
+            if ($target === "boolean") {
+                return $this->tupleToBoolean($using);
+
+            } elseif ($target === "integer") {
+                return $this->tupleToInteger($using);
+
+            } elseif ($target === "float") {
+                return $this->tupleToFloat($using);
+
+            } elseif ($target === "array") {
+                return $this->tupleToArray($using);
+
+            } elseif ($target === "dictionary") {
+                return $this->tupleToDictionary($using);
+
+            } elseif ($target === "json") {
+                return $this->tupleToJson($using);
 
             }
 
@@ -170,10 +207,6 @@ class TypeAs extends Filter
                 return $this->objectToTuple($using);
 
             }
-
-        } elseif (TypeIs::applyWith("json")->unfoldUsing($using)) {
-            // TODO: tests + implementation
-
         }
     }
 
@@ -367,6 +400,7 @@ class TypeAs extends Filter
 
     static public function listToString(array $using, string $glue = ""): string
     {
+        $using = array_filter($using, "is_string");
         return implode($glue, $using);
     }
 
@@ -398,7 +432,7 @@ class TypeAs extends Filter
     private function tupleToBoolean(object $using): bool
     {
         $integer = $this->tupleToInteger($using);
-        return $this->numberToBoolean($using);
+        return $this->numberToBoolean($integer);
     }
 
     private function tupleToInteger(object $tuple): int
@@ -445,6 +479,12 @@ class TypeAs extends Filter
     {
         if (! TypeIs::applyWith("object")->unfoldUsing($object)) {
             return false;
+
+        }
+
+        if (is_a($object, Falsifiable::class)) {
+            return $object->efToBool();
+
         }
         $integer = $this->objectToInteger($object);
         return $this->numberToBoolean($integer);

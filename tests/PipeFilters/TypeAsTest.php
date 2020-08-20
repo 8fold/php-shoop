@@ -149,21 +149,22 @@ class TypeAsTest extends TestCase
     {
         $using = "8fold!";
 
+        $this->start = hrtime(true);
         $expected = ["8", "f", "o", "l", "d", "!"];
 
         $actual = TypeAs::applyWith("array")->unfoldUsing($using);
-        $this->assertEqualsWithPerformance($expected, $actual, 1.1);
+        $this->assertEqualsWithPerformance($expected, $actual, 3.6);
 
         $this->start = hrtime(true);
         $expected = ["8", "old!"];
 
         $actual = TypeAs::applyWith("array", "f", false, 2)
             ->unfoldUsing($using);
-        $this->assertEqualsWithPerformance($expected, $actual, 1.3);
+        $this->assertEqualsWithPerformance($expected, $actual);
 
         $using = "!8!f!o!l!d!";
 
-        $this->start = hrtime(true);
+        // $this->start = hrtime(true);
         $expected = ["", "8", "f", "o", "l", "d", ""];
 
         $actual = TypeAs::applyWith("array", "!", true)->unfoldUsing($using);
@@ -171,6 +172,7 @@ class TypeAsTest extends TestCase
 
         $using = "8fold!";
 
+        // $this->start = hrtime(true);
         $expected = true;
 
         $actual = TypeAs::applyWith("boolean")->unfoldUsing($using);
@@ -178,6 +180,7 @@ class TypeAsTest extends TestCase
 
         $using = "";
 
+        // $this->start = hrtime(true);
         $expected = false;
 
         $actual = TypeAs::applyWith("boolean")->unfoldUsing($using);
@@ -185,6 +188,7 @@ class TypeAsTest extends TestCase
 
         $using = "8fold!";
 
+        // $this->start = hrtime(true);
         $expected = 6;
 
         $actual = TypeAs::applyWith("integer")->unfoldUsing($using);
@@ -192,6 +196,7 @@ class TypeAsTest extends TestCase
 
         $using = "";
 
+        // $this->start = hrtime(true);
         $expected = 0;
 
         $actual = TypeAs::applyWith("integer")->unfoldUsing($using);
@@ -199,13 +204,14 @@ class TypeAsTest extends TestCase
 
         $using = "8!8!8";
 
+        // $this->start = hrtime(true);
         $expected = ["i0" => "8", "i1" => "8!8"];
 
         $actual = TypeAs::applyWith("dictionary", "!", false, 2)
             ->unfoldUsing($using);
         $this->assertEqualsWithPerformance($expected, $actual);
 
-        $this->start = hrtime(true);
+        // $this->start = hrtime(true);
         $expected = (object) ["i0" => 8, "i1" => "8!8"];
 
         $actual = TypeAs::applyWith("tuple", "!", false, 2)
@@ -221,6 +227,7 @@ class TypeAsTest extends TestCase
 
         $using = ["8", "f", "o", "l", "d", "!"];
 
+        // $this->start = hrtime(true);
         $expected = "8fold!";
 
         $actual = TypeAs::applyWith("string")->unfoldUsing($using);
@@ -270,8 +277,100 @@ class TypeAsTest extends TestCase
         $this->assertEqualsWithPerformance($expected, $actual);
     }
 
-    // TODO: Tuple
-    // TODO: JSON
+    /**
+     * @test
+     */
+    public function tuple()
+    {
+        $using = (object) ["public" => "content", "publicEmptyString" => ""];
+
+        $this->start = hrtime(true);
+        $expected = $using;
+
+        $actual = TypeAs::applyWith("tuple")->unfoldUsing($using);
+        $this->assertEqualsWithPerformance($expected, $actual, 1.25);
+
+        $this->start = hrtime(true);
+        $expected = ["public" => "content", "publicEmptyString" => ""];
+
+        $actual = TypeAs::applyWith("dictionary")->unfoldUsing($using);
+        $this->assertEqualsWithPerformance($expected, $actual);
+
+        // $this->start = hrtime(true);
+        $expected = ["content", ""];
+
+        $actual = TypeAs::applyWith("array")->unfoldUsing($using);
+        $this->assertEqualsWithPerformance($expected, $actual);
+
+        // $this->start = hrtime(true);
+        $expected = 2;
+
+        $actual = TypeAs::applyWith("integer")->unfoldUsing($using);
+        $this->assertEqualsWithPerformance($expected, $actual);
+
+        // $this->start = hrtime(true);
+        $expected = (float) 2;
+
+        $actual = TypeAs::applyWith("float")->unfoldUsing($using);
+        $this->assertEqualsWithPerformance($expected, $actual);
+
+        // $this->start = hrtime(true);
+        $expected = (bool) 2;
+
+        $actual = TypeAs::applyWith("boolean")->unfoldUsing($using);
+        $this->assertEqualsWithPerformance($expected, $actual);
+
+        $expected = '{"public":"content","publicEmptyString":""}';
+
+        $actual = TypeAs::applyWith("json")->unfoldUsing($using);
+        $this->assertEqualsWithPerformance($expected, $actual);
+    }
+
+    /**
+     * @test
+     */
+    public function json()
+    {
+        $using = '{"public":"content","boolean":true}';
+
+        $this->start = hrtime(true);
+        $expected = new stdClass;
+        $expected->public = "content";
+        $expected->boolean = true;
+
+        $tuple = TypeAs::applyWith("tuple")->unfoldUsing($using);
+        $this->assertEqualsWithPerformance($expected, $tuple, 3.8);
+
+        $this->start = hrtime(true);
+        $expected = ["public" => "content", "boolean" => true];
+
+        $dictionary = TypeAs::applyWith("dictionary")->unfoldUsing($using);
+        $this->assertEqualsWithPerformance($expected, $dictionary);
+
+        // $this->start = hrtime(true);
+        $expected = ["content", true];
+
+        $array = TypeAs::applyWith("array")->unfoldUsing($using);
+        $this->assertEqualsWithPerformance($expected, $array);
+
+        // $this->start = hrtime(true);
+        $expected = 2;
+
+        $integer = TypeAs::applyWith("integer")->unfoldUsing($using);
+        $this->assertEqualsWithPerformance($expected, $integer);
+
+        // $this->start = hrtime(true);
+        $expected = (float) 2;
+
+        $number = TypeAs::applyWith("float")->unfoldUsing($using);
+        $this->assertEqualsWithPerformance($expected, $number);
+
+        // $this->start = hrtime(true);
+        $expected = (bool) 2;
+
+        $bool = TypeAs::applyWith("boolean")->unfoldUsing($using);
+        $this->assertEqualsWithPerformance($expected, $bool);
+    }
 
     /**
      * @test

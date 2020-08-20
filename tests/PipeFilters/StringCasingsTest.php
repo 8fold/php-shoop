@@ -25,7 +25,7 @@ class StringCasingsTest extends TestCase
         $expected = "hello! 🎉";
 
         $actual = AsStringLowerCased::apply()->unfoldUsing($sut);
-        $this->assertEqualsWithPerformance($expected, $actual, 1.55);
+        $this->assertEqualsWithPerformance($expected, $actual);
 
         $this->start = hrtime(true);
         $sut = ["H", 0, new \stdClass, "e", "LL", "o!", " 🎉"];
@@ -33,7 +33,7 @@ class StringCasingsTest extends TestCase
         $expected = "hello! 🎉";
 
         $actual = AsStringLowerCased::apply()->unfoldUsing($sut);
-        $this->assertEqualsWithPerformance($expected, $actual, 1.05);
+        $this->assertEqualsWithPerformance($expected, $actual);
     }
 
     /**
@@ -43,18 +43,19 @@ class StringCasingsTest extends TestCase
     {
         $sut = "HeLLo! 🎉";
 
-        $this->start = hrtime(true);
+        // $this->start = hrtime(true);
         $expected = "HELLO! 🎉";
 
         $actual = AsStringUpperCased::apply()->unfoldUsing($sut);
-        $this->assertEqualsWithPerformance($expected, $actual, 1);
+        $this->assertEqualsWithPerformance($expected, $actual);
 
         $this->start = hrtime(true);
         $sut = ["H", 0, new \stdClass, "e", "LL", "o!", " 🎉"];
 
+        // $this->start = hrtime(true);
         $expected = "HELLO! 🎉";
 
         $actual = AsStringUpperCased::apply()->unfoldUsing($sut);
-        $this->assertEqualsWithPerformance($expected, $actual, 1.1);
+        $this->assertEqualsWithPerformance($expected, $actual);
     }
 }

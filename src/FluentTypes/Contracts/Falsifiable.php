@@ -1,6 +1,6 @@
 <?php
 
-namespace Eightfold\Shoop\FluentTypes\Interfaces;
+namespace Eightfold\Shoop\FluentTypes\Contracts;
 
 interface Falsifiable
 {
