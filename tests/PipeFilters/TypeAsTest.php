@@ -74,54 +74,40 @@ class TypeAsTest extends TestCase
 
     /**
      * @test
-     *
-     * @group current
      */
     public function number()
     {
         AssertEquals::applyWith(
-            true,
-            TypeAs::applyWith("boolean")
-        )->unfoldUsing(1);
-
-        AssertEquals::applyWith(
             1,
-            TypeAs::applyWith("integer")
-        )->unfoldUsing(1.0);
-
-        AssertEquals::applyWith(
-            1.0,
-            TypeAs::applyWith("float")
-        )->unfoldUsing(1.0);
-
-        AssertEquals::applyWith(
-            [0, 1],
-            TypeAs::applyWith("array")
+            TypeAsInteger::apply(),
+            0.31
         )->unfoldUsing(1);
 
         AssertEquals::applyWith(
-            [1],
-            TypeAs::applyWith("array", 1)
-        )->unfoldUsing(1);
+            2,
+            TypeAsInteger::apply()
+        )->unfoldUsing(2.1);
 
         AssertEquals::applyWith(
-            ["i0" => 0, "i1" => 1],
-            TypeAs::applyWith("dictionary")
-        )->unfoldUsing(1.1);
+            3,
+            TypeAsInteger::apply()
+        )->unfoldUsing([3, 4, 5]);
 
         AssertEquals::applyWith(
-            (object) ["i0" => 0, "i1" => 1],
-            TypeAs::applyWith("tuple")
-        )->unfoldUsing(1.1);
+            3,
+            TypeAsInteger::apply()
+        )->unfoldUsing(["a" => 3, "b" => 4, "c" => 5]);
 
         AssertEquals::applyWith(
-            '{"i0":0,"i1":1}',
-            TypeAs::applyWith("json")
-        )->unfoldUsing(1.1);
+            3,
+            TypeAsInteger::apply()
+        )->unfoldUsing((object) ["a" => 3, "b" => 4, "c" => 5]);
     }
 
     /**
      * @test
+     *
+     * @group current
      */
     public function strings()
     {
