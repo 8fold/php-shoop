@@ -218,6 +218,13 @@ class TypeAsTest extends TestCase
         $actual = TypeAs::applyWith("json", "!", false, 2, "efs")
             ->unfoldUsing($using);
         $this->assertEqualsWithPerformance($expected, $actual);
+
+        $using = ["8", "f", "o", "l", "d", "!"];
+
+        $expected = "8fold!";
+
+        $actual = TypeAs::applyWith("string")->unfoldUsing($using);
+        $this->assertEqualsWithPerformance($expected, $actual);
     }
 
     /**
@@ -263,6 +270,7 @@ class TypeAsTest extends TestCase
         $this->assertEqualsWithPerformance($expected, $actual);
     }
 
+    // TODO: Tuple
     // TODO: JSON
 
     /**

@@ -22,12 +22,6 @@ class TypeIs extends Filter
 
     public function __invoke($using): bool
     {
-        if ($this->type === "integer_list") {
-
-
-        } elseif ($this->type === "string_list") {
-
-        }
         $types = TypeOf::applyWith($this->strict)->unfoldUsing($using);
         return (in_array($this->type, $types)) ? true : false;
     }
