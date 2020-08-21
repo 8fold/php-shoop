@@ -3,6 +3,7 @@
 namespace Eightfold\Shoop\Tests\PipeFilters;
 
 use Eightfold\Shoop\Tests\TestCase;
+use Eightfold\Shoop\Tests\AssertEquals;
 
 use \stdClass;
 
@@ -18,6 +19,16 @@ class AtTest extends TestCase
      */
     public function booleans()
     {
+        AssertEquals::applyWith(
+            true,
+            At::applyWith(1),
+            3.52
+        )->unfoldUsing(true);
+
+        AssertEquals::applyWith(
+            true,
+            At::applyWith("false")
+        )->unfoldUsing(false);
     }
 
     /**
@@ -27,17 +38,17 @@ class AtTest extends TestCase
     {
         $using = 5;
 
-        $this->start = hrtime(true);
-        $expected = 1;
+        AssertEquals::applyWith(
+            2,
+            At::applyWith(2),
+            0.9
+        )->unfoldUsing(5);
 
-        $actual = At::applyWith(1)->unfoldUsing($using);
-        $this->assertEqualsWithPerformance($expected, $actual, 3.5);
-
-        $this->start = hrtime(true);
-        $expected = [0, 2];
-
-        $actual = At::applyWith(0, 2)->unfoldUsing($using);
-        $this->assertEqualsWithPerformance($expected, $actual);
+        AssertEquals::applyWith(
+            [0, 2],
+            At::applyWith([0, 2]),
+            1.06
+        )->unfoldUsing(6.5);
     }
 
     /**
@@ -45,12 +56,11 @@ class AtTest extends TestCase
      */
     public function strings()
     {
-        $using = "Raise your glass!";
-
-        $expected = "your";
-
-        $actual = At::applyWith(6, 7, 8, 9)->unfoldUsing($using);
-        $this->assertEqualsWithPerformance($expected, $actual, 6);
+        AssertEquals::applyWith(
+            "Ryg!",
+            At::applyWith([0, 6, 11, 16]),
+            1.93
+        )->unfoldUsing("Raise your glass!");
     }
 
     /**
@@ -58,29 +68,21 @@ class AtTest extends TestCase
      */
     public function lists()
     {
-        $using = [3, 4, 5];
+        AssertEquals::applyWith(
+            4,
+            At::applyWith(1),
+            0.36
+        )->unfoldUsing([3, 4, 5]);
 
-        $this->start = hrtime(true);
-        $expected = 4;
+        AssertEquals::applyWith(
+            ["first" => "hello", "third" => 3],
+            At::applyWith(["first", "third"])
+        )->unfoldUsing(["first" => "hello", "second" => false, "third" => 3]);
 
-        $actual = At::applyWith(1)->unfoldUsing($using);
-        $this->assertEqualsWithPerformance($expected, $actual, 3.1);
-
-        $using = ["first" => "hello", "second" => false, "third" => 3];
-
-        $this->start = hrtime(true);
-        $expected = ["first" => "hello", "third" => 3];
-
-        $actual = At::applyWith("first", "third")->unfoldUsing($using);
-        $this->assertEqualsWithPerformance($expected, $actual);
-
-        $using = [3, 4, 5];
-
-        $this->start = hrtime(true);
-        $expected = [4, 5];
-
-        $actual = At::applyWith(1, 2)->unfoldUsing($using);
-        $this->assertEqualsWithPerformance($expected, $actual);
+        AssertEquals::applyWith(
+            [4, 5],
+            At::applyWith([1, 2])
+        )->unfoldUsing([3, 4, 5]);
     }
 
     /**
@@ -90,23 +92,27 @@ class AtTest extends TestCase
     {
         $using = (object) ["first" => 0, "second" => true];
 
-        $this->start = hrtime(true);
-        $expected = (object) ["i0" => 0, "i1" => true];
+        AssertEquals::applyWith(
+            $using,
+            At::applyWith(["first", "second"]),
+            1.16
+        )->unfoldUsing($using);
 
-        $actual = At::applyWith(0, 1)->unfoldUsing($using);
-        $this->assertEqualsWithPerformance($expected, $actual, 3.25);
+        AssertEquals::applyWith(
+            true,
+            At::applyWith("second")
+        )->unfoldUsing($using);
 
-        $this->start = hrtime(true);
-        $expected = true;
+        $using = json_encode($using);
 
-        $actual = At::applyWith("second")->unfoldUsing($using);
-        $this->assertEqualsWithPerformance($expected, $actual);
-    }
+        AssertEquals::applyWith(
+            true,
+            At::applyWith("second")
+        )->unfoldUsing($using);
 
-    /**
-     * @test
-     */
-    public function fromObjects()
-    {
+        AssertEquals::applyWith(
+            (object) ["first" => 0, "second" => true],
+            At::applyWith(["first", "second"])
+        )->unfoldUsing($using);
     }
 }

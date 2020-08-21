@@ -14,8 +14,6 @@ class EndsWithTest extends TestCase
 {
     /**
      * @test
-     *
-     * @group current
      */
     public function string()
     {
