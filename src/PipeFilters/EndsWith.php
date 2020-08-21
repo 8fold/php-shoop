@@ -32,13 +32,9 @@ class EndsWith extends Filter
         } elseif (TypeIs::applyWith("string")->unfoldUsing($using) and
             ! TypeIs::applyWith("json")->unfoldUsing($using)
         ) {
-            $array = TypeAs::applyWith("array")->unfoldUsing($using);
-            $span  = From::applyWith(
-                0,
-                TypeAs::applyWith("integer")->unfoldUsing($array)
-            )->unfoldUsing($array);
-            var_dump($span);
-            die("string");
+            $length = TypeAsInteger::apply()->unfoldUsing($this->suffix);
+            $tail   = From::applyWith(-$length)->unfoldUsing($using);
+            return Is::applyWith($tail)->unfoldUsing($this->suffix);
 
         } elseif (TypeIs::applyWith("list")->unfoldUsing($using)) {
 

@@ -3,8 +3,9 @@
 namespace Eightfold\Shoop\Tests\PipeFilters;
 
 use Eightfold\Shoop\Tests\TestCase;
+use Eightfold\Shoop\Tests\AssertEquals;
 
-use Eightfold\Shoop\PipeFilters\StringEndsWith;
+use Eightfold\Shoop\PipeFilters\EndsWith;
 
 /**
  * @group EndsWith
@@ -13,21 +14,22 @@ class EndsWithTest extends TestCase
 {
     /**
      * @test
+     *
+     * @group current
      */
     public function string()
     {
         $using = "Do you remember when, we using to sing?";
 
-        $this->start = hrtime(true);
-        $expected = true;
+        AssertEquals::applyWith(
+            true,
+            EndsWith::applyWith("sing?"),
+            0.86
+        )->unfoldUsing($using);
 
-        $actual = StringEndsWith::applyWith("sing?")->unfoldUsing($using);
-        $this->assertEqualsWithPerformance($expected, $actual, 4.6);
-
-        $this->start = hrtime(true);
-        $expected = false;
-
-        $actual = StringEndsWith::applyWith("Do you...")->unfoldUsing($using);
-        $this->assertEqualsWithPerformance($expected, $actual, 2.9);
+        AssertEquals::applyWith(
+            false,
+            EndsWith::applyWith("Do you...")
+        )->unfoldUsing($using);
     }
 }

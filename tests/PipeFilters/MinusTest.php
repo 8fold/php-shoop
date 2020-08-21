@@ -115,8 +115,6 @@ class MinusTest extends TestCase
 
     /**
      * @test
-     *
-     * @group current
      */
     public function from_tuples()
     {

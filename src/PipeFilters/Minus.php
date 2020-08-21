@@ -19,10 +19,18 @@ class Minus extends Filter
             )->unfold();
 
         } elseif (TypeIs::applyWith("number")->unfoldUsing($using)) {
+            if (! is_array($this->main)) {
+                $this->main = [$this->main];
+            }
+
             $int = array_sum($this->main);
             return $using - $int;
 
         } elseif (TypeIs::applyWith("list")->unfoldUsing($using)) {
+            if (! is_array($this->main)) {
+                $this->main = [$this->main];
+            }
+
             $filtered = array_filter($using, function($v, $k) {
                 return ! in_array($v, $this->main, true);
             }, ARRAY_FILTER_USE_BOTH);
@@ -56,6 +64,34 @@ class Minus extends Filter
                 TypeAsTuple::apply(),
                 Minus::applyWith($this->main)
             )->unfold();
+
+        }
+    }
+
+    static private function fromString(
+        string $using,
+        bool $fromStart = true,
+        bool $fromEnd   = true,
+        array $charMask = [" ", "\t", "\n", "\r", "\0", "\x0B"]
+    ): string
+    {
+        $fromStartAndEnd = ($fromStart and $fromEnd) ? true : false;
+        $all             = (! $fromStart and ! $fromEnd) ? true : false;
+
+        if ($fromStartAndEnd) {
+            $charMask = TypeAsString::apply()->unfoldUsing($charMask);
+            return trim($using, $charMask);
+
+        } elseif ($fromStart) {
+            $charMask = TypeAsString::apply()->unfoldUsing($charMask);
+            return ltrim($using, $charMask);
+
+        } elseif ($fromEnd) {
+            $charMask = TypeAsString::apply()->unfoldUsing($charMask);
+            return rtrim($using, $charMask);
+
+        } elseif ($all) {
+            return str_replace($charMask, "", $using);
 
         }
     }

@@ -26,13 +26,6 @@ use Eightfold\Shoop\PipeFilters\TypeAs;
 
 class At extends Filter
 {
-    private $members = [];
-
-    public function __construct(...$members)
-    {
-        $this->members = $members;
-    }
-
     public function __invoke($using)
     {
         if (TypeIs::applyWith("boolean")->unfoldUsing($using)) {
@@ -55,19 +48,22 @@ class At extends Filter
 
         } elseif (TypeIs::applyWith("list")->unfoldUsing($using)) {
             if (TypeIs::applyWith("array")->unfoldUsing($using)) {
-                return (TypeAs::listToInteger($this->members) === 1)
-                    ? $this->atFromArraySingle($using, $this->members[0])
-                    : $this->atFromArrayMultiple($using, ...$this->members);
+                if (TypeIs::applyWith("array")->unfoldUsing($this->main)) {
+                    return $this->atFromArrayMultiple($using, $this->main);
+                }
+                return $this->atFromArraySingle($using, $this->main);
 
             } elseif (TypeIs::applyWith("dictionary")->unfoldUsing($using)) {
-                return (TypeAs::listToInteger($this->members) === 1)
-                    ? $this->atFromDictionarySingle($using, $this->members[0])
-                    : $this->atFromDictionaryMultiple($using, ...$this->members);
+                if (TypeIs::applyWith("array")->unfoldUsing($this->main)) {
+                    return $this->atFromDictionaryMultiple($using, $this->main);
+                }
+                return $this->atFromDictionarySingle($using, $this->main);
 
             }
             return false;
 
         } elseif (TypeIs::applyWith("tuple")->unfoldUsing($using)) {
+            die("here");
             if (TypeIs::integerList($this->members)) {
                 $using = TypeAs::tupleToArray($using);
                 $using = (TypeAs::listToInteger($this->members) === 1)
@@ -83,7 +79,6 @@ class At extends Filter
                 : $this->atFromDictionaryMultiple($using, ...$this->members);
 
         } elseif (TypeIs::applyWith("object")->unfoldUsing($using)) {
-            // TODO
 
         } elseif (TypeIs::applyWith("json")->unfoldUsing($using)) {
             // TODO: tests + implementation
@@ -118,27 +113,27 @@ class At extends Filter
     // TODO: PHP 8.0 - string|int|float
     static public function atFromArraySingle(array $using, int $member)
     {
-        return static::atFromList($using, $member);
+        return static::atFromList($using, [$member]);
     }
 
-    static public function atFromArrayMultiple(array $using, int ...$members)
+    static public function atFromArrayMultiple(array $using, array $members)
     {
-        return array_values(static::atFromList($using, ...$members));
+        return array_values(static::atFromList($using, $members));
     }
 
     static public function atFromDictionarySingle(array $using, string $member)
     {
-        return static::atFromList($using, $member);
+        return static::atFromList($using, [$member]);
     }
 
-    static public function atFromDictionaryMultiple(array $using, string ...$members)
+    static public function atFromDictionaryMultiple(array $using, array $members)
     {
-        return static::atFromList($using, ...$members);
+        return static::atFromList($using, $members);
     }
 
-    static private function atFromList(array $using, ...$members)
+    static private function atFromList(array $using, array $members)
     {
-        if (TypeAs::listToInteger($members) === 1) {
+        if (TypeAsInteger::apply()->unfoldUsing($members) === 1) {
             $member = $members[0];
             return (isset($using[$member])) ? $using[$member] : false;
         }
