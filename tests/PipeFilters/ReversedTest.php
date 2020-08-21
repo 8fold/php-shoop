@@ -22,7 +22,7 @@ class ReversedTest extends TestCase
         AssertEquals::applyWith(
             true,
             Reversed::apply(),
-            1.08
+            1.31
         )->unfoldUsing(false);
     }
 

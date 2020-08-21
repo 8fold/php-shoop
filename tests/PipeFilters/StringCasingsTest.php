@@ -20,7 +20,8 @@ class StringCasingsTest extends TestCase
     {
         AssertEquals::applyWith(
             "hello! 🎉",
-            LowerCased::apply()
+            LowerCased::apply(),
+            1.95
         )->unfoldUsing("HeLLo! 🎉");
 
         AssertEquals::applyWith(

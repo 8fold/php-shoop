@@ -3,8 +3,7 @@
 namespace Eightfold\Shoop\Tests\PipeFilters;
 
 use Eightfold\Shoop\Tests\TestCase;
-
-use \stdClass;
+use Eightfold\Shoop\Tests\AssertEquals;
 
 use Eightfold\Shoop\PipeFilters\MinusUsing;
 
@@ -17,54 +16,51 @@ class MinusUsingTest extends TestCase
     /**
      * @test
      */
-    public function from_number()
+    public function boolean()
     {
     }
 
     /**
      * @test
      */
-    public function from_lists()
-    {
-        $using = [null, "8fold", false, "", "!"];
-
-        $this->start = hrtime(true);
-        $expected = ["8fold", "!"];
-
-        $actual = MinusUsing::apply()->unfoldUsing($using);
-        $this->assertEqualsWithPerformance($expected, $actual, 1);
-
-        $this->start = hrtime(true);
-        $expected = [false];
-
-        $actual = MinusUsing::applyWith("is_bool")->unfoldUsing($using);
-        $this->assertEqualsWithPerformance($expected, $actual);
-
-        $expected = [null];
-
-        $actual = MinusUsing::applyWith(function ($v) { return is_null($v); })
-            ->unfoldUsing($using);
-        $this->assertEqualsWithPerformance($expected, $actual);
-    }
-
-    /**
-     * @test
-     */
-    public function from_string()
+    public function number()
     {
     }
 
     /**
      * @test
      */
-    public function from_boolean()
+    public function lists()
     {
+        AssertEquals::applyWith(
+            ["8fold", "!"],
+            MinusUsing::apply(),
+            0.51
+        )->unfoldUsing([null, "8fold", false, "", "!"]);
+
+        AssertEquals::applyWith(
+            [false],
+            MinusUsing::applyWith("is_bool")
+        )->unfoldUsing([null, "8fold", false, "", "!"]);
+
+        AssertEquals::applyWith(
+            [null],
+            MinusUsing::applyWith(function ($v) { return is_null($v); })
+        )->unfoldUsing([null, "8fold", false, "", "!"]);
     }
 
     /**
      * @test
      */
-    public function from_tuples()
+    public function string()
+    {
+    }
+
+
+    /**
+     * @test
+     */
+    public function tuples()
     {
     }
 }
