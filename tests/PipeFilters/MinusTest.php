@@ -3,6 +3,7 @@
 namespace Eightfold\Shoop\Tests\PipeFilters;
 
 use Eightfold\Shoop\Tests\TestCase;
+use Eightfold\Shoop\Tests\AssertEquals;
 
 use \stdClass;
 
@@ -16,159 +17,120 @@ class MinusTest extends TestCase
     /**
      * @test
      */
-    public function from_number()
+    public function boolean()
     {
-        $using = 1;
+        AssertEquals::applyWith(
+            true,
+            Minus::apply(0),
+            3.29 //very inconsistant - less than 1
+        )->unfoldUsing(true);
 
-        $this->start = hrtime(true);
-        $expected = 0;
+        AssertEquals::applyWith(
+            false,
+            Minus::applyWith(1)
+        )->unfoldUsing(true);
 
-        $actual = Minus::applyWith(1)->unfoldUsing($using);
-        $this->assertEqualsWithPerformance($expected, $actual, 4.65);
-
-        $using = -1.2;
-
-        $this->start = hrtime(true);
-        $expected = -2.7;
-
-        $actual = Minus::applyWith(1.5)->unfoldUsing($using);
-        $this->assertEqualsWithPerformance($expected, $actual);
-
-        $using = -5.5;
-
-        $expected = 1;
-
-        $actual = Minus::applyWith(-6.5)->unfoldUsing($using);
-        $this->assertEqualsWithPerformance($expected, $actual);
+        AssertEquals::applyWith(
+            true,
+            Minus::applyWith(2)
+        )->unfoldUsing(true);
     }
 
     /**
      * @test
      */
-    public function from_lists()
+    public function number()
     {
-        $using = [1, "string", true];
+        AssertEquals::applyWith(
+            1,
+            Minus::apply()
+        )->unfoldUsing(1);
 
-        $this->start = hrtime(true);
-        $expected = [1, true];
+        AssertEquals::applyWith(
+            0,
+            Minus::applyWith(1)
+        )->unfoldUsing(1);
 
-        $actual = Minus::applyWith("string")->unfoldUsing($using);
-        $this->assertEqualsWithPerformance($expected, $actual, 3.45);
+        AssertEquals::applyWith(
+            -2.7,
+            Minus::applyWith(1.5)
+        )->unfoldUsing(-1.2);
 
-        $this->start = hrtime(true);
-        $expected = ["string"];
-
-        $actual = Minus::applyWith(true, 1)->unfoldUsing($using);
-        $this->assertEqualsWithPerformance($expected, $actual);
-
-        $using = ["one" => 1, "stringKey" => "string", "true" => true];
-
-        $expected = [1, true];
-
-        $actual = Minus::applyWith("string")->unfoldUsing($using);
-        $this->assertEqualsWithPerformance($expected, $actual);
-
-        $expected = ["string"];
-
-        $actual = Minus::applyWith(1, true)->unfoldUsing($using);
-        $this->assertEqualsWithPerformance($expected, $actual);
+        AssertEquals::applyWith(
+            1,
+            Minus::applyWith(-6.5)
+        )->unfoldUsing(-5.5);
     }
 
     /**
      * @test
      */
-    public function from_string()
+    public function lists()
+    {
+        AssertEquals::applyWith(
+            [1, true],
+            Minus::applyWith("string"),
+            0.49
+        )->unfoldUsing([1, "string", true]);
+
+        AssertEquals::applyWith(
+            ["stringKey" => "string"],
+            Minus::applyWith([true, 1])
+        )->unfoldUsing(["one" => 1, "stringKey" => "string", "true" => true]);
+    }
+
+    /**
+     * @test
+     */
+    public function string()
     {
         $using = "  Do you remember when, we used to sing?  ";
 
-        $this->start = hrtime(true);
-        $expected = "Do you remember when, we used to sing?";
+        AssertEquals::applyWith(
+            "Do you remember when, we used to sing?",
+            Minus::apply(),
+            1.06
+        )->unfoldUsing($using);
 
-        $actual = Minus::apply()->unfoldUsing($using);
-        $this->assertEqualsWithPerformance($expected, $actual, 3.8);
+        AssertEquals::applyWith(
+            "Do you remember when, we used to sing?  ",
+            Minus::applyWith(true, false)
+        )->unfoldUsing($using);
 
-        $this->start = hrtime(true);
-        $expected = "Do you remember when, we used to sing?  ";
+        AssertEquals::applyWith(
+            "  Do you remember when, we used to sing?",
+            Minus::applyWith(false, true)
+        )->unfoldUsing($using);
 
-        $actual = Minus::applyWith(true, false)->unfoldUsing($using);
-        $this->assertEqualsWithPerformance($expected, $actual, 1.5);
+        AssertEquals::applyWith(
+            "Doyourememberwhen,weusedtosing?",
+            Minus::applyWith(false, false)
+        )->unfoldUsing($using);
 
-        $expected = "  Do you remember when, we used to sing?";
-
-        $actual = Minus::applyWith(false, true)->unfoldUsing($using);
-        $this->assertEqualsWithPerformance($expected, $actual);
-
-        $expected = "Doyourememberwhen,weusedtosing?";
-
-        $actual = Minus::applyWith(false, false)->unfoldUsing($using);
-        $this->assertEqualsWithPerformance($expected, $actual);
-
-        $expected = "Dyrmmbrwhn,wsdtsng?";
-
-        $actual = Minus::applyWith(false, false, [" ", "a", "e", "i", "o", "u"])
-            ->unfoldUsing($using);
-        $this->assertEqualsWithPerformance($expected, $actual);
-
-        $expected = "  Do you remember when, we used to sing?";
-
-        $actual = Minus::applyWith(false, true, [" ", "a", "e", "i", "o", "u"])
-            ->unfoldUsing($using);
-        $this->assertEqualsWithPerformance($expected, $actual);
-
-        $expected = "Do you remember when, we used to sing?";
-
-        $actual = Minus::applyWith(true, true, [" ", "a", "e", "i", "o", "u"])
-            ->unfoldUsing($using);
-        $this->assertEqualsWithPerformance($expected, $actual);
-
-        $expected = "Do you remember when, we used to sing?  ";
-
-        $actual = Minus::applyWith(true, false, [" ", "a", "e", "i", "o", "u"])
-            ->unfoldUsing($using);
-        $this->assertEqualsWithPerformance($expected, $actual);
+        AssertEquals::applyWith(
+            "Dyrmmbrwhn,wsdtsng?",
+            Minus::applyWith(false, false, [" ", "a", "e", "i", "o", "u"])
+        )->unfoldUsing($using);
     }
 
     /**
      * @test
-     */
-    public function from_boolean()
-    {
-        $using = true;
-
-        $this->start = hrtime(true);
-        $expected = true;
-
-        $actual = Minus::applyWith(0)->unfoldUsing($using);
-        $this->assertEqualsWithPerformance($expected, $actual, 1.4);
-
-        $this->start = hrtime(true);
-        $expected = false;
-
-        $actual = Minus::applyWith(1)->unfoldUsing($using);
-        $this->assertEqualsWithPerformance($expected, $actual);
-
-        $expected = true;
-
-        $actual = Minus::applyWith(2)->unfoldUsing($using);
-        $this->assertEqualsWithPerformance($expected, $actual);
-    }
-
-    /**
-     * @test
+     *
+     * @group current
      */
     public function from_tuples()
     {
         $using = (object) ["one" => 1, "stringKey" => "string", "true" => true];
 
-        $this->start = hrtime(true);
-        $expected = (object) [1, true];
+        AssertEquals::applyWith(
+            (object) ["one" => 1, "true" => true],
+            Minus::applyWith("string"),
+            1.17
+        )->unfoldUsing($using);
 
-        $actual = Minus::applyWith("string")->unfoldUsing($using);
-        $this->assertEqualsWithPerformance($expected, $actual, 0.75);
-
-        $expected = (object) ["string"];
-
-        $actual = Minus::applyWith(1, true)->unfoldUsing($using);
-        $this->assertEqualsWithPerformance($expected, $actual);
+        AssertEquals::applyWith(
+            (object) ["stringKey" => "string"],
+            Minus::applyWith([1, true])
+        )->unfoldUsing($using);
     }
 }

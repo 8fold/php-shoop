@@ -12,7 +12,10 @@ class FromList extends Filter
 {
     public function __invoke(array $using): array
     {
-        $using = array_diff($using, $this->args(true));
-        return AsArrayFromList::apply()->unfoldUsing($using);
+        $using = array_diff_assoc($using, $this->args(true));
+        if (TypeAs::applyWith("array")->unfoldUsing($using)) {
+            return TypeAs::applyWith("array")->unfoldUsing($using);
+        }
+        return $using;
     }
 }
