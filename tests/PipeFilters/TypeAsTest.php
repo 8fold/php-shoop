@@ -146,9 +146,14 @@ class TypeAsTest extends TestCase
     public function array()
     {
         AssertEquals::applyWith(
-            [false],
+            [true, false],
             TypeAsArray::apply()
         )->unfoldUsing(false);
+
+        AssertEquals::applyWith(
+            [false, true],
+            TypeAsArray::apply()
+        )->unfoldUsing(true);
 
         AssertEquals::applyWith(
             [0, 1, 2],
@@ -193,12 +198,12 @@ class TypeAsTest extends TestCase
     public function dictionary()
     {
         AssertEquals::applyWith(
-            ["true" => true, "false" => false],
+            ["false" => false, "true" => true],
             TypeAsDictionary::apply()
         )->unfoldUsing(true);
 
         AssertEquals::applyWith(
-            ["true" => false, "false" => true],
+            ["false" => true, "true" => false],
             TypeAsDictionary::apply()
         )->unfoldUsing(false);
 
@@ -288,7 +293,7 @@ class TypeAsTest extends TestCase
     public function json()
     {
         AssertEquals::applyWith(
-            '{"true":false,"false":true}',
+            '{"false":true,"true":false}',
             TypeAsJson::apply(),
             1.96
         )->unfoldUsing(false);

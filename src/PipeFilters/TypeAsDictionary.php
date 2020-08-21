@@ -32,8 +32,8 @@ class TypeAsDictionary extends Filter
     {
         if (TypeIs::applyWith("boolean")->unfoldUsing($using)) {
             return ($using)
-                ? ["true" => true, "false" => false]
-                : ["true" => false, "false" => true];
+                ? ["false" => false, "true" => true]
+                : ["false" => true, "true" => false];
 
         } elseif (TypeIs::applyWith("number")->unfoldUsing($using)) {
             $array = TypeAsArray::applyWith($this->start)->unfoldUsing($using);

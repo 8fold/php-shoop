@@ -5,11 +5,6 @@ namespace Eightfold\Shoop\PipeFilters;
 
 use Eightfold\Foldable\Filter;
 
-// use \stdClass;
-
-// use Eightfold\Shoop\FluentTypes\Contracts\Falsifiable;
-// use Eightfold\Shoop\PipeFilters\TypeOf;
-
 class TypeAsArray extends Filter
 {
     private $start = 0;
@@ -31,7 +26,7 @@ class TypeAsArray extends Filter
     public function __invoke($using): array
     {
         if (TypeIs::applyWith("boolean")->unfoldUsing($using)) {
-            return [$using];
+            return ($using) ? [false, true] : [true, false];
 
         } elseif (TypeIs::applyWith("number")->unfoldUsing($using)) {
             $int = TypeAsInteger::apply()->unfoldUsing($this->start);
