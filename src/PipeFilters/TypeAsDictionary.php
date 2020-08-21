@@ -5,10 +5,7 @@ namespace Eightfold\Shoop\PipeFilters;
 
 use Eightfold\Foldable\Filter;
 
-// use \stdClass;
-
-// use Eightfold\Shoop\FluentTypes\Contracts\Falsifiable;
-// use Eightfold\Shoop\PipeFilters\TypeOf;
+use Eightfold\Shoop\Shoop;
 
 class TypeAsDictionary extends Filter
 {
@@ -62,6 +59,12 @@ class TypeAsDictionary extends Filter
             ! TypeIs::applyWith("json")->unfoldUsing($using)
         ) {
             return ["content" => $using];
+
+        } elseif (TypeIs::applyWith("json")->unfoldUsing($using)) {
+            return Shoop::pipe($using,
+                TypeAsTuple::apply(),
+                TypeAsDictionary::apply()
+            )->unfold();
 
         } elseif (TypeIs::applyWith("tuple")->unfoldUsing($using)) {
             return (array) $using;
