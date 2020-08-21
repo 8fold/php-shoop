@@ -5,24 +5,25 @@ namespace Eightfold\Shoop\PipeFilters;
 
 use Eightfold\Foldable\Filter;
 
-// use Eightfold\Shoop\Shoop;
-// use Eightfold\Shoop\PipeFilters\Is;
-// use Eightfold\Shoop\PipeFilters\From\FromList as SpanFromList;
+use Eightfold\Shoop\Shoop;
+use Eightfold\Shoop\PipeFilters\From\FromList as SpanFromList;
 
-// use Eightfold\Shoop\PipeFilters\TypeJuggling\AsInteger\FromString as AsIntegerFromString;
-// use Eightfold\Shoop\PipeFilters\TypeJuggling\AsArray\FromString as AsArrayFromString;
-// use Eightfold\Shoop\PipeFilters\TypeJuggling\AsString\FromList as AsStringFromList;
+use Eightfold\Shoop\PipeFilters\TypeJuggling\AsInteger\FromString as AsIntegerFromString;
+use Eightfold\Shoop\PipeFilters\TypeJuggling\AsArray\FromString as AsArrayFromString;
+use Eightfold\Shoop\PipeFilters\TypeJuggling\AsString\FromList as AsStringFromList;
 
-class StartsWith extends Filter
+class EndsWith extends Filter
 {
-    private $prefix = "";
+    private $suffix = "";
 
-    public function __construct($prefix = "")
+    public function __construct(string $suffix = "")
     {
-        $this->prefix = $prefix;
+        $this->suffix = $suffix;
     }
 
-    public function __invoke($using): bool
+    // TODO: PHP 8.0 - str_ends_with()
+    // TODO: PHP 8.0 array|string
+    public function __invoke(string $using): bool
     {
         if (TypeIs::applyWith("boolean")->unfoldUsing($using)) {
 
