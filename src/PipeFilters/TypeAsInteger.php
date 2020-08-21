@@ -14,6 +14,12 @@ class TypeAsInteger extends Filter
         ) {
             return (int) $using;
 
+        } elseif (TypeIs::applyWith("string")->unfoldUsing($using) and
+            ! TypeIs::applyWith("json")->unfoldUsing($using)
+        ) {
+            $array = TypeAsArray::apply()->unfoldUsing($using);
+            return TypeAsInteger::apply()->unfoldUsing($array);
+
         } elseif (TypeIs::applyWith("collection")->unfoldUsing($using)) {
             if (TypeIs::applyWith("tuple")->unfoldUsing($using)) {
                 $using = (array) $using;

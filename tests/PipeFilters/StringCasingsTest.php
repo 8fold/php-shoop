@@ -3,11 +3,10 @@
 namespace Eightfold\Shoop\Tests\PipeFilters;
 
 use Eightfold\Shoop\Tests\TestCase;
+use Eightfold\Shoop\Tests\AssertEquals;
 
-use \stdClass;
-
-use Eightfold\Shoop\PipeFilters\TypeJuggling\AsStringLowerCased;
-use Eightfold\Shoop\PipeFilters\TypeJuggling\AsStringUpperCased;
+use Eightfold\Shoop\PipeFilters\LowerCased;
+use Eightfold\Shoop\PipeFilters\UpperCased;
 
 /**
  * @group StringCasings
@@ -19,21 +18,15 @@ class StringCasingsTest extends TestCase
      */
     public function lowerCased()
     {
-        $sut = "HeLLo! 🎉";
+        AssertEquals::applyWith(
+            "hello! 🎉",
+            LowerCased::apply()
+        )->unfoldUsing("HeLLo! 🎉");
 
-        $this->start = hrtime(true);
-        $expected = "hello! 🎉";
-
-        $actual = AsStringLowerCased::apply()->unfoldUsing($sut);
-        $this->assertEqualsWithPerformance($expected, $actual);
-
-        $this->start = hrtime(true);
-        $sut = ["H", 0, new \stdClass, "e", "LL", "o!", " 🎉"];
-
-        $expected = "hello! 🎉";
-
-        $actual = AsStringLowerCased::apply()->unfoldUsing($sut);
-        $this->assertEqualsWithPerformance($expected, $actual);
+        AssertEquals::applyWith(
+            "hello! 🎉",
+            LowerCased::apply()
+        )->unfoldUsing(["H", 0, new \stdClass, "e", "LL", "o!", " 🎉"]);
     }
 
     /**
@@ -41,21 +34,14 @@ class StringCasingsTest extends TestCase
      */
     public function upperCased()
     {
-        $sut = "HeLLo! 🎉";
+        AssertEquals::applyWith(
+            "HELLO! 🎉",
+            UpperCased::apply()
+        )->unfoldUsing("HeLLo! 🎉");
 
-        // $this->start = hrtime(true);
-        $expected = "HELLO! 🎉";
-
-        $actual = AsStringUpperCased::apply()->unfoldUsing($sut);
-        $this->assertEqualsWithPerformance($expected, $actual);
-
-        $this->start = hrtime(true);
-        $sut = ["H", 0, new \stdClass, "e", "LL", "o!", " 🎉"];
-
-        // $this->start = hrtime(true);
-        $expected = "HELLO! 🎉";
-
-        $actual = AsStringUpperCased::apply()->unfoldUsing($sut);
-        $this->assertEqualsWithPerformance($expected, $actual);
+        AssertEquals::applyWith(
+            "HELLO! 🎉",
+            UpperCased::apply()
+        )->unfoldUsing(["H", 0, new \stdClass, "e", "LL", "o!", " 🎉"]);
     }
 }

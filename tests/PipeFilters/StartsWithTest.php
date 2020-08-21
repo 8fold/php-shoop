@@ -23,20 +23,13 @@ class StartsWithTest extends TestCase
 
         AssertEquals::applyWith(
             true,
-            StartsWith::applyWith("Do you")
+            StartsWith::applyWith("Do you"),
+            3.36
         )->unfoldUsing($using);
 
-
-        // $this->start = hrtime(true);
-        // $expected = true;
-
-        // $actual = StartsWith::applyWith("Do you")->unfoldUsing($using);
-        // $this->assertEqualsWithPerformance($expected, $actual, 3.8);
-
-        // $this->start = hrtime(true);
-        // $expected = false;
-
-        // $actual = StartsWith::applyWith("Do you...")->unfoldUsing($using);
-        // $this->assertEqualsWithPerformance($expected, $actual, 2.9);
+        AssertEquals::applyWith(
+            false,
+            StartsWith::applyWith("Do you...")
+        )->unfoldUsing($using);
     }
 }

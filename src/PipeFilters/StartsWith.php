@@ -5,14 +5,6 @@ namespace Eightfold\Shoop\PipeFilters;
 
 use Eightfold\Foldable\Filter;
 
-// use Eightfold\Shoop\Shoop;
-// use Eightfold\Shoop\PipeFilters\Is;
-// use Eightfold\Shoop\PipeFilters\From\FromList as SpanFromList;
-
-// use Eightfold\Shoop\PipeFilters\TypeJuggling\AsInteger\FromString as AsIntegerFromString;
-// use Eightfold\Shoop\PipeFilters\TypeJuggling\AsArray\FromString as AsArrayFromString;
-// use Eightfold\Shoop\PipeFilters\TypeJuggling\AsString\FromList as AsStringFromList;
-
 class StartsWith extends Filter
 {
     private $prefix = "";
@@ -31,13 +23,13 @@ class StartsWith extends Filter
         } elseif (TypeIs::applyWith("string")->unfoldUsing($using) and
             ! TypeIs::applyWith("json")->unfoldUsing($using)
         ) {
-            $array = TypeAs::applyWith("array")->unfoldUsing($using);
+            $array = TypeAsArray::apply()->unfoldUsing($using);
             $span  = From::applyWith(
                 0,
-                TypeAs::applyWith("integer")->unfoldUsing($array)
+                TypeAsInteger::apply()->unfoldUsing($this->prefix)
             )->unfoldUsing($array);
-            var_dump($span);
-            die("string");
+            $string = TypeAsString::apply()->unfoldUsing($span);
+            return Is::applyWith($this->prefix)->unfoldUsing($string);
 
         } elseif (TypeIs::applyWith("list")->unfoldUsing($using)) {
 
