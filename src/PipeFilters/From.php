@@ -7,6 +7,8 @@ use Eightfold\Foldable\Filter;
 
 use Eightfold\Shoop\Shoop;
 
+use Eightfold\Shoop\Contracts\Falsifiable;
+
 // TODO: rename to "From(start, length, fromEnd)"
 class From extends Filter
 {

@@ -5,6 +5,8 @@ namespace Eightfold\Shoop\PipeFilters;
 
 use Eightfold\Foldable\Filter;
 
+use Eightfold\Shoop\FluentTypes\Contracts\Falsifiable;
+
 class TypeAsBoolean extends Filter
 {
     public function __invoke($using): bool
@@ -14,6 +16,11 @@ class TypeAsBoolean extends Filter
 
         } elseif (TypeIs::applyWith("number")->unfoldUsing($using)) {
             return (bool) $using;
+
+        } elseif (TypeIs::applyWith("object")->unfoldUsing($using) and
+            is_a($using, Falsifiable::class)
+        ) {
+            return $using->efToBool();
 
         } else {
             $int = TypeAsInteger::apply()->unfoldUsing($using);

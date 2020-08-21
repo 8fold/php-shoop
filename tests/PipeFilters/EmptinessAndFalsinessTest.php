@@ -3,6 +3,7 @@
 namespace Eightfold\Shoop\Tests\PipeFilters;
 
 use Eightfold\Shoop\Tests\TestCase;
+use Eightfold\Shoop\Tests\AssertEquals;
 
 use \stdClass;
 
@@ -10,11 +11,8 @@ use Eightfold\Shoop\Shoop;
 
 use Eightfold\Shoop\FluentTypes\Contracts\Falsifiable;
 
-// use Eightfold\Shoop\PipeFilters\TypeJuggling\AsBoolean;
-
+use Eightfold\Shoop\PipeFilters\TypeAsBoolean;
 use Eightfold\Shoop\PipeFilters\IsEmpty;
-
-use Eightfold\Shoop\PipeFilters\TypeAs;
 
 /**
  * @group PhpDeviations
@@ -43,72 +41,51 @@ class EmptinessAndFalsinessTest extends TestCase
      *
      * @see   https://wiki.php.net/rfc/objects-can-be-falsifiable
      */
-    public function empty_class_is_false_and_empty()
+    public function objects_can_be_inversely_correlated()
     {
         $using = new class {};
 
-        // PHP
-        // true | false
+        // PHP - true|false
         $bool = (bool) $using;
+        $empty = empty($using);
+
         $this->assertTrue($bool);
+        $this->assertFalse($empty);
 
-        $bool = empty($using);
-        $this->assertFalse($bool);
+        // Shoop (deviation) - false|true
+        AssertEquals::applyWith(
+            false,
+            TypeAsBoolean::apply(),
+            0.37
+        )->unfoldUsing($using);
 
-        // Shoop
-        // false | true - deviation
-        $this->start = hrtime(true);
-        $expected = false;
+        AssertEquals::applyWith(
+            true,
+            IsEmpty::apply()
+        )->unfoldUsing($using);
 
-        $bool = TypeAs::applyWith("boolean")->unfoldUsing($using);
-        $this->assertEqualsWithPerformance($expected, $bool, 1.2);
-
-        $this->start = hrtime(true);
-        $expected = true;
-
-        $bool = IsEmpty::apply()->unfoldUsing($using);
-        $this->assertEqualsWithPerformance($expected, $bool);
-    }
-
-    /**
-     * @test
-     */
-    public function class_with_public_property_true_and_not_empty()
-    {
-        // tuple
         $using = new class {
             public $property = "8fold";
         };
 
-        // PHP
-        // true | false
-        $bool = (bool) $using;
+        // PHP - true|false
+        $bool  = (bool) $using;
+        $empty = empty($using);
+
         $this->assertTrue($bool);
+        $this->assertFalse($empty);
 
-        $bool = empty($using);
-        $this->assertFalse($bool);
+        // Shoop (no change)
+        AssertEquals::applyWith(
+            true,
+            TypeAsBoolean::apply()
+        )->unfoldUsing($using);
 
-        // Shoop
-        // true | false - no change
-        $this->start = hrtime(true);
-        $expected = true;
+        AssertEquals::applyWith(
+            false,
+            IsEmpty::apply()
+        )->unfoldUsing($using);
 
-        $bool = TypeAs::applyWith("boolean")->unfoldUsing($using);
-        $this->assertEqualsWithPerformance($expected, $bool, 1.35);
-
-        $this->start = hrtime(true);
-        $expected = false;
-
-        $bool = IsEmpty::apply()->unfoldUsing($using);
-        $this->assertEqualsWithPerformance($expected, $bool);
-    }
-
-    /**
-     * @test
-     */
-    public function falsifiable_object_returning_false_is_false_but_not_empty()
-    {
-        // falsifiable is false
         $using = new class implements Falsifiable {
             public $property = "8fold";
 
@@ -118,294 +95,251 @@ class EmptinessAndFalsinessTest extends TestCase
             }
         };
 
-        // PHP
-        // true | false - is_bool | empty, respectively
-        //
-        // Shoop
-        // false | false - deviation
-        $this->start = hrtime(true);
-        $expected = false;
+        // PHP - true|false
+        $bool  = (bool) $using;
+        $empty = empty($using);
 
-        $bool = TypeAs::applyWith("boolean")->unfoldUsing($using);
-        $this->assertEqualsWithPerformance($expected, $bool, 1.35);
+        $this->assertTrue($bool);
+        $this->assertFalse($empty);
 
-        $this->start = hrtime(true);
-        $expected = false;
+        // Shoop (deviation) - false|false
+        AssertEquals::applyWith(
+            false,
+            TypeAsBoolean::apply()
+        )->unfoldUsing($using);
 
-        $bool = IsEmpty::apply()->unfoldUsing($using);
-        $this->assertEqualsWithPerformance($expected, $bool);
+        AssertEquals::applyWith(
+            false,
+            IsEmpty::apply()
+        )->unfoldUsing($using);
     }
 
     /**
      * @test
      */
-    public function bool_falsiness_is_inversely_related_to_its_emptiness()
+    public function boolean_inversely_correlated()
     {
-        // false
-        $using = false;
-
-        // PHP
-        $bool = (bool) $using;
-        $this->assertFalse($bool);
-
-        $bool = empty($using);
-        $this->assertTrue($bool);
-
-        // Shoop
-        $this->start = hrtime(true);
-        $expected = false;
-
-        $bool = TypeAs::applyWith("boolean")->unfoldUsing($using);
-        $this->assertEqualsWithPerformance($expected, $bool, 1.4);
-
-        $this->start = hrtime(true);
-        $expected = true;
-
-        $bool = IsEmpty::apply()->unfoldUsing($using);
-        $this->assertEqualsWithPerformance($expected, $bool);
-
-        // true
         $using = true;
 
         // PHP
-        $bool = (bool) $using;
-        $this->assertTrue($bool);
+        $bool  = (bool) $using;
+        $empty = empty($using);
 
-        $bool = empty($using);
-        $this->assertFalse($bool);
+        $this->assertEquals(true, $bool);
+        $this->assertEquals(false, $empty);
 
-        // Shoop
-        $expected = true;
+        // Shoop (no change)
+        AssertEquals::applyWith(
+            true,
+            TypeAsBoolean::apply()
+        )->unfoldUsing($using);
 
-        $bool = TypeAs::applyWith("boolean")->unfoldUsing($using);
-        $this->assertEqualsWithPerformance($expected, $bool);
-
-        $bool = IsEmpty::apply()->unfoldUsing($using);
-        $this->assertEqualsWithPerformance(false, $bool);
+        AssertEquals::applyWith(
+            false,
+            IsEmpty::apply()
+        )->unfoldUsing($using);
     }
 
     /**
      * @test
      */
-    public function integer_falsiness_is_inversely_related_to_its_emptiness()
+    public function integer_inversely_correlated()
     {
-        // false
         $using = 0;
 
         // PHP
-        $bool = (bool) $using;
+        $bool  = (bool) $using;
+        $empty = empty($using);
+
         $this->assertFalse($bool);
+        $this->assertTrue($empty);
 
-        $bool = empty($using);
-        $this->assertTrue($bool);
+        // Shoop (no change)
+        AssertEquals::applyWith(
+            false,
+            TypeAsBoolean::apply()
+        )->unfoldUsing($using);
 
-        // Shoop
-        $this->start = hrtime(true);
-        $expected = false;
-
-        $bool = TypeAs::applyWith("boolean")->unfoldUsing($using);
-        $this->assertEqualsWithPerformance($expected, $bool, 1.3);
-
-        $this->start = hrtime(true);
-        $expected = true;
-
-        $bool = IsEmpty::apply()->unfoldUsing($using);
-        $this->assertEqualsWithPerformance($expected, $bool);
-
-        // true
-        $using = 100;
-
-        // PHP
-        $bool = (bool) $using;
-        $this->assertTrue($bool);
-
-        $bool = empty($using);
-        $this->assertFalse($bool);
-
-        // Shoop
-        $expected = true;
-
-        $bool = TypeAs::applyWith("boolean")->unfoldUsing($using);
-        $this->assertEqualsWithPerformance(true, $bool);
-
-        $bool = IsEmpty::apply()->unfoldUsing($using);
-        $this->assertEqualsWithPerformance(false, $bool);
-
-        // true
-        $using = -100;
-
-        // PHP
-        $bool = (bool) $using;
-        $this->assertTrue($bool);
-
-        $bool = empty($using);
-        $this->assertFalse($bool);
-
-        // Shoop
-        $expected = true;
-
-        $bool = TypeAs::applyWith("boolean")->unfoldUsing($using);
-        $this->assertEqualsWithPerformance($expected, $bool);
-
-        $bool = IsEmpty::apply()->unfoldUsing($using);
-        $this->assertEqualsWithPerformance(false, $bool);
+        AssertEquals::applyWith(
+            true,
+            IsEmpty::apply()
+        )->unfoldUsing($using);
     }
 
     /**
      * @test
      */
-    public function array_falsiness_is_inversely_related_to_its_emptiness()
+    public function list_inversely_correlated()
     {
-        // false
         $using = [];
 
         // PHP
-        $bool = (bool) $using;
+        $bool  = (bool) $using;
+        $empty = empty($using);
+
         $this->assertFalse($bool);
+        $this->assertTrue($empty);
 
-        $bool = empty($using);
-        $this->assertTrue($bool);
+        // Shoop (no change)
+        AssertEquals::applyWith(
+            false,
+            TypeAsBoolean::apply(),
+            0.34
+        )->unfoldUsing($using);
 
-        // Shoop
-        $this->start = hrtime(true);
-        $expected = false;
+        AssertEquals::applyWith(
+            true,
+            IsEmpty::apply()
+        )->unfoldUsing($using);
 
-        $bool = TypeAs::applyWith("boolean")->unfoldUsing($using);
-        $this->assertEqualsWithPerformance($expected, $bool, 1.15);
-
-        $this->start = hrtime(true);
-        $expected = true;
-
-        $bool = IsEmpty::apply()->unfoldUsing($using);
-        $this->assertEqualsWithPerformance($expected, $bool);
-
-        // true
         $using = [1];
 
         // PHP
-        $bool = (bool) $using;
+        $bool  = (bool) $using;
+        $empty = empty($using);
+
         $this->assertTrue($bool);
+        $this->assertFalse($empty);
 
-        $bool = empty($using);
-        $this->assertFalse($bool);
+        // Shoop (no change)
+        AssertEquals::applyWith(
+            true,
+            TypeAsBoolean::apply()
+        )->unfoldUsing($using);
 
-        // Shoop
-        // $this->start = hrtime(true);
-        $expected = true;
+        AssertEquals::applyWith(
+            false,
+            IsEmpty::apply()
+        )->unfoldUsing($using);
 
-        $bool = TypeAs::applyWith("boolean")->unfoldUsing($using);
-        $this->assertEqualsWithPerformance($expected, $bool);
-
-        $expected = false;
-
-        $bool = IsEmpty::apply()->unfoldUsing($using);
-        $this->assertEqualsWithPerformance($expected, $bool);
-    }
-
-// -> Non-sequential types: most likely should behave similarly
-
-    /**
-     * @test
-     */
-    public function dictionary_falsiness_is_inversely_related_to_its_emptiness()
-    {
-        // false
-        $using = [];
-
-        // PHP
-        $bool = (bool) $using;
-        $this->assertFalse($bool);
-
-        $bool = empty($using);
-        $this->assertTrue($bool);
-
-        // Shoop
-        $this->start = hrtime(true);
-        $expected = false;
-
-        $bool = TypeAs::applyWith("boolean")->unfoldUsing($using);
-        $this->assertEqualsWithPerformance($expected, $bool, 2.8);
-
-        $this->start = hrtime(true);
-        $bool = IsEmpty::apply()->unfoldUsing($using);
-        $this->assertEqualsWithPerformance(true, $bool);
-
-        // true
         $using = ["one" => 1];
 
         // PHP
-        $bool = (bool) $using;
+        $bool  = (bool) $using;
+        $empty = empty($using);
+
         $this->assertTrue($bool);
+        $this->assertFalse($empty);
 
-        $bool = empty($using);
-        $this->assertFalse($bool);
+        // Shoop (no change)
+        AssertEquals::applyWith(
+            true,
+            TypeAsBoolean::apply()
+        )->unfoldUsing($using);
 
-        // Shoop
-        // $this->start = hrtime(true);
-        $expected = true;
-
-        $bool = TypeAs::applyWith("boolean")->unfoldUsing($using);
-        $this->assertEqualsWithPerformance($expected, $bool);
-
-        $expected = false;
-
-        $bool = IsEmpty::apply()->unfoldUsing($using);
-        $this->assertEqualsWithPerformance($expected, $bool);
+        AssertEquals::applyWith(
+            false,
+            IsEmpty::apply()
+        )->unfoldUsing($using);
     }
 
     /**
      * @test
      */
-    public function json_as_tuple_falsiness_is_inversely_related_to_its_emptiness()
+    public function tuple_inversely_correlated_deviation()
     {
-        // false
+        $using = new stdClass;
+
+        // PHP - true|false
+        $bool  = (bool) $using;
+        $empty = empty($using);
+
+        $this->assertTrue($bool);
+        $this->assertFalse($empty);
+
+        // Shoop (deviation) - false|true
+        AssertEquals::applyWith(
+            false,
+            TypeAsBoolean::apply(),
+            0.43
+        )->unfoldUsing($using);
+
+        AssertEquals::applyWith(
+            true,
+            IsEmpty::apply()
+        )->unfoldUsing($using);
+
+        $using = (object) ["public" => true];
+
+        // PHP - true|false
+        $bool  = (bool) $using;
+        $empty = empty($using);
+
+        $this->assertTrue($bool);
+        $this->assertFalse($empty);
+
+        // Shoop (deviation) - true|false
+        AssertEquals::applyWith(
+            true,
+            TypeAsBoolean::apply()
+        )->unfoldUsing($using);
+
+        AssertEquals::applyWith(
+            false,
+            IsEmpty::apply()
+        )->unfoldUsing($using);
+
+        $using = new class {
+            public $var   = "content";
+            private $var2 = "private";
+        };
+
+        // PHP
+        $bool  = (bool) $using;
+        $empty = empty($using);
+
+        $this->assertTrue($bool);
+        $this->assertFalse($empty);
+
+        // Shoop (no change)
+        AssertEquals::applyWith(
+            true,
+            TypeAsBoolean::apply()
+        )->unfoldUsing($using);
+
+        AssertEquals::applyWith(
+            false,
+            IsEmpty::apply()
+        )->unfoldUsing($using);
+
         $using = '{}';
 
-        // PHP
-        // true | false
-        $bool = (bool) $using;
+        // PHP - true|false
+        $bool  = (bool) $using;
+        $empty = empty($using);
+
         $this->assertTrue($bool);
+        $this->assertFalse($empty);
 
-        $bool = empty($using);
-        $this->assertFalse($bool);
+        // Shoop (deviation) - true|true
+        AssertEquals::applyWith(
+            true,
+            TypeAsBoolean::apply()
+        )->unfoldUsing($using);
 
-        // Shoop
-        // false | true - deviation
-        $this->start = hrtime(true);
-        $expected = false;
+        AssertEquals::applyWith(
+            true,
+            IsEmpty::apply()
+        )->unfoldUsing($using);
 
-        $bool = TypeAs::applyWith("boolean")->unfoldUsing($using);
-        $this->assertEqualsWithPerformance($expected, $bool, 4.1);
+        $using = '{"member":true}';
 
-        $this->start = hrtime(true); // deviation
-        $expected = true;
+        // PHP - true|false
+        $bool  = (bool) $using;
+        $empty = empty($using);
 
-        $bool = IsEmpty::apply()->unfoldUsing($using);
-        $this->assertEqualsWithPerformance($expected, $bool, 1.3);
-
-        // true
-        $using = '{"one":1}';
-
-        // PHP
-        // true | false - no change
-        $bool = (bool) $using;
         $this->assertTrue($bool);
+        $this->assertFalse($empty);
 
-        $bool = empty($using);
-        $this->assertFalse($bool);
+        // Shoop (no change) - true|false
+        AssertEquals::applyWith(
+            true,
+            TypeAsBoolean::apply()
+        )->unfoldUsing($using);
 
-        // Shoop
-        // true | false - no change
-        $this->start = hrtime(true);
-        $bool = TypeAs::applyWith("boolean")->unfoldUsing($using);
-        $this->assertEqualsWithPerformance(true, $bool);
-
-        $bool = IsEmpty::apply()->unfoldUsing($using);
-        $this->assertEqualsWithPerformance(false, $bool);
-
-        // TODO: Consider - see dictionary. Should we allow a member "efToBool"
-        //      set to true or false use the falsifiable mechanic?? Is it that
-        //      efToBool is the name - or is it that efToBool is the name, and
-        //      the content of the member is callable??
+        AssertEquals::applyWith(
+            false,
+            IsEmpty::apply()
+        )->unfoldUsing($using);
     }
 }
