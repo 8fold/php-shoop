@@ -233,75 +233,91 @@ class TypeAsTest extends TestCase
     public function tuple()
     {
         AssertEquals::applyWith(
-            (object) ["public" => "content", "publicEmptyString" => ""],
-            TypeAs::applyWith("tuple")
-        )->unfoldUsing((object) ["public" => "content", "publicEmptyString" => ""]);
+            (object) ["true" => true, "false" => false],
+            TypeAsTuple::apply(),
+            1.3
+        )->unfoldUsing(true);
 
         AssertEquals::applyWith(
-            ["public" => "content", "publicEmptyString" => ""],
-            TypeAs::applyWith("dictionary")
-        )->unfoldUsing((object) ["public" => "content", "publicEmptyString" => ""]);
+            (object) ["i0" => 0, "i1" => 1, "i2" => 2],
+            TypeAsTuple::apply(),
+            1.5
+        )->unfoldUsing(2);
 
         AssertEquals::applyWith(
-            ["content", ""],
-            TypeAs::applyWith("array")
-        )->unfoldUsing((object) ["public" => "content", "publicEmptyString" => ""]);
+            (object) ["i0" => 0, "i1" => 1, "i2" => 2],
+            TypeAsTuple::apply(),
+            0.4
+        )->unfoldUsing(2.5);
 
         AssertEquals::applyWith(
-            2,
-            TypeAs::applyWith("integer")
-        )->unfoldUsing((object) ["public" => "content", "publicEmptyString" => ""]);
+            (object) ["content" => "8"],
+            TypeAsTuple::apply()
+        )->unfoldUsing("8");
 
         AssertEquals::applyWith(
-            2.0,
-            TypeAs::applyWith("float")
-        )->unfoldUsing((object) ["public" => "content", "publicEmptyString" => ""]);
+            (object) ["i0" => 2, "i1" => 3],
+            TypeAsTuple::apply()
+        )->unfoldUsing([2, 3]);
 
         AssertEquals::applyWith(
-            true,
-            TypeAs::applyWith("boolean")
-        )->unfoldUsing((object) ["public" => "content", "publicEmptyString" => ""]);
+            (object) ["first" => 2, "second" => 3],
+            TypeAsTuple::apply()
+        )->unfoldUsing(["first" => 2, "second" => 3]);
 
         AssertEquals::applyWith(
-            '{"public":"content","publicEmptyString":""}',
-            TypeAs::applyWith("json")
-        )->unfoldUsing((object) ["public" => "content", "publicEmptyString" => ""]);
+            (object) ["first" => 2, "second" => 3],
+            TypeAsTuple::apply()
+        )->unfoldUsing(
+            new class {
+                public $first = 2;
+                public $second = 3;
+                private $third = 4;
+                public function efToBool()
+                {
+                    return false;
+                }
+            }
+        );
     }
 
     /**
      * @test
+     *
+     * @group current
      */
     public function json()
     {
-        AssertEquals::applyWith(
-            (object) ["public" => "content", "boolean" => true],
-            TypeAs::applyWith("tuple")
-        )->unfoldUsing('{"public":"content","boolean":true}');
+        $this->assertTrue(false);
+        // AssertEquals::applyWith(
+        //     (object) ["public" => "content", "boolean" => true],
+        //     TypeAs::applyWith("tuple")
+        // )->unfoldUsing('{"public":"content","boolean":true}');
 
-        AssertEquals::applyWith(
-            ["public" => "content", "boolean" => true],
-            TypeAs::applyWith("dictionary")
-        )->unfoldUsing('{"public":"content","boolean":true}');
+        // AssertEquals::applyWith(
+        //     ["public" => "content", "boolean" => true],
+        //     TypeAs::applyWith("dictionary")
+        // )->unfoldUsing('{"public":"content","boolean":true}');
 
-        AssertEquals::applyWith(
-            ["content", true],
-            TypeAs::applyWith("array")
-        )->unfoldUsing('{"public":"content","boolean":true}');
+        // AssertEquals::applyWith(
+        //     ["content", true],
+        //     TypeAs::applyWith("array")
+        // )->unfoldUsing('{"public":"content","boolean":true}');
 
-        AssertEquals::applyWith(
-            2,
-            TypeAs::applyWith("integer")
-        )->unfoldUsing('{"public":"content","boolean":true}');
+        // AssertEquals::applyWith(
+        //     2,
+        //     TypeAs::applyWith("integer")
+        // )->unfoldUsing('{"public":"content","boolean":true}');
 
-        AssertEquals::applyWith(
-            2.0,
-            TypeAs::applyWith("float")
-        )->unfoldUsing('{"public":"content","boolean":true}');
+        // AssertEquals::applyWith(
+        //     2.0,
+        //     TypeAs::applyWith("float")
+        // )->unfoldUsing('{"public":"content","boolean":true}');
 
-        AssertEquals::applyWith(
-            true,
-            TypeAs::applyWith("boolean")
-        )->unfoldUsing('{"public":"content","boolean":true}');
+        // AssertEquals::applyWith(
+        //     true,
+        //     TypeAs::applyWith("boolean")
+        // )->unfoldUsing('{"public":"content","boolean":true}');
     }
 
     /**

@@ -10,7 +10,7 @@ use \stdClass;
 use Eightfold\Shoop\FluentTypes\Contracts\Falsifiable;
 use Eightfold\Shoop\PipeFilters\TypeOf;
 
-class TypeAs extends Filter
+class TypeAsJson extends Filter
 {
     private $targetType = "boolean";
     private $secondary  = 0;
