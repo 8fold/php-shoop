@@ -9,10 +9,9 @@ class TypeAsInteger extends Filter
 {
     public function __invoke($using)
     {
-        if (TypeIs::applyWith("boolean")->unfoldUsing($using)) {
-            return (int) $using;
-
-        } elseif (TypeIs::applyWith("number")->unfoldUsing($using)) {
+        if (TypeIs::applyWith("boolean")->unfoldUsing($using) or
+            (TypeIs::applyWith("number")->unfoldUsing($using))
+        ) {
             return (int) $using;
 
         } elseif (TypeIs::applyWith("collection")->unfoldUsing($using)) {
@@ -20,6 +19,10 @@ class TypeAsInteger extends Filter
                 $using = (array) $using;
             }
             return count($using);
+
+        } elseif (TypeIs::applyWith("object")->unfoldUsing($using)) {
+            $number = TypeAsNumber::apply()->unfoldUsing($using);
+            return TypeAsInteger::apply()->unfoldUsing($number);
 
         }
     }

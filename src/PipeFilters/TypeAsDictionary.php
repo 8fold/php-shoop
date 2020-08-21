@@ -63,6 +63,13 @@ class TypeAsDictionary extends Filter
         ) {
             return ["content" => $using];
 
+        } elseif (TypeIs::applyWith("tuple")->unfoldUsing($using)) {
+            return (array) $using;
+
+        } elseif (TypeIs::applyWith("object")->unfoldUsing($using)) {
+            $tuple = TypeAsTuple::apply()->unfoldUsing($using);
+            return TypeAsDictionary::apply()->unfoldUsing($tuple);
+
         }
     }
 }

@@ -30,6 +30,10 @@ class TypeAsTuple extends Filter
 
     public function __invoke($using): object
     {
+        if (TypeIs::applyWith("tuple")->unfoldUsing($using)) {
+            return $using;
+        }
+
         if (TypeIs::applyWith("boolean")->unfoldUsing($using)) {
             $dictionary = TypeAsDictionary::apply()->unfoldUsing($using);
             return TypeAsTuple::apply()->unfoldUsing($dictionary);
@@ -56,6 +60,11 @@ class TypeAsTuple extends Filter
         } elseif (TypeIs::applyWith("dictionary")->unfoldUsing($using)) {
             return (object) $using;
 
+        } elseif (TypeIs::applyWith("string")->unfoldUsing($using) and
+            ! TypeIs::applyWith("json")->unfoldUsing($using)
+        ) {
+            return (object) TypeAsDictionary::apply()->unfoldUsing($using);
+
         } elseif (TypeIs::applyWith("object")->unfoldUsing($using)) {
             $properties = get_object_vars($using);
 
@@ -68,11 +77,6 @@ class TypeAsTuple extends Filter
 
             $tuple = (object) $filtered;
             return $tuple;
-
-        } elseif (TypeIs::applyWith("string")->unfoldUsing($using) and
-            ! TypeIs::applyWith("json")->unfoldUsing($using)
-        ) {
-            return (object) TypeAsDictionary::apply()->unfoldUsing($using);
 
         }
     }

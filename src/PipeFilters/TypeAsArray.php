@@ -38,8 +38,7 @@ class TypeAsArray extends Filter
             return range($int, $using);
 
         } elseif (TypeIs::applyWith("collection")->unfoldUsing($using)) {
-            $strings = array_filter($using, "is_string"); // TODO: Move to Minus
-            return implode($this->glue, $strings);
+            return array_values($using);
 
         } elseif (TypeIs::applyWith("string")->unfoldUsing($using) and
             ! TypeIs::applyWith("json")->unfoldUsing($using)
@@ -53,6 +52,11 @@ class TypeAsArray extends Filter
                 return array_values($array);
 
             }
+
+        } elseif (TypeIs::applyWith("object")->unfoldUsing($using)) {
+            $dictionary = TypeAsDictionary::apply()->unfoldUsing($using);
+            return TypeAsArray::apply()->unfoldUsing($dictionary);
+
         }
     }
 }

@@ -15,7 +15,7 @@ class TypeAsBoolean extends Filter
         } elseif (TypeIs::applyWith("number")->unfoldUsing($using)) {
             return (bool) $using;
 
-        } elseif (TypeIs::applyWith("collection")->unfoldUsing($using)) {
+        } else {
             $int = TypeAsInteger::apply()->unfoldUsing($using);
             return TypeAsBoolean::apply()->unfoldUsing($int);
 

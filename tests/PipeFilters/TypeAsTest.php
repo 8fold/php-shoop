@@ -162,7 +162,8 @@ class TypeAsTest extends TestCase
 
         AssertEquals::applyWith(
             ["8", "f", "o", "l", "d"],
-            TypeAsArray::apply()
+            TypeAsArray::apply(),
+            0.84
         )->unfoldUsing("8fold");
 
         AssertEquals::applyWith(
@@ -222,9 +223,9 @@ class TypeAsTest extends TestCase
         )->unfoldUsing([2, 3, 4]);
 
         AssertEquals::applyWith(
-            ["efs0" => "8", "efs1" => "f"],
-            TypeAsDictionary::applyWith("!", false, 2, "efs")
-        )->unfoldUsing("8!f");
+            ["content" => "8fold!"],
+            TypeAsDictionary::apply()
+        )->unfoldUsing("8fold!");
     }
 
     /**
@@ -283,47 +284,52 @@ class TypeAsTest extends TestCase
 
     /**
      * @test
-     *
-     * @group current
      */
     public function json()
     {
-        $this->assertTrue(false);
-        // AssertEquals::applyWith(
-        //     (object) ["public" => "content", "boolean" => true],
-        //     TypeAs::applyWith("tuple")
-        // )->unfoldUsing('{"public":"content","boolean":true}');
+        AssertEquals::applyWith(
+            '{"true":false,"false":true}',
+            TypeAsJson::apply(),
+            1.96
+        )->unfoldUsing(false);
 
-        // AssertEquals::applyWith(
-        //     ["public" => "content", "boolean" => true],
-        //     TypeAs::applyWith("dictionary")
-        // )->unfoldUsing('{"public":"content","boolean":true}');
+        AssertEquals::applyWith(
+            '{"i0":0,"i1":1,"i2":2}',
+            TypeAsJson::apply(),
+            1.25
+        )->unfoldUsing(2);
 
-        // AssertEquals::applyWith(
-        //     ["content", true],
-        //     TypeAs::applyWith("array")
-        // )->unfoldUsing('{"public":"content","boolean":true}');
+        AssertEquals::applyWith(
+            '{"i0":0,"i1":1,"i2":2}',
+            TypeAsJson::apply()
+        )->unfoldUsing(2.2);
 
-        // AssertEquals::applyWith(
-        //     2,
-        //     TypeAs::applyWith("integer")
-        // )->unfoldUsing('{"public":"content","boolean":true}');
+        AssertEquals::applyWith(
+            '{"content":"8fold"}',
+            TypeAsJson::apply()
+        )->unfoldUsing("8fold");
 
-        // AssertEquals::applyWith(
-        //     2.0,
-        //     TypeAs::applyWith("float")
-        // )->unfoldUsing('{"public":"content","boolean":true}');
+        AssertEquals::applyWith(
+            '{"i0":0,"i1":1,"i2":2}',
+            TypeAsJson::apply()
+        )->unfoldUsing([0, 1, 2]);
 
-        // AssertEquals::applyWith(
-        //     true,
-        //     TypeAs::applyWith("boolean")
-        // )->unfoldUsing('{"public":"content","boolean":true}');
+
+        AssertEquals::applyWith(
+            '{"first":0,"second":1}',
+            TypeAsJson::apply()
+        )->unfoldUsing(["first" => 0, "second" => 1]);
+
+        AssertEquals::applyWith(
+            '{"first":0,"second":1}',
+            TypeAsJson::apply()
+        )->unfoldUsing((object) ["first" => 0, "second" => 1]);
     }
 
     /**
      * @test
      *
-     * Only does downcasting, really.
+     * Objects only transform *into* other types.
      */
     public function objects()
     {
@@ -338,38 +344,33 @@ class TypeAsTest extends TestCase
 
         AssertEquals::applyWith(
             (object) ["public" => "content"],
-            TypeAs::applyWith("tuple")
-        )->unfoldUsing($using);
-
-
-        AssertEquals::applyWith(
-            (object) ["public" => "content"],
-            TypeAs::applyWith("tuple")
+            TypeAsTuple::apply(),
+            0.76
         )->unfoldUsing($using);
 
         AssertEquals::applyWith(
             ["public" => "content"],
-            TypeAs::applyWith("dictionary")
+            TypeAsDictionary::apply()
         )->unfoldUsing($using);
 
         AssertEquals::applyWith(
             ["content"],
-            TypeAs::applyWith("array")
+            TypeAsArray::apply()
         )->unfoldUsing($using);
 
         AssertEquals::applyWith(
             1.0,
-            TypeAs::applyWith("float")
+            TypeAsNumber::apply()
         )->unfoldUsing($using);
 
         AssertEquals::applyWith(
             1,
-            TypeAs::applyWith("integer")
+            TypeAsInteger::apply()
         )->unfoldUsing($using);
 
         AssertEquals::applyWith(
             true,
-            TypeAs::applyWith("integer")
+            TypeAsBoolean::apply()
         )->unfoldUsing($using);
     }
 }
