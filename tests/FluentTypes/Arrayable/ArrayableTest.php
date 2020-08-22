@@ -24,14 +24,13 @@ class ArrayableTest extends TestCase
 {
     /**
      * @test
-     * @group current
      */
     public function ESArray()
     {
-        $shoop = ESArray::fold([false, true]);
+        $using = ESArray::fold([false, true]);
 
         $expected = false;
-        $actual   = $shoop[0];
+        $actual   = $using[0];
         $this->assertEquals($expected, $actual);
 
         $expectedKeysSum      = 1;
@@ -39,9 +38,9 @@ class ArrayableTest extends TestCase
 
         $sumKeys      = 0;
         $countContent = 0;
-        foreach ($shoop as $key => $value) {
+        foreach ($using as $key => $value) {
             $sumKeys      += $key;
-            $countContent += $value;
+            $countContent++;
         }
         $this->assertEquals($expectedKeysSum, $sumKeys);
         $this->assertEquals($expectedContentCount, $countContent);
@@ -52,8 +51,27 @@ class ArrayableTest extends TestCase
      */
     public function ESBoolean()
     {
-        // AssertEqualsFluent::applyWith([false, true], 1.68)
-        //     ->unfoldUsing(ESBoolean::fold(true)->array());
+        $using = ESBoolean::fold(false);
+
+        $expected = true;
+        $actual   = $using["false"];
+        $this->assertEquals($expected, $actual);
+
+        $expected = false;
+        $actual   = $using[0];
+        $this->assertEquals($expected, $actual);
+
+        $expectedKeys  = ["false", "true"];
+        $expectedCount = 2;
+
+        $keys  = [];
+        $count = 0;
+        foreach ($using as $key => $value) {
+            $keys[] = $key;
+            $count++;
+        }
+        $this->assertEquals($expectedKeys, $keys);
+        $this->assertEquals($expectedCount, $count);
     }
 
     /**
@@ -61,10 +79,27 @@ class ArrayableTest extends TestCase
      */
     public function ESDictionary()
     {
-        // AssertEqualsFluent::applyWith(["string", true], 1.37)
-        //     ->unfoldUsing(
-        //         ESDictionary::fold(["a" => "string", "b" => true])->array()
-        //     );
+        $using = ESDictionary::fold(["a" => "string", "b" => true, "c" => 1]);
+
+        $expected = false;
+        $actual   = $using[0];
+        $this->assertEquals($expected, $actual);
+
+        $expected = true;
+        $actual   = $using["b"];
+        $this->assertEquals($expected, $actual);
+
+        $expectedKeys  = ["a", "b", "c"];
+        $expectedCount = 3;
+
+        $keys  = [];
+        $count = 0;
+        foreach ($using as $key => $value) {
+            $keys[] = $key;
+            $count++;
+        }
+        $this->assertEquals($expectedKeys, $keys);
+        $this->assertEquals($expectedCount, $count);
     }
 
     /**
@@ -72,34 +107,55 @@ class ArrayableTest extends TestCase
      */
     public function ESInteger()
     {
-        // AssertEqualsFluent::applyWith([0, 1, 2, 3, 4, 5], 1.55)
-        //     ->unfoldUsing(ESInteger::fold(5)->array());
+        $using = ESInteger::fold(4);
+
+        $expected = true;
+        $actual   = $using[3];
+        $this->assertEquals($expected, $actual);
+
+        $expected = false;
+        $actual   = $using["i2"];
+        $this->assertEquals($expected, $actual);
+
+        $expectedKeys  = [0, 1, 2, 3, 4];
+        $expectedCount = 5;
+
+        $keys  = [];
+        $count = 0;
+        foreach ($using as $key => $value) {
+            $keys[] = $key;
+            $count++;
+        }
+        $this->assertEquals($expectedKeys, $keys);
+        $this->assertEquals($expectedCount, $count);
     }
 
     /**
      * @test
-     */
-    public function ESJson()
-    {
-        // AssertEqualsFluent::applyWith(["test"], 2.22)
-        //     ->unfoldUsing(ESJson::fold('{"test":"test"}')->array());
-    }
-
-    /**
-     * @test
-     */
-    public function ESTuple()
-    {
-        // AssertEqualsFluent::applyWith([], 8.49)
-        //     ->unfoldUsing(ESTuple::fold(new stdClass)->array());
-    }
-
-    /**
-     * @test
+     * @group current
      */
     public function ESString()
     {
-        // AssertEqualsFluent::applyWith(["h", "e", "l", "l", "o"], 2.32)
-        //     ->unfoldUsing(ESString::fold("hello")->array());
+        $using = ESString::fold("8fold!");
+
+        $expected = "!";
+        $actual   = $using[5];
+        $this->assertEquals($expected, $actual);
+
+        $expected = false;
+        $actual   = $using["i2"];
+        $this->assertEquals($expected, $actual);
+
+        $expectedKeys  = [0, 1, 2, 3, 4, 5];
+        $expectedCount = 6;
+
+        $keys  = [];
+        $count = 0;
+        foreach ($using as $key => $value) {
+            $keys[] = $key;
+            $count++;
+        }
+        $this->assertEquals($expectedKeys, $keys);
+        $this->assertEquals($expectedCount, $count);
     }
 }

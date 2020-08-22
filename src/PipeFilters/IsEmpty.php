@@ -9,6 +9,28 @@ class IsEmpty extends Filter
 {
     public function __invoke($using): bool
     {
+        if (TypeIs::applyWith("tuple")->unfoldUsing($using)) {
+            return Shoop::pipe($using,
+                TypeAsDictionary::apply(),
+                IsEmpty::apply()
+            )->unfold();
+
+        } elseif (TypeIs::applyWith("string")->unfoldUsing($using)) {
+            return (bool) $using;
+
+        } elseif (TypeIs::applyWith("object")->unfoldUsing($using)) {
+            $properties = get_object_vars($using);
+            $methods = get_class_methods($using);
+            $using = array_merge($properties, $methods);
+            return Shoop::pipe($using,
+                TypeAsArray::apply(),
+                IsEmpty::apply()
+            )->unfold();
+
+        } else {
+            return empty($using);
+
+        }
         if (is_string($using)) {
             $length = strlen($using);
             if ($length >= 2 and

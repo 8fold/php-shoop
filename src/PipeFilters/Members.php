@@ -19,38 +19,21 @@ use Eightfold\Shoop\PipeFilters\Members\FromList;
 
 class Members extends Filter
 {
+    private $useArray = true;
+
+    public function __construct(bool $useArray = true)
+    {
+        $this->useArray = $useArray;
+    }
+
     public function __invoke($using)
     {
-        if (IsList::apply()->unfoldUsing($using)) {
-            return FromList::applyWith($this->main)
-                ->unfoldUsing($using);
-        }
-
-        if (IsNumber::apply()->unfoldUsing($using)) {
-            return FromNumber::applyWith($this->main)
-                ->unfoldUsing($using);
-
-        } elseif (IsBoolean::apply()->unfoldUsing($using)) {
-            return FromBoolean::applyWith($this->main)
-                ->unfoldUsing($using);
-
-        } elseif (IsString::applyWith(true)->unfoldUsing($using)) {
-            if (IsJson::apply()->unfoldUsing($using)) {
-                return FromJson::applyWith($this->main)
-                    ->unfoldUsing($using);
-
-            }
-            return FromString::applyWith($this->main)
-                ->unfoldUsing($using);
-
-        } elseif (IsTuple::apply()->unfoldUsing($using)) {
-            return FromTuple::applyWith($this->main)
-                ->unfoldUsing($using);
-
-        } elseif (IsObject::apply()->unfoldUsing($using)) {
-            return FromObject::applyWith($this->main)
-                ->unfoldUsing($using);
+        if ($this->useArray) {
+            $array = TypeAsArray::apply()->unfoldUsing($using);
+            return array_keys($array);
 
         }
+        $dictionary = TypeAsDictionary::apply()->unfoldUsing($using);
+        return array_keys($dictionary);
     }
 }

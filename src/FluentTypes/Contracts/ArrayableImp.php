@@ -8,6 +8,8 @@ use Eightfold\Shoop\Apply;
 
 use Eightfold\Shoop\FluentTypes\ESArray;
 use Eightfold\Shoop\FluentTypes\ESBoolean;
+use Eightfold\Shoop\FluentTypes\ESInteger;
+use Eightfold\Shoop\FluentTypes\ESString;
 
 trait ArrayableImp
 {
@@ -23,6 +25,7 @@ trait ArrayableImp
 
     public function offsetExists($offset): bool
     {
+        die("offsetExists");
         return Apply::hasMember($offset)->unfoldUsing($this->main);
     }
 
@@ -35,6 +38,7 @@ trait ArrayableImp
 
     public function offsetGet($offset)
     {
+        // die("offsetGet");
         return Apply::at($offset)->unfoldUsing($this->main);
     }
 
@@ -46,6 +50,7 @@ trait ArrayableImp
 
     public function offsetSet($offset, $value): void
     {
+        die("offsetSet");
         $this->main = Apply::plusMember($value, $offset)
             ->unfoldUsing($this->main);
     }
@@ -58,6 +63,7 @@ trait ArrayableImp
 
     public function offsetUnset($offset): void
     {
+        die("offsetUnset");
         $this->main = Apply::minusMember($offset)->unfoldUsing($this->main);
     }
 
@@ -85,7 +91,7 @@ trait ArrayableImp
             $this->rewind();
         }
         $member = key($this->temp);
-        return Apply::hasMember($member)->unfoldUsing($this->temp);
+        return Apply::hasMembers($member)->unfoldUsing($this->temp);
     }
 
     public function current()
