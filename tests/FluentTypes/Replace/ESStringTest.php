@@ -17,7 +17,7 @@ class ESStringTest extends TestCase
     public function test_countable()
     {
         $expected = 5;
-        $actual = ESString::fold("8fold")->int()->unfold();
+        $actual = ESString::fold("8fold")->integer()->unfold();
         $this->assertEqualsWithPerformance($expected, $actual, 2.3);
 
         $this->start = hrtime(true);

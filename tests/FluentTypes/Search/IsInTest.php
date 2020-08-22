@@ -52,7 +52,7 @@ class IsInTest extends TestCase
     {
         $base = 1;
         $container = [0, 3, 2];
-        $actual = Shoop::int($base)->isIn($container);
+        $actual = Shoop::integer($base)->isIn($container);
         $this->assertFalse($actual->unfold());
     }
 

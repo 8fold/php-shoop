@@ -43,7 +43,7 @@ trait ToggleImp
         } elseif (Type::is($this, ESInteger::class)) {
             $int = $this->intUnfolded();
             $int = -1 * $int;
-            return Shoop::int($int);
+            return Shoop::integer($int);
 
         } elseif (Type::is($this, ESJson::class)) {
             $object = $this->objectUnfolded();

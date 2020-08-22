@@ -30,8 +30,8 @@ trait PhpInterfacesImp
 // - Countable
     public function count(): ESInteger
     {
-        $int = $this->int();
-        return Shoop::int($int);
+        $int = $this->integer();
+        return Shoop::integer($int);
     }
 
 // - ArrayAccess

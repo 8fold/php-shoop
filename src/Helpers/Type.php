@@ -48,7 +48,7 @@ class Type
                 break;
 
             case ESInteger::class:
-                return $shooped->int();
+                return $shooped->integer();
                 break;
 
             case ESJson::class:

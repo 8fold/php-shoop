@@ -79,7 +79,7 @@ class ESArray implements
     {
         $array = $this->unfold();
         $sum = array_sum($array);
-        return Shoop::int($sum);
+        return Shoop::integer($sum);
     }
 
     // TODO: PHP 8.0 int|ESInteger

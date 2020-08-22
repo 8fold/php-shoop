@@ -48,7 +48,7 @@ trait MathOperationsImp
                 $term = Type::sanitizeType($term, ESInteger::class)->unfold();
                 $total += $term;
             }
-            return Shoop::int($total);
+            return Shoop::integer($total);
 
         } elseif (Type::is($this, ESJson::class)) {
             // TODO: Pretty sure this should be the same expectations as set()
@@ -102,7 +102,7 @@ trait MathOperationsImp
                 $term = Type::sanitizeType($term, ESInteger::class)->unfold();
                 $total -= $term;
             }
-            return Shoop::int($total);
+            return Shoop::integer($total);
 
         } elseif (Type::is($this, ESJson::class)) {
             $object = $this->objectUnfolded();
@@ -149,7 +149,7 @@ trait MathOperationsImp
             $int = $this->intUnfolded();
             $divisor = Type::sanitizeType($divisor, ESInteger::class)->unfold();
             $int = (int) round($int/$divisor);
-            return Shoop::int($int);
+            return Shoop::integer($int);
 
         } elseif (Type::is($this, ESJson::class)) {
             $object = $this->objectUnfolded();
@@ -193,7 +193,7 @@ trait MathOperationsImp
             $int = $this->intUnfolded();
             $multiplier = Type::sanitizeType($multiplier, ESInteger::class)->unfold();
             $product = $int * $multiplier;
-            return Shoop::int($product);
+            return Shoop::integer($product);
 
         } elseif (Type::is($this, ESString::class)) {
             // $string = $this->stringUnfolded();

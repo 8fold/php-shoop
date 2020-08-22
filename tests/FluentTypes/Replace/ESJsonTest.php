@@ -28,7 +28,7 @@ class ESJsonTest extends TestCase
 
         $this->start = hrtime(true);
         $expected = 1;
-        $actual = ESJson::fold('{"key":"value"}')->int()->unfold();
+        $actual = ESJson::fold('{"key":"value"}')->integer()->unfold();
         $this->assertEqualsWithPerformance($expected, $actual);
 
         $this->start = hrtime(true);

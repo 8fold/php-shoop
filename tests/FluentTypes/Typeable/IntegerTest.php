@@ -18,6 +18,7 @@ use Eightfold\Shoop\FluentTypes\ESTuple;
 use Eightfold\Shoop\FluentTypes\ESString;
 
 /**
+ * @group Typeable
  * @group IntegerFluent
  *
  * The `int()` method converts the Shoop type to the `PHP integer` equivalent.
@@ -32,7 +33,7 @@ class IntegerTest extends TestCase
     public function ESArray()
     {
         AssertEqualsFluent::applyWith(1, 1.58)
-            ->unfoldUsing(ESArray::fold(['testing'])->int());
+            ->unfoldUsing(ESArray::fold(['testing'])->integer());
     }
 
     /**
@@ -41,10 +42,10 @@ class IntegerTest extends TestCase
     public function ESBoolean()
     {
         AssertEqualsFluent::applyWith(1, 1.92)
-            ->unfoldUsing(ESBoolean::fold(true)->int());
+            ->unfoldUsing(ESBoolean::fold(true)->integer());
 
         AssertEqualsFluent::applyWith(0)
-            ->unfoldUsing(ESBoolean::fold(false)->int());
+            ->unfoldUsing(ESBoolean::fold(false)->integer());
     }
 
     /**
@@ -53,7 +54,7 @@ class IntegerTest extends TestCase
     public function ESDictionary()
     {
         AssertEqualsFluent::applyWith(0, 1.56)
-            ->unfoldUsing(ESDictionary::fold([])->int());
+            ->unfoldUsing(ESDictionary::fold([])->integer());
     }
 
     /**
@@ -62,7 +63,7 @@ class IntegerTest extends TestCase
     public function ESInteger()
     {
         AssertEqualsFluent::applyWith(1, 1.51)
-            ->unfoldUsing(ESInteger::fold(1)->int());
+            ->unfoldUsing(ESInteger::fold(1)->integer());
     }
 
     /**
@@ -71,7 +72,7 @@ class IntegerTest extends TestCase
     public function ESJson()
     {
         AssertEqualsFluent::applyWith(1, 2.31)
-            ->unfoldUsing(ESJson::fold('{"test":"test"}')->int());
+            ->unfoldUsing(ESJson::fold('{"test":"test"}')->integer());
     }
 
     /**
@@ -80,7 +81,7 @@ class IntegerTest extends TestCase
     public function ESTuple()
     {
         AssertEqualsFluent::applyWith(0, 3.34)
-            ->unfoldUsing(ESTuple::fold(new stdClass)->int());
+            ->unfoldUsing(ESTuple::fold(new stdClass)->integer());
     }
 
     /**
@@ -89,9 +90,9 @@ class IntegerTest extends TestCase
     public function ESString()
     {
         AssertEqualsFluent::applyWith(1, 2.59)
-            ->unfoldUsing(ESString::fold("0")->int());
+            ->unfoldUsing(ESString::fold("0")->integer());
 
         AssertEqualsFluent::applyWith(5)
-            ->unfoldUsing(ESString::fold("hello")->int());
+            ->unfoldUsing(ESString::fold("hello")->integer());
     }
 }

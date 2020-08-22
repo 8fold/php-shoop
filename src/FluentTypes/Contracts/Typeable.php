@@ -21,7 +21,7 @@ interface Typeable extends Countable, JsonSerializable
 
     public function dictionary(): ESDictionary;
 
-    public function int(): ESInteger;
+    public function integer(): ESInteger;
 
     public function count(): int; // Countable
 
@@ -29,7 +29,7 @@ interface Typeable extends Countable, JsonSerializable
 
     public function jsonSerialize(): object; // JsonSerializable
 
-    public function object(): ESTuple;
+    public function tuple(): ESTuple;
 
     public function string($arg): ESString;
 }

@@ -18,6 +18,7 @@ use Eightfold\Shoop\FluentTypes\ESTuple;
 use Eightfold\Shoop\FluentTypes\ESString;
 
 /**
+ * @group Typeable
  * @group ArrayFluent
  *
  * The `array()` method typically converts the `Shoop type` to a `PHP indexed array` equivalent.
@@ -31,7 +32,7 @@ class ArrayTest extends TestCase
      */
     public function ESArray()
     {
-        AssertEqualsFluent::applyWith([], 0.92)
+        AssertEqualsFluent::applyWith([], 1.46)
             ->unfoldUsing(ESArray::fold([])->array());
     }
 

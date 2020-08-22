@@ -21,54 +21,54 @@ class IntTest extends TestCase
     {
         $base = 5;
         $expected = [0, 1, 2, 3, 4, 5];
-        $actual = Shoop::int($base)->range();
+        $actual = Shoop::integer($base)->range();
         $this->assertEquals($expected, $actual->unfold());
 
         $expected = [4, 5];
-        $actual = Shoop::int($base)->range(4);
+        $actual = Shoop::integer($base)->range(4);
         $this->assertEquals($expected, $actual->unfold());
 
         $expected = [5, 6, 7, 8, 9, 10];
-        $actual = Shoop::int($base)->range(10);
+        $actual = Shoop::integer($base)->range(10);
         $this->assertEquals($expected, $actual->unfold());
     }
 
     public function testRoundUpAndDown()
     {
         $expected = 2;
-        $actual = Shoop::int(12)->roundUp(10);
+        $actual = Shoop::integer(12)->roundUp(10);
         $this->assertSame($expected, $actual->unfold());
 
-        $actual = Shoop::int(29)->roundDown(10);
+        $actual = Shoop::integer(29)->roundDown(10);
         $this->assertSame($expected, $actual->unfold());
 
-        $actual = Shoop::int(Shoop::int(29))->roundDown(Shoop::int(10));
+        $actual = Shoop::integer(Shoop::integer(29))->roundDown(Shoop::integer(10));
         $this->assertSame($expected, $actual->unfold());
     }
 
     public function testEvenOrOdd()
     {
-        $actual = Shoop::int(10)->isEven;
+        $actual = Shoop::integer(10)->isEven;
         $this->assertTrue($actual);
 
-        $actual = Shoop::int(11)->isEven;
+        $actual = Shoop::integer(11)->isEven;
         $this->assertFalse($actual);
 
-        $actual = Shoop::int(10)->isOdd;
+        $actual = Shoop::integer(10)->isOdd;
         $this->assertFalse($actual);
 
-        $actual = Shoop::int(11)->isOdd;
+        $actual = Shoop::integer(11)->isOdd;
         $this->assertTrue($actual);
     }
 
     public function testMinMax()
     {
         $expected = 10;
-        $actual = Shoop::int(5)->max(Shoop::int(10), 8, 0);
+        $actual = Shoop::integer(5)->max(Shoop::integer(10), 8, 0);
         $this->assertEquals($expected, $actual->unfold());
 
         $expected = 0;
-        $actual = Shoop::int(5)->min(Shoop::int(10), 8, 0);
+        $actual = Shoop::integer(5)->min(Shoop::integer(10), 8, 0);
         $this->assertEquals($expected, $actual->unfold());
     }
 }

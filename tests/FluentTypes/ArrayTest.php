@@ -95,8 +95,8 @@ class ArrayTest extends TestCase
         $actual = Shoop::array(["hello"])->random();
         $this->assertEquals($expected, $actual);
 
-        $expected = Shoop::array([Shoop::int(1)]);
-        $actual = Shoop::array([Shoop::int(1)])->random();
+        $expected = Shoop::array([Shoop::integer(1)]);
+        $actual = Shoop::array([Shoop::integer(1)])->random();
         $this->assertEquals($expected, $actual);
 
         $expected = Shoop::array([TestShooped::fold("/path")]);

@@ -157,7 +157,7 @@ trait PhpMagicMethodsImp
         } elseif (Type::is($this, ESInteger::class)) {
             $int = $this->main();
             $int = Type::sanitizeType($value, ESInteger::class)->unfold();
-            return Shoop::int($int);
+            return Shoop::integer($int);
 
         } elseif (Type::is($this, ESJson::class)) {
             $json = $this->main();

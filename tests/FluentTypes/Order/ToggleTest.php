@@ -63,7 +63,7 @@ class ToggleTest extends TestCase
     public function testESInteger()
     {
         $expected = 1;
-        $actual = Shoop::int(-1)->toggle();
+        $actual = Shoop::integer(-1)->toggle();
         $this->assertEquals($expected, $actual->unfold());
     }
 

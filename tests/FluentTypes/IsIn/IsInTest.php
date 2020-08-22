@@ -60,13 +60,13 @@ class IsInTest extends TestCase
     public function testESInteger()
     {
         $base = [1, 2, 3, 4];
-        $actual = Shoop::int(2)->isIn($base);
+        $actual = Shoop::integer(2)->isIn($base);
         $this->assertTrue($actual->unfold());
 
-        $actual = Shoop::int(5)->isNotIn($base);
+        $actual = Shoop::integer(5)->isNotIn($base);
         $this->assertTrue($actual->unfold());
 
-        $actual = Shoop::int(2)->isIn($base, function($result) {
+        $actual = Shoop::integer(2)->isIn($base, function($result) {
             return ($result->unfold()) ? true : false;
         });
         $this->assertTrue($actual);

@@ -26,7 +26,7 @@ class ESDictionaryTest extends TestCase
         $this->start = hrtime(true);
         $expected = 2;
         $actual = ESDictionary::fold(["first" => 1, "second" => 2])
-            ->int()->unfold();
+            ->integer()->unfold();
         $this->assertEqualsWithPerformance($expected, $actual, 1.5);
 
         $expected = '{"first":1,"second":2}';

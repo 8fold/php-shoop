@@ -16,6 +16,7 @@ use Eightfold\Shoop\FluentTypes\ESTuple;
 use Eightfold\Shoop\FluentTypes\ESString;
 
 /**
+ * @group Typeable
  * @group  BooleanFluent
  *
  * The `boolean()` method converts the Shoop type to an `ESBoolean` type.

@@ -12,31 +12,33 @@ use Eightfold\Shoop\FluentTypes\ESBoolean;
 use Eightfold\Shoop\FluentTypes\ESDictionary;
 use Eightfold\Shoop\FluentTypes\ESInteger;
 use Eightfold\Shoop\FluentTypes\ESJson;
-use Eightfold\Shoop\FluentTypes\ESTuple; // TODO: rename to ESTuple
+use Eightfold\Shoop\FluentTypes\ESTuple;
 use Eightfold\Shoop\FluentTypes\ESString;
 
 trait TypeableImp
 {
     public function array(): ESArray
     {
-        $array = Apply::typeAsArray()->unfoldUsing($this->main);
-        // $array = AsArray::apply()->unfoldUsing($this->main);
-        return ESArray::fold($array);
+        return ESArray::fold(
+            Apply::typeAsArray()->unfoldUsing($this->main)
+        );
     }
 
     public function boolean(): ESBoolean
     {
-        $bool = Apply::typeAsBoolean()->unfoldUsing($this->main);
-        return ESBoolean::fold($bool);
+        return ESBoolean::fold(
+            Apply::typeAsBoolean()->unfoldUsing($this->main)
+        );
     }
 
     public function dictionary(): ESDictionary
     {
-        $array = Apply::typeAsDictionary()->unfoldUsing($this->main);
-        return ESDictionary::fold($array);
+        return ESDictionary::fold(
+            Apply::typeAsDictionary()->unfoldUsing($this->main)
+        );
     }
 
-    public function int(): ESInteger
+    public function integer(): ESInteger
     {
         return ESInteger::fold($this->count());
     }

@@ -49,7 +49,7 @@ trait WrapImp
         if ($arrayCount < $count) {
             $count = $arrayCount;
         }
-        $result = Shoop::int(1)->range($count)->each(function($int) use (&$array) {
+        $result = Shoop::integer(1)->range($count)->each(function($int) use (&$array) {
             // TODO: Consider using splitAt or array_slice
             $value = array_shift($array);
             return Shoop::this($value);
@@ -83,7 +83,7 @@ trait WrapImp
         if ($arrayCount < $count) {
             $count = $arrayCount;
         }
-        $result = Shoop::int(1)->range($count)->each(function($int) use (&$array) {
+        $result = Shoop::integer(1)->range($count)->each(function($int) use (&$array) {
             // TODO: Consider using splitAt or array_slice
             $value = array_pop($array);
             return Shoop::this($value);
