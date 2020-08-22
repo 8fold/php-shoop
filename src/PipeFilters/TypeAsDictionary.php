@@ -43,10 +43,14 @@ class TypeAsDictionary extends Filter
                 ->unfoldUsing($array);
 
         } elseif (TypeIs::applyWith("array")->unfoldUsing($using)) {
+            if (is_bool($this->includeEmpties)) {
+                $this->includeEmpties = "i";
+            }
+
             $build = [];
             foreach ($using as $key => $value) {
                 if (is_int($key)) {
-                    $key = $this->start . $key;
+                    $key = $this->includeEmpties . $key;
                 }
                 $build[$key] = $value;
             }

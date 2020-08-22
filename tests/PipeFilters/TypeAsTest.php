@@ -235,6 +235,11 @@ class TypeAsTest extends TestCase
         )->unfoldUsing(4);
 
         AssertEquals::applyWith(
+            ["i0" => 1],
+            TypeAsDictionary::apply()
+        )->unfoldUsing([1]);
+
+        AssertEquals::applyWith(
             ["efs0" => 2, "efs1" => 3, "efs2" => 4],
             TypeAsDictionary::applyWith("efs")
         )->unfoldUsing([2, 3, 4]);
