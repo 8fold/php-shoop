@@ -43,13 +43,13 @@ trait TypeableImp
 
     public function count(): int
     {
-        return AsInteger::apply()->unfoldUsing($this->main);
+        return Apply::typeAsInteger()->unfoldUsing($this->main);
     }
 
     public function json(): ESJson
     {
-        $string = Shoop::pipe($this->main, AsJson::apply())->unfold();
-        return ESJson::fold($string);
+        $json = Apply::typeAsJson()->unfoldUsing($this->main);
+        return ESJson::fold($json);
     }
 
     public function jsonSerialize(): object

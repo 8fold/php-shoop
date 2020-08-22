@@ -7,6 +7,8 @@ use Eightfold\Foldable\Filter;
 
 use \stdClass;
 
+use Eightfold\Shoop\Shoop;
+
 use Eightfold\Shoop\FluentTypes\Contracts\Falsifiable;
 use Eightfold\Shoop\PipeFilters\TypeOf;
 
@@ -37,38 +39,39 @@ class TypeAsTuple extends Filter
         }
 
         if (TypeIs::applyWith("boolean")->unfoldUsing($using)) {
-            $dictionary = TypeAsDictionary::apply()->unfoldUsing($using);
-            return TypeAsTuple::apply()->unfoldUsing($dictionary);
+            return Shoop::pipe($using,
+                TypeAsDictionary::apply(),
+                TypeAsTuple::apply()
+            )->unfold();
 
         } elseif (TypeIs::applyWith("number")->unfoldUsing($using)) {
-            $dictionary = TypeAsDictionary::applyWith(
-                $this->start,
-                $this->includeEmpties,
-                $this->limit
-            )->unfoldUsing($using);
-            return TypeAsTuple::apply()->unfoldUsing($dictionary);
+            return Shoop::pipe($using,
+                TypeAsDictionary::applyWith(
+                    $this->start,
+                    $this->includeEmpties,
+                    $this->limit
+                ),
+                TypeAsTuple::apply()
+            )->unfold();
 
-        } elseif (TypeIs::applyWith("array")->unfoldUsing($using)) {
-            if (is_bool($this->includeEmpties)) {
-                $this->includeEmpties = "i";
+        } elseif (TypeIs::applyWith("list")->unfoldUsing($using)) {
+            if (TypeIs::applyWith("array")->unfoldUsing($using)) {
+                if (is_bool($this->includeEmpties)) {
+                    $this->includeEmpties = "i";
+                }
+
+                return Shoop::pipe($using,
+                    TypeAsDictionary::applyWith($this->includeEmpties),
+                    TypeAsTuple::apply()
+                )->unfold();
             }
-
-            $dictionary = TypeAsDictionary::applyWith(
-                $this->includeEmpties
-            )->unfoldUsing($using);
-
-            return TypeAsTuple::apply()->unfoldUsing($dictionary);
-
-        } elseif (TypeIs::applyWith("dictionary")->unfoldUsing($using)) {
             return (object) $using;
-
-        } elseif (TypeIs::applyWith("string")->unfoldUsing($using) and
-            ! TypeIs::applyWith("json")->unfoldUsing($using)
-        ) {
-            return (object) TypeAsDictionary::apply()->unfoldUsing($using);
 
         } elseif (TypeIs::applyWith("json")->unfoldUsing($using)) {
             return json_decode($using);
+
+        } elseif (TypeIs::applyWith("string")->unfoldUsing($using)) {
+            return (object) TypeAsDictionary::apply()->unfoldUsing($using);
 
         } elseif (TypeIs::applyWith("object")->unfoldUsing($using)) {
             $properties = get_object_vars($using);

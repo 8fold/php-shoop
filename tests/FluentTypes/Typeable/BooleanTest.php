@@ -22,7 +22,7 @@ use Eightfold\Shoop\FluentTypes\ESString;
  *
  * @return Eightfold\Shoop\ESBoolean
  */
-class BoolTest extends TestCase
+class BooleanTest extends TestCase
 {
     /**
      * @test
