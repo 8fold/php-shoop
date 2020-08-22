@@ -15,7 +15,7 @@ use Eightfold\Shoop\FluentTypes\{
  */
 class PhpJsonSerializableTest extends TestCase
 {
-    public function testESArray()
+    public function ESArray()
     {
         $expected = "{}";
         $actual = json_encode(ESArray::fold([]));
@@ -23,28 +23,28 @@ class PhpJsonSerializableTest extends TestCase
         $this->assertEquals($expected, $actual);
     }
 
-    public function testESBoolean()
+    public function ESBoolean()
     {
         $expected = '{"true":true,"false":false}';
         $actual = json_encode(Shoop::bool(true));
         $this->assertEquals($expected, $actual);
     }
 
-    public function testESDictionary()
+    public function ESDictionary()
     {
         $expected = '{}';
         $actual = json_encode(Shoop::dictionary([]));
         $this->assertEquals($expected, $actual);
     }
 
-    public function testESInteger()
+    public function ESInteger()
     {
         $expected = '{"i0":0,"i1":1}';
         $actual = json_encode(Shoop::integer(1));
         $this->assertEquals($expected, $actual);
     }
 
-    public function testESJson()
+    public function ESJson()
     {
         $json = Shoop::json('{"member":"test"}');
         $expected = new \stdClass();
@@ -54,14 +54,14 @@ class PhpJsonSerializableTest extends TestCase
         $this->assertEquals($expected, $actual);
     }
 
-    public function testESTuple()
+    public function ESTuple()
     {
         $expected = "{}";
         $actual = json_encode(Shoop::object(new \stdClass()));
         $this->assertEquals($expected, $actual);
     }
 
-    public function testESString()
+    public function ESString()
     {
         $expected = '{"string":"hello"}';
         $actual = json_encode(Shoop::string("hello"));

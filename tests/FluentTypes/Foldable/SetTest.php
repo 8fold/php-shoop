@@ -25,7 +25,7 @@ class SetTest extends TestCase
     /**
      * @return Eightfold\Shoop\ESArray After setting the value for the index.
      */
-    public function testESArray()
+    public function ESArray()
     {
         $expected = ["hello", "world"];
         $actual = ESArray::fold(["hello", "Shoop"])->set("world", 1);
@@ -35,7 +35,7 @@ class SetTest extends TestCase
     /**
      * @return Eightfold\Shoop\ESBoolean Sets the value of the bool to the given bool.
      */
-    public function testESBoolean()
+    public function ESBoolean()
     {
         $base = true;
         $actual = ESBoolean::fold($base)->set(false);
@@ -45,7 +45,7 @@ class SetTest extends TestCase
     /**
      * @return Eightfold\Shoop\ESDictionary After setting the value for the given member.
      */
-    public function testESDictionary()
+    public function ESDictionary()
     {
         $base = ["member" => "value"];
 
@@ -57,7 +57,7 @@ class SetTest extends TestCase
     /**
      * @return Eightfold\Shoop\ESINt Sets the value of the integer to the given integer.
      */
-    public function testESInteger()
+    public function ESInteger()
     {
         $base = 10;
 
@@ -69,7 +69,7 @@ class SetTest extends TestCase
     /**
      * @return Eightfold\Shoop\ESJson Sets the value of the member to the given value.
      */
-    public function testESJson()
+    public function ESJson()
     {
         $base = '{}';
 
@@ -81,7 +81,7 @@ class SetTest extends TestCase
     /**
      * @return Eightfold\Shoop\ESTuple Sets the value of the member to the given value.
      */
-    public function testESTuple()
+    public function ESTuple()
     {
         $expected = new \stdClass();
         $expected->test = "test";
@@ -92,7 +92,7 @@ class SetTest extends TestCase
     /**
      * @return Eightfold\Shoop\FluentTypes\ESString Sets the value of the string to the given string.
      */
-    public function testESString()
+    public function ESString()
     {
         $base = "alphabet soup";
 

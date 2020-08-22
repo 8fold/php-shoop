@@ -18,29 +18,30 @@ use Eightfold\Shoop\FluentTypes\{
 };
 
 /**
- * The `key()` method from the `Iterator` interface returns the member currently being pointed to.
+ * The `valid()` method from the `Iterator` interface returns whether the current pointer position is valid.
  *
- * @return mixed If the value is a PHP type, it will be converted to the equivalent Shoop type.
+ * @return bool
  */
-class InterfaceIteratorKeyTest extends TestCase
+class InterfaceIteratorValidTest extends TestCase
 {
-    public function testESArray()
+    public function ESArray()
     {
         $expected = 0;
-        $actual = ESArray::fold(["hello", "goodbye"])->key();
-        $this->assertEquals($expected, $actual);
+        $array = ESArray::fold(["hello", "goodbye"]);
+        $this->assertTrue($array->valid());
+        $array->next();
+        $this->assertTrue($array->valid());
+        $array->next();
+        $this->assertFalse($array->valid());
     }
 
-    /**
-     * Equivalent to `dictionary()->key()`.
-     */
-    public function testESBoolean()
+    public function ESBoolean()
     {
-        $actual = ESBoolean::fold(true)->key();
-        $this->assertEquals("true", $actual);
+        $actual = ESBoolean::fold(true);
+        $this->assertTrue($actual->valid());
     }
 
-    public function testESDictionary()
+    public function ESDictionary()
     {
         $expected = "two";
         $actual = ESDictionary::fold(["one" => "hello", "two" => "goodbye"]);
@@ -48,16 +49,13 @@ class InterfaceIteratorKeyTest extends TestCase
         $this->assertEquals($expected, $actual->key());
     }
 
-    /**
-     * Resets value to original value.
-     */
-    public function testESInteger()
+    public function ESInteger()
     {
         $actual = ESInteger::fold(10);
         $this->assertEquals(10, $actual->unfold());
     }
 
-    public function testESJson()
+    public function ESJson()
     {
         $expected = "two";
         $actual = ESJson::fold('{"one":"hello", "two":"goodbye"}');
@@ -65,7 +63,7 @@ class InterfaceIteratorKeyTest extends TestCase
         $this->assertEquals($expected, $actual->key());
     }
 
-    public function testESTuple()
+    public function ESTuple()
     {
         $base = new \stdClass();
         $base->one = "hello";
@@ -75,7 +73,7 @@ class InterfaceIteratorKeyTest extends TestCase
         $this->assertEquals("one", $actual->key());
     }
 
-    public function testESString()
+    public function ESString()
     {
         $expected = 0;
         $actual = ESString::fold("comp");

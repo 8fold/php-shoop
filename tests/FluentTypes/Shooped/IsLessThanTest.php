@@ -24,42 +24,42 @@ use Eightfold\Shoop\FluentTypes\{
  */
 class IsLessThanTest extends TestCase
 {
-    public function testESArray()
+    public function ESArray()
     {
         $base = ["hello", "world"];
         $actual = ESArray::fold($base)->isLessThan($base);
         $this->assertFalse($actual->unfold());
     }
 
-    public function testESBoolean()
+    public function ESBoolean()
     {
         $base = true;
         $actual = ESBoolean::fold($base)->isLessThan(false);
         $this->assertFalse($actual->unfold());
     }
 
-    public function testESDictionary()
+    public function ESDictionary()
     {
         $base = ["member" => "value"];
         $actual = ESDictionary::fold($base)->isLessThan($base);
         $this->assertFalse($actual->unfold());
     }
 
-    public function testESInteger()
+    public function ESInteger()
     {
         $base = 11;
         $actual = ESInteger::fold(11)->isLessThan($base);
         $this->assertFalse($actual->unfold());
     }
 
-    public function testESJson()
+    public function ESJson()
     {
         $base = '{"test":"test"}';
         $actual = ESJson::fold($base)->isLessThan($base);
         $this->assertFalse($actual->unfold());
     }
 
-    public function testESTuple()
+    public function ESTuple()
     {
         $base = new \stdClass();
         $base->test = "test";
@@ -68,7 +68,7 @@ class IsLessThanTest extends TestCase
         $this->assertFalse($actual->unfold());
     }
 
-    public function testESString()
+    public function ESString()
     {
         $actual = ESString::fold("a")->isLessThan("b");
         $this->assertTrue($actual->unfold());

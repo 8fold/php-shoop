@@ -4,6 +4,8 @@ namespace Eightfold\Shoop\FluentTypes\Contracts;
 
 use Eightfold\Shoop\PipeFilters;
 
+use Eightfold\Shoop\Apply;
+
 use Eightfold\Shoop\FluentTypes\ESArray;
 use Eightfold\Shoop\FluentTypes\ESBoolean;
 
@@ -11,62 +13,52 @@ trait ArrayableImp
 {
     private $temp;
 
-    // TODO: PHP 8.0 - int|ESInteger -> any|ESBoolean
-    // TODO: Test callable
-    public function hasMember($member, callable $closure = null)
+    //TODO: PHP 8.0 - int|string|ESInteger|ESString
+    public function hasMember($member)
     {
-        $bool   =  $this->offsetExists($member);
-        $bool   = ESBoolean::fold($bool);
-        $string = static::fold($this->main);
-        return ($closure === null) ? $bool : $closure($bool, $string);
+        return Shoop::this(
+            $this->offsetExists($member)
+        );
     }
 
     public function offsetExists($offset): bool
     {
-        $type = gettype($this->main);
-        $method = "{$type}HasOffset";
-        return Php::{$method}($this->main, $offset);
+        return Apply::hasMember($offset)->unfoldUsing($this->main);
     }
 
-    public function getMember($member, callable $callable = null)
+    public function at($member)
     {
-        $character = $this->offsetGet($member);
-        return ($callable === null)
-            ? $character
-            : $callable($character);
+        return Shoop::this(
+            $this->offsetGet($member)
+        );
     }
 
     public function offsetGet($offset)
     {
-        $type = gettype($this->main);
-        $method = "{$type}GetOffset";
-        return Php::{$method}($this->main, $offset);
+        return Apply::at($offset)->unfoldUsing($this->main);
     }
 
-    public function setMember($member, $value)
+    public function plusMember($value, $member)
     {
         $this->offsetSet($member, $value);
-        return ESString::fold($this->main);
+        return static::fold($this->main);
     }
 
     public function offsetSet($offset, $value): void
     {
-        $type = gettype($this->main);
-        $method = "{$type}SetOffset";
-        $this->main = Php::{$method}($this->main, $offset, $value);
+        $this->main = Apply::plusMember($value, $offset)
+            ->unfoldUsing($this->main);
     }
 
-    public function stripMember($member)
+    public function minusMember($member)
     {
         $this->offsetUnset($member);
-        return ESString::fold($this->main);
+        return static::fold($this->main);
     }
 
     public function offsetUnset($offset): void
     {
-        $type = gettype($this->main);
-        $method = "{$type}StripOffset";
-        $this->main = Php::{$method}($offset);
+        $this->main = Apply::minusMember($offset)->unfoldUsing($this->main);
     }
 
     /**
@@ -74,9 +66,16 @@ trait ArrayableImp
      */
     public function rewind(): void
     {
-        $type = gettype($this->main);
-        $method = $type ."ToArray";
-        $this->temp = Php::{$method}($this->main);
+        if (is_a($this, ESString::class) or
+            is_a($this, ESInteger::class) or
+            is_a($this, ESArray::class)
+        ) {
+            $this->temp = Apply::typeAsArray()->unfoldUsing($this->main);
+
+        } else {
+            $this->temp = Apply::typeAsDictionary()->unfoldUsing($this->main);
+
+        }
     }
 
     // TODO: Should be able to make part of a generic implementation
@@ -85,7 +84,8 @@ trait ArrayableImp
         if (! isset($this->temp)) {
             $this->rewind();
         }
-        return array_key_exists(key($this->temp), $this->temp);
+        $member = key($this->temp);
+        return Apply::hasMember($member)->unfoldUsing($this->temp);
     }
 
     public function current()
@@ -93,9 +93,8 @@ trait ArrayableImp
         if (! isset($this->temp)) {
             $this->rewind();
         }
-        $temp = $this->temp;
-        $member = key($temp);
-        return $temp[$member];
+        $member = key($this->temp);
+        return Apply::at($member)->unfoldUsing($this->temp);
     }
 
     public function key()
@@ -103,12 +102,7 @@ trait ArrayableImp
         if (! isset($this->temp)) {
             $this->rewind();
         }
-        $temp = $this->temp;
-        $member = key($temp);
-        if (is_int($member)) {
-            return Type::sanitizeType($member, ESInteger::class, "int")->unfold();
-        }
-        return Type::sanitizeType($member, ESString::class, "string")->unfold();
+        return key($this->temp);
     }
 
     public function next(): void
@@ -117,5 +111,29 @@ trait ArrayableImp
             $this->rewind();
         }
         next($this->temp);
+    }
+
+    /**
+     * @deprecated
+     */
+    public function stripMember($member)
+    {
+        return $this->minusMember($member);
+    }
+
+    /**
+     * @deprecated
+     */
+    public function setMember($member, $value)
+    {
+        $this->plusMember();
+    }
+
+    /**
+     * @deprecated
+     */
+    public function getMember($member, callable $callable = null)
+    {
+        return $this->at($member);
     }
 }

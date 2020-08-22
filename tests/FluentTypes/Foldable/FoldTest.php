@@ -26,7 +26,7 @@ use Eightfold\Shoop\FluentTypes\{
  */
 class FoldTest extends TestCase
 {
-    public function testESArray()
+    public function ESArray()
     {
         $expected = [];
         $actual = new ESArray([]);
@@ -39,7 +39,7 @@ class FoldTest extends TestCase
         $this->assertTrue(is_a($actual, ESArray::class));
     }
 
-    public function testESBoolean()
+    public function ESBoolean()
     {
         $expected = true;
         $actual = new ESBoolean(true);
@@ -52,7 +52,7 @@ class FoldTest extends TestCase
         $this->assertTrue(is_a($actual, ESBoolean::class));
     }
 
-    public function testESDictionary()
+    public function ESDictionary()
     {
         $expected = [];
         $actual = new ESDictionary([]);
@@ -65,7 +65,7 @@ class FoldTest extends TestCase
         $this->assertTrue(is_a($actual, ESDictionary::class));
     }
 
-    public function testESInteger()
+    public function ESInteger()
     {
         $expected = 1;
         $actual = new ESInteger(1);
@@ -78,7 +78,7 @@ class FoldTest extends TestCase
         $this->assertTrue(is_a($actual, ESInteger::class));
     }
 
-    public function testESJson()
+    public function ESJson()
     {
         $expected = '{}';
         $actual = new ESJson('{}');
@@ -91,7 +91,7 @@ class FoldTest extends TestCase
         $this->assertTrue(is_a($actual, ESJson::class));
     }
 
-    public function testESTuple()
+    public function ESTuple()
     {
         $expected = new stdClass();
         $actual = new ESTuple(new stdClass());
@@ -104,7 +104,7 @@ class FoldTest extends TestCase
         $this->assertTrue(is_a($actual, ESTuple::class));
     }
 
-    public function testESString()
+    public function ESString()
     {
         $expected = "";
         $actual = new ESString("");

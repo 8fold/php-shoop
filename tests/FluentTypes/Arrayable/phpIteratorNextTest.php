@@ -22,7 +22,7 @@ use Eightfold\Shoop\FluentTypes\{
  */
 class InterfaceIteratorNextTest extends TestCase
 {
-    public function testESArray()
+    public function ESArray()
     {
         $expected = "goodbye";
         $actual = ESArray::fold(["hello", "goodbye"]);
@@ -31,14 +31,14 @@ class InterfaceIteratorNextTest extends TestCase
         $this->assertEquals($expected, $actual);
     }
 
-    public function testESBoolean()
+    public function ESBoolean()
     {
         $actual = ESBoolean::fold(true);
         $actual->next();
         $this->assertFalse($actual->current());
     }
 
-    public function testESDictionary()
+    public function ESDictionary()
     {
         $expected = "goodbye";
         $actual = ESDictionary::fold(["one" => "hello", "two" => "goodbye"]);
@@ -47,14 +47,14 @@ class InterfaceIteratorNextTest extends TestCase
         $this->assertEquals($expected, $actual);
     }
 
-    public function testESInteger()
+    public function ESInteger()
     {
         $actual = ESInteger::fold(10);
         $actual->next();
         $this->assertEquals(1, $actual->current());
     }
 
-    public function testESJson()
+    public function ESJson()
     {
         $expected = "goodbye";
         $actual = ESJson::fold('{"one":"hello", "two":"goodbye"}');
@@ -63,7 +63,7 @@ class InterfaceIteratorNextTest extends TestCase
         $this->assertEquals($expected, $actual);
     }
 
-    public function testESTuple()
+    public function ESTuple()
     {
         $base = new \stdClass();
         $base->one = "hello";
@@ -75,7 +75,7 @@ class InterfaceIteratorNextTest extends TestCase
         $this->assertEquals("goodbye", $actual);
     }
 
-    public function testESString()
+    public function ESString()
     {
         $expected = "o";
         $actual = ESString::fold("comp");

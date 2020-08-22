@@ -21,7 +21,7 @@ use Eightfold\Shoop\FluentTypes\{
  */
 class IsNotEmptyTest extends TestCase
 {
-    public function testESArray()
+    public function ESArray()
     {
         $base = ["hello", "world"];
         $actual = ESArray::fold($base)->isNotEmpty();
@@ -46,7 +46,7 @@ class IsNotEmptyTest extends TestCase
 
     }
 
-    public function testESBoolean()
+    public function ESBoolean()
     {
         $base = true;
         $actual = ESBoolean::fold($base)->isNotEmpty();
@@ -57,14 +57,14 @@ class IsNotEmptyTest extends TestCase
         $this->assertFalse($actual->unfold());
     }
 
-    public function testESDictionary()
+    public function ESDictionary()
     {
         $base = [];
         $actual = ESDictionary::fold($base)->isNotEmpty();
         $this->assertFalse($actual->unfold());
     }
 
-    public function testESInteger()
+    public function ESInteger()
     {
         $base = 0;
         $actual = ESInteger::fold($base)->isNotEmpty();
@@ -75,7 +75,7 @@ class IsNotEmptyTest extends TestCase
         $this->assertTrue($actual->unfold());
     }
 
-    public function testESJson()
+    public function ESJson()
     {
         $base = '{}';
         $actual = ESJson::fold($base)->isNotEmpty();
@@ -86,7 +86,7 @@ class IsNotEmptyTest extends TestCase
         $this->assertTrue($actual->unfold());
     }
 
-    public function testESTuple()
+    public function ESTuple()
     {
         $base = new \stdClass();
         $base->test = "test";
@@ -94,7 +94,7 @@ class IsNotEmptyTest extends TestCase
         $this->assertTrue($actual->unfold());
     }
 
-    public function testESString()
+    public function ESString()
     {
         $base = "alphabet soup";
         $actual = ESString::fold($base)->isNotEmpty();

@@ -35,7 +35,7 @@ use Eightfold\Shoop\FluentTypes\{
  */
 class php_CallWildcardGetTest extends TestCase
 {
-    public function testESArray()
+    public function ESArray()
     {
         $base = [false, true];
         $array = ESArray::fold($base);
@@ -56,7 +56,7 @@ class php_CallWildcardGetTest extends TestCase
     /**
      * Is converted to `ESDictionary` with "true" or "false" as valid members.
      */
-    public function testESBoolean()
+    public function ESBoolean()
     {
         $base = true;
         $actual = ESBoolean::fold($base)->get();
@@ -66,7 +66,7 @@ class php_CallWildcardGetTest extends TestCase
         $this->assertFalse($actual->unfold());
     }
 
-    public function testESDictionary()
+    public function ESDictionary()
     {
         $base = ["member" => false];
         $actual = ESDictionary::fold($base)->getMember();
@@ -76,7 +76,7 @@ class php_CallWildcardGetTest extends TestCase
     /**
      * Is converted to `ESArray` (range). No specified member results in first value in range.
      */
-    public function testESInteger()
+    public function ESInteger()
     {
         $base = 10;
 
@@ -89,7 +89,7 @@ class php_CallWildcardGetTest extends TestCase
         $this->assertEquals($expected, $actual->unfold());
     }
 
-    public function testESJsonGet()
+    public function ESJsonGet()
     {
         $base = '{"test":true}';
         $actual = ESJson::fold($base)->getTest();
@@ -99,7 +99,7 @@ class php_CallWildcardGetTest extends TestCase
         $this->assertTrue($actual->unfold());
     }
 
-    public function testESTuple()
+    public function ESTuple()
     {
         $base = new \stdClass();
         $base->test = false;
@@ -107,7 +107,7 @@ class php_CallWildcardGetTest extends TestCase
         $this->assertFalse($actual->unfold());
     }
 
-    public function testESString()
+    public function ESString()
     {
         $base = "alphabet soup";
         $actual = ESString::fold($base)->get(1);

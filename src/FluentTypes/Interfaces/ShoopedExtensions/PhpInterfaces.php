@@ -34,7 +34,4 @@ interface PhpInterfaces extends Countable, ArrayAccess, Iterator, JsonSerializab
     public function key();
 
     public function next(): void;
-
-// - JsonSerializable
-    public function jsonSerialize();
 }

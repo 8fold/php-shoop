@@ -25,7 +25,7 @@ class ShuffleTest extends TestCase
     /**
      * @return Eightfold\Shoop\ESArray After passing the original value through the `shuffle()` function from the PHP standard library.
      */
-    public function testESArray()
+    public function ESArray()
     {
         $this->assertTrue(true);
     }
@@ -33,7 +33,7 @@ class ShuffleTest extends TestCase
     /**
      * @not Could be a random boolean generator
      */
-    public function testESBoolean()
+    public function ESBoolean()
     {
         $this->assertFalse(false);
     }
@@ -41,7 +41,7 @@ class ShuffleTest extends TestCase
     /**
      * @not Has direct access
      */
-    public function testESDictionary()
+    public function ESDictionary()
     {
         $this->assertFalse(false);
     }
@@ -49,7 +49,7 @@ class ShuffleTest extends TestCase
     /**
      * @not Could shuffle the range
      */
-    public function testESInteger()
+    public function ESInteger()
     {
         $this->assertFalse(false);
     }
@@ -57,7 +57,7 @@ class ShuffleTest extends TestCase
     /**
      * @not Has direct access
      */
-    public function testESJson()
+    public function ESJson()
     {
         $this->assertFalse(false);
     }
@@ -65,7 +65,7 @@ class ShuffleTest extends TestCase
     /**
      * @not Has direct access
      */
-    public function testESTuple()
+    public function ESTuple()
     {
         $this->assertFalse(false);
     }
@@ -73,7 +73,7 @@ class ShuffleTest extends TestCase
     /**
      * @return Eightfold\Shoop\FluentTypes\ESString After shuffling the letters of the ofirinal `PHP string`.
      */
-    public function testESString()
+    public function ESString()
     {
         $this->assertTrue(true);
     }

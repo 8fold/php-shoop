@@ -25,7 +25,7 @@ class MultiplyTest extends TestCase
     /**
      * @return Eightfold\Shoop\ESArray Where each index is a copy of the original array.
      */
-    public function testESArray()
+    public function ESArray()
     {
         $expected = [
             ["goodbye", "hello"],
@@ -39,7 +39,7 @@ class MultiplyTest extends TestCase
     /**
      * @not
      */
-    public function testESBoolean()
+    public function ESBoolean()
     {
         $this->assertFalse(false);
     }
@@ -47,7 +47,7 @@ class MultiplyTest extends TestCase
     /**
      * @see ESArray->multiply()
      */
-    public function testESDictionary()
+    public function ESDictionary()
     {
         $expected = [
             ["values" => ["value", "value2"]],
@@ -63,7 +63,7 @@ class MultiplyTest extends TestCase
     /**
      * @return Eightfold\Shoop\Int Where the original value is multiplied by the given integer.
      */
-    public function testESInteger()
+    public function ESInteger()
     {
         $expected = 15;
         $actual = ESInteger::fold(5)->multiply(3);
@@ -73,7 +73,7 @@ class MultiplyTest extends TestCase
     /**
      * @see ESDictionary->multiply() Where each index is the original JSON string.
      */
-    public function testESJson()
+    public function ESJson()
     {
         $json = json_encode((object) ["member" => "value", "member2" => "value2"]);
         $expected = [$json, $json, $json, $json];
@@ -84,7 +84,7 @@ class MultiplyTest extends TestCase
     /**
      * @see  ESDictionary->multiply() Where each index is an instance of the object.
      */
-    public function testESTuple()
+    public function ESTuple()
     {
         $object = new \stdClass();
         $object->members = ["member", "member2"];
@@ -98,7 +98,7 @@ class MultiplyTest extends TestCase
     /**
      * Uses the `str_repeat()` function from the PHP standard library to generate a string that repeats using the original value.
      */
-    public function testESString()
+    public function ESString()
     {
         $expected = "Hello, World!Hello, World!";
         $actual = ESString::fold("Hello, World!")->multiply(2);

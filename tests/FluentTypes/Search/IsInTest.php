@@ -23,7 +23,7 @@ use Eightfold\Shoop\FluentTypes\{
  */
 class IsInTest extends TestCase
 {
-    public function testESArray()
+    public function ESArray()
     {
         $base = ["hello", "world"];
         $container = [$base];
@@ -32,7 +32,7 @@ class IsInTest extends TestCase
         $this->assertTrue($actual->unfold());
     }
 
-    public function testESBoolean()
+    public function ESBoolean()
     {
         $base = true;
         $container = [false, false, false];
@@ -40,7 +40,7 @@ class IsInTest extends TestCase
         $this->assertFalse($actual->unfold());
     }
 
-    public function testESDictionary()
+    public function ESDictionary()
     {
         $base = ["member" => "value"];
         $container = ["dict" => $base];
@@ -48,7 +48,7 @@ class IsInTest extends TestCase
         $this->assertTrue($actual->unfold());
     }
 
-    public function testESInteger()
+    public function ESInteger()
     {
         $base = 1;
         $container = [0, 3, 2];
@@ -56,7 +56,7 @@ class IsInTest extends TestCase
         $this->assertFalse($actual->unfold());
     }
 
-    public function testESJson()
+    public function ESJson()
     {
         $base = '{"member":"value", "member2":"value2", "member3":"value3"}';
         // TODO: Need a way to use object as wrapper. Type::sanitizeType doesn't
@@ -71,7 +71,7 @@ class IsInTest extends TestCase
         $this->assertTrue($actual->unfold());
     }
 
-    public function testESTuple()
+    public function ESTuple()
     {
         $base = new \stdClass();
         $base->testMember = "test";
@@ -86,7 +86,7 @@ class IsInTest extends TestCase
     /**
      * Uses string instead of array.
      */
-    public function testESString()
+    public function ESString()
     {
         $base = "agile";
         $container = "fragile";

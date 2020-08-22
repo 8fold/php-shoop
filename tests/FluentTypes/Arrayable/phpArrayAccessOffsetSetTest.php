@@ -26,7 +26,7 @@ use Eightfold\Shoop\FluentTypes\{
  */
 class OffsetSetTest extends TestCase
 {
-    public function testESArray()
+    public function ESArray()
     {
         $actual = ESArray::fold([false, true]);
         $actual->offsetSet(0, true);
@@ -36,28 +36,28 @@ class OffsetSetTest extends TestCase
     /**
      * Changes current `value` to the given `value`, not a new instance.
      */
-    public function testESBoolean()
+    public function ESBoolean()
     {
         $actual = ESBoolean::fold(true);
         $actual->offsetSet(0, false);
         $this->assertFalse($actual->unfold());
     }
 
-    public function testESDictionary()
+    public function ESDictionary()
     {
         $actual = ESDictionary::fold(["member" => false]);
         $actual->offsetSet("member", true);
         $this->assertTrue($actual->getUnfolded("member"));
     }
 
-    public function testESInteger()
+    public function ESInteger()
     {
         $actual = ESInteger::fold(10);
         $actual->offsetSet(0, 8);
         $this->assertEquals(8, $actual->unfold());
     }
 
-    public function testESJson()
+    public function ESJson()
     {
         $expected = '{"test":false}';
         $actual = ESJson::fold('{"test":true}');
@@ -65,7 +65,7 @@ class OffsetSetTest extends TestCase
         $this->assertEquals($expected, $actual->stringUnfolded());
     }
 
-    public function testESTuple()
+    public function ESTuple()
     {
         $base = new \stdClass();
         $base->test = false;
@@ -75,7 +75,7 @@ class OffsetSetTest extends TestCase
         $this->assertTrue($actual->getUnfolded("test"));
     }
 
-    public function testESString()
+    public function ESString()
     {
         $expected = "coop";
         $actual = ESString::fold("comp");

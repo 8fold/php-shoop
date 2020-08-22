@@ -24,7 +24,7 @@ use Eightfold\Shoop\FluentTypes\{
  */
 class CountTest extends TestCase
 {
-    public function testESArray()
+    public function ESArray()
     {
         $expected = 2;
         $actual = ESArray::fold([])->plus("hello", "goodbye")->count();
@@ -34,33 +34,33 @@ class CountTest extends TestCase
     /**
      * @not
      */
-    public function testESBoolean()
+    public function ESBoolean()
     {
         $this->assertFalse(false);
     }
 
-    public function testESDictionary()
+    public function ESDictionary()
     {
         $expected = 2;
         $actual = ESDictionary::fold([])->plus("value", "member", "value2", "member2")->count();
         $this->assertEquals($expected, $actual->unfold());
     }
 
-    public function testESInteger()
+    public function ESInteger()
     {
         $expected = 5;
         $actual = ESInteger::fold(5)->count();
         $this->assertEquals($expected, $actual->unfold());
     }
 
-    public function testESJson()
+    public function ESJson()
     {
         $expected = 1;
         $actual = ESJson::fold('{"member":"value"}')->count();
         $this->assertEquals($expected, $actual->unfold());
     }
 
-    public function testESTuple()
+    public function ESTuple()
     {
         $object = new \stdClass();
         $object->member = "value";
@@ -71,7 +71,7 @@ class CountTest extends TestCase
         $this->assertEquals($expected, $actual->unfold());
     }
 
-    public function testESString()
+    public function ESString()
     {
         $expected = 5;
         $actual = ESString::fold("Hello")->count();

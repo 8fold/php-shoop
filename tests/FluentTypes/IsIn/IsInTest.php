@@ -19,7 +19,7 @@ use Eightfold\Shoop\FluentTypes\{
 
 class IsInTest extends TestCase
 {
-    public function testESArray()
+    public function ESArray()
     {
         $inner = [true, false, false];
         $base = [$inner, true, false, false];
@@ -32,7 +32,7 @@ class IsInTest extends TestCase
         $this->assertFalse($actual);
     }
 
-    public function testESBoolean()
+    public function ESBoolean()
     {
         $inner = [false, false, false];
         $actual = Shoop::bool(false)->isIn($inner);
@@ -44,7 +44,7 @@ class IsInTest extends TestCase
         $this->assertFalse($actual);
     }
 
-    public function testESDictionary()
+    public function ESDictionary()
     {
         $inner = ["one" => 1, "two" => 2, "three" => 3];
         $base = ["a" => $inner, "b" => 2, "c" => 3];
@@ -57,7 +57,7 @@ class IsInTest extends TestCase
         $this->assertTrue($actual);
     }
 
-    public function testESInteger()
+    public function ESInteger()
     {
         $base = [1, 2, 3, 4];
         $actual = Shoop::integer(2)->isIn($base);
@@ -72,7 +72,7 @@ class IsInTest extends TestCase
         $this->assertTrue($actual);
     }
 
-    public function testESJson()
+    public function ESJson()
     {
         $inner = '{"hello":"world"}';
         $base = "blah ". $inner ."blah";
@@ -85,7 +85,7 @@ class IsInTest extends TestCase
         $this->assertTrue($actual->unfold());
     }
 
-    public function testESTuple()
+    public function ESTuple()
     {
         $inner = new \stdClass();
         $inner->test = "test";
@@ -95,7 +95,7 @@ class IsInTest extends TestCase
         $this->assertTrue($actual->unfold());
     }
 
-    public function testESString()
+    public function ESString()
     {
         $inner = "World";
         $base = "Hello, World!";

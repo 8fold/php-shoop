@@ -25,7 +25,7 @@ class SortMembersTest extends TestCase
     /**
      * @return Eightfold\Shoop\ESArray
      */
-    public function testESArray()
+    public function ESArray()
     {
         $expected = [
             "beta",
@@ -69,7 +69,7 @@ class SortMembersTest extends TestCase
     /**
      * @not Could be a random boolean generator
      */
-    public function testESBoolean()
+    public function ESBoolean()
     {
         $this->assertFalse(false);
     }
@@ -77,7 +77,7 @@ class SortMembersTest extends TestCase
     /**
      * @return Eightfold\Shoop\ESDictionary
      */
-    public function testESDictionary()
+    public function ESDictionary()
     {
         $expected = [
             "alpha" => "beta",
@@ -101,7 +101,7 @@ class SortMembersTest extends TestCase
     /**
      * @not Could sort the range
      */
-    public function testESInteger()
+    public function ESInteger()
     {
         $this->assertFalse(false);
     }
@@ -111,7 +111,7 @@ class SortMembersTest extends TestCase
      *
      * @return Eightfold\Shoop\ESJson After converting the JSON string to an ESTuple.
      */
-    public function testESJson()
+    public function ESJson()
     {
         $baseExpected = [
             "alpha" => "beta",
@@ -137,7 +137,7 @@ class SortMembersTest extends TestCase
     /**
      * @return Eightfold\Shoop\ESTuple
      */
-    public function testESTuple()
+    public function ESTuple()
     {
         $expected = (object) [
             "alpha" => "beta",
@@ -171,7 +171,7 @@ class SortMembersTest extends TestCase
     /**
      * @return Eightfold\Shoop\FluentTypes\ESString After sorting the individual characters of the original string.
      */
-    public function testESString()
+    public function ESString()
     {
         $expected = "alpha";
         $actual = Shoop::string("alpha")->sortMembers();

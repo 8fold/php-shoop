@@ -24,7 +24,7 @@ use Eightfold\Shoop\FluentTypes\{
  */
 class StartTest extends TestCase
 {
-    public function testESArray()
+    public function ESArray()
     {
         $base = ["hello", "world"];
 
@@ -37,12 +37,12 @@ class StartTest extends TestCase
     /**
      * @not
      */
-    public function testESBoolean()
+    public function ESBoolean()
     {
         $this->assertFalse(false);
     }
 
-    public function testESDictionary()
+    public function ESDictionary()
     {
         $base = ["first" => 1, "second" => 2];
 
@@ -55,12 +55,12 @@ class StartTest extends TestCase
     /**
      * @not
      */
-    public function testESInteger()
+    public function ESInteger()
     {
         $this->assertFalse(false);
     }
 
-    public function testESJson()
+    public function ESJson()
     {
         $base = '{"member2":"value2", "member3":"value3"}';
 
@@ -70,7 +70,7 @@ class StartTest extends TestCase
         $this->assertEquals($expected, $actual->unfold());
     }
 
-    public function testESTuple()
+    public function ESTuple()
     {
         $base = new \stdClass();
         $base->testMember = new \stdClass();
@@ -82,7 +82,7 @@ class StartTest extends TestCase
         $this->assertEquals($expected, $actual->unfold());
     }
 
-    public function testESString()
+    public function ESString()
     {
         $expected = "Hello, World!";
         $actual = Shoop::string("World!")->start("Hello, ");

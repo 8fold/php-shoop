@@ -25,7 +25,7 @@ class MinusTest extends TestCase
     /**
      * @return Eightfold\Shoop\ESArray With the specified indeces and corresponding values removed and re-indexed.
      */
-    public function testESArray()
+    public function ESArray()
     {
         $expected = ["goodbye"];
         $actual = ESArray::fold(["hello", "goodbye", "hello"])->minus(0, 2);
@@ -35,7 +35,7 @@ class MinusTest extends TestCase
     /**
      * @not
      */
-    public function testESBoolean()
+    public function ESBoolean()
     {
         $this->assertFalse(false);
     }
@@ -43,14 +43,14 @@ class MinusTest extends TestCase
     /**
      * @return Eightfold\Shoop\ESDictionary With the specified members and corresponding values removed.
      */
-    public function testESDictionary()
+    public function ESDictionary()
     {
         $expected = [];
         $actual = ESDictionary::fold(["member" => "value", "member2" => "value2"])->minus("member", "member2");
         $this->assertEquals($expected, $actual->unfold());
     }
 
-    public function testESInteger()
+    public function ESInteger()
     {
         $expected = 2;
         $actual = ESInteger::fold(5)->minus(3);
@@ -60,7 +60,7 @@ class MinusTest extends TestCase
     /**
      * @see ESTuple->minus()
      */
-    public function testESJson()
+    public function ESJson()
     {
         $expected = '{"member":"value"}';
         $actual = ESJson::fold('{"member":"value","member2":"value2"}')->minus("member2");
@@ -70,7 +70,7 @@ class MinusTest extends TestCase
     /**
      * @return Eightfold\Shoop\ESTuple With the specified members and corresponding values removed.
      */
-    public function testESTuple()
+    public function ESTuple()
     {
         $expected = new \stdClass();
         $expected->member = "value";
@@ -85,7 +85,7 @@ class MinusTest extends TestCase
     /**
      * @return Eightfold\Shoop\FluentTypes\ESString With the specified letters removed.
      */
-    public function testESString()
+    public function ESString()
     {
         $expected = "He, rd";
         $actual = ESString::fold("Hello, World!")->minus("W", "l", "o", "!");

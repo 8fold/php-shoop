@@ -69,7 +69,7 @@ class JsonTest extends TestCase
     /**
      * @test
      */
-    public function testESJson()
+    public function ESJson()
     {
         AssertEqualsFluent::applyWith('{"test":"test"}', 1.55)
             ->unfoldUsing(ESJson::fold('{"test":"test"}')->json());

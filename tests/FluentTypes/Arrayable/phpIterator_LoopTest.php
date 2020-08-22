@@ -24,7 +24,7 @@ use Eightfold\Shoop\FluentTypes\{
  */
 class InterfaceIteratorLoopTest extends TestCase
 {
-    public function testESArray()
+    public function ESArray()
     {
         $base = ESArray::fold(["hello", "goodbye"]);
         $expected = ["hello", "goodbye"];
@@ -38,7 +38,7 @@ class InterfaceIteratorLoopTest extends TestCase
     /**
      * Uses ESDicionary
      */
-    public function testESBoolean()
+    public function ESBoolean()
     {
         $base = ESBoolean::fold(false);
 
@@ -59,7 +59,7 @@ class InterfaceIteratorLoopTest extends TestCase
         $this->assertEquals($expectedFalse, $actualFalse);
     }
 
-    public function testESDictionary()
+    public function ESDictionary()
     {
         $base = ESDictionary::fold(["one" => "hello", "two" => "goodbye"]);
 
@@ -76,7 +76,7 @@ class InterfaceIteratorLoopTest extends TestCase
         $this->assertEquals($values, $valuesActual);
     }
 
-    public function testESInteger()
+    public function ESInteger()
     {
         $base = ESInteger::fold(5);
 
@@ -88,7 +88,7 @@ class InterfaceIteratorLoopTest extends TestCase
         $this->assertEquals($expected, $actual);
     }
 
-    public function testESJson()
+    public function ESJson()
     {
         $base = ESJson::fold('{"one":"hello", "two":"goodbye"}');
         $expected = ["one" => "hello", "two" => "goodbye"];
@@ -101,7 +101,7 @@ class InterfaceIteratorLoopTest extends TestCase
         $this->assertEquals($expected, $actual);
     }
 
-    public function testESTuple()
+    public function ESTuple()
     {
         $object = new \stdClass();
         $object->one = "hello";
@@ -119,7 +119,7 @@ class InterfaceIteratorLoopTest extends TestCase
         $this->assertEquals($expected, $actual);
     }
 
-    public function testESString()
+    public function ESString()
     {
         $base = ESString::fold("comp");
         $expected = "comp";

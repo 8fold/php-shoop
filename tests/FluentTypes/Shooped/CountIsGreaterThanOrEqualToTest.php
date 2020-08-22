@@ -24,35 +24,35 @@ use Eightfold\Shoop\FluentTypes\ESString;
  */
 class CountIsGreaterThanOrEqualToTest extends TestCase
 {
-    public function testESArray()
+    public function ESArray()
     {
         $base = ["hello", "world"];
         $actual = ESArray::fold($base)->countIsGreaterThanOrEqualTo(2);
         $this->assertTrue($actual->unfold());
     }
 
-    public function testESBoolean()
+    public function ESBoolean()
     {
         $base = true;
         $actual = ESBoolean::fold($base)->countIsGreaterThanOrEqualTo(0);
         $this->assertTrue($actual->unfold());
     }
 
-    public function testESDictionary()
+    public function ESDictionary()
     {
         $base = ["member" => "value"];
         $actual = ESDictionary::fold($base)->countIsGreaterThanOrEqualTo(1);
         $this->assertTrue($actual->unfold());
     }
 
-    public function testESInteger()
+    public function ESInteger()
     {
         $base = 11;
         $actual = ESInteger::fold(11)->countIsGreaterThanOrEqualTo($base);
         $this->assertTrue($actual->unfold());
     }
 
-    public function testESJson()
+    public function ESJson()
     {
         $base = '{"test":"test"}';
         $actual = ESJson::fold($base)->countIsGreaterThanOrEqualTo(1);

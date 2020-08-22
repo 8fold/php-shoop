@@ -22,7 +22,7 @@ use Eightfold\Shoop\FluentTypes\{
  */
 class InterfaceIteratorRewindTest extends TestCase
 {
-    public function testESArray()
+    public function ESArray()
     {
         $expected = "goodbye";
         $actual = ESArray::fold(["hello", "goodbye"]);
@@ -34,7 +34,7 @@ class InterfaceIteratorRewindTest extends TestCase
         $this->assertEquals("hello", $actual->current());
     }
 
-    public function testESBoolean()
+    public function ESBoolean()
     {
         $actual = ESBoolean::fold(true);
         $actual->next(); // false
@@ -42,7 +42,7 @@ class InterfaceIteratorRewindTest extends TestCase
         $this->assertTrue($actual->current());
     }
 
-    public function testESDictionary()
+    public function ESDictionary()
     {
         $expected = "hello";
         $actual = ESDictionary::fold(["one" => "hello", "two" => "goodbye"]);
@@ -51,7 +51,7 @@ class InterfaceIteratorRewindTest extends TestCase
         $this->assertEquals($expected, $actual->current());
     }
 
-    public function testESInteger()
+    public function ESInteger()
     {
         $actual = ESInteger::fold(10);
         $actual->next();
@@ -61,7 +61,7 @@ class InterfaceIteratorRewindTest extends TestCase
         $this->assertEquals(0, $actual->current());
     }
 
-    public function testESJson()
+    public function ESJson()
     {
         $expected = "hello";
         $actual = ESJson::fold('{"one":"hello", "two":"goodbye"}');
@@ -70,7 +70,7 @@ class InterfaceIteratorRewindTest extends TestCase
         $this->assertEquals($expected, $actual->current());
     }
 
-    public function testESTuple()
+    public function ESTuple()
     {
         $base = new \stdClass();
         $base->one = "hello";
@@ -82,7 +82,7 @@ class InterfaceIteratorRewindTest extends TestCase
         $this->assertEquals("hello", $actual->current());
     }
 
-    public function testESString()
+    public function ESString()
     {
         $expected = "c";
         $actual = ESString::fold("comp");

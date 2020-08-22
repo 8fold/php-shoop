@@ -26,13 +26,13 @@ use Eightfold\Shoop\FluentTypes\{
  */
 class OffsetExistsTest extends TestCase
 {
-    public function testESArray()
+    public function ESArray()
     {
         $actual = ESArray::fold([false, true])->offsetExists(1);
         $this->assertTrue($actual);
     }
 
-    public function testESBoolean()
+    public function ESBoolean()
     {
         $actual = ESBoolean::fold(true)->offsetExists("true");
         $this->assertTrue($actual);
@@ -41,13 +41,13 @@ class OffsetExistsTest extends TestCase
         $this->assertTrue($actual);
     }
 
-    public function testESDictionary()
+    public function ESDictionary()
     {
         $actual = ESDictionary::fold(["member" => false])->offsetExists("member");
         $this->assertTrue($actual);
     }
 
-    public function testESInteger()
+    public function ESInteger()
     {
         $actual = ESInteger::fold(10)->offsetExists(8);
         $this->assertTrue($actual);
@@ -59,13 +59,13 @@ class OffsetExistsTest extends TestCase
         $this->assertFalse($actual);
     }
 
-    public function testESJson()
+    public function ESJson()
     {
         $actual = ESJson::fold('{"test":true}')->offsetExists("test");
         $this->assertTrue($actual);
     }
 
-    public function testESTuple()
+    public function ESTuple()
     {
         $base = new \stdClass();
         $base->test = false;
@@ -74,7 +74,7 @@ class OffsetExistsTest extends TestCase
         $this->assertTrue($actual);
     }
 
-    public function testESString()
+    public function ESString()
     {
         $actual = ESString::fold("alphabet soup")->offsetExists(10);
         $this->assertTrue($actual);

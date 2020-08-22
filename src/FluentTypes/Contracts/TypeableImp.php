@@ -40,13 +40,9 @@ trait TypeableImp
 
     public function integer(): ESInteger
     {
-        return ESInteger::fold($this->count());
-    }
-
-    public function string($glue = ""): ESString
-    {
-        $string = Apply::typeAsString($glue)->unfoldUsing($this->main);
-        return ESString::fold($string);
+        return ESInteger::fold(
+            $this->count()
+        );
     }
 
     public function count(): int
@@ -54,22 +50,32 @@ trait TypeableImp
         return Apply::typeAsInteger()->unfoldUsing($this->main);
     }
 
+    public function string($glue = ""): ESString
+    {
+        return ESString::fold(
+            Apply::typeAsString($glue)->unfoldUsing($this->main)
+        );
+    }
+
+
     public function json(): ESJson
     {
-        $json = Apply::typeAsJson()->unfoldUsing($this->main);
-        return ESJson::fold($json);
+        return ESJson::fold(
+            Apply::typeAsJson()->unfoldUsing($this->main)
+        );
     }
 
     public function jsonSerialize(): object
     {
-        $method = "{$this->getType()}ToObject";
-        return Php::{$method}($this->main);
+        return Apply::typeAsTuple()->unfoldUsing($this->main);
+        // die(__FILE__);
     }
 
     public function tuple(): ESTuple
     {
-        $tuple = Apply::typeAstuple()->unfoldUsing($this->main);
-        return ESTuple::fold($tuple);
+        return ESTuple::fold(
+            $this->jsonSerialize()
+        );
     }
 
     /**

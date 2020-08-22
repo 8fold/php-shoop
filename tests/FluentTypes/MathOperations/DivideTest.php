@@ -25,7 +25,7 @@ class DivideTest extends TestCase
     /**
      * @return Eightfold\Shoop\ESArry There are two ideces. The first represents everything prior to the index to divide on; the second is everything after.
      */
-    public function testESArray()
+    public function ESArray()
     {
         $expected = [
             ["hello"],
@@ -42,7 +42,7 @@ class DivideTest extends TestCase
     /**
      * @not
      */
-    public function testESBoolean()
+    public function ESBoolean()
     {
         $this->assertFalse(false);
     }
@@ -50,7 +50,7 @@ class DivideTest extends TestCase
     /**
      * @return Eightfold\Shoop\ESDictionary There are two members "members" and "values". The "members" holds a `PHP indexed array` of all members from the original `PHP associative array`; the "values" member holds the values.
      */
-    public function testESDictionary()
+    public function ESDictionary()
     {
         $expected = ["members" => ["member", "member2"], "values" => ["value", "value2"]];
         $actual = ESDictionary::fold(["member" => "value", "member2" => "value2"])->divide();
@@ -63,7 +63,7 @@ class DivideTest extends TestCase
     /**
      * @return Eightfold\Shoop\ESInteger The original value is mathematically divided by the given integer and rounded to nearest half to return a true ESInteger.
      */
-    public function testESInteger()
+    public function ESInteger()
     {
         $expected = 2;
         $actual = ESInteger::fold(5)->divide(3);
@@ -75,7 +75,7 @@ class DivideTest extends TestCase
      *
      * @return Eightfold\Shoop\ESJson
      */
-    public function testESJson()
+    public function ESJson()
     {
         $expected = json_encode((object) ["members" => ["member", "member2"], "values" => ["value", "value2"]]);
         $actual = ESJson::fold('{"member":"value","member2":"value2"}')->divide();
@@ -90,7 +90,7 @@ class DivideTest extends TestCase
      *
      * @return Eightfold\Shoop\ESTuple
      */
-    public function testESTuple()
+    public function ESTuple()
     {
         $expected = new \stdClass();
         $expected->members = ["member", "member2"];
@@ -112,7 +112,7 @@ class DivideTest extends TestCase
      *
      * @return Eightfold\Shoop\ESArray
      */
-    public function testESStringEmpties()
+    public function ESStringEmpties()
     {
         $expected = ["Hello", "World!"];
         $actual = ESString::fold("Hello, World!")->divide(", ");

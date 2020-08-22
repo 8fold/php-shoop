@@ -25,7 +25,7 @@ class ToggleTest extends TestCase
     /**
      * @return Eightfold\Shoop\ESArray After reversing the order of the value index-value pairs.
      */
-    public function testESArray()
+    public function ESArray()
     {
         $expected = [4 => 5, 3 => 6, 2 => 2, 1 => 1, 0 => 10];
         $actual = Shoop::array([10, 1, 2, 6, 5])->toggle();
@@ -39,7 +39,7 @@ class ToggleTest extends TestCase
     /**
      * @return Eightfold\Shoop\ESBoolean True becomes false, and false becomes true.
      */
-    public function testESBoolean()
+    public function ESBoolean()
     {
         $actual = Shoop::bool(true)->toggle();
         $this->assertFalse($actual->unfold());
@@ -50,7 +50,7 @@ class ToggleTest extends TestCase
      *
      * @return Eightfold\Shoop\ESDictionary
      */
-    public function testESDictionary()
+    public function ESDictionary()
     {
         $expected = ["hello" => "world", "world" => "hello"];
         $actual = Shoop::dictionary(["world" => "hello", "hello" => "world"])->toggle();
@@ -60,7 +60,7 @@ class ToggleTest extends TestCase
     /**
      * @return Eightfold\Shoop\ESInteger After multiplying the original value by negative one (-1).
      */
-    public function testESInteger()
+    public function ESInteger()
     {
         $expected = 1;
         $actual = Shoop::integer(-1)->toggle();
@@ -72,7 +72,7 @@ class ToggleTest extends TestCase
      *
      * @return Eightfold\Shoop\ESJson
      */
-    public function testESJson()
+    public function ESJson()
     {
         $base = ["beta" => "beta", "alpha2" => "alpha2", "alpha" => "alpha"];
         $expected = json_encode($base);
@@ -85,7 +85,7 @@ class ToggleTest extends TestCase
      *
      * @return Eightfold\Shoop\ESTuple
      */
-    public function testESTuple()
+    public function ESTuple()
     {
         $expected = ["beta" => "beta", "alpha2" => "alpha2", "alpha" => "alpha"];
 
@@ -102,7 +102,7 @@ class ToggleTest extends TestCase
     /**
      * @return Eightfold\Shoop\FluentTypes\ESString After reversing the order of the individual characters of the original string.
      */
-    public function testESString()
+    public function ESString()
     {
         $expected = "Hello!";
         $actual = Shoop::string("!olleH")->toggle();

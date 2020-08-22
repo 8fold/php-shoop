@@ -23,7 +23,7 @@ use Eightfold\Shoop\FluentTypes\{
  */
 class HasTest extends TestCase
 {
-    public function testESArray()
+    public function ESArray()
     {
         $base = ["hello", "world"];
         $actual = ESArray::fold($base)->has("world");
@@ -55,12 +55,12 @@ class HasTest extends TestCase
     /**
      * @not
      */
-    public function testESBoolean()
+    public function ESBoolean()
     {
         $this->assertFalse(false);
     }
 
-    public function testESDictionary()
+    public function ESDictionary()
     {
         $base = ["member" => "value"];
         $actual = ESDictionary::fold($base)->has("value");
@@ -93,12 +93,12 @@ class HasTest extends TestCase
     /**
      * @not
      */
-    public function testESInteger()
+    public function ESInteger()
     {
         $this->assertFalse(false);
     }
 
-    public function testESJson()
+    public function ESJson()
     {
         $base = '{"member":"value", "member2":"value2", "member3":"value3"}';
         $actual = ESJson::fold($base)->has("value3");
@@ -134,7 +134,7 @@ class HasTest extends TestCase
     /**
      * Packagist doesn't seem to be updating
      */
-    public function testESTuple()
+    public function ESTuple()
     {
         $base = new \stdClass();
         $base->testMember = "test";
@@ -165,7 +165,7 @@ class HasTest extends TestCase
         $this->assertTrue($actual->unfold());
     }
 
-    public function testESString()
+    public function ESString()
     {
         $actual = ESString::fold("a")->has("b");
         $this->assertFalse($actual->unfold());

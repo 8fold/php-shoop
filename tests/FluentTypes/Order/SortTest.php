@@ -25,7 +25,7 @@ class SortTest extends TestCase
     /**
      * @return Eightfold\Shoop\ESArray
      */
-    public function testESArray()
+    public function ESArray()
     {
         $expected = ["Alpha", "Beta", "Gamma", "alpha", "beta", "gamma"];
         $actual = Shoop::array(["beta", "Alpha", "gamma", "Beta", "alpha" , "Gamma"])->sort();
@@ -47,7 +47,7 @@ class SortTest extends TestCase
     /**
      * @not Could be a random boolean generator
      */
-    public function testESBoolean()
+    public function ESBoolean()
     {
         $this->assertFalse(false);
     }
@@ -55,7 +55,7 @@ class SortTest extends TestCase
     /**
      * @return Eightfold\Shoop\ESDictionary
      */
-    public function testESDictionary()
+    public function ESDictionary()
     {
         $expected = ["gamma" => "Alpha", "beta" => "Beta", "alpha" => "beta", "delta" => "alpha"];
         $actual = Shoop::dictionary(["gamma" => "Alpha", "beta" => "Beta", "delta" => "alpha", "alpha" => "beta"])->sort();
@@ -77,7 +77,7 @@ class SortTest extends TestCase
     /**
      * @not Could sort the range
      */
-    public function testESInteger()
+    public function ESInteger()
     {
         $this->assertFalse(false);
     }
@@ -87,7 +87,7 @@ class SortTest extends TestCase
      *
      * @return Eightfold\Shoop\ESJson After converting the JSON string to an ESTuple.
      */
-    public function testESJson()
+    public function ESJson()
     {
         $baseExpected = ["gamma" => "Alpha", "beta" => "Beta", "delta" => "alpha", "alpha" => "beta"];
         $expected = json_encode($baseExpected);
@@ -113,7 +113,7 @@ class SortTest extends TestCase
     /**
      * @return Eightfold\Shoop\ESTuple
      */
-    public function testESTuple()
+    public function ESTuple()
     {
         $expected = (object) ["gamma" => "Alpha", "delta" => "alpha", "beta" => "Beta", "alpha" => "beta"];
         $object = new \stdClass();
@@ -154,7 +154,7 @@ class SortTest extends TestCase
     /**
      * @return Eightfold\Shoop\FluentTypes\ESString After sorting the individual characters of the original string.
      */
-    public function testESString()
+    public function ESString()
     {
         $expected = "aahlp";
         $actual = Shoop::string("alpha")->sort();

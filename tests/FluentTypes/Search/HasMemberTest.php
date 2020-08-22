@@ -23,7 +23,7 @@ use Eightfold\Shoop\FluentTypes\{
  */
 class HasMemberTest extends TestCase
 {
-    public function testESArray()
+    public function ESArray()
     {
         $base = ["hello", "world"];
         $actual = ESArray::fold($base)->hasMember(1);
@@ -44,12 +44,12 @@ class HasMemberTest extends TestCase
     /**
      * @not
      */
-    public function testESBoolean()
+    public function ESBoolean()
     {
         $this->assertFalse(false);
     }
 
-    public function testESDictionary()
+    public function ESDictionary()
     {
         $base = ["member" => "value"];
         $actual = ESDictionary::fold($base)->hasMember("member");
@@ -71,12 +71,12 @@ class HasMemberTest extends TestCase
     /**
      * @not
      */
-    public function testESInteger()
+    public function ESInteger()
     {
         $this->assertFalse(false);
     }
 
-    public function testESJson()
+    public function ESJson()
     {
         $base = '{"member":"value", "member2":"value2", "member3":"value3"}';
         $actual = ESJson::fold($base)->hasMember("member2");
@@ -95,7 +95,7 @@ class HasMemberTest extends TestCase
         $this->assertTrue($actual->unfold());
     }
 
-    public function testESTuple()
+    public function ESTuple()
     {
         $base = new \stdClass();
         $base->testMember = "test";
@@ -116,7 +116,7 @@ class HasMemberTest extends TestCase
         $this->assertTrue($actual->unfold());
     }
 
-    public function testESString()
+    public function ESString()
     {
         $base = "Hello, World!";
 

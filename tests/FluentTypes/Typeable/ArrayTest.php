@@ -32,7 +32,7 @@ class ArrayTest extends TestCase
      */
     public function ESArray()
     {
-        AssertEqualsFluent::applyWith([], 1.46)
+        AssertEqualsFluent::applyWith([], 1.7)
             ->unfoldUsing(ESArray::fold([])->array());
     }
 
@@ -86,7 +86,7 @@ class ArrayTest extends TestCase
     /**
      * @test
      */
-    public function testESString()
+    public function ESString()
     {
         AssertEqualsFluent::applyWith(["h", "e", "l", "l", "o"], 2.32)
             ->unfoldUsing(ESString::fold("hello")->array());

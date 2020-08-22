@@ -23,7 +23,7 @@ use Eightfold\Shoop\FluentTypes\{
  */
 class php_GetTest extends TestCase
 {
-    public function testESArray()
+    public function ESArray()
     {
         $base = ESArray::fold([0 => "hi"]);
 
@@ -43,7 +43,7 @@ class php_GetTest extends TestCase
         $this->assertEquals($expected, $actual);
     }
 
-    public function testESBoolean()
+    public function ESBoolean()
     {
         $base = ESBoolean::fold(true);
 
@@ -56,7 +56,7 @@ class php_GetTest extends TestCase
         $this->assertTrue($expected, $actual);
     }
 
-    public function testESDictionary()
+    public function ESDictionary()
     {
         $base = ESDictionary::fold(["hello" => "world"]);
 
@@ -69,7 +69,7 @@ class php_GetTest extends TestCase
         $this->assertEquals($expected, $actual);
     }
 
-    public function testESInteger()
+    public function ESInteger()
     {
         $base = ESInteger::fold(5);
 
@@ -82,7 +82,7 @@ class php_GetTest extends TestCase
         $this->assertEquals($expected, $actual);
     }
 
-    public function testESJson()
+    public function ESJson()
     {
         $base = ESJson::fold('{"test":true}');
 
@@ -95,7 +95,7 @@ class php_GetTest extends TestCase
         $this->assertEquals($expected, $actual);
     }
 
-    public function testESTuple()
+    public function ESTuple()
     {
         $object = new \stdClass();
         $object->test = true;
@@ -111,7 +111,7 @@ class php_GetTest extends TestCase
         $this->assertEquals($expected, $actual);
     }
 
-    public function testESString()
+    public function ESString()
     {
         $base = ESString::fold("hello");
 

@@ -28,40 +28,40 @@ use Eightfold\Shoop\FluentTypes\{
  */
 class InterfaceIteratorCurrentTest extends TestCase
 {
-    public function testESArray()
+    public function ESArray()
     {
         $expected = "hello";
         $actual = ESArray::fold(["hello", "goodbye"])->current();
         $this->assertEquals($expected, $actual);
     }
 
-    public function testESBoolean()
+    public function ESBoolean()
     {
         $actual = ESBoolean::fold(true)->current();
         $this->assertTrue($actual);
     }
 
-    public function testESDictionary()
+    public function ESDictionary()
     {
         $expected = "hello";
         $actual = ESDictionary::fold(["one" => "hello", "two" => "goodbye"])->current();
         $this->assertEquals($expected, $actual);
     }
 
-    public function testESInteger()
+    public function ESInteger()
     {
         $actual = ESInteger::fold(10)->current();
         $this->assertEquals(0, $actual);
     }
 
-    public function testESJson()
+    public function ESJson()
     {
         $expected = "hello";
         $actual = ESJson::fold('{"one":"hello", "two":"goodbye"}')->current();
         $this->assertEquals($expected, $actual);
     }
 
-    public function testESTuple()
+    public function ESTuple()
     {
         $base = new \stdClass();
         $base->one = "hello";
@@ -71,7 +71,7 @@ class InterfaceIteratorCurrentTest extends TestCase
         $this->assertEquals("hello", $actual);
     }
 
-    public function testESString()
+    public function ESString()
     {
         $expected = "c";
         $actual = ESString::fold("comp")->current();

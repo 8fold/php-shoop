@@ -24,14 +24,14 @@ use Eightfold\Shoop\FluentTypes\{
  */
 class php_CallWildcardGetUnfoldedTest extends TestCase
 {
-    public function testESArray()
+    public function ESArray()
     {
         $expected = [true];
         $result = ESArray::fold([true])->get0Unfolded();
         $this->assertTrue($result);
     }
 
-    public function testESBoolean()
+    public function ESBoolean()
     {
         $expected = [true];
         $actual = ESBoolean::fold(true)->arrayUnfolded();
@@ -41,14 +41,14 @@ class php_CallWildcardGetUnfoldedTest extends TestCase
         $this->assertEquals($expected, $actual);
     }
 
-    public function testESDictionary()
+    public function ESDictionary()
     {
         $base = ["member" => false];
         $actual = ESDictionary::fold($base)->member;
         $this->assertFalse($actual);
     }
 
-    public function testESInteger()
+    public function ESInteger()
     {
         $base = ESInteger::fold(1);
 
@@ -61,7 +61,7 @@ class php_CallWildcardGetUnfoldedTest extends TestCase
         $this->assertEquals($expected, $actual);
     }
 
-    public function testESJson()
+    public function ESJson()
     {
         $base = ESJson::fold('{"test":true}');
 
@@ -75,7 +75,7 @@ class php_CallWildcardGetUnfoldedTest extends TestCase
         // $this->assertTrue($actual);
     }
 
-    public function testESTuple()
+    public function ESTuple()
     {
         $base = new \stdClass();
         $base->test = false;
@@ -83,7 +83,7 @@ class php_CallWildcardGetUnfoldedTest extends TestCase
         $this->assertFalse($actual);
     }
 
-    public function testESString()
+    public function ESString()
     {
         $expected = " ";
         $actual = ESString::fold("alphabet soup")->get8Unfolded();

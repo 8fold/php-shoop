@@ -27,41 +27,41 @@ use Eightfold\Shoop\FluentTypes\{
  */
 class php_CallWildcardUnfoldedTest extends TestCase
 {
-    public function testESArray()
+    public function ESArray()
     {
         $expected = [true];
         $result = ESArray::fold([true])->getUnfolded(0);
         $this->assertTrue($result);
     }
 
-    public function testESBoolean()
+    public function ESBoolean()
     {
         $expected = [true];
         $actual = ESBoolean::fold(true)->arrayUnfolded();
         $this->assertEquals($expected, $actual);
     }
 
-    public function testESDictionary()
+    public function ESDictionary()
     {
         $base = ["member" => false];
         $actual = ESDictionary::fold($base)->getUnfolded("member");
         $this->assertFalse($actual);
     }
 
-    public function testESInteger()
+    public function ESInteger()
     {
         $expected = true;
         $actual = ESInteger::fold(1)->boolUnfolded();
         $this->assertEquals($expected, $actual);
     }
 
-    public function testESJson()
+    public function ESJson()
     {
         $actual = ESJson::fold('{"test":true}')->testUnfolded();
         $this->assertTrue($actual);
     }
 
-    public function testESTuple()
+    public function ESTuple()
     {
         $base = new \stdClass();
         $base->test = false;
@@ -69,7 +69,7 @@ class php_CallWildcardUnfoldedTest extends TestCase
         $this->assertFalse($actual);
     }
 
-    public function testESString()
+    public function ESString()
     {
         $expected = "puos tebahpla";
         $actual = ESString::fold("alphabet soup")->toggleUnfolded();

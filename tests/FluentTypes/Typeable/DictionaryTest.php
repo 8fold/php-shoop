@@ -66,7 +66,7 @@ class DictionaryTest extends TestCase
     /**
      * @test
      */
-    public function testESJson()
+    public function ESJson()
     {
         AssertEqualsFluent::applyWith(["test" => true], 1.84)
             ->unfoldUsing(ESJson::fold('{"test":true}')->dictionary());
@@ -75,7 +75,7 @@ class DictionaryTest extends TestCase
     /**
      * @test
      */
-    public function testESTuple()
+    public function ESTuple()
     {
         AssertEqualsFluent::applyWith(["test" => true], 1.67)
             ->unfoldUsing(ESTuple::fold((object) ["test" => true])->dictionary());
@@ -84,7 +84,7 @@ class DictionaryTest extends TestCase
     /**
      * @test
      */
-    public function testESString()
+    public function ESString()
     {
         AssertEqualsFluent::applyWith(["content" => "hello"], 3.26)
             ->unfoldUsing(ESString::fold("hello")->dictionary());

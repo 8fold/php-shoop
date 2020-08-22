@@ -23,7 +23,7 @@ use Eightfold\Shoop\FluentTypes\{
  */
 class ArrayAccessAccessingTest extends TestCase
 {
-    public function testESArray()
+    public function ESArray()
     {
         $array = ESArray::fold(["hello", "goodbye"]);
 
@@ -37,7 +37,7 @@ class ArrayAccessAccessingTest extends TestCase
         $this->assertEquals("goodbye", $array[1]);
     }
 
-    public function testESBoolean()
+    public function ESBoolean()
     {
         $bool = ESBoolean::fold(false);
 
@@ -61,7 +61,7 @@ class ArrayAccessAccessingTest extends TestCase
         $this->assertTrue($bool["false"]);
     }
 
-    public function testESDictionary()
+    public function ESDictionary()
     {
         $dictionary = ESDictionary::fold(["one" => "hello", "two" => "goodbye"]);
 
@@ -80,7 +80,7 @@ class ArrayAccessAccessingTest extends TestCase
         $this->assertEquals($dictionary->unfold()["one"], $dictionary["one"]);
     }
 
-    public function testESInteger()
+    public function ESInteger()
     {
         $integer = ESInteger::fold(3);
 
@@ -94,7 +94,7 @@ class ArrayAccessAccessingTest extends TestCase
         $this->assertEquals($expected[2], $integer[2]);
     }
 
-    public function testESJson()
+    public function ESJson()
     {
         $json = ESJson::fold('{"one":"hello", "two":"goodbye"}');
 
@@ -108,7 +108,7 @@ class ArrayAccessAccessingTest extends TestCase
         $this->assertEquals($expected["one"], $json["one"]);
     }
 
-    public function testESTuple()
+    public function ESTuple()
     {
         $base = new \stdClass();
         $base->one = "hello";
@@ -126,7 +126,7 @@ class ArrayAccessAccessingTest extends TestCase
         $this->assertEquals($expected["two"], $object["two"]);
     }
 
-    public function testESString()
+    public function ESString()
     {
         $string = ESString::fold("comp");
         $expected = ["c", "o", "m", "p"];

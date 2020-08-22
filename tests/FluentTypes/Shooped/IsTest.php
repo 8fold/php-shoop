@@ -24,42 +24,42 @@ use Eightfold\Shoop\FluentTypes\{
  */
 class IsTest extends TestCase
 {
-    public function testESArray()
+    public function ESArray()
     {
         $base = ["hello", "world"];
         $actual = ESArray::fold($base)->is($base);
         $this->assertTrue($actual->unfold());
     }
 
-    public function testESBoolean()
+    public function ESBoolean()
     {
         $base = true;
         $actual = ESBoolean::fold($base)->is($base);
         $this->assertTrue($actual->unfold());
     }
 
-    public function testESDictionary()
+    public function ESDictionary()
     {
         $base = ["member" => "value"];
         $actual = ESDictionary::fold($base)->is($base);
         $this->assertTrue($actual->unfold());
     }
 
-    public function testESInteger()
+    public function ESInteger()
     {
         $base = 10;
         $actual = ESInteger::fold($base)->is($base);
         $this->assertTrue($actual->unfold());
     }
 
-    public function testESJson()
+    public function ESJson()
     {
         $base = '{"test":"test"}';
         $actual = ESJson::fold($base)->is($base);
         $this->assertTrue($actual->unfold());
     }
 
-    public function testESTuple()
+    public function ESTuple()
     {
         $base = new \stdClass();
         $base->test = "test";
@@ -67,7 +67,7 @@ class IsTest extends TestCase
         $this->assertTrue($actual->unfold());
     }
 
-    public function testESString()
+    public function ESString()
     {
         $base = "alphabet soup";
         $actual = ESString::fold($base)->is($base);

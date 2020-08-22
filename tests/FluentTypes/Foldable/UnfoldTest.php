@@ -22,7 +22,7 @@ use Eightfold\Shoop\FluentTypes\{
  */
 class UnfoldTest extends TestCase
 {
-    public function testESArray()
+    public function ESArray()
     {
         $expected = ["testing"];
         $actual = new ESArray($expected);
@@ -32,7 +32,7 @@ class UnfoldTest extends TestCase
         $this->assertEquals($expected, $actual->unfold());
     }
 
-    public function testESBoolean()
+    public function ESBoolean()
     {
         $expected = true;
         $actual = new ESBoolean(true);
@@ -42,7 +42,7 @@ class UnfoldTest extends TestCase
         $this->assertEquals($expected, $actual->unfold());
     }
 
-    public function testESDictionary()
+    public function ESDictionary()
     {
         $expected = ["hello" => "world"];
         $actual = new ESDictionary($expected);
@@ -52,7 +52,7 @@ class UnfoldTest extends TestCase
         $this->assertEquals($expected, $actual->unfold());
     }
 
-    public function testESInteger()
+    public function ESInteger()
     {
         $expected = 1;
         $actual = new ESInteger($expected);
@@ -70,7 +70,7 @@ class UnfoldTest extends TestCase
         $this->assertEquals($expected, $actual->unfold());
     }
 
-    public function testESJson()
+    public function ESJson()
     {
         $expected = '{"test":"test"}';
         $actual = new ESJson($expected);
@@ -80,7 +80,7 @@ class UnfoldTest extends TestCase
         $this->assertEquals($expected, $actual->unfold());
     }
 
-    public function testESTuple()
+    public function ESTuple()
     {
         $expected = new \stdClass();
         $actual = new ESTuple($expected);
@@ -90,7 +90,7 @@ class UnfoldTest extends TestCase
         $this->assertEquals($expected, $actual->unfold());
     }
 
-    public function testESString()
+    public function ESString()
     {
         $expected = "hello";
         $actual = new ESString($expected);

@@ -26,7 +26,7 @@ use Eightfold\Shoop\FluentTypes\{
  */
 class OffsetGetTest extends TestCase
 {
-    public function testESArray()
+    public function ESArray()
     {
         $actual = ESArray::fold([false, true])->offsetGet(0);
         $this->assertFalse($actual);
@@ -35,19 +35,19 @@ class OffsetGetTest extends TestCase
     /**
      * Equivalent to calling `unfold()` regardless of argument value.
      */
-    public function testESBoolean()
+    public function ESBoolean()
     {
         $actual = ESBoolean::fold(true)->offsetGet("true");
         $this->assertTrue($actual);
     }
 
-    public function testESDictionary()
+    public function ESDictionary()
     {
         $actual = ESDictionary::fold(["member" => false])->offsetGet("member");
         $this->assertFalse($actual);
     }
 
-    public function testESInteger()
+    public function ESInteger()
     {
         $actual = ESInteger::fold(10)->offsetGet(8);
         $this->assertEquals(8, $actual);
@@ -56,13 +56,13 @@ class OffsetGetTest extends TestCase
         $this->assertEquals(9, $actual);
     }
 
-    public function testESJson()
+    public function ESJson()
     {
         $actual = ESJson::fold('{"test":true}')->offsetGet("test");
         $this->assertTrue($actual);
     }
 
-    public function testESTuple()
+    public function ESTuple()
     {
         $base = new \stdClass();
         $base->test = false;
@@ -71,7 +71,7 @@ class OffsetGetTest extends TestCase
         $this->assertFalse($actual);
     }
 
-    public function testESString()
+    public function ESString()
     {
         $actual = ESString::fold("alphabet soup")->offsetGet(10);
         $this->assertEquals("o", $actual);

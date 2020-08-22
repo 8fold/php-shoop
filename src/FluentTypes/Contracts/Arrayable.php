@@ -10,19 +10,19 @@ use Eightfold\Shoop\FluentTypes\ESArray;
 interface Arrayable extends ArrayAccess, Iterator
 {
     // TODO: PHP 8.0 string|int|ESString|ESInteger $offset
-    public function hasMember($member, callable $callable = null);
+    public function hasMember($member);
 
     public function offsetExists($offset): bool; // ArrayAccess
 
-    public function getMember($member, callable $callable = null);
+    public function at($member);
 
     public function offsetGet($offset); // ArrayAccess
 
-    public function setMember($member, $value);
+    public function plusMember($value, $member);
 
     public function offsetSet($offset, $value): void; // ArrayAccess
 
-    public function stripMember($member);
+    public function minusMember($member);
 
     public function offsetUnset($offset): void; // ArrayAcces
 
@@ -36,4 +36,19 @@ interface Arrayable extends ArrayAccess, Iterator
     public function key();
 
     public function next(): void;
+
+    /**
+     * @deprecated
+     */
+    public function getMember($member, callable $callable = null);
+
+    /**
+     * @deprecated
+     */
+    public function setMember($member, $value);
+
+    /**
+     * @deprecated
+     */
+    public function stripMember($member);
 }

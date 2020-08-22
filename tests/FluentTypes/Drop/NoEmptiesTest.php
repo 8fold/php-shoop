@@ -23,7 +23,7 @@ use Eightfold\Shoop\FluentTypes\{
  */
 class NoEmptiesTest extends TestCase
 {
-    public function testESArray()
+    public function ESArray()
     {
         $base = [0, null];
 
@@ -35,12 +35,12 @@ class NoEmptiesTest extends TestCase
     /**
      * @not
      */
-    public function testESBoolean()
+    public function ESBoolean()
     {
         $this->assertFalse(false);
     }
 
-    public function testESDictionary()
+    public function ESDictionary()
     {
         $base = ["member" => false, "member2" => "value2"];
 
@@ -52,12 +52,12 @@ class NoEmptiesTest extends TestCase
     /**
      * @not
      */
-    public function testESInteger()
+    public function ESInteger()
     {
         $this->assertFalse(false);
     }
 
-    public function testESJson()
+    public function ESJson()
     {
         $base = '{"member":false, "member2":"value2", "member3":0}';
 
@@ -66,7 +66,7 @@ class NoEmptiesTest extends TestCase
         $this->assertEquals($expected, $actual);
     }
 
-    public function testESTuple()
+    public function ESTuple()
     {
         $base = new \stdClass();
         $base->testMember = "test";
@@ -78,7 +78,7 @@ class NoEmptiesTest extends TestCase
         $this->assertEquals($expected, $actual->unfold());
     }
 
-    public function testESString()
+    public function ESString()
     {
         $base = "Hell0, W0rld!";
 

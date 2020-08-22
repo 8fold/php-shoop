@@ -23,7 +23,7 @@ use Eightfold\Shoop\FluentTypes\{
  */
 class php_ToStringTest extends TestCase
 {
-    public function testESArray()
+    public function ESArray()
     {
         $expected = "Array()";
 
@@ -36,7 +36,7 @@ class php_ToStringTest extends TestCase
         $this->assertEquals($expected, $actual);
     }
 
-    public function testESBoolean()
+    public function ESBoolean()
     {
         $expected = "true";
 
@@ -44,7 +44,7 @@ class php_ToStringTest extends TestCase
         $this->assertEquals($expected, $actual);
     }
 
-    public function testESDictionary()
+    public function ESDictionary()
     {
         $expected = "Dictionary()";
 
@@ -52,7 +52,7 @@ class php_ToStringTest extends TestCase
         $this->assertEquals($expected, $actual);
     }
 
-    public function testESInteger()
+    public function ESInteger()
     {
         $expected = "1";
 
@@ -60,7 +60,7 @@ class php_ToStringTest extends TestCase
         $this->assertEquals($expected, $actual);
     }
 
-    public function testESJson()
+    public function ESJson()
     {
         $expected = '{"test":"test"}';
 
@@ -68,7 +68,7 @@ class php_ToStringTest extends TestCase
         $this->assertEquals($expected, $actual);
     }
 
-    public function testESTuple()
+    public function ESTuple()
     {
         $expected = "stdClass Object()";
 
@@ -76,7 +76,7 @@ class php_ToStringTest extends TestCase
         $this->assertEquals($expected, $actual);
     }
 
-    public function testESString()
+    public function ESString()
     {
         $expected = "hello";
 

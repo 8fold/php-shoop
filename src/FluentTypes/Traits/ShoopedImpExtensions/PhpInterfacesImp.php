@@ -27,13 +27,6 @@ use Eightfold\Shoop\FluentTypes\{
 
 trait PhpInterfacesImp
 {
-// - Countable
-    public function count(): ESInteger
-    {
-        $int = $this->integer();
-        return Shoop::integer($int);
-    }
-
 // - ArrayAccess
     public function offsetExists($offset): bool
     {
@@ -231,11 +224,5 @@ trait PhpInterfacesImp
             $this->rewind();
         }
         next($this->temp);
-    }
-
-// - JsonSerializable
-    public function jsonSerialize(): stdClass
-    {
-        return $this->object()->unfold();
     }
 }

@@ -28,28 +28,28 @@ use Eightfold\Shoop\FluentTypes\{
  */
 class CountIsGreaterThanTest extends TestCase
 {
-    public function testESArray()
+    public function ESArray()
     {
         $base = ["hello", "world"];
         $actual = ESArray::fold($base)->countIsGreaterThan(2);
         $this->assertFalse($actual->unfold());
     }
 
-    public function testESBoolean()
+    public function ESBoolean()
     {
         $base = true;
         $actual = ESBoolean::fold($base)->countIsGreaterThan(0);
         $this->assertTrue($actual->unfold());
     }
 
-    public function testESDictionary()
+    public function ESDictionary()
     {
         $base = ["member" => "value"];
         $actual = ESDictionary::fold($base)->countIsGreaterThan(1);
         $this->assertFalse($actual->unfold());
     }
 
-    public function testESInteger()
+    public function ESInteger()
     {
         $base = 10;
         $actual = ESInteger::fold(11)->countIsGreaterThan($base);
@@ -59,14 +59,14 @@ class CountIsGreaterThanTest extends TestCase
         $this->assertFalse($actual->unfold());
     }
 
-    public function testESJson()
+    public function ESJson()
     {
         $base = '{"test":"test"}';
         $actual = ESJson::fold($base)->countIsGreaterThan(1);
         $this->assertFalse($actual->unfold());
     }
 
-    public function testESTuple()
+    public function ESTuple()
     {
         $base = new \stdClass();
         $base->test = "test";
@@ -75,7 +75,7 @@ class CountIsGreaterThanTest extends TestCase
         $this->assertFalse($actual->unfold());
     }
 
-    public function testESString()
+    public function ESString()
     {
         $actual = ESString::fold("a")->countIsGreaterThan(1);
         $this->assertFalse($actual->unfold());
