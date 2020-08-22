@@ -4,16 +4,13 @@ namespace Eightfold\Shoop\Tests\Shooped;
 
 use PHPUnit\Framework\TestCase;
 
-use Eightfold\Shoop\FluentTypes\{
-
-    ESArray,
-    ESBoolean,
-    ESDictionary,
-    ESInteger,
-    ESJson,
-    ESTuple,
-    ESString
-};
+use Eightfold\Shoop\FluentTypes\ESArray;
+use Eightfold\Shoop\FluentTypes\ESBoolean;
+use Eightfold\Shoop\FluentTypes\ESDictionary;
+use Eightfold\Shoop\FluentTypes\ESInteger;
+use Eightfold\Shoop\FluentTypes\ESJson;
+use Eightfold\Shoop\FluentTypes\ESTuple;
+use Eightfold\Shoop\FluentTypes\ESString;
 
 /**
  * The `object()` method converts the Shoop type to a `PHP object` equivalent.

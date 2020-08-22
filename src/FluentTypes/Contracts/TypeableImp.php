@@ -41,6 +41,12 @@ trait TypeableImp
         return ESInteger::fold($this->count());
     }
 
+    public function string($glue = ""): ESString
+    {
+        $string = Apply::typeAsString($glue)->unfoldUsing($this->main);
+        return ESString::fold($string);
+    }
+
     public function count(): int
     {
         return Apply::typeAsInteger()->unfoldUsing($this->main);
@@ -58,15 +64,17 @@ trait TypeableImp
         return Php::{$method}($this->main);
     }
 
-    public function object(): ESTuple
+    public function tuple(): ESTuple
     {
-        $object = Shoop::pipe($this->main, AsObject::apply())->unfold();
-        return ESTuple::fold($object);
+        $tuple = Apply::typeAstuple()->unfoldUsing($this->main);
+        return ESTuple::fold($tuple);
     }
 
-    public function string($arg = ""): ESString
+    /**
+     * @deprecated
+     */
+    public function object(): ESTuple
     {
-        $string = Shoop::pipe($this->main, AsString::applyWith($arg))->unfold();
-        return ESString::fold($string);
+        return $this->tuple();
     }
 }

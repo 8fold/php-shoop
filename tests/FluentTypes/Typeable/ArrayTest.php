@@ -32,7 +32,7 @@ class ArrayTest extends TestCase
     public function ESArray()
     {
         AssertEqualsFluent::applyWith([], 0.92)
-            ->unfoldUsing(ESArray::fold([]));
+            ->unfoldUsing(ESArray::fold([])->array());
     }
 
     /**
