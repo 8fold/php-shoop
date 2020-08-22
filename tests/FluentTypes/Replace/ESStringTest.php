@@ -6,7 +6,7 @@ use Eightfold\Shoop\Tests\TestCase;
 
 use Eightfold\Shoop\Tests\Replace\ESGenericType;
 
-use Eightfold\Shoop\FluentTypes\Interfaces\Shooped;
+use Eightfold\Shoop\FluentTypes\Contracts\Shooped;
 use Eightfold\Foldable\Foldable;
 
 use Eightfold\Shoop\Shoop;

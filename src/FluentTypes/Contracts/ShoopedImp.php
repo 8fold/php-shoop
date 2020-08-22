@@ -1,17 +1,13 @@
 <?php
 
-namespace Eightfold\Shoop\FluentTypes\Traits;
+namespace Eightfold\Shoop\FluentTypes\Contracts;
 
 use Eightfold\Foldable\FoldableImp;
-
-use Eightfold\Shoop\PipeFilters;
-use Eightfold\Shoop\FluentTypes\ESInteger;
 
 trait ShoopedImp
 {
     use FoldableImp;//, CompareImp, PhpInterfacesImp;
 
-    // TODO: PHP 8.0 - string|ESString
     public function __construct($main)
     {
         $this->main = $main;

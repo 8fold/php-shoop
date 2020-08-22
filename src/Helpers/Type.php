@@ -3,7 +3,7 @@
 namespace Eightfold\Shoop\Helpers;
 
 use Eightfold\Shoop\Foldable\Foldable;
-use Eightfold\Shoop\FluentTypes\Interfaces\Shooped;
+use Eightfold\Shoop\FluentTypes\Contracts\Shooped;
 
 use Eightfold\Shoop\Shoop;
 use Eightfold\Shoop\FluentTypes\{

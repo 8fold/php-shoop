@@ -3,8 +3,8 @@
 namespace Eightfold\Shoop\Tests;
 
 
-use Eightfold\Shoop\FluentTypes\Interfaces\Shooped;
-use Eightfold\Shoop\FluentTypes\Traits\ShoopedImp;
+use Eightfold\Shoop\FluentTypes\Contracts\Shooped;
+use Eightfold\Shoop\FluentTypes\Contracts\ShoopedImp;
 use Eightfold\Shoop\FluentTypes\ESString;
 
 class TestShooped implements Shooped

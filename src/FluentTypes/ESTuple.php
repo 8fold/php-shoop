@@ -16,8 +16,8 @@ use Eightfold\Shoop\FluentTypes\Contracts\TypeableImp;
 use Eightfold\Shoop\FluentTypes\Contracts\Comparable;
 use Eightfold\Shoop\FluentTypes\Contracts\ComparableImp;
 
-use Eightfold\Shoop\FluentTypes\Interfaces\Shooped;
-use Eightfold\Shoop\FluentTypes\Traits\ShoopedImp;
+use Eightfold\Shoop\FluentTypes\Contracts\Shooped;
+use Eightfold\Shoop\FluentTypes\Contracts\ShoopedImp;
 
 use Eightfold\Shoop\FluentTypes\Interfaces\MathOperations;
 use Eightfold\Shoop\FluentTypes\Traits\MathOperationsImp;

@@ -8,8 +8,8 @@ use \JsonSerializable;
 
 use Eightfold\Shoop\PipeFilters;
 
-use Eightfold\Shoop\FluentTypes\Interfaces\Shooped;
-use Eightfold\Shoop\FluentTypes\Traits\ShoopedImp;
+use Eightfold\Shoop\FluentTypes\Contracts\Shooped;
+use Eightfold\Shoop\FluentTypes\Contracts\ShoopedImp;
 
 use Eightfold\Shoop\FluentTypes\Contracts\Typeable; // Shoop??
 use Eightfold\Shoop\FluentTypes\Contracts\TypeableImp;

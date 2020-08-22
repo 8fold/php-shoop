@@ -1,9 +1,6 @@
 <?php
 
-namespace Eightfold\Shoop\FluentTypes\Interfaces;
-
-use \JsonSerializable;
-use \Countable;
+namespace Eightfold\Shoop\FluentTypes\Contracts;
 
 use Eightfold\Foldable\Foldable;
 

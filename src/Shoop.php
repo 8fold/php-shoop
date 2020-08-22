@@ -7,7 +7,7 @@ use Eightfold\Foldable\Foldable;
 
 use Eightfold\Shoop\Helpers\Type;
 
-use Eightfold\Shoop\FluentTypes\Interfaces\Shooped;
+use Eightfold\Shoop\FluentTypes\Contracts\Shooped;
 
 use Eightfold\Shoop\FluentTypes\ESArray;
 use Eightfold\Shoop\FluentTypes\ESBoolean;

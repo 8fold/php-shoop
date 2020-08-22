@@ -2,8 +2,8 @@
 
 namespace Eightfold\Shoop\Tests\Replace;
 
-use Eightfold\Shoop\FluentTypes\Interfaces\Shooped;
-use Eightfold\Shoop\FluentTypes\Traits\ShoopedImp;
+use Eightfold\Shoop\FluentTypes\Contracts\Shooped;
+use Eightfold\Shoop\FluentTypes\Contracts\ShoopedImp;
 
 class ESGenericType implements Shooped
 {
