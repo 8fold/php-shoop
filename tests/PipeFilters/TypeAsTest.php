@@ -55,6 +55,11 @@ class TypeAsTest extends TestCase
         AssertEquals::applyWith(
             false,
             TypeAsBoolean::apply()
+        )->unfoldUsing("");
+
+        AssertEquals::applyWith(
+            false,
+            TypeAsBoolean::apply()
         )->unfoldUsing(new stdClass);
 
         AssertEquals::applyWith(

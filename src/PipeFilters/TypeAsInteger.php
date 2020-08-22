@@ -5,6 +5,8 @@ namespace Eightfold\Shoop\PipeFilters;
 
 use Eightfold\Foldable\Filter;
 
+use Eightfold\Shoop\Shoop;
+
 class TypeAsInteger extends Filter
 {
     public function __invoke($using)
@@ -14,11 +16,14 @@ class TypeAsInteger extends Filter
         ) {
             return (int) $using;
 
-        } elseif (TypeIs::applyWith("string")->unfoldUsing($using) and
-            ! TypeIs::applyWith("json")->unfoldUsing($using)
-        ) {
-            $array = TypeAsArray::apply()->unfoldUsing($using);
-            return TypeAsInteger::apply()->unfoldUsing($array);
+        } elseif (TypeIs::applyWith("json")->unfoldUsing($using)) {
+            return Shoop::pipe($using,
+                TypeAsDictionary::apply(),
+                TypeAsInteger::apply()
+            )->unfold();
+
+        } elseif (TypeIs::applyWith("string")->unfoldUsing($using)) {
+            return strlen($using);
 
         } elseif (TypeIs::applyWith("collection")->unfoldUsing($using)) {
             if (TypeIs::applyWith("tuple")->unfoldUsing($using)) {

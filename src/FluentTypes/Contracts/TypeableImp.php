@@ -26,13 +26,13 @@ trait TypeableImp
 
     public function boolean(): ESBoolean
     {
-        $bool = AsBoolean::apply()->unfoldUsing($this->main);
+        $bool = Apply::typeAsBoolean()->unfoldUsing($this->main);
         return ESBoolean::fold($bool);
     }
 
     public function dictionary(): ESDictionary
     {
-        $array = Shoop::pipe($this->main, AsDictionary::apply());
+        $array = Apply::typeAsDictionary()->unfoldUsing($this->main);
         return ESDictionary::fold($array);
     }
 
