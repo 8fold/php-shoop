@@ -16,7 +16,7 @@ use Eightfold\Shoop\FluentTypes\{
     ESBoolean,
     ESInteger,
     ESString,
-    ESObject,
+    ESTuple,
     ESJson,
     ESDictionary
 };
@@ -41,7 +41,7 @@ trait SortImp
             $json = PhpObject::toJson($object);
             return Shoop::json($json);
 
-        } elseif (Type::is($this, ESObject::class)) {
+        } elseif (Type::is($this, ESTuple::class)) {
             $object = $this->objectUnfolded();
             $object = PhpObject::toSortedObject($object, $asc, $caseSensitive);
             return Shoop::object($object);
@@ -73,7 +73,7 @@ trait SortImp
             $json = PhpObject::toJson($object);
             return Shoop::json($json);
 
-        } elseif (Type::is($this, ESObject::class)) {
+        } elseif (Type::is($this, ESTuple::class)) {
             $object = $this->objectUnfolded();
             $object = PhpObject::toSortedObject($object, $asc, $caseSensitive, true);
             return Shoop::object($object);

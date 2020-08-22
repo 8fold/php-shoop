@@ -10,7 +10,7 @@ use Eightfold\Shoop\FluentTypes\ESBoolean;
 use Eightfold\Shoop\FluentTypes\ESDictionary;
 use Eightfold\Shoop\FluentTypes\ESInteger;
 use Eightfold\Shoop\FluentTypes\ESJson;
-use Eightfold\Shoop\FluentTypes\ESObject;
+use Eightfold\Shoop\FluentTypes\ESTuple;
 use Eightfold\Shoop\FluentTypes\ESString;
 
 /**
@@ -82,15 +82,15 @@ class BoolTest extends TestCase
     /**
      * @see PhpObject::toBool
      */
-    public function testESObject()
+    public function testESTuple()
     {
         $object = new \stdClass();
 
-        $actual = ESObject::fold($object)->boolean();
+        $actual = ESTuple::fold($object)->boolean();
         $this->assertFalse($actual->unfold());
 
         $object->name = "hello";
-        $actual = ESObject::fold($object)->boolean();
+        $actual = ESTuple::fold($object)->boolean();
         $this->assertTrue($actual->unfold());
     }
 

@@ -12,7 +12,7 @@ use Eightfold\Shoop\FluentTypes\ESBoolean;
 use Eightfold\Shoop\FluentTypes\ESDictionary;
 use Eightfold\Shoop\FluentTypes\ESInteger;
 use Eightfold\Shoop\FluentTypes\ESJson;
-use Eightfold\Shoop\FluentTypes\ESObject; // TODO: rename to ESTuple
+use Eightfold\Shoop\FluentTypes\ESTuple; // TODO: rename to ESTuple
 use Eightfold\Shoop\FluentTypes\ESString;
 
 trait TypeableImp
@@ -58,10 +58,10 @@ trait TypeableImp
         return Php::{$method}($this->main);
     }
 
-    public function object(): ESObject
+    public function object(): ESTuple
     {
         $object = Shoop::pipe($this->main, AsObject::apply())->unfold();
-        return ESObject::fold($object);
+        return ESTuple::fold($object);
     }
 
     public function string($arg = ""): ESString

@@ -11,7 +11,7 @@ use Eightfold\Shoop\FluentTypes\ESBoolean;
 use Eightfold\Shoop\FluentTypes\ESDictionary;
 use Eightfold\Shoop\FluentTypes\ESInteger;
 use Eightfold\Shoop\FluentTypes\ESJson;
-use Eightfold\Shoop\FluentTypes\ESObject;
+use Eightfold\Shoop\FluentTypes\ESTuple;
 use Eightfold\Shoop\FluentTypes\ESString;
 
 /**
@@ -60,12 +60,12 @@ class CountIsLessThanTest extends TestCase
         $this->assertFalse($actual->unfold());
     }
 
-    public function testESObject()
+    public function testESTuple()
     {
         $base = new \stdClass();
         $base->test = "test";
 
-        $actual = ESObject::fold($base)->countIsLessThan(1);
+        $actual = ESTuple::fold($base)->countIsLessThan(1);
         $this->assertFalse($actual->unfold());
     }
 

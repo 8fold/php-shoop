@@ -59,7 +59,7 @@ class ESArray implements
     //     } elseif ($className === ESJson::class) {
     //         return PhpIndexedArray::toJson($instance->main());
 
-    //     } elseif ($className === ESObject::class) {
+    //     } elseif ($className === ESTuple::class) {
     //         return PhpIndexedArray::toObject($instance->main());
 
     //     } elseif ($className === ESString::class) {

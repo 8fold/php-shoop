@@ -13,7 +13,7 @@ use Eightfold\Shoop\FluentTypes\{
     ESDictionary,
     ESInteger,
     ESJson,
-    ESObject,
+    ESTuple,
     ESString
 };
 /**
@@ -71,7 +71,7 @@ class IsInTest extends TestCase
         $this->assertTrue($actual->unfold());
     }
 
-    public function testESObject()
+    public function testESTuple()
     {
         $base = new \stdClass();
         $base->testMember = "test";
@@ -79,7 +79,7 @@ class IsInTest extends TestCase
         // TODO: Should also be able to put this in JSON: {"testMember":"test"}
         //      and have it be true.
 
-        $actual = ESObject::fold($base)->isIn($container);
+        $actual = ESTuple::fold($base)->isIn($container);
         $this->assertTrue($actual->unfold());
     }
 

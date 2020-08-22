@@ -14,7 +14,7 @@ use Eightfold\Shoop\FluentTypes\ESBoolean;
 use Eightfold\Shoop\FluentTypes\ESDictionary;
 use Eightfold\Shoop\FluentTypes\ESInteger;
 use Eightfold\Shoop\FluentTypes\ESJson;
-use Eightfold\Shoop\FluentTypes\ESObject;
+use Eightfold\Shoop\FluentTypes\ESTuple;
 use Eightfold\Shoop\FluentTypes\ESString;
 
 class Shoop
@@ -59,10 +59,10 @@ class Shoop
         return static::this($json, ESJson::class);
     }
 
-    // TODO: PHP 8.0 object|ESObject
-    static public function object($object): ESObject
+    // TODO: PHP 8.0 object|ESTuple
+    static public function object($object): ESTuple
     {
-        return static::this($object, ESObject::class);
+        return static::this($object, ESTuple::class);
     }
 
     // TODO: PHP 8.0 string|ESString

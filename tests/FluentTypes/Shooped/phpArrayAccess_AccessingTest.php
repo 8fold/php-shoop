@@ -13,7 +13,7 @@ use Eightfold\Shoop\FluentTypes\{
     ESDictionary,
     ESInteger,
     ESJson,
-    ESObject,
+    ESTuple,
     ESString
 };
 /**
@@ -108,13 +108,13 @@ class ArrayAccessAccessingTest extends TestCase
         $this->assertEquals($expected["one"], $json["one"]);
     }
 
-    public function testESObject()
+    public function testESTuple()
     {
         $base = new \stdClass();
         $base->one = "hello";
         $base->two = "goodbye";
 
-        $object = ESObject::fold($base);
+        $object = ESTuple::fold($base);
 
         $expected = ["one" => "hello", "two" => "goodbye"];
         $actual = [];

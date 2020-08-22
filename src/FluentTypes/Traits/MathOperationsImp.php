@@ -17,7 +17,7 @@ use Eightfold\Shoop\FluentTypes\{
     ESBoolean,
     ESInteger,
     ESString,
-    ESObject,
+    ESTuple,
     ESJson,
     ESDictionary
 };
@@ -60,7 +60,7 @@ trait MathOperationsImp
             $json = json_encode($object);
             return Shoop::json($json);
 
-        } elseif (Type::is($this, ESObject::class)) {
+        } elseif (Type::is($this, ESTuple::class)) {
             // TODO: Pretty sure this should be the same expectations as set()
             //      or that set, should use plus()
             $dictionary = PhpIndexedArray::toValueMemberAssociativeArray($args);
@@ -110,7 +110,7 @@ trait MathOperationsImp
             $json = PhpObject::toJson($object);
             return Shoop::json($json);
 
-        } elseif (Type::is($this, ESObject::class)) {
+        } elseif (Type::is($this, ESTuple::class)) {
             $object = $this->objectUnfolded();
             $object = PhpObject::afterRemovingMembers($object, $args);
             return Shoop::object($object);
@@ -160,7 +160,7 @@ trait MathOperationsImp
             $json = PhpObject::toJson($object);
             return Shoop::json($json);
 
-        } elseif (Type::is($this, ESObject::class)) {
+        } elseif (Type::is($this, ESTuple::class)) {
             $object = $this->objectUnfolded();
             if ( ! $includeEmpties) {
                 $object = $this->dictionary()->noEmpties()->objectUnfolded();
@@ -182,7 +182,7 @@ trait MathOperationsImp
 
     public function multiply($multiplier = 1): Foldable
     {
-        if (Type::is($this, ESArray::class, ESDictionary::class, ESJson::class, ESObject::class)) {
+        if (Type::is($this, ESArray::class, ESDictionary::class, ESJson::class, ESTuple::class)) {
             $product = [];
             for ($i = 0; $i < $multiplier; $i++) {
                 $product[] = $this;

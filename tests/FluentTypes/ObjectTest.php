@@ -6,7 +6,7 @@ use PHPUnit\Framework\TestCase;
 
 use Eightfold\Shoop\Shoop;
 use Eightfold\Shoop\FluentTypes\{
-    ESObject,
+    ESTuple,
     ESString,
     Helpers\Type
 };
@@ -24,7 +24,7 @@ class ObjectTest extends TestCase
         // $object->null = null;
 
         $object = Shoop::this($object);
-        $this->assertEquals(ESObject::class, get_class($object->object()));
+        $this->assertEquals(ESTuple::class, get_class($object->object()));
         $this->assertEquals(ESString::class, get_class($object->string()));
         // $this->assertNull($object->null());
     }

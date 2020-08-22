@@ -21,7 +21,7 @@ use Eightfold\Shoop\FluentTypes\{
     ESDictionary,
     ESInteger,
     ESJson,
-    ESObject,
+    ESTuple,
     ESString
 };
 
@@ -122,7 +122,7 @@ trait WrapImp
             $json = PhpAssociativeArray::toJson($array);
             return Shoop::json($json);
 
-        } elseif (Type::is($this, ESObject::class)) {
+        } elseif (Type::is($this, ESTuple::class)) {
             $array = $this->dictionaryUnfolded();
             $prefixes = PhpIndexedArray::toValueMemberAssociativeArray($prefixes);
             $array = array_merge($prefixes, $array);
@@ -158,7 +158,7 @@ trait WrapImp
             $bool = PhpIndexedArray::startsWith($array, $needles);
             return Shoop::bool($bool);
 
-        } elseif (Type::is($this, ESDictionary::class, ESJson::class, ESObject::class)) {
+        } elseif (Type::is($this, ESDictionary::class, ESJson::class, ESTuple::class)) {
             $array = $this->dictionaryUnfolded();
             $bool = PhpAssociativeArray::startsWith($array, $needles);
             return Shoop::bool($bool);
@@ -191,7 +191,7 @@ trait WrapImp
             $bool = PhpAssociativeArray::endsWith($array, $needles);
             return Shoop::bool($bool);
 
-        } elseif (Type::is($this, ESJson::class, ESObject::class)) {
+        } elseif (Type::is($this, ESJson::class, ESTuple::class)) {
             $array = $this->dictionaryUnfolded();
             $bool = PhpAssociativeArray::endsWith($array, $needles);
             return Shoop::bool($bool);

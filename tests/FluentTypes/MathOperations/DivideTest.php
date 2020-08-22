@@ -13,7 +13,7 @@ use Eightfold\Shoop\FluentTypes\{
     ESDictionary,
     ESInteger,
     ESJson,
-    ESObject,
+    ESTuple,
     ESString
 };
 
@@ -71,7 +71,7 @@ class DivideTest extends TestCase
     }
 
     /**
-     * @see ESObject->divide()
+     * @see ESTuple->divide()
      *
      * @return Eightfold\Shoop\ESJson
      */
@@ -88,9 +88,9 @@ class DivideTest extends TestCase
     /**
      * @see ESDictionary->divide()
      *
-     * @return Eightfold\Shoop\ESObject
+     * @return Eightfold\Shoop\ESTuple
      */
-    public function testESObject()
+    public function testESTuple()
     {
         $expected = new \stdClass();
         $expected->members = ["member", "member2"];
@@ -99,11 +99,11 @@ class DivideTest extends TestCase
         $base = new \stdClass();
         $base->member = "value";
         $base->member2 = "value2";
-        $actual = ESObject::fold($base)->divide();
+        $actual = ESTuple::fold($base)->divide();
         $this->assertEquals($expected, $actual->unfold());
 
         $base->member3 = "";
-        $actual = ESObject::fold($base)->divide(0, false);
+        $actual = ESTuple::fold($base)->divide(0, false);
         $this->assertEquals($expected, $actual->unfold());
     }
 

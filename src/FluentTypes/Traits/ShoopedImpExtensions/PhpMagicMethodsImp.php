@@ -20,7 +20,7 @@ use Eightfold\Shoop\FluentTypes\{
     ESDictionary,
     ESInteger,
     ESJson,
-    ESObject,
+    ESTuple,
     ESString
 };
 
@@ -96,7 +96,7 @@ trait PhpMagicMethodsImp
         if (Type::is($this, ESArray::class, ESInteger::class, ESString::class)) {
             $member = Type::sanitizeType($member, ESInteger::class)->unfold();
 
-        } elseif (Type::is($this, ESDictionary::class, ESJson::class, ESObject::class)) {
+        } elseif (Type::is($this, ESDictionary::class, ESJson::class, ESTuple::class)) {
             $member = Type::sanitizeType($member, ESString::class)->unfold();
 
         }
@@ -118,7 +118,7 @@ trait PhpMagicMethodsImp
         } elseif (Type::is($this, ESJson::class)) {
             $array = PhpJson::toAssociativeArray($this->main());
 
-        } elseif (Type::is($this, ESObject::class)) {
+        } elseif (Type::is($this, ESTuple::class)) {
             $array = PhpObject::toAssociativeArray($this->main());
 
         } elseif (Type::is($this, ESString::class)) {
@@ -166,7 +166,7 @@ trait PhpMagicMethodsImp
             $json = PhpAssociativeArray::toJson($array);
             return Shoop::json($json);
 
-        } elseif (Type::is($this, ESObject::class)) {
+        } elseif (Type::is($this, ESTuple::class)) {
             $object = $this->main();
             $array = PhpObject::toAssociativeArray($object);
             $array = PhpAssociativeArray::afterSettingValue($array, $value, $member, $overwrite);

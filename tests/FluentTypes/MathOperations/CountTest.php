@@ -13,7 +13,7 @@ use Eightfold\Shoop\FluentTypes\{
     ESDictionary,
     ESInteger,
     ESJson,
-    ESObject,
+    ESTuple,
     ESString
 };
 
@@ -60,14 +60,14 @@ class CountTest extends TestCase
         $this->assertEquals($expected, $actual->unfold());
     }
 
-    public function testESObject()
+    public function testESTuple()
     {
         $object = new \stdClass();
         $object->member = "value";
         $object->member2 = "value2";
 
         $expected = 2;
-        $actual = ESObject::fold($object)->count();
+        $actual = ESTuple::fold($object)->count();
         $this->assertEquals($expected, $actual->unfold());
     }
 

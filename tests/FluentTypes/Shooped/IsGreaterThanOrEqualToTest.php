@@ -13,7 +13,7 @@ use Eightfold\Shoop\FluentTypes\{
     ESDictionary,
     ESInteger,
     ESJson,
-    ESObject,
+    ESTuple,
     ESString
 };
 
@@ -61,12 +61,12 @@ class IsGreaterThanOrEqualToTest extends TestCase
         $this->assertTrue($actual->unfold());
     }
 
-    public function testESObject()
+    public function testESTuple()
     {
         $base = new \stdClass();
         $base->test = "test";
 
-        $actual = ESObject::fold($base)->isGreaterThanOrEqual($base);
+        $actual = ESTuple::fold($base)->isGreaterThanOrEqual($base);
         $this->assertTrue($actual->unfold());
     }
 

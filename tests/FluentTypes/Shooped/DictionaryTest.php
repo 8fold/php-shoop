@@ -11,7 +11,7 @@ use Eightfold\Shoop\FluentTypes\ESBoolean;
 use Eightfold\Shoop\FluentTypes\ESDictionary;
 use Eightfold\Shoop\FluentTypes\ESInteger;
 use Eightfold\Shoop\FluentTypes\ESJson;
-use Eightfold\Shoop\FluentTypes\ESObject;
+use Eightfold\Shoop\FluentTypes\ESTuple;
 use Eightfold\Shoop\FluentTypes\ESString;
 
 /**
@@ -81,14 +81,14 @@ class DictionaryTest extends TestCase
     /**
      * @see PhpObject::toAssociativeArray
      */
-    public function testESObject()
+    public function testESTuple()
     {
         $expected = ["test" => true];
 
         $object = new \stdClass();
         $object->test = true;
 
-        $actual = ESObject::fold($object)->dictionary();
+        $actual = ESTuple::fold($object)->dictionary();
         $this->assertEquals($expected, $actual->unfold());
     }
 

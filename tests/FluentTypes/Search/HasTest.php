@@ -13,7 +13,7 @@ use Eightfold\Shoop\FluentTypes\{
     ESDictionary,
     ESInteger,
     ESJson,
-    ESObject,
+    ESTuple,
     ESString
 };
 /**
@@ -134,16 +134,16 @@ class HasTest extends TestCase
     /**
      * Packagist doesn't seem to be updating
      */
-    public function testESObject()
+    public function testESTuple()
     {
         $base = new \stdClass();
         $base->testMember = "test";
 
-        $actual = ESObject::fold($base)->has("test");
+        $actual = ESTuple::fold($base)->has("test");
         $this->assertTrue($actual->unfold());
 
         $expected = "t";
-        $actual = ESObject::fold($base)->has("test", function($result, $value) {
+        $actual = ESTuple::fold($base)->has("test", function($result, $value) {
             if ($result->unfold()) {
                 return "t";
             }
@@ -152,7 +152,7 @@ class HasTest extends TestCase
         $this->assertSame($expected, $actual->unfold());
 
         $expected = "t";
-        $actual = ESObject::fold($base)->doesNothave(
+        $actual = ESTuple::fold($base)->doesNothave(
             "hi", function($result, $value) {
                 if ($result->unfold()) {
                     return null;
@@ -161,7 +161,7 @@ class HasTest extends TestCase
         });
         $this->assertSame($expected, $actual->unfold());
 
-        $actual = ESObject::fold($base)->hasMember("testMember");
+        $actual = ESTuple::fold($base)->hasMember("testMember");
         $this->assertTrue($actual->unfold());
     }
 

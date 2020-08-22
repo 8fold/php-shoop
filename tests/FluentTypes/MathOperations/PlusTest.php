@@ -13,7 +13,7 @@ use Eightfold\Shoop\FluentTypes\{
     ESDictionary,
     ESInteger,
     ESJson,
-    ESObject,
+    ESTuple,
     ESString
 };
 
@@ -61,7 +61,7 @@ class PlusTest extends TestCase
     }
 
     /**
-     * @see ESObject->plus()
+     * @see ESTuple->plus()
      *
      * @return Eightfold\Shoop\ESJso
      */
@@ -73,14 +73,14 @@ class PlusTest extends TestCase
     }
 
     /**
-     * @return Eightfold\Shoop\ESObject After adding the value-member pairs to the object.
+     * @return Eightfold\Shoop\ESTuple After adding the value-member pairs to the object.
      */
-    public function testESObject()
+    public function testESTuple()
     {
         $expected = new \stdClass();
         $expected->member = "value";
         $expected->member2 = "value2";
-        $actual = ESObject::fold(new \stdClass())->plus("value", "member", "value2", "member2");
+        $actual = ESTuple::fold(new \stdClass())->plus("value", "member", "value2", "member2");
         $this->assertEquals($expected, $actual->unfold());
     }
 

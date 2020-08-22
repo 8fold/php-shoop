@@ -23,7 +23,7 @@ use Eightfold\Shoop\FluentTypes\{
     ESBoolean,
     ESInteger,
     ESString,
-    ESObject,
+    ESTuple,
     ESJson,
     ESDictionary
 };
@@ -44,7 +44,7 @@ trait HasImp
 
     public function hasMember($member, Closure $closure = null)
     {
-        if (Type::is($this, ESDictionary::class, ESJson::class, ESObject::class)) {
+        if (Type::is($this, ESDictionary::class, ESJson::class, ESTuple::class)) {
             $member = Type::sanitizeType($member, ESString::class)->unfold();
 
         } else {
@@ -62,7 +62,7 @@ trait HasImp
             $value = $this->jsonUnfolded();
             $class = PhpJson::class;
 
-        } elseif (Type::is($this, ESObject::class)) {
+        } elseif (Type::is($this, ESTuple::class)) {
             $value = $this->objectUnfolded();
             $class = PhpObject::class;
 

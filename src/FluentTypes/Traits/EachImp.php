@@ -12,7 +12,7 @@ use Eightfold\Shoop\FluentTypes\{
     ESBoolean,
     ESInteger,
     ESString,
-    ESObject,
+    ESTuple,
     ESJson,
     ESDictionary
 };
@@ -37,7 +37,7 @@ trait EachImp
         } elseif (Type::is($this, ESInteger::class, ESString::class)) {
             return $this->array()->each($closure);
 
-        } elseif (Type::is($this, ESJson::class, ESObject::class)) {
+        } elseif (Type::is($this, ESJson::class, ESTuple::class)) {
             return $this->dictionary()->each($closure);
 
         }

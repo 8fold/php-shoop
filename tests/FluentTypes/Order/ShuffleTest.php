@@ -13,7 +13,7 @@ use Eightfold\Shoop\FluentTypes\{
     ESDictionary,
     ESInteger,
     ESJson,
-    ESObject,
+    ESTuple,
     ESString
 };
 
@@ -65,7 +65,7 @@ class ShuffleTest extends TestCase
     /**
      * @not Has direct access
      */
-    public function testESObject()
+    public function testESTuple()
     {
         $this->assertFalse(false);
     }

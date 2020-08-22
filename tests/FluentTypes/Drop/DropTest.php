@@ -13,13 +13,13 @@ use Eightfold\Shoop\FluentTypes\{
     ESDictionary,
     ESInteger,
     ESJson,
-    ESObject,
+    ESTuple,
     ESString
 };
 /**
  * The `drop()` method removes the value for the given member.
  *
- * @return Eightfold\Shoop\ESArray | Eightfold\Shoop\ESDictionary | Eightfold\Shoop\ESJson | Eightfold\Shoop\ESObject | Eightfold\Shoop\FluentTypes\ESString
+ * @return Eightfold\Shoop\ESArray | Eightfold\Shoop\ESDictionary | Eightfold\Shoop\ESJson | Eightfold\Shoop\ESTuple | Eightfold\Shoop\FluentTypes\ESString
  */
 class DropTest extends TestCase
 {
@@ -66,13 +66,13 @@ class DropTest extends TestCase
         $this->assertEquals($expected, $actual);
     }
 
-    public function testESObject()
+    public function testESTuple()
     {
         $base = new \stdClass();
         $base->testMember = "test";
 
         $expected = new \stdClass();
-        $actual = ESObject::fold($base)->drop("testMember");
+        $actual = ESTuple::fold($base)->drop("testMember");
         $this->assertEquals($expected, $actual->unfold());
     }
 

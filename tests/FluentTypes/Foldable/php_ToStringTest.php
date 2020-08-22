@@ -13,7 +13,7 @@ use Eightfold\Shoop\FluentTypes\{
     ESDictionary,
     ESInteger,
     ESJson,
-    ESObject,
+    ESTuple,
     ESString
 };
 /**
@@ -68,11 +68,11 @@ class php_ToStringTest extends TestCase
         $this->assertEquals($expected, $actual);
     }
 
-    public function testESObject()
+    public function testESTuple()
     {
         $expected = "stdClass Object()";
 
-        $actual = ESObject::fold(new \stdClass());
+        $actual = ESTuple::fold(new \stdClass());
         $this->assertEquals($expected, $actual);
     }
 

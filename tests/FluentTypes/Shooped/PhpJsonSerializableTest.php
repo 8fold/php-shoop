@@ -54,7 +54,7 @@ class PhpJsonSerializableTest extends TestCase
         $this->assertEquals($expected, $actual);
     }
 
-    public function testESObject()
+    public function testESTuple()
     {
         $expected = "{}";
         $actual = json_encode(Shoop::object(new \stdClass()));

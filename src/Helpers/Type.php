@@ -12,7 +12,7 @@ use Eightfold\Shoop\FluentTypes\{
     ESString,
     ESArray,
     ESDictionary,
-    ESObject,
+    ESTuple,
     ESJson
 };
 
@@ -55,7 +55,7 @@ class Type
                 return $shooped->json();
                 break;
 
-            case ESObject::class:
+            case ESTuple::class:
                 return $shooped->object();
                 break;
 
@@ -114,7 +114,7 @@ class Type
             return ESJson::class;
 
         } elseif (self::isObject($potential)) {
-            return ESObject::class;
+            return ESTuple::class;
 
         } elseif (self::isString($potential)) {
             return ESString::class;
@@ -275,7 +275,7 @@ class Type
     static public function isObject($potential): bool
     {
         return (is_object($potential) && self::isPhp($potential))
-            || (self::isShooped($potential) && is_a($potential, ESObject::class));
+            || (self::isShooped($potential) && is_a($potential, ESTuple::class));
     }
 
     static public function isNotObject($potential): bool
@@ -355,7 +355,7 @@ class Type
             "string"     => ESString::class,
             "array"      => ESArray::class,
             "dictionary" => ESDictionary::class,
-            "object"     => ESObject::class,
+            "object"     => ESTuple::class,
             "json"       => ESJson::class
         ];
     }

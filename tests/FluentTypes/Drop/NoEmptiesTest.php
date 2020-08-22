@@ -13,13 +13,13 @@ use Eightfold\Shoop\FluentTypes\{
     ESDictionary,
     ESInteger,
     ESJson,
-    ESObject,
+    ESTuple,
     ESString
 };
 /**
  * The `noEmpties()` method checks the values of all members of the object, checks them using the `empty()` function from the PHP standard library and removes any empty values from the object.
  *
- * @return Eightfold\Shoop\ESArray | Eightfold\Shoop\ESDictionary | Eightfold\Shoop\ESJson | Eightfold\Shoop\ESObject | Eightfold\Shoop\FluentTypes\ESString
+ * @return Eightfold\Shoop\ESArray | Eightfold\Shoop\ESDictionary | Eightfold\Shoop\ESJson | Eightfold\Shoop\ESTuple | Eightfold\Shoop\FluentTypes\ESString
  */
 class NoEmptiesTest extends TestCase
 {
@@ -66,7 +66,7 @@ class NoEmptiesTest extends TestCase
         $this->assertEquals($expected, $actual);
     }
 
-    public function testESObject()
+    public function testESTuple()
     {
         $base = new \stdClass();
         $base->testMember = "test";
@@ -74,7 +74,7 @@ class NoEmptiesTest extends TestCase
         $expected = new \stdClass();
         $expected->testMember = "test";
 
-        $actual = ESObject::fold($base)->noEmpties();
+        $actual = ESTuple::fold($base)->noEmpties();
         $this->assertEquals($expected, $actual->unfold());
     }
 

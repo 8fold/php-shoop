@@ -8,9 +8,9 @@ use Eightfold\Shoop\Tests\TestCase;
 
 use Eightfold\Shoop\PipeFilters;
 
-use Eightfold\Shoop\FluentTypes\ESObject;
+use Eightfold\Shoop\FluentTypes\ESTuple;
 
-class ESObjectTest extends TestCase
+class ESTupleTest extends TestCase
 {
     public function test_type_juggling()
     {

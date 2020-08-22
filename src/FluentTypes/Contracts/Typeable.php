@@ -10,7 +10,7 @@ use Eightfold\Shoop\FluentTypes\ESBoolean;
 use Eightfold\Shoop\FluentTypes\ESDictionary;
 use Eightfold\Shoop\FluentTypes\ESInteger;
 use Eightfold\Shoop\FluentTypes\ESJson;
-use Eightfold\Shoop\FluentTypes\ESObject;
+use Eightfold\Shoop\FluentTypes\ESTuple;
 use Eightfold\Shoop\FluentTypes\ESString;
 
 interface Typeable extends Countable, JsonSerializable
@@ -29,7 +29,7 @@ interface Typeable extends Countable, JsonSerializable
 
     public function jsonSerialize(): object; // JsonSerializable
 
-    public function object(): ESObject;
+    public function object(): ESTuple;
 
     public function string($arg): ESString;
 }

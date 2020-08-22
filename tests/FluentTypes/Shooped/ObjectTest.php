@@ -11,14 +11,14 @@ use Eightfold\Shoop\FluentTypes\{
     ESDictionary,
     ESInteger,
     ESJson,
-    ESObject,
+    ESTuple,
     ESString
 };
 
 /**
  * The `object()` method converts the Shoop type to a `PHP object` equivalent.
  *
- * @return Eightfold\Shoop\ESObject
+ * @return Eightfold\Shoop\ESTuple
  */
 class ObjectTest extends TestCase
 {
@@ -91,13 +91,13 @@ class ObjectTest extends TestCase
     }
 
     /**
-     * @return Eightfold\Shoop\ESObject The same value.
+     * @return Eightfold\Shoop\ESTuple The same value.
      */
-    public function testESObject()
+    public function testESTuple()
     {
         $expected = new \stdClass();
 
-        $actual = ESObject::fold(new \stdClass())->object();
+        $actual = ESTuple::fold(new \stdClass())->object();
         $this->assertEquals($expected, $actual->unfold());
     }
 

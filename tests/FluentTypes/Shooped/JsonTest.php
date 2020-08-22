@@ -13,7 +13,7 @@ use Eightfold\Shoop\FluentTypes\{
     ESDictionary,
     ESInteger,
     ESJson,
-    ESObject,
+    ESTuple,
     ESString
 };
 
@@ -83,10 +83,10 @@ class JsonTest extends TestCase
     /**
      * @see PhpObject::toJson
      */
-    public function testESObject()
+    public function testESTuple()
     {
         $expected = "{}";
-        $actual = ESObject::fold(new \stdClass())->json();
+        $actual = ESTuple::fold(new \stdClass())->json();
         $this->assertEquals($expected, $actual->unfold());
     }
 

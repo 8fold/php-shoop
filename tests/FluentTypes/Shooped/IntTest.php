@@ -13,7 +13,7 @@ use Eightfold\Shoop\FluentTypes\{
     ESDictionary,
     ESInteger,
     ESJson,
-    ESObject,
+    ESTuple,
     ESString
 };
 /**
@@ -86,11 +86,11 @@ class IntTest extends TestCase
     /**
      * @see PhpTypeJuggle::objectToInt
      */
-    public function testESObject()
+    public function testESTuple()
     {
         $expected = 0;
 
-        $actual = ESObject::fold(new \stdClass())->int();
+        $actual = ESTuple::fold(new \stdClass())->int();
         $this->assertEquals($expected, $actual->unfold());
     }
 

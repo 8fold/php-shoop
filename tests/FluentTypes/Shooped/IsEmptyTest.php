@@ -13,7 +13,7 @@ use Eightfold\Shoop\FluentTypes\{
     ESDictionary,
     ESInteger,
     ESJson,
-    ESObject,
+    ESTuple,
     ESString
 };
 
@@ -81,7 +81,7 @@ class IsEmptyTest extends TestCase
     }
 
     /**
-     * Uses `object()` then checks if the ESObject `isEmpty()` (no members).
+     * Uses `object()` then checks if the ESTuple `isEmpty()` (no members).
      */
     public function testESJson()
     {
@@ -97,11 +97,11 @@ class IsEmptyTest extends TestCase
     /**
      * Uses `dictionary()` then checks if the ESDictionary `isEmpty()`
      */
-    public function testESObject()
+    public function testESTuple()
     {
         $base = new \stdClass();
         $base->test = "test";
-        $actual = ESObject::fold($base)->isEmpty();
+        $actual = ESTuple::fold($base)->isEmpty();
         $this->assertFalse($actual->unfold());
     }
 

@@ -37,7 +37,7 @@ class ESInteger implements Shooped, Typeable, Comparable //, MathOperations, Tog
     //     } elseif ($className === ESJson::class) {
     //         return PhpInt::toJson($instance->main());
 
-    //     } elseif ($className === ESObject::class) {
+    //     } elseif ($className === ESTuple::class) {
     //         return PhpInt::toObject($instance->main());
 
     //     } elseif ($className === ESString::class) {

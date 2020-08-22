@@ -13,7 +13,7 @@ use Eightfold\Shoop\FluentTypes\{
     ESDictionary,
     ESInteger,
     ESJson,
-    ESObject,
+    ESTuple,
     ESString
 };
 
@@ -83,9 +83,9 @@ class ToggleTest extends TestCase
     /**
      * @see ESDictionary->toggle()
      *
-     * @return Eightfold\Shoop\ESObject
+     * @return Eightfold\Shoop\ESTuple
      */
-    public function testESObject()
+    public function testESTuple()
     {
         $expected = ["beta" => "beta", "alpha2" => "alpha2", "alpha" => "alpha"];
 

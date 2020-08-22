@@ -13,7 +13,7 @@ use Eightfold\Shoop\FluentTypes\{
     ESDictionary,
     ESInteger,
     ESJson,
-    ESObject,
+    ESTuple,
     ESString
 };
 
@@ -68,12 +68,12 @@ class OffsetUnsetTest extends TestCase
         $this->assertEquals($expected, $actual->unfold());
     }
 
-    public function testESObject()
+    public function testESTuple()
     {
         $base = new \stdClass();
         $base->test = false;
 
-        $actual = ESObject::fold($base);
+        $actual = ESTuple::fold($base);
         $actual->offsetUnset("test");
         $this->assertFalse($actual->offsetExists("test"));
     }

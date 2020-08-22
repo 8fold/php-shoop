@@ -43,7 +43,7 @@ class ESDictionary implements
         } elseif ($className === ESJson::class) {
             return PhpAssociativeArray::toJson($instance->main());
 
-        } elseif ($className === ESObject::class) {
+        } elseif ($className === ESTuple::class) {
             return PhpAssociativeArray::toObject($instance->main());
 
         } elseif ($className === ESString::class) {

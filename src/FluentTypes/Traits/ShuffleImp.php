@@ -10,7 +10,7 @@ use Eightfold\Shoop\FluentTypes\{
     ESBoolean,
     ESInteger,
     ESString,
-    ESObject,
+    ESTuple,
     ESJson,
     ESDictionary
 };

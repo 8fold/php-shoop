@@ -21,7 +21,7 @@ use Eightfold\Shoop\FluentTypes\{
     ESDictionary,
     ESInteger,
     ESJson,
-    ESObject,
+    ESTuple,
     ESString
 };
 
@@ -64,7 +64,7 @@ trait PhpInterfacesImp
             $array = PhpJson::toAssociativeArray($this->main());
             $bool = isset($array[$offset]);
 
-        } elseif (Type::is($this,  ESObject::class)) {
+        } elseif (Type::is($this,  ESTuple::class)) {
             $array = PhpObject::toAssociativeArray($this->main());
             $bool = isset($array[$offset]);
 
@@ -104,7 +104,7 @@ trait PhpInterfacesImp
         } elseif (Type::is($this, ESJson::class)) {
             $array = PhpJson::toAssociativeArray($this->main());
 
-        } elseif (Type::is($this, ESObject::class)) {
+        } elseif (Type::is($this, ESTuple::class)) {
             $array = PhpObject::toAssociativeArray($this->main());
 
         } elseif (Type::is($this, ESString::class)) {
@@ -132,7 +132,7 @@ trait PhpInterfacesImp
             $object->{$offset} = $value;
             $this->main = json_encode($object);
 
-        } elseif (Type::is($this, ESObject::class)) {
+        } elseif (Type::is($this, ESTuple::class)) {
             $this->main->{$offset} = $value;
 
         } else {
@@ -148,7 +148,7 @@ trait PhpInterfacesImp
             $array->offsetUnset($offset);
             $this->main = join("", $array->unfold());
 
-        } elseif (Type::is($this, ESObject::class)) {
+        } elseif (Type::is($this, ESTuple::class)) {
             unset($this->main->{$offset});
 
         } elseif (Type::is($this, ESJson::class)) {
@@ -185,7 +185,7 @@ trait PhpInterfacesImp
         } elseif (Type::is($this, ESJson::class)) {
             $this->temp = PhpJson::toAssociativeArray($this->main());
 
-        } elseif (Type::is($this, ESObject::class)) {
+        } elseif (Type::is($this, ESTuple::class)) {
             $this->temp = PhpObject::toAssociativeArray($this->main());
 
         } elseif (Type::is($this, ESString::class)) {

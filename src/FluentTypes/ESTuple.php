@@ -47,7 +47,7 @@ class ESTuple implements Shooped, Typeable, MathOperations, Sort, Toggle, Wrap, 
 {
     use ShoopedImp, TypeableImp, MathOperationsImp, SortImp, ToggleImp, WrapImp, DropImp, HasImp, IsInImp, EachImp, ComparableImp;
 
-    static public function to(ESObject $instance, string $className)
+    static public function to(ESTuple $instance, string $className)
     {
         if ($className === ESArray::class) {
             return PhpObject::toIndexedArray($instance->main());
@@ -64,7 +64,7 @@ class ESTuple implements Shooped, Typeable, MathOperations, Sort, Toggle, Wrap, 
         } elseif ($className === ESJson::class) {
             return PhpObject::toJson($instance->main());
 
-        } elseif ($className === ESObject::class) {
+        } elseif ($className === ESTuple::class) {
             return $instance->main();
 
         } elseif ($className === ESString::class) {
@@ -78,7 +78,7 @@ class ESTuple implements Shooped, Typeable, MathOperations, Sort, Toggle, Wrap, 
         if (is_object($main)) {
             $main = $main;
 
-        } elseif (is_a($main, ESObject::class)) {
+        } elseif (is_a($main, ESTuple::class)) {
             $main = $main->unfold();
 
         } elseif (Type::is($main, ESArray::class, ESDictionary::class)) {

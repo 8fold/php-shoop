@@ -13,7 +13,7 @@ use Eightfold\Shoop\FluentTypes\{
     ESDictionary,
     ESInteger,
     ESJson,
-    ESObject,
+    ESTuple,
     ESString
 };
 
@@ -61,13 +61,13 @@ class InterfaceIteratorCurrentTest extends TestCase
         $this->assertEquals($expected, $actual);
     }
 
-    public function testESObject()
+    public function testESTuple()
     {
         $base = new \stdClass();
         $base->one = "hello";
         $base->two = "goodbye";
 
-        $actual = ESObject::fold($base)->current();
+        $actual = ESTuple::fold($base)->current();
         $this->assertEquals("hello", $actual);
     }
 

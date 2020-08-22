@@ -16,7 +16,7 @@ use Eightfold\Shoop\FluentTypes\{
     ESBoolean,
     ESInteger,
     ESString,
-    ESObject,
+    ESTuple,
     ESJson,
     ESDictionary
 };
@@ -51,7 +51,7 @@ trait ToggleImp
             $json = PhpObject::toJson($object);
             return Shoop::json($json);
 
-        } elseif (Type::is($this, ESObject::class)) {
+        } elseif (Type::is($this, ESTuple::class)) {
             $object = $this->objectUnfolded();
             $object = PhpObject::reversed($object, $preserveMembers);
             return Shoop::object($object);

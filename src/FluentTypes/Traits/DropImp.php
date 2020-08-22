@@ -15,7 +15,7 @@ use Eightfold\Shoop\FluentTypes\{
     ESBoolean,
     ESInteger,
     ESString,
-    ESObject,
+    ESTuple,
     ESJson,
     ESDictionary
 };
@@ -24,7 +24,7 @@ trait DropImp
 {
     public function drop(...$members): Shooped
     {
-        if (Type::is($this, ESArray::class, ESDictionary::class, ESJson::class, ESObject::class)) {
+        if (Type::is($this, ESArray::class, ESDictionary::class, ESJson::class, ESTuple::class)) {
             foreach ($members as $member) {
                 $this->offsetUnset($member);
             }
@@ -61,7 +61,7 @@ trait DropImp
             $json = PhpAssociativeArray::toJson($array);
             return Shoop::json($json);
 
-        } elseif (Type::is($this, ESObject::class)) {
+        } elseif (Type::is($this, ESTuple::class)) {
             $array = $this->dictionaryUnfolded();
             $array = PhpAssociativeArray::afterDropping($array, $length);
             $object = PhpAssociativeArray::toObject($array);
@@ -95,7 +95,7 @@ trait DropImp
             $json = PhpAssociativeArray::toJson($array);
             return Shoop::json($json);
 
-        } elseif (Type::is($this, ESObject::class)) {
+        } elseif (Type::is($this, ESTuple::class)) {
             $array = $this->dictionaryUnfolded();
             $array = PhpAssociativeArray::afterDropping($array, -$length);
             $object = PhpAssociativeArray::toObject($array);
@@ -128,7 +128,7 @@ trait DropImp
             $json = PhpAssociativeArray::toJson($array);
             return Shoop::json($json);
 
-        } elseif (Type::is($this, ESObject::class)) {
+        } elseif (Type::is($this, ESTuple::class)) {
             $array = $this->dictionaryUnfolded();
             $array = PhpAssociativeArray::afterDroppingEmpties($array);
             $object = PhpAssociativeArray::toObject($array);

@@ -13,7 +13,7 @@ use Eightfold\Shoop\FluentTypes\{
     ESDictionary,
     ESInteger,
     ESJson,
-    ESObject,
+    ESTuple,
     ESString
 };
 
@@ -84,14 +84,14 @@ class MultiplyTest extends TestCase
     /**
      * @see  ESDictionary->multiply() Where each index is an instance of the object.
      */
-    public function testESObject()
+    public function testESTuple()
     {
         $object = new \stdClass();
         $object->members = ["member", "member2"];
         $object->values = ["value", "value2"];
 
         $expected = [$object];
-        $actual = ESObject::fold($object)->multiply();
+        $actual = ESTuple::fold($object)->multiply();
         $this->assertEquals($expected, $actual->unfold());
     }
 

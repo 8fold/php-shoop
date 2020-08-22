@@ -13,7 +13,7 @@ use Eightfold\Shoop\FluentTypes\{
     ESDictionary,
     ESInteger,
     ESJson,
-    ESObject,
+    ESTuple,
     ESString
 };
 
@@ -83,9 +83,9 @@ class SortTest extends TestCase
     }
 
     /**
-     * @see ESObject->sort()
+     * @see ESTuple->sort()
      *
-     * @return Eightfold\Shoop\ESJson After converting the JSON string to an ESObject.
+     * @return Eightfold\Shoop\ESJson After converting the JSON string to an ESTuple.
      */
     public function testESJson()
     {
@@ -111,9 +111,9 @@ class SortTest extends TestCase
     }
 
     /**
-     * @return Eightfold\Shoop\ESObject
+     * @return Eightfold\Shoop\ESTuple
      */
-    public function testESObject()
+    public function testESTuple()
     {
         $expected = (object) ["gamma" => "Alpha", "delta" => "alpha", "beta" => "Beta", "alpha" => "beta"];
         $object = new \stdClass();

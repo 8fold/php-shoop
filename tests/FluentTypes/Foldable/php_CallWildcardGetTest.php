@@ -13,7 +13,7 @@ use Eightfold\Shoop\FluentTypes\{
     ESDictionary,
     ESInteger,
     ESJson,
-    ESObject,
+    ESTuple,
     ESString
 };
 
@@ -99,11 +99,11 @@ class php_CallWildcardGetTest extends TestCase
         $this->assertTrue($actual->unfold());
     }
 
-    public function testESObject()
+    public function testESTuple()
     {
         $base = new \stdClass();
         $base->test = false;
-        $actual = ESObject::fold($base)->getTest();
+        $actual = ESTuple::fold($base)->getTest();
         $this->assertFalse($actual->unfold());
     }
 
