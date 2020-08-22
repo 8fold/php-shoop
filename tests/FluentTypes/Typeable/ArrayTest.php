@@ -46,8 +46,6 @@ class ArrayTest extends TestCase
 
     /**
      * @test
-     *
-     * @see PhpAssociativeArray::toIndexedArray
      */
     public function ESDictionary()
     {
@@ -59,53 +57,37 @@ class ArrayTest extends TestCase
 
     /**
      * @test
-     *
-     * @see PhpInt::toIndexedArray
      */
     public function ESInteger()
     {
         AssertEqualsFluent::applyWith([0, 1, 2, 3, 4, 5], 1.55)
-            ->unfoldUsing(
-                ESInteger::fold(5)->array()
-            );
+            ->unfoldUsing(ESInteger::fold(5)->array());
     }
 
     /**
      * @test
-     *
-     * @see PhpJson::toIndexedArray
      */
     public function ESJson()
     {
         AssertEqualsFluent::applyWith(["test"], 2.22)
-            ->unfoldUsing(
-                ESJson::fold('{"test":"test"}')->array()
-            );
+            ->unfoldUsing(ESJson::fold('{"test":"test"}')->array());
     }
 
     /**
      * @test
-     *
-     * @see PhpObject::toIndexedArray
      */
     public function ESTuple()
     {
         AssertEqualsFluent::applyWith([], 8.49)
-            ->unfoldUsing(
-                ESTuple::fold(new stdClass)->array()
-            );
+            ->unfoldUsing(ESTuple::fold(new stdClass)->array());
     }
 
     /**
      * @test
-     *
-     * @see PhpString::toIndexedArray
      */
     public function testESString()
     {
         AssertEqualsFluent::applyWith(["h", "e", "l", "l", "o"], 2.32)
-            ->unfoldUsing(
-                ESString::fold("hello")->array()
-            );
+            ->unfoldUsing(ESString::fold("hello")->array());
     }
 }
