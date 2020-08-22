@@ -5,20 +5,10 @@ namespace Eightfold\Shoop\FluentTypes;
 use Eightfold\Shoop\FluentTypes\Contracts\Shooped;
 use Eightfold\Shoop\FluentTypes\Contracts\ShoopedImp;
 
-use Eightfold\Shoop\FluentTypes\Contracts\Typeable;
-use Eightfold\Shoop\FluentTypes\Contracts\TypeableImp;
-
 use Eightfold\Shoop\FluentTypes\Contracts\Comparable;
 use Eightfold\Shoop\FluentTypes\Contracts\ComparableImp;
 
-use Eightfold\Shoop\FluentTypes\Contracts\Arrayable;
-use Eightfold\Shoop\FluentTypes\Contracts\ArrayableImp;
-
-class ESDictionary implements
-    Shooped,
-    Typeable,
-    Comparable,
-    Arrayable
+class ESDictionary implements Shooped, Comparable
     // MathOperations,
     // Toggle,
     // Sort,
@@ -28,7 +18,7 @@ class ESDictionary implements
     // IsIn,
     // Each
 {
-    use ShoopedImp, TypeableImp, ComparableImp, ArrayableImp;//, MathOperationsImp, ToggleImp, SortImp, WrapImp, DropImp, HasImp, IsInImp, EachImp;
+    use ShoopedImp, ComparableImp;//, MathOperationsImp, ToggleImp, SortImp, WrapImp, DropImp, HasImp, IsInImp, EachImp;
 
     static public function to(ESDictionary $instance, string $className)
     {

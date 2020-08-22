@@ -4,20 +4,11 @@ namespace Eightfold\Shoop\FluentTypes;
 
 use \stdClass;
 
-use Eightfold\Shoop\FluentTypes\Helpers\{
-
-    PhpObject
-};
-
-// TODO: Shooped should probably extend these
-use Eightfold\Shoop\FluentTypes\Contracts\Typeable;
-use Eightfold\Shoop\FluentTypes\Contracts\TypeableImp;
+use Eightfold\Shoop\FluentTypes\Contracts\Shooped;
+use Eightfold\Shoop\FluentTypes\Contracts\ShoopedImp;
 
 use Eightfold\Shoop\FluentTypes\Contracts\Comparable;
 use Eightfold\Shoop\FluentTypes\Contracts\ComparableImp;
-
-use Eightfold\Shoop\FluentTypes\Contracts\Shooped;
-use Eightfold\Shoop\FluentTypes\Contracts\ShoopedImp;
 
 use Eightfold\Shoop\FluentTypes\Interfaces\MathOperations;
 use Eightfold\Shoop\FluentTypes\Traits\MathOperationsImp;
@@ -43,9 +34,9 @@ use Eightfold\Shoop\FluentTypes\Traits\IsInImp;
 use Eightfold\Shoop\FluentTypes\Interfaces\Each;
 use Eightfold\Shoop\FluentTypes\Traits\EachImp;
 
-class ESTuple implements Shooped, Typeable, MathOperations, Sort, Toggle, Wrap, Drop, Has, IsIn, Each, Comparable
+class ESTuple implements Shooped, MathOperations, Sort, Toggle, Wrap, Drop, Has, IsIn, Each
 {
-    use ShoopedImp, TypeableImp, MathOperationsImp, SortImp, ToggleImp, WrapImp, DropImp, HasImp, IsInImp, EachImp, ComparableImp;
+    use ShoopedImp, MathOperationsImp, SortImp, ToggleImp, WrapImp, DropImp, HasImp, IsInImp, EachImp;
 
     static public function to(ESTuple $instance, string $className)
     {

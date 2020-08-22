@@ -7,21 +7,15 @@ use \Closure;
 use Eightfold\Shoop\FluentTypes\Contracts\Shooped;
 use Eightfold\Shoop\FluentTypes\Contracts\ShoopedImp;
 
-use Eightfold\Shoop\FluentTypes\Contracts\Typeable;
-use Eightfold\Shoop\FluentTypes\Contracts\TypeableImp;
-
 use Eightfold\Shoop\FluentTypes\Contracts\Comparable;
 use Eightfold\Shoop\FluentTypes\Contracts\ComparableImp;
-
-use Eightfold\Shoop\FluentTypes\Contracts\Arrayable;
-use Eightfold\Shoop\FluentTypes\Contracts\ArrayableImp;
 
 use Eightfold\Shoop\FluentTypes\ESString;
 use Eightfold\Shoop\FluentTypes\ESJson;
 
-class ESInteger implements Shooped, Typeable, Comparable, Arrayable //, MathOperations, Toggle, IsIn, Each
+class ESInteger implements Shooped, Comparable //, MathOperations, Toggle, IsIn, Each
 {
-    use ShoopedImp, TypeableImp, ComparableImp, ArrayableImp;//, MathOperationsImp, ToggleImp, IsInImp, EachImp;
+    use ShoopedImp, ComparableImp;//, MathOperationsImp, ToggleImp, IsInImp, EachImp;
 
     // static public function to(ESInteger $instance, string $className)
     // {

@@ -18,13 +18,11 @@ interface Comparable
 
     public function isGreaterThan($compare): ESBoolean;
 
-    // TODO: Rename "isGreaterThanOrEqualTo" then deprecate
-    public function isGreaterThanOrEqual($compare): ESBoolean;
+    public function isGreaterThanOrEqualTo($compare): ESBoolean;
 
     public function isLessThan($compare): ESBoolean;
 
-    // TODO: Rename "isLessThanOrEqualTo" then deprecate
-    public function isLessThanOrEqual($compare): ESBoolean;
+    public function isLessThanOrEqualTo($compare): ESBoolean;
 
     /**
      * @deprecated
@@ -45,4 +43,14 @@ interface Comparable
      * @deprecated
      */
     public function countIsLessThanOrEqualTo($compare): ESBoolean;
+
+    /**
+     * @deprecated
+     */
+    public function isGreaterThanOrEqual($compare): ESBoolean;
+
+    /**
+     * @deprecated
+     */
+    public function isLessThanOrEqual($compare): ESBoolean;
 }

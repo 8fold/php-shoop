@@ -11,14 +11,8 @@ use Eightfold\Shoop\PipeFilters;
 use Eightfold\Shoop\FluentTypes\Contracts\Shooped;
 use Eightfold\Shoop\FluentTypes\Contracts\ShoopedImp;
 
-use Eightfold\Shoop\FluentTypes\Contracts\Typeable; // Shoop??
-use Eightfold\Shoop\FluentTypes\Contracts\TypeableImp;
-
 use Eightfold\Shoop\FluentTypes\Contracts\Comparable; // Shoop??
 use Eightfold\Shoop\FluentTypes\Contracts\ComparableImp;
-
-use Eightfold\Shoop\FluentTypes\Contracts\Arrayable; // Shoop??
-use Eightfold\Shoop\FluentTypes\Contracts\ArrayableImp;
 
 use Eightfold\Shoop\FluentTypes\Contracts\Strippable;
 use Eightfold\Shoop\FluentTypes\Contracts\StrippableImp;
@@ -26,16 +20,9 @@ use Eightfold\Shoop\FluentTypes\Contracts\StrippableImp;
 use Eightfold\Shoop\PipeFilters\AsArrayFromString;
 use Eightfold\Shoop\PipeFilters\Plus;
 
-use Eightfold\Shoop\FluentTypes\Helpers\{
-
-    PhpString
-};
-
 class ESString implements
     Shooped,
-    Arrayable,
     Strippable,
-    Typeable,
     Comparable
     // Shuffle,
     // Wrap,
@@ -45,13 +32,7 @@ class ESString implements
     // IsIn,
     // Each
 {
-    use ShoopedImp, ArrayableImp, StrippableImp, TypeableImp, ComparableImp;// ToggleImp, ShuffleImp, WrapImp, SortImp, HasImp, DropImp, IsInImp, EachImp;
-
-    // // TODO: PHP 8.0 - string|ESString
-    // public function __construct($main)
-    // {
-    //     $this->main = $main;
-    // }
+    use ShoopedImp, StrippableImp, ComparableImp;// ToggleImp, ShuffleImp, WrapImp, SortImp, HasImp, DropImp, IsInImp, EachImp;
 
 // -> Rearrange
     // TODO: PHP 8.0 - bool|ESBoolean
