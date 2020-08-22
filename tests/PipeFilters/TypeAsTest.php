@@ -5,6 +5,9 @@ namespace Eightfold\Shoop\Tests\PipeFilters;
 use Eightfold\Shoop\Tests\TestCase;
 use Eightfold\Shoop\Tests\AssertEquals;
 
+use Eightfold\Shoop\PipeFilters\TypeIs;
+use Eightfold\Shoop\PipeFilters\TypeOf;
+
 use \stdClass;
 
 use Eightfold\Shoop\PipeFilters\TypeAsBoolean;
@@ -142,6 +145,8 @@ class TypeAsTest extends TestCase
 
     /**
      * @test
+     *
+     * @group current_one
      */
     public function array()
     {
@@ -157,7 +162,8 @@ class TypeAsTest extends TestCase
 
         AssertEquals::applyWith(
             [0, 1, 2],
-            TypeAsArray::apply()
+            TypeAsArray::apply(),
+            1.47
         )->unfoldUsing(2);
 
         AssertEquals::applyWith(
@@ -190,6 +196,12 @@ class TypeAsTest extends TestCase
             ["8", "*!8!"],
             TypeAsArray::applyWith("!", false, 2)
         )->unfoldUsing("8!*!8!");
+
+        AssertEquals::applyWith(
+            ["8fold!"],
+            TypeAsArray::apply(),
+            3.71
+        )->unfoldUsing('{"content":"8fold!"}');
     }
 
     /**
@@ -231,6 +243,11 @@ class TypeAsTest extends TestCase
             ["content" => "8fold!"],
             TypeAsDictionary::apply()
         )->unfoldUsing("8fold!");
+
+        AssertEquals::applyWith(
+            ["content" => "8fold!"],
+            TypeAsDictionary::apply()
+        )->unfoldUsing('{"content":"8fold!"}');
     }
 
     /**

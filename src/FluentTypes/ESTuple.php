@@ -43,7 +43,7 @@ use Eightfold\Shoop\FluentTypes\Traits\IsInImp;
 use Eightfold\Shoop\FluentTypes\Interfaces\Each;
 use Eightfold\Shoop\FluentTypes\Traits\EachImp;
 
-class ESObject implements Shooped, Typeable, MathOperations, Sort, Toggle, Wrap, Drop, Has, IsIn, Each, Comparable
+class ESTuple implements Shooped, Typeable, MathOperations, Sort, Toggle, Wrap, Drop, Has, IsIn, Each, Comparable
 {
     use ShoopedImp, TypeableImp, MathOperationsImp, SortImp, ToggleImp, WrapImp, DropImp, HasImp, IsInImp, EachImp, ComparableImp;
 

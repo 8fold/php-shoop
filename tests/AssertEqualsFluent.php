@@ -7,7 +7,9 @@ use PHPUnit\Framework\TestCase;
 use Eightfold\Foldable\Filterable;
 use Eightfold\Foldable\FilterableImp;
 
-class AssertEquals extends TestCase implements Filterable
+use Eightfold\Shoop\FluentTypes\Interfaces\Shooped;
+
+class AssertEqualsFluent extends TestCase implements Filterable
 {
     use FilterableImp;
 
@@ -19,7 +21,6 @@ class AssertEquals extends TestCase implements Filterable
 
     public function __construct(
         $expected,
-        Filterable $filter,
         float $maxMs = 0.3
     )
     {
@@ -30,9 +31,9 @@ class AssertEquals extends TestCase implements Filterable
         $this->filter   = $filter;
     }
 
-    public function unfoldUsing($using)
+    public function unfoldUsing(Shooped $using)
     {
-        $actual = $this->filter->unfoldUsing($using);
+        $actual = $using->unfold();
         $end = hrtime(true);
 
         $this->assertEquals($this->expected, $actual);

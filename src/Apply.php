@@ -1,6 +1,6 @@
 <?php
 
-namespace Eightfold\Shoop\PipeFilters;
+namespace Eightfold\Shoop;
 
 use Eightfold\Foldable\Apply as BaseApply;
 
