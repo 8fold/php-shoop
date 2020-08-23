@@ -6,12 +6,13 @@ use \Closure;
 
 use Eightfold\Shoop\Shoop;
 
-use Eightfold\Shoop\FluentTypes\ESBoolean;
-
 use Eightfold\Shoop\PipeFilters\TypeJuggling\AsInteger;
 
+use Eightfold\Shoop\PipeFilters\Is;
 use Eightfold\Shoop\PipeFilters\IsGreaterThan;
 use Eightfold\Shoop\PipeFilters\IsGreaterThanOrEqualTo;
+
+use Eightfold\Shoop\FluentTypes\ESBoolean;
 
 /**
  * TODO: Make extension of Shooped
@@ -20,12 +21,16 @@ trait ComparableImp
 {
     public function is($compare): ESBoolean
     {
-        return Is::applyWith($compare)->unfoldUsing($compare);
+        return ESBoolean::fold(
+            Is::applyWith($compare)->unfoldUsing($this->main)
+        );
     }
 
     public function isNot($compare): ESBoolean
     {
-        return $this->is($compare)->toggle();
+        return ESBoolean::fold(
+            $this->is($compare)->toggle()
+        );
     }
 
     public function isEmpty(): ESBoolean

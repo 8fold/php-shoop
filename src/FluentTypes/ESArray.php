@@ -10,7 +10,7 @@ use Eightfold\Shoop\FluentTypes\Contracts\ShoopedImp;
 use Eightfold\Shoop\FluentTypes\Contracts\Comparable;
 use Eightfold\Shoop\FluentTypes\Contracts\ComparableImp;
 
-class ESArray implements Shooped, Comparable
+class ESArray implements Shooped
     // MathOperations,
     // Toggle,
     // Shuffle,
@@ -21,7 +21,7 @@ class ESArray implements Shooped, Comparable
     // IsIn,
     // Each
 {
-    use ShoopedImp, ComparableImp;
+    use ShoopedImp;
     //, MathOperationsImp, ToggleImp, ShuffleImp, WrapImp, SortImp, DropImp, HasImp, IsInImp, EachImp;
 
     // static public function processedMain($main): array

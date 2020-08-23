@@ -8,7 +8,7 @@ interface Countable extends PhpCountable
 {
     public function asInteger(): Countable;
 
-    public function efToInt(): int;
+    public function efToInteger(): int;
 
     public function count(): int; // Countable
 }

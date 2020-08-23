@@ -13,9 +13,9 @@ use Eightfold\Shoop\FluentTypes\Contracts\ComparableImp;
 use Eightfold\Shoop\FluentTypes\ESString;
 use Eightfold\Shoop\FluentTypes\ESJson;
 
-class ESInteger implements Shooped, Comparable //, MathOperations, Toggle, IsIn, Each
+class ESInteger implements Shooped //, MathOperations, Toggle, IsIn, Each
 {
-    use ShoopedImp, ComparableImp;//, MathOperationsImp, ToggleImp, IsInImp, EachImp;
+    use ShoopedImp;//, MathOperationsImp, ToggleImp, IsInImp, EachImp;
 
     // static public function to(ESInteger $instance, string $className)
     // {

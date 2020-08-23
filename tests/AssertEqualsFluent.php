@@ -14,29 +14,34 @@ class AssertEqualsFluent extends TestCase implements Filterable
     use FilterableImp;
 
     private $expected;
-    private $filter;
+    private $expectedClassName;
 
     protected $start;
     private $maxMs = 0.3;
 
     public function __construct(
         $expected,
+        $expectedClassName,
         float $maxMs = 0.3
     )
     {
         $this->start = hrtime(true);
         $this->maxMs = $maxMs;
 
-        $this->expected = $expected;
-        $this->filter   = $filter;
+        $this->expected          = $expected;
+        $this->expectedClassName = $expectedClassName;
     }
 
     public function unfoldUsing(Shooped $using)
     {
         $actual = $using->unfold();
+
         $end = hrtime(true);
 
         $this->assertEquals($this->expected, $actual);
+
+        $actual = get_class($using);
+        $this->assertEquals($this->expectedClassName, $actual);
 
         $elapsed = $end - $this->start;
         $ms = $elapsed/1e+6;

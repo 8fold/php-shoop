@@ -166,7 +166,7 @@ class TypeAsTest extends TestCase
         AssertEquals::applyWith(
             ["i0" => 0, "i1" => 1],
             TypeAsDictionary::apply(),
-            0.61
+            0.73
         )->unfoldUsing(1);
 
         AssertEquals::applyWith(

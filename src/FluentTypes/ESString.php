@@ -3,16 +3,16 @@ declare(strict_types=1);
 
 namespace Eightfold\Shoop\FluentTypes;
 
-use \Countable;
-use \JsonSerializable;
+// use \Countable;
+// use \JsonSerializable;
 
-use Eightfold\Shoop\PipeFilters;
+// use Eightfold\Shoop\PipeFilters;
 
 use Eightfold\Shoop\FluentTypes\Contracts\Shooped;
 use Eightfold\Shoop\FluentTypes\Contracts\ShoopedImp;
 
-use Eightfold\Shoop\FluentTypes\Contracts\Comparable; // Shoop??
-use Eightfold\Shoop\FluentTypes\Contracts\ComparableImp;
+// use Eightfold\Shoop\FluentTypes\Contracts\Comparable; // Shoop??
+// use Eightfold\Shoop\FluentTypes\Contracts\ComparableImp;
 
 use Eightfold\Shoop\FluentTypes\Contracts\Strippable;
 use Eightfold\Shoop\FluentTypes\Contracts\StrippableImp;
@@ -21,9 +21,8 @@ use Eightfold\Shoop\PipeFilters\AsArrayFromString;
 use Eightfold\Shoop\PipeFilters\Plus;
 
 class ESString implements
-    Shooped,
-    Strippable,
-    Comparable
+    Shooped
+    // Strippable
     // Shuffle,
     // Wrap,
     // Sort,
@@ -32,7 +31,7 @@ class ESString implements
     // IsIn,
     // Each
 {
-    use ShoopedImp, StrippableImp, ComparableImp;// ToggleImp, ShuffleImp, WrapImp, SortImp, HasImp, DropImp, IsInImp, EachImp;
+    use ShoopedImp; //, StrippableImp;// ToggleImp, ShuffleImp, WrapImp, SortImp, HasImp, DropImp, IsInImp, EachImp;
 
 // -> Rearrange
     // TODO: PHP 8.0 - bool|ESBoolean

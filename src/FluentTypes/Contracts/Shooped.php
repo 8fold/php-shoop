@@ -4,7 +4,7 @@ namespace Eightfold\Shoop\FluentTypes\Contracts;
 
 use Eightfold\Foldable\Foldable;
 
-use Eightfold\Shoop\FluentTypes\Contracts\Comparable as ComparableFluent;
+use Eightfold\Shoop\FluentTypes\Contracts\Comparable;
 
 use Eightfold\Shoop\PipeFilters\Contracts\Arrayable;
 use Eightfold\Shoop\PipeFilters\Contracts\Countable;
@@ -16,7 +16,7 @@ use Eightfold\Shoop\PipeFilters\Contracts\Tupleable;
 interface Shooped extends
     Foldable,
     Arrayable,
-    ComparableFluent,
+    Comparable,
     Countable,
     Falsifiable,
     Keyable,

@@ -15,13 +15,13 @@ trait ArrayableImp
 {
     private $temp;
 
-    //TODO: PHP 8.0 - int|string|ESInteger|ESString
-    // public function hasMember($member)
-    // {
-    //     return Shoop::this(
-    //         $this->offsetExists($member)
-    //     );
-    // }
+    public function efToArray(): array
+    {
+        if (is_a($this, Arrayable::class)) {
+            return $this->asArray()->unfold();
+        }
+        return [];
+    }
 
     public function offsetExists($offset): bool
     {
@@ -29,23 +29,10 @@ trait ArrayableImp
         return Apply::hasMember($offset)->unfoldUsing($this->main);
     }
 
-    // public function at($member)
-    // {
-    //     return Shoop::this(
-    //         $this->offsetGet($member)
-    //     );
-    // }
-
     public function offsetGet($offset)
     {
         // die("offsetGet");
         return Apply::at($offset)->unfoldUsing($this->main);
-    }
-
-    public function plusMember($value, $member)
-    {
-        $this->offsetSet($member, $value);
-        return static::fold($this->main);
     }
 
     public function offsetSet($offset, $value): void
@@ -54,12 +41,6 @@ trait ArrayableImp
         $this->main = Apply::plusMember($value, $offset)
             ->unfoldUsing($this->main);
     }
-
-    // public function minusMember($member)
-    // {
-    //     $this->offsetUnset($member);
-    //     return static::fold($this->main);
-    // }
 
     public function offsetUnset($offset): void
     {
