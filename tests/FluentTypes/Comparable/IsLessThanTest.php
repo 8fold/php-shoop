@@ -11,6 +11,7 @@ use Eightfold\Shoop\FluentTypes\ESBoolean;
 
 /**
  * @group IsLessThanFluent
+ * @group IsLessThanOrEqualToFluent
  */
 class IsLessThanTest extends TestCase
 {
@@ -34,6 +35,22 @@ class IsLessThanTest extends TestCase
             ESBoolean::class
         )->unfoldUsing(
             Shoop::this(false)->isLessThan($compare)
+        );
+    }
+
+    /**
+     * @test
+     */
+    public function ESTuple()
+    {
+        $compare = (object) ["a" => 2, "b" => 3, "c" => 4];
+        AssertEqualsFluent::applyWith(
+            true,
+            ESBoolean::class,
+            2.77
+        )->unfoldUsing(
+            Shoop::this((object) ["a" => 2, "b" => 3, "c" => 4])
+                ->isLessThanOrEqualTo($compare)
         );
     }
 }

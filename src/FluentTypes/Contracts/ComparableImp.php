@@ -68,7 +68,7 @@ trait ComparableImp
 
     public function isLessThanOrEqualTo($compare): ESBoolean
     {
-        return ! $this->IsGreaterThan($compare);
+        return $this->isGreaterThan($compare)->reverse();
     }
 
     /**

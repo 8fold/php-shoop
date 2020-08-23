@@ -5,7 +5,7 @@ namespace Eightfold\Shoop;
 use Eightfold\Foldable\Pipe;
 use Eightfold\Foldable\Foldable;
 
-use Eightfold\Shoop\PipeFilters\TypeOf;
+use Eightfold\Shoop\PipeFilters\TypeIs;
 
 use Eightfold\Shoop\FluentTypes\Contracts\Shooped;
 
@@ -26,25 +26,25 @@ class Shoop
 
     static public function this($potential, string $shoopType = ""): Shooped
     {
-        if (TypeOf::applyWith("boolean")->unfoldUsing($potential)) {
+        if (TypeIs::applyWith("boolean")->unfoldUsing($potential)) {
             return ESBoolean::fold($potential);
 
-        } elseif (TypeOf::applyWith("string")->unfoldUsing($potential)) {
+        } elseif (TypeIs::applyWith("string")->unfoldUsing($potential)) {
             return ESString::fold($potential);
 
-        } elseif (TypeOf::applyWith("integer")->unfoldUsing($potential)) {
+        } elseif (TypeIs::applyWith("integer")->unfoldUsing($potential)) {
             return ESInteger::fold($potential);
 
-        } elseif (TypeOf::applyWith("array")->unfoldUsing($potential)) {
+        } elseif (TypeIs::applyWith("array")->unfoldUsing($potential)) {
             return ESArray::fold($potential);
 
-        } elseif (TypeOf::applyWith("dictionary")->unfoldUsing($potential)) {
+        } elseif (TypeIs::applyWith("dictionary")->unfoldUsing($potential)) {
             return ESDictionary::fold($potential);
 
-        } elseif (TypeOf::applyWith("json")->unfoldUsing($potential)) {
+        } elseif (TypeIs::applyWith("json")->unfoldUsing($potential)) {
             return ESJson::fold($potential);
 
-        } elseif (TypeOf::applyWith("tuple")->unfoldUsing($potential)) {
+        } elseif (TypeIs::applyWith("tuple")->unfoldUsing($potential)) {
             return ESTuple::fold($potential);
 
         }
