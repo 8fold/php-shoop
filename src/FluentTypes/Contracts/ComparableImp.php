@@ -48,17 +48,22 @@ trait ComparableImp
 
     public function isGreaterThan($compare): ESBoolean
     {
-        return IsGreaterThan::applyWith($compare)->unfoldUsing($this->unfold());
+        return ESBoolean::fold(
+            IsGreaterThan::applyWith($compare)->unfoldUsing($this->unfold())
+        );
     }
 
     public function isGreaterThanOrEqualTo($compare): ESBoolean
     {
-        return IsGreaterThanOrEqualTo($compare)->unfoldUsing($this->unfold());
+        return ESBoolean::fold(
+            IsGreaterThanOrEqualTo::applyWith($compare)
+                ->unfoldUsing($this->unfold())
+        );
     }
 
     public function isLessThan($compare): ESBoolean
     {
-        return ! $this->isGreaterThanOrEqualTo($compare);
+        return $this->isGreaterThanOrEqualTo($compare)->reverse();
     }
 
     public function isLessThanOrEqualTo($compare): ESBoolean

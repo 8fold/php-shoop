@@ -2,9 +2,12 @@
 
 namespace Eightfold\Shoop\FluentTypes\Interfaces;
 
-interface Toggle
+interface Reversible
 {
-    // Does not make sense on ESTuple
-    // PHP 8.o bool|ESBoolean = $preserveMembers
+    public function reverse(): Shooped;
+
+    /**
+     * @deprecated
+     */
     public function toggle($preserveMembers = true);
 }

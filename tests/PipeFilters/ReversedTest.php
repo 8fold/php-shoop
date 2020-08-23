@@ -95,7 +95,7 @@ class ReversedTest extends TestCase
         AssertEquals::applyWith(
             (object) ["public2" => "content2", "public" => "content"],
             Reversed::apply(),
-            0.94 // same tuple, so pretty wide performance
+            0.94 // same as tuple, so pretty wide performance
         )->unfoldUsing($using);
     }
 

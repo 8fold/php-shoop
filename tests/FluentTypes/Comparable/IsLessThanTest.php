@@ -3,77 +3,37 @@
 namespace Eightfold\Shoop\Tests\Shooped;
 
 use PHPUnit\Framework\TestCase;
-
-
+use Eightfold\Shoop\Tests\AssertEqualsFluent;
 
 use Eightfold\Shoop\Shoop;
-use Eightfold\Shoop\FluentTypes\{
-    ESArray,
-    ESBoolean,
-    ESDictionary,
-    ESInteger,
-    ESJson,
-    ESTuple,
-    ESString
-};
+
+use Eightfold\Shoop\FluentTypes\ESBoolean;
 
 /**
- * The `isLessThan()` method uses less than comparison (<) as opposed to greater than (>).
- *
- * @return Eightfold\Shoop\ESBoolean
+ * @group IsLessThanFluent
  */
 class IsLessThanTest extends TestCase
 {
-    public function ESArray()
-    {
-        $base = ["hello", "world"];
-        $actual = ESArray::fold($base)->isLessThan($base);
-        $this->assertFalse($actual->unfold());
-    }
-
+    /**
+     * @test
+     */
     public function ESBoolean()
     {
-        $base = true;
-        $actual = ESBoolean::fold($base)->isLessThan(false);
-        $this->assertFalse($actual->unfold());
-    }
+        $compare = false;
+        AssertEqualsFluent::applyWith(
+            false,
+            ESBoolean::class,
+            5.55
+        )->unfoldUsing(
+            Shoop::this(true)->isLessThan($compare)
+        );
 
-    public function ESDictionary()
-    {
-        $base = ["member" => "value"];
-        $actual = ESDictionary::fold($base)->isLessThan($base);
-        $this->assertFalse($actual->unfold());
-    }
-
-    public function ESInteger()
-    {
-        $base = 11;
-        $actual = ESInteger::fold(11)->isLessThan($base);
-        $this->assertFalse($actual->unfold());
-    }
-
-    public function ESJson()
-    {
-        $base = '{"test":"test"}';
-        $actual = ESJson::fold($base)->isLessThan($base);
-        $this->assertFalse($actual->unfold());
-    }
-
-    public function ESTuple()
-    {
-        $base = new \stdClass();
-        $base->test = "test";
-
-        $actual = ESTuple::fold($base)->isLessThan($base);
-        $this->assertFalse($actual->unfold());
-    }
-
-    public function ESString()
-    {
-        $actual = ESString::fold("a")->isLessThan("b");
-        $this->assertTrue($actual->unfold());
-
-        $actual = ESString::fold("b")->isLessThan("b");
-        $this->assertFalse($actual->unfold());
+        $compare = true;
+        AssertEqualsFluent::applyWith(
+            true,
+            ESBoolean::class
+        )->unfoldUsing(
+            Shoop::this(false)->isLessThan($compare)
+        );
     }
 }

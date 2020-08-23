@@ -1,28 +1,36 @@
 <?php
 
-namespace Eightfold\Shoop\FluentTypes\Traits;
+namespace Eightfold\Shoop\FluentTypes\Contracts;
 
+use Eightfold\Shoop\PipeFilters\Reversed;
 
-use Eightfold\Shoop\FluentTypes\Helpers\{
-    PhpIndexedArray,
-    PhpAssociativeArray,
-    PhpObject,
-    PhpString
-};
+use Eightfold\Shoop\FluentTypes\Contracts\Shooped;
 
-use Eightfold\Shoop\Shoop;
-use Eightfold\Shoop\FluentTypes\{
-    ESArray,
-    ESBoolean,
-    ESInteger,
-    ESString,
-    ESTuple,
-    ESJson,
-    ESDictionary
-};
+use Eightfold\Shoop\FluentTypes\Helpers\PhpIndexedArray;
+use Eightfold\Shoop\FluentTypes\Helpers\PhpAssociativeArray;
+use Eightfold\Shoop\FluentTypes\Helpers\PhpObject;
+use Eightfold\Shoop\FluentTypes\Helpers\PhpString;
 
-trait ToggleImp
+use Eightfold\Shoop\FluentTypes\ESArray;
+use Eightfold\Shoop\FluentTypes\ESBoolean;
+use Eightfold\Shoop\FluentTypes\ESInteger;
+use Eightfold\Shoop\FluentTypes\ESString;
+use Eightfold\Shoop\FluentTypes\ESTuple;
+use Eightfold\Shoop\FluentTypes\ESJson;
+use Eightfold\Shoop\FluentTypes\ESDictionary;
+
+trait ReversibleImp
 {
+    public function reverse(): Shooped
+    {
+        return static::fold(
+            Reversed::apply()->unfoldUsing($this->unfold())
+        );
+    }
+
+    /**
+     * @deprecated
+     */
     public function toggle($preserveMembers = true): Foldable
     {
         if (Type::is($this, ESArray::class)) {
