@@ -1,10 +1,10 @@
 <?php
 
-namespace Eightfold\Shoop\FluentTypes\Contracts;
+namespace Eightfold\Shoop\PipeFilters\Contracts;
 
 interface Falsifiable
 {
-    public function boolean(): Falsifiable;
+    public function asBoolean(): Falsifiable;
 
     public function efToBool(): bool;
 }

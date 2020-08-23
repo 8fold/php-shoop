@@ -1,10 +1,12 @@
 <?php
 
-namespace Eightfold\Shoop\FluentTypes\Contracts;
+namespace Eightfold\Shoop\PipeFilters\Contracts;
 
-interface Keyable extends Countable, JsonSerializable
+use Eightfold\Shoop\PipeFilters\Contracts\Arrayable;
+
+interface Keyable extends Arrayable
 {
-    public function dictionary(): Keyable;
+    public function asDictionary(): Keyable;
 
     public function efToDictionary(): array;
 }

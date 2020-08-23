@@ -4,9 +4,13 @@ namespace Eightfold\Shoop\FluentTypes\Contracts;
 
 use Eightfold\Foldable\FoldableImp;
 
+use Eightfold\Shoop\PipeFilters\Contracts\ArrayableImp;
+
+use Eightfold\Shoop\FluentTypes\Contracts\ComparableImp;
+
 trait ShoopedImp
 {
-    use FoldableImp, TypeableImp, ArrayableImp;//, CompareImp, PhpInterfacesImp;
+    use FoldableImp, ArrayableImp, ComparableImp;//, CompareImp, PhpInterfacesImp;
 
     public function __construct($main)
     {

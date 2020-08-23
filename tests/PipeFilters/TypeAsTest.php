@@ -150,68 +150,6 @@ class TypeAsTest extends TestCase
 
     /**
      * @test
-     *
-     * @group current_one
-     */
-    public function array()
-    {
-        AssertEquals::applyWith(
-            [true, false],
-            TypeAsArray::apply()
-        )->unfoldUsing(false);
-
-        AssertEquals::applyWith(
-            [false, true],
-            TypeAsArray::apply()
-        )->unfoldUsing(true);
-
-        AssertEquals::applyWith(
-            [0, 1, 2],
-            TypeAsArray::apply(),
-            1.47
-        )->unfoldUsing(2);
-
-        AssertEquals::applyWith(
-            [1, 2],
-            TypeAsArray::applyWith(1)
-        )->unfoldUsing(2);
-
-        AssertEquals::applyWith(
-            ["8", "f", "o", "l", "d"],
-            TypeAsArray::apply(),
-            0.84
-        )->unfoldUsing("8fold");
-
-        AssertEquals::applyWith(
-            ["8f", "ld"],
-            TypeAsArray::applyWith("o")
-        )->unfoldUsing("8fold");
-
-        AssertEquals::applyWith(
-            ["", "8", "8", ""],
-            TypeAsArray::applyWith("!")
-        )->unfoldUsing("!8!8!");
-
-        AssertEquals::applyWith(
-            ["8", "8"],
-            TypeAsArray::applyWith("!", false)
-        )->unfoldUsing("!8!8!");
-
-        AssertEquals::applyWith(
-            ["8", "*!8!"],
-            TypeAsArray::applyWith("!", false, 2)
-        )->unfoldUsing("8!*!8!");
-
-        AssertEquals::applyWith(
-            ["8fold!"],
-            TypeAsArray::apply(),
-            3.71
-        )->unfoldUsing('{"content":"8fold!"}');
-    }
-
-    /**
-     * @test
-     * @group current
      */
     public function dictionary()
     {
@@ -227,7 +165,8 @@ class TypeAsTest extends TestCase
 
         AssertEquals::applyWith(
             ["i0" => 0, "i1" => 1],
-            TypeAsDictionary::apply()
+            TypeAsDictionary::apply(),
+            0.61
         )->unfoldUsing(1);
 
         AssertEquals::applyWith(

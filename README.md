@@ -161,16 +161,17 @@ We strive for minimal verbs to maximize capability while minimizing cognitive lo
 ### Types and type juggling
 
 - Content (abstract):
-  - Boolean (`boolean`): same as PHP
-  - Number (`float` or `integer`): all real numbers
-    - Integer (`integer`): all whole numbers
-- Collection (abstract): contains mixed content, collections, or objects accessible using members
+  - Boolean (`boolean`): same as PHP.
+  - Number (`float` or `integer`): all real numbers.
+    - Integer (`integer`): all whole numbers.
+- Collection (abstract): contains mixed content, collections, or objects accessible using members.
   - List (abstract): members are accessed using array notion. ex. $var[]
-    - Array (`array`): sequential integer members
-    - Dictionary (`array`): non-sequential string keys
+    - Array (`array`): sequential integer members.
+    - Dictionary (`array`): non-sequential string keys.
   - Tuple (`stdClass` or `object`): non-sequential string members, accessed using object notation, not string notation, and contains no methods. ex. $var->
     - JSON (`string`): longer than two characters, begins with opening curly-brace, ends with closing curly-brace, and can be decoded without error.
 - Object (`object`): contains at least one public method.
+  - Arrayable (abstract): A user-defined object implementing the `Arrayable` interface.
 
 Abstract Shoop types can be juggled *from* but not *to*. Juggling from abstract type to concrete using Shoop method applies the type rules. ex. Juggling from Object to Dictionary removes methods and private properties.
 

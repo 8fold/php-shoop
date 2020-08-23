@@ -1,28 +1,35 @@
 <?php
 
-namespace Eightfold\Shoop\FluentTypes\Contracts;
+namespace Eightfold\Shoop\PipeFilters\Contracts;
 
 use \ArrayAccess;
 use \Iterator;
 
 interface Arrayable extends ArrayAccess, Iterator
 {
-    public function array(): Arrayable;
+    // PHP 8.0 - Arrayable|array
+    public function asArray(
+        $start = 0,
+        bool $includeEmpties = true,
+        int $limit = PHP_INT_MAX
+    );
+
+    public function efToArray(): array;
 
     // TODO: PHP 8.0 string|int|ESString|ESInteger $offset
     public function hasMember($member);
 
-    public function offsetExists($offset): bool; // ArrayAccess
-
     public function at($member);
-
-    public function offsetGet($offset); // ArrayAccess
 
     public function plusMember($value, $member);
 
-    public function offsetSet($offset, $value): void; // ArrayAccess
-
     public function minusMember($member);
+
+    public function offsetExists($offset): bool; // ArrayAccess
+
+    public function offsetGet($offset); // ArrayAccess
+
+    public function offsetSet($offset, $value): void; // ArrayAccess
 
     public function offsetUnset($offset): void; // ArrayAcces
 

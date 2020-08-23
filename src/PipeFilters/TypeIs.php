@@ -12,8 +12,8 @@ use Eightfold\Shoop\PipeFilters\TypeOf;
 class TypeIs extends Filter
 {
     private $type   = "boolean";
-    private $strict = false;
 
+    // TODO: PHP 8.0 - Empty constructor
     public function __construct(string $type = "boolean", bool $strict = false)
     {
         $this->type   = $type;

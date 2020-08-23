@@ -2,8 +2,6 @@
 
 namespace Eightfold\Shoop\FluentTypes\Contracts;
 
-use \Closure;
-
 use Eightfold\Shoop\FluentTypes\ESBoolean;
 
 interface Comparable

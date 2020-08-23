@@ -18,7 +18,7 @@ use Eightfold\Shoop\FluentTypes\ESTuple;
 use Eightfold\Shoop\FluentTypes\ESString;
 
 /**
- * @group Typeable
+ * @group TypeAsFluent
  * @group JsonFluent
  *
  * The `json()` method converts the Shoop type to a representation using JSON.

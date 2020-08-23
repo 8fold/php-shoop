@@ -1,12 +1,12 @@
 <?php
 
-namespace Eightfold\Shoop\FluentTypes\Contracts;
+namespace Eightfold\Shoop\PipeFilters\Contracts;
 
 // PHP 8.0 - use \Stringable as PhpStringable;
 
-interface Stringable // extend PhpStringable
+interface Stringable // extends PhpStringable
 {
-    public function string($arg): Stringable;
+    public function asString($arg): Stringable;
 
     public function efToString($arg): string;
 

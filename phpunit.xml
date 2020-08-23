@@ -26,8 +26,8 @@
     <testsuite name="pipe">
 		<directory suffix="Test.php">./tests/PipeFilters</directory>
     </testsuite>
-    <testsuite name="type_juggling">
-		<directory prefix="TypeJuggling">./tests/PipeFilters</directory>
+    <testsuite name="pipe_contracts">
+		<directory suffix="Test.php">./tests/PipeFilters</directory>
     </testsuite>
   </testsuites>
   <php>

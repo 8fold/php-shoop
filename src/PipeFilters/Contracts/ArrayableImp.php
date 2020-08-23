@@ -1,8 +1,8 @@
 <?php
 
-namespace Eightfold\Shoop\FluentTypes\Contracts;
+namespace Eightfold\Shoop\PipeFilters\Contracts;
 
-use Eightfold\Shoop\PipeFilters;
+use Eightfold\Shoop\PipeFilters\Arrayable;
 
 use Eightfold\Shoop\Apply;
 
@@ -16,12 +16,12 @@ trait ArrayableImp
     private $temp;
 
     //TODO: PHP 8.0 - int|string|ESInteger|ESString
-    public function hasMember($member)
-    {
-        return Shoop::this(
-            $this->offsetExists($member)
-        );
-    }
+    // public function hasMember($member)
+    // {
+    //     return Shoop::this(
+    //         $this->offsetExists($member)
+    //     );
+    // }
 
     public function offsetExists($offset): bool
     {
@@ -29,12 +29,12 @@ trait ArrayableImp
         return Apply::hasMember($offset)->unfoldUsing($this->main);
     }
 
-    public function at($member)
-    {
-        return Shoop::this(
-            $this->offsetGet($member)
-        );
-    }
+    // public function at($member)
+    // {
+    //     return Shoop::this(
+    //         $this->offsetGet($member)
+    //     );
+    // }
 
     public function offsetGet($offset)
     {
@@ -55,11 +55,11 @@ trait ArrayableImp
             ->unfoldUsing($this->main);
     }
 
-    public function minusMember($member)
-    {
-        $this->offsetUnset($member);
-        return static::fold($this->main);
-    }
+    // public function minusMember($member)
+    // {
+    //     $this->offsetUnset($member);
+    //     return static::fold($this->main);
+    // }
 
     public function offsetUnset($offset): void
     {

@@ -13,8 +13,4 @@ interface PhpMagicMethods
     public function getUnfolded($name);
 
     public function set($value, $member = null, $overwrite = true);
-
-    public function __toString(): string;
-
-    public function __debugInfo(): array;
 }

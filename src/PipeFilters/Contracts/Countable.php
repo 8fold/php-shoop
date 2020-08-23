@@ -1,12 +1,12 @@
 <?php
 
-namespace Eightfold\Shoop\FluentTypes\Contracts;
+namespace Eightfold\Shoop\PipeFilters\Contracts;
 
 use \Countable as PhpCountable;
 
-interface Countable extends Countable, JsonSerializable
+interface Countable extends PhpCountable
 {
-    public function integer(): Countable;
+    public function asInteger(): Countable;
 
     public function efToInt(): int;
 

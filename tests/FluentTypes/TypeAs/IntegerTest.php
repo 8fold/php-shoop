@@ -18,7 +18,7 @@ use Eightfold\Shoop\FluentTypes\ESTuple;
 use Eightfold\Shoop\FluentTypes\ESString;
 
 /**
- * @group Typeable
+ * @group TypeAsFluent
  * @group IntegerFluent
  *
  * The `int()` method converts the Shoop type to the `PHP integer` equivalent.

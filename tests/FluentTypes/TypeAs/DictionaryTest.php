@@ -16,7 +16,7 @@ use Eightfold\Shoop\FluentTypes\ESTuple;
 use Eightfold\Shoop\FluentTypes\ESString;
 
 /**
- * @group Typeable
+ * @group TypeAsFluent
  * @group  DictionaryFluent
  *
  * The `dictionary()` method converts the Shoop type to the `PHP associative array` equivalent.

@@ -7,19 +7,13 @@ use Eightfold\Foldable\Filter;
 
 use \stdClass;
 
+use Eightfold\Shoop\PipeFilters\Contracts\Arrayable;
+
 // TODO: TypesFor
 class TypeOf extends Filter
 {
-    private $strict = false;
-
-    public function __construct(bool $strict = false)
-    {
-        $this->strict = $strict;
-    }
-
     public function __invoke($using): array
     {
-        $types = [];
         if (is_bool($using)) {
             return ["boolean"];
 
@@ -93,8 +87,14 @@ class TypeOf extends Filter
             return ["collection", "tuple"];
 
         } elseif (is_object($using)) {
-            return ["object"];
+            $types = ["object"];
 
+            if (is_a($using, Arrayable::class)) {
+                $types[] = "arrayable";
+
+            }
+
+            return $types;
         }
     }
 }

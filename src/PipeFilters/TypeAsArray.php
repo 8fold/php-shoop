@@ -56,6 +56,14 @@ class TypeAsArray extends Filter
 
             }
 
+        } elseif (TypeIs::applyWith("arrayable")->unfoldUsing($using)) {
+            $args = $this->args(true);
+            if (count($args) === 0) {
+                return $using->efToArray();
+
+            }
+            return $using->array(...$args);
+
         } elseif (TypeIs::applyWith("object")->unfoldUsing($using)) {
             $dictionary = TypeAsDictionary::apply()->unfoldUsing($using);
             return TypeAsArray::apply()->unfoldUsing($dictionary);

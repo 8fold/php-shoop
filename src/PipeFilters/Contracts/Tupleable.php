@@ -1,14 +1,14 @@
 <?php
 
-namespace Eightfold\Shoop\FluentTypes\Contracts;
+namespace Eightfold\Shoop\PipeFilters\Contracts;
 
 use \JsonSerializable;
 
 interface Tupleable extends JsonSerializable
 {
-    public function tuple(): Tupleable;
+    public function asTuple(): Tupleable;
 
-    public function json(): string;
+    public function asJson(): string;
 
     // PHP 8.0 - stdClass|object
     public function efToTuple(): object;
