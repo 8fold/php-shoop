@@ -211,6 +211,7 @@ class TypeAsTest extends TestCase
 
     /**
      * @test
+     * @group current
      */
     public function dictionary()
     {
@@ -241,12 +242,7 @@ class TypeAsTest extends TestCase
 
         AssertEquals::applyWith(
             ["efs0" => 2, "efs1" => 3, "efs2" => 4],
-            TypeAsDictionary::applyWith("efs")
-        )->unfoldUsing([2, 3, 4]);
-
-        AssertEquals::applyWith(
-            ["efs0" => 2, "efs1" => 3, "efs2" => 4],
-            TypeAsDictionary::applyWith("efs")
+            TypeAsDictionary::applyWith(0, "efs")
         )->unfoldUsing([2, 3, 4]);
 
         AssertEquals::applyWith(

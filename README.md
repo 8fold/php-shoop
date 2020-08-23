@@ -160,23 +160,19 @@ We strive for minimal verbs to maximize capability while minimizing cognitive lo
 
 ### Types and type juggling
 
-|Shoop      |PHP                                |Base type        |Details and deviations                           |
-|:---------:|:---------------------------------:|:---------------:|:------------------------------------------------|
-|Content    |boolean, integer, float, or string |content          |Abstract: An atomic unit.                        |
-|Boolean    |boolean                            |''               |Same as PHP                                      |
-|Number     |integer or float                   |''               |All real numbers. ex. 1 or 1.0 or 1.1            |
-|Integer    |integer or float                   |''               |All whole numbers. ex. 1 or 1.0                  |
-|Collection |array or object w/o public method  |collection       |Abstract: Holds content associated to a member   |
-|List       |array                              |''               |Abstract: Any PHP array type                     |
-|Array      |''                                 |''               |Integer members in sequence, using array access. |
-|Dictionary |''                                 |''               |String members unordered, using array access.    |
-|Tuple      |stdClass or object                 |''               |String members unordered, using object access. All instances of PHP stdClass are Shoop Tuples. Class instances with public properties and no public methods are also considered Shoop Tuples. |
-|Json       |string                             |''               |A Tuple represented as a String starting and ending with left and right curly braces, respectively. |
-|Object     |object                             |object           |Abstract: A PHP object (excluding stdClass) implementing at least one public method. |
+- Content (abstract):
+  - Boolean (`boolean`): same as PHP
+  - Number (`float` or `integer`): all real numbers
+    - Integer (`integer`): all whole numbers
+- Collection (abstract): contains mixed content, collections, or objects accessible using members
+  - List (abstract): members are accessed using array notion. ex. $var[]
+    - Array (`array`): sequential integer members
+    - Dictionary (`array`): non-sequential string keys
+  - Tuple (`stdClass` or `object`): non-sequential string members, accessed using object notation, not string notation, and contains no methods. ex. $var->
+    - JSON (`string`): longer than two characters, begins with opening curly-brace, ends with closing curly-brace, and can be decoded without error.
+- Object (`object`): contains at least one public method.
 
-Abstract Shoop types are types that can be juggled *from* but not *to*. When juggling from the abstract type to a concrete type, the rules of that type are applied. ex. Juggling from Object to Dictionary removes all methods and private properties.
-
-Any Shoop type can be juggled (cast) as any other Shoop type, except an object as those are defined by users and fed into Shoop.
+Abstract Shoop types can be juggled *from* but not *to*. Juggling from abstract type to concrete using Shoop method applies the type rules. ex. Juggling from Object to Dictionary removes methods and private properties.
 
 Each filter (function) identifies a canonical type and response. For example, the canonical type for `pullFirst` is a Shoop Array. Most types uses an alternative type to start the juggle to whatever other type is desired. The following identifies the first alternate Shoop type for each type:
 

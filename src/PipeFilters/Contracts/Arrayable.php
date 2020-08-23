@@ -5,10 +5,10 @@ namespace Eightfold\Shoop\FluentTypes\Contracts;
 use \ArrayAccess;
 use \Iterator;
 
-use Eightfold\Shoop\FluentTypes\ESArray;
-
 interface Arrayable extends ArrayAccess, Iterator
 {
+    public function array(): Arrayable;
+
     // TODO: PHP 8.0 string|int|ESString|ESInteger $offset
     public function hasMember($member);
 

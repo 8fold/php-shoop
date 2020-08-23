@@ -33,17 +33,13 @@ class TypeAsDictionary extends Filter
                 : ["false" => true, "true" => false];
 
         } elseif (TypeIs::applyWith("number")->unfoldUsing($using)) {
-            $array = TypeAsArray::applyWith($this->start)->unfoldUsing($using);
-
-            if (is_bool($this->includeEmpties)) {
-                $this->includeEmpties = "i";
-            }
-
-            return TypeAsDictionary::applyWith($this->includeEmpties)
-                ->unfoldUsing($array);
+            return Shoop::pipe($using,
+                TypeAsArray::applyWith($this->start),
+                TypeAsDictionary::applyWith(0, $this->includeEmpties)
+            )->unfold();
 
         } elseif (TypeIs::applyWith("array")->unfoldUsing($using)) {
-            if (is_bool($this->includeEmpties)) {
+            if (! is_string($this->includeEmpties)) {
                 $this->includeEmpties = "i";
             }
 

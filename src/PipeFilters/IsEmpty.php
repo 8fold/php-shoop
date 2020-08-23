@@ -5,6 +5,8 @@ namespace Eightfold\Shoop\PipeFilters;
 
 use Eightfold\Foldable\Filter;
 
+use Eightfold\Shoop\Shoop;
+
 class IsEmpty extends Filter
 {
     public function __invoke($using): bool
