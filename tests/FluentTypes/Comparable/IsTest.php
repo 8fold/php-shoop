@@ -11,6 +11,8 @@ use Eightfold\Shoop\FluentTypes\ESBoolean;
 
 /**
  * @group IsFluent
+ *
+ * TODO: Move to PipeFilters ??
  */
 class IsTest extends TestCase
 {
@@ -113,53 +115,4 @@ class IsTest extends TestCase
             Shoop::this('{"a":1,"b":2,"c":3}')->is($compare)
         );
     }
-    // public function ESArray()
-    // {
-    //     $base = ["hello", "world"];
-    //     $actual = ESArray::fold($base)->is($base);
-    //     $this->assertTrue($actual->unfold());
-    // }
-
-    // public function ESBoolean()
-    // {
-    //     $base = true;
-    //     $actual = ESBoolean::fold($base)->is($base);
-    //     $this->assertTrue($actual->unfold());
-    // }
-
-    // public function ESDictionary()
-    // {
-    //     $base = ["member" => "value"];
-    //     $actual = ESDictionary::fold($base)->is($base);
-    //     $this->assertTrue($actual->unfold());
-    // }
-
-    // public function ESInteger()
-    // {
-    //     $base = 10;
-    //     $actual = ESInteger::fold($base)->is($base);
-    //     $this->assertTrue($actual->unfold());
-    // }
-
-    // public function ESJson()
-    // {
-    //     $base = '{"test":"test"}';
-    //     $actual = ESJson::fold($base)->is($base);
-    //     $this->assertTrue($actual->unfold());
-    // }
-
-    // public function ESTuple()
-    // {
-    //     $base = new \stdClass();
-    //     $base->test = "test";
-    //     $actual = ESTuple::fold($base)->is($base);
-    //     $this->assertTrue($actual->unfold());
-    // }
-
-    // public function ESString()
-    // {
-    //     $base = "alphabet soup";
-    //     $actual = ESString::fold($base)->is($base);
-    //     $this->assertTrue($actual->unfold());
-    // }
 }

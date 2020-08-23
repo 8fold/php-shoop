@@ -9,6 +9,7 @@ use Eightfold\Shoop\Shoop;
 use Eightfold\Shoop\PipeFilters\TypeJuggling\AsInteger;
 
 use Eightfold\Shoop\PipeFilters\Is;
+use Eightfold\Shoop\PipeFilters\IsEmpty;
 use Eightfold\Shoop\PipeFilters\IsGreaterThan;
 use Eightfold\Shoop\PipeFilters\IsGreaterThanOrEqualTo;
 
