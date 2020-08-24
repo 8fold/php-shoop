@@ -23,26 +23,4 @@ interface Subtractable
 
     // TODO: PHP 8.0 - int|string
     public function minusAt(...$members);
-
-    // Does not make sense on ESBoolean, ESInteger
-    /**
-     * @deprecated
-     */
-    public function drop(...$members);
-
-    // TODO: php 8.0 int|ESInteger = $length
-    /**
-     * @deprecated
-     */
-    public function dropFirst($length = 1);
-
-    /**
-     * @deprecated
-     */
-    public function dropLast($length = 1);
-
-    /**
-     * @deprecated
-     */
-    public function noEmpties();
 }

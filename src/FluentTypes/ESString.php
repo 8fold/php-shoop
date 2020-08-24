@@ -54,10 +54,10 @@ class ESString implements
      * @see stripAll()
      */
     // TODO: PHP 8.0 - string|ESString
-    public function minus(...$terms): ESString
-    {
-        return $this->strip(implode("", $terms), false, false);
-    }
+    // public function minus(...$terms): ESString
+    // {
+    //     return $this->strip(implode("", $terms), false, false);
+    // }
 
     // TODO: PHP 8.0 - int|ESInteger
     public function multiply($multiplier = 1)

@@ -1,6 +1,6 @@
 <?php
 
-namespace Eightfold\Shoop\PipeFilters\Contracts;
+namespace Eightfold\Shoop\FluentTypes\Contracts;
 
 use Eightfold\Shoop\Shoop;
 
@@ -11,12 +11,7 @@ use Eightfold\Shoop\PipeFilters\MinusMembers;
 
 trait SubtractableImp
 {
-    public function minusEmpties()
-    {
-        return static::fold(
-            MinusUsing::applyWith("is_empty")->unfoldUsing($this->main)
-        );
-    }
+    use PipeSubtractibleImp;
 
     public function minusFirst($length = 1)
     {
@@ -31,5 +26,20 @@ trait SubtractableImp
         return static::fold(
             MinusLast::applyWith($length)->unfoldUsing($this->main)
         );
+    }
+
+    public function minusEmpties()
+    {
+        return static::fold(
+            MinusUsing::applyWith("is_empty")->unfoldUsing($this->main)
+        );
+    }
+
+    /**
+     * @deprecated
+     */
+    public function noEmpties()
+    {
+        return $this->minusEmpties();
     }
 }

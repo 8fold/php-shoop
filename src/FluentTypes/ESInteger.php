@@ -65,6 +65,9 @@ class ESInteger implements Shooped //, MathOperations, Toggle, IsIn, Each
     }
 
     // TODO: PHP 8.0 int|ESInteger
+    /**
+     * @deprecated use asArray instead
+     */
     public function range($int = 0): ESArray
     {
         $int = Type::sanitizeType($int, ESInteger::class)->unfold();
@@ -103,16 +106,27 @@ class ESInteger implements Shooped //, MathOperations, Toggle, IsIn, Each
 
     public function max(...$comparisons): ESInteger
     {
-        return Shoop::array($comparisons)->plus($this->main())->each(function($int) {
-            return Type::sanitizeType($int, ESInteger::class);
-        })->sort(false)->first();
+        $integers = $this->minMaxIntegers($this->main, $comparisons);
+        // TODO: Add Sort and First to filters ??
+        return Shoop::this($integers)->sort(false)->first();
     }
 
     public function min(...$comparisons): ESInteger
     {
-        return Shoop::array($comparisons)->plus($this->main())->each(function($int) {
-            return Type::sanitizeType($int, ESInteger::class);
-        })->sort()->first();
+        $integers = $this->minMaxIntegers($this->main, $comparisons);
+        // TODO: Add Sort and First to filters ??
+        return Shoop::this($integers)->sort()->first();
+    }
+
+    private function minMaxIntegers(array $main, array $comparisons)
+    {
+        $comparisons = Shoop::this($comparisons)->plus($main);
+        $integers = [];
+        foreach ($comparisons as $int) {
+            $integers[] = Apply::typeAsInteger()->unfoldUsing($int);
+
+        }
+        return $integers;
     }
 
     public function isEven(Closure $closure = null)

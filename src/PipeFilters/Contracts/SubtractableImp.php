@@ -5,7 +5,7 @@ namespace Eightfold\Shoop\PipeFilters\Contracts;
 use Eightfold\Shoop\Shoop;
 
 use Eightfold\Shoop\PipeFilters\Minus;
-use Eightfold\Shoop\PipeFilters\MinusMembers;
+use Eightfold\Shoop\PipeFilters\MinusAt;
 
 trait SubtractableImp
 {
@@ -14,7 +14,7 @@ trait SubtractableImp
         $charMask  = " \t\n\r\0\x0B",
         $fromEnd   = true,
         $fromStart = true
-    ): self
+    )
     {
         return static::fold(
             Minus::applyWith($fromEnd, $fromStart, $charMask)
@@ -22,57 +22,11 @@ trait SubtractableImp
         );
     }
 
-    public function minusMembers(...$members)
+    public function minusAt(...$members)
     {
         return static::fold(
-            MinusMembers::applyWith(...$members)
+            MinusAt::applyWith(...$members)
                 ->unfoldUsing($this->main)
         );
-    }
-
-    public function minusEmpties()
-    {
-        return static::fold(
-            MinusUsing::applyWith("is_empty")->unfoldUsing($this->main)
-        );
-    }
-
-    public function minusFirst($length = 1)
-    {
-        return static::fold(
-            MinusFirst::applyWith($length)->unfoldUsing($this->main)
-        );
-    }
-
-    public function minusLast($length = 1)
-    {
-        // TODO: Accept and respond to Subtractable
-        return static::fold(
-            MinusLast::applyWith($length)->unfoldUsing($this->main)
-        );
-    }
-
-    /**
-     * @deprecated
-     */
-    public function drop(...$members)
-    {
-        return $this->minusMembers(...$members);
-    }
-
-    /**
-     * @deprecated
-     */
-    public function dropFirst($length = 1)
-    {
-        return $this->minusFirst($length);
-    }
-
-    /**
-     * @deprecated
-     */
-    public function dropLast($length = 1)
-    {
-        return $this->minusLast($length);
     }
 }

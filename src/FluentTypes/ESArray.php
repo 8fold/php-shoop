@@ -4,77 +4,33 @@ namespace Eightfold\Shoop\FluentTypes;
 
 use \Closure;
 
+use Eightfold\Shoop\Shoop;
+
 use Eightfold\Shoop\FluentTypes\Contracts\Shooped;
 use Eightfold\Shoop\FluentTypes\Contracts\ShoopedImp;
 
-use Eightfold\Shoop\FluentTypes\Contracts\Comparable;
-use Eightfold\Shoop\FluentTypes\Contracts\ComparableImp;
+// use Eightfold\Shoop\PipeFilters\TypeAsString;
 
 class ESArray implements Shooped
-    // MathOperations,
-    // Toggle,
-    // Shuffle,
-    // Wrap,
-    // Sort,
-    // Drop,
-    // Has,
-    // IsIn,
-    // Each
 {
     use ShoopedImp;
-    //, MathOperationsImp, ToggleImp, ShuffleImp, WrapImp, SortImp, DropImp, HasImp, IsInImp, EachImp;
-
-    // static public function processedMain($main): array
-    // {
-    //     if (is_a($main, ESArray::class)) {
-    //         $main = $main->unfold();
-
-    //     } elseif (! is_array($main)) {
-    //         $main = [$main];
-
-    //     }
-    //     return $main;
-    // }
-
-    // // TODO: Can't make part of interface because of typing
-    // static public function to(ESArray $instance, string $className)
-    // {
-    //     if ($className === ESArray::class) {
-    //         return $instance->main();
-
-    //     } elseif ($className === ESBoolean::class) {
-    //         return PhpIndexedArray::toBool($instance->main());
-
-    //     } elseif ($className === ESDictionary::class) {
-    //         return PhpIndexedArray::toAssociativeArray($instance->main());
-
-    //     } elseif ($className === ESInteger::class) {
-    //         return PhpIndexedArray::toInt($instance->main());
-
-    //     } elseif ($className === ESJson::class) {
-    //         return PhpIndexedArray::toJson($instance->main());
-
-    //     } elseif ($className === ESTuple::class) {
-    //         return PhpIndexedArray::toObject($instance->main());
-
-    //     } elseif ($className === ESString::class) {
-    //         return PhpIndexedArray::toString($instance->main());
-
-    //     }
-    // }
 
     // TODO: PHP 8.0 string|ESString = $delimiter
+    /**
+     * @deprecated
+     */
     public function join($delimiter = ""): ESString
     {
-        $delimiter = Type::sanitizeType($delimiter, ESString::class);
-        return Shoop::string(implode($delimiter->unfold(), $this->unfold()));
+        return ESString::fold(
+            $this->asString($delimiter)
+        );
     }
 
     public function sum(): ESInteger
     {
         $array = $this->unfold();
         $sum = array_sum($array);
-        return Shoop::integer($sum);
+        return Shoop::this($sum);
     }
 
     // TODO: PHP 8.0 int|ESInteger
@@ -83,7 +39,7 @@ class ESArray implements Shooped
         $limit = Type::sanitizeType($limit, ESInteger::fold($limit))->unfold();
         $array = $this->main();
         if (count($array) === 0) {
-            return Shoop::array([]);
+            return Shoop::this([]);
         }
 
         $members = array_rand($array, $limit);
@@ -91,9 +47,12 @@ class ESArray implements Shooped
             $members = [$members];
         }
 
-        return Shoop::array($members)->each(function($member) use ($array) {
-            return Shoop::this($array[$member]);
-        });
+        $build = [];
+        foreach ($members as $member) {
+            $build[] = $array[$member];
+        }
+
+        return Shoop::this($build);
     }
 
     // TODO: bool|ESBoolean
@@ -112,20 +71,20 @@ class ESArray implements Shooped
         }
         $filtered = array_filter($this->main(), $closure, $flag);
         $array = array_values($filtered);
-        return Shoop::array($array);
+        return Shoop::this($array);
     }
 
     public function reindex(): ESArray
     {
         $array = $this->main();
         $reindexed = array_values($array);
-        return Shoop::array($reindexed);
+        return Shoop::this($reindexed);
     }
 
     public function flatten(): ESArray
     {
         $array = $this->main();
-        $a = Shoop::array([]);
+        $a = Shoop::this([]);
         array_walk_recursive($array, function($value, $index) use (&$a) {
             $shooped = Shoop::this($value);
             $a = $a->plus($shooped);

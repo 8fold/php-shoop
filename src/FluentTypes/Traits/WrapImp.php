@@ -27,6 +27,7 @@ use Eightfold\Shoop\FluentTypes\{
 
 trait WrapImp
 {
+    // TODO: rewrite using From()
     public function first($count = 1)
     {
         $count = Type::sanitizeType($count, ESInteger::class)->unfold();
@@ -49,18 +50,20 @@ trait WrapImp
         if ($arrayCount < $count) {
             $count = $arrayCount;
         }
-        $result = Shoop::integer(1)->range($count)->each(function($int) use (&$array) {
-            // TODO: Consider using splitAt or array_slice
-            $value = array_shift($array);
-            return Shoop::this($value);
-        });
 
-        if (Type::is($this, ESString::class)) {
-            return $result->join("");
+        $range = TypeAsArray::applyWith(1)->unfoldUsing($count);
+        $build = [];
+        foreach ($range as $integer) {
+            $value = array_shift($array); // TODO: PipeFilter First
+            $build = Shoop::this($value);
+
         }
-        return $result;
+        $result = Shoop::this($build);
+
+        return (Type::is($this, ESString::class)) ? $result->asArray("") : $result;
     }
 
+    // TODO: rewrite using From()
     public function last($count = 1)
     {
         $count = Type::sanitizeType($count, ESInteger::class)->unfold();
@@ -83,11 +86,15 @@ trait WrapImp
         if ($arrayCount < $count) {
             $count = $arrayCount;
         }
-        $result = Shoop::integer(1)->range($count)->each(function($int) use (&$array) {
-            // TODO: Consider using splitAt or array_slice
-            $value = array_pop($array);
-            return Shoop::this($value);
-        })->toggle(false);
+
+        $range = TypeAsArray::applyWith(1)->unfoldUsing($count);
+        $build = [];
+        foreach ($range as $integer) {
+            $value = array_pop($array); // TODO: PipeFilter First
+            $build = Shoop::this($value);
+
+        }
+        $result = Shoop::this($build);
 
         if (Type::is($this, ESString::class)) {
             return $result->join("");

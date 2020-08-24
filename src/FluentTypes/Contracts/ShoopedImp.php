@@ -5,8 +5,9 @@ namespace Eightfold\Shoop\FluentTypes\Contracts;
 use Eightfold\Foldable\Foldable;
 use Eightfold\Foldable\FoldableImp;
 
-use Eightfold\Shoop\PipeFilters\Contracts\Countable;
+use Eightfold\Shoop\PipeFilters\TypeAsString;
 
+use Eightfold\Shoop\PipeFilters\Contracts\Countable;
 use Eightfold\Shoop\PipeFilters\Contracts\StringableImp;
 use Eightfold\Shoop\PipeFilters\Contracts\TupleableImp;
 use Eightfold\Shoop\PipeFilters\Contracts\FalsifiableImp;
@@ -15,6 +16,7 @@ use Eightfold\Shoop\PipeFilters\Contracts\KeyableImp;
 use Eightfold\Shoop\PipeFilters\Contracts\CountableImp;
 
 use Eightfold\Shoop\FluentTypes\ESBoolean;
+use Eightfold\Shoop\FluentTypes\ESString;
 
 use Eightfold\Shoop\FluentTypes\Contracts\ComparableImp;
 use Eightfold\Shoop\FluentTypes\Contracts\ReversibleImp;
@@ -49,7 +51,9 @@ trait ShoopedImp
 
     public function asString(string $glue = ""): Foldable
     {
-        return ESString::fold("");
+        return ESString::fold(
+            TypeAsString::applyWith($glue)->unfoldUsing($this->main)
+        );
     }
 
     public function asArray(
