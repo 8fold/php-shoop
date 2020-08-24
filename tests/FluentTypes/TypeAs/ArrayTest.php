@@ -32,8 +32,13 @@ class ArrayTest extends TestCase
      */
     public function ESArray()
     {
-        AssertEqualsFluent::applyWith([], 1.7)
-            ->unfoldUsing(ESArray::fold([])->array());
+        AssertEqualsFluent::applyWith(
+            [],
+            ESArray::class,
+            1.7
+        )->unfoldUsing(
+            Shoop::this([])->asArray()
+        );
     }
 
     /**
@@ -41,8 +46,13 @@ class ArrayTest extends TestCase
      */
     public function ESBoolean()
     {
-        AssertEqualsFluent::applyWith([false, true], 1.68)
-            ->unfoldUsing(ESBoolean::fold(true)->array());
+        AssertEqualsFluent::applyWith(
+            [false, true],
+            ESArray::class,
+            1.68
+        )->unfoldUsing(
+            Shoop::this(true)->asArray()
+        );
     }
 
     /**
@@ -50,10 +60,13 @@ class ArrayTest extends TestCase
      */
     public function ESDictionary()
     {
-        AssertEqualsFluent::applyWith(["string", true], 1.37)
-            ->unfoldUsing(
-                ESDictionary::fold(["a" => "string", "b" => true])->array()
-            );
+        AssertEqualsFluent::applyWith(
+            ["string", true],
+            ESArray::class,
+            1.37
+        )->unfoldUsing(
+            Shoop::this(["a" => "string", "b" => true])->asArray()
+        );
     }
 
     /**
@@ -61,8 +74,13 @@ class ArrayTest extends TestCase
      */
     public function ESInteger()
     {
-        AssertEqualsFluent::applyWith([0, 1, 2, 3, 4, 5], 1.55)
-            ->unfoldUsing(ESInteger::fold(5)->array());
+        AssertEqualsFluent::applyWith(
+            [0, 1, 2, 3, 4, 5],
+            ESArray::class,
+            1.55
+        )->unfoldUsing(
+            Shoop::this(5)->asArray()
+        );
     }
 
     /**
@@ -70,8 +88,13 @@ class ArrayTest extends TestCase
      */
     public function ESJson()
     {
-        AssertEqualsFluent::applyWith(["test"], 2.22)
-            ->unfoldUsing(ESJson::fold('{"test":"test"}')->array());
+        AssertEqualsFluent::applyWith(
+            ["test"],
+            ESArray::class,
+            2.22
+        )->unfoldUsing(
+            Shoop::this('{"test":"test"}')->asArray()
+        );
     }
 
     /**
@@ -79,8 +102,13 @@ class ArrayTest extends TestCase
      */
     public function ESTuple()
     {
-        AssertEqualsFluent::applyWith([], 8.49)
-            ->unfoldUsing(ESTuple::fold(new stdClass)->array());
+        AssertEqualsFluent::applyWith(
+            [],
+            ESArray::class,
+            8.49
+        )->unfoldUsing(
+            Shoop::this(new stdClass)->asArray()
+        );
     }
 
     /**
@@ -88,7 +116,12 @@ class ArrayTest extends TestCase
      */
     public function ESString()
     {
-        AssertEqualsFluent::applyWith(["h", "e", "l", "l", "o"], 2.32)
-            ->unfoldUsing(ESString::fold("hello")->array());
+        AssertEqualsFluent::applyWith(
+            ["h", "e", "l", "l", "o"],
+            ESArray::class,
+            2.32
+        )->unfoldUsing(
+            Shoop::this("hello")->asArray()
+        );
     }
 }

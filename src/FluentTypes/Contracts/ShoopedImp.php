@@ -6,6 +6,7 @@ use Eightfold\Foldable\Foldable;
 use Eightfold\Foldable\FoldableImp;
 
 use Eightfold\Shoop\PipeFilters\TypeAsString;
+use Eightfold\Shoop\PipeFilters\TypeAsArray;
 
 use Eightfold\Shoop\PipeFilters\Contracts\Countable;
 use Eightfold\Shoop\PipeFilters\Contracts\StringableImp;
@@ -15,8 +16,12 @@ use Eightfold\Shoop\PipeFilters\Contracts\ArrayableImp;
 use Eightfold\Shoop\PipeFilters\Contracts\KeyableImp;
 use Eightfold\Shoop\PipeFilters\Contracts\CountableImp;
 
+use Eightfold\Shoop\Shoop;
+use Eightfold\Shoop\Apply;
+
 use Eightfold\Shoop\FluentTypes\ESBoolean;
 use Eightfold\Shoop\FluentTypes\ESString;
+use Eightfold\Shoop\FluentTypes\ESArray;
 
 use Eightfold\Shoop\FluentTypes\Contracts\ComparableImp;
 use Eightfold\Shoop\FluentTypes\Contracts\ReversibleImp;
@@ -62,7 +67,10 @@ trait ShoopedImp
         int $limit = PHP_INT_MAX
     ): ESArray
     {
-        return ESArray::fold([]);
+        return ESArray::fold(
+            TypeAsArray::applyWith($start, $includeEmpties, $limit)
+                ->unfoldUsing($this->main)
+        );
     }
 
     public function asDictionary(
@@ -82,6 +90,13 @@ trait ShoopedImp
     public function asJson(): Foldable
     {
         return ESString::fold('{}');
+    }
+
+    public function random($limit = 1)
+    {
+        return Shoop::this(
+            Apply::random($limit)->unfoldUsing($this->main)
+        );
     }
 
     //TODO: PHP 8.0 - int|string|ESInteger|ESString

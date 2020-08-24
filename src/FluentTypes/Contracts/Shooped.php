@@ -26,4 +26,7 @@ interface Shooped extends
     Tupleable
 {
     public function __construct($main);
+
+    // TODO: PHP 8.0 int|ESInteger -> Shooped|object|callable
+    public function random($limit = 1);
 }

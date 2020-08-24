@@ -1,11 +1,10 @@
 <?php
 
-namespace Eightfold\Shoop\FluentTypes\Interfaces;
+namespace Eightfold\Shoop\PipeFilters\Contracts;
 
-use Eightfold\Shoop\FluentTypes\ESInteger;
 use Eightfold\Shoop\Foldable\Foldable;
 
-interface MathOperations
+interface Addable
 {
     public function plus($value, $at = ""): Foldable;
 }

@@ -24,7 +24,7 @@ class Shoop
         return Pipe::fold($using, ...$elbows);
     }
 
-    static public function this($potential, string $shoopType = ""): Shooped
+    static public function this($potential, string $shoopType = "")
     {
         if (TypeIs::applyWith("boolean")->unfoldUsing($potential)) {
             return ESBoolean::fold($potential);
@@ -46,6 +46,12 @@ class Shoop
 
         } elseif (TypeIs::applyWith("tuple")->unfoldUsing($potential)) {
             return ESTuple::fold($potential);
+
+        } elseif (TypeIs::applyWith("list")->unfoldUsing($potential) and
+            Apply::isEmpty()->unfoldUsing($potential)
+        ) {
+            // TODO: consider creating an ESList or ESEmpty variation of all types.
+            return ESDictionary::fold($potential);
 
         }
         return $potential;

@@ -7,8 +7,18 @@ use Eightfold\Foldable\Filter;
 
 use Eightfold\Shoop\Shoop;
 
+// TODO: tests ??
 class Plus extends Filter
 {
+    private $value;
+    private $start = "";
+
+    public function __construct($value, $start = "")
+    {
+        $this->value = $value;
+        $this->start = $start;
+    }
+
     public function __invoke($using)
     {
         if (TypeIs::applyWith("boolean")->unfoldUsing($using)) {
@@ -27,15 +37,13 @@ class Plus extends Filter
             return $using + $int;
 
         } elseif (TypeIs::applyWith("list")->unfoldUsing($using)) {
-            if (! is_array($this->main)) {
-                $this->main = [$this->main];
-
-            } elseif (TypeIs::applyWith("array")->unfoldUsing($using)) {
-                $this->main = array_values($this->main);
-
+            if (! TypeIs::applyWith("list")->unfoldUsing($this->value)) {
+                $this->value = [$this->value];
             }
 
-            return array_merge($using, $this->main);
+            return ($this->start === 0)
+                ? array_merge($this->value, $using)
+                : array_merge($using, $this->value);
 
         } elseif (TypeIs::applyWith("string")->unfoldUsing($using) and
             ! TypeIs::applyWith("json")->unfoldUsing($using)
