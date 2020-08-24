@@ -61,7 +61,7 @@ class Type
 
             case ESString::class:
                 if (self::isArray($toSanitize)) {
-                    return $shooped->join("");
+                    return $shooped->asString("");
                 }
                 return $shooped->string();
                 break;

@@ -97,7 +97,7 @@ trait WrapImp
         $result = Shoop::this($build);
 
         if (Type::is($this, ESString::class)) {
-            return $result->join("");
+            return $result->asString("");
         }
         return $result;
     }

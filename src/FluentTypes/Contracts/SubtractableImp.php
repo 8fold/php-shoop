@@ -6,8 +6,7 @@ use Eightfold\Shoop\Shoop;
 
 use Eightfold\Shoop\PipeFilters\Contracts\SubtractableImp as PipeSubtractibleImp;
 
-use Eightfold\Shoop\PipeFilters\Minus;
-use Eightfold\Shoop\PipeFilters\MinusMembers;
+use Eightfold\Shoop\PipeFilters\From;
 
 trait SubtractableImp
 {
@@ -24,7 +23,7 @@ trait SubtractableImp
     {
         // TODO: Accept and respond to Subtractable
         return static::fold(
-            MinusLast::applyWith($length)->unfoldUsing($this->main)
+            From::applyWith(-$length)->unfoldUsing($this->main)
         );
     }
 

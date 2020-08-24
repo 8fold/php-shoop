@@ -4,8 +4,6 @@ namespace Eightfold\Shoop\FluentTypes\Contracts;
 
 use Eightfold\Shoop\PipeFilters\Contracts\Subtractable as PipeSubtractible;
 
-use Eightfold\Shoop\FluentTypes\ESString;
-
 interface Subtractable extends PipeSubtractible
 {
     public function minusEmpties();

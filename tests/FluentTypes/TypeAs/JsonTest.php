@@ -33,10 +33,10 @@ class JsonTest extends TestCase
     public function ESArray()
     {
         AssertEqualsFluent::applyWith('{}', 3.67)
-            ->unfoldUsing(ESArray::fold([])->json());
+            ->unfoldUsing(ESArray::fold([])->asJson());
 
         AssertEqualsFluent::applyWith('{"i0":"testing"}', 2.93)
-            ->unfoldUsing(ESArray::fold(['testing'])->json());
+            ->unfoldUsing(ESArray::fold(['testing'])->asJson());
     }
 
     /**
@@ -45,7 +45,7 @@ class JsonTest extends TestCase
     public function ESBoolean()
     {
         AssertEqualsFluent::applyWith('{"false":false,"true":true}', 2)
-            ->unfoldUsing(ESBoolean::fold(true)->json());
+            ->unfoldUsing(ESBoolean::fold(true)->asJson());
     }
 
     /**
@@ -54,7 +54,7 @@ class JsonTest extends TestCase
     public function ESDictionary()
     {
         AssertEqualsFluent::applyWith('{}', 2.4)
-            ->unfoldUsing(ESDictionary::fold([])->json());
+            ->unfoldUsing(ESDictionary::fold([])->asJson());
     }
 
     /**
@@ -63,7 +63,7 @@ class JsonTest extends TestCase
     public function ESInteger()
     {
         AssertEqualsFluent::applyWith('{"i0":0,"i1":1}', 3.29)
-            ->unfoldUsing(ESInteger::fold(1)->json());
+            ->unfoldUsing(ESInteger::fold(1)->asJson());
     }
 
     /**
@@ -72,7 +72,7 @@ class JsonTest extends TestCase
     public function ESJson()
     {
         AssertEqualsFluent::applyWith('{"test":"test"}', 1.55)
-            ->unfoldUsing(ESJson::fold('{"test":"test"}')->json());
+            ->unfoldUsing(ESJson::fold('{"test":"test"}')->asJson());
     }
 
     /**
@@ -81,7 +81,7 @@ class JsonTest extends TestCase
     public function ESTuple()
     {
         AssertEqualsFluent::applyWith('{}', 11.35)
-            ->unfoldUsing(ESTuple::fold(new stdClass)->json());
+            ->unfoldUsing(ESTuple::fold(new stdClass)->asJson());
     }
 
     /**
@@ -90,6 +90,6 @@ class JsonTest extends TestCase
     public function ESString()
     {
         AssertEqualsFluent::applyWith('{"scalar":"hello"}', 7.99)
-            ->unfoldUsing(ESString::fold('{"scalar":"hello"}')->json());
+            ->unfoldUsing(ESString::fold('{"scalar":"hello"}')->asJson());
     }
 }

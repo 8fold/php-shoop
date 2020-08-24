@@ -33,7 +33,7 @@ class IntegerTest extends TestCase
     public function ESArray()
     {
         AssertEqualsFluent::applyWith(1, 1.58)
-            ->unfoldUsing(ESArray::fold(['testing'])->integer());
+            ->unfoldUsing(ESArray::fold(['testing'])->asInteger());
     }
 
     /**
@@ -42,10 +42,10 @@ class IntegerTest extends TestCase
     public function ESBoolean()
     {
         AssertEqualsFluent::applyWith(1, 1.92)
-            ->unfoldUsing(ESBoolean::fold(true)->integer());
+            ->unfoldUsing(ESBoolean::fold(true)->asInteger());
 
         AssertEqualsFluent::applyWith(0)
-            ->unfoldUsing(ESBoolean::fold(false)->integer());
+            ->unfoldUsing(ESBoolean::fold(false)->asInteger());
     }
 
     /**
@@ -54,7 +54,7 @@ class IntegerTest extends TestCase
     public function ESDictionary()
     {
         AssertEqualsFluent::applyWith(0, 1.56)
-            ->unfoldUsing(ESDictionary::fold([])->integer());
+            ->unfoldUsing(ESDictionary::fold([])->asInteger());
     }
 
     /**
@@ -63,7 +63,7 @@ class IntegerTest extends TestCase
     public function ESInteger()
     {
         AssertEqualsFluent::applyWith(1, 1.51)
-            ->unfoldUsing(ESInteger::fold(1)->integer());
+            ->unfoldUsing(ESInteger::fold(1)->asInteger());
     }
 
     /**
@@ -72,7 +72,7 @@ class IntegerTest extends TestCase
     public function ESJson()
     {
         AssertEqualsFluent::applyWith(1, 2.31)
-            ->unfoldUsing(ESJson::fold('{"test":"test"}')->integer());
+            ->unfoldUsing(ESJson::fold('{"test":"test"}')->asInteger());
     }
 
     /**
@@ -81,7 +81,7 @@ class IntegerTest extends TestCase
     public function ESTuple()
     {
         AssertEqualsFluent::applyWith(0, 3.34)
-            ->unfoldUsing(ESTuple::fold(new stdClass)->integer());
+            ->unfoldUsing(ESTuple::fold(new stdClass)->asInteger());
     }
 
     /**
@@ -90,9 +90,9 @@ class IntegerTest extends TestCase
     public function ESString()
     {
         AssertEqualsFluent::applyWith(1, 2.59)
-            ->unfoldUsing(ESString::fold("0")->integer());
+            ->unfoldUsing(ESString::fold("0")->asInteger());
 
         AssertEqualsFluent::applyWith(5)
-            ->unfoldUsing(ESString::fold("hello")->integer());
+            ->unfoldUsing(ESString::fold("hello")->asInteger());
     }
 }

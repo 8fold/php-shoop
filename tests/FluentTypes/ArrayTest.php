@@ -29,7 +29,7 @@ class ArrayTest extends TestCase
              ESString::class,
              12.48
          )->unfoldUsing(
-            Shoop::this(["Hello", "World!"])->join(", ")
+            Shoop::this(["Hello", "World!"])->asString(", ")
         );
     }
 

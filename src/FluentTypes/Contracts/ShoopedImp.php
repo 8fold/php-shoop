@@ -7,6 +7,7 @@ use Eightfold\Foldable\FoldableImp;
 
 use Eightfold\Shoop\PipeFilters\TypeAsString;
 use Eightfold\Shoop\PipeFilters\TypeAsArray;
+use Eightfold\Shoop\PipeFilters\TypeAsBoolean;
 
 use Eightfold\Shoop\PipeFilters\Contracts\Countable;
 use Eightfold\Shoop\PipeFilters\Contracts\StringableImp;
@@ -22,6 +23,9 @@ use Eightfold\Shoop\Apply;
 use Eightfold\Shoop\FluentTypes\ESBoolean;
 use Eightfold\Shoop\FluentTypes\ESString;
 use Eightfold\Shoop\FluentTypes\ESArray;
+use Eightfold\Shoop\FluentTypes\ESDictionary;
+use Eightfold\Shoop\FluentTypes\ESInteger;
+use Eightfold\Shoop\FluentTypes\ESTuple;
 
 use Eightfold\Shoop\FluentTypes\Contracts\ComparableImp;
 use Eightfold\Shoop\FluentTypes\Contracts\ReversibleImp;
@@ -44,9 +48,9 @@ trait ShoopedImp
         if (is_a($this, ESBoolean::class)) {
             return ESBoolean::fold($this->main);
         }
-        var_dump(__FILE__);
-        var_dump(__LINE__);
-        die("not ESBoolean");
+        return ESBoolean::fold(
+            TypeAsBoolean::apply()->unfoldUsing($this->main)
+        );
     }
 
     public function asInteger(): Countable

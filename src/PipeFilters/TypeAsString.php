@@ -35,6 +35,8 @@ class TypeAsString extends Filter
             // $strings = array_filter($using, "is_string"); // TODO: Move to Minus
             return implode($this->glue, $strings);
 
+        } elseif (TypeIs::applyWith("tuple")->unfoldUsing($using)) {
+            return TypeAsJson::apply()->unfoldUsing($using);
         }
     }
 }

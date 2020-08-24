@@ -29,7 +29,7 @@ class MinusTest extends TestCase
             ESArray::class,
             3.63
         )->unfoldUsing(
-            Shoop::this($using)->minusMembers([0, 2])
+            Shoop::this($using)->minusAt([0, 2])
         );
     }
 
@@ -43,7 +43,7 @@ class MinusTest extends TestCase
             ["a" => "hello", "c" => "hello"],
             ESDictionary::class
         )->unfoldUsing(
-            Shoop::this($using)->minusMembers(["b"])
+            Shoop::this($using)->minusAt(["b"])
         );
     }
 }

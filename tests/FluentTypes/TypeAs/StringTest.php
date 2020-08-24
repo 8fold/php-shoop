@@ -32,11 +32,20 @@ class StringTest extends TestCase
      */
     public function ESArray()
     {
-        AssertEqualsFluent::applyWith("", 9.19)
-            ->unfoldUsing(ESArray::fold([])->string());
+        AssertEqualsFluent::applyWith(
+            "",
+            ESString::class,
+            9.19
+        )->unfoldUsing(
+            Shoop::this([])->asString()
+        );
 
-        AssertEqualsFluent::applyWith("testing something")
-            ->unfoldUsing(ESArray::fold(["testing", " something"])->string());
+        AssertEqualsFluent::applyWith(
+            "testing something",
+            ESString::class
+        )->unfoldUsing(
+            Shoop::this(["testing", " something"])->asString()
+        );
     }
 
     /**
@@ -45,7 +54,7 @@ class StringTest extends TestCase
     public function ESBoolean()
     {
         AssertEqualsFluent::applyWith("true", 2.87)
-            ->unfoldUsing(ESBoolean::fold(true)->string());
+            ->unfoldUsing(ESBoolean::fold(true)->asString());
     }
 
     /**
@@ -53,8 +62,13 @@ class StringTest extends TestCase
      */
     public function ESDictionary()
     {
-        AssertEqualsFluent::applyWith("", 2.08)
-            ->unfoldUsing(ESDictionary::fold([])->string());
+        AssertEqualsFluent::applyWith(
+            "",
+            ESString::class,
+            2.08
+        )->unfoldUsing(
+            Shoop::this([])->asString()
+        );
     }
 
     /**
@@ -62,8 +76,13 @@ class StringTest extends TestCase
      */
     public function ESInteger()
     {
-        AssertEqualsFluent::applyWith("1", 2.56)
-            ->unfoldUsing(ESInteger::fold(1)->string());
+        AssertEqualsFluent::applyWith(
+            "1",
+            ESString::class,
+            2.56
+        )->unfoldUsing(
+            Shoop::this(1)->asString()
+        );
     }
 
     /**
@@ -71,8 +90,13 @@ class StringTest extends TestCase
      */
     public function ESJson()
     {
-        AssertEqualsFluent::applyWith("test", 3.15)
-            ->unfoldUsing(ESJson::fold('{"test":"test"}')->string());
+        AssertEqualsFluent::applyWith(
+            "test",
+            ESString::class,
+            3.15
+        )->unfoldUsing(
+            Shoop::this('{"test":"test"}')->asString()
+        );
     }
 
     /**
@@ -80,8 +104,12 @@ class StringTest extends TestCase
      */
     public function ESTuple()
     {
-        AssertEqualsFluent::applyWith("")
-            ->unfoldUsing(ESJson::fold(new stdClass)->string());
+        AssertEqualsFluent::applyWith(
+            "",
+            ESString::class
+        )->unfoldUsing(
+            Shoop::this(new stdClass)->asString()
+        );
     }
 
     /**
@@ -89,7 +117,12 @@ class StringTest extends TestCase
      */
     public function ESString()
     {
-        AssertEqualsFluent::applyWith("hello", 1.66)
-            ->unfoldUsing(ESString::fold("hello")->string());
+        AssertEqualsFluent::applyWith(
+            "hello",
+            ESString::class,
+            1.66
+        )->unfoldUsing(
+            Shoop::this("hello")->asString()
+        );
     }
 }

@@ -11,9 +11,9 @@ trait SubtractableImp
 {
     // TODO: PHP 8.0 bool|ESBoolean, bool|ESBoolean, string|ESString
     public function minus(
-        $charMask  = " \t\n\r\0\x0B",
-        $fromEnd   = true,
-        $fromStart = true
+        array $charMask = [" ", "\t", "\n", "\r", "\0", "\x0B"],
+        bool $fromStart = true,
+        bool $fromEnd   = true
     )
     {
         return static::fold(

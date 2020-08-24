@@ -16,9 +16,9 @@ interface Subtractable
      * false - true : Characters are stripped from beginning, not end.
      */
     public function minus(
-        $charMask  = " \t\n\r\0\x0B",
-        $fromEnd   = true,
-        $fromStart = true
+        array $charMask = [" ", "\t", "\n", "\r", "\0", "\x0B"],
+        bool $fromStart = true,
+        bool $fromEnd   = true
     );
 
     // TODO: PHP 8.0 - int|string

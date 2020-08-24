@@ -33,7 +33,7 @@ class TupleTest extends TestCase
     public function ESArray()
     {
         AssertEqualsFluent::applyWith((object) ["i0" => "testing"], 5.08)
-            ->unfoldUsing(ESArray::fold(["testing"])->tuple());
+            ->unfoldUsing(ESArray::fold(["testing"])->asTuple());
     }
 
     /**
@@ -43,11 +43,11 @@ class TupleTest extends TestCase
     {
         AssertEqualsFluent::applyWith(
             (object) ["false" => false, "true" => true], 4.14
-        )->unfoldUsing(ESBoolean::fold(true)->tuple());
+        )->unfoldUsing(ESBoolean::fold(true)->asTuple());
 
         AssertEqualsFluent::applyWith(
             (object) ["false" => true, "true" => false]
-        )->unfoldUsing(ESBoolean::fold(false)->tuple());
+        )->unfoldUsing(ESBoolean::fold(false)->asTuple());
     }
 
     /**
@@ -56,7 +56,7 @@ class TupleTest extends TestCase
     public function ESDictionary()
     {
         AssertEqualsFluent::applyWith(new stdClass, 4.03)
-            ->unfoldUsing(ESDictionary::fold([])->tuple());
+            ->unfoldUsing(ESDictionary::fold([])->asTuple());
     }
 
     /**
@@ -65,7 +65,7 @@ class TupleTest extends TestCase
     public function ESInteger()
     {
         AssertEqualsFluent::applyWith((object) ["i0" => 0, "i1" => 1], 3.86)
-            ->unfoldUsing(ESInteger::fold(1)->tuple());
+            ->unfoldUsing(ESInteger::fold(1)->asTuple());
     }
 
     /**
@@ -74,7 +74,7 @@ class TupleTest extends TestCase
     public function ESJson()
     {
         AssertEqualsFluent::applyWith((object) ["test" => "test"], 4.18)
-            ->unfoldUsing(ESJson::fold('{"test":"test"}')->tuple());
+            ->unfoldUsing(ESJson::fold('{"test":"test"}')->asTuple());
     }
 
     /**
@@ -83,7 +83,7 @@ class TupleTest extends TestCase
     public function ESTuple()
     {
         AssertEqualsFluent::applyWith(new stdClass, 3.18)
-            ->unfoldUsing(ESTuple::fold(new stdClass)->tuple());
+            ->unfoldUsing(ESTuple::fold(new stdClass)->asTuple());
     }
 
     /**
@@ -92,6 +92,6 @@ class TupleTest extends TestCase
     public function ESString()
     {
         AssertEqualsFluent::applyWith((object) ["content" => ""], 6.36)
-            ->unfoldUsing(ESString::fold("")->tuple());
+            ->unfoldUsing(ESString::fold("")->asTuple());
     }
 }

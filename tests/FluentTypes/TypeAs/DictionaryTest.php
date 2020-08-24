@@ -31,7 +31,7 @@ class DictionaryTest extends TestCase
     public function ESArray()
     {
         AssertEqualsFluent::applyWith(["i0" => "hi"], 1.64)
-            ->unfoldUsing(ESArray::fold(["hi"])->dictionary());
+            ->unfoldUsing(ESArray::fold(["hi"])->asDictionary());
     }
 
     /**
@@ -40,7 +40,7 @@ class DictionaryTest extends TestCase
     public function ESBoolean()
     {
         AssertEqualsFluent::applyWith(["true" => true, "false" => false], 1.8)
-            ->unfoldUsing(ESBoolean::fold(true)->dictionary());
+            ->unfoldUsing(ESBoolean::fold(true)->asDictionary());
     }
 
     /**
@@ -50,7 +50,7 @@ class DictionaryTest extends TestCase
     {
         AssertEqualsFluent::applyWith(["hello" => "world"], 1.37)
             ->unfoldUsing(
-                ESDictionary::fold(["hello" => "world"])->dictionary()
+                ESDictionary::fold(["hello" => "world"])->asDictionary()
             );
     }
 
@@ -60,7 +60,7 @@ class DictionaryTest extends TestCase
     public function ESInteger()
     {
         AssertEqualsFluent::applyWith(["i0" => 0, "i1" => 1, "i2" => 2], 1.74)
-            ->unfoldUsing(ESInteger::fold(2)->dictionary());
+            ->unfoldUsing(ESInteger::fold(2)->asDictionary());
     }
 
     /**
@@ -69,7 +69,7 @@ class DictionaryTest extends TestCase
     public function ESJson()
     {
         AssertEqualsFluent::applyWith(["test" => true], 1.84)
-            ->unfoldUsing(ESJson::fold('{"test":true}')->dictionary());
+            ->unfoldUsing(ESJson::fold('{"test":true}')->asDictionary());
     }
 
     /**
@@ -78,7 +78,7 @@ class DictionaryTest extends TestCase
     public function ESTuple()
     {
         AssertEqualsFluent::applyWith(["test" => true], 1.67)
-            ->unfoldUsing(ESTuple::fold((object) ["test" => true])->dictionary());
+            ->unfoldUsing(ESTuple::fold((object) ["test" => true])->asDictionary());
     }
 
     /**
@@ -87,6 +87,6 @@ class DictionaryTest extends TestCase
     public function ESString()
     {
         AssertEqualsFluent::applyWith(["content" => "hello"], 3.26)
-            ->unfoldUsing(ESString::fold("hello")->dictionary());
+            ->unfoldUsing(ESString::fold("hello")->asDictionary());
     }
 }
