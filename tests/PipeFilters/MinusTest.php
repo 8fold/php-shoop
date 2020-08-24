@@ -21,7 +21,7 @@ class MinusTest extends TestCase
     {
         AssertEquals::applyWith(
             true,
-            Minus::apply(0),
+            Minus::apply(),
             3.29 //very inconsistant - less than 1
         )->unfoldUsing(true);
 

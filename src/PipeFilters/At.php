@@ -11,63 +11,61 @@ class At extends Filter
 {
     public function __invoke($using)
     {
+        $main = $this->main;
         if (! TypeIs::applyWith("list")->unfoldUsing($this->main)) {
-            $this->main = [$this->main];
-        }
-
-        if (TypeIs::applyWith("dictionary")->unfoldUsing($using)) {
-
-
-        } elseif (TypeIs::applyWith("array")->unfoldUsing($using)) {
-
-
-        } elseif (TypeIs::applyWith("boolean")->unfoldUsing($using) or
-            TypeIs::applyWith("tuple")->unfoldUsing($using)
-        ) {
-            return Shoop::pipe($using,
-                TypeAsDictionary::apply(),
-                At::applyWith($this->main)
-            )->unfold();
-
-        } else {
-            return Shoop::pipe($using,
-                TypeAsArray::apply(),
-                At::applyWith($this->main)
-            )->unfold();
-
+            $main = [$this->main];
         }
 
         if (TypeIs::applyWith("boolean")->unfoldUsing($using) or
-            TypeIs::applyWith("tuple")->unfoldUsing($using)
+            TypeIs::applyWith("number")->unfoldUsing($using)
         ) {
-            $base = Shoop::pipe($using,
-                TypeAsDictionary::apply(),
-                At::applyWith($this->main)
+            return Shoop::pipe($using,
+                (is_int($main[0]))
+                    ? TypeAsArray::apply()
+                    : TypeAsDictionary::apply(),
+                At::applyWith($main),
             )->unfold();
 
-            if (TypeIs::applyWith("boolean")->unfoldUsing($using)) {
-                return $base;
-            }
-
-            return TypeAsTuple::apply()->unfoldUsing($base);
-
-
         } elseif (TypeIs::applyWith("list")->unfoldUsing($using)) {
-            if (TypeIs::applyWith("array")->unfoldUsing($this->main)) {
-                $using = $this->atFromList($using, $this->main);
-                if (TypeIs::applyWith("dictionary")->unfoldUsing($using)) {
-                    return $using;
-                }
-                return TypeAsArray::apply()->unfoldUsing($using);
+            $result = $this->atFromList($using, $main);
+            if (TypeAsInteger::apply()->unfoldUsing($result) === 1) {
+                return array_shift($result); // TODO: Make Filter - First
+
+            } elseif (TypeIs::applyWith("array")->unfoldUsing($using)) {
+                return TypeAsArray::apply()->unfoldUsing($result);
 
             }
-            return $this->atFromList($using, [$this->main]);
+            return $result;
+
+        // } elseif (TypeIs::applyWith("json")->unfoldUsing($using)) {
+
+        } elseif (TypeIs::applyWith("string")->unfoldUsing($using)) {
+            return Shoop::pipe($using,
+                TypeAsArray::apply(),
+                At::applyWith($main),
+                TypeAsString::apply()
+            )->unfold();
+
+        } elseif (TypeIs::applyWith("tuple")->unfoldUsing($using)) {
+            $result = Shoop::pipe($using,
+                (is_int($main[0]))
+                    ? TypeAsArray::apply()
+                    : TypeAsDictionary::apply(),
+                At::applyWith($main)
+            )->unfold();
+
+            if (TypeAsInteger::apply()->unfoldUsing($result) === 1) {
+                return $result; // TODO: Make Filter - First
+
+            }
+            return TypeAsTuple::apply()->unfoldUsing($result);
 
         } else {
             return Shoop::pipe($using,
                 TypeAsArray::apply(),
                 At::applyWith($this->main)
             )->unfold();
+
         }
     }
 

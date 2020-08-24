@@ -18,10 +18,14 @@ use Eightfold\Shoop\FluentTypes\ESBoolean;
 
 use Eightfold\Shoop\FluentTypes\Contracts\ComparableImp;
 use Eightfold\Shoop\FluentTypes\Contracts\ReversibleImp;
+use Eightfold\Shoop\FluentTypes\Contracts\SubtractableImp;
 
 trait ShoopedImp
 {
-    use FoldableImp, FalsifiableImp, ReversibleImp, TupleableImp, StringableImp, ArrayableImp, KeyableImp, CountableImp, ComparableImp;//, CompareImp, PhpInterfacesImp;
+    use FoldableImp, FalsifiableImp, SubtractableImp, ReversibleImp,
+        TupleableImp, StringableImp, ArrayableImp, KeyableImp, CountableImp,
+        ComparableImp;
+        //, CompareImp, PhpInterfacesImp;
 
     public function __construct($main)
     {

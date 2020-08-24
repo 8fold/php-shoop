@@ -5,7 +5,9 @@ namespace Eightfold\Shoop\PipeFilters;
 
 use Eightfold\Foldable\Filter;
 
-use Eightfold\Shoop\FluentTypes\Contracts\Falsifiable;
+use Eightfold\Shoop\Shoop;
+
+use Eightfold\Shoop\PipeFilters\Contracts\Falsifiable;
 
 class TypeAsBoolean extends Filter
 {
@@ -17,14 +19,18 @@ class TypeAsBoolean extends Filter
         } elseif (TypeIs::applyWith("number")->unfoldUsing($using)) {
             return (bool) $using;
 
-        } elseif (TypeIs::applyWith("object")->unfoldUsing($using) and
-            is_a($using, Falsifiable::class)
-        ) {
-            return $using->efToBool();
+        } elseif (TypeIs::applyWith("object")->unfoldUsing($using)) {
+            if (is_a($using, Falsifiable::class)) {
+                return $using->efToBool();
+
+            }
+            return (bool) $using;
 
         } else {
-            $int = TypeAsInteger::apply()->unfoldUsing($using);
-            return TypeAsBoolean::apply()->unfoldUsing($int);
+            return Shoop::pipe($using,
+                TypeAsInteger::apply(),
+                TypeAsBoolean::apply()
+            )->unfold();
 
         }
     }

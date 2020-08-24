@@ -75,7 +75,7 @@ class TypeIsTest extends TestCase
         )->unfoldUsing("8fold!");
 
         AssertEquals::applyWith(
-            true,
+            false,
             TypeIs::applyWith("string")
         )->unfoldUsing("{}");
 

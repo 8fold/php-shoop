@@ -17,7 +17,7 @@ use Eightfold\Shoop\FluentTypes\{
     ESDictionary
 };
 
-trait IsInImp
+trait _IsInImp
 {
     public function isIn($haystack, Closure $closure = null)
     {

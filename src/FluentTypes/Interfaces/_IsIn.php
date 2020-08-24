@@ -6,7 +6,7 @@ use \Closure;
 
 use Eightfold\Shoop\FluentTypes\ESBoolean;
 
-interface IsIn
+interface _IsIn
 {
     public function isIn($haystack, Closure $closure = null);
 

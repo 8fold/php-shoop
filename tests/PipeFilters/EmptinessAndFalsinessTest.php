@@ -7,9 +7,11 @@ use Eightfold\Shoop\Tests\AssertEquals;
 
 use \stdClass;
 
+use Eightfold\Foldable\Foldable;
+
 use Eightfold\Shoop\Shoop;
 
-use Eightfold\Shoop\FluentTypes\Contracts\Falsifiable;
+use Eightfold\Shoop\PipeFilters\Contracts\Falsifiable;
 
 use Eightfold\Shoop\PipeFilters\TypeAsBoolean;
 use Eightfold\Shoop\PipeFilters\IsEmpty;
@@ -56,12 +58,13 @@ class EmptinessAndFalsinessTest extends TestCase
         AssertEquals::applyWith(
             false,
             TypeAsBoolean::apply(),
-            0.37
+            0.43
         )->unfoldUsing($using);
 
         AssertEquals::applyWith(
             true,
-            IsEmpty::apply()
+            IsEmpty::apply(),
+            0.71
         )->unfoldUsing($using);
 
         $using = new class {
@@ -88,6 +91,17 @@ class EmptinessAndFalsinessTest extends TestCase
 
         $using = new class implements Falsifiable {
             public $property = "8fold";
+
+            public function asBoolean(): Foldable
+            {
+                return new class implements Foldable {
+                    public function fold($value)
+                    {}
+
+                    public function unfold()
+                    {}
+                };
+            }
 
             public function efToBool(): bool
             {
@@ -251,12 +265,13 @@ class EmptinessAndFalsinessTest extends TestCase
         AssertEquals::applyWith(
             false,
             TypeAsBoolean::apply(),
-            0.43
+            2.39 // unstable
         )->unfoldUsing($using);
 
         AssertEquals::applyWith(
             true,
-            IsEmpty::apply()
+            IsEmpty::apply(),
+            2.53 // unstable
         )->unfoldUsing($using);
 
         $using = (object) ["public" => true];
@@ -271,7 +286,8 @@ class EmptinessAndFalsinessTest extends TestCase
         // Shoop (deviation) - true|false
         AssertEquals::applyWith(
             true,
-            TypeAsBoolean::apply()
+            TypeAsBoolean::apply(),
+            0.97
         )->unfoldUsing($using);
 
         AssertEquals::applyWith(
@@ -311,10 +327,11 @@ class EmptinessAndFalsinessTest extends TestCase
         $this->assertTrue($bool);
         $this->assertFalse($empty);
 
-        // Shoop (deviation) - true|true
+        // Shoop (deviation) - false|true
         AssertEquals::applyWith(
-            true,
-            TypeAsBoolean::apply()
+            false,
+            TypeAsBoolean::apply(),
+            1.39
         )->unfoldUsing($using);
 
         AssertEquals::applyWith(

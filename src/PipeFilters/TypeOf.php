@@ -14,6 +14,7 @@ class TypeOf extends Filter
 {
     public function __invoke($using): array
     {
+        // var_dump($using);
         if (is_bool($using)) {
             return ["boolean"];
 
@@ -76,10 +77,8 @@ class TypeOf extends Filter
 
                 }
 
-            } else {
-                return ["collection", "list"];
-
             }
+            return ["collection", "list"];
 
         } elseif (is_object($using) and
             (is_a($using, stdClass::class) or empty(get_class_methods($using)))
@@ -89,12 +88,14 @@ class TypeOf extends Filter
         } elseif (is_object($using)) {
             $types = ["object"];
 
+            // TODO: Checks for various contracts
             if (is_a($using, Arrayable::class)) {
                 $types[] = "arrayable";
-
             }
 
             return $types;
         }
+        // die("falling through typeof");
+        // TODO: Consider type error warrning
     }
 }

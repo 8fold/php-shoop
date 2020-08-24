@@ -1,4 +1,5 @@
 .DS_Store
+.phpintel/
 
 vendor/
 node_modules/

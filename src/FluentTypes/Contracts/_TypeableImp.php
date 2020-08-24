@@ -15,7 +15,7 @@ use Eightfold\Shoop\FluentTypes\ESJson;
 use Eightfold\Shoop\FluentTypes\ESTuple;
 use Eightfold\Shoop\FluentTypes\ESString;
 
-trait TypeableImp
+trait _TypeableImp
 {
     public function array(): ESArray
     {

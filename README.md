@@ -204,7 +204,12 @@ If you have a recommendation for what you believe is a more rational default, pl
 
 ### What's in a name?
 
-Shoop, as an acronym, points to the insipirations of the library: Swift, Haskell (functional programming and immutability), Object-Oriented (encapsulation, composition, and communication), and Procedural (sequential, logical programming).
+Shoop, as an acronym, points to the insipirations of the library:
+
+- Swift, Squeak, and Smalltalk;
+- Haskell (functional programming and immutability);
+- Object-Oriented (encapsulation, composition, and communication); and
+- Procedural (sequential, logical programming).
 
 Shoop, as a word, is akin to "photoshopping" (and sounds nicer than "Foops").
 

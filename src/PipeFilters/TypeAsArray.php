@@ -7,6 +7,8 @@ use Eightfold\Foldable\Filter;
 
 use Eightfold\Shoop\Shoop;
 
+use Eightfold\Shoop\PipeFilters\Contracts\Arrayable;
+
 class TypeAsArray extends Filter
 {
     private $start = 0;
@@ -65,6 +67,9 @@ class TypeAsArray extends Filter
             return $using->array(...$args);
 
         } elseif (TypeIs::applyWith("object")->unfoldUsing($using)) {
+            if (is_a($using, Arrayable::class)) {
+                return $using->efToArray();
+            }
             $dictionary = TypeAsDictionary::apply()->unfoldUsing($using);
             return TypeAsArray::apply()->unfoldUsing($dictionary);
 

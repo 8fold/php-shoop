@@ -9,18 +9,6 @@ use Eightfold\Shoop\PipeFilters\TypeAsArray;
 use Eightfold\Shoop\PipeFilters\Contracts\Arrayable;
 use Eightfold\Shoop\PipeFilters\Contracts\ArrayableImp;
 
-// use \stdClass;
-
-// use Eightfold\Shoop\Shoop;
-
-// use Eightfold\Shoop\FluentTypes\ESArray;
-// use Eightfold\Shoop\FluentTypes\ESBoolean;
-// use Eightfold\Shoop\FluentTypes\ESDictionary;
-// use Eightfold\Shoop\FluentTypes\ESInteger;
-// use Eightfold\Shoop\FluentTypes\ESJson;
-// use Eightfold\Shoop\FluentTypes\ESTuple;
-// use Eightfold\Shoop\FluentTypes\ESString;
-
 /**
  * @group TypeAsArray
  */
@@ -137,7 +125,7 @@ class ArrayableTest extends TestCase
         AssertEquals::applyWith(
             ["8fold!"],
             TypeAsArray::apply(),
-            0.67
+            1.23
         )->unfoldUsing(
             new class implements Arrayable {
                 use ArrayableImp;
@@ -152,6 +140,13 @@ class ArrayableTest extends TestCase
                 {}
 
                 public function minusMember($member)
+                {}
+
+                public function asArray(
+                    $start = 0,
+                    bool $includeEmpties = true,
+                    int $limit = PHP_INT_MAX
+                )
                 {}
 
                 public function array(
@@ -192,18 +187,18 @@ class ArrayableTest extends TestCase
                 public function minusMember($member)
                 {}
 
-                public function array(
+                public function asArray(
                     $start = 0,
                     bool $includeEmpties = true,
                     int $limit = PHP_INT_MAX
                 )
                 {
-                    return explode($start, $this->content);
+                    return [$this->content];
                 }
 
                 public function efToArray(): array
                 {
-                    return $this->array();
+                    return $this->asArray();
                 }
             }
         );

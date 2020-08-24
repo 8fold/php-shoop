@@ -20,6 +20,9 @@ use Eightfold\Shoop\FluentTypes\{
 trait EachImp
 {
     // TODO: is there a way to return a dictionary??
+    /**
+     * @deprecated
+     */
     public function each(Closure $closure): ESArray
     {
         if (Type::is($this, ESArray::class, ESDictionary::class)) {

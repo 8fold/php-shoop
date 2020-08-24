@@ -8,5 +8,8 @@ use Eightfold\Shoop\FluentTypes\ESArray;
 
 interface Each
 {
+    /**
+     * @deprecated
+     */
     public function each(Closure $closure): ESArray;
 }

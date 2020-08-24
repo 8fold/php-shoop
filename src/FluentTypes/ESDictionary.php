@@ -8,17 +8,9 @@ use Eightfold\Shoop\FluentTypes\Contracts\ShoopedImp;
 use Eightfold\Shoop\FluentTypes\Contracts\Comparable;
 use Eightfold\Shoop\FluentTypes\Contracts\ComparableImp;
 
-class ESDictionary implements Shooped, Comparable
-    // MathOperations,
-    // Toggle,
-    // Sort,
-    // Wrap,
-    // Drop,
-    // Has,
-    // IsIn,
-    // Each
+class ESDictionary implements Shooped
 {
-    use ShoopedImp, ComparableImp;//, MathOperationsImp, ToggleImp, SortImp, WrapImp, DropImp, HasImp, IsInImp, EachImp;
+    use ShoopedImp;
 
     static public function to(ESDictionary $instance, string $className)
     {

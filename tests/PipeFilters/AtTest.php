@@ -45,7 +45,7 @@ class AtTest extends TestCase
         )->unfoldUsing(5);
 
         AssertEquals::applyWith(
-            [0, 2],
+            [0.0, 2.0],
             At::applyWith([0, 2]),
             1.06
         )->unfoldUsing(6.5);
@@ -59,7 +59,7 @@ class AtTest extends TestCase
         AssertEquals::applyWith(
             "Ryg!",
             At::applyWith([0, 6, 11, 16]),
-            1.93
+            3.21
         )->unfoldUsing("Raise your glass!");
     }
 
@@ -107,7 +107,8 @@ class AtTest extends TestCase
 
         AssertEquals::applyWith(
             true,
-            At::applyWith("second")
+            At::applyWith("second"),
+            1.31
         )->unfoldUsing($using);
 
         AssertEquals::applyWith(
