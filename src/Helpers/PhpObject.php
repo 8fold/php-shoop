@@ -10,21 +10,6 @@ use Eightfold\Shoop\FluentTypes\Helpers\{
 
 class PhpObject
 {
-    // TODO: No tests failed - need tests
-    static public function startsWith(object $object, array $needles): bool
-    {
-        $dictionary = self::toAssociativeArray($object);
-        $bool = PhpAssociativeArray::startsWith($dictionary, $needles);
-        return $bool;
-    }
-
-    static public function endsWith(object $object, array $needles): bool
-    {
-        $dictionary = self::toAssociativeArray($object);
-        $bool = PhpAssociativeArray::endsWith($dictionary, $needles);
-        return $bool;
-    }
-
     static public function afterRemovingMembers(object $object, array $members): object
     {
         foreach ($members as $member) {

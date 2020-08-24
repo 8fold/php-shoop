@@ -10,32 +10,6 @@ use Eightfold\Shoop\FluentTypes\Helpers\{
 
 class PhpAssociativeArray
 {
-    static public function endsWith(array $dictionary, array $needles): bool
-    {
-        $dictionary = self::reversed($dictionary, true);
-
-        $needles = PhpIndexedArray::toValueMemberAssociativeArray($needles);
-        $needles = self::reversed($needles, true);
-
-        // Convert to array of value-member pairs
-        $passing = [];
-        foreach ($needles as $member => $value) {
-            $passing[] = $value;
-            $passing[] = $member;
-        }
-        $bool = self::startsWith($dictionary, $passing);
-        return $bool;
-    }
-
-    static public function startsWith(array $dictionary, array $needles): bool
-    {
-        $needles = PhpIndexedArray::toValueMemberAssociativeArray($needles);
-        $needleCount = count($needles);
-
-        $dictionary = array_slice($dictionary, 0, $needleCount, true);
-        return $needles === $dictionary;
-    }
-
     // TODO: PHP 8.0 int|string = $member
     static public function afterSettingValue(
         array $array,

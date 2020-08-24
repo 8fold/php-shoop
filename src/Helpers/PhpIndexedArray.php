@@ -8,24 +8,6 @@ use Eightfold\Shoop\FluentTypes\Helpers\{
 
 class PhpIndexedArray
 {
-    static public function startsWith(array $array, array $needles): bool
-    {
-        foreach ($needles as $member => $value) {
-            if ($array[$member] !== $value) {
-                return false;
-            }
-        }
-        return true;
-    }
-
-    static public function endsWith(array $array, array $needles): bool
-    {
-        $array = self::reversed($array, false);
-        $needles = self::reversed($needles, false);
-        $bool = self::startsWith($array, $needles);
-        return $bool;
-    }
-
     static public function afterSettingValue(
         array $array,
         $value,
