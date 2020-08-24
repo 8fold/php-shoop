@@ -3,24 +3,22 @@
 namespace Eightfold\Shoop\Tests\Foldable;
 
 use PHPUnit\Framework\TestCase;
-
-
+use Eightfold\Shoop\Tests\AssertEqualsFluent;
 
 use Eightfold\Shoop\Shoop;
-use Eightfold\Shoop\FluentTypes\{
-    ESArray,
-    ESBoolean,
-    ESDictionary,
-    ESInteger,
-    ESJson,
-    ESTuple,
-    ESString
-};
+
+use Eightfold\Shoop\FluentTypes\ESArray;
+use Eightfold\Shoop\FluentTypes\ESBoolean;
+use Eightfold\Shoop\FluentTypes\ESDictionary;
+use Eightfold\Shoop\FluentTypes\ESInteger;
+use Eightfold\Shoop\FluentTypes\ESJson;
+use Eightfold\Shoop\FluentTypes\ESTuple;
+use Eightfold\Shoop\FluentTypes\ESString;
 
 /**
  * The `set()` method in most cases sets the value for a specified members.
  */
-class SetTest extends TestCase
+class PlusTest extends TestCase
 {
     /**
      * @return Eightfold\Shoop\ESArray After setting the value for the index.
