@@ -45,19 +45,4 @@ interface Arrayable extends ArrayAccess, Iterator
     public function key();
 
     public function next(): void;
-
-    /**
-     * @deprecated
-     */
-    public function getMember($member, callable $callable = null);
-
-    /**
-     * @deprecated
-     */
-    public function setMember($member, $value);
-
-    /**
-     * @deprecated
-     */
-    public function stripMember($member);
 }

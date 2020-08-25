@@ -174,7 +174,12 @@ class ArrayTest extends TestCase
             "efToJson",       // uses Shoop default (asJson)
             "efToString",     // uses Shoop default (asJson)
             "efToTuple",      // uses Shoop default (asJson)
-            "count"           // uses Shoop default (efToInteger)
+            "count",          // uses Shoop default (efToInteger)
+            "jsonSerialize",  // uses Shoop default (efToTuple)
+            "offsetExists",   // uses Shoop default (hasMember)
+            "offsetGet",      // uses Shoop default (at)
+            "offsetSet",      // uses Shoop default (plusMember ??) TODO: Should plus() be solely for values
+            "offsetUnset",    // uses Shoop default (minusMember)
         ];
     }
 }

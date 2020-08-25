@@ -9,6 +9,7 @@ use Eightfold\Shoop\PipeFilters\Contracts\Comparable;
 use Eightfold\Shoop\PipeFilters\Contracts\Countable;
 use Eightfold\Shoop\PipeFilters\Contracts\Falsifiable;
 use Eightfold\Shoop\PipeFilters\Contracts\Keyable;
+use Eightfold\Shoop\PipeFilters\Contracts\Orderable;
 use Eightfold\Shoop\PipeFilters\Contracts\Reversible;
 use Eightfold\Shoop\PipeFilters\Contracts\Stringable;
 use Eightfold\Shoop\PipeFilters\Contracts\Tupleable;
@@ -20,6 +21,7 @@ interface Shooped extends
     Countable,
     Falsifiable,
     Keyable,
+    Orderable,
     Stringable,
     Tupleable
 {

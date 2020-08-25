@@ -6,6 +6,8 @@ use Eightfold\Foldable\Foldable;
 
 use Eightfold\Shoop\Apply;
 
+use Eightfold\Shoop\PipeFilters\Contracts\Shooped;
+
 use Eightfold\Shoop\FluentTypes\ESArray;
 use Eightfold\Shoop\FluentTypes\ESBoolean;
 use Eightfold\Shoop\FluentTypes\ESInteger;
@@ -25,27 +27,34 @@ trait ArrayableImp
 
     public function offsetExists($offset): bool
     {
-        die("offsetExists");
-        return Apply::hasMember($offset)->unfoldUsing($this->main);
+        if (is_a($this, Arrayable::class) and is_a($this, Foldable::class)) {
+            return $this->hasMember($offset)->unfold();
+
+        }
+        return false;
     }
 
     public function offsetGet($offset)
     {
-        // die("offsetGet");
-        return Apply::at($offset)->unfoldUsing($this->main);
+        if (is_a($this, Arrayable::class) and is_a($this, Foldable::class)) {
+            return $this->at($offset)->unfold();
+
+        }
+        return false;
     }
 
     public function offsetSet($offset, $value): void
     {
-        die("offsetSet");
-        $this->main = Apply::plusMember($value, $offset)
-            ->unfoldUsing($this->main);
+        if (is_a($this, Arrayable::class) and is_a($this, Foldable::class)) {
+            $this->main = $this->plusMember($value, $offset)->unfold();
+        }
     }
 
     public function offsetUnset($offset): void
     {
-        die("offsetUnset");
-        $this->main = Apply::minusMember($offset)->unfoldUsing($this->main);
+        if (is_a($this, Arrayable::class) and is_a($this, Foldable::class)) {
+            $this->main = Apply::minusMember($offset)->unfoldUsing($this->main);
+        }
     }
 
     /**
@@ -53,10 +62,7 @@ trait ArrayableImp
      */
     public function rewind(): void
     {
-        if (is_a($this, ESString::class) or
-            is_a($this, ESInteger::class) or
-            is_a($this, ESArray::class)
-        ) {
+        if (is_a($this, Orderable::class) and is_a($this, Foldable::class)) {
             $this->temp = Apply::typeAsArray()->unfoldUsing($this->main);
 
         } else {
@@ -72,7 +78,7 @@ trait ArrayableImp
             $this->rewind();
         }
         $member = key($this->temp);
-        return Apply::hasMembers($member)->unfoldUsing($this->temp);
+        return $this->offsetExists($member);
     }
 
     public function current()
@@ -81,7 +87,7 @@ trait ArrayableImp
             $this->rewind();
         }
         $member = key($this->temp);
-        return Apply::at($member)->unfoldUsing($this->temp);
+        return $this->offsetGet($member);
     }
 
     public function key()
@@ -98,29 +104,5 @@ trait ArrayableImp
             $this->rewind();
         }
         next($this->temp);
-    }
-
-    /**
-     * @deprecated
-     */
-    public function stripMember($member)
-    {
-        return $this->minusMember($member);
-    }
-
-    /**
-     * @deprecated
-     */
-    public function setMember($member, $value)
-    {
-        $this->plusMember();
-    }
-
-    /**
-     * @deprecated
-     */
-    public function getMember($member, callable $callable = null)
-    {
-        return $this->at($member);
     }
 }
