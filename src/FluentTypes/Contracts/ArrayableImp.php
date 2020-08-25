@@ -22,7 +22,12 @@ trait ArrayableImp
         return Shoop::this($this->condition($bool, $closure));
     }
 
-    public function hasMember($member)
+    public function at($member)
+    {
+
+    }
+
+    public function hasAt($member)
     {
         if (Type::is($this, ESDictionary::class, ESJson::class, ESTuple::class)) {
             $member = Type::sanitizeType($member, ESString::class)->unfold();
@@ -51,7 +56,17 @@ trait ArrayableImp
             $class = PhpString::class;
 
         }
-        $bool = $class::hasMember($value, $member);
+        $bool = $class::hasAt($value, $member);
         return Shoop::this($this->condition($bool, $closure));
+    }
+
+    public function plusAt($value, $member)
+    {
+
+    }
+
+    public function minusAt($member)
+    {
+
     }
 }

@@ -33,12 +33,4 @@ trait SubtractableImp
             MinusUsing::applyWith("is_empty")->unfoldUsing($this->main)
         );
     }
-
-    /**
-     * @deprecated
-     */
-    public function noEmpties()
-    {
-        return $this->minusEmpties();
-    }
 }

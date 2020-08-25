@@ -20,7 +20,4 @@ interface Subtractable
         bool $fromStart = true,
         bool $fromEnd   = true
     );
-
-    // TODO: PHP 8.0 - int|string
-    public function minusAt(...$members);
 }

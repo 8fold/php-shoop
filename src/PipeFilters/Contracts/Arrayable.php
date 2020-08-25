@@ -18,14 +18,13 @@ interface Arrayable extends ArrayAccess, Iterator
 
     public function has($needle);
 
-    // TODO: PHP 8.0 string|int|ESString|ESInteger $offset
-    public function hasMember($member);
+    public function hasAt($member);
 
     public function at($member);
 
-    public function plusMember($value, $member);
+    public function plusAt($value, $member);
 
-    public function minusMember($member);
+    public function minusAt($member);
 
     public function offsetExists($offset): bool; // ArrayAccess
 

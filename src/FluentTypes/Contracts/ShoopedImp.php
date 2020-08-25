@@ -108,31 +108,4 @@ trait ShoopedImp
             Apply::random($limit)->unfoldUsing($this->main)
         );
     }
-
-    //TODO: PHP 8.0 - int|string|ESInteger|ESString
-    public function hasMember($member)
-    {
-        return Shoop::this(
-            $this->offsetExists($member)
-        );
-    }
-
-    public function at($member)
-    {
-        return Shoop::this(
-            $this->offsetGet($member)
-        );
-    }
-
-    public function plusMember($value, $member)
-    {
-        $this->offsetSet($member, $value);
-        return static::fold($this->main);
-    }
-
-    public function minusMember($member)
-    {
-        $this->offsetUnset($member);
-        return static::fold($this->main);
-    }
 }

@@ -11,11 +11,4 @@ interface Subtractable extends PipeSubtractible
     public function minusFirst($length = 1);
 
     public function minusLast($length = 1);
-
-    public function minusEmpties();
-
-    /**
-     * @deprecated
-     */
-    public function noEmpties();
 }

@@ -21,12 +21,4 @@ trait SubtractableImp
                 ->unfoldUsing($this->main)
         );
     }
-
-    public function minusAt(...$members)
-    {
-        return static::fold(
-            MinusAt::applyWith(...$members)
-                ->unfoldUsing($this->main)
-        );
-    }
 }
