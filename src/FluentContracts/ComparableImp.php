@@ -2,11 +2,11 @@
 
 namespace Eightfold\Shoop\FluentTypes\Contracts;
 
-use Eightfold\Shoop\PipeFilters\Contracts\ComparableImp as PipeComparableImp;
+use Eightfold\Shoop\FilterContracts\ComparableImp as PipeComparableImp;
 
 use Eightfold\Shoop\Apply;
 
-use Eightfold\Shoop\PipeFilters\Contracts\Falsifiable;
+use Eightfold\Shoop\FilterContracts\Falsifiable;
 
 /**
  * TODO: Make extension of Shooped

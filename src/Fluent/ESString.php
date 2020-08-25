@@ -8,8 +8,8 @@ use Eightfold\Shoop\Shoop;
 use Eightfold\Shoop\FluentTypes\Contracts\Shooped;
 use Eightfold\Shoop\FluentTypes\Contracts\ShoopedImp;
 
-use Eightfold\Shoop\PipeFilters\Plus;
-use Eightfold\Shoop\PipeFilters\TypeAsArray;
+use Eightfold\Shoop\Filter\Plus;
+use Eightfold\Shoop\Filter\TypeAsArray;
 
 class ESString implements Shooped
 {

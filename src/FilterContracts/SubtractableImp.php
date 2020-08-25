@@ -1,11 +1,11 @@
 <?php
 
-namespace Eightfold\Shoop\PipeFilters\Contracts;
+namespace Eightfold\Shoop\Filter\Contracts;
 
 use Eightfold\Shoop\Shoop;
 
-use Eightfold\Shoop\PipeFilters\Minus;
-use Eightfold\Shoop\PipeFilters\MinusAt;
+use Eightfold\Shoop\Filter\Minus;
+use Eightfold\Shoop\Filter\MinusAt;
 
 trait SubtractableImp
 {

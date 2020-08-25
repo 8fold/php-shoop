@@ -5,9 +5,9 @@ namespace Eightfold\Shoop\Tests\Typeable;
 use PHPUnit\Framework\TestCase;
 use Eightfold\Shoop\Tests\AssertEquals;
 
-use Eightfold\Shoop\PipeFilters\TypeAsArray;
-use Eightfold\Shoop\PipeFilters\Contracts\Arrayable;
-use Eightfold\Shoop\PipeFilters\Contracts\ArrayableImp;
+use Eightfold\Shoop\Filter\TypeAsArray;
+use Eightfold\Shoop\FilterContracts\Arrayable;
+use Eightfold\Shoop\FilterContracts\ArrayableImp;
 
 /**
  * @group TypeAsArray

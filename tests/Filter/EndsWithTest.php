@@ -5,7 +5,7 @@ namespace Eightfold\Shoop\Tests\PipeFilters;
 use Eightfold\Shoop\Tests\TestCase;
 use Eightfold\Shoop\Tests\AssertEquals;
 
-use Eightfold\Shoop\PipeFilters\EndsWith;
+use Eightfold\Shoop\Filter\EndsWith;
 
 /**
  * @group EndsWith

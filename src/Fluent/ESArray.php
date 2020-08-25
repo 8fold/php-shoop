@@ -10,8 +10,8 @@ use Eightfold\Shoop\FluentTypes\Contracts\ShoopedImp;
 use Eightfold\Shoop\FluentTypes\Contracts\Addable;
 use Eightfold\Shoop\FluentTypes\Contracts\AddableImp;
 
-use Eightfold\Shoop\PipeFilters\Contracts\Ordered;
-use Eightfold\Shoop\PipeFilters\Contracts\OrderedImp;
+use Eightfold\Shoop\FilterContracts\Ordered;
+use Eightfold\Shoop\FilterContracts\OrderedImp;
 
 class ESArray implements Shooped, Addable, Ordered
 {

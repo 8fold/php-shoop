@@ -2,7 +2,7 @@
 
 namespace Eightfold\Shoop\FluentTypes\Contracts;
 
-use Eightfold\Shoop\PipeFilters\Reversed;
+use Eightfold\Shoop\Filter\Reversed;
 
 use Eightfold\Shoop\FluentTypes\Contracts\Shooped;
 

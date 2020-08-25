@@ -11,10 +11,10 @@ use Eightfold\Foldable\Foldable;
 
 use Eightfold\Shoop\Shoop;
 
-use Eightfold\Shoop\PipeFilters\Contracts\Falsifiable;
+use Eightfold\Shoop\FilterContracts\Falsifiable;
 
-use Eightfold\Shoop\PipeFilters\TypeAsBoolean;
-use Eightfold\Shoop\PipeFilters\IsEmpty;
+use Eightfold\Shoop\Filter\TypeAsBoolean;
+use Eightfold\Shoop\Filter\IsEmpty;
 
 /**
  * @group PhpDeviations

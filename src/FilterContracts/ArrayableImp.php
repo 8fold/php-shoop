@@ -1,12 +1,12 @@
 <?php
 
-namespace Eightfold\Shoop\PipeFilters\Contracts;
+namespace Eightfold\Shoop\Filter\Contracts;
 
 use Eightfold\Foldable\Foldable;
 
 use Eightfold\Shoop\Apply;
 
-use Eightfold\Shoop\PipeFilters\Contracts\Shooped;
+use Eightfold\Shoop\FilterContracts\Shooped;
 
 use Eightfold\Shoop\FluentTypes\ESArray;
 use Eightfold\Shoop\FluentTypes\ESBoolean;

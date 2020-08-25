@@ -6,7 +6,7 @@ use Eightfold\Shoop\Tests\TestCase;
 
 use Eightfold\Shoop\Shoop;
 
-use Eightfold\Shoop\PipeFilters\Apply;
+use Eightfold\Shoop\Filter\Apply;
 
 /**
  * @group Apply

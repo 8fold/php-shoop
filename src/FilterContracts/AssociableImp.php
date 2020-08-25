@@ -1,12 +1,12 @@
 <?php
 
-namespace Eightfold\Shoop\PipeFilters\Contracts;
+namespace Eightfold\Shoop\Filter\Contracts;
 
-use Eightfold\Shoop\PipeFilters\Contracts\ArrayableImp;
+use Eightfold\Shoop\FilterContracts\ArrayableImp;
 
 use Eightfold\Foldable\Foldable;
 
-use Eightfold\Shoop\PipeFilters\Contracts\Keyable;
+use Eightfold\Shoop\FilterContracts\Keyable;
 
 trait KeyableImp
 {

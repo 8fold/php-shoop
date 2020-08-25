@@ -7,7 +7,7 @@ use Eightfold\Shoop\Tests\AssertEquals;
 
 use \stdClass;
 
-use Eightfold\Shoop\PipeFilters\HasMembers;
+use Eightfold\Shoop\Filter\HasMembers;
 
 /**
  * @group HasMembers

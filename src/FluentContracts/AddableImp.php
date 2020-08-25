@@ -7,7 +7,7 @@ use Eightfold\Foldable\Foldable;
 use Eightfold\Shoop\Shoop;
 use Eightfold\Shoop\Apply;
 
-use Eightfold\Shoop\PipeFilters\Contracts\AddableImp as PipeAddableImp;
+use Eightfold\Shoop\FilterContracts\AddableImp as PipeAddableImp;
 
 trait AddableImp
 {

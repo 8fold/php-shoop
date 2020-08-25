@@ -7,7 +7,7 @@ use Eightfold\Shoop\Tests\AssertEquals;
 
 use \stdClass;
 
-use Eightfold\Shoop\PipeFilters\Reversed;
+use Eightfold\Shoop\Filter\Reversed;
 
 /**
  * @group Reversed

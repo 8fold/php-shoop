@@ -1,13 +1,13 @@
 <?php
 declare(strict_types=1);
 
-namespace Eightfold\Shoop\PipeFilters;
+namespace Eightfold\Shoop\Filter;
 
 use Eightfold\Foldable\Filter;
 
 use Eightfold\Shoop\Shoop;
 
-use Eightfold\Shoop\PipeFilters\Contracts\Arrayable;
+use Eightfold\Shoop\FilterContracts\Arrayable;
 
 class TypeAsArray extends Filter
 {

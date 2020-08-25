@@ -1,17 +1,17 @@
 <?php
 declare(strict_types=1);
 
-namespace Eightfold\Shoop\PipeFilters;
+namespace Eightfold\Shoop\Filter;
 
 use Eightfold\Foldable\Filter;
 
 use \stdClass;
 
-use Eightfold\Shoop\PipeFilters\Contracts\Typeable;
-use Eightfold\Shoop\PipeFilters\Contracts\Arrayable;
+use Eightfold\Shoop\FilterContracts\Typeable;
+use Eightfold\Shoop\FilterContracts\Arrayable;
 
 // TODO: rename TypesFor - add sequential
-class TypeOf extends Filter
+class TypesOf extends Filter
 {
     public function __invoke($using): array
     {

@@ -5,7 +5,7 @@ namespace Eightfold\Shoop;
 use Eightfold\Foldable\Pipe;
 use Eightfold\Foldable\Foldable;
 
-use Eightfold\Shoop\PipeFilters\TypeIs;
+use Eightfold\Shoop\Filter\TypeIs;
 
 use Eightfold\Shoop\FluentTypes\Contracts\Shooped;
 

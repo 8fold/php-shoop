@@ -7,7 +7,7 @@ use Eightfold\Shoop\Tests\AssertEquals;
 
 use \stdClass;
 
-use Eightfold\Shoop\PipeFilters\Plus;
+use Eightfold\Shoop\Filter\Plus;
 
 /**
  * @group Plus

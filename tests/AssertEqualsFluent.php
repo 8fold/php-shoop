@@ -7,7 +7,7 @@ use PHPUnit\Framework\TestCase;
 use Eightfold\Foldable\Filterable;
 use Eightfold\Foldable\FilterableImp;
 
-use Eightfold\Shoop\FluentTypes\Contracts\Shooped;
+use Eightfold\Shoop\FilterContracts\Shooped;
 
 class AssertEqualsFluent extends TestCase implements Filterable
 {

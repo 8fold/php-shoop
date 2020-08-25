@@ -5,8 +5,8 @@ namespace Eightfold\Shoop\Tests\PipeFilters;
 use Eightfold\Shoop\Tests\TestCase;
 use Eightfold\Shoop\Tests\AssertEquals;
 
-use Eightfold\Shoop\PipeFilters\LowerCased;
-use Eightfold\Shoop\PipeFilters\UpperCased;
+use Eightfold\Shoop\Filter\LowerCased;
+use Eightfold\Shoop\Filter\UpperCased;
 
 /**
  * @group StringCasings

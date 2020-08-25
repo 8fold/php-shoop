@@ -1,10 +1,10 @@
 <?php
 
-namespace Eightfold\Shoop\PipeFilters\Contracts;
+namespace Eightfold\Shoop\Filter\Contracts;
 
 use Eightfold\Foldable\Foldable;
 
-use Eightfold\Shoop\PipeFilters\Contracts\Falsifiable;
+use Eightfold\Shoop\FilterContracts\Falsifiable;
 
 trait FalsifiableImp
 {

@@ -6,5 +6,5 @@ use Eightfold\Shoop\Foldable\Foldable;
 
 interface Addable
 {
-    public function plus($value, $at = ""): Addable;
+    // public function plus($value, $at = ""): Addable;
 }

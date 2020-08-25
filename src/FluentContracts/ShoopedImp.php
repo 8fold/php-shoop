@@ -5,12 +5,12 @@ namespace Eightfold\Shoop\FluentTypes\Contracts;
 use Eightfold\Foldable\Foldable;
 use Eightfold\Foldable\FoldableImp;
 
-use Eightfold\Shoop\PipeFilters\Contracts\Countable;
-use Eightfold\Shoop\PipeFilters\Contracts\StringableImp;
-use Eightfold\Shoop\PipeFilters\Contracts\TupleableImp;
-use Eightfold\Shoop\PipeFilters\Contracts\FalsifiableImp;
-use Eightfold\Shoop\PipeFilters\Contracts\KeyableImp;
-use Eightfold\Shoop\PipeFilters\Contracts\CountableImp;
+use Eightfold\Shoop\FilterContracts\Countable;
+use Eightfold\Shoop\FilterContracts\StringableImp;
+use Eightfold\Shoop\FilterContracts\TupleableImp;
+use Eightfold\Shoop\FilterContracts\FalsifiableImp;
+use Eightfold\Shoop\FilterContracts\KeyableImp;
+use Eightfold\Shoop\FilterContracts\CountableImp;
 
 use Eightfold\Shoop\Shoop;
 use Eightfold\Shoop\Apply;

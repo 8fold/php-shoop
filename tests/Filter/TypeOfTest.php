@@ -7,7 +7,7 @@ use Eightfold\Shoop\Tests\AssertEquals;
 
 use \stdClass;
 
-use Eightfold\Shoop\PipeFilters\TypeOf;
+use Eightfold\Shoop\Filter\TypesOf;
 
 /**
  * @group TypeChecking
@@ -24,13 +24,13 @@ class TypeOfTest extends TestCase
     {
         AssertEquals::applyWith(
             ["boolean"],
-            TypeOf::apply(),
+            TypesOf::apply(),
             0.01
         )->unfoldUsing(true);
 
         AssertEquals::applyWith(
             ["boolean"],
-            TypeOf::apply(),
+            TypesOf::apply(),
             0.01
         )->unfoldUsing(false);
     }
@@ -42,19 +42,19 @@ class TypeOfTest extends TestCase
     {
         AssertEquals::applyWith(
             ["number", "integer"],
-            TypeOf::apply(),
+            TypesOf::apply(),
             0.01
         )->unfoldUsing(1);
 
         AssertEquals::applyWith(
             ["number", "integer", "float"],
-            TypeOf::apply(),
+            TypesOf::apply(),
             0.01
         )->unfoldUsing(1.0);
 
         AssertEquals::applyWith(
             ["number", "float"],
-            TypeOf::apply(),
+            TypesOf::apply(),
             0.01
         )->unfoldUsing(1.1);
     }
@@ -66,37 +66,37 @@ class TypeOfTest extends TestCase
     {
         AssertEquals::applyWith(
             ["string"],
-            TypeOf::apply(),
+            TypesOf::apply(),
             0.01
         )->unfoldUsing("8fold!");
 
         AssertEquals::applyWith(
             ["collection", "tuple", "json"],
-            TypeOf::apply(),
+            TypesOf::apply(),
             0.011
         )->unfoldUsing("{}");
 
         AssertEquals::applyWith(
             ["string"],
-            TypeOf::apply(),
+            TypesOf::apply(),
             0.01
         )->unfoldUsing("{hello}");
 
         AssertEquals::applyWith(
             ["collection", "tuple", "json"],
-            TypeOf::apply(),
+            TypesOf::apply(),
             0.01
         )->unfoldUsing('{"hello":true}');
 
         AssertEquals::applyWith(
             ["string"],
-            TypeOf::apply(),
+            TypesOf::apply(),
             0.01
         )->unfoldUsing("{something");
 
         AssertEquals::applyWith(
             ["string"],
-            TypeOf::apply(),
+            TypesOf::apply(),
             0.01
         )->unfoldUsing("somehing}");
     }
@@ -108,37 +108,37 @@ class TypeOfTest extends TestCase
     {
         AssertEquals::applyWith(
             ["collection", "list"],
-            TypeOf::apply(),
+            TypesOf::apply(),
             0.01
         )->unfoldUsing([]);
 
         AssertEquals::applyWith(
             ["collection", "list", "array"],
-            TypeOf::apply(),
+            TypesOf::apply(),
             0.01
         )->unfoldUsing([0, 1, 2]);
 
         AssertEquals::applyWith(
             ["collection", "list", "array"],
-            TypeOf::apply(),
+            TypesOf::apply(),
             0.01
         )->unfoldUsing([3 => "8fold", 4 => true]);
 
         AssertEquals::applyWith(
             ["collection", "list", "dictionary"],
-            TypeOf::apply(),
+            TypesOf::apply(),
             0.01
         )->unfoldUsing(["a" => 1, "b" => 2, "c" => 3]);
 
         AssertEquals::applyWith(
             ["collection", "tuple"],
-            TypeOf::apply(),
+            TypesOf::apply(),
             0.01
         )->unfoldUsing(new stdClass);
 
         AssertEquals::applyWith(
             ["collection", "tuple"],
-            TypeOf::apply(),
+            TypesOf::apply(),
             0.01
         )->unfoldUsing(
             new class {
@@ -155,7 +155,7 @@ class TypeOfTest extends TestCase
     {
         AssertEquals::applyWith(
             ["object"],
-            TypeOf::apply(),
+            TypesOf::apply(),
             0.01
         )->unfoldUsing(
             new class {

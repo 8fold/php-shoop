@@ -1,16 +1,16 @@
 <?php
 declare(strict_types=1);
 
-namespace Eightfold\Shoop\PipeFilters;
+namespace Eightfold\Shoop\Filter;
 
 use Eightfold\Foldable\Filter;
 
 use Eightfold\Shoop\Shoop;
-use Eightfold\Shoop\PipeFilters\From\FromList as SpanFromList;
+use Eightfold\Shoop\Filter\From\FromList as SpanFromList;
 
-use Eightfold\Shoop\PipeFilters\TypeJuggling\AsInteger\FromString as AsIntegerFromString;
-use Eightfold\Shoop\PipeFilters\TypeJuggling\AsArray\FromString as AsArrayFromString;
-use Eightfold\Shoop\PipeFilters\TypeJuggling\AsString\FromList as AsStringFromList;
+use Eightfold\Shoop\Filter\TypeJuggling\AsInteger\FromString as AsIntegerFromString;
+use Eightfold\Shoop\Filter\TypeJuggling\AsArray\FromString as AsArrayFromString;
+use Eightfold\Shoop\Filter\TypeJuggling\AsString\FromList as AsStringFromList;
 
 class EndsWith extends Filter
 {

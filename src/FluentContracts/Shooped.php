@@ -6,14 +6,14 @@ use Eightfold\Foldable\Foldable;
 
 use Eightfold\Shoop\FluentTypes\Contracts\Comparable;
 
-use Eightfold\Shoop\PipeFilters\Contracts\Arrayable;
-use Eightfold\Shoop\PipeFilters\Contracts\Subtractable;
-use Eightfold\Shoop\PipeFilters\Contracts\Countable;
-use Eightfold\Shoop\PipeFilters\Contracts\Falsifiable;
-use Eightfold\Shoop\PipeFilters\Contracts\Keyable;
-use Eightfold\Shoop\PipeFilters\Contracts\Stringable;
-use Eightfold\Shoop\PipeFilters\Contracts\Tupleable;
-use Eightfold\Shoop\PipeFilters\Contracts\Typeable;
+use Eightfold\Shoop\FilterContracts\Arrayable;
+use Eightfold\Shoop\FilterContracts\Subtractable;
+use Eightfold\Shoop\FilterContracts\Countable;
+use Eightfold\Shoop\FilterContracts\Falsifiable;
+use Eightfold\Shoop\FilterContracts\Keyable;
+use Eightfold\Shoop\FilterContracts\Stringable;
+use Eightfold\Shoop\FilterContracts\Tupleable;
+use Eightfold\Shoop\FilterContracts\Typeable;
 
 interface Shooped extends
     Foldable,

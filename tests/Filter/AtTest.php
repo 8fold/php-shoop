@@ -7,7 +7,7 @@ use Eightfold\Shoop\Tests\AssertEquals;
 
 use \stdClass;
 
-use Eightfold\Shoop\PipeFilters\At;
+use Eightfold\Shoop\Filter\At;
 
 /**
  * @group At

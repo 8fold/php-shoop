@@ -1,13 +1,13 @@
 <?php
 
-namespace Eightfold\Shoop\PipeFilters\Contracts;
+namespace Eightfold\Shoop\Filter\Contracts;
 
 use \JsonSerializable;
 use \stdClass;
 
 use Eightfold\Foldable\Foldable;
 
-use Eightfold\Shoop\PipeFilters\Contracts\Tupleable;
+use Eightfold\Shoop\FilterContracts\Tupleable;
 
 trait TupleableImp
 {

@@ -7,7 +7,7 @@ use Eightfold\Shoop\Tests\AssertEquals;
 
 use \stdClass;
 
-use Eightfold\Shoop\PipeFilters\TypeIs;
+use Eightfold\Shoop\Filter\TypeIs;
 
 /**
  * @group TypeChecking

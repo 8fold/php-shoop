@@ -4,8 +4,8 @@ namespace Eightfold\Shoop\FluentTypes\Contracts;
 
 use Eightfold\Foldable\Foldable;
 
-use Eightfold\Shoop\PipeFilters\Contracts\Comparable as PipeComparable;
-use Eightfold\Shoop\PipeFilters\Contracts\Falsifiable;
+use Eightfold\Shoop\FilterContracts\Comparable as PipeComparable;
+use Eightfold\Shoop\FilterContracts\Falsifiable;
 
 interface Comparable extends PipeComparable
 {

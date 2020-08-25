@@ -5,19 +5,19 @@ namespace Eightfold\Shoop\Tests\PipeFilters;
 use Eightfold\Shoop\Tests\TestCase;
 use Eightfold\Shoop\Tests\AssertEquals;
 
-use Eightfold\Shoop\PipeFilters\TypeIs;
-use Eightfold\Shoop\PipeFilters\TypeOf;
+use Eightfold\Shoop\Filter\TypeIs;
+use Eightfold\Shoop\Filter\TypesOf;
 
 use \stdClass;
 
-use Eightfold\Shoop\PipeFilters\TypeAsBoolean;
-use Eightfold\Shoop\PipeFilters\TypeAsInteger;
-use Eightfold\Shoop\PipeFilters\TypeAsNumber;
-use Eightfold\Shoop\PipeFilters\TypeAsString;
-use Eightfold\Shoop\PipeFilters\TypeAsArray;
-use Eightfold\Shoop\PipeFilters\TypeAsDictionary;
-use Eightfold\Shoop\PipeFilters\TypeAsTuple;
-use Eightfold\Shoop\PipeFilters\TypeAsJson;
+use Eightfold\Shoop\Filter\TypeAsBoolean;
+use Eightfold\Shoop\Filter\TypeAsInteger;
+use Eightfold\Shoop\Filter\TypeAsNumber;
+use Eightfold\Shoop\Filter\TypeAsString;
+use Eightfold\Shoop\Filter\TypeAsArray;
+use Eightfold\Shoop\Filter\TypeAsDictionary;
+use Eightfold\Shoop\Filter\TypeAsTuple;
+use Eightfold\Shoop\Filter\TypeAsJson;
 
 /**
  * @group TypeChecking

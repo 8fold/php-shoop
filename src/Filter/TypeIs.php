@@ -1,13 +1,13 @@
 <?php
 declare(strict_types=1);
 
-namespace Eightfold\Shoop\PipeFilters;
+namespace Eightfold\Shoop\Filter;
 
 use Eightfold\Foldable\Filter;
 
 use \stdClass;
 
-use Eightfold\Shoop\PipeFilters\TypeOf;
+use Eightfold\Shoop\Filter\TypesOf;
 
 class TypeIs extends Filter
 {
@@ -22,7 +22,7 @@ class TypeIs extends Filter
 
     public function __invoke($using): bool
     {
-        $types = TypeOf::applyWith($this->strict)->unfoldUsing($using);
+        $types = TypesOf::applyWith($this->strict)->unfoldUsing($using);
         return (in_array($this->type, $types)) ? true : false;
     }
 

@@ -4,9 +4,9 @@ namespace Eightfold\Shoop\FluentTypes\Contracts;
 
 use Eightfold\Shoop\Shoop;
 
-use Eightfold\Shoop\PipeFilters\Contracts\SubtractableImp as PipeSubtractibleImp;
+use Eightfold\Shoop\FilterContracts\SubtractableImp as PipeSubtractibleImp;
 
-use Eightfold\Shoop\PipeFilters\From;
+use Eightfold\Shoop\Filter\From;
 
 trait SubtractableImp
 {

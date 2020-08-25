@@ -2,7 +2,7 @@
 
 namespace Eightfold\Shoop\FluentTypes\Contracts;
 
-use Eightfold\Shoop\PipeFilters\Contracts\Subtractable as PipeSubtractible;
+use Eightfold\Shoop\FilterContracts\Subtractable as PipeSubtractible;
 
 interface Subtractable extends PipeSubtractible
 {

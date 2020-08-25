@@ -1,8 +1,16 @@
 <?php
+declare(strict_types=1);
 
 namespace Eightfold\Shoop\Tests\FilterContracts;
 
 use Eightfold\Foldable\Foldable;
+use Eightfold\Foldable\FoldableImp;
+
+use Eightfold\Shoop\Shoop;
+use Eightfold\Shoop\Apply;
+
+use Eightfold\Shoop\Filter\TypesOf;
+use Eightfold\Shoop\Filter\TypeIs;
 
 use Eightfold\Shoop\FilterContracts\Shooped;
 
@@ -19,22 +27,30 @@ use Eightfold\Shoop\FilterContracts\Tupleable;
 
 class ClassShooped implements Shooped
 {
-    static public function fold(...$args): Foldable
-    {
-    }
+    use FoldableImp;
 
     public function __construct($main)
     {
-    }
-
-    public function unfold()
-    {
+        $this->main = $main;
     }
 
 // - Maths
+    // TODO: PHP 8 - mixed, string|int
     public function plus($value, $at = ""): Addable
     {
-        # code...
+        if (! $this->typeCheckForArgument($at, ["string", "integer"])) {
+            $this->typeCheckForArgument(
+                $at,
+                ["string", "integer"],
+                true,
+                static::class ."::". __FUNCTION__ ."()",
+                2
+            );
+        }
+
+        return static::fold(
+            Apply::plus($value)->unfoldUsing($this->main)
+        );
     }
 
     public function minus(
@@ -198,4 +214,43 @@ class ClassShooped implements Shooped
 // - Typeable
     public function types(): array
     {}
+
+// - Utilities
+    public function typeCheckForArgument(
+        $given,
+        array $validTypes,
+        bool $triggerError = false,
+        string $function   = "",
+        int $argNumber     = 1
+    ): bool
+    {
+        $givenTypes = TypesOf::apply()->unfoldUsing($given);
+        $matchesAny = ! empty(array_intersect($validTypes, $givenTypes));
+        if ($matchesAny) {
+            return true;
+
+        } elseif (! $matchesAny and ! $triggerError) {
+            return false;
+
+        }
+
+        $typeMessage = function(array $types, string $conjunction = "or") {
+            $message = implode(", ", $types);
+            if (count($types) === 2) {
+                $message = implode(" {$conjunction} ", $types);
+
+            } elseif ($count = count($types) > 2) {
+                $types[$count - 1] = "{$conjunction} ". $types[$count - 1];
+
+                $message = implode(", ", $types);
+
+            }
+            return $message;
+        };
+
+        $givenMessage = $typeMessage($givenTypes, "and");
+        $validMessage = $typeMessage($validTypes);
+        $message = "Shoop Fatal error:  Uncaught TypeError: Argument {$argNumber} passed to {$function} must be one of {$validMessage} type(s); {$givenMessage} given.";
+        trigger_error($message);
+    }
 }

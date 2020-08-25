@@ -28,7 +28,9 @@ abstract class FilterContractsTestCase extends TestCase
      */
     public function case_exists_for_each_method()
     {
-        $caseMethods = array_map(
+        $caseReflection = new ReflectionClass(static::class);
+        $caseMethods    = $caseReflection->getMethods(ReflectionMethod::IS_PUBLIC);
+        $caseMethods    = array_map(
             function($reflectionMethod) {
                 if (! in_array($reflectionMethod->name, ["setUp", "testsExistForEachMethod"]) and
                     $reflectionMethod->class === static::class
@@ -39,11 +41,13 @@ abstract class FilterContractsTestCase extends TestCase
                     return $reflectionMethod->name;
                 }
             },
-            (new ReflectionClass(static::sutClassName()))->getMethods(ReflectionMethod::IS_PUBLIC),
+            $caseMethods,
         );
         $caseMethods = array_values(array_filter($caseMethods));
 
-        $sutMethods = array_map(
+        $sutReflection = new ReflectionClass(static::sutClassName());
+        $sutMethods    = $sutReflection->getMethods(ReflectionMethod::IS_PUBLIC);
+        $sutMethods    = array_map(
             function($reflectionMethod) {
                 if (! in_array($reflectionMethod->name, static::ignoreClassMethods()) and
                     $reflectionMethod->name[0] !== "_"
@@ -51,8 +55,7 @@ abstract class FilterContractsTestCase extends TestCase
                     return $reflectionMethod->name;
                 }
             },
-            (new ReflectionClass(static::sutClassName()))
-                ->getMethods(ReflectionMethod::IS_PUBLIC),
+            $sutMethods,
         );
         $sutMethods = array_values(array_filter($sutMethods));
         $sutMethods[] = "php_iterator";

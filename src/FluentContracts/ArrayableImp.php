@@ -4,7 +4,7 @@ namespace Eightfold\Shoop\FluentTypes\Contracts;
 
 use Eightfold\Foldable\Foldable;
 
-use Eightfold\Shoop\PipeFilters\Contracts\ArrayableImp as PipeArrayableImp;
+use Eightfold\Shoop\FilterContracts\ArrayableImp as PipeArrayableImp;
 
 use Eightfold\Shoop\Shoop;
 use Eightfold\Shoop\Apply;

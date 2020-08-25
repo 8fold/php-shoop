@@ -6,12 +6,12 @@ use \stdClass;
 
 use Eightfold\Shoop\Tests\TestCase;
 
-use Eightfold\Shoop\PipeFilters\TypeJuggling\AsTuple;
-use Eightfold\Shoop\PipeFilters\TypeJuggling\AsDictionary;
-use Eightfold\Shoop\PipeFilters\TypeJuggling\AsArray;
-use Eightfold\Shoop\PipeFilters\TypeJuggling\AsInteger;
-use Eightfold\Shoop\PipeFilters\TypeJuggling\AsNumber;
-use Eightfold\Shoop\PipeFilters\TypeJuggling\AsBoolean;
+use Eightfold\Shoop\Filter\TypeJuggling\AsTuple;
+use Eightfold\Shoop\Filter\TypeJuggling\AsDictionary;
+use Eightfold\Shoop\Filter\TypeJuggling\AsArray;
+use Eightfold\Shoop\Filter\TypeJuggling\AsInteger;
+use Eightfold\Shoop\Filter\TypeJuggling\AsNumber;
+use Eightfold\Shoop\Filter\TypeJuggling\AsBoolean;
 
 /**
  * @group PhpDeviations

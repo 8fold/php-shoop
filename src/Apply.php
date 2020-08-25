@@ -8,6 +8,6 @@ class Apply extends BaseApply
 {
     static public function rootNameSpaceForFilters()
     {
-        return __NAMESPACE__ ."\\PipeFilters";
+        return __NAMESPACE__ ."\\Filter";
     }
 }
