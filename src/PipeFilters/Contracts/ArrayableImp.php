@@ -2,7 +2,7 @@
 
 namespace Eightfold\Shoop\PipeFilters\Contracts;
 
-use Eightfold\Shoop\PipeFilters\Arrayable;
+use Eightfold\Foldable\Foldable;
 
 use Eightfold\Shoop\Apply;
 
@@ -17,7 +17,7 @@ trait ArrayableImp
 
     public function efToArray(): array
     {
-        if (is_a($this, Arrayable::class)) {
+        if (is_a($this, Foldable::class)) {
             return $this->asArray()->unfold();
         }
         return [];

@@ -8,5 +8,5 @@ interface Falsifiable
 {
     public function asBoolean(): Foldable;
 
-    public function efToBool(): bool;
+    public function efToBoolean(): bool;
 }

@@ -1,48 +1,28 @@
 <?php
 
-namespace Eightfold\Shoop\FluentTypes\Traits;
+namespace Eightfold\Shoop\FluentTypes\Contracts;
 
-use \Closure;
+use Eightfold\Shoop\PipeFilters\Contracts\ArrayableImp as PipeArrayableImp;
 
-use Eightfold\Shoop\FluentTypes\Helpers\{
+use Eightfold\Shoop\Apply;
 
-    PhpAssociativeArray,
-    PhpBool,
-    PhpIndexedArray,
-    PhpJson,
-    PhpObject,
-    PhpString
-};
+use Eightfold\Shoop\FluentTypes\ESArray;
+use Eightfold\Shoop\FluentTypes\ESBoolean;
+use Eightfold\Shoop\FluentTypes\ESInteger;
+use Eightfold\Shoop\FluentTypes\ESString;
 
-use Eightfold\Shoop\Helpers\PhpTypeJuggle;
-
-use Eightfold\Shoop\Shoop;
-use Eightfold\Shoop\FluentTypes\{
-    Interfaces\Foldable,
-    ESArray,
-    ESBoolean,
-    ESInteger,
-    ESString,
-    ESTuple,
-    ESJson,
-    ESDictionary
-};
-
-trait HasImp
+trait ArrayableImp
 {
-    public function has($needle, Closure $closure = null)
+    use PipeArrayableImp;
+
+    public function has($needle)
     {
         $array = $this->arrayUnfolded();
         $bool = in_array($needle, $array);
         return Shoop::this($this->condition($bool, $closure));
     }
 
-    public function doesNotHave($needle, Closure $closure = null)
-    {
-        return $this->has($needle, $closure)->toggle();
-    }
-
-    public function hasMember($member, Closure $closure = null)
+    public function hasMember($member)
     {
         if (Type::is($this, ESDictionary::class, ESJson::class, ESTuple::class)) {
             $member = Type::sanitizeType($member, ESString::class)->unfold();
@@ -73,10 +53,5 @@ trait HasImp
         }
         $bool = $class::hasMember($value, $member);
         return Shoop::this($this->condition($bool, $closure));
-    }
-
-    public function doesNotHaveMember($member, Closure $closure = null)
-    {
-        return $this->hasMember($member, $closure)->toggle();
     }
 }

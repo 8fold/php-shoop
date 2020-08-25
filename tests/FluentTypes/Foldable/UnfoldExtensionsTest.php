@@ -6,6 +6,7 @@ use PHPUnit\Framework\TestCase;
 
 use Eightfold\Shoop\Shoop;
 
+// TODO: Make this an interface and trait in the Foldable library
 class UnfoldExtensionsTest extends TestCase
 {
     /**

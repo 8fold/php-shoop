@@ -16,6 +16,8 @@ interface Arrayable extends ArrayAccess, Iterator
 
     public function efToArray(): array;
 
+    public function has($needle);
+
     // TODO: PHP 8.0 string|int|ESString|ESInteger $offset
     public function hasMember($member);
 

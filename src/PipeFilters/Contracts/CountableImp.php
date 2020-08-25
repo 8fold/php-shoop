@@ -2,14 +2,19 @@
 
 namespace Eightfold\Shoop\PipeFilters\Contracts;
 
+use Eightfold\Foldable\Foldable;
+
+use Eightfold\Shoop\PipeFilters\Contracts\Countable;
+
 trait CountableImp
 {
     public function efToInteger(): int
     {
-        if (is_a($this->main, Countable::class)) {
-            return $this->main->asInteger();
+        if (is_a($this, Countable::class) and is_a($this, Foldable::class)) {
+            return $this->asInteger()->unfold();
+
         }
-        return TypeAsInteger::apply()->unfoldUsing($this->main);
+        return 0;
     }
 
     public function count(): int // Countable

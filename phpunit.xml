@@ -23,6 +23,9 @@
     <testsuite name="fluent">
   		<directory suffix="Test.php">./tests/FluentTypes</directory>
     </testsuite>
+    <testsuite name="fluent_unit">
+  		<directory suffix="Test.php">./tests/FluentTypes/Unit</directory>
+    </testsuite>
     <testsuite name="pipe">
 		<directory suffix="Test.php">./tests/PipeFilters</directory>
     </testsuite>
