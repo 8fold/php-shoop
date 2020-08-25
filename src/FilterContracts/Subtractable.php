@@ -2,10 +2,6 @@
 
 namespace Eightfold\Shoop\PipeFilters\Contracts;
 
-use Eightfold\Foldable\Foldable;
-
-use Eightfold\Shoop\FluentTypes\ESString;
-
 interface Subtractable
 {
     /**
@@ -19,5 +15,5 @@ interface Subtractable
         array $charMask = [" ", "\t", "\n", "\r", "\0", "\x0B"],
         bool $fromStart = true,
         bool $fromEnd   = true
-    );
+    ): Subtractable;
 }

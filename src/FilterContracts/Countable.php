@@ -1,14 +1,14 @@
 <?php
 
-namespace Eightfold\Shoop\PipeFilters\Contracts;
+namespace Eightfold\Shoop\FilterContracts;
 
 use \Countable as PhpCountable;
 
-use Eightfold\Foldable\Foldable;
+use Eightfold\Shoop\FilterContracts\Countable;
 
 interface Countable extends PhpCountable
 {
-    public function asInteger(): Foldable;
+    public function asInteger(): Countable;
 
     public function efToInteger(): int;
 

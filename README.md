@@ -161,13 +161,13 @@ We strive for minimal verbs to maximize capability while minimizing cognitive lo
 ### Types and type juggling
 
 - Content (abstract):
-  - Boolean (`boolean`): same as PHP.
-  - Number (`float` or `integer`): all real numbers.
-    - Integer (`integer`): all whole numbers.
+  - Boolean (`boolean`, Shoop `sequential`): same as PHP.
+  - Number (`float` or `integer`, Shoop `sequential`): all real numbers.
+    - Integer (`integer`, Shoop `sequential`): all whole numbers.
+  - String (`string` not `JSON`, Shoop `sequential`): sequence of characters.
 - Collection (abstract): contains mixed content, collections, or objects accessible using members.
-  - List (abstract): members are accessed using array notion. ex. $var[]
-    - Array (`array`): sequential integer members.
-    - Dictionary (`array`): non-sequential string keys.
+  - Dictionary (`array`): non-sequential string keys or empty, values accessed using array notion. ex. $var[]
+    - Array (`array`, Shoop `sequential`): sequential integer keys.
   - Tuple (`stdClass` or `object`): non-sequential string members, accessed using object notation, not string notation, and contains no methods. ex. $var->
     - JSON (`string`): longer than two characters, begins with opening curly-brace, ends with closing curly-brace, and can be decoded without error.
 - Object (`object`): contains at least one public method.

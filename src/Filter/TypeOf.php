@@ -10,7 +10,7 @@ use \stdClass;
 use Eightfold\Shoop\PipeFilters\Contracts\Typeable;
 use Eightfold\Shoop\PipeFilters\Contracts\Arrayable;
 
-// TODO: TypesFor
+// TODO: rename TypesFor - add sequential
 class TypeOf extends Filter
 {
     public function __invoke($using): array

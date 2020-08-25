@@ -1,6 +1,6 @@
 <?php
 
-namespace Eightfold\Shoop\Tests\PipeFilters\Contracts;
+namespace Eightfold\Shoop\Tests\FilterContracts;
 
 use PHPUnit\Framework\TestCase;
 
@@ -19,32 +19,7 @@ abstract class FilterContractsTestCase extends TestCase
     static protected function ignoreClassMethods()
     {
         return [
-            "args",                     // value method, returns args following or incl. main
-            "efIs",                     // uses Shoop default (is)
-            "efIsEmpty",                // uses Shoop default (isEmpty)
-            "efIsGreaterThan",          // uses Shoop default (isEmpty)
-            "efIsGreaterThanOrEqualTo", // uses Shoop default (isEmpty)
-            "efIsOrdered",              // uses Shoop default (isEmpty)
-            "efToArray",                // uses Shoop default (asArray)
-            "efToBoolean",              // uses Shoop default (asBoolean)
-            "efToDictionary",           // uses Shoop default (asDictionary)
-            "efToInteger",              // uses Shoop default (asInteger)
-            "efToJson",                 // uses Shoop default (asJson)
-            "efToString",               // uses Shoop default (asJson)
-            "efToTuple",                // uses Shoop default (asJson)
-            "fold",                     // uses Foldable default
-            "count",                    // uses Shoop default (efToInteger)
-            "jsonSerialize",            // uses Shoop default (efToTuple)
-            "offsetExists",             // uses Shoop default (hasMember)
-            "offsetGet",                // uses Shoop default (at)
-            "offsetSet",                // uses Shoop default (plusMember ??) TODO: Should plus() be solely for values
-            "offsetUnset",              // uses Shoop default (minusMember)
-            "unfold",                   // uses Foldable default
-            "rewind",                   // part of php_iterator
-            "valid",                    // part of php_iterator
-            "current",                  // part of php_iterator
-            "key",                      // part of php_iterator
-            "next",                     // part of php_iterator
+            "args", // value method, returns args following or incl. main
         ];
     }
 
@@ -64,7 +39,7 @@ abstract class FilterContractsTestCase extends TestCase
                     return $reflectionMethod->name;
                 }
             },
-            (new ReflectionClass(static::class))->getMethods(ReflectionMethod::IS_PUBLIC),
+            (new ReflectionClass(static::sutClassName()))->getMethods(ReflectionMethod::IS_PUBLIC),
         );
         $caseMethods = array_values(array_filter($caseMethods));
 

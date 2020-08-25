@@ -26,10 +26,10 @@
     <testsuite name="fluent_contracts">
   		<directory suffix="Test.php">./tests/FluentContracts</directory>
     </testsuite>
-    <testsuite name="pipe">
+    <testsuite name="filter">
 		<directory suffix="Test.php">./tests/Filter</directory>
     </testsuite>
-    <testsuite name="pipe_contracts">
+    <testsuite name="filter_contracts">
 		<directory suffix="Test.php">./tests/FilterContracts</directory>
     </testsuite>
   </testsuites>

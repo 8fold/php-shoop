@@ -1,8 +1,8 @@
 <?php
 
-namespace Eightfold\Shoop\FluentTypes\Interfaces;
+namespace Eightfold\Shoop\FilterContracts;
 
 interface Reversible
 {
-    public function reverse(): Shooped;
+    public function reverse(): Reversible;
 }

@@ -1,6 +1,6 @@
 <?php
 
-namespace Eightfold\Shoop\PipeFilters\Contracts;
+namespace Eightfold\Shoop\FilterContracts;
 
 use Eightfold\Shoop\Foldable\Foldable;
 

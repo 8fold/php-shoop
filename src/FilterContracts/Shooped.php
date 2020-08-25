@@ -1,19 +1,18 @@
 <?php
 
-namespace Eightfold\Shoop\FluentTypes\Contracts;
+namespace Eightfold\Shoop\FilterContracts;
 
 use Eightfold\Foldable\Foldable;
 
-use Eightfold\Shoop\PipeFilters\Contracts\Arrayable;
-use Eightfold\Shoop\PipeFilters\Contracts\Comparable;
-use Eightfold\Shoop\PipeFilters\Contracts\Countable;
-use Eightfold\Shoop\PipeFilters\Contracts\Falsifiable;
-use Eightfold\Shoop\PipeFilters\Contracts\Keyable;
-use Eightfold\Shoop\PipeFilters\Contracts\Orderable;
-use Eightfold\Shoop\PipeFilters\Contracts\Reversible;
-use Eightfold\Shoop\PipeFilters\Contracts\Stringable;
-use Eightfold\Shoop\PipeFilters\Contracts\Tupleable;
-use Eightfold\Shoop\PipeFilters\Contracts\Typeable;
+use Eightfold\Shoop\FilterContracts\Arrayable;
+use Eightfold\Shoop\FilterContracts\Associable;
+use Eightfold\Shoop\FilterContracts\Comparable;
+use Eightfold\Shoop\FilterContracts\Countable;
+use Eightfold\Shoop\FilterContracts\Falsifiable;
+use Eightfold\Shoop\FilterContracts\Reversible;
+use Eightfold\Shoop\FilterContracts\Stringable;
+use Eightfold\Shoop\FilterContracts\Tupleable;
+use Eightfold\Shoop\FilterContracts\Typeable;
 
 interface Shooped extends
     Foldable,
@@ -21,8 +20,7 @@ interface Shooped extends
     Comparable,
     Countable,
     Falsifiable,
-    Keyable,
-    Orderable,
+    Reversible,
     Stringable,
     Tupleable,
     Typeable

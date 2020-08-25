@@ -1,12 +1,12 @@
 <?php
 
-namespace Eightfold\Shoop\PipeFilters\Contracts;
+namespace Eightfold\Shoop\FilterContracts;
 
 use Eightfold\Foldable\Foldable;
 
 interface Falsifiable
 {
-    public function asBoolean(): Foldable;
+    public function asBoolean(): Falsifiable;
 
     public function efToBoolean(): bool;
 }
