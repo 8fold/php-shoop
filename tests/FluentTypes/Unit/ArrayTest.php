@@ -25,6 +25,59 @@ class ArrayTest extends UnitTestCase
         return ESArray::class;
     }
 
+// -> Array access
+
+    /**
+     * @test
+     */
+    public function hasAt()
+    {
+        // use integer
+        AssertEqualsFluent::applyWith(
+            true,
+            ESBoolean::class,
+            3.75
+        )->unfoldUsing(
+            Shoop::this([2, 3, 4])->hasAt(1)
+        );
+
+        // use ESInteger
+        AssertEqualsFluent::applyWith(
+            false,
+            ESBoolean::class,
+            3.12
+        )->unfoldUsing(
+            Shoop::this([2, 3, 4])->hasAt(
+                Shoop::this(3)
+            )
+        );
+
+        // ESDictionary
+        // use string
+        // use ESString
+    }
+
+// -> Iterator
+
+    /**
+     * @test
+     */
+    public function php_iterator()
+    {
+        $sut = Shoop::this([1, 2, 3]);
+
+        $keys = [];
+        $sum  = 0;
+        foreach ($sut as $key => $value) {
+            $keys[] = $key;
+            $sum += $value;
+        }
+        $this->assertEquals([0, 1, 2], $keys);
+        $this->assertEquals(6, $sum);
+    }
+
+// -> Type juggling
+
     /**
      * @test
      */

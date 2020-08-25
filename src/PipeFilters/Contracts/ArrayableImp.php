@@ -28,8 +28,7 @@ trait ArrayableImp
     public function offsetExists($offset): bool
     {
         if (is_a($this, Arrayable::class) and is_a($this, Foldable::class)) {
-            return $this->hasMember($offset)->unfold();
-
+            return $this->hasAt($offset)->unfold();
         }
         return false;
     }
@@ -38,7 +37,6 @@ trait ArrayableImp
     {
         if (is_a($this, Arrayable::class) and is_a($this, Foldable::class)) {
             return $this->at($offset)->unfold();
-
         }
         return false;
     }
@@ -62,7 +60,7 @@ trait ArrayableImp
      */
     public function rewind(): void
     {
-        if (is_a($this, Orderable::class) and is_a($this, Foldable::class)) {
+        if (is_a($this, Ordered::class) and is_a($this, Foldable::class)) {
             $this->temp = Apply::typeAsArray()->unfoldUsing($this->main);
 
         } else {
@@ -78,7 +76,7 @@ trait ArrayableImp
             $this->rewind();
         }
         $member = key($this->temp);
-        return $this->offsetExists($member);
+        return isset($this->temp[$member]);
     }
 
     public function current()
@@ -87,7 +85,7 @@ trait ArrayableImp
             $this->rewind();
         }
         $member = key($this->temp);
-        return $this->offsetGet($member);
+        return $this->temp[$member];
     }
 
     public function key()

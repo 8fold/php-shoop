@@ -1,18 +1,24 @@
 <?php
 
-namespace Eightfold\Shoop\FluentTypes\Contracts;
+namespace Eightfold\Shoop\PipeFilters\Contracts;
 
-use \Closure;
-
-use Eightfold\Shoop\FluentTypes\ESBoolean;
+use Eightfold\Shoop\PipeFilters\Contracts\Falsifiable;
 
 interface Comparable
 {
-    public function is($compare): bool;
+    public function is($compare): Falsifiable;
 
-    public function isEmpty(): bool;
+    public function isEmpty(): Falsifiable;
 
-    public function isGreaterThan($compare): bool;
+    public function isGreaterThan($compare): Falsifiable;
 
-    public function isGreaterThanOrEqualTo($compare): bool;
+    public function isGreaterThanOrEqualTo($compare): Falsifiable;
+
+    public function efIs($compare): bool;
+
+    public function efIsEmpty(): bool;
+
+    public function efIsGreaterThan($compare): bool;
+
+    public function efIsGreaterThanOrEqualTo($compare): bool;
 }

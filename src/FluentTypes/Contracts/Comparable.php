@@ -2,23 +2,18 @@
 
 namespace Eightfold\Shoop\FluentTypes\Contracts;
 
-use Eightfold\Shoop\FluentTypes\ESBoolean;
+use Eightfold\Foldable\Foldable;
 
-interface Comparable
+use Eightfold\Shoop\PipeFilters\Contracts\Comparable as PipeComparable;
+use Eightfold\Shoop\PipeFilters\Contracts\Falsifiable;
+
+interface Comparable extends PipeComparable
 {
-    public function is($compare): ESBoolean;
+    public function isNot($compare): Falsifiable;
 
-    public function isNot($compare): ESBoolean;
+    public function isNotEmpty(): Falsifiable;
 
-    public function isEmpty(): ESBoolean;
+    public function isLessThan($compare): Falsifiable;
 
-    public function isNotEmpty(): ESBoolean;
-
-    public function isGreaterThan($compare): ESBoolean;
-
-    public function isGreaterThanOrEqualTo($compare): ESBoolean;
-
-    public function isLessThan($compare): ESBoolean;
-
-    public function isLessThanOrEqualTo($compare): ESBoolean;
+    public function isLessThanOrEqualTo($compare): Falsifiable;
 }

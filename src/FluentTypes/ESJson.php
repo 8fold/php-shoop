@@ -8,4 +8,9 @@ use Eightfold\Shoop\FluentTypes\Contracts\ShoopedImp;
 class ESJson implements Shooped
 {
     use ShoopedImp;
+
+    public function types(): array
+    {
+        return ["collection", "tuple", "json"];
+    }
 }

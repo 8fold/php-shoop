@@ -13,6 +13,7 @@ use Eightfold\Shoop\PipeFilters\Contracts\Orderable;
 use Eightfold\Shoop\PipeFilters\Contracts\Reversible;
 use Eightfold\Shoop\PipeFilters\Contracts\Stringable;
 use Eightfold\Shoop\PipeFilters\Contracts\Tupleable;
+use Eightfold\Shoop\PipeFilters\Contracts\Typeable;
 
 interface Shooped extends
     Foldable,
@@ -23,7 +24,8 @@ interface Shooped extends
     Keyable,
     Orderable,
     Stringable,
-    Tupleable
+    Tupleable,
+    Typeable
 {
     public function __construct($main);
 }

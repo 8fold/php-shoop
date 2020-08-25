@@ -7,6 +7,7 @@ use Eightfold\Foldable\Filter;
 
 use \stdClass;
 
+use Eightfold\Shoop\PipeFilters\Contracts\Typeable;
 use Eightfold\Shoop\PipeFilters\Contracts\Arrayable;
 
 // TODO: TypesFor
@@ -88,11 +89,14 @@ class TypeOf extends Filter
         } elseif (is_object($using)) {
             $types = ["object"];
 
-            // TODO: Checks for various contracts
+            if (is_a($using, Typeable::class)) {
+                $types = array_merge($types, $using->types());
+            }
+
+            // TODO: Check for various contracts
             if (is_a($using, Arrayable::class)) {
                 $types[] = "arrayable";
             }
-
             return $types;
         }
         // die("falling through typeof");

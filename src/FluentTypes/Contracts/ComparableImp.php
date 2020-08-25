@@ -2,71 +2,65 @@
 
 namespace Eightfold\Shoop\FluentTypes\Contracts;
 
-use \Closure;
+use Eightfold\Shoop\PipeFilters\Contracts\ComparableImp as PipeComparableImp;
 
-use Eightfold\Shoop\Shoop;
+use Eightfold\Shoop\Apply;
 
-use Eightfold\Shoop\PipeFilters\TypeJuggling\AsInteger;
-
-use Eightfold\Shoop\PipeFilters\Is;
-use Eightfold\Shoop\PipeFilters\IsEmpty;
-use Eightfold\Shoop\PipeFilters\IsGreaterThan;
-use Eightfold\Shoop\PipeFilters\IsGreaterThanOrEqualTo;
-
-use Eightfold\Shoop\FluentTypes\ESBoolean;
+use Eightfold\Shoop\PipeFilters\Contracts\Falsifiable;
 
 /**
  * TODO: Make extension of Shooped
  */
 trait ComparableImp
 {
-    public function is($compare): ESBoolean
+    use PipeComparableImp;
+
+    public function is($compare): Falsifiable
     {
         return ESBoolean::fold(
-            Is::applyWith($compare)->unfoldUsing($this->main)
+            Apply::is($compare)->unfoldUsing($this->main)
         );
     }
 
-    public function isNot($compare): ESBoolean
+    public function isNot($compare): Falsifiable
     {
         return ESBoolean::fold(
-            $this->is($compare)->toggle()
+            $this->is($compare)->reverse()
         );
     }
 
-    public function isEmpty(): ESBoolean
+    public function isEmpty(): Falsifiable
     {
         return ESBoolean::fold(
-            IsEmpty::apply()->unfoldUsing($this->unfold())
+            Apply::isEmpty()->unfoldUsing($this->main)
         );
     }
 
-    public function isNotEmpty(): ESBoolean
+    public function isNotEmpty(): Falsifiable
     {
-        return $this->isEmpty()->toggle();
+        return $this->isEmpty()->reverse();
     }
 
-    public function isGreaterThan($compare): ESBoolean
+    public function isGreaterThan($compare): Falsifiable
     {
         return ESBoolean::fold(
-            IsGreaterThan::applyWith($compare)->unfoldUsing($this->unfold())
+            Apply::isGreaterThan($compare)->unfoldUsing($this->main)
         );
     }
 
-    public function isGreaterThanOrEqualTo($compare): ESBoolean
+    public function isGreaterThanOrEqualTo($compare): Falsifiable
     {
         return ESBoolean::fold(
-            IsGreaterThanOrEqualTo::applyWith($compare)
-                ->unfoldUsing($this->unfold())
+            Apply::isGreaterThanOrEqualTo($compare)->unfoldUsing($this->main)
         );
     }
 
-    public function isLessThan($compare): ESBoolean
+    public function isLessThan($compare): Falsifiable
     {
         return $this->isGreaterThanOrEqualTo($compare)->reverse();
     }
 
-    public function isLessThanOrEqualTo($compare): ESBoolean
+    public function isLessThanOrEqualTo($compare): Falsifiable
     {
         return $this->isGreaterThan($compare)->reverse();
     }

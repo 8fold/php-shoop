@@ -2,7 +2,7 @@
 
 namespace Eightfold\Shoop\PipeFilters\Contracts;
 
-use Eightfold\Shoop\Foldable\Foldable;
+use Eightfold\Foldable\Foldable;
 
 interface Ordered
 {

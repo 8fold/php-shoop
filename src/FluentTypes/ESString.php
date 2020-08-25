@@ -15,6 +15,11 @@ class ESString implements Shooped
 {
     use ShoopedImp;
 
+    public function types(): array
+    {
+        return ["string"];
+    }
+
 // -> Rearrange
     // TODO: PHP 8.0 - bool|ESBoolean
     public function reverse($preserveMembers = true)

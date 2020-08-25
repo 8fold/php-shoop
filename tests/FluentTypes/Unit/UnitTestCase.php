@@ -11,11 +11,6 @@ abstract class UnitTestCase extends TestCase
 {
     abstract static public function sutClassName(): string;
 
-    public function setUp(): void
-    {
-        $this->caseExistForEachMethod();
-    }
-
     /**
      * Ignore these methods because they are either value holders, use the basic
      * implementation from Shoop pipes, is covered by another set of test cases,
@@ -24,31 +19,39 @@ abstract class UnitTestCase extends TestCase
     static protected function ignoreClassMethods()
     {
         return [
-            "args",           // value method, returns args following or incl. main
-            "efToArray",      // uses Shoop default (asArray)
-            "efToBoolean",    // uses Shoop default (asBoolean)
-            "efToDictionary", // uses Shoop default (asDictionary)
-            "efToInteger",    // uses Shoop default (asInteger)
-            "efToJson",       // uses Shoop default (asJson)
-            "efToString",     // uses Shoop default (asJson)
-            "efToTuple",      // uses Shoop default (asJson)
-            "fold",           // uses Foldable default
-            "count",          // uses Shoop default (efToInteger)
-            "jsonSerialize",  // uses Shoop default (efToTuple)
-            "offsetExists",   // uses Shoop default (hasMember)
-            "offsetGet",      // uses Shoop default (at)
-            "offsetSet",      // uses Shoop default (plusMember ??) TODO: Should plus() be solely for values
-            "offsetUnset",    // uses Shoop default (minusMember)
-            "unfold",         // uses Foldable default
-            "rewind",         // part of php_iterator
-            "valid",          // part of php_iterator
-            "current",        // part of php_iterator
-            "key",            // part of php_iterator
-            "next",           // part of php_iterator
+            "args",                     // value method, returns args following or incl. main
+            "efIs",                     // uses Shoop default (is)
+            "efIsEmpty",                // uses Shoop default (isEmpty)
+            "efIsGreaterThan",          // uses Shoop default (isEmpty)
+            "efIsGreaterThanOrEqualTo", // uses Shoop default (isEmpty)
+            "efIsOrdered",              // uses Shoop default (isEmpty)
+            "efToArray",                // uses Shoop default (asArray)
+            "efToBoolean",              // uses Shoop default (asBoolean)
+            "efToDictionary",           // uses Shoop default (asDictionary)
+            "efToInteger",              // uses Shoop default (asInteger)
+            "efToJson",                 // uses Shoop default (asJson)
+            "efToString",               // uses Shoop default (asJson)
+            "efToTuple",                // uses Shoop default (asJson)
+            "fold",                     // uses Foldable default
+            "count",                    // uses Shoop default (efToInteger)
+            "jsonSerialize",            // uses Shoop default (efToTuple)
+            "offsetExists",             // uses Shoop default (hasMember)
+            "offsetGet",                // uses Shoop default (at)
+            "offsetSet",                // uses Shoop default (plusMember ??) TODO: Should plus() be solely for values
+            "offsetUnset",              // uses Shoop default (minusMember)
+            "unfold",                   // uses Foldable default
+            "rewind",                   // part of php_iterator
+            "valid",                    // part of php_iterator
+            "current",                  // part of php_iterator
+            "key",                      // part of php_iterator
+            "next",                     // part of php_iterator
         ];
     }
 
-    public function caseExistForEachMethod()
+    /**
+     * @test
+     */
+    public function case_exists_for_each_method()
     {
         $caseMethods = array_map(
             function($reflectionMethod) {
