@@ -6,6 +6,7 @@ use Eightfold\Foldable\Foldable;
 
 use Eightfold\Shoop\FilterContracts\Shooped;
 
+use Eightfold\Shoop\FilterContracts\Addable;
 use Eightfold\Shoop\FilterContracts\Arrayable;
 use Eightfold\Shoop\FilterContracts\Associable;
 use Eightfold\Shoop\FilterContracts\Comparable;
@@ -13,6 +14,7 @@ use Eightfold\Shoop\FilterContracts\Countable;
 use Eightfold\Shoop\FilterContracts\Falsifiable;
 use Eightfold\Shoop\FilterContracts\Reversible;
 use Eightfold\Shoop\FilterContracts\Stringable;
+use Eightfold\Shoop\FilterContracts\Subtractable;
 use Eightfold\Shoop\FilterContracts\Tupleable;
 
 class ClassShooped implements Shooped
@@ -27,6 +29,21 @@ class ClassShooped implements Shooped
 
     public function unfold()
     {
+    }
+
+// - Maths
+    public function plus($value, $at = ""): Addable
+    {
+        # code...
+    }
+
+    public function minus(
+        array $charMask = [" ", "\t", "\n", "\r", "\0", "\x0B"],
+        bool $fromStart = true,
+        bool $fromEnd   = true
+    ): Subtractable
+    {
+        # code...
     }
 
 // - Arrayable
