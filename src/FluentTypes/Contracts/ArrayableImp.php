@@ -2,6 +2,8 @@
 
 namespace Eightfold\Shoop\FluentTypes\Contracts;
 
+use Eightfold\Foldable\Foldable;
+
 use Eightfold\Shoop\PipeFilters\Contracts\ArrayableImp as PipeArrayableImp;
 
 use Eightfold\Shoop\Shoop;
@@ -25,6 +27,10 @@ trait ArrayableImp
 
     public function at($member)
     {
+        if (is_a($member, Foldable::class)) {
+            $member = $member->unfold();
+        }
+
         return Shoop::this(
             Apply::at($member)->unfoldUsing($this->main)
         );
@@ -37,13 +43,39 @@ trait ArrayableImp
         );
     }
 
-    public function plusAt($value, $member)
+    public function plusAt(
+        $value,
+        $member = PHP_INT_MAX,
+        bool $overwrite = false
+    )
     {
+        if ($overwrite) {
+            $this->main[$member] = $value;
 
+        } else {
+            if (Apply::typeIs("integer")->unfoldUsing($member) and
+                $member > Apply::typeAsInteger($this->main)
+            ) {
+                $this->main[] = $value;
+
+            } else {
+                array_unshift($this->main, $value);
+
+            }
+
+        }
+        $this->main = array_values($this->main);
+        return $this;
     }
 
     public function minusAt($member)
     {
+        if (is_a($member, Foldable::class)) {
+            $member = $member->unfold();
+        }
 
+        unset($this->main[$member]);
+        $this->main = array_values($this->main);
+        return $this;
     }
 }

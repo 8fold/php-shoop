@@ -25,20 +25,79 @@ class ArrayTest extends UnitTestCase
         return ESArray::class;
     }
 
+    /**
+     * @test
+     */
+    public function append()
+    {
+        $this->assertFalse(true);
+    }
+
+    /**
+     * @test
+     */
+    public function prepend()
+    {
+        $this->assertFalse(true);
+    }
+
+    /**
+     * @test
+     */
+    public function types()
+    {
+        $this->assertEquals(
+            ["collection", "list", "array"],
+            Shoop::this([1, 2, 3])->types()
+        );
+    }
+
 // -> Array access
+
+    /**
+     * @test
+     */
+    public function _at()
+    {
+        $using = [2, 3, "four"];
+
+        // use integer
+        AssertEqualsFluent::applyWith(
+            3,
+            ESInteger::class,
+            5.41
+        )->unfoldUsing(
+            Shoop::this($using)->at(1)
+        );
+
+        // use ESInteger
+        AssertEqualsFluent::applyWith(
+            "four",
+            ESString::class,
+            0.52
+        )->unfoldUsing(
+            Shoop::this($using)->At(
+                Shoop::this(2)
+            )
+        );
+
+        $this->assertEquals(2, $using[0]);
+    }
 
     /**
      * @test
      */
     public function hasAt()
     {
+        $using = [2, 3, 4];
+
         // use integer
         AssertEqualsFluent::applyWith(
             true,
             ESBoolean::class,
-            3.75
+            6.44
         )->unfoldUsing(
-            Shoop::this([2, 3, 4])->hasAt(1)
+            Shoop::this($using)->hasAt(1)
         );
 
         // use ESInteger
@@ -47,14 +106,81 @@ class ArrayTest extends UnitTestCase
             ESBoolean::class,
             3.12
         )->unfoldUsing(
-            Shoop::this([2, 3, 4])->hasAt(
+            Shoop::this($using)->hasAt(
                 Shoop::this(3)
             )
         );
 
+        $this->assertTrue(isset($using[1]));
+
         // ESDictionary
         // use string
         // use ESString
+    }
+
+    /**
+     * @test
+     */
+    public function plusAt()
+    {
+        $using = [2, 4];
+
+        // use integer
+        AssertEqualsFluent::applyWith(
+            [3, 4],
+            ESArray::class
+        )->unfoldUsing(
+            Shoop::this($using)->plusAt(3, 0, true)
+        );
+
+        AssertEqualsFluent::applyWith(
+            [3, 2, 4],
+            ESArray::class
+        )->unfoldUsing(
+            Shoop::this($using)->plusAt(3, 0)
+        );
+
+        // use ESInteger
+        AssertEqualsFluent::applyWith(
+            [2, 4, "string"],
+            ESArray::class
+        )->unfoldUsing(
+            Shoop::this($using)->plusAt("string")
+        );
+
+        $using = Shoop::this($using);
+        $using[0] = 3;
+        $this->assertEquals([3, 4], $using->unfold());
+    }
+
+    /**
+     * @test
+     */
+    public function minusAt()
+    {
+        $using = [2, 3, 4];
+
+        // use integer
+        AssertEqualsFluent::applyWith(
+            [3, 4],
+            ESArray::class
+        )->unfoldUsing(
+            Shoop::this($using)->minusAt(0)
+        );
+
+        // use ESInteger
+        AssertEqualsFluent::applyWith(
+            [2, 3],
+            ESArray::class
+        )->unfoldUsing(
+            Shoop::this($using)->minusAt(
+                Shoop::this(2)
+            )
+        );
+
+        $using = Shoop::this($using);
+        unset($using[1]);
+        $this->assertEquals([2, 4], $using->unfold());
     }
 
 // -> Iterator
@@ -114,7 +240,7 @@ class ArrayTest extends UnitTestCase
         AssertEqualsFluent::applyWith(
             ["i0" => "a", "i1" => "b"],
             ESDictionary::class,
-            0.48
+            0.5
         )->unfoldUsing(
             Shoop::this(["a", "b"])->asDictionary()
         );

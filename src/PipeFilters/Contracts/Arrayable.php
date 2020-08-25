@@ -22,7 +22,12 @@ interface Arrayable extends ArrayAccess, Iterator
 
     public function at($member);
 
-    public function plusAt($value, $member);
+    // TODO: PHP 8.0 - mixed, string|int, bool|Falsifiable
+    public function plusAt(
+        $value,
+        $member = PHP_INT_MAX,
+        bool $overwrite = false
+    );
 
     public function minusAt($member);
 

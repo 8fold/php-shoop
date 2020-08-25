@@ -58,6 +58,9 @@ abstract class UnitTestCase extends TestCase
                 if (! in_array($reflectionMethod->name, ["setUp", "testsExistForEachMethod"]) and
                     $reflectionMethod->class === static::class
                 ) {
+                    if ($reflectionMethod->name === "_at") {
+                        return "at";
+                    }
                     return $reflectionMethod->name;
                 }
             },

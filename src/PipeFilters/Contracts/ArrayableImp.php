@@ -44,14 +44,18 @@ trait ArrayableImp
     public function offsetSet($offset, $value): void
     {
         if (is_a($this, Arrayable::class) and is_a($this, Foldable::class)) {
-            $this->main = $this->plusMember($value, $offset)->unfold();
+            $this->main = $this->plusAt($value, $offset, true)->unfold();
         }
     }
 
     public function offsetUnset($offset): void
     {
         if (is_a($this, Arrayable::class) and is_a($this, Foldable::class)) {
-            $this->main = Apply::minusMember($offset)->unfoldUsing($this->main);
+            $this->minusAt($offset);
+
+        } else {
+            unset($this->main[$offset]);
+
         }
     }
 
