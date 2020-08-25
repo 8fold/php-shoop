@@ -14,7 +14,7 @@ Shoop's approach emphasizes, in no particular order:
 
 * Human-readability: Chaining methods and applying filters should result in a relatively easy to follow sentence-like structure.
 * Ubiquitous naming across types: Fluent Shoop types should minimize type-specific methods whenever possible. Filter functions should have a rational output across all supported PHP types.
-* Immutability: Methods and Filters return new instances of types, not a mutated variation of the same instance.
+* Immutability: With few exceptions related to using PHP interfaces, Methods and Filters return new instances of types, not a mutated variation of the same instance.
 * Type-safety: Methods use Filters, Filters specify the PHP type whenever possible, without limiting flexibility.
 * `null` is not a type.
 

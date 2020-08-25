@@ -21,16 +21,16 @@
   </coverage>
   <testsuites>
     <testsuite name="fluent">
-  		<directory suffix="Test.php">./tests/FluentTypes</directory>
+  		<directory suffix="Test.php">./tests/Fluent</directory>
     </testsuite>
-    <testsuite name="fluent_unit">
-  		<directory suffix="Test.php">./tests/FluentTypes/Unit</directory>
+    <testsuite name="fluent_contracts">
+  		<directory suffix="Test.php">./tests/FluentContracts</directory>
     </testsuite>
     <testsuite name="pipe">
-		<directory suffix="Test.php">./tests/PipeFilters</directory>
+		<directory suffix="Test.php">./tests/Filter</directory>
     </testsuite>
     <testsuite name="pipe_contracts">
-		<directory suffix="Test.php">./tests/PipeFilters</directory>
+		<directory suffix="Test.php">./tests/FilterContracts</directory>
     </testsuite>
   </testsuites>
   <php>

@@ -6,7 +6,7 @@ use Eightfold\Shoop\Foldable\Foldable;
 
 trait AddableImp
 {
-    public function plus($value, $at = "")
+    public function plus($value)
     {
         // if (Type::is($this, ESArray::class)) {
         //     $array = $this->main();
