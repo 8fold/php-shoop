@@ -53,13 +53,26 @@ class ClassShooped implements Shooped
         );
     }
 
+    // TODO: PHP 8 - array|int
     public function minus(
-        array $charMask = [" ", "\t", "\n", "\r", "\0", "\x0B"],
+        $items = [" ", "\t", "\n", "\r", "\0", "\x0B"],
         bool $fromStart = true,
         bool $fromEnd   = true
     ): Subtractable
     {
-        # code...
+        if (! $this->typeCheckForArgument($items, ["string", "integer", "array"])) {
+            $this->typeCheckForArgument(
+                $items,
+                ["string", "integer", "array"],
+                true,
+                static::class ."::". __FUNCTION__ ."()",
+                1
+            );
+        }
+
+        return static::fold(
+            Apply::minus($items, $fromStart, $fromEnd)->unfoldUsing($this->main)
+        );
     }
 
 // - Arrayable
@@ -250,7 +263,7 @@ class ClassShooped implements Shooped
 
         $givenMessage = $typeMessage($givenTypes, "and");
         $validMessage = $typeMessage($validTypes);
-        $message = "Shoop Fatal error:  Uncaught TypeError: Argument {$argNumber} passed to {$function} must be one of {$validMessage} type(s); {$givenMessage} given.";
+        $message = "Shoop Fatal error:  Uncaught TypeError: Argument {$argNumber} passed to {$function} must be of {$validMessage} type(s); {$givenMessage} given.";
         trigger_error($message);
     }
 }

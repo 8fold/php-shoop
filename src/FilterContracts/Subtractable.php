@@ -12,7 +12,7 @@ interface Subtractable
      * false - true : Characters are stripped from beginning, not end.
      */
     public function minus(
-        array $charMask = [" ", "\t", "\n", "\r", "\0", "\x0B"],
+        $charMask = [" ", "\t", "\n", "\r", "\0", "\x0B"],
         bool $fromStart = true,
         bool $fromEnd   = true
     ): Subtractable;
