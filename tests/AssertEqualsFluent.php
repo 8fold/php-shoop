@@ -32,15 +32,17 @@ class AssertEqualsFluent extends TestCase implements Filterable
         $this->expectedClassName = $expectedClassName;
     }
 
-    public function unfoldUsing(Shooped $using)
+    public function unfoldUsing($using)
     {
-        $actual = $using->unfold();
+        $actual = (is_a($using, Shooped::class)) ? $using->unfold() : $using;
 
         $end = hrtime(true);
 
         $this->assertEquals($this->expected, $actual);
 
-        $actual = get_class($using);
+        $actual = (is_a($using, Shooped::class))
+            ? get_class($using)
+            : gettype($using);
         $this->assertEquals($this->expectedClassName, $actual);
 
         $elapsed = $end - $this->start;

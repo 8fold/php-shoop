@@ -16,7 +16,7 @@ Shoop's approach emphasizes, in no particular order:
 * Ubiquitous naming across types: Fluent Shoop types should minimize type-specific methods whenever possible. Filter functions should have a rational output across all supported PHP types.
 * Immutability: With few exceptions related to using PHP interfaces, Methods and Filters return new instances of types, not a mutated variation of the same instance.
 * Type-safety: Methods use Filters, Filters specify the PHP type whenever possible, without limiting flexibility.
-* `null` is not a type.
+* `null` is not a type and does not exist (this is the basis for why arrays start at 1, not 0, because 0, null, and false are synonymous in Shoop).
 
 While this immplementation is language-specific, the fundamental concepts, patterns, and naming strive to be language agnostic.
 
@@ -175,7 +175,17 @@ We strive for minimal verbs to maximize capability while minimizing cognitive lo
 
 Abstract Shoop types can be juggled *from* but not *to*. Juggling from abstract type to concrete using Shoop method applies the type rules. ex. Juggling from Object to Dictionary removes methods and private properties.
 
-Each filter (function) identifies a canonical type and response. For example, the canonical type for `pullFirst` is a Shoop Array. Most types uses an alternative type to start the juggle to whatever other type is desired. The following identifies the first alternate Shoop type for each type:
+We offer multiple Interfaces and default Implementations for juggling between the supported, concrete types. Each interface offers two methods: one returns an object implementing the interface and the other returns the PHP types. The former are prefixed with "as" for use in Fluent Interfaces. The latter are prefixed with "ef" and can be thought of as similar to [PHP Magic Methods](https://www.php.net/manual/en/language.oop5.magic.php) which are prefixed with a double-underscore (`__`). See:
+
+|Interface name |Fluent method  |PHP return                    |
+|:--------------|:-------------:|:----------------------------:|
+|Falsifiable    |`asBoolean`    |`efToBoolean`                 |
+|Countable      |`asInteger`    |`efToInteger` and `count`     |
+|Stringable     |`asString`     |`efToString` and `__toString` |
+|Arrayable      |`asArray`      |`efToArray`                   |
+|Associable     |`asDictionary` |`efToDitionary`               |
+|Tupleable      |`asTuple`      |`efToTuple`                   |
+
 
 ```
 Object      -> Tuple (removes all privates and methods, public properties only)

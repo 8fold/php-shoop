@@ -81,19 +81,39 @@ class ClassShooped implements Shooped
         bool $includeEmpties = true,
         int $limit = PHP_INT_MAX
     ): Arrayable
-    {}
+    {
+        return static::fold(
+            Apply::typeAsArray($start, $includeEmpties, $limit)
+                ->unfoldUsing($this->main)
+        );
+    }
 
     public function efToArray(): array
-    {}
+    {
+        return $this->asArray()->unfold();
+    }
 
 // - Associable
     public function asDictionary(): Associable
-    {}
+    {
+        return static::fold(
+            Apply::typeAsDictionary()->unfoldUsing($this->main)
+        );
+    }
 
     public function efToDictionary(): array
-    {}
+    {
+        return $this->asDictionary()->unfold();
+    }
 
-    public function has($needle)
+    public function has($value): Falsifiable
+    {
+        return static::fold(
+            Apply::has($value)->unfoldUsing($this->main)
+        );
+    }
+
+    public function efHas($value): bool
     {
         # code...
     }
@@ -152,25 +172,25 @@ class ClassShooped implements Shooped
     {}
 
 // - Comparable
-    public function is($compare): Comparable
-    {}
-
     public function isEmpty(): Comparable
-    {}
-
-    public function isGreaterThan($compare): Comparable
-    {}
-
-    public function isGreaterThanOrEqualTo($compare): Comparable
-    {}
-
-    public function efIs($compare): bool
     {}
 
     public function efIsEmpty(): bool
     {}
 
+    public function is($compare): Comparable
+    {}
+
+    public function efIs($compare): bool
+    {}
+
+    public function isGreaterThan($compare): Comparable
+    {}
+
     public function efIsGreaterThan($compare): bool
+    {}
+
+    public function isGreaterThanOrEqualTo($compare): Comparable
     {}
 
     public function efIsGreaterThanOrEqualTo($compare): bool

@@ -11,7 +11,7 @@ interface Associable
 
     public function efToDictionary(): array;
 
-    public function has($needle);
+    public function has($member);
 
     public function hasAt($member);
 
