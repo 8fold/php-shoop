@@ -121,7 +121,7 @@ class ClassShooped implements Shooped
         return $this->has($value)->unfold();
     }
 
-    public function hasAt($member)
+    public function hasAt($member): Falsifiable
     {
         return static::fold(
             Apply::hasAt($member)->unfoldUsing($this->main)
@@ -130,7 +130,7 @@ class ClassShooped implements Shooped
 
     public function offsetExists($offset): bool // ArrayAccess
     {
-
+        return $this->hasAt($offset)->unfold();
     }
 
     public function at($member)

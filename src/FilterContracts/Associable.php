@@ -5,7 +5,10 @@ namespace Eightfold\Shoop\FilterContracts;
 use \ArrayAccess;
 use \Iterator;
 
-interface Associable
+use Eightfold\Shoop\FilterContracts\Addable;
+use Eightfold\Shoop\FilterContracts\Subtractable;
+
+interface Associable extends Addable, Subtractable
 {
     public function asDictionary(): Associable;
 

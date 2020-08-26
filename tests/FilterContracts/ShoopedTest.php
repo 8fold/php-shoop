@@ -365,60 +365,62 @@ class ShoopedTest extends FilterContractsTestCase
     {
         AssertEqualsFluent::applyWith(
             true,
-            "boolean"
+            "boolean",
+            16.54 // 11.44
         )->unfoldUsing(
-            ClassShooped::fold(true)->hasAt(1)
+            ClassShooped::fold(true)->offsetExists(1)
         );
 
-        // AssertEqualsFluent::applyWith(
-        //     false,
-        //     ClassShooped::class
-        // )->unfoldUsing(
-        //     ClassShooped::fold(3)->hasAt(4)
-        // );
+        AssertEqualsFluent::applyWith(
+            true,
+            "boolean"
+        )->unfoldUsing(
+            ClassShooped::fold(3)->offsetExists(3)
+        );
 
-        // AssertEqualsFluent::applyWith(
-        //     true,
-        //     ClassShooped::class
-        // )->unfoldUsing(
-        //     ClassShooped::fold(2.5)->hasAt(2)
-        // );
+        AssertEqualsFluent::applyWith(
+            false,
+            "boolean"
+        )->unfoldUsing(
+            ClassShooped::fold(2.5)->offsetExists(3)
+        );
 
-        // AssertEqualsFluent::applyWith(
-        //     false,
-        //     ClassShooped::class
-        // )->unfoldUsing(
-        //     ClassShooped::fold([3, 1, 3])->hasAt(4)
-        // );
+        AssertEqualsFluent::applyWith(
+            true,
+            "boolean"
+        )->unfoldUsing(
+            ClassShooped::fold([3, 1, 3])->offsetExists(2)
+        );
 
-        // AssertEqualsFluent::applyWith(
-        //     true,
-        //     ClassShooped::class
-        // )->unfoldUsing(
-        //     ClassShooped::fold(["a" => 1, "b" => 3, "c" => 1])->hasAt("c")
-        // );
+        AssertEqualsFluent::applyWith(
+            false,
+            "boolean",
+            0.63 // 0.52
+        )->unfoldUsing(
+            ClassShooped::fold(["a" => 1, "b" => 3, "c" => 1])->offsetExists("d")
+        );
 
-        // AssertEqualsFluent::applyWith(
-        //     true,
-        //     ClassShooped::class
-        // )->unfoldUsing(
-        //     ClassShooped::fold("Hi!")->hasAt(2)
-        // );
+        AssertEqualsFluent::applyWith(
+            false,
+            "boolean"
+        )->unfoldUsing(
+            ClassShooped::fold("Hi!")->offsetExists(4)
+        );
 
-        // AssertEqualsFluent::applyWith(
-        //     true,
-        //     ClassShooped::class
-        // )->unfoldUsing(
-        //     ClassShooped::fold("Hi!")->hasAt("content")
-        // );
+        AssertEqualsFluent::applyWith(
+            true,
+            "boolean"
+        )->unfoldUsing(
+            ClassShooped::fold("Hi!")->offsetExists(0)
+        );
 
-        // AssertEqualsFluent::applyWith(
-        //     false,
-        //     ClassShooped::class
-        // )->unfoldUsing(
-        //     ClassShooped::fold((object) ["a" => 1, "c" => 3])->hasAt("b")
-        // );
+        AssertEqualsFluent::applyWith(
+            true,
+            "boolean"
+        )->unfoldUsing(
+            ClassShooped::fold((object) ["a" => 1, "c" => 3])->offsetExists("a")
+        );
 
-        // // TODO: Objects
+        // TODO: Objects
     }
 }
