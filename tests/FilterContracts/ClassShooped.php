@@ -135,8 +135,13 @@ class ClassShooped implements Shooped
 
     public function at($member)
     {
-        # code...
+        return static::fold(
+            Apply::at($member)->unfoldUsing($this->main)
+        );
     }
+
+    public function offsetGet($offset) // ArrayAccess
+    {}
 
     public function plusAt(
         $value, // mixed
@@ -151,9 +156,6 @@ class ClassShooped implements Shooped
     {
         # code...
     }
-
-    public function offsetGet($offset) // ArrayAccess
-    {}
 
     public function offsetSet($offset, $value): void // ArrayAccess
     {}
@@ -176,13 +178,14 @@ class ClassShooped implements Shooped
     public function next(): void // Iterator
     {}
 
-// - Comparable
+// - Emptiable TODO: create interface
     public function isEmpty(): Comparable
     {}
 
     public function efIsEmpty(): bool
     {}
 
+// - Comparable
     public function is($compare): Comparable
     {}
 

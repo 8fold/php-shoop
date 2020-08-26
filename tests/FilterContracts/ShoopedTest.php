@@ -359,7 +359,6 @@ class ShoopedTest extends FilterContractsTestCase
 
     /**
      * @test
-     * @group current
      */
     public function offsetExists()
     {
@@ -419,6 +418,81 @@ class ShoopedTest extends FilterContractsTestCase
             "boolean"
         )->unfoldUsing(
             ClassShooped::fold((object) ["a" => 1, "c" => 3])->offsetExists("a")
+        );
+
+        // TODO: Objects
+    }
+
+    /**
+     * @test
+     * @group current
+     */
+    public function _at()
+    {
+        AssertEqualsFluent::applyWith(
+            true,
+            ClassShooped::class,
+            10.5
+        )->unfoldUsing(
+            ClassShooped::fold(true)->at(1)
+        );
+
+        AssertEqualsFluent::applyWith(
+            3,
+            ClassShooped::class
+        )->unfoldUsing(
+            ClassShooped::fold(3)->at(3)
+        );
+
+        AssertEqualsFluent::applyWith(
+            2.0,
+            ClassShooped::class
+        )->unfoldUsing(
+            ClassShooped::fold(2.5)->at([2, 3])
+        );
+
+        AssertEqualsFluent::applyWith(
+            [1.0, 2.0],
+            ClassShooped::class
+        )->unfoldUsing(
+            ClassShooped::fold(2.5)->at([1, 2, 3])
+        );
+
+        AssertEqualsFluent::applyWith(
+            1,
+            ClassShooped::class
+        )->unfoldUsing(
+            ClassShooped::fold([3, 1, 3])->at(1)
+        );
+
+        AssertEqualsFluent::applyWith(
+            3,
+            ClassShooped::class
+        )->unfoldUsing(
+            ClassShooped::fold(["a" => 1, "b" => 3, "c" => 1])->at("b")
+        );
+
+        AssertEqualsFluent::applyWith(
+            "H",
+            ClassShooped::class,
+            0.57
+        )->unfoldUsing(
+            ClassShooped::fold("Hi!")->at(0)
+        );
+
+        AssertEqualsFluent::applyWith(
+            "Hi!",
+            ClassShooped::class,
+            3.83
+        )->unfoldUsing(
+            ClassShooped::fold("Hi!")->at("content")
+        );
+
+        AssertEqualsFluent::applyWith(
+            1,
+            ClassShooped::class
+        )->unfoldUsing(
+            ClassShooped::fold((object) ["a" => 1, "c" => 3])->at("a")
         );
 
         // TODO: Objects

@@ -37,13 +37,16 @@ class At extends Filter
             }
             return $result;
 
-        // } elseif (TypeIs::applyWith("json")->unfoldUsing($using)) {
-
         } elseif (TypeIs::applyWith("string")->unfoldUsing($using)) {
+            if (is_string($this->main)) {
+                return Shoop::pipe($using,
+                    TypeAsDictionary::apply(),
+                    At::applyWith($main)
+                )->unfold();
+            }
             return Shoop::pipe($using,
                 TypeAsArray::apply(),
-                At::applyWith($main),
-                TypeAsString::apply()
+                At::applyWith($main)
             )->unfold();
 
         } elseif (TypeIs::applyWith("tuple")->unfoldUsing($using)) {
