@@ -7,7 +7,7 @@ use Eightfold\Foldable\Filter;
 
 use Eightfold\Shoop\Shoop;
 
-class HasMembers extends Filter
+class HasAt extends Filter
 {
     private $membersSearch = [];
     private $useArray = true;
@@ -35,13 +35,13 @@ class HasMembers extends Filter
             if ($this->useArray) {
                 return Shoop::pipe($using,
                     TypeAsArray::apply(),
-                    HasMembers::applyWith($this->membersSearch, $this->useArray)
+                    HasAt::applyWith($this->membersSearch, $this->useArray)
                 )->unfold();
 
             }
             return Shoop::pipe($using,
                 TypeAsDictionary::apply(),
-                HasMembers::applyWith($this->membersSearch, $this->useArray)
+                HasAt::applyWith($this->membersSearch, $this->useArray)
             )->unfold();
 
         }

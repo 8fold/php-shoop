@@ -1,9 +1,16 @@
 <?php
 
-namespace Eightfold\Shoop\Tests\PipeFilters\Contracts;
+namespace Eightfold\Shoop\Tests\FilterContracts;
 
 use Eightfold\Shoop\Tests\FilterContracts\FilterContractsTestCase;
 use Eightfold\Shoop\Tests\AssertEqualsFluent;
+
+use Eightfold\Shoop\Tests\FilterContracts\ContractTests\Foldable;
+
+use Eightfold\Shoop\Tests\FilterContracts\ContractTests\Arrayable;
+
+use Eightfold\Shoop\Tests\FilterContracts\ContractTests\Addable;
+use Eightfold\Shoop\Tests\FilterContracts\ContractTests\Subtractable;
 
 use Eightfold\Shoop\Tests\FilterContracts\ClassShooped;
 
@@ -12,353 +19,14 @@ use Eightfold\Shoop\Tests\FilterContracts\ClassShooped;
  */
 class ShoopedTest extends FilterContractsTestCase
 {
+    use Foldable, Arrayable, Addable, Subtractable;
+
     static public function sutClassName(): string
     {
         return ClassShooped::class;
     }
 
-    /**
-     * @test
-     */
-    public function fold()
-    {
-        $expected = false;
-        $instance = ClassShooped::fold($expected);
-        $actual   = $instance->args(true)[0];
-        $this->assertEquals($expected, $actual);
-    }
-
-    /**
-     * @test
-     */
-    public function unfold()
-    {
-        $expected = true;
-        $actual   = ClassShooped::fold($expected)->unfold();
-        $this->assertEquals($expected, $actual);
-    }
-
-// - Maths
-
-    /**
-     * @test
-     */
-    public function plus()
-    {
-        AssertEqualsFluent::applyWith(
-            true,
-            ClassShooped::class,
-            11.96 // 5.62 // 2.98 // 2.94 // 2.89 // 2.18 // 1.54
-        )->unfoldUsing(
-            ClassShooped::fold(false)->plus(1)
-        );
-
-        AssertEqualsFluent::applyWith(
-            2,
-            ClassShooped::class,
-            7.26 // 2.55 // 2.54 // 2.48
-        )->unfoldUsing(
-            ClassShooped::fold(1)->plus(1)
-        );
-
-        AssertEqualsFluent::applyWith(
-            2.5,
-            ClassShooped::class
-        )->unfoldUsing(
-            ClassShooped::fold(1.5)->plus(1)
-        );
-
-        AssertEqualsFluent::applyWith(
-            [1, 2, 3],
-            ClassShooped::class,
-            0.52
-        )->unfoldUsing(
-            ClassShooped::fold([1])->plus([2, 3])
-        );
-
-        AssertEqualsFluent::applyWith(
-            (object) ["a" => 1, "b" => 2, "c" => 3],
-            ClassShooped::class,
-            1.1 // 0.99 // 0.82
-        )->unfoldUsing(
-            ClassShooped::fold((object) ["a" => 1])->plus(["b" => 2, "c" => 3])
-        );
-
-        AssertEqualsFluent::applyWith(
-            (object) ["a" => 1, "b" => 2, "c" => 3],
-            ClassShooped::class,
-            0.49
-        )->unfoldUsing(
-            ClassShooped::fold((object) ["a" => 1])->plus((object) ["b" => 2, "c" => 3])
-        );
-
-        AssertEqualsFluent::applyWith(
-            (object) ["a" => 1, "i0" => 3],
-            ClassShooped::class,
-            0.49
-        )->unfoldUsing(
-            ClassShooped::fold((object) ["a" => 1])->plus(3)
-        );
-
-        // TODO: Objects
-    }
-
-    /**
-     * @test
-     */
-    public function minus()
-    {
-        AssertEqualsFluent::applyWith(
-            false,
-            ClassShooped::class,
-            20.64 // 2.84 // 2.24 // 0.97
-        )->unfoldUsing(
-            ClassShooped::fold(true)->minus(1)
-        );
-
-        AssertEqualsFluent::applyWith(
-            0,
-            ClassShooped::class,
-        )->unfoldUsing(
-            ClassShooped::fold(1)->minus(1)
-        );
-
-        AssertEqualsFluent::applyWith(
-            0.5,
-            ClassShooped::class
-        )->unfoldUsing(
-            ClassShooped::fold(1.5)->minus(1)
-        );
-
-        AssertEqualsFluent::applyWith(
-            [],
-            ClassShooped::class,
-            1.14
-        )->unfoldUsing(
-            ClassShooped::fold([3, 1, 3])->minus(3)
-        );
-
-        AssertEqualsFluent::applyWith(
-            [1],
-            ClassShooped::class,
-        )->unfoldUsing(
-            ClassShooped::fold([3, 1, 3])->minus(1)
-        );
-
-        AssertEqualsFluent::applyWith(
-            [3, 1],
-            ClassShooped::class,
-            2.03
-        )->unfoldUsing(
-            ClassShooped::fold([3, 1, 3])->minus(1, false)
-        );
-
-        AssertEqualsFluent::applyWith(
-            [1, 3],
-            ClassShooped::class,
-        )->unfoldUsing(
-            ClassShooped::fold([3, 1, 3])->minus(1, true, false)
-        );
-
-        AssertEqualsFluent::applyWith(
-            [1, 1, 1],
-            ClassShooped::class,
-        )->unfoldUsing(
-            ClassShooped::fold([1, 3, 1, 3, 1])->minus(3, false, false)
-        );
-
-        AssertEqualsFluent::applyWith(
-            ["b" => 3],
-            ClassShooped::class,
-        )->unfoldUsing(
-            ClassShooped::fold(["a" => 1, "b" => 3, "c" => 1])->minus(1, false, false)
-        );
-
-        $using = <<<EOD
-
-            Hello!
-
-
-        EOD;
-        AssertEqualsFluent::applyWith(
-            "Hello!",
-            ClassShooped::class,
-            1.6
-        )->unfoldUsing(
-            ClassShooped::fold($using)->minus()
-        );
-
-        AssertEqualsFluent::applyWith(
-            "He!",
-            ClassShooped::class
-        )->unfoldUsing(
-            ClassShooped::fold("Hello!")->minus(["l", "o"], false, false)
-        );
-
-        AssertEqualsFluent::applyWith(
-            (object) ["a" => 1],
-            ClassShooped::class,
-            0.83 // 0.35
-        )->unfoldUsing(
-            ClassShooped::fold((object) ["a" => 1, "c" => 3])->minus(3, false, false)
-        );
-
-        // TODO: Objects
-    }
-
 // - Arrayable
-
-    /**
-     * @test
-     */
-    public function asArray()
-    {
-        AssertEqualsFluent::applyWith(
-            [false, true],
-            ClassShooped::class,
-            2.15 // 2.01 // 1.77
-        )->unfoldUsing(
-            ClassShooped::fold(true)->asArray()
-        );
-
-        // TODO: Should arrays start at 1
-        AssertEqualsFluent::applyWith(
-            // [1 => 2, 2 => 3]
-            [2, 3],
-            ClassShooped::class,
-        )->unfoldUsing(
-            ClassShooped::fold(3)->asArray(2)
-        );
-
-        // TODO: Should arrays start at 1
-        AssertEqualsFluent::applyWith(
-            // [1 => 1, 2 => 2]
-            [0, 1, 2],
-            ClassShooped::class
-        )->unfoldUsing(
-            ClassShooped::fold(2.5)->asArray()
-        );
-
-        AssertEqualsFluent::applyWith(
-            [3, 1, 3],
-            ClassShooped::class
-        )->unfoldUsing(
-            ClassShooped::fold([3, 1, 3])->asArray()
-        );
-
-        AssertEqualsFluent::applyWith(
-            [1, 3, 1],
-            ClassShooped::class,
-        )->unfoldUsing(
-            ClassShooped::fold(["a" => 1, "b" => 3, "c" => 1])->asArray()
-        );
-
-        AssertEqualsFluent::applyWith(
-            ["H", "i", "!"],
-            ClassShooped::class
-        )->unfoldUsing(
-            ClassShooped::fold("Hi!")->asArray()
-        );
-
-        AssertEqualsFluent::applyWith(
-            ["", "H", "i", ""],
-            ClassShooped::class
-        )->unfoldUsing(
-            ClassShooped::fold("!H!i!")->asArray("!")
-        );
-
-        AssertEqualsFluent::applyWith(
-            ["H", "i"],
-            ClassShooped::class
-        )->unfoldUsing(
-            ClassShooped::fold("!H!i!")->asArray("!", false)
-        );
-
-        AssertEqualsFluent::applyWith(
-            ["", "H!i!"],
-            ClassShooped::class
-        )->unfoldUsing(
-            ClassShooped::fold("!H!i!")->asArray("!", true, 2)
-        );
-
-        AssertEqualsFluent::applyWith(
-            ["H!i!"],
-            ClassShooped::class
-        )->unfoldUsing(
-            ClassShooped::fold("!H!i!")->asArray("!", false, 2)
-        );
-
-        AssertEqualsFluent::applyWith(
-            [1, 3],
-            ClassShooped::class,
-            0.88
-        )->unfoldUsing(
-            ClassShooped::fold((object) ["a" => 1, "c" => 3])->asArray()
-        );
-
-        // TODO: Objects
-    }
-
-    /**
-     * @test
-     */
-    public function efToArray()
-    {
-        AssertEqualsFluent::applyWith(
-            [false, true],
-            "array"
-        )->unfoldUsing(
-            ClassShooped::fold(true)->efToArray()
-        );
-
-        // TODO: Should arrays start at 1
-        AssertEqualsFluent::applyWith(
-            // [1 => 2, 2 => 3]
-            [0, 1, 2, 3],
-            "array"
-        )->unfoldUsing(
-            ClassShooped::fold(3)->efToArray()
-        );
-
-        // TODO: Should arrays start at 1
-        AssertEqualsFluent::applyWith(
-            // [1 => 1, 2 => 2]
-            [0, 1, 2],
-            "array"
-        )->unfoldUsing(
-            ClassShooped::fold(2.5)->efToArray()
-        );
-
-        AssertEqualsFluent::applyWith(
-            [3, 1, 3],
-            "array"
-        )->unfoldUsing(
-            ClassShooped::fold([3, 1, 3])->efToArray()
-        );
-
-        AssertEqualsFluent::applyWith(
-            [1, 3, 1],
-            "array"
-        )->unfoldUsing(
-            ClassShooped::fold(["a" => 1, "b" => 3, "c" => 1])->efToArray()
-        );
-
-        AssertEqualsFluent::applyWith(
-            ["H", "i", "!"],
-            "array"
-        )->unfoldUsing(
-            ClassShooped::fold("Hi!")->efToArray()
-        );
-
-        AssertEqualsFluent::applyWith(
-            [1, 3],
-            "array"
-        )->unfoldUsing(
-            ClassShooped::fold((object) ["a" => 1, "c" => 3])->efToArray()
-        );
-
-        // TODO: Objects
-    }
 
     /**
      * @test
@@ -369,7 +37,7 @@ class ShoopedTest extends FilterContractsTestCase
             // if no 0 - [true, false]
             ["false" => false, "true" => true],
             ClassShooped::class,
-            2.47
+            6.98 // 2.47
         )->unfoldUsing(
             ClassShooped::fold(true)->asDictionary()
         );
@@ -443,7 +111,7 @@ class ShoopedTest extends FilterContractsTestCase
             // ["i1" => 1, "i2" => 2, "i3" => 3]
             ["i0" => 0, "i1" => 1, "i2" => 2, "i3" => 3],
             "array",
-            0.92
+            2.35 // 0.92
         )->unfoldUsing(
             ClassShooped::fold(3)->efToDictionary()
         );
@@ -558,7 +226,6 @@ class ShoopedTest extends FilterContractsTestCase
 
     /**
      * @test
-     * @group current
      */
     public function efHas()
     {
@@ -623,5 +290,135 @@ class ShoopedTest extends FilterContractsTestCase
         );
 
         // TODO: Objects
+    }
+
+    /**
+     * @test
+     */
+    public function hasAt()
+    {
+        AssertEqualsFluent::applyWith(
+            true,
+            ClassShooped::class,
+            3.35 // 3.03
+        )->unfoldUsing(
+            ClassShooped::fold(true)->hasAt(1)
+        );
+
+        AssertEqualsFluent::applyWith(
+            false,
+            ClassShooped::class
+        )->unfoldUsing(
+            ClassShooped::fold(3)->hasAt(4)
+        );
+
+        AssertEqualsFluent::applyWith(
+            true,
+            ClassShooped::class
+        )->unfoldUsing(
+            ClassShooped::fold(2.5)->hasAt(2)
+        );
+
+        AssertEqualsFluent::applyWith(
+            false,
+            ClassShooped::class
+        )->unfoldUsing(
+            ClassShooped::fold([3, 1, 3])->hasAt(4)
+        );
+
+        AssertEqualsFluent::applyWith(
+            true,
+            ClassShooped::class
+        )->unfoldUsing(
+            ClassShooped::fold(["a" => 1, "b" => 3, "c" => 1])->hasAt("c")
+        );
+
+        AssertEqualsFluent::applyWith(
+            true,
+            ClassShooped::class
+        )->unfoldUsing(
+            ClassShooped::fold("Hi!")->hasAt(2)
+        );
+
+        AssertEqualsFluent::applyWith(
+            true,
+            ClassShooped::class
+        )->unfoldUsing(
+            ClassShooped::fold("Hi!")->hasAt("content")
+        );
+
+        AssertEqualsFluent::applyWith(
+            false,
+            ClassShooped::class
+        )->unfoldUsing(
+            ClassShooped::fold((object) ["a" => 1, "c" => 3])->hasAt("b")
+        );
+
+        // TODO: Objects
+    }
+
+    /**
+     * @test
+     * @group current
+     */
+    public function offsetExists()
+    {
+        AssertEqualsFluent::applyWith(
+            true,
+            "boolean"
+        )->unfoldUsing(
+            ClassShooped::fold(true)->hasAt(1)
+        );
+
+        // AssertEqualsFluent::applyWith(
+        //     false,
+        //     ClassShooped::class
+        // )->unfoldUsing(
+        //     ClassShooped::fold(3)->hasAt(4)
+        // );
+
+        // AssertEqualsFluent::applyWith(
+        //     true,
+        //     ClassShooped::class
+        // )->unfoldUsing(
+        //     ClassShooped::fold(2.5)->hasAt(2)
+        // );
+
+        // AssertEqualsFluent::applyWith(
+        //     false,
+        //     ClassShooped::class
+        // )->unfoldUsing(
+        //     ClassShooped::fold([3, 1, 3])->hasAt(4)
+        // );
+
+        // AssertEqualsFluent::applyWith(
+        //     true,
+        //     ClassShooped::class
+        // )->unfoldUsing(
+        //     ClassShooped::fold(["a" => 1, "b" => 3, "c" => 1])->hasAt("c")
+        // );
+
+        // AssertEqualsFluent::applyWith(
+        //     true,
+        //     ClassShooped::class
+        // )->unfoldUsing(
+        //     ClassShooped::fold("Hi!")->hasAt(2)
+        // );
+
+        // AssertEqualsFluent::applyWith(
+        //     true,
+        //     ClassShooped::class
+        // )->unfoldUsing(
+        //     ClassShooped::fold("Hi!")->hasAt("content")
+        // );
+
+        // AssertEqualsFluent::applyWith(
+        //     false,
+        //     ClassShooped::class
+        // )->unfoldUsing(
+        //     ClassShooped::fold((object) ["a" => 1, "c" => 3])->hasAt("b")
+        // );
+
+        // // TODO: Objects
     }
 }
