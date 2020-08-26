@@ -108,6 +108,9 @@ class ClassShooped implements Shooped
 
     public function has($value): Falsifiable
     {
+        // TODO: Consider switching priority - call efHas and wrap result, is
+        //      there a performance difference?? Are people using fluent more
+        //      likely to continue chaining or wanting to bail??
         return static::fold(
             Apply::has($value)->unfoldUsing($this->main)
         );
@@ -115,7 +118,7 @@ class ClassShooped implements Shooped
 
     public function efHas($value): bool
     {
-        # code...
+        return $this->has($value)->unfold();
     }
 
     public function hasAt($member)

@@ -490,7 +490,6 @@ class ShoopedTest extends FilterContractsTestCase
 
     /**
      * @test
-     * @group current
      */
     public function has()
     {
@@ -552,6 +551,75 @@ class ShoopedTest extends FilterContractsTestCase
             0.54
         )->unfoldUsing(
             ClassShooped::fold((object) ["a" => 1, "c" => 3])->has(false)
+        );
+
+        // TODO: Objects
+    }
+
+    /**
+     * @test
+     * @group current
+     */
+    public function efHas()
+    {
+        AssertEqualsFluent::applyWith(
+            // if no 0 - [true, false]
+            false,
+            "boolean",
+            9.11
+        )->unfoldUsing(
+            ClassShooped::fold(true)->efHas(1)
+        );
+
+        AssertEqualsFluent::applyWith(
+            true,
+            "boolean",
+            0.53
+        )->unfoldUsing(
+            ClassShooped::fold(3)->efHas(3)
+        );
+
+        AssertEqualsFluent::applyWith(
+            false,
+            "boolean"
+        )->unfoldUsing(
+            ClassShooped::fold(2.5)->efHas(2)
+        );
+
+        AssertEqualsFluent::applyWith(
+            true,
+            "boolean"
+        )->unfoldUsing(
+            ClassShooped::fold(2.5)->efHas(2.0)
+        );
+
+        AssertEqualsFluent::applyWith(
+            true,
+            "boolean"
+        )->unfoldUsing(
+            ClassShooped::fold([3, 1, 3])->efHas(3)
+        );
+
+        AssertEqualsFluent::applyWith(
+            false,
+            "boolean"
+        )->unfoldUsing(
+            ClassShooped::fold(["a" => 1, "b" => 3, "c" => 1])->efHas(5)
+        );
+
+        AssertEqualsFluent::applyWith(
+            true,
+            "boolean"
+        )->unfoldUsing(
+            ClassShooped::fold("Hi!")->efHas("!")
+        );
+
+        AssertEqualsFluent::applyWith(
+            false,
+            "boolean",
+            0.96
+        )->unfoldUsing(
+            ClassShooped::fold((object) ["a" => 1, "c" => 3])->efHas(false)
         );
 
         // TODO: Objects
