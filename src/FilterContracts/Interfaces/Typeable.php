@@ -6,7 +6,7 @@ use Eightfold\Shoop\Foldable\Foldable;
 
 interface Typeable
 {
-    public function efTypes(): Arrayable;
+    public function types(): Arrayable;
 
-    public function types(): array;
+    public function efTypes(): array;
 }
