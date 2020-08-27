@@ -669,4 +669,88 @@ class ShoopedTest extends FilterContractsTestCase
         // Returns void, uses PlusAt - TODO: maybe use different testing method
         $this->assertTrue(true);
     }
+
+    /**
+     * @test
+     */
+    public function minusAt()
+    {
+        AssertEqualsFluent::applyWith(
+            true,
+            ClassShooped::class,
+            3.46
+        )->unfoldUsing(
+            ClassShooped::fold(false)->minusAt(1)
+        );
+
+        AssertEqualsFluent::applyWith(
+            false,
+            ClassShooped::class
+        )->unfoldUsing(
+            ClassShooped::fold(true)->minusAt("true")
+        );
+
+        AssertEqualsFluent::applyWith(
+            false,
+            ClassShooped::class
+        )->unfoldUsing(
+            ClassShooped::fold(false)->minusAt(0)
+        );
+
+        AssertEqualsFluent::applyWith(
+            0,
+            ClassShooped::class,
+            0.34
+        )->unfoldUsing(
+            ClassShooped::fold(3)->minusAt(3)
+        );
+
+        AssertEqualsFluent::applyWith(
+            1.5,
+            ClassShooped::class
+        )->unfoldUsing(
+            ClassShooped::fold(2.5)->minusAt(1)
+        );
+
+        AssertEqualsFluent::applyWith(
+            [3, 3],
+            ClassShooped::class
+        )->unfoldUsing(
+            ClassShooped::fold([3, 1, 3])->minusAt(1)
+        );
+
+        AssertEqualsFluent::applyWith(
+            ["a" => 1],
+            ClassShooped::class
+        )->unfoldUsing(
+            ClassShooped::fold(["a" => 1, "c" => 3])->minusAt("c")
+        );
+
+        AssertEqualsFluent::applyWith(
+            "H!",
+            ClassShooped::class,
+            0.31
+        )->unfoldUsing(
+            ClassShooped::fold("Hi!")->minusAt(1)
+        );
+
+        AssertEqualsFluent::applyWith(
+            (object) ["c" => 3],
+            ClassShooped::class,
+            1.11
+        )->unfoldUsing(
+            ClassShooped::fold((object) ["a" => 1, "c" => 3])->minusAt("a")
+        );
+
+        // TODO: Objects
+    }
+
+    /**
+     * @test
+     */
+    public function offsetUnset()
+    {
+        // Returns void, uses PlusAt - TODO: maybe use different testing method
+        $this->assertTrue(true);
+    }
 }

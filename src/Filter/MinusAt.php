@@ -11,36 +11,48 @@ class MinusAt extends Filter
 {
     public function __invoke($using)
     {
-        $useArray = true;
-        if (count(array_filter($this->main, "is_string")) > 0) {
-            $useArray = false;
-
-        }
-
         if (TypeIs::applyWith("boolean")->unfoldUsing($using)) {
-            var_dump(__FILE__);
-            die("boolean");
+            if (TypeIs::applyWith("integer")->unfoldUsing($this->main)) {
+                return Shoop::pipe($using,
+                    TypeAsArray::apply(),
+                    MinusAt::applyWith($this->main),
+                    TypeAsArray::apply(),
+                    At::applyWith(0)
+                )->unfold();
+
+            }
+            return Shoop::pipe($using,
+                TypeAsDictionary::apply(),
+                MinusAt::applyWith($this->main),
+                TypeAsArray::apply(),
+                At::applyWith(0)
+            );
 
         } elseif (TypeIs::applyWith("number")->unfoldUsing($using)) {
-            var_dump(__FILE__);
-            die("number");
+            return Minus::applyWith($this->main)->unfoldUsing($using);
 
         } elseif (TypeIs::applyWith("list")->unfoldUsing($using)) {
-            $base = array_diff_key($using, array_flip($this->main));
-            if ($useArray) {
-                return TypeAsArray::apply()->unfoldUsing($base);
-            }
-            return $base;
+            if (TypeIs::applyWith("array")->unfoldUsing($using)) {
+                unset($using[$this->main]);
+                return array_values($using);
 
-        } elseif (TypeIs::applyWith("string")->unfoldUsing($using) and
-            ! TypeIs::applyWith("json")->unfoldUsing($using)
-        ) {
-            var_dump(__FILE__);
-            die("string");
+            }
+            unset($using[$this->main]);
+            return $using;
+
+        } elseif (TypeIs::applyWith("string")->unfoldUsing($using)) {
+            return Shoop::pipe($using,
+                TypeAsArray::apply(),
+                MinusAt::applyWith($this->main),
+                TypeAsString::apply()
+            )->unfold();
 
         } elseif (TypeIs::applyWith("tuple")->unfoldUsing($using)) {
-            var_dump(__FILE__);
-            die("tuple");
+            return Shoop::pipe($using,
+                TypeAsDictionary::apply(),
+                MinusAt::applyWith($this->main),
+                TypeAsTuple::apply()
+            )->unfold();
 
         } elseif (TypeIs::applyWith("object")->unfoldUsing($using)) {
             var_dump(__FILE__);

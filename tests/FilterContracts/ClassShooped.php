@@ -161,13 +161,16 @@ class ClassShooped implements Shooped
         $this->plusAt($value, $offset);
     }
 
-    public function minusAt($member)
+    public function minusAt($member): Associable
     {
-        # code...
+        $this->main = Apply::minusAt($member)->unfoldUsing($this->main);
+        return $this;
     }
 
     public function offsetUnset($offset): void // ArrayAcces
-    {}
+    {
+        $this->main = $this->minusAt($member);
+    }
 
     public function rewind(): void // Iterator
     {}
