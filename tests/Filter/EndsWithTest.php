@@ -22,7 +22,7 @@ class EndsWithTest extends TestCase
         AssertEquals::applyWith(
             true,
             EndsWith::applyWith("sing?"),
-            1.48 // unstable
+            2.11 // 1.48 // unstable
         )->unfoldUsing($using);
 
         AssertEquals::applyWith(
