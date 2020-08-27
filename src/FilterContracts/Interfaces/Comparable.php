@@ -4,19 +4,15 @@ namespace Eightfold\Shoop\FilterContracts\Interfaces;
 
 interface Comparable
 {
-    public function is($compare): Comparable;
-
-    public function isEmpty(): Comparable;
-
-    public function isGreaterThan($compare): Comparable;
-
-    public function isGreaterThanOrEqualTo($compare): Comparable;
+    public function is($compare): Falsifiable;
 
     public function efIs($compare): bool;
 
-    public function efIsEmpty(): bool;
+    public function isGreaterThan($compare): Falsifiable;
 
     public function efIsGreaterThan($compare): bool;
+
+    public function isGreaterThanOrEqualTo($compare): Falsifiable;
 
     public function efIsGreaterThanOrEqualTo($compare): bool;
 }

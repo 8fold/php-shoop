@@ -14,9 +14,9 @@ interface Associable extends ArrayAccess, Iterator, Addable, Subtractable
 
     public function efToDictionary(): array;
 
-    public function has($member);
+    public function has($member): Falsifiable;
 
-    public function hasAt($member);
+    public function hasAt($member): Falsifiable;
 
     public function offsetExists($offset): bool; // ArrayAccess
 
