@@ -1,6 +1,6 @@
 <?php
 
-namespace Eightfold\Shoop\FluentTypes\Contracts;
+namespace Eightfold\Shoop\FilterContracts\Interfaces;
 
 interface Debuggable
 {

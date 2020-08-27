@@ -6,8 +6,8 @@ use PHPUnit\Framework\TestCase;
 use Eightfold\Shoop\Tests\AssertEquals;
 
 use Eightfold\Shoop\Filter\TypeAsArray;
-use Eightfold\Shoop\FilterContracts\Arrayable;
-use Eightfold\Shoop\FilterContracts\ArrayableImp;
+use Eightfold\Shoop\FilterContracts\Interfaces\Arrayable;
+use Eightfold\Shoop\FilterContracts\Interfaces\ArrayableImp;
 
 /**
  * @group TypeAsArray

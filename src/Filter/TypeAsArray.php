@@ -7,7 +7,7 @@ use Eightfold\Foldable\Filter;
 
 use Eightfold\Shoop\Shoop;
 
-use Eightfold\Shoop\FilterContracts\Arrayable;
+use Eightfold\Shoop\FilterContracts\Interfaces\Arrayable;
 
 class TypeAsArray extends Filter
 {

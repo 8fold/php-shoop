@@ -153,7 +153,7 @@ trait Arrayable
         AssertEqualsFluent::applyWith(
             [1, 3],
             "array",
-            1.84
+            2.23 // 1.84
         )->unfoldUsing(
             Shooped::fold((object) ["a" => 1, "c" => 3])->efToArray()
         );

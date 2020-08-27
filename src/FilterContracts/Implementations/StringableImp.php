@@ -4,7 +4,7 @@ namespace Eightfold\Shoop\Filter\Contracts;
 
 use Eightfold\Foldable\Foldable;
 
-use Eightfold\Shoop\FilterContracts\Stringable;
+use Eightfold\Shoop\FilterContracts\Interfaces\Stringable;
 
 trait StringableImp
 {

@@ -7,7 +7,7 @@ use \stdClass;
 
 use Eightfold\Foldable\Foldable;
 
-use Eightfold\Shoop\FilterContracts\Tupleable;
+use Eightfold\Shoop\FilterContracts\Interfaces\Tupleable;
 
 trait TupleableImp
 {

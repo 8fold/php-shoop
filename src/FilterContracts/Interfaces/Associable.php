@@ -1,12 +1,12 @@
 <?php
 
-namespace Eightfold\Shoop\FilterContracts;
+namespace Eightfold\Shoop\FilterContracts\Interfaces;
 
 use \ArrayAccess;
 use \Iterator;
 
-use Eightfold\Shoop\FilterContracts\Addable;
-use Eightfold\Shoop\FilterContracts\Subtractable;
+use Eightfold\Shoop\FilterContracts\Interfaces\Addable;
+use Eightfold\Shoop\FilterContracts\Interfaces\Subtractable;
 
 interface Associable extends ArrayAccess, Iterator, Addable, Subtractable
 {

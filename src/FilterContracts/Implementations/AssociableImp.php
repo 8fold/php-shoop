@@ -2,11 +2,11 @@
 
 namespace Eightfold\Shoop\Filter\Contracts;
 
-use Eightfold\Shoop\FilterContracts\ArrayableImp;
+use Eightfold\Shoop\FilterContracts\Interfaces\ArrayableImp;
 
 use Eightfold\Foldable\Foldable;
 
-use Eightfold\Shoop\FilterContracts\Keyable;
+use Eightfold\Shoop\FilterContracts\Interfaces\Keyable;
 
 trait KeyableImp
 {

@@ -2,7 +2,7 @@
 
 namespace Eightfold\Shoop\Filter\Contracts;
 
-use Eightfold\Shoop\FilterContracts\Falsifiable;
+use Eightfold\Shoop\FilterContracts\Interfaces\Falsifiable;
 
 trait ComparableImp
 {

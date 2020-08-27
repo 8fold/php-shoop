@@ -1,6 +1,6 @@
 <?php
 
-namespace Eightfold\Shoop\FilterContracts;
+namespace Eightfold\Shoop\FilterContracts\Interfaces;
 
 use Eightfold\Foldable\Foldable;
 

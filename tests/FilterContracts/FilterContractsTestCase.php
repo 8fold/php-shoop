@@ -20,6 +20,11 @@ abstract class FilterContractsTestCase extends TestCase
     {
         return [
             "args", // value method, returns args following or incl. main
+            "rewind", // part of PHP iterator interface
+            "valid", // part of PHP iterator interface
+            "current", // part of PHP iterator interface
+            "key", // part of PHP iterator interface
+            "next" // part of PHP iterator interface
         ];
     }
 

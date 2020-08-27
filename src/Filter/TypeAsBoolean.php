@@ -7,7 +7,7 @@ use Eightfold\Foldable\Filter;
 
 use Eightfold\Shoop\Shoop;
 
-use Eightfold\Shoop\FilterContracts\Falsifiable;
+use Eightfold\Shoop\FilterContracts\Interfaces\Falsifiable;
 
 class TypeAsBoolean extends Filter
 {

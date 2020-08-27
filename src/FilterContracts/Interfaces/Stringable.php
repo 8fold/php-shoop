@@ -1,6 +1,6 @@
 <?php
 
-namespace Eightfold\Shoop\FilterContracts;
+namespace Eightfold\Shoop\FilterContracts\Interfaces;
 
 // PHP 8.0 - use \Stringable as PhpStringable;
 

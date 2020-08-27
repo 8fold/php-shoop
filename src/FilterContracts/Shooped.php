@@ -4,17 +4,17 @@ namespace Eightfold\Shoop\FilterContracts;
 
 use Eightfold\Foldable\Foldable;
 
-// use Eightfold\Shoop\FilterContracts\Addable;
-use Eightfold\Shoop\FilterContracts\Arrayable;
-use Eightfold\Shoop\FilterContracts\Associable;
-use Eightfold\Shoop\FilterContracts\Comparable;
-use Eightfold\Shoop\FilterContracts\Countable;
-use Eightfold\Shoop\FilterContracts\Falsifiable;
-use Eightfold\Shoop\FilterContracts\Reversible;
-use Eightfold\Shoop\FilterContracts\Stringable;
-// use Eightfold\Shoop\FilterContracts\Subtractable;
-use Eightfold\Shoop\FilterContracts\Tupleable;
-use Eightfold\Shoop\FilterContracts\Typeable;
+// use Eightfold\Shoop\FilterContracts\Interfaces\Addable;
+use Eightfold\Shoop\FilterContracts\Interfaces\Arrayable;
+use Eightfold\Shoop\FilterContracts\Interfaces\Associable;
+use Eightfold\Shoop\FilterContracts\Interfaces\Comparable;
+use Eightfold\Shoop\FilterContracts\Interfaces\Countable;
+use Eightfold\Shoop\FilterContracts\Interfaces\Falsifiable;
+use Eightfold\Shoop\FilterContracts\Interfaces\Reversible;
+use Eightfold\Shoop\FilterContracts\Interfaces\Stringable;
+// use Eightfold\Shoop\FilterContracts\Interfaces\Subtractable;
+use Eightfold\Shoop\FilterContracts\Interfaces\Tupleable;
+use Eightfold\Shoop\FilterContracts\Interfaces\Typeable;
 
 interface Shooped extends
     Foldable,

@@ -7,8 +7,8 @@ use Eightfold\Foldable\Filter;
 
 use \stdClass;
 
-use Eightfold\Shoop\FilterContracts\Typeable;
-use Eightfold\Shoop\FilterContracts\Arrayable;
+use Eightfold\Shoop\FilterContracts\Interfaces\Typeable;
+use Eightfold\Shoop\FilterContracts\Interfaces\Arrayable;
 
 // TODO: rename TypesFor - add sequential
 class TypesOf extends Filter

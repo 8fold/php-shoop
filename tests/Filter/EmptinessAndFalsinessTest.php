@@ -11,7 +11,7 @@ use Eightfold\Foldable\Foldable;
 
 use Eightfold\Shoop\Shoop;
 
-use Eightfold\Shoop\FilterContracts\Falsifiable;
+use Eightfold\Shoop\FilterContracts\Interfaces\Falsifiable;
 
 use Eightfold\Shoop\Filter\TypeAsBoolean;
 use Eightfold\Shoop\Filter\IsEmpty;

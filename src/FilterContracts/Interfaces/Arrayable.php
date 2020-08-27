@@ -1,8 +1,8 @@
 <?php
 
-namespace Eightfold\Shoop\FilterContracts;
+namespace Eightfold\Shoop\FilterContracts\Interfaces;
 
-use Eightfold\Shoop\FilterContracts\Associable;
+use Eightfold\Shoop\FilterContracts\Interfaces\Associable;
 
 interface Arrayable extends Associable
 {

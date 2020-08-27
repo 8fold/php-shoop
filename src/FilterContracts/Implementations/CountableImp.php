@@ -4,7 +4,7 @@ namespace Eightfold\Shoop\Filter\Contracts;
 
 use Eightfold\Foldable\Foldable;
 
-use Eightfold\Shoop\FilterContracts\Countable;
+use Eightfold\Shoop\FilterContracts\Interfaces\Countable;
 
 trait CountableImp
 {
