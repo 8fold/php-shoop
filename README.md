@@ -131,7 +131,7 @@ Should array to tuple be the PHP default for array to object?? Reduces deviation
 |`TypeAsDictionary::apply()->unfoldUsing("Hi!")`  |["content" => "Hi!"]                          |''               |''                          |
 |`TypeAsTuple::apply()->unfoldUsing("Hi!")`       |object(["content"] => "Hi!")                  |`(object) "Hi!"` |object(["scalar"] => "Hi!") |
 
-#### Dictionary and tuple
+#### Dictionary, tuple, and JSON
 
 Ditionary and tuple deviate from PHP in similar ways, syntax might be different.
 
@@ -140,6 +140,8 @@ Ditionary and tuple deviate from PHP in similar ways, syntax might be different.
 |`TypeAsInteger::apply()->unfoldUsing(["a" => 1, "b" => 2])` |2                |`(int) ["a" => 1, "b" => 2]`   |1                              |
 |`TypeAsString::apply()->unfoldUsing(["a" => 1, "b" => 2])`  |"", configurable |`(string) ["a" => 1, "b" => 2]`|PHP Notice: Array to string... |
 |`TypeAsArray::apply()->unfoldUsing(["a" => 1, "b" => 2])`   |[0 => 1, 1 => 2] |`(array) ["a" => 1, "b" => 2]` |["a" => 1, "b" => 2]           |
+
+Note: The default implementation of the PHP JsonSerialize interface results in the PHP type being converted to a Shoop Tuple, then being encoded.
 
 #### Array
 

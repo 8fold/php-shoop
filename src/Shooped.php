@@ -266,19 +266,42 @@ class Shooped implements ShoopedInterface
 
 // - Tupleable
     public function asTuple(): Tupleable
-    {}
+    {
+        return static::fold(
+            Apply::typeAsTuple()->unfoldUsing($this->main)
+        );
+    }
 
-    // PHP 8.0 - stdClass|object
     public function efToTuple(): object
-    {}
+    {
+        return $this->asTuple()->unfold();
+    }
 
     public function asJson(): Tupleable
-    {}
+    {
+        return static::fold(
+            Apply::typeAsJson()->unfoldUsing($this->main)
+        );
+    }
 
     public function efToJson(): string
-    {}
+    {
+        return $this->asJson()->unfold();
+    }
 
     public function jsonSerialize(): object // JsonSerializable
+    {
+        return $this->efToTuple()->unfold();
+    }
+
+// - Countable
+    public function asInteger(): Countable
+    {}
+
+    public function efToInteger(): int
+    {}
+
+    public function count(): int // Countable
     {}
 
 // - Comparable
@@ -290,16 +313,6 @@ class Shooped implements ShoopedInterface
     {}
 
     public function isGreaterThanOrEqualTo($compare): Falsifiable
-    {}
-
-// - Countable
-    public function asInteger(): Countable
-    {}
-
-    public function efToInteger(): int
-    {}
-
-    public function count(): int // Countable
     {}
 
 // - Reversible

@@ -24,7 +24,8 @@ abstract class FilterContractsTestCase extends TestCase
             "valid", // part of PHP iterator interface
             "current", // part of PHP iterator interface
             "key", // part of PHP iterator interface
-            "next" // part of PHP iterator interface
+            "next", // part of PHP iterator interface
+            "jsonSerialize" // uses efToTuple
         ];
     }
 
