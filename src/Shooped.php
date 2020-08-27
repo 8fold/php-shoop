@@ -246,31 +246,6 @@ class Shooped implements ShoopedInterface
         return $this->asBoolean()->unfold();
     }
 
-// - Comparable
-    public function is($compare): Falsifiable
-    {
-    }
-
-    public function isGreaterThan($compare): Falsifiable
-    {}
-
-    public function isGreaterThanOrEqualTo($compare): Falsifiable
-    {}
-
-// - Countable
-    public function asInteger(): Countable
-    {}
-
-    public function efToInteger(): int
-    {}
-
-    public function count(): int // Countable
-    {}
-
-// - Reversible
-    public function reverse(): Reversible
-    {}
-
 // - Stringable
     public function asString(string $glue = ""): Stringable
     {}
@@ -296,6 +271,31 @@ class Shooped implements ShoopedInterface
     {}
 
     public function jsonSerialize(): object // JsonSerializable
+    {}
+
+// - Comparable
+    public function is($compare): Falsifiable
+    {
+    }
+
+    public function isGreaterThan($compare): Falsifiable
+    {}
+
+    public function isGreaterThanOrEqualTo($compare): Falsifiable
+    {}
+
+// - Countable
+    public function asInteger(): Countable
+    {}
+
+    public function efToInteger(): int
+    {}
+
+    public function count(): int // Countable
+    {}
+
+// - Reversible
+    public function reverse(): Reversible
     {}
 
 // - Typeable
