@@ -141,7 +141,9 @@ class ClassShooped implements Shooped
     }
 
     public function offsetGet($offset) // ArrayAccess
-    {}
+    {
+        return $this->at($offset)->unfold();
+    }
 
     public function plusAt(
         $value, // mixed
@@ -149,16 +151,20 @@ class ClassShooped implements Shooped
         bool $overwrite = false
     ): Associable
     {
-        # code...
+        $this->main = Apply::plusAt($value, $member, $overwrite)
+            ->unfoldUsing($this->main);
+        return $this;
+    }
+
+    public function offsetSet($offset, $value): void // ArrayAccess
+    {
+        $this->plusAt($value, $offset);
     }
 
     public function minusAt($member)
     {
         # code...
     }
-
-    public function offsetSet($offset, $value): void // ArrayAccess
-    {}
 
     public function offsetUnset($offset): void // ArrayAcces
     {}

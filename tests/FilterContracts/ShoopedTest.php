@@ -56,7 +56,8 @@ class ShoopedTest extends FilterContractsTestCase
         AssertEqualsFluent::applyWith(
             // ["i1" => 1, "i2" => 2]
             ["i0" => 0, "i1" => 1, "i2" => 2],
-            ClassShooped::class
+            ClassShooped::class,
+            0.72
         )->unfoldUsing(
             ClassShooped::fold(2.5)->asDictionary()
         );
@@ -425,7 +426,6 @@ class ShoopedTest extends FilterContractsTestCase
 
     /**
      * @test
-     * @group current
      */
     public function _at()
     {
@@ -496,5 +496,177 @@ class ShoopedTest extends FilterContractsTestCase
         );
 
         // TODO: Objects
+    }
+
+    /**
+     * @test
+     */
+    public function offsetGet()
+    {
+        AssertEqualsFluent::applyWith(
+            true,
+            "boolean",
+            3.51
+        )->unfoldUsing(
+            ClassShooped::fold(true)->offsetGet(1)
+        );
+
+        AssertEqualsFluent::applyWith(
+            3,
+            "integer"
+        )->unfoldUsing(
+            ClassShooped::fold(3)->offsetGet(3)
+        );
+
+        AssertEqualsFluent::applyWith(
+            2.0,
+            "double"
+        )->unfoldUsing(
+            ClassShooped::fold(2.5)->offsetGet([2, 3])
+        );
+
+        AssertEqualsFluent::applyWith(
+            [1.0, 2.0],
+            "array"
+        )->unfoldUsing(
+            ClassShooped::fold(2.5)->offsetGet([1, 2, 3])
+        );
+
+        AssertEqualsFluent::applyWith(
+            1,
+            "integer"
+        )->unfoldUsing(
+            ClassShooped::fold([3, 1, 3])->offsetGet(1)
+        );
+
+        AssertEqualsFluent::applyWith(
+            3,
+            "integer"
+        )->unfoldUsing(
+            ClassShooped::fold(["a" => 1, "b" => 3, "c" => 1])->offsetGet("b")
+        );
+
+        AssertEqualsFluent::applyWith(
+            "H",
+            "string"
+        )->unfoldUsing(
+            ClassShooped::fold("Hi!")->offsetGet(0)
+        );
+
+        AssertEqualsFluent::applyWith(
+            "Hi!",
+            "string"
+        )->unfoldUsing(
+            ClassShooped::fold("Hi!")->offsetGet("content")
+        );
+
+        AssertEqualsFluent::applyWith(
+            1,
+            "integer"
+        )->unfoldUsing(
+            ClassShooped::fold((object) ["a" => 1, "c" => 3])->offsetGet("a")
+        );
+
+        // TODO: Objects
+    }
+
+    /**
+     * @test
+     */
+    public function plusAt()
+    {
+        AssertEqualsFluent::applyWith(
+            true,
+            ClassShooped::class,
+            4.58
+        )->unfoldUsing(
+            ClassShooped::fold(false)->plusAt(1)
+        );
+
+        AssertEqualsFluent::applyWith(
+            false,
+            ClassShooped::class
+        )->unfoldUsing(
+            ClassShooped::fold(true)->plusAt(-1)
+        );
+
+        AssertEqualsFluent::applyWith(
+            6,
+            ClassShooped::class
+        )->unfoldUsing(
+            ClassShooped::fold(3)->plusAt(3)
+        );
+
+        AssertEqualsFluent::applyWith(
+            3.5,
+            ClassShooped::class
+        )->unfoldUsing(
+            ClassShooped::fold(2.5)->plusAt(1)
+        );
+
+        AssertEqualsFluent::applyWith(
+            [3, 1, 3, 1],
+            ClassShooped::class,
+            9.52
+        )->unfoldUsing(
+            ClassShooped::fold([3, 1, 3])->plusAt(1)
+        );
+
+        AssertEqualsFluent::applyWith(
+            [3, 1, 1, 3],
+            ClassShooped::class,
+            3.26
+        )->unfoldUsing(
+            ClassShooped::fold([3, 1, 3])->plusAt(1, 0)
+        );
+
+        AssertEqualsFluent::applyWith(
+            [1, 1, 3],
+            ClassShooped::class,
+            1.19
+        )->unfoldUsing(
+            ClassShooped::fold([3, 1, 3])->plusAt(1, 0, true)
+        );
+
+        AssertEqualsFluent::applyWith(
+            ["a" => 1, "c" => 3, "b" => 2],
+            ClassShooped::class
+        )->unfoldUsing(
+            ClassShooped::fold(["a" => 1, "c" => 3])->plusAt(2, "b")
+        );
+
+        AssertEqualsFluent::applyWith(
+            "Hi!",
+            ClassShooped::class,
+            1.12
+        )->unfoldUsing(
+            ClassShooped::fold("H!")->plusAt("i", 0)
+        );
+
+        AssertEqualsFluent::applyWith(
+            "Ho!",
+            ClassShooped::class
+        )->unfoldUsing(
+            ClassShooped::fold("Hi!")->plusAt("o", 1, true)
+        );
+
+        AssertEqualsFluent::applyWith(
+            (object) ["a" => 2, "c" => 3],
+            ClassShooped::class,
+            0.4
+        )->unfoldUsing(
+            ClassShooped::fold((object) ["a" => 1, "c" => 3])->plusAt(2, "a", true)
+        );
+
+        // TODO: Objects
+    }
+
+    /**
+     * @test
+     */
+    public function offsetSet()
+    {
+        // Returns void, uses PlusAt - TODO: maybe use different testing method
+        $this->assertTrue(true);
     }
 }

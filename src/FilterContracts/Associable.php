@@ -18,7 +18,11 @@ interface Associable extends Addable, Subtractable
 
     public function hasAt($member);
 
+    public function offsetExists($offset): bool; // ArrayAccess
+
     public function at($member);
+
+    public function offsetGet($offset); // ArrayAccess
 
     // TODO: PHP 8.0 - mixed, string|int, bool|Falsifiable
     public function plusAt(
@@ -27,13 +31,9 @@ interface Associable extends Addable, Subtractable
         bool $overwrite = false
     ): Associable;
 
-    public function minusAt($member);
-
-    public function offsetExists($offset): bool; // ArrayAccess
-
-    public function offsetGet($offset); // ArrayAccess
-
     public function offsetSet($offset, $value): void; // ArrayAccess
+
+    public function minusAt($member);
 
     public function offsetUnset($offset): void; // ArrayAcces
 
