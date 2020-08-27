@@ -282,7 +282,7 @@ trait Associable
         AssertEqualsFluent::applyWith(
             true,
             Shooped::class,
-            3.35 // 3.03
+            3.38 // 3.35 // 3.03
         )->unfoldUsing(
             Shooped::fold(true)->hasAt(1)
         );
@@ -681,7 +681,7 @@ trait Associable
         AssertEqualsFluent::applyWith(
             0,
             Shooped::class,
-            0.62
+            0.71 // 0.62
         )->unfoldUsing(
             Shooped::fold(3)->minusAt(3)
         );

@@ -88,7 +88,6 @@ class ShoopedTest extends FilterContractsTestCase
 
     /**
      * @test
-     * @group current
      */
     public function efToString()
     {

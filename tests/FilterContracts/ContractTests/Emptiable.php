@@ -15,7 +15,8 @@ trait Emptiable
     {
         AssertEqualsFluent::applyWith(
             false,
-            Shooped::class
+            Shooped::class,
+            0.74
         )->unfoldUsing(
             Shooped::fold(true)->isEmpty()
         );

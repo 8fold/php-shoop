@@ -260,7 +260,9 @@ class Shooped implements ShoopedInterface
     }
 
     public function __toString(): string
-    {}
+    {
+        return $this->efToString();
+    }
 
 // - Tupleable
     public function asTuple(): Tupleable
