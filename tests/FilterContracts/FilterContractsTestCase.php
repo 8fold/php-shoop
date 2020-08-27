@@ -42,6 +42,10 @@ abstract class FilterContractsTestCase extends TestCase
                 ) {
                     if ($reflectionMethod->name === "_at") {
                         return "at";
+
+                    } elseif ($reflectionMethod->name === "_isEmpty") {
+                        return "isEmpty";
+
                     }
                     return $reflectionMethod->name;
                 }

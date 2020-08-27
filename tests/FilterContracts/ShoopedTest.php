@@ -15,6 +15,9 @@ use Eightfold\Shoop\Tests\FilterContracts\ContractTests\Associable;
 use Eightfold\Shoop\Tests\FilterContracts\ContractTests\Addable;
 use Eightfold\Shoop\Tests\FilterContracts\ContractTests\Subtractable;
 
+use Eightfold\Shoop\Tests\FilterContracts\ContractTests\Falsifiable;
+use Eightfold\Shoop\Tests\FilterContracts\ContractTests\Emptiable;
+
 use Eightfold\Shoop\Shooped;
 
 /**
@@ -22,7 +25,7 @@ use Eightfold\Shoop\Shooped;
  */
 class ShoopedTest extends FilterContractsTestCase
 {
-    use Foldable, Arrayable, Associable, Addable, Subtractable;
+    use Foldable, Arrayable, Associable, Emptiable, Falsifiable, Addable, Subtractable;
 
     static public function sutClassName(): string
     {

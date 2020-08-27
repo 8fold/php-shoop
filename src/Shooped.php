@@ -19,6 +19,7 @@ use Eightfold\Shoop\FilterContracts\Interfaces\Arrayable;
 use Eightfold\Shoop\FilterContracts\Interfaces\Associable;
 use Eightfold\Shoop\FilterContracts\Interfaces\Comparable;
 use Eightfold\Shoop\FilterContracts\Interfaces\Countable;
+use Eightfold\Shoop\FilterContracts\Interfaces\Emptiable;
 use Eightfold\Shoop\FilterContracts\Interfaces\Falsifiable;
 use Eightfold\Shoop\FilterContracts\Interfaces\Reversible;
 use Eightfold\Shoop\FilterContracts\Interfaces\Stringable;
@@ -221,28 +222,39 @@ class Shooped implements ShoopedInterface
 
 // - Emptiable TODO: create interface
     public function isEmpty(): Falsifiable
-    {}
+    {
+        return static::fold(
+            Apply::isEmpty()->unfoldUsing($this->main)
+        );
+    }
 
     public function efIsEmpty(): bool
-    {}
+    {
+        return $this->isEmpty()->unfold();
+    }
+
+// - Falsifiable
+    public function asBoolean(): Falsifiable
+    {
+        return static::fold(
+            Apply::typeAsBoolean()->unfoldUsing($this->main)
+        );
+    }
+
+    public function efToBoolean(): bool
+    {
+        return $this->asBoolean()->unfold();
+    }
 
 // - Comparable
     public function is($compare): Falsifiable
-    {}
-
-    public function efIs($compare): bool
-    {}
+    {
+    }
 
     public function isGreaterThan($compare): Falsifiable
     {}
 
-    public function efIsGreaterThan($compare): bool
-    {}
-
     public function isGreaterThanOrEqualTo($compare): Falsifiable
-    {}
-
-    public function efIsGreaterThanOrEqualTo($compare): bool
     {}
 
 // - Countable
@@ -253,13 +265,6 @@ class Shooped implements ShoopedInterface
     {}
 
     public function count(): int // Countable
-    {}
-
-// - Falsifiable
-    public function asBoolean(): Falsifiable
-    {}
-
-    public function efToBoolean(): bool
     {}
 
 // - Reversible
@@ -301,7 +306,7 @@ class Shooped implements ShoopedInterface
     {}
 
 // - Utilities
-    public function typeCheckForArgument(
+    private function typeCheckForArgument(
         $given,
         array $validTypes,
         bool $triggerError = false,

@@ -26,6 +26,7 @@ trait Arrayable
             // [1 => 2, 2 => 3]
             [2, 3],
             Shooped::class,
+            0.51
         )->unfoldUsing(
             Shooped::fold(3)->asArray(2)
         );
