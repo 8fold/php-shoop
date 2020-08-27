@@ -4,7 +4,7 @@ namespace Eightfold\Shoop\Tests\FilterContracts\ContractTests;
 
 use Eightfold\Shoop\Tests\AssertEqualsFluent;
 
-use Eightfold\Shoop\Tests\FilterContracts\ClassShooped;
+use Eightfold\Shoop\Shooped;
 
 trait Addable
 {
@@ -15,57 +15,57 @@ trait Addable
     {
         AssertEqualsFluent::applyWith(
             true,
-            ClassShooped::class,
+            Shooped::class,
             11.96 // 5.62 // 2.98 // 2.94 // 2.89 // 2.18 // 1.54
         )->unfoldUsing(
-            ClassShooped::fold(false)->plus(1)
+            Shooped::fold(false)->plus(1)
         );
 
         AssertEqualsFluent::applyWith(
             2,
-            ClassShooped::class,
+            Shooped::class,
             7.26 // 2.55 // 2.54 // 2.48
         )->unfoldUsing(
-            ClassShooped::fold(1)->plus(1)
+            Shooped::fold(1)->plus(1)
         );
 
         AssertEqualsFluent::applyWith(
             2.5,
-            ClassShooped::class
+            Shooped::class
         )->unfoldUsing(
-            ClassShooped::fold(1.5)->plus(1)
+            Shooped::fold(1.5)->plus(1)
         );
 
         AssertEqualsFluent::applyWith(
             [1, 2, 3],
-            ClassShooped::class,
+            Shooped::class,
             0.52
         )->unfoldUsing(
-            ClassShooped::fold([1])->plus([2, 3])
+            Shooped::fold([1])->plus([2, 3])
         );
 
         AssertEqualsFluent::applyWith(
             (object) ["a" => 1, "b" => 2, "c" => 3],
-            ClassShooped::class,
+            Shooped::class,
             1.1 // 0.99 // 0.82
         )->unfoldUsing(
-            ClassShooped::fold((object) ["a" => 1])->plus(["b" => 2, "c" => 3])
+            Shooped::fold((object) ["a" => 1])->plus(["b" => 2, "c" => 3])
         );
 
         AssertEqualsFluent::applyWith(
             (object) ["a" => 1, "b" => 2, "c" => 3],
-            ClassShooped::class,
+            Shooped::class,
             0.49
         )->unfoldUsing(
-            ClassShooped::fold((object) ["a" => 1])->plus((object) ["b" => 2, "c" => 3])
+            Shooped::fold((object) ["a" => 1])->plus((object) ["b" => 2, "c" => 3])
         );
 
         AssertEqualsFluent::applyWith(
             (object) ["a" => 1, "i0" => 3],
-            ClassShooped::class,
+            Shooped::class,
             0.49
         )->unfoldUsing(
-            ClassShooped::fold((object) ["a" => 1])->plus(3)
+            Shooped::fold((object) ["a" => 1])->plus(3)
         );
 
         // TODO: Objects

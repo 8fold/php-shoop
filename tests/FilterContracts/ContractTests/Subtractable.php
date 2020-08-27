@@ -4,7 +4,7 @@ namespace Eightfold\Shoop\Tests\FilterContracts\ContractTests;
 
 use Eightfold\Shoop\Tests\AssertEqualsFluent;
 
-use Eightfold\Shoop\Tests\FilterContracts\ClassShooped;
+use Eightfold\Shoop\Shooped;
 
 trait Subtractable
 {
@@ -15,68 +15,68 @@ trait Subtractable
     {
         AssertEqualsFluent::applyWith(
             false,
-            ClassShooped::class,
+            Shooped::class,
             20.64 // 2.84 // 2.24 // 0.97
         )->unfoldUsing(
-            ClassShooped::fold(true)->minus(1)
+            Shooped::fold(true)->minus(1)
         );
 
         AssertEqualsFluent::applyWith(
             0,
-            ClassShooped::class,
+            Shooped::class,
         )->unfoldUsing(
-            ClassShooped::fold(1)->minus(1)
+            Shooped::fold(1)->minus(1)
         );
 
         AssertEqualsFluent::applyWith(
             0.5,
-            ClassShooped::class
+            Shooped::class
         )->unfoldUsing(
-            ClassShooped::fold(1.5)->minus(1)
+            Shooped::fold(1.5)->minus(1)
         );
 
         AssertEqualsFluent::applyWith(
             [],
-            ClassShooped::class,
+            Shooped::class,
             1.14
         )->unfoldUsing(
-            ClassShooped::fold([3, 1, 3])->minus(3)
+            Shooped::fold([3, 1, 3])->minus(3)
         );
 
         AssertEqualsFluent::applyWith(
             [1],
-            ClassShooped::class,
+            Shooped::class,
         )->unfoldUsing(
-            ClassShooped::fold([3, 1, 3])->minus(1)
+            Shooped::fold([3, 1, 3])->minus(1)
         );
 
         AssertEqualsFluent::applyWith(
             [3, 1],
-            ClassShooped::class,
+            Shooped::class,
             2.03
         )->unfoldUsing(
-            ClassShooped::fold([3, 1, 3])->minus(1, false)
+            Shooped::fold([3, 1, 3])->minus(1, false)
         );
 
         AssertEqualsFluent::applyWith(
             [1, 3],
-            ClassShooped::class,
+            Shooped::class,
         )->unfoldUsing(
-            ClassShooped::fold([3, 1, 3])->minus(1, true, false)
+            Shooped::fold([3, 1, 3])->minus(1, true, false)
         );
 
         AssertEqualsFluent::applyWith(
             [1, 1, 1],
-            ClassShooped::class,
+            Shooped::class,
         )->unfoldUsing(
-            ClassShooped::fold([1, 3, 1, 3, 1])->minus(3, false, false)
+            Shooped::fold([1, 3, 1, 3, 1])->minus(3, false, false)
         );
 
         AssertEqualsFluent::applyWith(
             ["b" => 3],
-            ClassShooped::class,
+            Shooped::class,
         )->unfoldUsing(
-            ClassShooped::fold(["a" => 1, "b" => 3, "c" => 1])->minus(1, false, false)
+            Shooped::fold(["a" => 1, "b" => 3, "c" => 1])->minus(1, false, false)
         );
 
         $using = <<<EOD
@@ -87,25 +87,25 @@ trait Subtractable
         EOD;
         AssertEqualsFluent::applyWith(
             "Hello!",
-            ClassShooped::class,
+            Shooped::class,
             1.6
         )->unfoldUsing(
-            ClassShooped::fold($using)->minus()
+            Shooped::fold($using)->minus()
         );
 
         AssertEqualsFluent::applyWith(
             "He!",
-            ClassShooped::class
+            Shooped::class
         )->unfoldUsing(
-            ClassShooped::fold("Hello!")->minus(["l", "o"], false, false)
+            Shooped::fold("Hello!")->minus(["l", "o"], false, false)
         );
 
         AssertEqualsFluent::applyWith(
             (object) ["a" => 1],
-            ClassShooped::class,
+            Shooped::class,
             1.02 // 0.83 // 0.35
         )->unfoldUsing(
-            ClassShooped::fold((object) ["a" => 1, "c" => 3])->minus(3, false, false)
+            Shooped::fold((object) ["a" => 1, "c" => 3])->minus(3, false, false)
         );
 
         // TODO: Objects

@@ -2,7 +2,7 @@
 
 namespace Eightfold\Shoop\Tests\FilterContracts\ContractTests;
 
-use Eightfold\Shoop\Tests\FilterContracts\ClassShooped;
+use Eightfold\Shoop\Shooped;
 
 trait Foldable
 {
@@ -12,7 +12,7 @@ trait Foldable
     public function fold()
     {
         $expected = false;
-        $instance = ClassShooped::fold($expected);
+        $instance = Shooped::fold($expected);
         $actual   = $instance->args(true)[0];
         $this->assertEquals($expected, $actual);
     }
@@ -23,7 +23,7 @@ trait Foldable
     public function unfold()
     {
         $expected = true;
-        $actual   = ClassShooped::fold($expected)->unfold();
+        $actual   = Shooped::fold($expected)->unfold();
         $this->assertEquals($expected, $actual);
     }
 }

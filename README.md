@@ -12,11 +12,12 @@ If you use classes from the [Illuminate Support](https://laravel.com/api/5.5/Ill
 
 The primary goals for Shoop, in no particular order:
 
-* Human-readable (approachable): PHP is pretty accessible to new developers who maybe don't have a computer science background; Shoop continues this theme.
+* Plain language (approachable): PHP is pretty accessible to new developers who maybe don't have a computer science background; Shoop continues this theme.
 * Syntactically and semantically light: PHP is understandably heavy on syntax (special characters to help the parser) and semantically expansive when it comes to capabilities (short function names, but many of them). We review Filters and capabilities based on production need, not gut feel and "because we can."
-* Ubiquity across types: We favor a small number of filters that can then be minimally configured using arguments.
 * Immutable: Whenever possible, we return new instances and values as opposed to altering the state.
 * Type-safe: The flexibility of Shoop means we don't check types every step along the way, but do check types before returning the result of a request.
+* Defer processing: Whenever possible we defer processing until the last possible moment.
+* Ubiquity across types: We favor a small number of filters that can then be minimally configured using arguments.
 * DRY (don't repeat yourself): We strive to leverage capabilities already available in Shoop rather than implementing PHP solutions; most of the Filters came from developing a different Filter.
 * Let nothing mean nothing (the most opinionated piece): We spend a lot of time accounting for, and working around, things that represent nothing. `null` is arguably the most known thing that represents nothing, Shoop doesn't use nor account for `null`. `0` and `false` also represent nothing and, as such, is why Shoop Arrays start with `1`, not `0`.
 

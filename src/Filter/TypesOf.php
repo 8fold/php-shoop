@@ -22,11 +22,11 @@ class TypesOf extends Filter
         } elseif (! is_string($using) and is_numeric($using)) {
             if (is_integer($using) or floor($using) === $using) {
                 return (is_float($using))
-                    ? ["number", "integer", "float"]
-                    : ["number", "integer"];
+                    ? ["sequential", "number", "integer", "float"]
+                    : ["sequential", "number", "integer"];
 
             } elseif (is_float($using)) {
-                return ["number", "float"];
+                return ["sequential", "number", "float"];
 
             }
 
@@ -48,7 +48,7 @@ class TypesOf extends Filter
 
             return ($mightBeJson and json_last_error() === JSON_ERROR_NONE)
                 ? ["collection", "tuple", "json"]
-                : ["string"];
+                : ["sequential", "string"];
 
         } elseif (is_array($using)) {
             if (empty($using)) {
@@ -74,7 +74,7 @@ class TypesOf extends Filter
                 $range = range($start, $end);
 
                 if ($members === $range) {
-                    return ["collection", "list", "array"];
+                    return ["sequential", "collection", "list", "array"];
 
                 }
 

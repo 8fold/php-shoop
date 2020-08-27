@@ -1,7 +1,7 @@
 <?php
 declare(strict_types=1);
 
-namespace Eightfold\Shoop\Tests\FilterContracts;
+namespace Eightfold\Shoop;
 
 use Eightfold\Foldable\Foldable;
 use Eightfold\Foldable\FoldableImp;
@@ -12,7 +12,7 @@ use Eightfold\Shoop\Apply;
 use Eightfold\Shoop\Filter\TypesOf;
 use Eightfold\Shoop\Filter\TypeIs;
 
-use Eightfold\Shoop\FilterContracts\Shooped;
+use Eightfold\Shoop\FilterContracts\Shooped as ShoopedInterface;
 
 use Eightfold\Shoop\FilterContracts\Addable;
 use Eightfold\Shoop\FilterContracts\Arrayable;
@@ -25,7 +25,7 @@ use Eightfold\Shoop\FilterContracts\Stringable;
 use Eightfold\Shoop\FilterContracts\Subtractable;
 use Eightfold\Shoop\FilterContracts\Tupleable;
 
-class ClassShooped implements Shooped
+class Shooped implements ShoopedInterface
 {
     use FoldableImp;
 
@@ -172,20 +172,52 @@ class ClassShooped implements Shooped
         $this->main = $this->minusAt($member);
     }
 
+    private $temp;
+
+    /**
+     * rewind() -> valid() -> current() -> key() -> next() -> valid()...repeat
+     */
     public function rewind(): void // Iterator
-    {}
+    {
+        $this->temp = (TypeIs::applyWith("sequential")->unfoldUsing($this->main))
+            ? Apply::typeAsArray()->unfoldUsing($this->main)
+            : Apply::typeAsDictionary()->unfoldUsing($this->main);
+    }
 
     public function valid(): bool // Iterator
-    {}
+    {
+        if (! isset($this->temp)) {
+            $this->rewind();
+        }
+        $member = key($this->temp);
+        return array_key_exists($member, $this->temp);
+    }
 
     public function current() // Iterator
-    {}
+    {
+        if (! isset($this->temp)) {
+            $this->rewind();
+        }
+        $temp = $this->temp;
+        $member = key($temp);
+        return $temp[$member];
+    }
 
     public function key() // Iterator
-    {}
+    {
+        if (! isset($this->temp)) {
+            $this->rewind();
+        }
+        return key($this->temp);
+    }
 
     public function next(): void // Iterator
-    {}
+    {
+        if (! isset($this->temp)) {
+            $this->rewind();
+        }
+        next($this->temp);
+    }
 
 // - Emptiable TODO: create interface
     public function isEmpty(): Comparable

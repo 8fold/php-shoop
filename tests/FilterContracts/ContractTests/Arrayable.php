@@ -4,7 +4,7 @@ namespace Eightfold\Shoop\Tests\FilterContracts\ContractTests;
 
 use Eightfold\Shoop\Tests\AssertEqualsFluent;
 
-use Eightfold\Shoop\Tests\FilterContracts\ClassShooped;
+use Eightfold\Shoop\Shooped;
 
 trait Arrayable
 {
@@ -15,85 +15,85 @@ trait Arrayable
     {
         AssertEqualsFluent::applyWith(
             [false, true],
-            ClassShooped::class,
+            Shooped::class,
             7.86 // 7.21 // 2.15 // 2.01 // 1.77
         )->unfoldUsing(
-            ClassShooped::fold(true)->asArray()
+            Shooped::fold(true)->asArray()
         );
 
         // TODO: Should arrays start at 1
         AssertEqualsFluent::applyWith(
             // [1 => 2, 2 => 3]
             [2, 3],
-            ClassShooped::class,
+            Shooped::class,
         )->unfoldUsing(
-            ClassShooped::fold(3)->asArray(2)
+            Shooped::fold(3)->asArray(2)
         );
 
         // TODO: Should arrays start at 1
         AssertEqualsFluent::applyWith(
             // [1 => 1, 2 => 2]
             [0, 1, 2],
-            ClassShooped::class
+            Shooped::class
         )->unfoldUsing(
-            ClassShooped::fold(2.5)->asArray()
+            Shooped::fold(2.5)->asArray()
         );
 
         AssertEqualsFluent::applyWith(
             [3, 1, 3],
-            ClassShooped::class
+            Shooped::class
         )->unfoldUsing(
-            ClassShooped::fold([3, 1, 3])->asArray()
+            Shooped::fold([3, 1, 3])->asArray()
         );
 
         AssertEqualsFluent::applyWith(
             [1, 3, 1],
-            ClassShooped::class,
+            Shooped::class,
         )->unfoldUsing(
-            ClassShooped::fold(["a" => 1, "b" => 3, "c" => 1])->asArray()
+            Shooped::fold(["a" => 1, "b" => 3, "c" => 1])->asArray()
         );
 
         AssertEqualsFluent::applyWith(
             ["H", "i", "!"],
-            ClassShooped::class
+            Shooped::class
         )->unfoldUsing(
-            ClassShooped::fold("Hi!")->asArray()
+            Shooped::fold("Hi!")->asArray()
         );
 
         AssertEqualsFluent::applyWith(
             ["", "H", "i", ""],
-            ClassShooped::class
+            Shooped::class
         )->unfoldUsing(
-            ClassShooped::fold("!H!i!")->asArray("!")
+            Shooped::fold("!H!i!")->asArray("!")
         );
 
         AssertEqualsFluent::applyWith(
             ["H", "i"],
-            ClassShooped::class
+            Shooped::class
         )->unfoldUsing(
-            ClassShooped::fold("!H!i!")->asArray("!", false)
+            Shooped::fold("!H!i!")->asArray("!", false)
         );
 
         AssertEqualsFluent::applyWith(
             ["", "H!i!"],
-            ClassShooped::class
+            Shooped::class
         )->unfoldUsing(
-            ClassShooped::fold("!H!i!")->asArray("!", true, 2)
+            Shooped::fold("!H!i!")->asArray("!", true, 2)
         );
 
         AssertEqualsFluent::applyWith(
             ["H!i!"],
-            ClassShooped::class
+            Shooped::class
         )->unfoldUsing(
-            ClassShooped::fold("!H!i!")->asArray("!", false, 2)
+            Shooped::fold("!H!i!")->asArray("!", false, 2)
         );
 
         AssertEqualsFluent::applyWith(
             [1, 3],
-            ClassShooped::class,
+            Shooped::class,
             0.88
         )->unfoldUsing(
-            ClassShooped::fold((object) ["a" => 1, "c" => 3])->asArray()
+            Shooped::fold((object) ["a" => 1, "c" => 3])->asArray()
         );
 
         // TODO: Objects
@@ -108,7 +108,7 @@ trait Arrayable
             [false, true],
             "array"
         )->unfoldUsing(
-            ClassShooped::fold(true)->efToArray()
+            Shooped::fold(true)->efToArray()
         );
 
         // TODO: Should arrays start at 1
@@ -117,7 +117,7 @@ trait Arrayable
             [0, 1, 2, 3],
             "array"
         )->unfoldUsing(
-            ClassShooped::fold(3)->efToArray()
+            Shooped::fold(3)->efToArray()
         );
 
         // TODO: Should arrays start at 1
@@ -126,28 +126,28 @@ trait Arrayable
             [0, 1, 2],
             "array"
         )->unfoldUsing(
-            ClassShooped::fold(2.5)->efToArray()
+            Shooped::fold(2.5)->efToArray()
         );
 
         AssertEqualsFluent::applyWith(
             [3, 1, 3],
             "array"
         )->unfoldUsing(
-            ClassShooped::fold([3, 1, 3])->efToArray()
+            Shooped::fold([3, 1, 3])->efToArray()
         );
 
         AssertEqualsFluent::applyWith(
             [1, 3, 1],
             "array"
         )->unfoldUsing(
-            ClassShooped::fold(["a" => 1, "b" => 3, "c" => 1])->efToArray()
+            Shooped::fold(["a" => 1, "b" => 3, "c" => 1])->efToArray()
         );
 
         AssertEqualsFluent::applyWith(
             ["H", "i", "!"],
             "array"
         )->unfoldUsing(
-            ClassShooped::fold("Hi!")->efToArray()
+            Shooped::fold("Hi!")->efToArray()
         );
 
         AssertEqualsFluent::applyWith(
@@ -155,7 +155,7 @@ trait Arrayable
             "array",
             1.84
         )->unfoldUsing(
-            ClassShooped::fold((object) ["a" => 1, "c" => 3])->efToArray()
+            Shooped::fold((object) ["a" => 1, "c" => 3])->efToArray()
         );
 
         // TODO: Objects

@@ -8,7 +8,7 @@ use \Iterator;
 use Eightfold\Shoop\FilterContracts\Addable;
 use Eightfold\Shoop\FilterContracts\Subtractable;
 
-interface Associable extends Addable, Subtractable
+interface Associable extends ArrayAccess, Iterator, Addable, Subtractable
 {
     public function asDictionary(): Associable;
 
