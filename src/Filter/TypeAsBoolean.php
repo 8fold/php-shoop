@@ -20,11 +20,9 @@ class TypeAsBoolean extends Filter
             return (bool) $using;
 
         } elseif (TypeIs::applyWith("object")->unfoldUsing($using)) {
-            if (is_a($using, Falsifiable::class)) {
-                return $using->efToBool();
-
-            }
-            return (bool) $using;
+            return (is_a($using, Falsifiable::class))
+                ? $using->efToBoolean()
+                : (bool) $using;
 
         } else {
             return Shoop::pipe($using,

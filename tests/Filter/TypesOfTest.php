@@ -2,8 +2,8 @@
 
 namespace Eightfold\Shoop\Tests\PipeFilters;
 
-use Eightfold\Shoop\Tests\TestCase;
-use Eightfold\Shoop\Tests\AssertEquals;
+use Eightfold\Shoop\Tests\TestClasses\TestCase;
+use Eightfold\Shoop\Tests\TestClasses\AssertEquals;
 
 use \stdClass;
 
@@ -15,7 +15,7 @@ use Eightfold\Shoop\Filter\TypesOf;
  *
  * TODO: MaxMS = 0.01
  */
-class TypeOfTest extends TestCase
+class TypesOfTest extends TestCase
 {
     /**
      * @test
@@ -41,19 +41,19 @@ class TypeOfTest extends TestCase
     public function numbers()
     {
         AssertEquals::applyWith(
-            ["number", "integer"],
+            ["sequential", "number", "integer"],
             TypesOf::apply(),
             0.01
         )->unfoldUsing(1);
 
         AssertEquals::applyWith(
-            ["number", "integer", "float"],
+            ["sequential", "number", "integer", "float"],
             TypesOf::apply(),
             0.01
         )->unfoldUsing(1.0);
 
         AssertEquals::applyWith(
-            ["number", "float"],
+            ["sequential", "number", "float"],
             TypesOf::apply(),
             0.01
         )->unfoldUsing(1.1);
@@ -65,7 +65,7 @@ class TypeOfTest extends TestCase
     public function strings()
     {
         AssertEquals::applyWith(
-            ["string"],
+            ["sequential", "string"],
             TypesOf::apply(),
             0.01
         )->unfoldUsing("8fold!");
@@ -77,7 +77,7 @@ class TypeOfTest extends TestCase
         )->unfoldUsing("{}");
 
         AssertEquals::applyWith(
-            ["string"],
+            ["sequential", "string"],
             TypesOf::apply(),
             0.01
         )->unfoldUsing("{hello}");
@@ -89,13 +89,13 @@ class TypeOfTest extends TestCase
         )->unfoldUsing('{"hello":true}');
 
         AssertEquals::applyWith(
-            ["string"],
+            ["sequential", "string"],
             TypesOf::apply(),
             0.01
         )->unfoldUsing("{something");
 
         AssertEquals::applyWith(
-            ["string"],
+            ["sequential", "string"],
             TypesOf::apply(),
             0.01
         )->unfoldUsing("somehing}");
@@ -113,13 +113,13 @@ class TypeOfTest extends TestCase
         )->unfoldUsing([]);
 
         AssertEquals::applyWith(
-            ["collection", "list", "array"],
+            ["sequential", "collection", "list", "array"],
             TypesOf::apply(),
             0.01
         )->unfoldUsing([0, 1, 2]);
 
         AssertEquals::applyWith(
-            ["collection", "list", "array"],
+            ["sequential", "collection", "list", "array"],
             TypesOf::apply(),
             0.01
         )->unfoldUsing([3 => "8fold", 4 => true]);

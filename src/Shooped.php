@@ -301,14 +301,26 @@ class Shooped implements ShoopedInterface
     }
 
     public function isGreaterThan($compare): Falsifiable
-    {}
+    {
+        return static::fold(
+            Apply::isGreaterThan($compare)->unfoldUsing($this->main)
+        );
+    }
 
     public function isGreaterThanOrEqualTo($compare): Falsifiable
-    {}
+    {
+        return static::fold(
+            Apply::isGreaterThanOrEqualTo($compare)->unfoldUsing($this->main)
+        );
+    }
 
 // - Reversible
     public function reverse(): Reversible
-    {}
+    {
+        return static::fold(
+            Apply::reversed()->unfoldUsing($this->main)
+        );
+    }
 
 // - Typeable
     public function types(): Arrayable

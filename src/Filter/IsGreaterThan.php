@@ -17,6 +17,10 @@ class IsGreaterThan extends Filter
 
     public function __invoke($using): bool
     {
+        if (is_string($using) and is_string($this->compare)) {
+            return strcmp($using, $this->compare) > 0;
+
+        }
         return $using > $this->compare;
     }
 }

@@ -2,7 +2,7 @@
 
 namespace Eightfold\Shoop\Tests\FilterContracts\ContractTests;
 
-use Eightfold\Shoop\Tests\AssertEqualsFluent;
+use Eightfold\Shoop\Tests\TestClasses\AssertEqualsFluent;
 
 use Eightfold\Shoop\Shoop;
 use Eightfold\Shoop\Shooped;

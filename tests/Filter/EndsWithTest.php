@@ -2,8 +2,8 @@
 
 namespace Eightfold\Shoop\Tests\PipeFilters;
 
-use Eightfold\Shoop\Tests\TestCase;
-use Eightfold\Shoop\Tests\AssertEquals;
+use Eightfold\Shoop\Tests\TestClasses\TestCase;
+use Eightfold\Shoop\Tests\TestClasses\AssertEquals;
 
 use Eightfold\Shoop\Filter\EndsWith;
 

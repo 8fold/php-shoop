@@ -1,6 +1,6 @@
 <?php
 
-namespace Eightfold\Shoop\Tests;
+namespace Eightfold\Shoop\Tests\TestClasses;
 
 use PHPUnit\Framework\TestCase;
 

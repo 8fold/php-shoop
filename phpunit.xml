@@ -20,11 +20,8 @@
     </exclude>
   </coverage>
   <testsuites>
-    <testsuite name="fluent">
-  		<directory suffix="Test.php">./tests/Fluent</directory>
-    </testsuite>
-    <testsuite name="fluent_contracts">
-  		<directory suffix="Test.php">./tests/FluentContracts</directory>
+    <testsuite name="all">
+  		<directory suffix="Test.php">./tests</directory>
     </testsuite>
     <testsuite name="filter">
 		<directory suffix="Test.php">./tests/Filter</directory>

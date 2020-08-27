@@ -7,6 +7,8 @@ use Eightfold\Foldable\Filter;
 
 use Eightfold\Shoop\Shoop;
 
+use Eightfold\Shoop\FilterContracts\Interfaces\Emptiable;
+
 class IsEmpty extends Filter
 {
     public function __invoke($using): bool
@@ -18,6 +20,10 @@ class IsEmpty extends Filter
             )->unfold();
 
         } elseif (TypeIs::applyWith("object")->unfoldUsing($using)) {
+            if (is_a($using, Emptiable::class)) {
+                return $using->efIsEmpty();
+            }
+
             $properties = get_object_vars($using);
             $methods = get_class_methods($using);
             $using = array_merge($properties, $methods);
