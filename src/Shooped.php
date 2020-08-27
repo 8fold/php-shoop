@@ -39,16 +39,6 @@ class Shooped implements ShoopedInterface
     // TODO: PHP 8 - mixed, string|int
     public function plus($value, $at = ""): Addable
     {
-        if (! $this->typeCheckForArgument($at, ["string", "integer"])) {
-            $this->typeCheckForArgument(
-                $at,
-                ["string", "integer"],
-                true,
-                static::class ."::". __FUNCTION__ ."()",
-                2
-            );
-        }
-
         return static::fold(
             Apply::plus($value)->unfoldUsing($this->main)
         );
@@ -61,16 +51,6 @@ class Shooped implements ShoopedInterface
         bool $fromEnd   = true
     ): Subtractable
     {
-        if (! $this->typeCheckForArgument($items, ["string", "integer", "array"])) {
-            $this->typeCheckForArgument(
-                $items,
-                ["string", "integer", "array"],
-                true,
-                static::class ."::". __FUNCTION__ ."()",
-                1
-            );
-        }
-
         return static::fold(
             Apply::minus($items, $fromStart, $fromEnd)->unfoldUsing($this->main)
         );
@@ -296,17 +276,28 @@ class Shooped implements ShoopedInterface
 
 // - Countable
     public function asInteger(): Countable
-    {}
+    {
+        return static::fold(
+            Apply::typeAsInteger()->unfoldUsing($this->main)
+        );
+    }
 
     public function efToInteger(): int
-    {}
+    {
+        return $this->asInteger()->unfold();
+    }
 
     public function count(): int // Countable
-    {}
+    {
+        return $this->efToInteger()->unfold();
+    }
 
 // - Comparable
     public function is($compare): Falsifiable
     {
+        return static::fold(
+            Apply::is($compare)->unfoldUsing($this->main)
+        );
     }
 
     public function isGreaterThan($compare): Falsifiable
@@ -325,43 +316,4 @@ class Shooped implements ShoopedInterface
 
     public function efTypes(): array
     {}
-
-// - Utilities
-    private function typeCheckForArgument(
-        $given,
-        array $validTypes,
-        bool $triggerError = false,
-        string $function   = "",
-        int $argNumber     = 1
-    ): bool
-    {
-        $givenTypes = TypesOf::apply()->unfoldUsing($given);
-        $matchesAny = ! empty(array_intersect($validTypes, $givenTypes));
-        if ($matchesAny) {
-            return true;
-
-        } elseif (! $matchesAny and ! $triggerError) {
-            return false;
-
-        }
-
-        $typeMessage = function(array $types, string $conjunction = "or") {
-            $message = implode(", ", $types);
-            if (count($types) === 2) {
-                $message = implode(" {$conjunction} ", $types);
-
-            } elseif ($count = count($types) > 2) {
-                $types[$count - 1] = "{$conjunction} ". $types[$count - 1];
-
-                $message = implode(", ", $types);
-
-            }
-            return $message;
-        };
-
-        $givenMessage = $typeMessage($givenTypes, "and");
-        $validMessage = $typeMessage($validTypes);
-        $message = "Shoop Fatal error:  Uncaught TypeError: Argument {$argNumber} passed to {$function} must be of {$validMessage} type(s); {$givenMessage} given.";
-        trigger_error($message);
-    }
 }

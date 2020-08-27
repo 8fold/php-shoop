@@ -107,6 +107,7 @@ We offer multiple Interfaces and default Implementations for juggling between th
 
 |Shoop                                            |Shoop result                                 |PHP equivalent   |PHP result                  |
 |:------------------------------------------------|:--------------------------------------------|:----------------|:---------------------------|
+|`TypeAsInteger::apply()->unfoldUsing(false)`     |0                                            |`count(false)`   |PHP warning                 |
 |`TypeAsString::apply()->unfoldUsing(false)`      |"false"                                      |`(string) false` |"0"                         |
 |`TypeAsArray::apply()->unfoldUsing(false)`       |[0 => true, 1 => false]                      |`(array) false`  |[0] => false                |
 |`TypeAsDictionary::apply()->unfoldUsing(false)`  |["false" => true, "true" => false]           |''               |''                          |
@@ -116,6 +117,7 @@ We offer multiple Interfaces and default Implementations for juggling between th
 
 |Shoop                                            |Shoop result                                   |PHP equivalent   |PHP result                  |
 |:------------------------------------------------|:----------------------------------------------|:----------------|:---------------------------|
+|`TypeAsInteger::apply()->unfoldUsing(2)`         |2                                              |`count(2)`       |PHP warning                 |
 |`TypeAsArray::apply()->unfoldUsing(2)`           |[0 => 0, 1 => 1, 2 => 2]                       |`(array) 2`      |[0 => 2]                    |
 |`TypeAsDictionary::apply()->unfoldUsing(2)`      |["i0" => 0, "i1" => 1, "i2" => 2]              |''               |''                          |
 |`TypeAsTuple::apply()->unfoldUsing(2)`           |object(["i0"] => 0, ["i1"] => 1, ["i2"] => 2]) |`(object) 2`     |object(["scalar"] => 2)     |
@@ -127,6 +129,7 @@ Should array to tuple be the PHP default for array to object?? Reduces deviation
 |Shoop                                            |Shoop result                                  |PHP equivalent   |PHP result                  |
 |:------------------------------------------------|:---------------------------------------------|:----------------|:---------------------------|
 |`TypeAsInteger::apply()->unfoldUsing("Hi!")`     |3                                             |`(int) "Hi!"`    |0                           |
+|`TypeAsInteger::apply()->unfoldUsing("Hi!")`     |3                                             |`count("Hi!")`   |PHP warning                 |
 |`TypeAsArray::apply()->unfoldUsing("Hi!")`       |[0 => "H", 1 => "i", 2 => "!"]                |`(array) "Hi!"`  |[0 => "Hi!"]                |
 |`TypeAsDictionary::apply()->unfoldUsing("Hi!")`  |["content" => "Hi!"]                          |''               |''                          |
 |`TypeAsTuple::apply()->unfoldUsing("Hi!")`       |object(["content"] => "Hi!")                  |`(object) "Hi!"` |object(["scalar"] => "Hi!") |
@@ -138,8 +141,11 @@ Ditionary and tuple deviate from PHP in similar ways, syntax might be different.
 |Shoop                                                       |Shoop result     |PHP equivalent                 |PHP result                     |
 |:-----------------------------------------------------------|:----------------|:------------------------------|:------------------------------|
 |`TypeAsInteger::apply()->unfoldUsing(["a" => 1, "b" => 2])` |2                |`(int) ["a" => 1, "b" => 2]`   |1                              |
+|`TypeAsInteger::apply()->unfoldUsing(["a" => 1, "b" => 2])` |2                |`count(["a" => 1, "b" => 2])`  |2                              |
 |`TypeAsString::apply()->unfoldUsing(["a" => 1, "b" => 2])`  |"", configurable |`(string) ["a" => 1, "b" => 2]`|PHP Notice: Array to string... |
 |`TypeAsArray::apply()->unfoldUsing(["a" => 1, "b" => 2])`   |[0 => 1, 1 => 2] |`(array) ["a" => 1, "b" => 2]` |["a" => 1, "b" => 2]           |
+
+Note: A JSON string is converted to a Tuple, and a Tuple is converted to a Dictionary.
 
 Note: The default implementation of the PHP JsonSerialize interface results in the PHP type being converted to a Shoop Tuple, then being encoded.
 
@@ -168,9 +174,9 @@ ex. `$using = new class {}`
 |:---------------------------------------------|:----------------------------------------------------|:-----------------|:---------------------------|
 |`TypeAsBoolean::apply()->unfoldUsing($using)` |false: Opposite of `IsEmpty`, can be overridden      |`(bool) $using`   |true, cannot be overridden  |
 |`IsEmpty::apply()->unfoldUsing($using)`       |true: Boolean of `TypeAsInteger`, can be overridden  |`empty($using)`   |false, cannot be overridden |
-|`TypeAsInteger::apply()->unfoldUsing($using)  |0 (count of public properties)                       |`(int) $using`    |PHP Notice...               |
+|`TypeAsInteger::apply()->unfoldUsing($using)  |0 (count of public properties), can be overridden    |`(int) $using`    |PHP Notice...               |
 |`TypeAsNumber::apply()->unfoldUsing($using)   |0.0 (count of public properties)                     |`(float) $using`  |''                          |
-|`TypeAsString::apply()->unfoldUsing($using)   |"" (concatenated string properties)                  |`(string) $using` |''                          |
+|`TypeAsString::apply()->unfoldUsing($using)   |"" (concatenated string properties), can be overridden |`(string) $using` |''                          |
 |`TypeAsArray::apply()->unfoldUsing($using)    |[]                                                   |`(array) $using`  |[]                          |
 |`TypeAsTuple::apply()->unfoldUsing($using)    |object(): all methods and private properties removed |`(object) $using` |object(): all methods are removed, private properties remain |
 
