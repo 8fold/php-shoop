@@ -248,7 +248,11 @@ class Shooped implements ShoopedInterface
 
 // - Stringable
     public function asString(string $glue = ""): Stringable
-    {}
+    {
+        return static::fold(
+            Apply::typeAsString($glue)->unfoldUsing($this->main)
+        );
+    }
 
     public function efToString(string $glue = ""): string
     {}

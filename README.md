@@ -101,6 +101,77 @@ We offer multiple Interfaces and default Implementations for juggling between th
 |Associable     |`asDictionary` |`efToDitionary`               |
 |Tupleable      |`asTuple`      |`efToTuple`                   |
 
+### PHP deviations
+
+#### Boolean
+
+|Shoop                                            |Shoop result                                 |PHP equivalent   |PHP result                  |
+|:------------------------------------------------|:--------------------------------------------|:----------------|:---------------------------|
+|`TypeAsString::apply()->unfoldUsing(false)`      |"false"                                      |`(string) false` |"0"                         |
+|`TypeAsArray::apply()->unfoldUsing(false)`       |[0 => true, 1 => false]                      |`(array) false`  |[0] => false                |
+|`TypeAsDictionary::apply()->unfoldUsing(false)`  |["false" => true, "true" => false]           |''               |''                          |
+|`TypeAsTuple::apply()->unfoldUsing(false)`       |object(["false"] => true, ["true"] => false) |`(object)` false |object(["scalar"] => false) |
+
+#### Number and integer
+
+|Shoop                                            |Shoop result                                   |PHP equivalent   |PHP result                  |
+|:------------------------------------------------|:----------------------------------------------|:----------------|:---------------------------|
+|`TypeAsArray::apply()->unfoldUsing(2)`           |[0 => 0, 1 => 1, 2 => 2]                       |`(array) 2`      |[0 => 2]                    |
+|`TypeAsDictionary::apply()->unfoldUsing(2)`      |["i0" => 0, "i1" => 1, "i2" => 2]              |''               |''                          |
+|`TypeAsTuple::apply()->unfoldUsing(2)`           |object(["i0"] => 0, ["i1"] => 1, ["i2"] => 2]) |`(object) 2`     |object(["scalar"] => 2)     |
+
+Should array to tuple be the PHP default for array to object?? Reduces deviations.
+
+#### String
+
+|Shoop                                            |Shoop result                                  |PHP equivalent   |PHP result                  |
+|:------------------------------------------------|:---------------------------------------------|:----------------|:---------------------------|
+|`TypeAsInteger::apply()->unfoldUsing("Hi!")`     |3                                             |`(int) "Hi!"`    |0                           |
+|`TypeAsArray::apply()->unfoldUsing("Hi!")`       |[0 => "H", 1 => "i", 2 => "!"]                |`(array) "Hi!"`  |[0 => "Hi!"]                |
+|`TypeAsDictionary::apply()->unfoldUsing("Hi!")`  |["content" => "Hi!"]                          |''               |''                          |
+|`TypeAsTuple::apply()->unfoldUsing("Hi!")`       |object(["content"] => "Hi!")                  |`(object) "Hi!"` |object(["scalar"] => "Hi!") |
+
+#### Dictionary and tuple
+
+Ditionary and tuple deviate from PHP in similar ways, syntax might be different.
+
+|Shoop                                                       |Shoop result     |PHP equivalent                 |PHP result                     |
+|:-----------------------------------------------------------|:----------------|:------------------------------|:------------------------------|
+|`TypeAsInteger::apply()->unfoldUsing(["a" => 1, "b" => 2])` |2                |`(int) ["a" => 1, "b" => 2]`   |1                              |
+|`TypeAsString::apply()->unfoldUsing(["a" => 1, "b" => 2])`  |""               |`(string) ["a" => 1, "b" => 2]`|PHP Notice: Array to string... |
+|`TypeAsArray::apply()->unfoldUsing(["a" => 1, "b" => 2])`   |[0 => 1, 1 => 2] |`(array) ["a" => 1, "b" => 2]` |["a" => 1, "b" => 2]           |
+
+#### Array
+
+|Shoop                                                |Shoop result                         |PHP equivalent        |PHP result                         |
+|:----------------------------------------------------|:------------------------------------|:---------------------|:----------------------------------|
+|`TypeAsInteger::apply()->unfoldUsing(["a", "b"])`    |2                                    |`(int) ["a", "b"]`    |1                                  |
+|`TypeAsString::apply()->unfoldUsing(["a", "b"])`     |"ab"                                 |`(string) ["a", "b"]` |PHP Notice: Array to string...     |
+|`TypeAsDictionary::apply()->unfoldUsing(["a", "b"])` |["i0" => "a", "i1" => "b"]           |`(array) ["a", "b"]`  |["a", "b"]                         |
+|`TypeAsTuple::apply()->unfoldUsing(["a", "b"])`      |object(["i0"] => "a", ["i1"] => "b") |`(object) ["a", "b"]` |object(["0"] => "a", ["1"] => "b") |
+
+Should array to tuple be the PHP default for array to object?? Reduces deviations. Accessing those properties doesn't work as expected.
+
+ex. $object = object(["0"] => 1, ["1"] => 2):
+
+- $object->0   = parse error
+- $object->"0" = parse error
+- $object->{0} = expected behavior
+
+#### Object
+
+ex. `$using = new class {}`
+
+|Shoop                                         |Shoop result                                         |PHP equivalent    |PHP result                  |
+|:---------------------------------------------|:----------------------------------------------------|:-----------------|:---------------------------|
+|`TypeAsBoolean::apply()->unfoldUsing($using)` |false: Opposite of `IsEmpty`, can be overridden      |`(bool) $using`   |true, cannot be overridden  |
+|`IsEmpty::apply()->unfoldUsing($using)`       |true: Boolean of `TypeAsInteger`, can be overridden  |`empty($using)`   |false, cannot be overridden |
+|`TypeAsInteger::apply()->unfoldUsing($using)  |0 (count of public properties)                       |`(int) $using`    |PHP Notice...               |
+|`TypeAsNumber::apply()->unfoldUsing($using)   |0.0 (count of public properties)                     |`(float) $using`  |''                          |
+|`TypeAsString::apply()->unfoldUsing($using)   |"" (concatenated string properties)                  |`(string) $using` |''                          |
+|`TypeAsArray::apply()->unfoldUsing($using)    |[]                                                   |`(array) $using`  |[]                          |
+|`TypeAsTuple::apply()->unfoldUsing($using)    |object(): all methods and private properties removed |`(object) $using` |object(): all methods are removed, private properties remain |
+
 ### What's in a name?
 
 Shoop, as an acronym, points to the insipirations of the library:
