@@ -138,7 +138,7 @@ Ditionary and tuple deviate from PHP in similar ways, syntax might be different.
 |Shoop                                                       |Shoop result     |PHP equivalent                 |PHP result                     |
 |:-----------------------------------------------------------|:----------------|:------------------------------|:------------------------------|
 |`TypeAsInteger::apply()->unfoldUsing(["a" => 1, "b" => 2])` |2                |`(int) ["a" => 1, "b" => 2]`   |1                              |
-|`TypeAsString::apply()->unfoldUsing(["a" => 1, "b" => 2])`  |""               |`(string) ["a" => 1, "b" => 2]`|PHP Notice: Array to string... |
+|`TypeAsString::apply()->unfoldUsing(["a" => 1, "b" => 2])`  |"", configurable |`(string) ["a" => 1, "b" => 2]`|PHP Notice: Array to string... |
 |`TypeAsArray::apply()->unfoldUsing(["a" => 1, "b" => 2])`   |[0 => 1, 1 => 2] |`(array) ["a" => 1, "b" => 2]` |["a" => 1, "b" => 2]           |
 
 #### Array
@@ -146,7 +146,7 @@ Ditionary and tuple deviate from PHP in similar ways, syntax might be different.
 |Shoop                                                |Shoop result                         |PHP equivalent        |PHP result                         |
 |:----------------------------------------------------|:------------------------------------|:---------------------|:----------------------------------|
 |`TypeAsInteger::apply()->unfoldUsing(["a", "b"])`    |2                                    |`(int) ["a", "b"]`    |1                                  |
-|`TypeAsString::apply()->unfoldUsing(["a", "b"])`     |"ab"                                 |`(string) ["a", "b"]` |PHP Notice: Array to string...     |
+|`TypeAsString::apply()->unfoldUsing(["a", "b"])`     |"ab", configurable                   |`(string) ["a", "b"]` |PHP Notice: Array to string...     |
 |`TypeAsDictionary::apply()->unfoldUsing(["a", "b"])` |["i0" => "a", "i1" => "b"]           |`(array) ["a", "b"]`  |["a", "b"]                         |
 |`TypeAsTuple::apply()->unfoldUsing(["a", "b"])`      |object(["i0"] => "a", ["i1"] => "b") |`(object) ["a", "b"]` |object(["0"] => "a", ["1"] => "b") |
 

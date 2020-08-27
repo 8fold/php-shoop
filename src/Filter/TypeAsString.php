@@ -5,6 +5,8 @@ namespace Eightfold\Shoop\Filter;
 
 use Eightfold\Foldable\Filter;
 
+use Eightfold\Shoop\Shoop;
+
 class TypeAsString extends Filter
 {
     private $glue = "";
@@ -36,7 +38,13 @@ class TypeAsString extends Filter
             return implode($this->glue, $strings);
 
         } elseif (TypeIs::applyWith("tuple")->unfoldUsing($using)) {
-            return TypeAsJson::apply()->unfoldUsing($using);
+            if (TypeIs::applyWith("jsong")->unfoldUsing($using)) {
+                return TypeAsJson::apply()->unfoldUsing($using);
+            }
+            return Shoop::pipe($using,
+                TypeAsDictionary::apply(),
+                TypeAsString::apply()
+            )->unfold();
         }
     }
 }
