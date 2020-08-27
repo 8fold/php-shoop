@@ -94,42 +94,46 @@ class ShoopedTest extends FilterContractsTestCase
     {
         AssertEqualsFluent::applyWith(
             "true",
-            Shooped::class
+            "string",
+            2.24 // 2.04 // 1.65
         )->unfoldUsing(
             Shooped::fold(true)->efToString()
         );
 
         AssertEqualsFluent::applyWith(
             "3",
-            Shooped::class
+            "string"
         )->unfoldUsing(
             Shooped::fold(3)->efToString()
         );
 
         AssertEqualsFluent::applyWith(
             "2.5",
-            Shooped::class
+            "string"
         )->unfoldUsing(
             Shooped::fold(2.5)->efToString()
         );
 
         AssertEqualsFluent::applyWith(
             "Hi!",
-            Shooped::class
+            "string",
+            1.64
         )->unfoldUsing(
             Shooped::fold(["H", 1, "i", true, "!"])->efToString()
         );
 
         AssertEqualsFluent::applyWith(
             "",
-            Shooped::class
+            "string",
+            0.91
         )->unfoldUsing(
             Shooped::fold(["a" => 1, "b" => 3, "c" => 1])->efToString()
         );
 
         AssertEqualsFluent::applyWith(
             "8fold!",
-            Shooped::class
+            "string",
+            2.18
         )->unfoldUsing(
             Shooped::fold((object) ["a" => 1, "b" => "8fold!", "c" => 3])->efToString()
         );

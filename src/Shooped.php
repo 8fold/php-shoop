@@ -255,7 +255,9 @@ class Shooped implements ShoopedInterface
     }
 
     public function efToString(string $glue = ""): string
-    {}
+    {
+        return $this->asString($glue)->unfold();
+    }
 
     public function __toString(): string
     {}
