@@ -31,8 +31,13 @@ use Eightfold\Shoop\Filter\IsEmpty;
  *
  * The first two characters of the method name are placeholders for a possible
  * future magic method proprosed in PHP RFC: Objects can be declared
- * falsifiable. The `Falsifiable` interface implementation can be found in
- * `/src/FilterContracts/Interfaces/Falsifiable.php`.
+ * falsifiable. The `Falsifiable` interface can be found in
+ * `/src/FilterContracts/Interfaces/Falsifiable.php`. The Shoop check and response
+ * can be found in `/src/Filter/TypeAsBoolean.php`.
+ *
+ * The former would be similar to the interface added to PHP. The latter could be
+ * similar to the check and work performed by PHP when a `boolean` type is assumed,
+ * including within conditionals.
  *
  * @see https://wiki.php.net/rfc/objects-can-be-falsifiable
  */
@@ -55,7 +60,7 @@ class RfcObjectCanBeDeclaredFalsifiableTest extends TestCase
         // Shoop (deviation) - false|true
         AssertEquals::applyWith(
             false,
-            TypeAsBoolean::apply(),
+            TypeAsBoolean::apply(), // Represents the PHP boolean responder script.
             0.88 // 0.75 // 0.43
         )->unfoldUsing($using);
 
