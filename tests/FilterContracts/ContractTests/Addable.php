@@ -10,7 +10,6 @@ trait Addable
 {
     /**
      * @test
-     * @group current
      */
     public function plus()
     {
@@ -77,5 +76,22 @@ trait Addable
         );
 
         // TODO: Objects
+    }
+
+    /**
+     * @test
+     * @group current
+     */
+    public function plus_value_can_be_foldable()
+    {
+        AssertEqualsFluent::applyWith(
+            "8fold!",
+            Shooped::class,
+            4.59
+        )->unfoldUsing(
+            Shooped::fold("8fold")->plus(
+                Shooped::fold("!")
+            )
+        );
     }
 }
