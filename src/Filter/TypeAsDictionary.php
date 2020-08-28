@@ -38,22 +38,28 @@ class TypeAsDictionary extends Filter
                 TypeAsDictionary::applyWith(0, $this->includeEmpties)
             )->unfold();
 
-        } elseif (TypeIs::applyWith("array")->unfoldUsing($using)) {
-            if (! is_string($this->includeEmpties)) {
-                $this->includeEmpties = "i";
-            }
-
-            $build = [];
-            foreach ($using as $key => $value) {
-                if (is_int($key)) {
-                    $key = $this->includeEmpties . $key;
+        } elseif (TypeIs::applyWith("list")->unfoldUsing($using)) {
+            if (TypeIs::applyWith("array")->unfoldUsing($using)) {
+                if (! is_string($this->includeEmpties)) {
+                    $this->includeEmpties = "i";
                 }
-                $build[$key] = $value;
-            }
-            return $build;
 
-        } elseif (TypeIs::applyWith("dictionary")->unfoldUsing($using)) {
-            return $using;
+                $build = [];
+                foreach ($using as $key => $value) {
+                    if (is_int($key)) {
+                        $key = $this->includeEmpties . $key;
+                    }
+                    $build[$key] = $value;
+                }
+                return $build;
+
+            } elseif (TypeIs::applyWith("dictionary")->unfoldUsing($using)) {
+                return $using;
+
+            } else {
+                return [];
+
+            }
 
         } elseif (TypeIs::applyWith("string")->unfoldUsing($using) and
             ! TypeIs::applyWith("json")->unfoldUsing($using)
