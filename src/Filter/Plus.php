@@ -48,7 +48,7 @@ class Plus extends Filter
         } elseif (TypeIs::applyWith("string")->unfoldUsing($using) and
             ! TypeIs::applyWith("json")->unfoldUsing($using)
         ) {
-            return $this->fromString($using, ...$this->args(true));
+            return $this->fromString($using, $this->value);
 
         } elseif (TypeIs::applyWith("tuple")->unfoldUsing($using)) {
             if (TypeIs::applyWith("tuple")->unfoldUsing($this->value)) {
