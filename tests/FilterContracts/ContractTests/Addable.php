@@ -10,6 +10,7 @@ trait Addable
 {
     /**
      * @test
+     * @group current
      */
     public function plus()
     {
@@ -42,6 +43,13 @@ trait Addable
             0.52
         )->unfoldUsing(
             Shooped::fold([1])->plus([2, 3])
+        );
+
+        AssertEqualsFluent::applyWith(
+            "8fold!",
+            Shooped::class
+        )->unfoldUsing(
+            Shooped::fold("8fold")->plus("!")
         );
 
         AssertEqualsFluent::applyWith(
