@@ -3,6 +3,7 @@ declare(strict_types=1);
 
 namespace Eightfold\Shoop\Filter;
 
+use Eightfold\Foldable\Foldable;
 use Eightfold\Foldable\Filter;
 
 use Eightfold\Shoop\Shoop;
@@ -16,6 +17,9 @@ class Plus extends Filter
     public function __construct($value, $start = "")
     {
         $this->value = $value;
+        if (is_a($this->value, Foldable::class)) {
+            $this->value = $this->value->unfold();
+        }
         $this->start = $start;
     }
 

@@ -191,7 +191,6 @@ class RfcObjectCanBeDeclaredFalsifiableTest extends TestCase
      * between falsiness and emptiness in PHP.
      *
      * @test
-     * @group current
      */
     public function instance_can_specify_emptiness_and_falsiness_achieving_false_and_empty()
     {
@@ -230,7 +229,7 @@ class RfcObjectCanBeDeclaredFalsifiableTest extends TestCase
         AssertEquals::applyWith(
             true,
             TypeAsBoolean::apply(),
-            0.41 // 0.32
+            1 // 0.41 // 0.32
         )->unfoldUsing($using);
 
         AssertEquals::applyWith(
