@@ -2,13 +2,28 @@
 
 # 8fold Shoop for PHP
 
-8fold Shoop provides minimal linguistic differentiation and maximum utility for manipulating base data types.
+Shoop is a horizontally-consistent interface into PHP, whereas PHP could be described as a vertically-consistent interface into C.
 
-Shoop is as close to interacting with native PHP types as we can get without writing a PHP extension and asking you to install it.
+An oft cited criticism of PHP is its inconsistent API. PHP's creator, [Rasmus, has explained it](https://youtu.be/Qa_xVjTiOUw) this way (paraphrased):
 
-Shoop is not a framework. A drawback to many frameworks is they're often like learning a new language that exists on top of the base language.
+> PHP is perfectly consistent, just not the way you expect. It's vertically consistent. So, for every function in PHP,  if you look at what's underneath it, the `libc` function under some of the string functions, for example, the argument order and naming matches what they're built upon. So, there's not consistency horitzontally, but there's perfect consistency vertically digging down into the stack.
 
-While the immplementations are language-specific, the fundamental concepts strive to be language agnostic: contracts, inheritence, and generic implementations via traits (in PHP).
+If you use classes from the [Illuminate Support](https://laravel.com/api/5.5/Illuminate/Support.html) portion of Laravel or some of the [Symfony Components](https://symfony.com/doc/current/components/index.html), you're familiar with the desire for horizontally consistent APIs problem (even beyond PHP itself).
+
+The primary goals for Shoop, in no particular order:
+
+* Plain language (approachable): PHP is pretty accessible to new developers who maybe don't have a computer science background; Shoop continues this theme.
+* Syntactically and semantically light: PHP is understandably heavy on syntax (special characters to help the parser) and semantically expansive when it comes to capabilities (short function names, but many of them). We review Filters and capabilities based on production need, not gut feel and "because we can."
+* Immutable: Whenever possible, we return new instances and values as opposed to altering the state.
+* Type-safe: The flexibility of Shoop means we don't check types every step along the way, but do check types before returning the result of a request.
+* Defer processing: Whenever possible we defer processing until the last possible moment.
+* Ubiquity across types: We favor a small number of filters that can then be minimally configured using arguments.
+* DRY (don't repeat yourself): We strive to leverage capabilities already available in Shoop rather than implementing PHP solutions; most of the Filters came from developing a different Filter.
+* Let nothing mean nothing (the most opinionated piece): We spend a lot of time accounting for, and working around, things that represent nothing. `null` is arguably the most known thing that represents nothing, Shoop doesn't use nor account for `null`. `0` and `false` also represent nothing and, as such, is why Shoop Arrays start with `1`, not `0`.
+
+While this immplementation is language-specific, the fundamental concepts, patterns, and naming strive to be language agnostic.
+
+PHP is extremely [simple for new developers](https://www.php.net/manual/en/intro-whatis.php), Shoop follows this tradition.
 
 ## Installation
 
@@ -18,129 +33,231 @@ composer require 8fold/php-shoop
 
 ## Usage
 
-You can interact with a Shoop type like a PHP string.
+Contrived examples...live examples coming soon and available in the tests folder.
+
+Apply a single filter.
 
 ```php
-// A regular PHP string
-$string = "Hello!";
-
-$reversed = Shoop::string($string)->toggle();
-
-print $reversed;
-
-// output: !olleH
+Apply::plus(1)->unfoldUsing(2);
+// output: 3
 ```
 
-You can use the same method names horitzontally across Shoop types to reduce cognitive load. (You can also interact with a Shoop type like a PHP array.)
+Pipe multiple filters.
 
 ```php
-// A regular PHP array
-$array = [0, 1, 2];
-
-print $array[0];
-
-// output: 0
-
-$reversed = Shoop::array($array)->toggle();
-
-// becomes: [2, 1, 0]
-
-print $reversed[0];
-
-// output: 2
+Shoop::pipe(2,
+	Apply::plus(1),
+	Apply::divide(1)
+)->unfold();
+// output: 3
 ```
-Shoop is unobtrusive to your developer workflow even when PHP can't interact with it directly.
+
+Nesting pipes and filters. (Variation on part of the `PlusAt` Filter.)
 
 ```php
-$array = [true, false, false];
-
-// We are not aware of a way to let PHP know how to respond to an instance as a boolean value.
-if (Shoop::array($array)->first()->unfold()) {}
-
-// One step instead of two
-if (Shoop::array($array)->firstUnfolded()) {}
-
-// One step using object property notation
-if (Shoop::array($array)->first) {}
-
-// all three output: true
+Shoop::pipe([1, 2, 3],
+    Apply::from(0, 1), // output: [1, 2]
+    Apply::plus("hello"), // output: [1, 2, "hello"]
+    Apply::plus(
+        Apply::from(1)->unfoldUsing([1, 2, 3]) // output: [3]
+    )
+)->unfold();
+// output [1, 2, "hello", 3]
 ```
 
-Let's try something more complex.
-
-Shoop types, by default, return other Shoop types. This, coupled with a majority ubiquitous API allows for chaining (not quite pipes, currently not available in PHP). As such, each chain is almost like creating a functional program wherein you can change the start and get a different output, without modifying the functional code. (Don't have to use different function from the PHP standard library.)
-
-We might talk more about that later, for now, let's say we have the path to a folder:
-
-`/Users/8fold/Desktop/ProjectSupreme/SecretFolder/SecretSubfolder`
-
-And we want to move to a different folder:
-
-`/Users/8fold/Documents/ProjectMaxEffort/SecretFolder/SecretSubfolder`
-
+Fluent using method chaining.
 
 ```php
-// Our starting path
-$path = "/Users/8fold/Desktop/ProjectSupreme/SecretFolder/SecretSubfolder";
-
-// PHP standard library - one way
-$parts = explode("/", $path);
-array_pop($parts); // ../
-array_pop($parts); // ../
-array_pop($parts); // ../
-array_pop($parts); // ../
-$parts[] = "Documents";
-$parts[] = "ProjectMaxEffort";
-$parts[] = "SecretFolder";
-$parts[] = "SecretSubfolder";
-if (count($parts) === 6) {
-  $path = "/". implode("/", $parts);
-
-} else {
-  $path = "Not the Middle Path.";
-}
-
-// Shoop
-$path = Shoop::string($path)
-  ->divide("/")
-  ->dropLast(4)
-  ->plus(
-      "Documents",
-      "ProjectMaxEffort",
-      "SecretFolder",
-      "SecretSubfolder"
-  )->countIsGreaterThanOrEqualTo(6, function($result, $array) {
-    return ($result->unfold())
-      ? $array->join("/")
-      : "Not the Middle Path.";
-  });
-
-print $path; // both should be: /Users/8fold/Documents/ProjectMaxEffort/SecretFolder/SecretSubfolder
+Shooped::fold(2)->plus(1)->divide(2)->unfold();
+// output: 1.5
 ```
 
-## Why?
+### Types and type juggling
 
-[Rasmus](https://en.wikipedia.org/wiki/Rasmus_Lerdorf), the creator of PHP, has mentioned criticisms of PHP in multiple talks over the years. In [one talk](https://youtu.be/Qa_xVjTiOUw?t=1007) (that I had close at hand), Rasmus mentions a criticism I've often heard and even made in the past: Naming inconsistencies. To which he responded (paraphrased):
+- Content (abstract):
+  - Boolean (`boolean`, Shoop `sequential`): same as PHP.
+  - Number (`float` or `integer`, Shoop `sequential`): all real numbers.
+    - Integer (`integer`, Shoop `sequential`): all whole numbers.
+  - String (`string` not `JSON`, Shoop `sequential`): sequence of characters.
+- Collection (abstract): contains mixed content, collections, or objects accessible using members.
+  - List (abstract - `array`): A PHP `array` that does not comply with being a Shoop Dictionary or Array
+    - Dictionary (`array`): non-sequential string keys or empty, values accessed using array notion. ex. $var[]
+    - Array (`array`, Shoop `sequential`): sequential integer keys.
+  - Tuple (`stdClass` or `object`): non-sequential string members, accessed using object notation, not string notation, and contains no methods. ex. $var->
+    - JSON (`string`): longer than two characters, begins with opening curly-brace, ends with closing curly-brace, and can be decoded without error.
+- Object (`object`): contains at least one public method.
+  - Arrayable (abstract): A user-defined object implementing the `Arrayable` interface.
 
-> PHP is perfectly consistent, just not the way you expect. It's vertically consistent. So, for every function in PHP,  if you look at what's underneath it, the `libc` function under some of the string functions, for example, the argument order and naming matches what they're built upon. So, there's not consistency horitzontally, but there's perfect consistency vertically digging down into the stack. [There] was just no way, that I could create a horizontally consistent design of a language that I didn't know was going to become a languge at all in an environment that was changing too rapidly. [So, all the people coming from Oracle, it was easy for them to interact with the parts sitting on top of Oracle. But, if you jumped from MySQL to Oracle, it would be painful, like a different language.]
+Abstract Shoop types can be juggled *from* but not *to*. Juggling from abstract type to concrete using Shoop method applies the type rules. ex. Juggling from Object to Dictionary removes methods and private properties.
 
-That was a long quote, but we like to be as fair as we can. This makes sense. This is also why I don't complain so much about the inconsisttencies in the language, as such. With that said, I think we can make Shoop be that more horizontally satisfying variant for interacting with PHP base types. Not only that, but I think many developers (self included) want it but maybe don't know it yet.
+We offer multiple Interfaces and default Implementations for juggling between the supported, concrete types. Each interface offers two methods: one returns an object implementing the interface and the other returns the PHP types. The former are prefixed with "as" for use in Fluent Interfaces. The latter are prefixed with "ef" and can be thought of as similar to [PHP Magic Methods](https://www.php.net/manual/en/language.oop5.magic.php) which are prefixed with a double-underscore (`__`). See:
 
-One of the praise points for the popular Laravel framework is its drive toward generic interfaces into multiple, disparate underlying structures. Switch from MySQL to NoSQL to something custom without having to revisit your other code. Use Stripe, PayPal, or something else, without having to rewrite your checkout code.
+|Interface name |Fluent method  |PHP return                    |
+|:--------------|:-------------:|:----------------------------:|
+|Falsifiable    |`asBoolean`    |`efToBoolean`                 |
+|Countable      |`asInteger`    |`efToInteger` and `count`     |
+|Stringable     |`asString`     |`efToString` and `__toString` |
+|Arrayable      |`asArray`      |`efToArray`                   |
+|Associable     |`asDictionary` |`efToDitionary`               |
+|Tupleable      |`asTuple`      |`efToTuple`                   |
 
-So, I think this particular criticism of PHP is justified *and* at the same time completely understandable.
+### PHP deviations
 
-I don't like dependencies, even when I write them. Therefore, I can also honestly say, after using Shoop to develop multiple live projects from low-level libraries to higher-level websites:
+#### Boolean
 
-> I always start by avoiding using Shoop &mdash; and, I always end up grabbing it after about the first class or two.
+|Shoop                                            |Shoop result                                 |PHP equivalent   |PHP result                  |
+|:------------------------------------------------|:--------------------------------------------|:----------------|:---------------------------|
+|`TypeAsInteger::apply()->unfoldUsing(false)`     |0                                            |`count(false)`   |PHP warning                 |
+|`TypeAsString::apply()->unfoldUsing(false)`      |"false"                                      |`(string) false` |"0"                         |
+|`TypeAsArray::apply()->unfoldUsing(false)`       |[0 => true, 1 => false]                      |`(array) false`  |[0] => false                |
+|`TypeAsDictionary::apply()->unfoldUsing(false)`  |["false" => true, "true" => false]           |''               |''                          |
+|`TypeAsTuple::apply()->unfoldUsing(false)`       |object(["false"] => true, ["true"] => false) |`(object)` false |object(["scalar"] => false) |
 
-## What's in a name?
+#### Number and integer
 
-Shoop, as an acronym, points to the insipirations of the library: Swift, Haskell (functional programming and immutability), Object-Oriented (encapsulation, composition, and communication), and Procedural (sequential, logical programming).
+|Shoop                                            |Shoop result                                   |PHP equivalent   |PHP result                  |
+|:------------------------------------------------|:----------------------------------------------|:----------------|:---------------------------|
+|`TypeAsInteger::apply()->unfoldUsing(2)`         |2                                              |`count(2)`       |PHP warning                 |
+|`TypeAsArray::apply()->unfoldUsing(2)`           |[0 => 0, 1 => 1, 2 => 2]                       |`(array) 2`      |[0 => 2]                    |
+|`TypeAsDictionary::apply()->unfoldUsing(2)`      |["i0" => 0, "i1" => 1, "i2" => 2]              |''               |''                          |
+|`TypeAsTuple::apply()->unfoldUsing(2)`           |object(["i0"] => 0, ["i1"] => 1, ["i2"] => 2]) |`(object) 2`     |object(["scalar"] => 2)     |
+
+Should array to tuple be the PHP default for array to object?? Reduces deviations.
+
+#### String
+
+|Shoop                                            |Shoop result                                  |PHP equivalent   |PHP result                  |
+|:------------------------------------------------|:---------------------------------------------|:----------------|:---------------------------|
+|`TypeAsInteger::apply()->unfoldUsing("Hi!")`     |3                                             |`(int) "Hi!"`    |0                           |
+|`TypeAsInteger::apply()->unfoldUsing("Hi!")`     |3                                             |`count("Hi!")`   |PHP warning                 |
+|`TypeAsArray::apply()->unfoldUsing("Hi!")`       |[0 => "H", 1 => "i", 2 => "!"]                |`(array) "Hi!"`  |[0 => "Hi!"]                |
+|`TypeAsDictionary::apply()->unfoldUsing("Hi!")`  |["content" => "Hi!"]                          |''               |''                          |
+|`TypeAsTuple::apply()->unfoldUsing("Hi!")`       |object(["content"] => "Hi!")                  |`(object) "Hi!"` |object(["scalar"] => "Hi!") |
+
+#### Dictionary, tuple, and JSON
+
+Ditionary and tuple deviate from PHP in similar ways, syntax might be different.
+
+|Shoop                                                       |Shoop result     |PHP equivalent                 |PHP result                     |
+|:-----------------------------------------------------------|:----------------|:------------------------------|:------------------------------|
+|`TypeAsInteger::apply()->unfoldUsing(["a" => 1, "b" => 2])` |2                |`(int) ["a" => 1, "b" => 2]`   |1                              |
+|`TypeAsInteger::apply()->unfoldUsing(["a" => 1, "b" => 2])` |2                |`count(["a" => 1, "b" => 2])`  |2                              |
+|`TypeAsString::apply()->unfoldUsing(["a" => 1, "b" => 2])`  |"", configurable |`(string) ["a" => 1, "b" => 2]`|PHP Notice: Array to string... |
+|`TypeAsArray::apply()->unfoldUsing(["a" => 1, "b" => 2])`   |[0 => 1, 1 => 2] |`(array) ["a" => 1, "b" => 2]` |["a" => 1, "b" => 2]           |
+
+Note: A JSON string is converted to a Tuple, and a Tuple is converted to a Dictionary.
+
+Note: The default implementation of the PHP JsonSerialize interface results in the PHP type being converted to a Shoop Tuple, then being encoded.
+
+#### Array
+
+|Shoop                                                |Shoop result                         |PHP equivalent        |PHP result                         |
+|:----------------------------------------------------|:------------------------------------|:---------------------|:----------------------------------|
+|`TypeAsInteger::apply()->unfoldUsing(["a", "b"])`    |2                                    |`(int) ["a", "b"]`    |1                                  |
+|`TypeAsString::apply()->unfoldUsing(["a", "b"])`     |"ab", configurable                   |`(string) ["a", "b"]` |PHP Notice: Array to string...     |
+|`TypeAsDictionary::apply()->unfoldUsing(["a", "b"])` |["i0" => "a", "i1" => "b"]           |`(array) ["a", "b"]`  |["a", "b"]                         |
+|`TypeAsTuple::apply()->unfoldUsing(["a", "b"])`      |object(["i0"] => "a", ["i1"] => "b") |`(object) ["a", "b"]` |object(["0"] => "a", ["1"] => "b") |
+
+Should array to tuple be the PHP default for array to object?? Reduces deviations. Accessing those properties doesn't work as expected.
+
+ex. $object = object(["0"] => 1, ["1"] => 2):
+
+- $object->0   = parse error
+- $object->"0" = parse error
+- $object->{0} = expected behavior
+
+#### Object
+
+ex. `$using = new class {}`
+
+|Shoop                                         |Shoop result                                         |PHP equivalent    |PHP result                  |
+|:---------------------------------------------|:----------------------------------------------------|:-----------------|:---------------------------|
+|`TypeAsBoolean::apply()->unfoldUsing($using)` |false: Opposite of `IsEmpty`, can be overridden      |`(bool) $using`   |true, cannot be overridden  |
+|`IsEmpty::apply()->unfoldUsing($using)`       |true: Boolean of `TypeAsInteger`, can be overridden  |`empty($using)`   |false, cannot be overridden |
+|`TypeAsInteger::apply()->unfoldUsing($using)  |0 (count of public properties), can be overridden    |`(int) $using`    |PHP Notice...               |
+|`TypeAsNumber::apply()->unfoldUsing($using)   |0.0 (count of public properties)                     |`(float) $using`  |''                          |
+|`TypeAsString::apply()->unfoldUsing($using)   |"" (concatenated string properties), can be overridden |`(string) $using` |''                          |
+|`TypeAsArray::apply()->unfoldUsing($using)    |[]                                                   |`(array) $using`  |[]                          |
+|`TypeAsTuple::apply()->unfoldUsing($using)    |object(): all methods and private properties removed |`(object) $using` |object(): all methods are removed, private properties remain |
+
+### What's in a name?
+
+Shoop, as an acronym, points to the insipirations of the library:
+
+- Swift, Smalltalk, and Squeak;
+- Haskell (functional programming and immutability);
+- Object-Oriented (encapsulation, composition, and communication); and
+- Procedural (sequential, logical programming).
 
 Shoop, as a word, is akin to "photoshopping" (and sounds nicer than "Foops").
 
 Shoop, as a name, is the title of a song by Salt-N-Pepa released in 1993 and used in the first installment of the [Deadpool](https://youtu.be/FOJWJmlYxlE) franchise in 2016.
+
+
+
+
+
+
+
+
+*****
+
+## Definitions
+
+> Communication is hard because language is soft.
+
+These definitions are meant to be accessible to new developers, not necessarily technically accurate.
+
+### Nouns
+
+* Member: An assignable or callable property, method, or key in an array.
+* Content: What has been assigned to a Member.
+* Data type:
+* Method:
+* Filter:
+
+### Verbs
+
+We strive for minimal verbs to maximize capability while minimizing cognitive load. Verbs are the root of Method and Filter names.
+
+* Drop:
+* Assign:
+* Pull:
+* Split:
+* Join:
+* Add:
+* Subtract:
+* Multiply:
+* Divide:
+* Has:
+* Lacks:
+* Is:
+
+
+```
+Object      -> Tuple (removes all privates and methods, public properties only)
+Json       <-> Tuple
+Tuple      <-> Dictionary
+Dictionary  -> Array (replaces string keys with sequential integers)
+String     <-> Array
+Array      <-> Integer
+Integer    <-> Number
+Boolean    <-> Integer (0 or 1)
+```
+
+This flow means Shoop primarily has two types: Dictionary and Number. The former are key-value associations and the latter is all real numbers. This flow also means mutations moving upward may be more dramatic than moving down. For example:
+
+```
+Integer -> Array (results in an array from a user-specified starting number up to and including the value of the original integer, default is 0)
+Array   -> Integer (the count of elements in the array - or other non-number type)
+Array   -> Dictionary (prefixes each integer index with a user-specified string prefix, default is "efs")
+Integer -> Dictionary (goes through an Array transformation first)
+Boolean -> Dictionary (has a "true" and "false" key; if the original boolean is true, the value of "true" will be true, otherwise will be false, the oppisite applies to the "false" key.)
+```
+
+We do our best to ensure results of transformations are rational. For example, Dictionary, Tuple, and Json types have string-based, named members that store values. Therefore, juggling between those three mainly changes the preferred access method or native language in the case of JSON. Finally, juggling from one type to another may not include all options available for any in-between steps.
+
+If you have a recommendation for what you believe is a more rational default, please do submit a PR or issue.
 
 ## Project
 

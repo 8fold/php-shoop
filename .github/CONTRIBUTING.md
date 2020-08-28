@@ -2,6 +2,23 @@
 
 Contributions are **welcome** and will be **credited**. We accept contributions via Pull Requests on [GitHub](https://github.com/8fold/php-shoop).
 
+## To Filters
+
+Filters come in two primary flavors. There's the root behaviors implemented as PHP classes. There are all stored in the root "PipeFilters" directory. If implementing a solution for a type requires raw PHP code, that code should not live in those closes.
+
+Instead a callable class (type-specific filter) is created and stored in a directory named the same as the behavior.
+
+```markd
+/PipeFilters
+    AsString.php
+    /AsString
+```
+
+$payload -> $using
+From* -> Using
+
+## To Fluent
+
 ## Guiding Principles
 
 Classes SHOULD be viewed only as an entry point not the result.
