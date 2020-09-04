@@ -12,7 +12,6 @@ use Eightfold\Shoop\FilterContracts\Interfaces\Falsifiable;
 use Eightfold\Shoop\FilterContracts\Interfaces\Reversible;
 use Eightfold\Shoop\FilterContracts\Interfaces\Stringable;
 use Eightfold\Shoop\FilterContracts\Interfaces\Tupleable;
-use Eightfold\Shoop\FilterContracts\Interfaces\Typeable;
 
 interface Shooped extends
     Foldable,
@@ -22,8 +21,7 @@ interface Shooped extends
     Falsifiable,
     Reversible,
     Stringable,
-    Tupleable,
-    Typeable
+    Tupleable
 {
     public function __construct($main);
 }
