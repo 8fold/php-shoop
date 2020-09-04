@@ -337,7 +337,8 @@ trait Associable
 
         AssertEqualsFluent::applyWith(
             false,
-            Shooped::class
+            Shooped::class,
+            0.5
         )->unfoldUsing(
             Shooped::fold((object) ["a" => 1, "c" => 3])->hasAt("b")
         );
