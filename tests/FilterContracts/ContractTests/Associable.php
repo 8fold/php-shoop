@@ -297,7 +297,8 @@ trait Associable
 
         AssertEqualsFluent::applyWith(
             true,
-            Shooped::class
+            Shooped::class,
+            0.63
         )->unfoldUsing(
             Shooped::fold(2.5)->hasAt(2)
         );
@@ -363,7 +364,8 @@ trait Associable
 
         AssertEqualsFluent::applyWith(
             false,
-            "boolean"
+            "boolean",
+            0.4
         )->unfoldUsing(
             Shooped::fold(2.5)->offsetExists(3)
         );
