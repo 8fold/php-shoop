@@ -127,7 +127,7 @@ class TypesOfTest extends TestCase
         AssertEquals::applyWith(
             ["collection", "list", "dictionary"],
             TypesOf::apply(),
-            0.02 // 0.01
+            0.04 // 0.02 // 0.01
         )->unfoldUsing(["a" => 1, "b" => 2, "c" => 3]);
 
         AssertEquals::applyWith(
@@ -156,7 +156,7 @@ class TypesOfTest extends TestCase
         AssertEquals::applyWith(
             ["object"],
             TypesOf::apply(),
-            0.02 // 0.01
+            0.03 // 0.02 // 0.01
         )->unfoldUsing(
             new class {
                 public $public = "content";
