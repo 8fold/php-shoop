@@ -121,7 +121,7 @@ class TypesOfTest extends TestCase
         AssertEquals::applyWith(
             ["sequential", "collection", "list", "array"],
             TypesOf::apply(),
-            0.01
+            0.02 // 0.01
         )->unfoldUsing([3 => "8fold", 4 => true]);
 
         AssertEquals::applyWith(
@@ -156,7 +156,7 @@ class TypesOfTest extends TestCase
         AssertEquals::applyWith(
             ["object"],
             TypesOf::apply(),
-            0.01
+            0.02 // 0.01
         )->unfoldUsing(
             new class {
                 public $public = "content";

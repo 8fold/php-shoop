@@ -32,7 +32,8 @@ class FromTest extends TestCase
 
         AssertEquals::applyWith(
             true,
-            From::applyWith("false") // uses dictionary
+            From::applyWith("false"), // uses dictionary
+            0.31
         )->unfoldUsing(false);
     }
 
