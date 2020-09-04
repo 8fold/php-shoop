@@ -370,7 +370,7 @@ trait Associable
         AssertEqualsFluent::applyWith(
             false,
             "boolean",
-            0.61 // 0.59 // 0.51 // 0.4
+            0.66 // 0.61 // 0.59 // 0.51 // 0.4
         )->unfoldUsing(
             Shooped::fold(2.5)->offsetExists(3)
         );
