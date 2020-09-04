@@ -61,6 +61,7 @@ trait Subtractable
         AssertEqualsFluent::applyWith(
             [1, 3],
             Shooped::class,
+            1.51
         )->unfoldUsing(
             Shooped::fold([3, 1, 3])->minus(1, true, false)
         );
