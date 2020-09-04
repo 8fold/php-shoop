@@ -127,7 +127,7 @@ class TypesOfTest extends TestCase
         AssertEquals::applyWith(
             ["collection", "list", "dictionary"],
             TypesOf::apply(),
-            0.01
+            0.02 // 0.01
         )->unfoldUsing(["a" => 1, "b" => 2, "c" => 3]);
 
         AssertEquals::applyWith(
