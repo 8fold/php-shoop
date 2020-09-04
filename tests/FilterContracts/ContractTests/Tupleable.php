@@ -144,7 +144,8 @@ trait Tupleable
 
         AssertEqualsFluent::applyWith(
             '{"content":"Hi!"}',
-            "string"
+            "string",
+            0.49
         )->unfoldUsing(
             Shooped::fold("Hi!")->efToJson()
         );
