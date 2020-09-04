@@ -73,7 +73,7 @@ class TypesOfTest extends TestCase
         AssertEquals::applyWith(
             ["collection", "tuple", "json"],
             TypesOf::apply(),
-            0.011
+            0.02 // 0.011
         )->unfoldUsing("{}");
 
         AssertEquals::applyWith(
