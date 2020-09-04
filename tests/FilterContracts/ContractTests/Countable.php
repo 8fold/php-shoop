@@ -23,7 +23,8 @@ trait Countable
 
         AssertEqualsFluent::applyWith(
             3,
-            Shooped::class
+            Shooped::class,
+            0.94
         )->unfoldUsing(
             Shooped::fold(3)->asInteger()
         );
