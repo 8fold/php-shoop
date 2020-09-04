@@ -62,7 +62,7 @@ trait Addable
         AssertEqualsFluent::applyWith(
             (object) ["a" => 1, "b" => 2, "c" => 3],
             Shooped::class,
-            0.49
+            0.599 // 0.49
         )->unfoldUsing(
             Shooped::fold((object) ["a" => 1])->plus((object) ["b" => 2, "c" => 3])
         );
