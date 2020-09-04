@@ -410,7 +410,7 @@ trait Associable
         AssertEqualsFluent::applyWith(
             true,
             "boolean",
-            0.75 // 0.63 // 0.61
+            0.81 // 0.75 // 0.63 // 0.61
         )->unfoldUsing(
             Shooped::fold((object) ["a" => 1, "c" => 3])->offsetExists("a")
         );
