@@ -43,7 +43,7 @@ class TypesOfTest extends TestCase
         AssertEquals::applyWith(
             ["sequential", "number", "integer"],
             TypesOf::apply(),
-            0.01
+            0.03 // 0.01
         )->unfoldUsing(1);
 
         AssertEquals::applyWith(
