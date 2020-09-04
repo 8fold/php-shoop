@@ -71,6 +71,9 @@ Shoop::pipe([1, 2, 3],
 Fluent using method chaining.
 
 ```php
+Shoop::this(2)->plus(1)->divide(2)->unfold();
+// output 1.5
+
 Shooped::fold(2)->plus(1)->divide(2)->unfold();
 // output: 1.5
 ```
