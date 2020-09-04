@@ -31,7 +31,8 @@ class StartsWithTest extends TestCase
 
         AssertEquals::applyWith(
             false,
-            "boolean"
+            "boolean",
+            0.42
         )->unfoldUsing(
             StartsWith::applyWith("Do you...")->unfoldUsing($using)
         );

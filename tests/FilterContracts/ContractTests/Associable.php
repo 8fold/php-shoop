@@ -632,7 +632,8 @@ trait Associable
 
         AssertEquals::applyWith(
             ["a" => 1, "c" => 3, "b" => 2],
-            "array"
+            "array",
+            1.88
         )->unfoldUsing(
             Shooped::fold(["a" => 1, "c" => 3])->plusAt(2, "b")
         );
@@ -689,7 +690,7 @@ trait Associable
         AssertEquals::applyWith(
             false,
             "boolean",
-            0.41 // 0.35 // 0.33
+            0.58 // 0.41 // 0.35 // 0.33
         )->unfoldUsing(
             Shooped::fold(true)->minusAt("true")
         );
