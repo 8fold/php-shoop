@@ -2,7 +2,7 @@
 
 namespace Eightfold\Shoop\Tests\FilterContracts\ContractTests;
 
-use Eightfold\Shoop\Tests\TestClasses\AssertEqualsFluent;
+use Eightfold\Foldable\Tests\PerformantEqualsTestFilter as AssertEquals;
 
 use Eightfold\Shoop\Shooped;
 
@@ -13,53 +13,53 @@ trait Countable
      */
     public function asInteger()
     {
-        AssertEqualsFluent::applyWith(
+        AssertEquals::applyWith(
             1,
-            Shooped::class,
+            "integer",
             5.28
         )->unfoldUsing(
             Shooped::fold(true)->asInteger()
         );
 
-        AssertEqualsFluent::applyWith(
+        AssertEquals::applyWith(
             3,
-            Shooped::class,
+            "integer",
             0.94
         )->unfoldUsing(
             Shooped::fold(3)->asInteger()
         );
 
-        AssertEqualsFluent::applyWith(
+        AssertEquals::applyWith(
             2,
-            Shooped::class
+            "integer"
         )->unfoldUsing(
             Shooped::fold(2.5)->asInteger()
         );
 
-        AssertEqualsFluent::applyWith(
+        AssertEquals::applyWith(
             4,
-            Shooped::class
+            "integer"
         )->unfoldUsing(
             Shooped::fold([3, 1, 3, 1])->asInteger()
         );
 
-        AssertEqualsFluent::applyWith(
+        AssertEquals::applyWith(
             3,
-            Shooped::class,
+            "integer",
         )->unfoldUsing(
             Shooped::fold(["a" => 1, "b" => 3, "c" => 1])->asInteger()
         );
 
-        AssertEqualsFluent::applyWith(
+        AssertEquals::applyWith(
             3,
-            Shooped::class
+            "integer"
         )->unfoldUsing(
             Shooped::fold("Hi!")->asInteger()
         );
 
-        AssertEqualsFluent::applyWith(
+        AssertEquals::applyWith(
             2,
-            Shooped::class
+            "integer"
         )->unfoldUsing(
             Shooped::fold((object) ["a" => 1, "c" => 3])->asInteger()
         );
@@ -72,7 +72,7 @@ trait Countable
      */
     public function efToInteger()
     {
-        AssertEqualsFluent::applyWith(
+        AssertEquals::applyWith(
             1,
             "integer",
             1.93
@@ -80,42 +80,42 @@ trait Countable
             Shooped::fold(true)->efToInteger()
         );
 
-        AssertEqualsFluent::applyWith(
+        AssertEquals::applyWith(
             3,
             "integer"
         )->unfoldUsing(
             Shooped::fold(3)->efToInteger()
         );
 
-        AssertEqualsFluent::applyWith(
+        AssertEquals::applyWith(
             2,
             "integer"
         )->unfoldUsing(
             Shooped::fold(2.5)->efToInteger()
         );
 
-        AssertEqualsFluent::applyWith(
+        AssertEquals::applyWith(
             4,
             "integer"
         )->unfoldUsing(
             Shooped::fold([3, 1, 3, 1])->efToInteger()
         );
 
-        AssertEqualsFluent::applyWith(
+        AssertEquals::applyWith(
             3,
             "integer"
         )->unfoldUsing(
             Shooped::fold(["a" => 1, "b" => 3, "c" => 1])->efToInteger()
         );
 
-        AssertEqualsFluent::applyWith(
+        AssertEquals::applyWith(
             3,
             "integer"
         )->unfoldUsing(
             Shooped::fold("Hi!")->efToInteger()
         );
 
-        AssertEqualsFluent::applyWith(
+        AssertEquals::applyWith(
             2,
             "integer"
         )->unfoldUsing(

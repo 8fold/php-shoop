@@ -2,7 +2,7 @@
 
 namespace Eightfold\Shoop\Tests\FilterContracts\ContractTests;
 
-use Eightfold\Shoop\Tests\TestClasses\AssertEqualsFluent;
+use Eightfold\Foldable\Tests\PerformantEqualsTestFilter as AssertEquals;
 
 use Eightfold\Shoop\Shooped;
 
@@ -13,85 +13,85 @@ trait Arrayable
      */
     public function asArray()
     {
-        AssertEqualsFluent::applyWith(
+        AssertEquals::applyWith(
             [false, true],
-            Shooped::class,
+            "array",
             7.86 // 7.21 // 2.15 // 2.01 // 1.77
         )->unfoldUsing(
             Shooped::fold(true)->asArray()
         );
 
         // TODO: Should arrays start at 1
-        AssertEqualsFluent::applyWith(
+        AssertEquals::applyWith(
             // [1 => 2, 2 => 3]
             [2, 3],
-            Shooped::class,
+            "array",
             0.91 // 0.51
         )->unfoldUsing(
             Shooped::fold(3)->asArray(2)
         );
 
         // TODO: Should arrays start at 1
-        AssertEqualsFluent::applyWith(
+        AssertEquals::applyWith(
             // [1 => 1, 2 => 2]
             [0, 1, 2],
-            Shooped::class
+            "array"
         )->unfoldUsing(
             Shooped::fold(2.5)->asArray()
         );
 
-        AssertEqualsFluent::applyWith(
+        AssertEquals::applyWith(
             [3, 1, 3],
-            Shooped::class
+            "array"
         )->unfoldUsing(
             Shooped::fold([3, 1, 3])->asArray()
         );
 
-        AssertEqualsFluent::applyWith(
+        AssertEquals::applyWith(
             [1, 3, 1],
-            Shooped::class,
+            "array",
         )->unfoldUsing(
             Shooped::fold(["a" => 1, "b" => 3, "c" => 1])->asArray()
         );
 
-        AssertEqualsFluent::applyWith(
+        AssertEquals::applyWith(
             ["H", "i", "!"],
-            Shooped::class
+            "array"
         )->unfoldUsing(
             Shooped::fold("Hi!")->asArray()
         );
 
-        AssertEqualsFluent::applyWith(
+        AssertEquals::applyWith(
             ["", "H", "i", ""],
-            Shooped::class
+            "array"
         )->unfoldUsing(
             Shooped::fold("!H!i!")->asArray("!")
         );
 
-        AssertEqualsFluent::applyWith(
+        AssertEquals::applyWith(
             ["H", "i"],
-            Shooped::class
+            "array"
         )->unfoldUsing(
             Shooped::fold("!H!i!")->asArray("!", false)
         );
 
-        AssertEqualsFluent::applyWith(
+        AssertEquals::applyWith(
             ["", "H!i!"],
-            Shooped::class
+            "array"
         )->unfoldUsing(
             Shooped::fold("!H!i!")->asArray("!", true, 2)
         );
 
-        AssertEqualsFluent::applyWith(
+        AssertEquals::applyWith(
             ["H!i!"],
-            Shooped::class
+            "array"
         )->unfoldUsing(
             Shooped::fold("!H!i!")->asArray("!", false, 2)
         );
 
-        AssertEqualsFluent::applyWith(
+        AssertEquals::applyWith(
             [1, 3],
-            Shooped::class,
+            "array",
             3.01 // 1.87 // 0.93 // 0.88
         )->unfoldUsing(
             Shooped::fold((object) ["a" => 1, "c" => 3])->asArray()
@@ -105,7 +105,7 @@ trait Arrayable
      */
     public function efToArray()
     {
-        AssertEqualsFluent::applyWith(
+        AssertEquals::applyWith(
             [false, true],
             "array"
         )->unfoldUsing(
@@ -113,7 +113,7 @@ trait Arrayable
         );
 
         // TODO: Should arrays start at 1
-        AssertEqualsFluent::applyWith(
+        AssertEquals::applyWith(
             // [1 => 2, 2 => 3]
             [0, 1, 2, 3],
             "array"
@@ -122,7 +122,7 @@ trait Arrayable
         );
 
         // TODO: Should arrays start at 1
-        AssertEqualsFluent::applyWith(
+        AssertEquals::applyWith(
             // [1 => 1, 2 => 2]
             [0, 1, 2],
             "array"
@@ -130,28 +130,28 @@ trait Arrayable
             Shooped::fold(2.5)->efToArray()
         );
 
-        AssertEqualsFluent::applyWith(
+        AssertEquals::applyWith(
             [3, 1, 3],
             "array"
         )->unfoldUsing(
             Shooped::fold([3, 1, 3])->efToArray()
         );
 
-        AssertEqualsFluent::applyWith(
+        AssertEquals::applyWith(
             [1, 3, 1],
             "array"
         )->unfoldUsing(
             Shooped::fold(["a" => 1, "b" => 3, "c" => 1])->efToArray()
         );
 
-        AssertEqualsFluent::applyWith(
+        AssertEquals::applyWith(
             ["H", "i", "!"],
             "array"
         )->unfoldUsing(
             Shooped::fold("Hi!")->efToArray()
         );
 
-        AssertEqualsFluent::applyWith(
+        AssertEquals::applyWith(
             [1, 3],
             "array",
             2.23 // 1.84

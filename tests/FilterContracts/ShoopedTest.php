@@ -2,12 +2,10 @@
 
 namespace Eightfold\Shoop\Tests\FilterContracts;
 
-use Eightfold\Shoop\Tests\TestClasses\FilterContractsTestCase;
-use Eightfold\Shoop\Tests\TestClasses\AssertEqualsFluent;
+use Eightfold\Shoop\Tests\FilterContractsTestCase;
+use Eightfold\Foldable\Tests\PerformantEqualsTestFilter as AssertEquals;
 
 use Eightfold\Shoop\Shoop;
-
-use Eightfold\Shoop\Tests\FilterContracts\ContractTests\Foldable;
 
 use Eightfold\Shoop\Tests\FilterContracts\ContractTests\Arrayable;
 use Eightfold\Shoop\Tests\FilterContracts\ContractTests\Associable;
@@ -30,7 +28,8 @@ use Eightfold\Shoop\Shooped;
  */
 class ShoopedTest extends FilterContractsTestCase
 {
-    use Foldable, Arrayable, Associable, Countable, Stringable, Tupleable, Emptiable, Falsifiable, Comparable, Reversible, Addable, Subtractable;
+    use Arrayable, Associable, Countable, Stringable, Tupleable, Emptiable,
+        Falsifiable, Comparable, Reversible, Addable, Subtractable;
 
     static public function sutClassName(): string
     {

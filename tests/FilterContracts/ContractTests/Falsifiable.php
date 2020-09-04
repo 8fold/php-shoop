@@ -2,7 +2,7 @@
 
 namespace Eightfold\Shoop\Tests\FilterContracts\ContractTests;
 
-use Eightfold\Shoop\Tests\TestClasses\AssertEqualsFluent;
+use Eightfold\Foldable\Tests\PerformantEqualsTestFilter as AssertEquals;
 
 use Eightfold\Shoop\Shooped;
 
@@ -13,53 +13,53 @@ trait Falsifiable
      */
     public function asBoolean()
     {
-        AssertEqualsFluent::applyWith(
+        AssertEquals::applyWith(
             true,
-            Shooped::class,
+            "boolean",
             2.3
         )->unfoldUsing(
             Shooped::fold(true)->asBoolean()
         );
 
-        AssertEqualsFluent::applyWith(
+        AssertEquals::applyWith(
             false,
-            Shooped::class
+            "boolean"
         )->unfoldUsing(
             Shooped::fold(0)->asBoolean()
         );
 
-        AssertEqualsFluent::applyWith(
+        AssertEquals::applyWith(
             true,
-            Shooped::class
+            "boolean"
         )->unfoldUsing(
             Shooped::fold(2.5)->asBoolean()
         );
 
-        AssertEqualsFluent::applyWith(
+        AssertEquals::applyWith(
             true,
-            Shooped::class,
+            "boolean",
             0.69
         )->unfoldUsing(
             Shooped::fold([3, 1, 3])->asBoolean()
         );
 
-        AssertEqualsFluent::applyWith(
+        AssertEquals::applyWith(
             false,
-            Shooped::class,
+            "boolean",
         )->unfoldUsing(
             Shooped::fold([])->asBoolean()
         );
 
-        AssertEqualsFluent::applyWith(
+        AssertEquals::applyWith(
             false,
-            Shooped::class
+            "boolean"
         )->unfoldUsing(
             Shooped::fold("")->asBoolean()
         );
 
-        AssertEqualsFluent::applyWith(
+        AssertEquals::applyWith(
             true,
-            Shooped::class,
+            "boolean",
             0.88
         )->unfoldUsing(
             Shooped::fold((object) ["a" => 1, "c" => 3])->asBoolean()
@@ -73,7 +73,7 @@ trait Falsifiable
      */
     public function efToBoolean()
     {
-        AssertEqualsFluent::applyWith(
+        AssertEquals::applyWith(
             true,
             "boolean",
             2.5
@@ -81,21 +81,21 @@ trait Falsifiable
             Shooped::fold(true)->efToBoolean()
         );
 
-        AssertEqualsFluent::applyWith(
+        AssertEquals::applyWith(
             false,
             "boolean"
         )->unfoldUsing(
             Shooped::fold(0)->efToBoolean()
         );
 
-        AssertEqualsFluent::applyWith(
+        AssertEquals::applyWith(
             true,
             "boolean"
         )->unfoldUsing(
             Shooped::fold(2.5)->efToBoolean()
         );
 
-        AssertEqualsFluent::applyWith(
+        AssertEquals::applyWith(
             true,
             "boolean",
             0.7
@@ -103,21 +103,21 @@ trait Falsifiable
             Shooped::fold([3, 1, 3])->efToBoolean()
         );
 
-        AssertEqualsFluent::applyWith(
+        AssertEquals::applyWith(
             false,
             "boolean",
         )->unfoldUsing(
             Shooped::fold([])->efToBoolean()
         );
 
-        AssertEqualsFluent::applyWith(
+        AssertEquals::applyWith(
             false,
             "boolean"
         )->unfoldUsing(
             Shooped::fold("")->efToBoolean()
         );
 
-        AssertEqualsFluent::applyWith(
+        AssertEquals::applyWith(
             true,
             "boolean",
             0.88

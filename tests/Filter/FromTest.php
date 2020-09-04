@@ -36,7 +36,8 @@ class FromTest extends TestCase
 
         AssertEquals::applyWith(
             true,
-            "boolean"
+            "boolean",
+            0.48
         )->unfoldUsing(
             From::applyWith("false")->unfoldUsing(false) // uses dictionary
         );
