@@ -27,7 +27,7 @@ class StringCasingsTest extends TestCase
         AssertEquals::applyWith(
             "hello! 🎉",
             LowerCased::apply(),
-            0.38 // 0.36
+            0.64 // 0.38 // 0.36
         )->unfoldUsing(["H", 0, new \stdClass, "e", "LL", "o!", " 🎉"]);
     }
 

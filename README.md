@@ -39,7 +39,10 @@ Apply a single filter.
 
 ```php
 Apply::plus(1)->unfoldUsing(2);
-// output: 3
+// indirect call to output: 3
+
+Plus::applyWith(1)->unfoldUsing(2);
+// direct call to output: 3
 ```
 
 Pipe multiple filters.

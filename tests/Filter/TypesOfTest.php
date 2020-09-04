@@ -67,7 +67,7 @@ class TypesOfTest extends TestCase
         AssertEquals::applyWith(
             ["sequential", "string"],
             TypesOf::apply(),
-            0.01
+            0.03 // 0.01
         )->unfoldUsing("8fold!");
 
         AssertEquals::applyWith(
@@ -115,7 +115,7 @@ class TypesOfTest extends TestCase
         AssertEquals::applyWith(
             ["sequential", "collection", "list", "array"],
             TypesOf::apply(),
-            0.02
+            0.03 // 0.02
         )->unfoldUsing([0, 1, 2]);
 
         AssertEquals::applyWith(
