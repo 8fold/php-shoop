@@ -2,8 +2,8 @@
 
 namespace Eightfold\Shoop\Tests\PipeFilters;
 
-use Eightfold\Shoop\Tests\TestClasses\TestCase;
-use Eightfold\Shoop\Tests\TestClasses\AssertEquals;
+use PHPUnit\Framework\TestCase;
+use Eightfold\Foldable\Tests\PerformantEqualsTestFilter as AssertEquals;
 
 use Eightfold\Shoop\Filter\LowerCased;
 use Eightfold\Shoop\Filter\UpperCased;
@@ -20,15 +20,21 @@ class StringCasingsTest extends TestCase
     {
         AssertEquals::applyWith(
             "hello! 🎉",
-            LowerCased::apply(),
-            1.95
-        )->unfoldUsing("HeLLo! 🎉");
+            "string",
+            5.35
+        )->unfoldUsing(
+            LowerCased::apply()->unfoldUsing("HeLLo! 🎉")
+        );
 
         AssertEquals::applyWith(
             "hello! 🎉",
-            LowerCased::apply(),
-            0.64 // 0.38 // 0.36
-        )->unfoldUsing(["H", 0, new \stdClass, "e", "LL", "o!", " 🎉"]);
+            "string",
+            1.98
+        )->unfoldUsing(
+            LowerCased::apply()->unfoldUsing(
+                ["H", 0, new \stdClass, "e", "LL", "o!", " 🎉"]
+            )
+        );
     }
 
     /**
@@ -38,13 +44,19 @@ class StringCasingsTest extends TestCase
     {
         AssertEquals::applyWith(
             "HELLO! 🎉",
-            UpperCased::apply()
-        )->unfoldUsing("HeLLo! 🎉");
+            "string",
+            0.49
+        )->unfoldUsing(
+            UpperCased::apply()->unfoldUsing("HeLLo! 🎉")
+        );
 
         AssertEquals::applyWith(
             "HELLO! 🎉",
-            UpperCased::apply(),
-            0.39 // 0.38 // 0.36
-        )->unfoldUsing(["H", 0, new \stdClass, "e", "LL", "o!", " 🎉"]);
+            "string"
+        )->unfoldUsing(
+            UpperCased::apply()->unfoldUsing(
+                ["H", 0, new \stdClass, "e", "LL", "o!", " 🎉"]
+            )
+        );
     }
 }

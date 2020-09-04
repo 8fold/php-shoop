@@ -2,8 +2,8 @@
 
 namespace Eightfold\Shoop\Tests\PipeFilters;
 
-use Eightfold\Shoop\Tests\TestClasses\TestCase;
-use Eightfold\Shoop\Tests\TestClasses\AssertEquals;
+use PHPUnit\Framework\TestCase;
+use Eightfold\Foldable\Tests\PerformantEqualsTestFilter as AssertEquals;
 
 use Eightfold\Shoop\Filter\EndsWith;
 
@@ -21,13 +21,17 @@ class EndsWithTest extends TestCase
 
         AssertEquals::applyWith(
             true,
-            EndsWith::applyWith("sing?"),
-            2.11 // 1.48 // unstable
-        )->unfoldUsing($using);
+            "boolean",
+            6.16
+        )->unfoldUsing(
+            EndsWith::applyWith("sing?")->unfoldUsing($using)
+        );
 
         AssertEquals::applyWith(
             false,
-            EndsWith::applyWith("Do you...")
-        )->unfoldUsing($using);
+            "boolean"
+        )->unfoldUsing(
+            EndsWith::applyWith("Do you...")->unfoldUsing($using)
+        );
     }
 }

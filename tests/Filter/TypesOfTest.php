@@ -2,8 +2,8 @@
 
 namespace Eightfold\Shoop\Tests\PipeFilters;
 
-use Eightfold\Shoop\Tests\TestClasses\TestCase;
-use Eightfold\Shoop\Tests\TestClasses\AssertEquals;
+use PHPUnit\Framework\TestCase;
+use Eightfold\Foldable\Tests\PerformantEqualsTestFilter as AssertEquals;
 
 use \stdClass;
 
@@ -11,7 +11,7 @@ use Eightfold\Shoop\Filter\TypesOf;
 
 /**
  * @group TypeChecking
- * @group  TypeOf
+ * @group TypesOf
  *
  * TODO: MaxMS = 0.01
  */
@@ -24,15 +24,18 @@ class TypesOfTest extends TestCase
     {
         AssertEquals::applyWith(
             ["boolean"],
-            TypesOf::apply(),
-            0.01
-        )->unfoldUsing(true);
+            "array",
+            0.42
+        )->unfoldUsing(
+            TypesOf::apply()->unfoldUsing(true)
+        );
 
         AssertEquals::applyWith(
             ["boolean"],
-            TypesOf::apply(),
-            0.01
-        )->unfoldUsing(false);
+            "array"
+        )->unfoldUsing(
+            TypesOf::apply()->unfoldUsing(false)
+        );
     }
 
     /**
@@ -42,21 +45,24 @@ class TypesOfTest extends TestCase
     {
         AssertEquals::applyWith(
             ["sequential", "number", "integer"],
-            TypesOf::apply(),
-            0.03 // 0.01
-        )->unfoldUsing(1);
+            "array"
+        )->unfoldUsing(
+            TypesOf::apply()->unfoldUsing(1)
+        );
 
         AssertEquals::applyWith(
             ["sequential", "number", "integer", "float"],
-            TypesOf::apply(),
-            0.03 // 0.01
-        )->unfoldUsing(1.0);
+            "array"
+        )->unfoldUsing(
+            TypesOf::apply()->unfoldUsing(1.0)
+        );
 
         AssertEquals::applyWith(
             ["sequential", "number", "float"],
-            TypesOf::apply(),
-            0.01
-        )->unfoldUsing(1.1);
+            "array"
+        )->unfoldUsing(
+            TypesOf::apply()->unfoldUsing(1.1)
+        );
     }
 
     /**
@@ -66,39 +72,45 @@ class TypesOfTest extends TestCase
     {
         AssertEquals::applyWith(
             ["sequential", "string"],
-            TypesOf::apply(),
-            0.03 // 0.01
-        )->unfoldUsing("8fold!");
+            "array"
+        )->unfoldUsing(
+            TypesOf::apply()->unfoldUsing("8fold!")
+        );
 
         AssertEquals::applyWith(
             ["collection", "tuple", "json"],
-            TypesOf::apply(),
-            0.02 // 0.011
-        )->unfoldUsing("{}");
+            "array"
+        )->unfoldUsing(
+            TypesOf::apply()->unfoldUsing("{}")
+        );
 
         AssertEquals::applyWith(
             ["sequential", "string"],
-            TypesOf::apply(),
-            0.01
-        )->unfoldUsing("{hello}");
+            "array"
+        )->unfoldUsing(
+            TypesOf::apply()->unfoldUsing("{hello}")
+        );
 
         AssertEquals::applyWith(
             ["collection", "tuple", "json"],
-            TypesOf::apply(),
-            0.01
-        )->unfoldUsing('{"hello":true}');
+            "array"
+        )->unfoldUsing(
+            TypesOf::apply()->unfoldUsing('{"hello":true}')
+        );
 
         AssertEquals::applyWith(
             ["sequential", "string"],
-            TypesOf::apply(),
-            0.01
-        )->unfoldUsing("{something");
+            "array"
+        )->unfoldUsing(
+            TypesOf::apply()->unfoldUsing("{something")
+        );
 
         AssertEquals::applyWith(
             ["sequential", "string"],
-            TypesOf::apply(),
-            0.03 // 0.01
-        )->unfoldUsing("somehing}");
+            "array"
+        )->unfoldUsing(
+            TypesOf::apply()->unfoldUsing("somehing}")
+        );
     }
 
     /**
@@ -108,43 +120,49 @@ class TypesOfTest extends TestCase
     {
         AssertEquals::applyWith(
             ["collection", "list"],
-            TypesOf::apply(),
-            0.01
-        )->unfoldUsing([]);
+            "array"
+        )->unfoldUsing(
+            TypesOf::apply()->unfoldUsing([])
+        );
 
         AssertEquals::applyWith(
             ["sequential", "collection", "list", "array"],
-            TypesOf::apply(),
-            0.03 // 0.02
-        )->unfoldUsing([0, 1, 2]);
+            "array"
+        )->unfoldUsing(
+            TypesOf::apply()->unfoldUsing([0, 1, 2])
+        );
 
         AssertEquals::applyWith(
             ["sequential", "collection", "list", "array"],
-            TypesOf::apply(),
-            0.02 // 0.01
-        )->unfoldUsing([3 => "8fold", 4 => true]);
+            "array"
+        )->unfoldUsing(
+            TypesOf::apply()->unfoldUsing([3 => "8fold", 4 => true])
+        );
 
         AssertEquals::applyWith(
             ["collection", "list", "dictionary"],
-            TypesOf::apply(),
-            0.04 // 0.02 // 0.01
-        )->unfoldUsing(["a" => 1, "b" => 2, "c" => 3]);
-
-        AssertEquals::applyWith(
-            ["collection", "tuple"],
-            TypesOf::apply(),
-            0.01
-        )->unfoldUsing(new stdClass);
-
-        AssertEquals::applyWith(
-            ["collection", "tuple"],
-            TypesOf::apply(),
-            0.01
+            "array"
         )->unfoldUsing(
-            new class {
-                public $public = "content";
-                private $private = "private";
-            }
+            TypesOf::apply()->unfoldUsing(["a" => 1, "b" => 2, "c" => 3])
+        );
+
+        AssertEquals::applyWith(
+            ["collection", "tuple"],
+            "array"
+        )->unfoldUsing(
+            TypesOf::apply()->unfoldUsing(new stdClass)
+        );
+
+        AssertEquals::applyWith(
+            ["collection", "tuple"],
+            "array"
+        )->unfoldUsing(
+            TypesOf::apply()->unfoldUsing(
+                new class {
+                    public $public = "content";
+                    private $private = "private";
+                }
+            )
         );
     }
 
@@ -155,17 +173,18 @@ class TypesOfTest extends TestCase
     {
         AssertEquals::applyWith(
             ["object"],
-            TypesOf::apply(),
-            0.03 // 0.02 // 0.01
+            "array"
         )->unfoldUsing(
-            new class {
-                public $public = "content";
-                private $private = "private";
-                public function someAction()
-                {
-                    return false;
+            TypesOf::apply()->unfoldUsing(
+                new class {
+                    public $public = "content";
+                    private $private = "private";
+                    public function someAction()
+                    {
+                        return false;
+                    }
                 }
-            }
+            )
         );
     }
 }
