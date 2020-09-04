@@ -330,7 +330,7 @@ trait Associable
         AssertEqualsFluent::applyWith(
             true,
             Shooped::class,
-            0.69 // 0.59 // 0.56 // 0.53
+            0.72 // 0.69 // 0.59 // 0.56 // 0.53
         )->unfoldUsing(
             Shooped::fold("Hi!")->hasAt("content")
         );
