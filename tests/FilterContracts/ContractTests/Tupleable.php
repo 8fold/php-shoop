@@ -61,7 +61,8 @@ trait Tupleable
 
         AssertEqualsFluent::applyWith(
             (object) ["i0" => 0, "i1" => 1],
-            "object"
+            "object",
+            0.32
         )->unfoldUsing(
             Shooped::fold(1)->efToTuple()
         );
