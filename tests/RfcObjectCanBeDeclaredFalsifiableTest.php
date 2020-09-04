@@ -2,8 +2,8 @@
 
 namespace Eightfold\Shoop\Tests\PipeFilters;
 
-use Eightfold\Shoop\Tests\TestClasses\TestCase;
-use Eightfold\Shoop\Tests\TestClasses\AssertEquals;
+use PHPUnit\Framework\TestCase;
+use Eightfold\Foldable\Tests\PerformantEqualsTestFilter as AssertEquals;
 
 use \stdClass;
 
@@ -60,15 +60,20 @@ class RfcObjectCanBeDeclaredFalsifiableTest extends TestCase
         // Shoop (deviation) - false|true
         AssertEquals::applyWith(
             false,
-            TypeAsBoolean::apply(), // Represents the PHP boolean responder script.
+            "boolean",
             0.88 // 0.75 // 0.43
-        )->unfoldUsing($using);
+        )->unfoldUsing(
+            TypeAsBoolean::apply() // Represents the PHP boolean responder script.
+                ->unfoldUsing($using)
+        );
 
         AssertEquals::applyWith(
             true,
-            IsEmpty::apply(),
+            "boolean",
             0.71
-        )->unfoldUsing($using);
+        )->unfoldUsing(
+            IsEmpty::apply()->unfoldUsing($using)
+        );
     }
 
     /**
@@ -90,13 +95,17 @@ class RfcObjectCanBeDeclaredFalsifiableTest extends TestCase
         // Shoop - true|false
         AssertEquals::applyWith(
             true,
-            TypeAsBoolean::apply()
-        )->unfoldUsing($using);
+            "boolean"
+        )->unfoldUsing(
+            TypeAsBoolean::apply()->unfoldUsing($using)
+        );
 
         AssertEquals::applyWith(
             false,
-            IsEmpty::apply()
-        )->unfoldUsing($using);
+            "boolean"
+        )->unfoldUsing(
+            IsEmpty::apply()->unfoldUsing($using)
+        );
     }
 
     /**
@@ -132,15 +141,19 @@ class RfcObjectCanBeDeclaredFalsifiableTest extends TestCase
         // Shoop (deviation) - false|false
         AssertEquals::applyWith(
             false,
-            TypeAsBoolean::apply(),
+            "boolean",
             1.58 // 1.09
-        )->unfoldUsing($using);
+        )->unfoldUsing(
+            TypeAsBoolean::apply()->unfoldUsing($using)
+        );
 
         AssertEquals::applyWith(
             false,
-            IsEmpty::apply(),
+            "boolean",
             0.73
-        )->unfoldUsing($using);
+        )->unfoldUsing(
+            IsEmpty::apply()->unfoldUsing($using)
+        );
     }
 
     /**
@@ -175,15 +188,19 @@ class RfcObjectCanBeDeclaredFalsifiableTest extends TestCase
         // Shoop (deviation) - true|true
         AssertEquals::applyWith(
             true,
-            TypeAsBoolean::apply(),
+            "boolean",
             0.31
-        )->unfoldUsing($using);
+        )->unfoldUsing(
+            TypeAsBoolean::apply()->unfoldUsing($using)
+        );
 
         AssertEquals::applyWith(
             true,
-            IsEmpty::apply(),
+            "boolean",
             1.14 // 1.05 // 1.02
-        )->unfoldUsing($using);
+        )->unfoldUsing(
+            IsEmpty::apply()->unfoldUsing($using)
+        );
     }
 
     /**
@@ -228,14 +245,18 @@ class RfcObjectCanBeDeclaredFalsifiableTest extends TestCase
         // Shoop (deviation) - false|true
         AssertEquals::applyWith(
             true,
-            TypeAsBoolean::apply(),
+            "boolean",
             1 // 0.41 // 0.32
-        )->unfoldUsing($using);
+        )->unfoldUsing(
+            TypeAsBoolean::apply()->unfoldUsing($using)
+        );
 
         AssertEquals::applyWith(
             true,
-            IsEmpty::apply(),
+            "boolean",
             1.16
-        )->unfoldUsing($using);
+        )->unfoldUsing(
+            IsEmpty::apply()->unfoldUsing($using)
+        );
     }
 }

@@ -39,7 +39,10 @@ Apply a single filter.
 
 ```php
 Apply::plus(1)->unfoldUsing(2);
-// output: 3
+// indirect call to output: 3
+
+Plus::applyWith(1)->unfoldUsing(2);
+// direct call to output: 3
 ```
 
 Pipe multiple filters.
@@ -68,6 +71,9 @@ Shoop::pipe([1, 2, 3],
 Fluent using method chaining.
 
 ```php
+Shoop::this(2)->plus(1)->divide(2)->unfold();
+// output 1.5
+
 Shooped::fold(2)->plus(1)->divide(2)->unfold();
 // output: 1.5
 ```
@@ -91,15 +97,6 @@ Shooped::fold(2)->plus(1)->divide(2)->unfold();
 Abstract Shoop types can be juggled *from* but not *to*. Juggling from abstract type to concrete using Shoop method applies the type rules. ex. Juggling from Object to Dictionary removes methods and private properties.
 
 We offer multiple Interfaces and default Implementations for juggling between the supported, concrete types. Each interface offers two methods: one returns an object implementing the interface and the other returns the PHP types. The former are prefixed with "as" for use in Fluent Interfaces. The latter are prefixed with "ef" and can be thought of as similar to [PHP Magic Methods](https://www.php.net/manual/en/language.oop5.magic.php) which are prefixed with a double-underscore (`__`). See:
-
-|Interface name |Fluent method  |PHP return                    |
-|:--------------|:-------------:|:----------------------------:|
-|Falsifiable    |`asBoolean`    |`efToBoolean`                 |
-|Countable      |`asInteger`    |`efToInteger` and `count`     |
-|Stringable     |`asString`     |`efToString` and `__toString` |
-|Arrayable      |`asArray`      |`efToArray`                   |
-|Associable     |`asDictionary` |`efToDitionary`               |
-|Tupleable      |`asTuple`      |`efToTuple`                   |
 
 ### PHP deviations
 
@@ -193,93 +190,11 @@ Shoop, as a word, is akin to "photoshopping" (and sounds nicer than "Foops").
 
 Shoop, as a name, is the title of a song by Salt-N-Pepa released in 1993 and used in the first installment of the [Deadpool](https://youtu.be/FOJWJmlYxlE) franchise in 2016.
 
-
-
-
-
-
-
-
-*****
-
-## Definitions
-
-> Communication is hard because language is soft.
-
-These definitions are meant to be accessible to new developers, not necessarily technically accurate.
-
-### Nouns
-
-* Member: An assignable or callable property, method, or key in an array.
-* Content: What has been assigned to a Member.
-* Data type:
-* Method:
-* Filter:
-
-### Verbs
-
-We strive for minimal verbs to maximize capability while minimizing cognitive load. Verbs are the root of Method and Filter names.
-
-* Drop:
-* Assign:
-* Pull:
-* Split:
-* Join:
-* Add:
-* Subtract:
-* Multiply:
-* Divide:
-* Has:
-* Lacks:
-* Is:
-
-
-```
-Object      -> Tuple (removes all privates and methods, public properties only)
-Json       <-> Tuple
-Tuple      <-> Dictionary
-Dictionary  -> Array (replaces string keys with sequential integers)
-String     <-> Array
-Array      <-> Integer
-Integer    <-> Number
-Boolean    <-> Integer (0 or 1)
-```
-
-This flow means Shoop primarily has two types: Dictionary and Number. The former are key-value associations and the latter is all real numbers. This flow also means mutations moving upward may be more dramatic than moving down. For example:
-
-```
-Integer -> Array (results in an array from a user-specified starting number up to and including the value of the original integer, default is 0)
-Array   -> Integer (the count of elements in the array - or other non-number type)
-Array   -> Dictionary (prefixes each integer index with a user-specified string prefix, default is "efs")
-Integer -> Dictionary (goes through an Array transformation first)
-Boolean -> Dictionary (has a "true" and "false" key; if the original boolean is true, the value of "true" will be true, otherwise will be false, the oppisite applies to the "false" key.)
-```
-
-We do our best to ensure results of transformations are rational. For example, Dictionary, Tuple, and Json types have string-based, named members that store values. Therefore, juggling between those three mainly changes the preferred access method or native language in the case of JSON. Finally, juggling from one type to another may not include all options available for any in-between steps.
-
-If you have a recommendation for what you believe is a more rational default, please do submit a PR or issue.
-
 ## Project
 
 - [Versioning](https://github.com/8fold/php-shoop/blob/master/.github/VERSIONING.md)
 - [Contributing](https://github.com/8fold/php-shoop/blob/master/.github/CONTRIBUTING.md)
 - [Governance](https://github.com/8fold/php-shoop/blob/master/.github/GOVERNANCE.md)
-
-### Naming conventions
-
-ES{type}: Shoop types MUST be named using the ES (Eightfold Shoop) prefixed concatenated with the type name following [PSR-12 guidelines](https://www.php-fig.org/psr/psr-12/) with no spaces. ex. ESBool indicates that the class represents a PHP `bool`.
-
-{interface name}: Shoop interfaces SHOULD be named after the categorization of the methods found within, which is admittedly subjective.
-
-{insterface name}Imp: Shoop traits holding the generic implementations of the methods in the interface MUST be prefixed with the name of the interface and suffixed with "Imp," denoting one is the definition while the other is the declaration.
-
-{test suite name}Test: Tests MUST follow standard phpUnit naming conventions.
-
-php_{magic method name}{description}Test: Test classes with a "php_" prefix and "Test" suffix indicate the methods under test directly involve a PHP magic method. The optional description is used to indicate what is being tested, usually only used if more than one possibility exists. ex. php_Call uses `__call()`.
-
-php{interface name}{method name}Test: Test classes prefixed with "php" followed by the name of a PHP interface name (ex. Iterator), indicates the methods under test is one of those found in the interface, which comes after the interface name and prior to the obligatory "Test" suffix.
-
-We use the term "member" as an umbrella that covers an index for values in indexed arrays, keys for values in associative arrays, and members for values in JSON and objects.
 
 ## History
 

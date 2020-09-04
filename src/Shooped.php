@@ -321,11 +321,4 @@ class Shooped implements ShoopedInterface
             Apply::reversed()->unfoldUsing($this->main)
         );
     }
-
-// - Typeable
-    public function types(): Arrayable
-    {}
-
-    public function efTypes(): array
-    {}
 }

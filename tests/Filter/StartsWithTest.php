@@ -2,8 +2,8 @@
 
 namespace Eightfold\Shoop\Tests\PipeFilters;
 
-use Eightfold\Shoop\Tests\TestClasses\TestCase;
-use Eightfold\Shoop\Tests\TestClasses\AssertEquals;
+use PHPUnit\Framework\TestCase;
+use Eightfold\Foldable\Tests\PerformantEqualsTestFilter as AssertEquals;
 
 use \stdClass;
 
@@ -23,13 +23,18 @@ class StartsWithTest extends TestCase
 
         AssertEquals::applyWith(
             true,
-            StartsWith::applyWith("Do you"),
-            3.36
-        )->unfoldUsing($using);
+            "boolean",
+            3.1
+        )->unfoldUsing(
+            StartsWith::applyWith("Do you")->unfoldUsing($using)
+        );
 
         AssertEquals::applyWith(
             false,
-            StartsWith::applyWith("Do you...")
-        )->unfoldUsing($using);
+            "boolean",
+            0.58 // 0.42
+        )->unfoldUsing(
+            StartsWith::applyWith("Do you...")->unfoldUsing($using)
+        );
     }
 }

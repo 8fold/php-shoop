@@ -2,7 +2,7 @@
 
 namespace Eightfold\Shoop\Tests\FilterContracts\ContractTests;
 
-use Eightfold\Shoop\Tests\TestClasses\AssertEqualsFluent;
+use Eightfold\Foldable\Tests\PerformantEqualsTestFilter as AssertEquals;
 
 use Eightfold\Shoop\Shooped;
 
@@ -13,63 +13,63 @@ trait Addable
      */
     public function plus()
     {
-        AssertEqualsFluent::applyWith(
+        AssertEquals::applyWith(
             true,
-            Shooped::class,
+            "boolean",
             11.96 // 5.62 // 2.98 // 2.94 // 2.89 // 2.18 // 1.54
         )->unfoldUsing(
             Shooped::fold(false)->plus(1)
         );
 
-        AssertEqualsFluent::applyWith(
+        AssertEquals::applyWith(
             2,
-            Shooped::class,
+            "integer",
             7.26 // 2.55 // 2.54 // 2.48
         )->unfoldUsing(
             Shooped::fold(1)->plus(1)
         );
 
-        AssertEqualsFluent::applyWith(
+        AssertEquals::applyWith(
             2.5,
-            Shooped::class
+            "double"
         )->unfoldUsing(
             Shooped::fold(1.5)->plus(1)
         );
 
-        AssertEqualsFluent::applyWith(
+        AssertEquals::applyWith(
             [1, 2, 3],
-            Shooped::class,
+            "array",
             0.52
         )->unfoldUsing(
             Shooped::fold([1])->plus([2, 3])
         );
 
-        AssertEqualsFluent::applyWith(
+        AssertEquals::applyWith(
             "8fold!",
-            Shooped::class
+            "string"
         )->unfoldUsing(
             Shooped::fold("8fold")->plus("!")
         );
 
-        AssertEqualsFluent::applyWith(
+        AssertEquals::applyWith(
             (object) ["a" => 1, "b" => 2, "c" => 3],
-            Shooped::class,
+            "object",
             1.1 // 0.99 // 0.82
         )->unfoldUsing(
             Shooped::fold((object) ["a" => 1])->plus(["b" => 2, "c" => 3])
         );
 
-        AssertEqualsFluent::applyWith(
+        AssertEquals::applyWith(
             (object) ["a" => 1, "b" => 2, "c" => 3],
-            Shooped::class,
-            0.49
+            "object",
+            0.73 // 0.6 // 0.49
         )->unfoldUsing(
             Shooped::fold((object) ["a" => 1])->plus((object) ["b" => 2, "c" => 3])
         );
 
-        AssertEqualsFluent::applyWith(
+        AssertEquals::applyWith(
             (object) ["a" => 1, "i0" => 3],
-            Shooped::class,
+            "object",
             0.49
         )->unfoldUsing(
             Shooped::fold((object) ["a" => 1])->plus(3)
@@ -84,9 +84,9 @@ trait Addable
      */
     public function plus_value_can_be_foldable()
     {
-        AssertEqualsFluent::applyWith(
+        AssertEquals::applyWith(
             "8fold!",
-            Shooped::class,
+            "string",
             4.59
         )->unfoldUsing(
             Shooped::fold("8fold")->plus(

@@ -11,7 +11,8 @@
   ],
   "require": {
     "php": "~7",
-    "8fold/php-foldable": "~0.0.0"
+    "8fold/php-foldable": "~1.0",
+    "nikic/iter": "^2.0"
   },
   "require-dev": {
     "phpunit/phpunit": "~9.1"
@@ -23,7 +24,8 @@
   },
   "autoload-dev": {
     "psr-4": {
-      "Eightfold\\Shoop\\Tests\\": "./tests/"
+      "Eightfold\\Shoop\\Tests\\": "./tests/",
+      "Eightfold\\Foldable\\Tests\\": "./vendor/8fold/php-foldable/tests/"
     }
   },
   "config": {

@@ -2,8 +2,8 @@
 
 namespace Eightfold\Shoop\Tests\PipeFilters;
 
-use Eightfold\Shoop\Tests\TestClasses\TestCase;
-use Eightfold\Shoop\Tests\TestClasses\AssertEquals;
+use PHPUnit\Framework\TestCase;
+use Eightfold\Foldable\Tests\PerformantEqualsTestFilter as AssertEquals;
 
 use Eightfold\Shoop\Filter\MinusUsing;
 
@@ -34,19 +34,27 @@ class MinusUsingTest extends TestCase
     {
         AssertEquals::applyWith(
             ["8fold", "!"],
-            MinusUsing::apply(),
-            0.51
-        )->unfoldUsing([null, "8fold", false, "", "!"]);
+            "array",
+            0.86 // 0.8 // 0.79
+        )->unfoldUsing(
+            MinusUsing::apply()->unfoldUsing([null, "8fold", false, "", "!"])
+        );
 
         AssertEquals::applyWith(
             [false],
+            "array"
+        )->unfoldUsing(
             MinusUsing::applyWith("is_bool")
-        )->unfoldUsing([null, "8fold", false, "", "!"]);
+                ->unfoldUsing([null, "8fold", false, "", "!"])
+        );
 
         AssertEquals::applyWith(
             [null],
+            "array"
+        )->unfoldUsing(
             MinusUsing::applyWith(function ($v) { return is_null($v); })
-        )->unfoldUsing([null, "8fold", false, "", "!"]);
+                ->unfoldUsing([null, "8fold", false, "", "!"])
+        );
     }
 
     /**

@@ -2,8 +2,8 @@
 
 namespace Eightfold\Shoop\Tests\PipeFilters;
 
-use Eightfold\Shoop\Tests\TestClasses\TestCase;
-use Eightfold\Shoop\Tests\TestClasses\AssertEquals;
+use PHPUnit\Framework\TestCase;
+use Eightfold\Foldable\Tests\PerformantEqualsTestFilter as AssertEquals;
 
 use \stdClass;
 
@@ -21,19 +21,26 @@ class FromTest extends TestCase
     {
         AssertEquals::applyWith(
             false,
-            From::apply(),
-            2.71
-        )->unfoldUsing(true);
+            "boolean",
+            3.07
+        )->unfoldUsing(
+            From::apply()->unfoldUsing(true)
+        );
 
         AssertEquals::applyWith(
             true,
-            From::applyWith(1) // uses array
-        )->unfoldUsing(true);
+            "boolean"
+        )->unfoldUsing(
+            From::applyWith(1)->unfoldUsing(true) // uses array
+        );
 
         AssertEquals::applyWith(
             true,
-            From::applyWith("false") // uses dictionary
-        )->unfoldUsing(false);
+            "boolean",
+            0.48
+        )->unfoldUsing(
+            From::applyWith("false")->unfoldUsing(false) // uses dictionary
+        );
     }
 
     /**
@@ -45,21 +52,25 @@ class FromTest extends TestCase
 
         AssertEquals::applyWith(
             [3, 2, 5, 4],
-            From::apply(),
-            0.3
-        )->unfoldUsing($using);
+            "array",
+            0.35
+        )->unfoldUsing(
+            From::apply()->unfoldUsing($using)
+        );
 
         AssertEquals::applyWith(
             [5, 4],
-            From::applyWith(-2),
-            0.35
-        )->unfoldUsing($using);
+            "array"
+        )->unfoldUsing(
+            From::applyWith(-2)->unfoldUsing($using)
+        );
 
         AssertEquals::applyWith(
             ["b" => 2, "c" => 3],
-            From::applyWith(1, 2),
-            0.35
-        )->unfoldUsing(["a" => 1, "b" => 2, "c" => 3, "d" => 4]);
+            "array"
+        )->unfoldUsing(
+            From::applyWith(1, 2)->unfoldUsing(["a" => 1, "b" => 2, "c" => 3, "d" => 4])
+        );
     }
 
     /**
@@ -69,21 +80,26 @@ class FromTest extends TestCase
     {
         AssertEquals::applyWith(
             "raise",
-            From::applyWith(4, 5),
-            3.64
-        )->unfoldUsing("So, raise your glass!");
+            "string"
+        )->unfoldUsing(
+            From::applyWith(4, 5)->unfoldUsing("So, raise your glass!")
+        );
 
         $using = "Life is ours and we live it our way.";
 
         AssertEquals::applyWith(
             "Life",
-            From::applyWith(0, 4)
-        )->unfoldUsing($using);
+            "string"
+        )->unfoldUsing(
+            From::applyWith(0, 4)->unfoldUsing($using)
+        );
 
         AssertEquals::applyWith(
             "way",
-            From::applyWith(-4, 3)
-        )->unfoldUsing($using);
+            "string"
+        )->unfoldUsing(
+            From::applyWith(-4, 3)->unfoldUsing($using)
+        );
     }
 
     /**
@@ -99,14 +115,18 @@ class FromTest extends TestCase
 
         AssertEquals::applyWith(
             (object) ["public" => "content", "public2" => 2, "public3" => false],
-            From::applyWith(1, 1),
-            1.35
-        )->unfoldUsing($using);
+            "object",
+            2.76
+        )->unfoldUsing(
+            From::applyWith(1, 1)->unfoldUsing($using)
+        );
 
         AssertEquals::applyWith(
             '{"member2":false}',
-            From::applyWith(1, 1),
-            1.19
-        )->unfoldUsing('{"member":true,"member2":false}');
+            "string",
+            0.59
+        )->unfoldUsing(
+            From::applyWith(1, 1)->unfoldUsing('{"member":true,"member2":false}')
+        );
     }
 }

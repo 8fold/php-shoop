@@ -1,6 +1,6 @@
 <?php
 
-namespace Eightfold\Shoop\Tests\TestClasses;
+namespace Eightfold\Shoop\Tests;
 
 use PHPUnit\Framework\TestCase;
 
@@ -26,7 +26,9 @@ abstract class FilterContractsTestCase extends TestCase
             "key", // part of PHP iterator interface
             "next", // part of PHP iterator interface
             "jsonSerialize", // uses efToTuple
-            "count" // uses efToInteger
+            "count", // uses efToInteger
+            "fold",
+            "unfold"
         ];
     }
 
