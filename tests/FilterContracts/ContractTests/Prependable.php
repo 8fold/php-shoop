@@ -59,7 +59,8 @@ trait Prependable
 
         AssertEquals::applyWith(
             (object) ["b" => 2, "c" => 3, "a" => 1],
-            "object"
+            "object",
+            0.36
         )->unfoldUsing(
             Shooped::fold((object) ["a" => 1])->prepend(["b" => 2, "c" => 3])
         );
