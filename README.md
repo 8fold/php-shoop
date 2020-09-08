@@ -192,8 +192,13 @@ Shoop, as a name, is the title of a song by Salt-N-Pepa released in 1993 and use
 
 ## Project
 
+A `Filter` should only return a PHP data type, not an object.
+
+For more general advice see our [Contributing](https://github.com/8fold/php-shoop/blob/master/.github/CONTRIBUTING.md) documentation.
+
+### Other
+
 - [Versioning](https://github.com/8fold/php-shoop/blob/master/.github/VERSIONING.md)
-- [Contributing](https://github.com/8fold/php-shoop/blob/master/.github/CONTRIBUTING.md)
 - [Governance](https://github.com/8fold/php-shoop/blob/master/.github/GOVERNANCE.md)
 
 ## History

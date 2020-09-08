@@ -230,7 +230,8 @@ trait Associable
 
         AssertEquals::applyWith(
             false,
-            "boolean"
+            "boolean",
+            0.36
         )->unfoldUsing(
             Shooped::fold(2.5)->efHas(2)
         );
@@ -314,7 +315,7 @@ trait Associable
         AssertEquals::applyWith(
             true,
             "boolean",
-            0.54 // 0.53 // 0.52 // 0.5 // 0.46 // 0.4
+            0.59 // 0.54 // 0.53 // 0.52 // 0.5 // 0.46 // 0.4
         )->unfoldUsing(
             Shooped::fold(["a" => 1, "b" => 3, "c" => 1])->hasAt("c")
         );
@@ -338,7 +339,7 @@ trait Associable
         AssertEquals::applyWith(
             false,
             "boolean",
-            0.5
+            0.61 // 0.51 // 0.5
         )->unfoldUsing(
             Shooped::fold((object) ["a" => 1, "c" => 3])->hasAt("b")
         );
@@ -362,7 +363,7 @@ trait Associable
         AssertEquals::applyWith(
             true,
             "boolean",
-            1.03 // 0.9 // 0.82 // 0.68
+            1.46 // 1.03 // 0.9 // 0.82 // 0.68
         )->unfoldUsing(
             Shooped::fold(3)->offsetExists(3)
         );
@@ -402,7 +403,7 @@ trait Associable
         AssertEquals::applyWith(
             true,
             "boolean",
-            0.78 // 0.72 // 0.67
+            0.79 // 0.78 // 0.72 // 0.67
         )->unfoldUsing(
             Shooped::fold("Hi!")->offsetExists(0)
         );
@@ -520,7 +521,7 @@ trait Associable
         AssertEquals::applyWith(
             2.0,
             "double",
-            0.31
+            0.41 // 0.31
         )->unfoldUsing(
             Shooped::fold(2.5)->offsetGet([2, 3])
         );
@@ -550,21 +551,23 @@ trait Associable
         AssertEquals::applyWith(
             "H",
             "string",
-            0.31
+            0.33 // 0.31
         )->unfoldUsing(
             Shooped::fold("Hi!")->offsetGet(0)
         );
 
         AssertEquals::applyWith(
             "Hi!",
-            "string"
+            "string",
+            0.31
         )->unfoldUsing(
             Shooped::fold("Hi!")->offsetGet("content")
         );
 
         AssertEquals::applyWith(
             1,
-            "integer"
+            "integer",
+            3.66 // 0.33
         )->unfoldUsing(
             Shooped::fold((object) ["a" => 1, "c" => 3])->offsetGet("a")
         );
@@ -649,7 +652,7 @@ trait Associable
         AssertEquals::applyWith(
             "Ho!",
             "string",
-            0.68 // 0.6
+            0.71 // 0.68 // 0.6
         )->unfoldUsing(
             Shooped::fold("Hi!")->plusAt("o", 1, true)
         );

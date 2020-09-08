@@ -114,7 +114,7 @@ class FromTest extends TestCase
         };
 
         AssertEquals::applyWith(
-            (object) ["public" => "content", "public2" => 2, "public3" => false],
+            (object) ["public2" => 2],
             "object",
             2.76
         )->unfoldUsing(

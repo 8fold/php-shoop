@@ -59,7 +59,7 @@ class From extends Filter
         ) {
             return Shoop::pipe($using,
                 TypeAsDictionary::apply(),
-                From::applyWith(...$this->args(true)),
+                From::applyWith($this->start, $this->length),
                 TypeAsTuple::apply()
             )->unfold();
 
