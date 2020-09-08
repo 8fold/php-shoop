@@ -119,7 +119,7 @@ class FromTest extends TestCase
             (object) ["public2" => 2],
             "object",
             2.76,
-            24
+            77 // 24
         )->unfoldUsing(
             From::applyWith(1, 1)->unfoldUsing($using)
         );

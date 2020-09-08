@@ -284,7 +284,7 @@ trait Associable
             true,
             "boolean",
             3.38, // 3.35 // 3.03
-            15
+            16 // 15
         )->unfoldUsing(
             Shooped::fold(true)->hasAt(1)
         );
@@ -687,7 +687,8 @@ trait Associable
         AssertEquals::applyWith(
             true,
             "boolean",
-            3.46
+            3.46,
+            13
         )->unfoldUsing(
             Shooped::fold(false)->minusAt(1)
         );
