@@ -39,7 +39,7 @@ trait Subtractable
         AssertEquals::applyWith(
             [],
             "array",
-            1.14
+            1.32 // 1.14
         )->unfoldUsing(
             Shooped::fold([3, 1, 3])->minus(3)
         );

@@ -625,7 +625,7 @@ trait Associable
         AssertEquals::applyWith(
             [3, 1, 1, 3],
             "array",
-            3.26
+            3.42 // 3.26
         )->unfoldUsing(
             Shooped::fold([3, 1, 3])->plusAt(1, 0)
         );
