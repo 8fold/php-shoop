@@ -139,7 +139,8 @@ trait Arrayable
 
         AssertEquals::applyWith(
             [1, 3, 1],
-            "array"
+            "array",
+            0.41
         )->unfoldUsing(
             Shooped::fold(["a" => 1, "b" => 3, "c" => 1])->efToArray()
         );
