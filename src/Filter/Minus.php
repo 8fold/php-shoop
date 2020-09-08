@@ -37,7 +37,6 @@ class Minus extends Filter
             ! TypeIs::applyWith("json")->unfoldUsing($using)
         ) {
             $args = $this->args(true);
-            $args = array_filter($args);
             return $this->fromString($using, ...$args);
 
         } elseif (TypeIs::applyWith("tuple")->unfoldUsing($using)) {

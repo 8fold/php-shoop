@@ -8,16 +8,16 @@
     "packages": [
         {
             "name": "8fold/php-foldable",
-            "version": "1.0.0",
+            "version": "1.1.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/8fold/php-foldable.git",
-                "reference": "847140352e1c29cc3b6195908003803ee13e70f2"
+                "reference": "ab14e176ee02b7da81d529052330c74a2e4936c1"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/8fold/php-foldable/zipball/847140352e1c29cc3b6195908003803ee13e70f2",
-                "reference": "847140352e1c29cc3b6195908003803ee13e70f2",
+                "url": "https://api.github.com/repos/8fold/php-foldable/zipball/ab14e176ee02b7da81d529052330c74a2e4936c1",
+                "reference": "ab14e176ee02b7da81d529052330c74a2e4936c1",
                 "shasum": ""
             },
             "require": {
@@ -53,7 +53,7 @@
                     "type": "github"
                 }
             ],
-            "time": "2020-09-04T16:59:54+00:00"
+            "time": "2020-09-04T23:56:18+00:00"
         },
         {
             "name": "nikic/iter",
