@@ -550,7 +550,7 @@ trait Associable
         AssertEquals::applyWith(
             "H",
             "string",
-            0.31
+            0.33 // 0.31
         )->unfoldUsing(
             Shooped::fold("Hi!")->offsetGet(0)
         );
