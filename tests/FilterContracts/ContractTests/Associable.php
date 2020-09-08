@@ -520,7 +520,7 @@ trait Associable
         AssertEquals::applyWith(
             2.0,
             "double",
-            0.31
+            0.41 // 0.31
         )->unfoldUsing(
             Shooped::fold(2.5)->offsetGet([2, 3])
         );
@@ -649,7 +649,7 @@ trait Associable
         AssertEquals::applyWith(
             "Ho!",
             "string",
-            0.68 // 0.6
+            0.71 // 0.68 // 0.6
         )->unfoldUsing(
             Shooped::fold("Hi!")->plusAt("o", 1, true)
         );
