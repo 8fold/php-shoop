@@ -22,7 +22,8 @@ class EndsWithTest extends TestCase
         AssertEquals::applyWith(
             true,
             "boolean",
-            6.16
+            6.91, // 6.16
+            71
         )->unfoldUsing(
             EndsWith::applyWith("sing?")->unfoldUsing($using)
         );

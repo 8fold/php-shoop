@@ -4,20 +4,20 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "cc76385fb3cb65c2d022b92490f24bfa",
+    "content-hash": "aee601f7017f9281b5b4ff77c7d696f0",
     "packages": [
         {
             "name": "8fold/php-foldable",
-            "version": "1.1.1",
+            "version": "dev-master",
             "source": {
                 "type": "git",
                 "url": "https://github.com/8fold/php-foldable.git",
-                "reference": "ab14e176ee02b7da81d529052330c74a2e4936c1"
+                "reference": "e2ee41e8055cea99f3d2590586e34ef31193ae50"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/8fold/php-foldable/zipball/ab14e176ee02b7da81d529052330c74a2e4936c1",
-                "reference": "ab14e176ee02b7da81d529052330c74a2e4936c1",
+                "url": "https://api.github.com/repos/8fold/php-foldable/zipball/e2ee41e8055cea99f3d2590586e34ef31193ae50",
+                "reference": "e2ee41e8055cea99f3d2590586e34ef31193ae50",
                 "shasum": ""
             },
             "require": {
@@ -53,7 +53,7 @@
                     "type": "github"
                 }
             ],
-            "time": "2020-09-04T23:56:18+00:00"
+            "time": "2020-09-08T14:39:33+00:00"
         },
         {
             "name": "nikic/iter",
@@ -598,16 +598,16 @@
         },
         {
             "name": "phpunit/php-code-coverage",
-            "version": "9.1.7",
+            "version": "9.1.8",
             "source": {
                 "type": "git",
                 "url": "https://github.com/sebastianbergmann/php-code-coverage.git",
-                "reference": "2ef92bec3186a827faf7362ff92ae4e8ec2e49d2"
+                "reference": "f98f8466126d83b55b924a94d2244c53c216b8fb"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/sebastianbergmann/php-code-coverage/zipball/2ef92bec3186a827faf7362ff92ae4e8ec2e49d2",
-                "reference": "2ef92bec3186a827faf7362ff92ae4e8ec2e49d2",
+                "url": "https://api.github.com/repos/sebastianbergmann/php-code-coverage/zipball/f98f8466126d83b55b924a94d2244c53c216b8fb",
+                "reference": "f98f8466126d83b55b924a94d2244c53c216b8fb",
                 "shasum": ""
             },
             "require": {
@@ -667,7 +667,7 @@
                     "type": "github"
                 }
             ],
-            "time": "2020-09-03T07:09:19+00:00"
+            "time": "2020-09-07T08:07:10+00:00"
         },
         {
             "name": "phpunit/php-file-iterator",
@@ -2067,7 +2067,9 @@
     ],
     "aliases": [],
     "minimum-stability": "stable",
-    "stability-flags": [],
+    "stability-flags": {
+        "8fold/php-foldable": 20
+    },
     "prefer-stable": true,
     "prefer-lowest": false,
     "platform": {
