@@ -324,7 +324,7 @@ trait Associable
         AssertEquals::applyWith(
             true,
             "boolean",
-            0.8 // 0.55
+            0.81 // 0.8 // 0.55
         )->unfoldUsing(
             Shooped::fold("Hi!")->hasAt(2)
         );
@@ -713,7 +713,7 @@ trait Associable
             0,
             "integer",
             0.84, // 0.71 // 0.62
-            24 // 19
+            88 // 24 // 19
         )->unfoldUsing(
             Shooped::fold(3)->minusAt(3)
         );
