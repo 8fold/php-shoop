@@ -16,7 +16,7 @@ trait Prependable
         AssertEquals::applyWith(
             true,
             "boolean",
-            0.3,
+            0.35, // 0.3,
             14
         )->unfoldUsing(
             Shooped::fold(false)->prepend(1)

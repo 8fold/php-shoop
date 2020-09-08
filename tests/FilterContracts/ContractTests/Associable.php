@@ -616,7 +616,7 @@ trait Associable
             [3, 1, 3, 1],
             "array",
             9.52,
-            14
+            78 // 14
         )->unfoldUsing(
             Shooped::fold([3, 1, 3])->plusAt(1)
         );
