@@ -713,7 +713,7 @@ trait Associable
             0,
             "integer",
             0.84, // 0.71 // 0.62
-            19
+            24 // 19
         )->unfoldUsing(
             Shooped::fold(3)->minusAt(3)
         );
