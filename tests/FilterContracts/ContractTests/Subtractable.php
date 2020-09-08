@@ -17,7 +17,7 @@ trait Subtractable
             false,
             "boolean",
             20.64, // 2.84 // 2.24 // 0.97
-            24
+            25 // 24
         )->unfoldUsing(
             Shooped::fold(true)->minus(1)
         );
