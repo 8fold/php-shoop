@@ -147,7 +147,8 @@ trait Associable
             // if no 0 - [true, false]
             false,
             "boolean",
-            12.66
+            12.66,
+            67
         )->unfoldUsing(
             Shooped::fold(true)->has(1)
         );
@@ -614,7 +615,8 @@ trait Associable
         AssertEquals::applyWith(
             [3, 1, 3, 1],
             "array",
-            9.52
+            9.52,
+            14
         )->unfoldUsing(
             Shooped::fold([3, 1, 3])->plusAt(1)
         );

@@ -80,9 +80,8 @@ trait Addable
 
     /**
      * @test
-     * @group current
      */
-    public function plus_value_can_be_foldable()
+    public function append_value_can_be_foldable()
     {
         AssertEquals::applyWith(
             "8fold!",

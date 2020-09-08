@@ -15,12 +15,14 @@ use Eightfold\Shoop\Filter\TypeIs;
 use Eightfold\Shoop\FilterContracts\Shooped as ShoopedInterface;
 
 use Eightfold\Shoop\FilterContracts\Interfaces\Addable;
+use Eightfold\Shoop\FilterContracts\Interfaces\Appendable;
 use Eightfold\Shoop\FilterContracts\Interfaces\Arrayable;
 use Eightfold\Shoop\FilterContracts\Interfaces\Associable;
 use Eightfold\Shoop\FilterContracts\Interfaces\Comparable;
 use Eightfold\Shoop\FilterContracts\Interfaces\Countable;
 use Eightfold\Shoop\FilterContracts\Interfaces\Emptiable;
 use Eightfold\Shoop\FilterContracts\Interfaces\Falsifiable;
+use Eightfold\Shoop\FilterContracts\Interfaces\Prependable;
 use Eightfold\Shoop\FilterContracts\Interfaces\Reversible;
 use Eightfold\Shoop\FilterContracts\Interfaces\Stringable;
 use Eightfold\Shoop\FilterContracts\Interfaces\Subtractable;
@@ -35,9 +37,24 @@ class Shooped implements ShoopedInterface
         $this->main = $main;
     }
 
+// - Concatenation
+    public function append($value): Appendable
+    {
+        return static::fold(
+            Apply::append($value)->unfoldUsing($this->main)
+        );
+    }
+
+    public function prepend($value): Prependable
+    {
+        return static::fold(
+            Apply::prepend($value)->unfoldUsing($this->main)
+        );
+    }
+
 // - Maths
     // TODO: PHP 8 - mixed, string|int
-    public function plus($value, $at = ""): Addable
+    public function plus($value): Addable
     {
         return static::fold(
             Apply::plus($value)->unfoldUsing($this->main)
