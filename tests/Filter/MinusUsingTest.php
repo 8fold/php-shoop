@@ -35,7 +35,7 @@ class MinusUsingTest extends TestCase
         AssertEquals::applyWith(
             ["8fold", "!"],
             "array",
-            0.86 // 0.8 // 0.79
+            1.68 // 0.86 // 0.8 // 0.79
         )->unfoldUsing(
             MinusUsing::apply()->unfoldUsing([null, "8fold", false, "", "!"])
         );
