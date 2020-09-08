@@ -112,7 +112,8 @@ trait Falsifiable
 
         AssertEquals::applyWith(
             false,
-            "boolean"
+            "boolean",
+            0.44
         )->unfoldUsing(
             Shooped::fold("")->efToBoolean()
         );
