@@ -102,7 +102,8 @@ trait Associable
         AssertEquals::applyWith(
             // ["i1" => 1, "i2" => 2]
             ["i0" => 0, "i1" => 1, "i2" => 2],
-            "array"
+            "array",
+            0.48
         )->unfoldUsing(
             Shooped::fold(2.5)->efToDictionary()
         );
@@ -317,7 +318,7 @@ trait Associable
         AssertEquals::applyWith(
             true,
             "boolean",
-            0.59 // 0.54 // 0.53 // 0.52 // 0.5 // 0.46 // 0.4
+            0.84 // 0.59 // 0.54 // 0.53 // 0.52 // 0.5 // 0.46 // 0.4
         )->unfoldUsing(
             Shooped::fold(["a" => 1, "b" => 3, "c" => 1])->hasAt("c")
         );
@@ -586,7 +587,7 @@ trait Associable
             true,
             "boolean",
             4.58,
-            39
+            103 // 39
         )->unfoldUsing(
             Shooped::fold(false)->plusAt(1)
         );
