@@ -38,7 +38,8 @@ trait Countable
 
         AssertEquals::applyWith(
             4,
-            "integer"
+            "integer",
+            0.61
         )->unfoldUsing(
             Shooped::fold([3, 1, 3, 1])->asInteger()
         );

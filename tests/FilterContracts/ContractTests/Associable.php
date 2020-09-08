@@ -230,7 +230,8 @@ trait Associable
 
         AssertEquals::applyWith(
             false,
-            "boolean"
+            "boolean",
+            0.36
         )->unfoldUsing(
             Shooped::fold(2.5)->efHas(2)
         );
@@ -362,7 +363,7 @@ trait Associable
         AssertEquals::applyWith(
             true,
             "boolean",
-            1.03 // 0.9 // 0.82 // 0.68
+            1.46 // 1.03 // 0.9 // 0.82 // 0.68
         )->unfoldUsing(
             Shooped::fold(3)->offsetExists(3)
         );
