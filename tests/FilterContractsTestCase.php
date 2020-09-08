@@ -19,6 +19,7 @@ abstract class FilterContractsTestCase extends TestCase
     static protected function ignoreClassMethods()
     {
         return [
+            "main",
             "args", // value method, returns args following or incl. main
             "rewind", // part of PHP iterator interface
             "valid", // part of PHP iterator interface
