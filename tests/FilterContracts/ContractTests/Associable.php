@@ -338,7 +338,7 @@ trait Associable
         AssertEquals::applyWith(
             false,
             "boolean",
-            0.5
+            0.51 // 0.5
         )->unfoldUsing(
             Shooped::fold((object) ["a" => 1, "c" => 3])->hasAt("b")
         );
