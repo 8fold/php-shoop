@@ -32,10 +32,10 @@ class Prepend extends Filter
             if (! TypeIs::applyWith("list")->unfoldUsing($this->value)) {
                 $this->value = [$this->value];
             }
-            return array_merge($this->value, $using);
+            return Apply::concatenate($using)->unfoldUsing($this->value);
 
         } elseif (TypeIs::applyWith("string")->unfoldUsing($using)) {
-            return $this->value . $using;
+            return Apply::concatenate($using)->unfoldUsing($this->value);
 
         } elseif (TypeIs::applyWith("json")->unfoldUsing($using)) {
             if (TypeIs::applyWith("number")->unfoldUsing($this->value)) {

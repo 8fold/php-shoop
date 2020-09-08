@@ -9,7 +9,7 @@ use Eightfold\Foldable\Filter;
 use Eightfold\Shoop\Shoop;
 use Eightfold\Shoop\Apply;
 
-class Append extends Filter
+class Concatenate extends Filter
 {
     private $value;
 
@@ -32,33 +32,31 @@ class Append extends Filter
             if (! TypeIs::applyWith("list")->unfoldUsing($this->value)) {
                 $this->value = [$this->value];
             }
-            return Apply::concatenate($this->value)->unfoldUsing($using);
+
+            return array_merge($using, $this->value);
 
         } elseif (TypeIs::applyWith("string")->unfoldUsing($using)) {
-            return Apply::concatenate($this->value)->unfoldUsing($using);
+            return $using . $this->value;
 
         } elseif (TypeIs::applyWith("json")->unfoldUsing($using)) {
             if (TypeIs::applyWith("number")->unfoldUsing($this->value)) {
                 $this->value = [$this->value];
-
             }
 
             if (! TypeIs::applyWith("dictionary")->unfoldUsing($this->value)) {
                 $this->value = Apply::typeAsDictionary()
                     ->unfoldUsing($this->value);
-
             }
 
             return Shoop::pipe($using,
                 TypeAsDictionary::apply(),
-                Append::applyWith($this->value),
+                Concatenate::applyWith($this->value),
                 TypeAsJson::apply()
             )->unfold();
 
         } elseif (TypeIs::applyWith("tuple")->unfoldUsing($using)) {
             if (TypeIs::applyWith("number")->unfoldUsing($this->value)) {
                 $this->value = [$this->value];
-
             }
 
             if (! TypeIs::applyWith("dictionary")->unfoldUsing($this->value)) {
@@ -69,14 +67,14 @@ class Append extends Filter
 
             return Shoop::pipe($using,
                 TypeAsDictionary::apply(),
-                Append::applyWith($this->value),
+                Concatenate::applyWith($this->value),
                 TypeAsTuple::apply()
             )->unfold();
 
         } elseif (TypeIs::applyWith("object")->unfoldUsing($using)) {
             return Shoop::pipe($using,
                 TypeAsTuple::apply(),
-                Append::applyWith($this->value)
+                Concatenate::applyWith($this->value)
             )->unfold();
 
         }

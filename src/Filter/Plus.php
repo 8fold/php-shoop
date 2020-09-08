@@ -45,20 +45,6 @@ class Plus extends Filter
             TypeIs::applyWith("object")->unfoldUsing($using)
         ) {
             return Apply::append($this->value)->unfoldUsing($using);
-            // // TODO: Use Append
-            // if (! TypeIs::applyWith("list")->unfoldUsing($this->value)) {
-            //     $this->value = [$this->value];
-            // }
-
-            // return ($this->start === 0)
-            //     ? array_merge($this->value, $using)
-            //     : array_merge($using, $this->value);
-
-        // } elseif ( and
-        //     ! TypeIs::applyWith("json")->unfoldUsing($using)
-        // ) {
-        //     // TODO: Use Append
-        //     return $this->fromString($using, $this->value);
 
         } elseif (TypeIs::applyWith("tuple")->unfoldUsing($using)) {
             // TODO: Use Append

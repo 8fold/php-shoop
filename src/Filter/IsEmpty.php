@@ -6,6 +6,7 @@ namespace Eightfold\Shoop\Filter;
 use Eightfold\Foldable\Filter;
 
 use Eightfold\Shoop\Shoop;
+use Eightfold\Shoop\Apply;
 
 use Eightfold\Shoop\FilterContracts\Interfaces\Emptiable;
 
@@ -26,7 +27,7 @@ class IsEmpty extends Filter
 
             $properties = get_object_vars($using);
             $methods = get_class_methods($using);
-            $using = array_merge($properties, $methods);
+            $using = Apply::concatenate($methods)->unfoldUsing($properties);
             return Shoop::pipe($using,
                 TypeAsArray::apply(),
                 IsEmpty::apply()

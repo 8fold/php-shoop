@@ -286,7 +286,7 @@ trait Associable
             true,
             "boolean",
             3.38, // 3.35 // 3.03
-            16 // 15
+            79 // 16 // 15
         )->unfoldUsing(
             Shooped::fold(true)->hasAt(1)
         );
