@@ -45,7 +45,7 @@ class StringCasingsTest extends TestCase
         AssertEquals::applyWith(
             "HELLO! 🎉",
             "string",
-            0.49
+            0.55 // 0.49
         )->unfoldUsing(
             UpperCased::apply()->unfoldUsing("HeLLo! 🎉")
         );

@@ -22,7 +22,8 @@ class FromTest extends TestCase
         AssertEquals::applyWith(
             false,
             "boolean",
-            3.07
+            3.07,
+            97 // 33
         )->unfoldUsing(
             From::apply()->unfoldUsing(true)
         );
@@ -37,7 +38,8 @@ class FromTest extends TestCase
         AssertEquals::applyWith(
             true,
             "boolean",
-            0.48
+            0.48,
+            11
         )->unfoldUsing(
             From::applyWith("false")->unfoldUsing(false) // uses dictionary
         );
@@ -116,7 +118,8 @@ class FromTest extends TestCase
         AssertEquals::applyWith(
             (object) ["public2" => 2],
             "object",
-            2.76
+            2.76,
+            77 // 24
         )->unfoldUsing(
             From::applyWith(1, 1)->unfoldUsing($using)
         );
