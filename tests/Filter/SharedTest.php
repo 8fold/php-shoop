@@ -100,7 +100,7 @@ class SharedTest extends TestCase
         AssertEquals::applyWith(
             ["member2" => false],
             "array",
-            0.34
+            0.43 // 0.34
         )->unfoldUsing(
             Shared::applyWith([false])->unfoldUsing('{"member":true,"member2":false}')
         );
