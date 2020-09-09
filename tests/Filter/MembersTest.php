@@ -89,7 +89,7 @@ class MembersTest extends TestCase
         AssertEquals::applyWith(
             ["member", "member2"],
             "array",
-            0.31, // 0.3,
+            0.33, // 0.31, // 0.3,
             12
         )->unfoldUsing(
             Members::apply()->unfoldUsing('{"member":true,"member2":false}')
