@@ -7,33 +7,41 @@ use Eightfold\Foldable\Filter;
 
 use Eightfold\Shoop\Shoop;
 
-use Eightfold\Shoop\Filter\TypeJuggling\IsList;
-use Eightfold\Shoop\Filter\TypeJuggling\IsBoolean;
-use Eightfold\Shoop\Filter\TypeJuggling\IsNumber;
-use Eightfold\Shoop\Filter\TypeJuggling\IsString;
-use Eightfold\Shoop\Filter\TypeJuggling\IsTuple;
-use Eightfold\Shoop\Filter\TypeJuggling\IsObject;
-use Eightfold\Shoop\Filter\TypeJuggling\IsJson;
-
-use Eightfold\Shoop\Filter\Members\FromList;
-
 class Members extends Filter
 {
-    private $useArray = true;
-
-    public function __construct(bool $useArray = true)
-    {
-        $this->useArray = $useArray;
-    }
-
     public function __invoke($using)
     {
-        if ($this->useArray) {
-            $array = TypeAsArray::apply()->unfoldUsing($using);
-            return array_keys($array);
+        if (TypeIs::applyWith("boolean")->unfoldUsing($using) or
+            TypeIs::applyWith("tuple")->unfoldUsing($using)
+        ) {
+            return Shoop::pipe($using,
+                TypeAsDictionary::apply(),
+                Members::apply()
+            )->unfold();
+
+        } elseif (TypeIs::applyWith("number")->unfoldUsing($using) or
+            TypeIs::applyWith("string")->unfoldUsing($using)
+        ) {
+            return Shoop::pipe($using,
+                TypeAsArray::apply(),
+                Members::apply()
+            )->unfold();
+
+        } elseif (TypeIs::applyWith("list")->unfoldUsing($using)) {
+            return array_keys($using);
+
+        } elseif (TypeIs::applyWith("object")->unfoldUsing($using)) {
+            if (is_a($using, Associable::class)) {
+                return Shoop::pipe($using->efToDictionary(),
+                    Members::apply()
+                )->unfold();
+            }
+
+            return Shoop::pipe($using,
+                TypeAsDictionary::apply(),
+                Members::apply()
+            )->unfold();
 
         }
-        $dictionary = TypeAsDictionary::apply()->unfoldUsing($using);
-        return array_keys($dictionary);
     }
 }

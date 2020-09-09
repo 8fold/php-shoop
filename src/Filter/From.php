@@ -6,6 +6,7 @@ namespace Eightfold\Shoop\Filter;
 use Eightfold\Foldable\Filter;
 
 use Eightfold\Shoop\Shoop;
+use Eightfold\Shoop\Apply;
 
 use Eightfold\Shoop\Contracts\Falsifiable;
 
@@ -13,18 +14,17 @@ use Eightfold\Shoop\Contracts\Falsifiable;
 /**
  * Return a sequence of values less than or equal to `length` `From` a given `start` position integer.
  *
- * If `main` is a string, the result will be a string of the given length starting with character at the given `start` position. All other types are converted to their array representations.
+ * If `main` is a string, the result will be a string of the given length starting with character at the given `start` position. All other types are converted to their `array` representations.
  *
  * If `length` is 1, you will either receice the character at the given position or the value of the array for the given position.
+ *
+ * PHP Standard Library: `substr` and `array_slice`
  */
 class From extends Filter
 {
     private $start = 0;
     private $length = PHP_INT_MAX;
 
-    // TODO: Consider adding argument of "fromEnd = false" or a method to avoid
-    //      users needing to put in PHP_INT_MAX
-    // TODO: PHP 8.0 - int|string
     public function __construct($start = 0, $length = PHP_INT_MAX)
     {
         if (is_a($start, Foldable::class)) {
@@ -48,7 +48,7 @@ class From extends Filter
 
             return ($this->length === 1 or count($result) === 1)
                 ? array_shift($result)
-                : array_values($result);
+                : Apply::typeAsArray()->unfoldUsing($result); // array_values($result);
 
         } else {
             return Shoop::pipe($using,

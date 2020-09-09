@@ -22,8 +22,8 @@ class FromTest extends TestCase
         AssertEquals::applyWith(
             [false, true],
             "array",
-            0.42, // 0.34
-            83
+            1.18, // 0.66, // 0.61, // 0.6, // 0.42, // 0.34
+            88 // 83
         )->unfoldUsing(
             From::apply()->unfoldUsing(true)
         );
@@ -125,7 +125,7 @@ class FromTest extends TestCase
         AssertEquals::applyWith(
             false,
             "boolean",
-            1.37, // 1.33, // 0.88 // 0.59
+            1.44, // 1.37, // 1.33, // 0.88 // 0.59
             83
         )->unfoldUsing(
             From::applyWith(1, 1)->unfoldUsing('{"member":true,"member2":false}')

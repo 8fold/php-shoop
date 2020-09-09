@@ -6,58 +6,74 @@ namespace Eightfold\Shoop\Filter;
 use Eightfold\Foldable\Filter;
 
 use Eightfold\Shoop\Shoop;
+use Eightfold\Shoop\Apply;
 
+/**
+ * Return whether a content or collection type `Has` one or more values `At` the specified location(s).
+ *
+ * If the `membersSearch` is a list of integers, an array representation is used.
+ *
+ * If the `membersSearch` is a list of strings, a dictionary representation is used.
+ *
+ * If the `membersSearch` is a mixed array, an array of strings is used, which means `At` maybe become empty; thereby returning false.
+ *
+ * If the `membersSearch` is a single value that value is placed in an array and used.
+ *
+ *
+ */
 class HasAt extends Filter
 {
     private $membersSearch = [];
-    private $useArray = true;
 
     // TODO: PHP 8.0 - int|string
-    public function __construct($membersSearch, bool $useArray = true)
+    public function __construct($membersSearch)
     {
-        if (! TypeIs::applyWith("list")->unfoldUsing($membersSearch)) {
-            if (TypeIs::applyWith("string")->unfoldUsing($membersSearch)) {
-                $useArray = false;
-            }
-            $membersSearch = [$membersSearch];
-        }
-
-        $this->membersSearch = ($useArray)
-            ? MinusUsing::applyWith("is_int")->unfoldUsing($membersSearch)
-            : MinusUsing::applyWith("is_string")->unfoldUsing($membersSearch);
-
-        $this->useArray = $useArray;
+        $this->membersSearch = $membersSearch;
     }
 
     public function __invoke($using)
     {
-        if (! TypeIs::applyWith("list")->unfoldUsing($using)) {
-            if ($this->useArray) {
-                return Shoop::pipe($using,
-                    TypeAsArray::apply(),
-                    HasAt::applyWith($this->membersSearch, $this->useArray)
-                )->unfold();
+        if (! TypeIs::applyWith("list")->unfoldUsing($this->membersSearch)) {
+            $this->membersSearch = [$this->membersSearch];
 
+        }
+
+        if (! TypeIsArrayOfStrings::apply()->unfoldUsing($this->membersSearch) and
+            ! TypeIsArrayOfIntegers::apply()->unfoldUsing($this->membersSearch)
+        ) {
+            $this->membersSearch = Apply::retainUsing("is_string")
+                ->unfoldUsing($this->membersSearch);
+        }
+
+        $useDictionary = true;
+        if (TypeIsArrayOfIntegers::apply()->unfoldUsing($this->membersSearch)) {
+            $useDictionary = false;
+        }
+
+
+        // TODO: Filter - TypeIsArrayOfStrings, TypeIsArrayOfIntegers
+        if (! TypeIs::applyWith("list")->unfoldUsing($using)) {
+            if ($useDictionary) {
+                return Shoop::pipe($using,
+                    TypeAsDictionary::apply(),
+                    HasAt::applyWith($this->membersSearch)
+                )->unfold();
             }
+
             return Shoop::pipe($using,
-                TypeAsDictionary::apply(),
-                HasAt::applyWith($this->membersSearch, $this->useArray)
+                TypeAsArray::apply(),
+                HasAt::applyWith($this->membersSearch)
             )->unfold();
 
         }
 
-        $members   = Members::applyWith($this->useArray)->unfoldUsing($using);
-        $intersect = array_intersect($this->membersSearch, $members);
-
-        if (TypeAsInteger::apply()->unfoldUsing($intersect) === 0) {
-            return false;
-        }
-
-        return Shoop::pipe($this->membersSearch,
-            TypeAsInteger::apply(),
-            Is::applyWith(
-                TypeAsInteger::apply()->unfoldUsing($intersect)
-            )
+        return Shoop::pipe($using,
+            ($useDictionary) ? Apply::typeAsDictionary() : Apply::typeAsArray(),
+            Apply::members(),
+            Apply::shared($this->membersSearch), // TODO: unique
+            Apply::typeAsInteger(),
+            Apply::is(0),
+            Apply::reversed()
         )->unfold();
     }
 }
