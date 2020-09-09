@@ -286,7 +286,7 @@ trait Associable
             true,
             "boolean",
             3.38, // 3.35 // 3.03
-            79 // 16 // 15
+            81 // 79 // 16 // 15
         )->unfoldUsing(
             Shooped::fold(true)->hasAt(1)
         );
@@ -430,7 +430,8 @@ trait Associable
         AssertEquals::applyWith(
             true,
             "boolean",
-            10.5
+            10.5,
+            230
         )->unfoldUsing(
             Shooped::fold(true)->at(1)
         );
@@ -468,7 +469,9 @@ trait Associable
 
         AssertEquals::applyWith(
             3,
-            "integer"
+            "integer",
+            2.6, // 2.3 // 2.17
+            210
         )->unfoldUsing(
             Shooped::fold(["a" => 1, "b" => 3, "c" => 1])->at("b")
         );
@@ -476,7 +479,8 @@ trait Associable
         AssertEquals::applyWith(
             "H",
             "string",
-            0.57
+            0.57,
+            19
         )->unfoldUsing(
             Shooped::fold("Hi!")->at(0)
         );
@@ -484,7 +488,8 @@ trait Associable
         AssertEquals::applyWith(
             "Hi!",
             "string",
-            3.83
+            3.83,
+            11
         )->unfoldUsing(
             Shooped::fold("Hi!")->at("content")
         );
@@ -623,7 +628,7 @@ trait Associable
         );
 
         AssertEquals::applyWith(
-            [3, 1, 1, 3],
+            [1, 1, 3],
             "array",
             3.42 // 3.26
         )->unfoldUsing(
@@ -651,7 +656,7 @@ trait Associable
             "string",
             1.14 // 1.12
         )->unfoldUsing(
-            Shooped::fold("H!")->plusAt("i", 0)
+            Shooped::fold("H!")->plusAt("Hi", 0)
         );
 
         AssertEquals::applyWith(
@@ -665,7 +670,8 @@ trait Associable
         AssertEquals::applyWith(
             (object) ["a" => 2, "c" => 3],
             "object",
-            0.71
+            0.71,
+            12
         )->unfoldUsing(
             Shooped::fold((object) ["a" => 1, "c" => 3])->plusAt(2, "a", true)
         );

@@ -10,6 +10,13 @@ use Eightfold\Shoop\Shoop;
 use Eightfold\Shoop\Contracts\Falsifiable;
 
 // TODO: rename to "From(start, length, fromEnd)"
+/**
+ * Return a sequence of values less than or equal to `length` `From` a given `start` position integer.
+ *
+ * If `main` is a string, the result will be a string of the given length starting with character at the given `start` position. All other types are converted to their array representations.
+ *
+ * If `length` is 1, you will either receice the character at the given position or the value of the array for the given position.
+ */
 class From extends Filter
 {
     private $start = 0;
@@ -18,59 +25,36 @@ class From extends Filter
     // TODO: Consider adding argument of "fromEnd = false" or a method to avoid
     //      users needing to put in PHP_INT_MAX
     // TODO: PHP 8.0 - int|string
-    public function __construct($start = 0, int $length = PHP_INT_MAX)
+    public function __construct($start = 0, $length = PHP_INT_MAX)
     {
+        if (is_a($start, Foldable::class)) {
+            $start = $start->unfold();
+        }
         $this->start = $start;
+
+        if (is_a($length, Foldable::class)) {
+            $length = $length->unfold();
+        }
         $this->length = $length;
     }
 
     public function __invoke($using)
     {
-        if (TypeIs::applyWith("boolean")->unfoldUsing($using)) {
-            if (is_int($this->start)) {
-                return Shoop::pipe($using,
-                    TypeAsArray::apply(),
-                    At::applyWith($this->start)
-                )->unfold();
-
-            }
-            return Shoop::pipe($using,
-                TypeAsDictionary::apply(),
-                At::applyWith($this->start)
-            )->unfold();
-
-        } elseif (TypeIs::applyWith("number")->unfoldUsing($using)) {
-
-        } elseif (TypeIs::applyWith("string")->unfoldUsing($using) and
-            ! TypeIs::applyWith("json")->unfoldUsing($using)
-        ) {
+        if (TypeIs::applyWith("string")->unfoldUsing($using)) {
             return substr($using, $this->start, $this->length);
 
-        } elseif (TypeIs::applyWith("list")->unfoldUsing($using)) {
-            $preserveKeys = true;
-            if (TypeIs::applyWith("array")->unfoldUsing($using)) {
-                $preserveKeys = false;
+        } elseif (TypeIs::applyWith("array")->unfoldUsing($using)) {
+            $result = array_slice($using, $this->start, $this->length);
 
-            }
-            return array_slice($using, $this->start, $this->length, $preserveKeys);
+            return ($this->length === 1 or count($result) === 1)
+                ? array_shift($result)
+                : array_values($result);
 
-        } elseif (TypeIs::applyWith("tuple")->unfoldUsing($using) and
-            ! TypeIs::applyWith("json")->unfoldUsing($using)
-        ) {
+        } else {
             return Shoop::pipe($using,
-                TypeAsDictionary::apply(),
-                From::applyWith($this->start, $this->length),
-                TypeAsTuple::apply()
+                TypeAsArray::apply(),
+                From::applyWith($this->start, $this->length)
             )->unfold();
-
-        } elseif (TypeIs::applyWith("json")->unfoldUsing($using)) {
-            $dictionary = TypeAsDictionary::apply()->unfoldUsing($using);
-            $dictionary = From::applyWith($this->start, $this->length)
-                ->unfoldUsing($dictionary);
-
-            return TypeAsJson::apply()->unfoldUsing($dictionary);
-
-        } elseif (TypeIs::applyWith("object")->unfoldUsing($using)) {
 
         }
     }

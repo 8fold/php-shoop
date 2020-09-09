@@ -92,7 +92,8 @@ trait Arrayable
         AssertEquals::applyWith(
             [1, 3],
             "array",
-            3.01 // 1.87 // 0.93 // 0.88
+            3.01, // 1.87 // 0.93 // 0.88
+            15
         )->unfoldUsing(
             Shooped::fold((object) ["a" => 1, "c" => 3])->asArray()
         );

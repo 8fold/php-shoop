@@ -5,70 +5,54 @@ namespace Eightfold\Shoop\Filter;
 
 use Eightfold\Foldable\Filter;
 
+use Eightfold\Foldable\Foldable;
+
 use Eightfold\Shoop\Shoop;
+use Eightfold\Shoop\Apply;
 
 class PlusAt extends Filter
 {
     private $value;
     private $member    = "";
-    private $overwrite = false;
 
     public function __construct(
         $value, // mixed
-        $member = PHP_INT_MAX, // int|string
-        bool $overwrite = false
+        $member = PHP_INT_MAX
     )
     {
-        $this->value     = $value;
-        $this->member    = $member;
-        $this->overwrite = $overwrite;
+        if (is_a($value, Foldable::class)) {
+            $value = $value->unfold();
+        }
+        $this->value = $value;
+
+        if (is_a($member, Foldable::class)) {
+            $member = $member->unfold();
+        }
+        $this->member = $member;
     }
 
     public function __invoke($using)
     {
-        if (TypeIs::applyWith("boolean")->unfoldUsing($using)) {
-            return Plus::applyWith($this->value)->unfoldUsing($using);
-
-        } elseif (TypeIs::applyWith("number")->unfoldUsing($using)) {
-            return Plus::applyWith($this->value)->unfoldUsing($using);
+        if (TypeIs::applyWith("boolean")->unfoldUsing($using) or
+            TypeIs::applyWith("number")->unfoldUsing($using)
+        ) {
+            return Apply::plus($this->value)->unfoldUsing($using);
 
         } elseif (TypeIs::applyWith("list")->unfoldUsing($using)) {
-            if (! is_array($this->value)) {
-                $this->value = [$this->value];
-            }
-
-            if (is_int($this->member) and $this->member === PHP_INT_MAX) {
-                $using = Plus::applyWith($this->value)->unfoldUsing($using);
-
-            } elseif (! $this->overwrite and is_int($this->member)) {
-                $count  = TypeAsInteger::apply()->unfoldUsing($this->value);
-                $using = Shoop::pipe($using,
-                    From::applyWith($this->member, $count),
-                    Plus::applyWith($this->value),
-                    Plus::applyWith(
-                        From::applyWith($count)->unfoldUsing($using)
-                    )
-                )->unfold();
-
-            } elseif (! $this->overwrite and is_string($this->member) and ! isset($using[$this->member])) {
-                $using[$this->member] = (count($this->value) === 1)
-                    ? At::applyWith(0)->unfoldUsing($this->value)
-                    : $this->value;
-                return $using;
-
-            } elseif ($this->overwrite and is_string($this->member) and isset($using[$this->member])) {
-                $using[$this->member] = (count($this->value) === 1)
-                    ? At::applyWith(0)->unfoldUsing($this->value)
-                    : $this->value;
-                return $using;
-
-            } elseif ($this->overwrite and isset($using[$this->member])) {
-                $using[$this->member] = (count($this->value) === 1)
-                    ? At::applyWith(0)->unfoldUsing($this->value)
-                    : $this->value;
+            if (TypeIs::applyWith("dictionary")->unfoldUsing($using) and
+                TypeIs::applyWith("integer")->unfoldUsing($this->member)
+            ) {
+                $this->member = Apply::prepend("i")->unfoldUsing($this->member);
 
             }
-            return TypeAsArray::apply()->unfoldUsing($using);
+
+            $using[$this->member] = $this->value;
+
+            if (TypeIs::applyWith("integer")->unfoldUsing($this->member)) {
+                return array_values($using);
+
+            }
+            return $using;
 
         } elseif (TypeIs::applyWith("string")->unfoldUsing($using)) {
             return Shoop::pipe($using,

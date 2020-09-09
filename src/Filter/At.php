@@ -6,6 +6,7 @@ namespace Eightfold\Shoop\Filter;
 use Eightfold\Foldable\Filter;
 
 use Eightfold\Shoop\Shoop;
+use Eightfold\Shoop\Apply;
 
 class At extends Filter
 {
@@ -19,6 +20,9 @@ class At extends Filter
         if (TypeIs::applyWith("boolean")->unfoldUsing($using) or
             TypeIs::applyWith("number")->unfoldUsing($using)
         ) {
+            // TODO: There should be a way to make this generic -
+            //      casting to array for dictionary based on whether a given
+            //      key is an integer or string
             return Shoop::pipe($using,
                 (is_int($main[0]))
                     ? TypeAsArray::apply()
@@ -29,7 +33,8 @@ class At extends Filter
         } elseif (TypeIs::applyWith("list")->unfoldUsing($using)) {
             $result = $this->atFromList($using, $main);
             if (TypeAsInteger::apply()->unfoldUsing($result) === 1) {
-                return array_shift($result); // TODO: Make Filter - First
+                return Apply::from(0, 1)->unfoldUsing($result);
+                // return array_shift($result); // TODO: Make Filter - First
 
             } elseif (TypeIs::applyWith("array")->unfoldUsing($using)) {
                 return TypeAsArray::apply()->unfoldUsing($result);

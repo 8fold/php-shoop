@@ -32,6 +32,7 @@ class Append extends Filter
             if (! TypeIs::applyWith("list")->unfoldUsing($this->value)) {
                 $this->value = [$this->value];
             }
+
             return Apply::concatenate($this->value)->unfoldUsing($using);
 
         } elseif (TypeIs::applyWith("string")->unfoldUsing($using)) {
@@ -40,13 +41,11 @@ class Append extends Filter
         } elseif (TypeIs::applyWith("json")->unfoldUsing($using)) {
             if (TypeIs::applyWith("number")->unfoldUsing($this->value)) {
                 $this->value = [$this->value];
-
             }
 
             if (! TypeIs::applyWith("dictionary")->unfoldUsing($this->value)) {
                 $this->value = Apply::typeAsDictionary()
                     ->unfoldUsing($this->value);
-
             }
 
             return Shoop::pipe($using,
@@ -58,13 +57,11 @@ class Append extends Filter
         } elseif (TypeIs::applyWith("tuple")->unfoldUsing($using)) {
             if (TypeIs::applyWith("number")->unfoldUsing($this->value)) {
                 $this->value = [$this->value];
-
             }
 
             if (! TypeIs::applyWith("dictionary")->unfoldUsing($this->value)) {
                 $this->value = Apply::typeAsDictionary()
                     ->unfoldUsing($this->value);
-
             }
 
             return Shoop::pipe($using,

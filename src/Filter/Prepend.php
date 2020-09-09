@@ -46,7 +46,6 @@ class Prepend extends Filter
             if (! TypeIs::applyWith("dictionary")->unfoldUsing($this->value)) {
                 $this->value = Apply::typeAsDictionary()
                     ->unfoldUsing($this->value);
-
             }
 
             return Shoop::pipe($using,
