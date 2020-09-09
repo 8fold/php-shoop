@@ -57,14 +57,14 @@ class PlusAt extends Filter
         } elseif (TypeIs::applyWith("string")->unfoldUsing($using)) {
             return Shoop::pipe($using,
                 TypeAsArray::apply(),
-                PlusAt::applyWith($this->value, $this->member, $this->overwrite),
+                PlusAt::applyWith($this->value, $this->member),
                 TypeAsString::apply()
             )->unfold();
 
         } elseif (TypeIs::applyWith("tuple")->unfoldUsing($using)) {
             return Shoop::pipe($using,
                 TypeAsDictionary::apply(),
-                PlusAt::applyWith($this->value, $this->member, $this->overwrite),
+                PlusAt::applyWith($this->value, $this->member),
                 TypeAsTuple::apply()
             )->unfold();
 

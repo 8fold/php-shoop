@@ -294,7 +294,7 @@ trait Associable
         AssertEquals::applyWith(
             false,
             "boolean",
-            0.92 // 0.9 // 0.59 // 0.52 // 0.51 // 0.5 // 0.48
+            1.16 // 0.92 // 0.9 // 0.59 // 0.52 // 0.51 // 0.5 // 0.48
         )->unfoldUsing(
             Shooped::fold(3)->hasAt(4)
         );
@@ -374,7 +374,7 @@ trait Associable
         AssertEquals::applyWith(
             false,
             "boolean",
-            0.66 // 0.61 // 0.59 // 0.51 // 0.4
+            1.12 // 0.66 // 0.61 // 0.59 // 0.51 // 0.4
         )->unfoldUsing(
             Shooped::fold(2.5)->offsetExists(3)
         );
