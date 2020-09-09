@@ -17,7 +17,7 @@ trait Subtractable
             false,
             "boolean",
             20.64, // 2.84 // 2.24 // 0.97
-            24
+            25 // 24
         )->unfoldUsing(
             Shooped::fold(true)->minus(1)
         );
@@ -39,7 +39,7 @@ trait Subtractable
         AssertEquals::applyWith(
             [],
             "array",
-            1.14
+            1.32 // 1.14
         )->unfoldUsing(
             Shooped::fold([3, 1, 3])->minus(3)
         );

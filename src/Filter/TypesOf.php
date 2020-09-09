@@ -89,10 +89,6 @@ class TypesOf extends Filter
         } elseif (is_object($using)) {
             $types = ["object"];
 
-            if (is_a($using, Typeable::class)) {
-                $types = array_merge($types, $using->types());
-            }
-
             // TODO: Check for various contracts
             if (is_a($using, Arrayable::class)) {
                 $types[] = "arrayable";

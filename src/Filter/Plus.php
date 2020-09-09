@@ -7,20 +7,19 @@ use Eightfold\Foldable\Foldable;
 use Eightfold\Foldable\Filter;
 
 use Eightfold\Shoop\Shoop;
+use Eightfold\Shoop\Apply;
 
 // TODO: tests ??
 class Plus extends Filter
 {
     private $value;
-    private $start = "";
 
-    public function __construct($value, $start = "")
+    public function __construct($value)
     {
-        $this->value = $value;
         if (is_a($this->value, Foldable::class)) {
-            $this->value = $this->value->unfold();
+            $value = $value->unfold();
         }
-        $this->start = $start;
+        $this->value = $value;
     }
 
     public function __invoke($using)
@@ -33,28 +32,22 @@ class Plus extends Filter
             )->unfold();
 
         } elseif (TypeIs::applyWith("number")->unfoldUsing($using)) {
-            if (! is_array($this->value)) {
+            if (! TypeIs::applyWith("list")->unfoldUsing($this->value)) {
                 $this->value = [$this->value];
             }
 
             $int = array_sum($this->value);
             return $using + $int;
 
-        } elseif (TypeIs::applyWith("list")->unfoldUsing($using)) {
-            if (! TypeIs::applyWith("list")->unfoldUsing($this->value)) {
-                $this->value = [$this->value];
-            }
-
-            return ($this->start === 0)
-                ? array_merge($this->value, $using)
-                : array_merge($using, $this->value);
-
-        } elseif (TypeIs::applyWith("string")->unfoldUsing($using) and
-            ! TypeIs::applyWith("json")->unfoldUsing($using)
+        } elseif (TypeIs::applyWith("list")->unfoldUsing($using) or
+            TypeIs::applyWith("string")->unfoldUsing($using) or
+            TypeIs::applyWith("tuple")->unfoldUsing($using) or
+            TypeIs::applyWith("object")->unfoldUsing($using)
         ) {
-            return $this->fromString($using, $this->value);
+            return Apply::append($this->value)->unfoldUsing($using);
 
         } elseif (TypeIs::applyWith("tuple")->unfoldUsing($using)) {
+            // TODO: Use Append
             if (TypeIs::applyWith("tuple")->unfoldUsing($this->value)) {
                 return Shoop::pipe($using,
                     TypeAsDictionary::apply(),
@@ -78,6 +71,7 @@ class Plus extends Filter
             )->unfold();
 
         } elseif (TypeIs::applyWith("object")->unfoldUsing($using)) {
+            // TODO: Use Append
             if (! is_array($this->value)) {
                 $this->value = [$this->value];
             }

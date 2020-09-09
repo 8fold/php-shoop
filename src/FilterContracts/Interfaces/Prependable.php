@@ -4,7 +4,7 @@ namespace Eightfold\Shoop\FilterContracts\Interfaces;
 
 use Eightfold\Shoop\Foldable\Foldable;
 
-interface Addable
+interface Prependable
 {
-    public function plus($value): Addable;
+    public function prepend($value): Prependable;
 }

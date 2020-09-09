@@ -1,29 +1,8 @@
-![Illustration of final code sample](https://github.com/8fold/php-shoop/blob/master/zzAssets/shoop-flow.png?raw=true)
-
 # 8fold Shoop for PHP
 
 Shoop is a horizontally-consistent interface into PHP, whereas PHP could be described as a vertically-consistent interface into C.
 
-An oft cited criticism of PHP is its inconsistent API. PHP's creator, [Rasmus, has explained it](https://youtu.be/Qa_xVjTiOUw) this way (paraphrased):
-
-> PHP is perfectly consistent, just not the way you expect. It's vertically consistent. So, for every function in PHP,  if you look at what's underneath it, the `libc` function under some of the string functions, for example, the argument order and naming matches what they're built upon. So, there's not consistency horitzontally, but there's perfect consistency vertically digging down into the stack.
-
-If you use classes from the [Illuminate Support](https://laravel.com/api/5.5/Illuminate/Support.html) portion of Laravel or some of the [Symfony Components](https://symfony.com/doc/current/components/index.html), you're familiar with the desire for horizontally consistent APIs problem (even beyond PHP itself).
-
-The primary goals for Shoop, in no particular order:
-
-* Plain language (approachable): PHP is pretty accessible to new developers who maybe don't have a computer science background; Shoop continues this theme.
-* Syntactically and semantically light: PHP is understandably heavy on syntax (special characters to help the parser) and semantically expansive when it comes to capabilities (short function names, but many of them). We review Filters and capabilities based on production need, not gut feel and "because we can."
-* Immutable: Whenever possible, we return new instances and values as opposed to altering the state.
-* Type-safe: The flexibility of Shoop means we don't check types every step along the way, but do check types before returning the result of a request.
-* Defer processing: Whenever possible we defer processing until the last possible moment.
-* Ubiquity across types: We favor a small number of filters that can then be minimally configured using arguments.
-* DRY (don't repeat yourself): We strive to leverage capabilities already available in Shoop rather than implementing PHP solutions; most of the Filters came from developing a different Filter.
-* Let nothing mean nothing (the most opinionated piece): We spend a lot of time accounting for, and working around, things that represent nothing. `null` is arguably the most known thing that represents nothing, Shoop doesn't use nor account for `null`. `0` and `false` also represent nothing and, as such, is why Shoop Arrays start with `1`, not `0`.
-
-While this immplementation is language-specific, the fundamental concepts, patterns, and naming strive to be language agnostic.
-
-PHP is extremely [simple for new developers](https://www.php.net/manual/en/intro-whatis.php), Shoop follows this tradition.
+Shoop is built on [8fold Foldable](https://github.com/8fold/php-foldable) allowing for ubiquitous construction of data objects.
 
 ## Installation
 
@@ -92,7 +71,6 @@ Shooped::fold(2)->plus(1)->divide(2)->unfold();
   - Tuple (`stdClass` or `object`): non-sequential string members, accessed using object notation, not string notation, and contains no methods. ex. $var->
     - JSON (`string`): longer than two characters, begins with opening curly-brace, ends with closing curly-brace, and can be decoded without error.
 - Object (`object`): contains at least one public method.
-  - Arrayable (abstract): A user-defined object implementing the `Arrayable` interface.
 
 Abstract Shoop types can be juggled *from* but not *to*. Juggling from abstract type to concrete using Shoop method applies the type rules. ex. Juggling from Object to Dictionary removes methods and private properties.
 
@@ -194,7 +172,36 @@ Shoop, as a name, is the title of a song by Salt-N-Pepa released in 1993 and use
 
 A `Filter` should only return a PHP data type, not an object.
 
+`Shooped` methods MUST have a rational default for all Shoop types.
+
+The `Shooped` object MAY contain functions that take advantage of filters; however, filters should never use an instance of `Shooped`.
+
+The `Shooped` object MAY contain functions that do not have an equivalent filter.
+
 For more general advice see our [Contributing](https://github.com/8fold/php-shoop/blob/master/.github/CONTRIBUTING.md) documentation.
+
+### Goals
+
+The primary goals for Shoop, in no particular order:
+
+* Plain language (approachable): PHP is pretty accessible to new developers who maybe don't have a computer science background; Shoop continues this theme.
+* Syntactically and semantically light: PHP is understandably heavy on syntax (special characters to help the parser) and semantically expansive when it comes to capabilities (short function names, but many of them). We review Filters and capabilities based on production need, not gut feel and "because we can."
+* Immutable: Whenever possible, we return new instances and values as opposed to altering the state.
+* Type-safe: The flexibility of Shoop means we don't check types every step along the way, but do check types before returning the result of a request.
+* Defer processing: Whenever possible we defer processing until the last possible moment.
+* Ubiquity across types: We favor a small number of filters that can then be minimally configured using arguments.
+* DRY (don't repeat yourself): We strive to leverage capabilities already available in Shoop rather than implementing PHP solutions; most of the Filters came from developing a different Filter.
+* Let nothing mean nothing: As developers, we spend a lot of time accounting for, working around, and defending against things that represent nothing. `null` is arguably the most known thing representing nothing, Shoop doesn't use nor account for `null`. `false` also equates to zero, which represents nothing. The idea that zero represents nothing is the primary argument for Shoop arrays to start at one, as requesting the "nothing index" should always result in receiving nothing...something cannot be contained by nothing.
+
+An oft cited criticism of PHP is its inconsistent API. PHP's creator, [Rasmus, has explained it](https://youtu.be/Qa_xVjTiOUw) this way (paraphrased):
+
+> PHP is perfectly consistent, just not the way you expect. It's vertically consistent. So, for every function in PHP,  if you look at what's underneath it, the `libc` function under some of the string functions, for example, the argument order and naming matches what they're built upon. So, there's not consistency horitzontally, but there's perfect consistency vertically digging down into the stack.
+
+If you use classes from the [Illuminate Support](https://laravel.com/api/5.5/Illuminate/Support.html) portion of Laravel or some of the [Symfony Components](https://symfony.com/doc/current/components/index.html), you're familiar with the desire for horizontally consistent APIs problem (even beyond PHP itself).
+
+While this immplementation is language-specific, the fundamental concepts, patterns, and naming strive to be language agnostic.
+
+PHP is extremely [simple for new developers](https://www.php.net/manual/en/intro-whatis.php), Shoop follows this tradition.
 
 ### Other
 

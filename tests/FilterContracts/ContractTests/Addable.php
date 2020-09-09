@@ -39,14 +39,16 @@ trait Addable
         AssertEquals::applyWith(
             [1, 2, 3],
             "array",
-            0.52
+            0.52,
+            29 // 14
         )->unfoldUsing(
             Shooped::fold([1])->plus([2, 3])
         );
 
         AssertEquals::applyWith(
             "8fold!",
-            "string"
+            "string",
+            0.34
         )->unfoldUsing(
             Shooped::fold("8fold")->plus("!")
         );
@@ -80,9 +82,8 @@ trait Addable
 
     /**
      * @test
-     * @group current
      */
-    public function plus_value_can_be_foldable()
+    public function append_value_can_be_foldable()
     {
         AssertEquals::applyWith(
             "8fold!",

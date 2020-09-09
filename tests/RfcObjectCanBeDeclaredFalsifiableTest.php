@@ -95,7 +95,8 @@ class RfcObjectCanBeDeclaredFalsifiableTest extends TestCase
         // Shoop - true|false
         AssertEquals::applyWith(
             true,
-            "boolean"
+            "boolean",
+            0.45
         )->unfoldUsing(
             TypeAsBoolean::apply()->unfoldUsing($using)
         );

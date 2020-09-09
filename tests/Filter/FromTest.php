@@ -20,10 +20,10 @@ class FromTest extends TestCase
     public function boolean()
     {
         AssertEquals::applyWith(
-            false,
-            "boolean",
-            3.07,
-            97 // 33
+            [false, true],
+            "array",
+            1.18, // 0.66, // 0.61, // 0.6, // 0.42, // 0.34
+            88 // 83
         )->unfoldUsing(
             From::apply()->unfoldUsing(true)
         );
@@ -36,12 +36,10 @@ class FromTest extends TestCase
         );
 
         AssertEquals::applyWith(
-            true,
-            "boolean",
-            0.48,
-            11
+            false,
+            "boolean"
         )->unfoldUsing(
-            From::applyWith("false")->unfoldUsing(false) // uses dictionary
+            From::applyWith(0, 1)->unfoldUsing(true) // uses array
         );
     }
 
@@ -68,7 +66,7 @@ class FromTest extends TestCase
         );
 
         AssertEquals::applyWith(
-            ["b" => 2, "c" => 3],
+            [2, 3],
             "array"
         )->unfoldUsing(
             From::applyWith(1, 2)->unfoldUsing(["a" => 1, "b" => 2, "c" => 3, "d" => 4])
@@ -116,18 +114,19 @@ class FromTest extends TestCase
         };
 
         AssertEquals::applyWith(
-            (object) ["public2" => 2],
-            "object",
-            2.76,
-            77 // 24
+            [2, false],
+            "array",
+            1.23,
+            72
         )->unfoldUsing(
-            From::applyWith(1, 1)->unfoldUsing($using)
+            From::applyWith(1, 2)->unfoldUsing($using)
         );
 
         AssertEquals::applyWith(
-            '{"member2":false}',
-            "string",
-            0.59
+            false,
+            "boolean",
+            1.44, // 1.37, // 1.33, // 0.88 // 0.59
+            83
         )->unfoldUsing(
             From::applyWith(1, 1)->unfoldUsing('{"member":true,"member2":false}')
         );
