@@ -47,7 +47,8 @@ trait Addable
 
         AssertEquals::applyWith(
             "8fold!",
-            "string"
+            "string",
+            0.34
         )->unfoldUsing(
             Shooped::fold("8fold")->plus("!")
         );
