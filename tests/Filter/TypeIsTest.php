@@ -99,7 +99,7 @@ class TypeIsTest extends TestCase
         AssertEquals::applyWith(
             true,
             "boolean",
-            0.02, // 0.006,
+            0.04, // 0.02, // 0.006,
             1
         )->unfoldUsing(
             Type::isString()->unfoldUsing("8fold!")
@@ -169,7 +169,7 @@ class TypeIsTest extends TestCase
         AssertEquals::applyWith(
             false,
             "boolean",
-            0.004, // 0.003,
+            0.04, // 0.004, // 0.003,
             1
         )->unfoldUsing(
             Type::isDictionary()->unfoldUsing(["a" => 1, 1 => 2, "c" => 3])

@@ -75,7 +75,7 @@ class TypeAsTest extends TestCase
         AssertEquals::applyWith(
             1.1,
             "double",
-            0.004,
+            0.03, // 0.004,
             1
         )->unfoldUsing(
             Type::asNumber()->unfoldUsing(1.1)
@@ -90,7 +90,7 @@ class TypeAsTest extends TestCase
         AssertEquals::applyWith(
             "",
             "string",
-            0.37, // 0.34,
+            0.45, // 0.37, // 0.34,
             21 // 18
         )->unfoldUsing(
             Type::asString()->unfoldUsing("")
@@ -132,7 +132,7 @@ class TypeAsTest extends TestCase
         AssertEquals::applyWith(
             [0, 1, 2],
             "array",
-            0.05, // 0.02, // 0.01,
+            0.08, // 0.05, // 0.02, // 0.01,
             1
         )->unfoldUsing(
             Type::asArray()->unfoldUsing([0, 1, 2])

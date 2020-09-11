@@ -46,7 +46,7 @@ class TypeIsTupleTest extends TestCase
         AssertEquals::applyWith(
             $expected,
             "boolean",
-            0.1,
+            0.12, // 0.1,
             4
         )->unfoldUsing(
             IsTuple::apply()->unfoldUsing('{}')
