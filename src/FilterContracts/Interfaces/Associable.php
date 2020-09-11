@@ -5,6 +5,7 @@ namespace Eightfold\Shoop\FilterContracts\Interfaces;
 use \ArrayAccess;
 use \Iterator;
 
+use Eightfold\Shoop\FilterContracts\Interfaces\Associable;
 use Eightfold\Shoop\FilterContracts\Interfaces\Addable;
 use Eightfold\Shoop\FilterContracts\Interfaces\Subtractable;
 
@@ -25,15 +26,11 @@ interface Associable extends ArrayAccess, Iterator, Addable, Subtractable
     public function offsetGet($offset); // ArrayAccess
 
     // TODO: PHP 8.0 - mixed, string|int, bool|Falsifiable
-    public function plusAt(
-        $value,
-        $member = PHP_INT_MAX,
-        bool $overwrite = false
-    ): Associable;
+    public function plusAt($value, $member): Associable;
 
     public function offsetSet($offset, $value): void; // ArrayAccess
 
-    public function minusAt($member);
+    public function minusAt($member); // TODO: rename removeAt
 
     public function offsetUnset($offset): void; // ArrayAcces
 

@@ -26,6 +26,9 @@
     <testsuite name="filter">
 		<directory suffix="Test.php">./tests/Filter</directory>
     </testsuite>
+    <testsuite name="filter_unit">
+		<directory suffix="Test.php">./tests/Filter/Unit</directory>
+    </testsuite>
     <testsuite name="filter_contracts">
 		<directory suffix="Test.php">./tests/FilterContracts</directory>
     </testsuite>

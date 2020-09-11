@@ -41,4 +41,9 @@ class Reversed extends Filter
 
         }
     }
+
+    static public function fromList(array $array): array
+    {
+        return array_reverse($array);
+    }
 }

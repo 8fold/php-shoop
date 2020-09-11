@@ -68,13 +68,19 @@ Shooped::fold(2)->plus(1)->divide(2)->unfold();
   - List (abstract - `array`): A PHP `array` that does not comply with being a Shoop Dictionary or Array
     - Dictionary (`array`): non-sequential string keys or empty, values accessed using array notion. ex. $var[]
     - Array (`array`, Shoop `sequential`): sequential integer keys.
+  		- Range (`array`): A Shoop `array` with a starting integer, ending integer, and optional gap between numbers.
   - Tuple (`stdClass` or `object`): non-sequential string members, accessed using object notation, not string notation, and contains no methods. ex. $var->
     - JSON (`string`): longer than two characters, begins with opening curly-brace, ends with closing curly-brace, and can be decoded without error.
 - Object (`object`): contains at least one public method.
 
 Abstract Shoop types can be juggled *from* but not *to*. Juggling from abstract type to concrete using Shoop method applies the type rules. ex. Juggling from Object to Dictionary removes methods and private properties.
 
-We offer multiple Interfaces and default Implementations for juggling between the supported, concrete types. Each interface offers two methods: one returns an object implementing the interface and the other returns the PHP types. The former are prefixed with "as" for use in Fluent Interfaces. The latter are prefixed with "ef" and can be thought of as similar to [PHP Magic Methods](https://www.php.net/manual/en/language.oop5.magic.php) which are prefixed with a double-underscore (`__`). See:
+We offer multiple Interfaces and default Implementations for juggling between the supported, concrete types. Each interface offers two methods: one returns an object implementing the interface and the other returns the PHP types. The former are prefixed with "as" for use in Fluent Interfaces. The latter are prefixed with "ef" and can be thought of as similar to [PHP Magic Methods](https://www.php.net/manual/en/language.oop5.magic.php) which are prefixed with a double-underscore (`__`).
+
+?? - abstract and concrete filters - ??
+
+- Abstract filters use other filters to generate the output.
+- Concrete filters DO NOT use other filters to generate the output.
 
 ### PHP deviations
 

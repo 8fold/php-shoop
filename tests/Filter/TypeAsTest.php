@@ -12,9 +12,9 @@ use Eightfold\Shoop\Filter\Type;
 /**
  * @group TypeChecking
  *
- * @group  TypeIs
+ * @group  TypeAs
  */
-class TypeIsTest extends TestCase
+class TypeAsTest extends TestCase
 {
     /**
      * @test
@@ -24,19 +24,19 @@ class TypeIsTest extends TestCase
         AssertEquals::applyWith(
             true,
             "boolean",
-            0.62,
-            89
+            0.74,
+            1
         )->unfoldUsing(
-            Type::isBoolean()->unfoldUsing(true)
+            Type::asBoolean()->unfoldUsing(true)
         );
 
         AssertEquals::applyWith(
             true,
             "boolean",
-            0.01,
+            0.001,
             1
         )->unfoldUsing(
-            Type::isBoolean()->unfoldUsing(false)
+            Type::asBoolean()->unfoldUsing(false)
         );
     }
 
@@ -48,35 +48,46 @@ class TypeIsTest extends TestCase
         AssertEquals::applyWith(
             true,
             "boolean",
-            0.83, // 0.66, // 0.59,
-            89
-        )->unfoldUsing(
-            Type::isNumber()->unfoldUsing(1)
-        );
-
-        AssertEquals::applyWith(
-            true,
-            "boolean",
-            0.73,
+            0.001,
             1
         )->unfoldUsing(
-            Type::isNumber()->unfoldUsing(1)
+            Type::asNumber()->unfoldUsing(false)
         );
 
         AssertEquals::applyWith(
             true,
             "boolean",
-            0.12,
-            2
+            0.001,
+            1
         )->unfoldUsing(
-            Type::isInteger()->unfoldUsing(1.0)
+            Type::asNumber()->unfoldUsing(1)
         );
 
         AssertEquals::applyWith(
             true,
-            "boolean"
+            "boolean",
+            0.001,
+            1
         )->unfoldUsing(
-            Type::isFloat()->unfoldUsing(1.0)
+            Type::asNumber()->unfoldUsing(1)
+        );
+
+        AssertEquals::applyWith(
+            true,
+            "boolean",
+            0.001,
+            1
+        )->unfoldUsing(
+            Type::asInteger()->unfoldUsing(1.0)
+        );
+
+        AssertEquals::applyWith(
+            true,
+            "boolean",
+            0.001,
+            1
+        )->unfoldUsing(
+            Type::asFloat()->unfoldUsing(1.0)
         );
     }
 
@@ -88,28 +99,28 @@ class TypeIsTest extends TestCase
         AssertEquals::applyWith(
             true,
             "boolean",
-            0.72, // 0.71, // 0.56,
-            94
+            0.001,
+            1
         )->unfoldUsing(
-            Type::isString()->unfoldUsing("")
+            Type::asString()->unfoldUsing("")
         );
 
         AssertEquals::applyWith(
             true,
             "boolean",
-            0.006,
+            0.001,
             1
         )->unfoldUsing(
-            Type::isString()->unfoldUsing("8fold!")
+            Type::asString()->unfoldUsing("8fold!")
         );
 
         AssertEquals::applyWith(
             false,
             "boolean",
-            1.41,
+            0.001,
             1
         )->unfoldUsing(
-            Type::isString()->unfoldUsing("{}")
+            Type::asString()->unfoldUsing("{}")
         );
     }
 
@@ -121,83 +132,83 @@ class TypeIsTest extends TestCase
         AssertEquals::applyWith(
             true,
             "boolean",
-            0.86, // 0.79, // 0.6,
-            94
-        )->unfoldUsing(
-            Type::isCollection()->unfoldUsing([])
-        );
-
-        AssertEquals::applyWith(
-            true,
-            "boolean",
-            0.005, // 0.004,
+            0.001,
             1
         )->unfoldUsing(
-            Type::isList()->unfoldUsing([0, 1, 2])
+            Type::asCollection()->unfoldUsing([])
         );
 
         AssertEquals::applyWith(
             true,
             "boolean",
-            0.88, // 0.78, // 0.77, // 0.72,
-            39
+            0.001,
+            1
         )->unfoldUsing(
-            Type::isArray()->unfoldUsing([0, 1, 2])
+            Type::asList()->unfoldUsing([0, 1, 2])
+        );
+
+        AssertEquals::applyWith(
+            true,
+            "boolean",
+            0.001,
+            1
+        )->unfoldUsing(
+            Type::asArray()->unfoldUsing([0, 1, 2])
         );
 
         AssertEquals::applyWith(
             false,
             "boolean",
-            0.01, // 0.009, // 0.008, // 0.008,
+            0.001,
             1
         )->unfoldUsing(
-            Type::isArray()
+            Type::asArray()
                 ->unfoldUsing([3 => "8fold", 4 => true])
         );
 
         AssertEquals::applyWith(
             false,
             "boolean",
-            0.005,
+            0.001,
             1
         )->unfoldUsing(
-            Type::isArray()->unfoldUsing(["a" => 1, "b" => 2, "c" => 3])
+            Type::asArray()->unfoldUsing(["a" => 1, "b" => 2, "c" => 3])
         );
 
         AssertEquals::applyWith(
             false,
             "boolean",
-            0.004, // 0.003,
+            0.001,
             1
         )->unfoldUsing(
-            Type::isDictionary()->unfoldUsing(["a" => 1, 1 => 2, "c" => 3])
+            Type::asDictionary()->unfoldUsing(["a" => 1, 1 => 2, "c" => 3])
         );
 
         AssertEquals::applyWith(
             true,
             "boolean",
-            0.003,
+            0.001,
             1
         )->unfoldUsing(
-            Type::isDictionary()->unfoldUsing(["a" => 1, "b" => 2, "c" => 3])
+            Type::asDictionary()->unfoldUsing(["a" => 1, "b" => 2, "c" => 3])
         );
 
         AssertEquals::applyWith(
             true,
             "boolean",
-            0.1,
-            4
+            0.001,
+            1
         )->unfoldUsing(
-            Type::isCollection()->unfoldUsing(new stdClass)
+            Type::asCollection()->unfoldUsing(new stdClass)
         );
 
         AssertEquals::applyWith(
             true,
             "boolean",
-            0.1,
+            0.001,
             1
         )->unfoldUsing(
-            Type::isTuple()->unfoldUsing(
+            Type::asTuple()->unfoldUsing(
                 new class {
                     public $public = "content";
                     private $private = "private";
@@ -214,10 +225,10 @@ class TypeIsTest extends TestCase
         AssertEquals::applyWith(
             false,
             "boolean",
-            0.69, // 0.66, // 0.64, // 0.63,
-            94
+            0.001,
+            1
         )->unfoldUsing(
-            Type::isObject()->unfoldUsing(
+            Type::asObject()->unfoldUsing(
                 new class {
                     public $public = "content";
                     private $private = "private";
@@ -228,10 +239,10 @@ class TypeIsTest extends TestCase
         AssertEquals::applyWith(
             true,
             "boolean",
-            0.09,
-            4
+            0.001,
+            1
         )->unfoldUsing(
-            Type::isObject()->unfoldUsing(
+            Type::asObject()->unfoldUsing(
                 new class {
                     public $public = "content";
                     private $private = "private";

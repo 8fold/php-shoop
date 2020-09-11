@@ -38,4 +38,14 @@ class IsEmpty extends Filter
 
         }
     }
+
+    static public function fromString(string $using): bool
+    {
+        return empty($using);
+    }
+
+    static public function fromJson(string $using): bool
+    {
+        return Is::fromString('{}', $using);
+    }
 }

@@ -61,7 +61,8 @@ class RfcObjectCanBeDeclaredFalsifiableTest extends TestCase
         AssertEquals::applyWith(
             false,
             "boolean",
-            0.88 // 0.75 // 0.43
+            0.94, // 0.88, // 0.75 // 0.43
+            42
         )->unfoldUsing(
             TypeAsBoolean::apply() // Represents the PHP boolean responder script.
                 ->unfoldUsing($using)
@@ -70,7 +71,8 @@ class RfcObjectCanBeDeclaredFalsifiableTest extends TestCase
         AssertEquals::applyWith(
             true,
             "boolean",
-            0.71
+            0.71,
+            17
         )->unfoldUsing(
             IsEmpty::apply()->unfoldUsing($using)
         );
@@ -103,7 +105,9 @@ class RfcObjectCanBeDeclaredFalsifiableTest extends TestCase
 
         AssertEquals::applyWith(
             false,
-            "boolean"
+            "boolean",
+            0.43,
+            17
         )->unfoldUsing(
             IsEmpty::apply()->unfoldUsing($using)
         );
@@ -151,7 +155,8 @@ class RfcObjectCanBeDeclaredFalsifiableTest extends TestCase
         AssertEquals::applyWith(
             false,
             "boolean",
-            0.73
+            0.79, // 0.73,
+            35
         )->unfoldUsing(
             IsEmpty::apply()->unfoldUsing($using)
         );

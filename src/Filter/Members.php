@@ -44,4 +44,9 @@ class Members extends Filter
 
         }
     }
+
+    static public function fromList(array $list): array
+    {
+        return array_keys($list);
+    }
 }

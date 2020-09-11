@@ -19,4 +19,20 @@ class Is extends Filter
     {
         return $using === $this->compare;
     }
+
+    // TODO: PHP 8.0 int|float, int|float
+    static public function fromNumber($number, $comparison): bool
+    {
+        return $number === $comparison;
+    }
+
+    static public function fromString(string $number, string $comparison): bool
+    {
+        return $number === $comparison;
+    }
+
+    static public function fromList(array $first, array $comparison): bool
+    {
+        return $first === $comparison;
+    }
 }

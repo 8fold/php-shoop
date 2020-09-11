@@ -16,11 +16,11 @@ class TypesOf extends Filter
     public function __invoke($using): array
     {
         // var_dump($using);
-        if (is_bool($using)) {
+        if (is_bool($using)) { // Done
             return ["boolean"];
 
         } elseif (! is_string($using) and is_numeric($using)) {
-            if (is_integer($using) or floor($using) === $using) {
+            if (is_integer($using) or floor($using) === $using) { // done
                 return (is_float($using))
                     ? ["sequential", "number", "integer", "float"]
                     : ["sequential", "number", "integer"];
@@ -47,8 +47,8 @@ class TypesOf extends Filter
             }
 
             return ($mightBeJson and json_last_error() === JSON_ERROR_NONE)
-                ? ["collection", "tuple", "json"]
-                : ["sequential", "string"];
+                ? ["collection", "tuple", "json"] // done
+                : ["sequential", "string"]; // done
 
         } elseif (is_array($using)) {
             if (empty($using)) {
@@ -62,7 +62,7 @@ class TypesOf extends Filter
             if (count($stringMembers) > 0 and
                 count($stringMembers) === count($using)
             ) {
-                return ["collection", "list", "dictionary"];
+                return ["collection", "list", "dictionary"]; // DONE
 
             } elseif (count($intMembers) > 0 and
                 count($intMembers) === count($using)
@@ -74,7 +74,7 @@ class TypesOf extends Filter
                 $range = range($start, $end);
 
                 if ($members === $range) {
-                    return ["sequential", "collection", "list", "array"];
+                    return ["sequential", "collection", "list", "array"]; // DONE
 
                 }
 
@@ -84,7 +84,7 @@ class TypesOf extends Filter
         } elseif (is_object($using) and
             (is_a($using, stdClass::class) or empty(get_class_methods($using)))
         ) {
-            return ["collection", "tuple"];
+            return ["collection", "tuple"]; // done
 
         } elseif (is_object($using)) {
             $types = ["object"];
