@@ -187,7 +187,7 @@ class TypeAsBooleanTest extends TestCase
         AssertEquals::applyWith(
             true,
             "boolean",
-            0.03, // 0.01,
+            0.05, // 0.03, // 0.01,
             1
         )->unfoldUsing(
             AsBoolean::fromObject(

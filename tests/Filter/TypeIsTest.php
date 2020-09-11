@@ -160,7 +160,7 @@ class TypeIsTest extends TestCase
         AssertEquals::applyWith(
             false,
             "boolean",
-            0.04, // 0.03, // 0.01,
+            0.75, // 0.04, // 0.03, // 0.01,
             1
         )->unfoldUsing(
             Type::isArray()->unfoldUsing(["a" => 1, "b" => 2, "c" => 3])

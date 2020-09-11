@@ -75,7 +75,7 @@ class TypeAsTest extends TestCase
         AssertEquals::applyWith(
             1.1,
             "double",
-            0.04, // 0.03, // 0.004,
+            0.05, // 0.04, // 0.03, // 0.004,
             1
         )->unfoldUsing(
             Type::asNumber()->unfoldUsing(1.1)
@@ -169,7 +169,7 @@ class TypeAsTest extends TestCase
         AssertEquals::applyWith(
             ["a" => 1, "1.0" => 2, "c" => 3],
             "array",
-            0.01,
+            0.06, // 0.01,
             1
         )->unfoldUsing(
             Type::asDictionary()->unfoldUsing(["a" => 1, 1 => 2, "c" => 3])
