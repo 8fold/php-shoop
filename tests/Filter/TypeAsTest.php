@@ -33,7 +33,7 @@ class TypeAsTest extends TestCase
         AssertEquals::applyWith(
             false,
             "boolean",
-            0.03, // 0.02, // 0.01, // 0.004,
+            0.04, // 0.03, // 0.02, // 0.01, // 0.004,
             1
         )->unfoldUsing(
             Type::asBoolean()->unfoldUsing(false)
@@ -66,7 +66,7 @@ class TypeAsTest extends TestCase
         AssertEquals::applyWith(
             1,
             "integer",
-            0.01, // 0.005,
+            0.03, // 0.01, // 0.005,
             1
         )->unfoldUsing(
             Type::asInteger()->unfoldUsing(1.0)

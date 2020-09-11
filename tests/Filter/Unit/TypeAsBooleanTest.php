@@ -126,7 +126,7 @@ class TypeAsBooleanTest extends TestCase
         AssertEquals::applyWith(
             true,
             "boolean",
-            0.03, // 0.02, // 0.01, // 0.005, // 0.004,
+            0.04, // 0.03, // 0.02, // 0.01, // 0.005, // 0.004,
             1
         )->unfoldUsing(
             AsBoolean::fromTuple(
