@@ -76,7 +76,8 @@ trait Countable
         AssertEquals::applyWith(
             1,
             "integer",
-            1.93
+            1.93,
+            64
         )->unfoldUsing(
             Shooped::fold(true)->efToInteger()
         );

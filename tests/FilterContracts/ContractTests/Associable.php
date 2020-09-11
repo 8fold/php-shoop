@@ -382,7 +382,7 @@ trait Associable
         AssertEquals::applyWith(
             true,
             "boolean",
-            0.83 // 0.64 // 0.62 // 0.59 // 0.54 // 0.51
+            0.84, // 0.83 // 0.64 // 0.62 // 0.59 // 0.54 // 0.51
         )->unfoldUsing(
             Shooped::fold([3, 1, 3])->offsetExists(2)
         );

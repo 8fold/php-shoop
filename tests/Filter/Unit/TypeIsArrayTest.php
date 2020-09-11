@@ -61,7 +61,7 @@ class TypeIsArrayTest extends TestCase
         AssertEquals::applyWith(
             $expected,
             "boolean",
-            0.01,
+            0.02, // 0.01,
             1
         )->unfoldUsing(
             IsArray::apply()->unfoldUsing(1.1)

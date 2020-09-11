@@ -33,7 +33,7 @@ class TypeAsTest extends TestCase
         AssertEquals::applyWith(
             false,
             "boolean",
-            0.02, // 0.01, // 0.004,
+            0.03, // 0.02, // 0.01, // 0.004,
             1
         )->unfoldUsing(
             Type::asBoolean()->unfoldUsing(false)
@@ -58,7 +58,7 @@ class TypeAsTest extends TestCase
             1,
             "integer",
             0.18, // 0.17, // 0.15, // 0.14,
-            4
+            5 // 4
         )->unfoldUsing(
             Type::asNumber()->unfoldUsing(1)
         );
@@ -108,7 +108,7 @@ class TypeAsTest extends TestCase
         AssertEquals::applyWith(
             "",
             "string",
-            0.57, // 0.06, // 0.53, // 0.5,
+            0.58, // 0.57, // 0.06, // 0.53, // 0.5,
             96
         )->unfoldUsing(
             Type::asString()->unfoldUsing("{}")
@@ -150,7 +150,7 @@ class TypeAsTest extends TestCase
         AssertEquals::applyWith(
             ["8fold", true],
             "array",
-            0.01, // 0.005,
+            0.05, // 0.01, // 0.005,
             1
         )->unfoldUsing(
             Type::asArray()
@@ -227,7 +227,7 @@ class TypeAsTest extends TestCase
         AssertEquals::applyWith(
             $expected,
             "object",
-            0.17, // 0.13, // 0.12, // 0.02, // 0.01,
+            0.19, // 0.17, // 0.13, // 0.12, // 0.02, // 0.01,
             2
         )->unfoldUsing(
             Type::asTuple()->unfoldUsing(

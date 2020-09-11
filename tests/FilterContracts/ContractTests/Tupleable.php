@@ -138,7 +138,7 @@ trait Tupleable
         AssertEquals::applyWith(
             '{"i0":0,"i1":1}',
             "string",
-            0.34
+            0.39, // 0.34
         )->unfoldUsing(
             Shooped::fold(1)->efToJson()
         );

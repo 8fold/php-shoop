@@ -63,7 +63,7 @@ class TypeAsDictionaryTest extends TestCase
         AssertEquals::applyWith(
             ["0.0" => 0.0],
             "array",
-            0.02, // 0.01,
+            0.04, // 0.02, // 0.01,
             1
         )->unfoldUsing(
             AsDictionary::fromNumber(0.0)
@@ -138,7 +138,7 @@ class TypeAsDictionaryTest extends TestCase
         AssertEquals::applyWith(
             ["public" => "content"],
             "array",
-            0.005,
+            0.02, // 0.005,
             1
         )->unfoldUsing(
             AsDictionary::fromTuple(

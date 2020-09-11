@@ -126,7 +126,7 @@ class TypeAsStringTest extends TestCase
         AssertEquals::applyWith(
             "a, b, c",
             "string",
-            0.003, // 0.002,
+            0.01, // 0.003, // 0.002,
             1
         )->unfoldUsing(
             AsString::fromList(["a", "b", "c"], ", ")
