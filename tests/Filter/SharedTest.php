@@ -20,7 +20,7 @@ class SharedTest extends TestCase
         AssertEquals::applyWith(
             [true, false],
             "array",
-            0.89,
+            6.48, // 0.89,
             61 // 60
         )->unfoldUsing(
             Shared::applyWith(true)->unfoldUsing(false)

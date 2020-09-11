@@ -196,7 +196,7 @@ class TypeAsStringTest extends TestCase
         AssertEquals::applyWith(
             "content",
             "string",
-            0.02, // 0.01,
+            0.03, // 0.02, // 0.01,
             1
         )->unfoldUsing(
             AsString::fromObject(

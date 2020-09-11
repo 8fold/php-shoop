@@ -66,7 +66,7 @@ class TypeAsTest extends TestCase
         AssertEquals::applyWith(
             1,
             "integer",
-            0.03, // 0.01, // 0.005,
+            0.04, // 0.03, // 0.01, // 0.005,
             1
         )->unfoldUsing(
             Type::asInteger()->unfoldUsing(1.0)
@@ -90,7 +90,7 @@ class TypeAsTest extends TestCase
         AssertEquals::applyWith(
             "",
             "string",
-            0.45, // 0.37, // 0.34,
+            0.51, // 0.45, // 0.37, // 0.34,
             21 // 18
         )->unfoldUsing(
             Type::asString()->unfoldUsing("")
@@ -141,7 +141,7 @@ class TypeAsTest extends TestCase
         AssertEquals::applyWith(
             ["0.0" => 0, "1.0" => 1, "2.0" => 2],
             "array",
-            0.21, // 0.19, // 0.001,
+            0.28, // 0.21, // 0.19, // 0.001,
             17
         )->unfoldUsing(
             Type::asDictionary()->unfoldUsing([0, 1, 2])
@@ -227,7 +227,7 @@ class TypeAsTest extends TestCase
         AssertEquals::applyWith(
             $expected,
             "object",
-            0.19, // 0.17, // 0.13, // 0.12, // 0.02, // 0.01,
+            0.2, // 0.19, // 0.17, // 0.13, // 0.12, // 0.02, // 0.01,
             2
         )->unfoldUsing(
             Type::asTuple()->unfoldUsing(

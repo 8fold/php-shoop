@@ -58,7 +58,7 @@ trait Appendable
         AssertEquals::applyWith(
             (object) ["a" => 1, "b" => 2, "c" => 3],
             "object",
-            0.37 // 0.36 // 0.33
+            0.38, // 0.37 // 0.36 // 0.33
         )->unfoldUsing(
             Shooped::fold((object) ["a" => 1])->append(["b" => 2, "c" => 3])
         );

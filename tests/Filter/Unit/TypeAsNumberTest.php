@@ -167,7 +167,7 @@ class TypeAsNumberTest extends TestCase
         AssertEquals::applyWith(
             1,
             "integer",
-            0.06, // 0.01,
+            0.08, // 0.06, // 0.01,
             1
         )->unfoldUsing(
             AsNumber::fromTuple('{"member":false}')
