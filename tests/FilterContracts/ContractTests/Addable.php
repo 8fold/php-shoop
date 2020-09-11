@@ -72,7 +72,7 @@ trait Addable
         AssertEquals::applyWith(
             (object) ["a" => 1, "i0" => 3],
             "object",
-            0.5, // 0.49
+            0.53, // 0.5, // 0.49
         )->unfoldUsing(
             Shooped::fold((object) ["a" => 1])->plus(3)
         );

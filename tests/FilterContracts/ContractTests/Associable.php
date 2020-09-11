@@ -399,7 +399,7 @@ trait Associable
         AssertEquals::applyWith(
             false,
             "boolean",
-            1.15, // 1.14, // 1.09 // 0.87 // 0.54 // 0.52 // 0.48
+            1.18, // 1.15, // 1.14, // 1.09 // 0.87 // 0.54 // 0.52 // 0.48
         )->unfoldUsing(
             Shooped::fold("Hi!")->offsetExists(4)
         );
@@ -553,7 +553,7 @@ trait Associable
         AssertEquals::applyWith(
             3,
             "integer",
-            0.31
+            0.32 // 0.31
         )->unfoldUsing(
             Shooped::fold(["a" => 1, "b" => 3, "c" => 1])->offsetGet("b")
         );

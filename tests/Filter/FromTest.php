@@ -67,7 +67,8 @@ class FromTest extends TestCase
 
         AssertEquals::applyWith(
             [2, 3],
-            "array"
+            "array",
+            0.34
         )->unfoldUsing(
             From::applyWith(1, 2)->unfoldUsing(["a" => 1, "b" => 2, "c" => 3, "d" => 4])
         );

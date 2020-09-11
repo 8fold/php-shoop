@@ -205,7 +205,7 @@ class TypeAsIntegerTest extends TestCase
         AssertEquals::applyWith(
             0,
             "integer",
-            0.02, // 0.01, // 0.005,
+            0.04, // 0.02, // 0.01, // 0.005,
             1
         )->unfoldUsing(
             AsInteger::fromObject(

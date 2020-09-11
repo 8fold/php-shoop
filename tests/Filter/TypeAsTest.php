@@ -191,7 +191,7 @@ class TypeAsTest extends TestCase
             $expected,
             "object",
             0.19, // 0.14,
-            10
+            12 // 10
         )->unfoldUsing(
             Type::asTuple()->unfoldUsing(
                 new class {
@@ -227,7 +227,7 @@ class TypeAsTest extends TestCase
         AssertEquals::applyWith(
             $expected,
             "object",
-            0.2, // 0.19, // 0.17, // 0.13, // 0.12, // 0.02, // 0.01,
+            0.24, // 0.2, // 0.19, // 0.17, // 0.13, // 0.12, // 0.02, // 0.01,
             2
         )->unfoldUsing(
             Type::asTuple()->unfoldUsing(
