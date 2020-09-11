@@ -196,7 +196,8 @@ trait Comparable
         // TODO: Not sure rationale here - could use more work and conversation
         AssertEquals::applyWith(
             true,
-            "boolean"
+            "boolean",
+            0.61
         )->unfoldUsing(
             Shooped::fold((object) ["a" => 1, "c" => 3])
                 ->isGreaterThanOrEqualTo(["a" => 1, "c" => 3])

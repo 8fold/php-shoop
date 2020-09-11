@@ -39,7 +39,7 @@ trait Addable
         AssertEquals::applyWith(
             [1, 2, 3],
             "array",
-            0.57, // 0.52,
+            1.33, // 0.57, // 0.52,
             29 // 14
         )->unfoldUsing(
             Shooped::fold([1])->plus([2, 3])
