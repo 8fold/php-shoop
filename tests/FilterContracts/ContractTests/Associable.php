@@ -342,7 +342,7 @@ trait Associable
         AssertEquals::applyWith(
             false,
             "boolean",
-            1.03 // 0.61 // 0.51 // 0.5
+            1.12, // 1.03 // 0.61 // 0.51 // 0.5
         )->unfoldUsing(
             Shooped::fold((object) ["a" => 1, "c" => 3])->hasAt("b")
         );
@@ -398,7 +398,7 @@ trait Associable
         AssertEquals::applyWith(
             false,
             "boolean",
-            1.14, // 1.09 // 0.87 // 0.54 // 0.52 // 0.48
+            1.15, // 1.14, // 1.09 // 0.87 // 0.54 // 0.52 // 0.48
         )->unfoldUsing(
             Shooped::fold("Hi!")->offsetExists(4)
         );
@@ -497,7 +497,7 @@ trait Associable
         AssertEquals::applyWith(
             1,
             "integer",
-            0.44 // 0.43 // 0.42 // 0.41 // 0.37
+            0.45, // 0.44 // 0.43 // 0.42 // 0.41 // 0.37
         )->unfoldUsing(
             Shooped::fold((object) ["a" => 1, "c" => 3])->at("a")
         );
@@ -559,7 +559,7 @@ trait Associable
         AssertEquals::applyWith(
             "H",
             "string",
-            0.33 // 0.31
+            0.34, // 0.33 // 0.31
         )->unfoldUsing(
             Shooped::fold("Hi!")->offsetGet(0)
         );
