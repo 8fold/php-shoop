@@ -7,12 +7,33 @@ use Eightfold\Foldable\Filter;
 
 use Eightfold\Shoop\Shoop;
 
+use Eightfold\Shoop\Filter\Type;
+
 use Eightfold\Shoop\FilterContracts\Interfaces\Falsifiable;
 
 class AsBoolean extends Filter
 {
     public function __invoke($using): bool
     {
+        if (Type::isBoolean()->unfoldUsing($using)) {
+            return static::fromBoolean($using);
+
+        } elseif (Type::isNumber()->unfoldUsing($using)) {
+            return static::fromNumber($using);
+
+        } elseif (Type::isString()->unfoldUsing($using)) {
+            return static::fromString($using);
+
+        } elseif (Type::isList()->unfoldUsing($using)) {
+            return static::fromList($using);
+
+        } elseif (Type::isTuple()->unfoldUsing($using)) {
+            return static::fromTuple($using);
+
+        } elseif (Type::isObject()->unfoldUsing($using)) {
+            return static::fromObject($using);
+
+        }
     }
 
     static public function fromBoolean(bool $using): bool

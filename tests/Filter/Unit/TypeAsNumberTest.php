@@ -51,7 +51,7 @@ class TypeAsNumberTest extends TestCase
         AssertEquals::applyWith(
             0,
             "integer",
-            0.004,
+            0.03, // 0.004,
             1
         )->unfoldUsing(
             AsNumber::fromNumber(0.0)
@@ -93,7 +93,7 @@ class TypeAsNumberTest extends TestCase
         AssertEquals::applyWith(
             8.0,
             "double",
-            0.002,
+            0.02, // 0.003, // 0.002,
             1
         )->unfoldUsing(
             AsNumber::fromString("8fold.")
@@ -135,7 +135,7 @@ class TypeAsNumberTest extends TestCase
         AssertEquals::applyWith(
             1,
             "integer",
-            0.02, // 0.01,
+            0.04, // 0.02, // 0.01,
             1
         )->unfoldUsing(
             AsNumber::fromTuple(
@@ -196,7 +196,7 @@ class TypeAsNumberTest extends TestCase
         AssertEquals::applyWith(
             0,
             "integer",
-            0.01,
+            0.02, // 0.01,
             1
         )->unfoldUsing(
             AsNumber::fromObject(

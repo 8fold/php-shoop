@@ -99,7 +99,7 @@ class TypeAsBooleanTest extends TestCase
         AssertEquals::applyWith(
             true,
             "boolean",
-            0.002,
+            0.004, // 0.002,
             1
         )->unfoldUsing(
             AsBoolean::fromList([0, 1, 2])

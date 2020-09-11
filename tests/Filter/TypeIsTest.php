@@ -67,14 +67,16 @@ class TypeIsTest extends TestCase
             true,
             "boolean",
             0.12,
-            2
+            66 // 2
         )->unfoldUsing(
             Type::isInteger()->unfoldUsing(1.0)
         );
 
         AssertEquals::applyWith(
             true,
-            "boolean"
+            "boolean",
+            0.11, // 0.1, // 0.09, // 0.08,
+            66
         )->unfoldUsing(
             Type::isFloat()->unfoldUsing(1.0)
         );
@@ -148,7 +150,7 @@ class TypeIsTest extends TestCase
         AssertEquals::applyWith(
             false,
             "boolean",
-            0.01, // 0.009, // 0.008, // 0.008,
+            0.02, // 0.01, // 0.009, // 0.008, // 0.008,
             1
         )->unfoldUsing(
             Type::isArray()
@@ -158,7 +160,7 @@ class TypeIsTest extends TestCase
         AssertEquals::applyWith(
             false,
             "boolean",
-            0.005,
+            0.01,
             1
         )->unfoldUsing(
             Type::isArray()->unfoldUsing(["a" => 1, "b" => 2, "c" => 3])
@@ -176,7 +178,7 @@ class TypeIsTest extends TestCase
         AssertEquals::applyWith(
             true,
             "boolean",
-            0.003,
+            0.03, // 0.003,
             1
         )->unfoldUsing(
             Type::isDictionary()->unfoldUsing(["a" => 1, "b" => 2, "c" => 3])

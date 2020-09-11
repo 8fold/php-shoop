@@ -25,15 +25,15 @@ class TypeAsTest extends TestCase
             true,
             "boolean",
             0.74,
-            1
+            16
         )->unfoldUsing(
             Type::asBoolean()->unfoldUsing(true)
         );
 
         AssertEquals::applyWith(
-            true,
+            false,
             "boolean",
-            0.001,
+            0.01, // 0.004,
             1
         )->unfoldUsing(
             Type::asBoolean()->unfoldUsing(false)
@@ -46,48 +46,39 @@ class TypeAsTest extends TestCase
     public function numbers()
     {
         AssertEquals::applyWith(
-            true,
-            "boolean",
-            0.001,
-            1
+            0,
+            "integer",
+            0.38, // 0.36, // 0.34, // 0.29,
+            20 // 19 // 15
         )->unfoldUsing(
             Type::asNumber()->unfoldUsing(false)
         );
 
         AssertEquals::applyWith(
-            true,
-            "boolean",
-            0.001,
-            1
+            1,
+            "integer",
+            0.18, // 0.17, // 0.15, // 0.14,
+            4
         )->unfoldUsing(
             Type::asNumber()->unfoldUsing(1)
         );
 
         AssertEquals::applyWith(
-            true,
-            "boolean",
-            0.001,
-            1
-        )->unfoldUsing(
-            Type::asNumber()->unfoldUsing(1)
-        );
-
-        AssertEquals::applyWith(
-            true,
-            "boolean",
-            0.001,
+            1,
+            "integer",
+            0.01, // 0.005,
             1
         )->unfoldUsing(
             Type::asInteger()->unfoldUsing(1.0)
         );
 
         AssertEquals::applyWith(
-            true,
-            "boolean",
-            0.001,
+            1.1,
+            "double",
+            0.004,
             1
         )->unfoldUsing(
-            Type::asFloat()->unfoldUsing(1.0)
+            Type::asNumber()->unfoldUsing(1.1)
         );
     }
 
@@ -97,28 +88,28 @@ class TypeAsTest extends TestCase
     public function strings()
     {
         AssertEquals::applyWith(
-            true,
-            "boolean",
-            0.001,
-            1
+            "",
+            "string",
+            0.37, // 0.34,
+            18
         )->unfoldUsing(
             Type::asString()->unfoldUsing("")
         );
 
         AssertEquals::applyWith(
-            true,
-            "boolean",
-            0.001,
+            "8fold!",
+            "string",
+            0.02, // 0.01,
             1
         )->unfoldUsing(
             Type::asString()->unfoldUsing("8fold!")
         );
 
         AssertEquals::applyWith(
-            false,
-            "boolean",
-            0.001,
-            1
+            "",
+            "string",
+            0.57, // 0.06, // 0.53, // 0.5,
+            96
         )->unfoldUsing(
             Type::asString()->unfoldUsing("{}")
         );
@@ -130,36 +121,36 @@ class TypeAsTest extends TestCase
     public function collections()
     {
         AssertEquals::applyWith(
-            true,
-            "boolean",
-            0.001,
-            1
+            [],
+            "array",
+            0.4,
+            81
         )->unfoldUsing(
-            Type::asCollection()->unfoldUsing([])
+            Type::asArray()->unfoldUsing([])
         );
 
         AssertEquals::applyWith(
-            true,
-            "boolean",
-            0.001,
-            1
-        )->unfoldUsing(
-            Type::asList()->unfoldUsing([0, 1, 2])
-        );
-
-        AssertEquals::applyWith(
-            true,
-            "boolean",
-            0.001,
+            [0, 1, 2],
+            "array",
+            0.01,
             1
         )->unfoldUsing(
             Type::asArray()->unfoldUsing([0, 1, 2])
         );
 
         AssertEquals::applyWith(
-            false,
-            "boolean",
-            0.001,
+            ["0.0" => 0, "1.0" => 1, "2.0" => 2],
+            "array",
+            0.21, // 0.19, // 0.001,
+            17
+        )->unfoldUsing(
+            Type::asDictionary()->unfoldUsing([0, 1, 2])
+        );
+
+        AssertEquals::applyWith(
+            ["8fold", true],
+            "array",
+            0.01, // 0.005,
             1
         )->unfoldUsing(
             Type::asArray()
@@ -167,46 +158,40 @@ class TypeAsTest extends TestCase
         );
 
         AssertEquals::applyWith(
-            false,
-            "boolean",
-            0.001,
+            [1, 2, 3],
+            "array",
+            0.005, // 0.004,
             1
         )->unfoldUsing(
             Type::asArray()->unfoldUsing(["a" => 1, "b" => 2, "c" => 3])
         );
 
         AssertEquals::applyWith(
-            false,
-            "boolean",
-            0.001,
+            ["a" => 1, "1.0" => 2, "c" => 3],
+            "array",
+            0.01,
             1
         )->unfoldUsing(
             Type::asDictionary()->unfoldUsing(["a" => 1, 1 => 2, "c" => 3])
         );
 
         AssertEquals::applyWith(
-            true,
-            "boolean",
-            0.001,
+            [],
+            "array",
+            0.01,
             1
         )->unfoldUsing(
-            Type::asDictionary()->unfoldUsing(["a" => 1, "b" => 2, "c" => 3])
+            Type::asDictionary()->unfoldUsing(new stdClass)
         );
 
-        AssertEquals::applyWith(
-            true,
-            "boolean",
-            0.001,
-            1
-        )->unfoldUsing(
-            Type::asCollection()->unfoldUsing(new stdClass)
-        );
+        $expected = new stdClass;
+        $expected->public = "content";
 
         AssertEquals::applyWith(
-            true,
-            "boolean",
-            0.001,
-            1
+            $expected,
+            "object",
+            0.19, // 0.14,
+            10
         )->unfoldUsing(
             Type::asTuple()->unfoldUsing(
                 new class {
@@ -222,13 +207,16 @@ class TypeAsTest extends TestCase
      */
     public function objects()
     {
+        $expected = new stdClass;
+        $expected->public = "content";
+
         AssertEquals::applyWith(
-            false,
-            "boolean",
-            0.001,
-            1
+            $expected,
+            "object",
+            0.65, // 0.6,
+            102
         )->unfoldUsing(
-            Type::asObject()->unfoldUsing(
+            Type::asTuple()->unfoldUsing(
                 new class {
                     public $public = "content";
                     private $private = "private";
@@ -237,12 +225,12 @@ class TypeAsTest extends TestCase
         );
 
         AssertEquals::applyWith(
-            true,
-            "boolean",
-            0.001,
-            1
+            $expected,
+            "object",
+            0.17, // 0.13, // 0.12, // 0.02, // 0.01,
+            2
         )->unfoldUsing(
-            Type::asObject()->unfoldUsing(
+            Type::asTuple()->unfoldUsing(
                 new class {
                     public $public = "content";
                     private $private = "private";

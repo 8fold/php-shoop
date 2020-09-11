@@ -40,7 +40,7 @@ class TypeAsArrayTest extends TestCase
         AssertEquals::applyWith(
             [true, false],
             "array",
-            0.003, // 0.002,
+            0.03, // 0.003, // 0.002,
             1
         )->unfoldUsing(
             AsArray::fromBoolean(false)
@@ -139,7 +139,7 @@ class TypeAsArrayTest extends TestCase
         AssertEquals::applyWith(
             [1, 2, 3],
             "array",
-            0.001,
+            0.003, // 0.001,
             1
         )->unfoldUsing(
             AsArray::fromList(["a" => 1, "b" => 2, "c" => 3])
@@ -227,7 +227,7 @@ class TypeAsArrayTest extends TestCase
         AssertEquals::applyWith(
             [],
             "array",
-            1.35,
+            1.47, // 1.35,
             60
         )->unfoldUsing(
             AsArray::fromObject(

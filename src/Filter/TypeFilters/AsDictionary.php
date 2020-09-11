@@ -9,78 +9,31 @@ use \Closure;
 
 use Eightfold\Shoop\Shoop;
 
+use Eightfold\Shoop\Filter\Type;
 use Eightfold\Shoop\Filter\IsEmpty;
 use Eightfold\Shoop\FilterContracts\Interfaces\Associable;
 
 class AsDictionary extends Filter
 {
-    private $start = 0;
-    private $includeEmpties = true;
-    private $limit = PHP_INT_MAX;
-
-    // TODO: PHP 8.0 - int|string, bool|string
-    public function __construct(
-        $start = 0,
-        $includeEmpties = true,
-        int $limit = PHP_INT_MAX
-    )
-    {
-        $this->start = $start;
-        $this->includeEmpties = $includeEmpties;
-        $this->limit = $limit;
-    }
-
     public function __invoke($using): array
     {
-        if (TypeIs::applyWith("boolean")->unfoldUsing($using)) {
+        if (Type::isBoolean()->unfoldUsing($using)) {
+            return static::fromBoolean($using);
 
+        } elseif (Type::isNumber()->unfoldUsing($using)) {
+            return static::fromNumber($using);
 
-        } elseif (TypeIs::applyWith("number")->unfoldUsing($using)) {
-            return Shoop::pipe($using,
-                TypeAsArray::applyWith($this->start),
-                TypeAsDictionary::applyWith(0, $this->includeEmpties)
-            )->unfold();
+        } elseif (Type::isString()->unfoldUsing($using)) {
+            return static::fromString($using);
 
-        } elseif (TypeIs::applyWith("list")->unfoldUsing($using)) {
-            if (TypeIs::applyWith("array")->unfoldUsing($using)) {
-                if (! is_string($this->includeEmpties)) {
-                    $this->includeEmpties = "i";
-                }
+        } elseif (Type::isList()->unfoldUsing($using)) {
+            return static::fromList($using);
 
-                $build = [];
-                foreach ($using as $key => $value) {
-                    if (is_int($key)) {
-                        $key = $this->includeEmpties . $key;
-                    }
-                    $build[$key] = $value;
-                }
-                return $build;
+        } elseif (Type::isTuple()->unfoldUsing($using)) {
+            return static::fromTuple($using);
 
-            } elseif (TypeIs::applyWith("dictionary")->unfoldUsing($using)) {
-                return $using;
-
-            } else {
-                return [];
-
-            }
-
-        } elseif (TypeIs::applyWith("string")->unfoldUsing($using) and
-            ! TypeIs::applyWith("json")->unfoldUsing($using)
-        ) {
-            return ["content" => $using];
-
-        } elseif (TypeIs::applyWith("json")->unfoldUsing($using)) {
-            return Shoop::pipe($using,
-                TypeAsTuple::apply(),
-                TypeAsDictionary::apply()
-            )->unfold();
-
-        } elseif (TypeIs::applyWith("tuple")->unfoldUsing($using)) {
-            return (array) $using;
-
-        } elseif (TypeIs::applyWith("object")->unfoldUsing($using)) {
-            $tuple = TypeAsTuple::apply()->unfoldUsing($using);
-            return TypeAsDictionary::apply()->unfoldUsing($tuple);
+        } elseif (Type::isObject()->unfoldUsing($using)) {
+            return static::fromObject($using);
 
         }
     }

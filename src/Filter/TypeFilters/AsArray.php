@@ -7,73 +7,32 @@ use Eightfold\Foldable\Filter;
 
 use Eightfold\Shoop\Shoop;
 
+use Eightfold\Shoop\Filter\Type;
 use Eightfold\Shoop\Filter\IsEmpty;
 
 use Eightfold\Shoop\FilterContracts\Interfaces\Arrayable;
 
 class AsArray extends Filter
 {
-    private $start = 0; // divisor
-    private $includeEmpties = true; // includeRemainder
-    private $limit = PHP_INT_MAX;
-
-    // TODO: PHP 8.0 - int|string
-    public function __construct(
-        $start = 0,
-        bool $includeEmpties = true,
-        int $limit = PHP_INT_MAX
-    )
-    {
-        $this->start = $start;
-        $this->includeEmpties = $includeEmpties;
-        $this->limit = $limit;
-    }
-
     public function __invoke($using): array
     {
-        if (TypeIs::applyWith("boolean")->unfoldUsing($using)) {
-            return ($using) ? [false, true] : [true, false];
+        if (Type::isBoolean()->unfoldUsing($using)) {
+            return static::fromBoolean($using);
 
-        } elseif (TypeIs::applyWith("number")->unfoldUsing($using)) {
-            $int = TypeAsInteger::apply()->unfoldUsing($this->start);
-            return range($int, $using);
+        } elseif (Type::isNumber()->unfoldUsing($using)) {
+            return static::fromNumber($using);
 
-        } elseif (TypeIs::applyWith("json")->unfoldUsing($using) or
-            TypeIs::applyWith("tuple")->unfoldUsing($using)
-        ) {
-            return Shoop::pipe($using,
-                TypeAsDictionary::apply(),
-                TypeAsArray::apply()
-            )->unfold();
+        } elseif (Type::isString()->unfoldUsing($using)) {
+            return static::fromString($using);
 
-        } elseif (TypeIs::applyWith("collection")->unfoldUsing($using)) {
-            return array_values($using);
+        } elseif (Type::isList()->unfoldUsing($using)) {
+            return static::fromList($using);
 
-        } elseif (TypeIs::applyWith("string")->unfoldUsing($using)) {
-            if (TypeIs::applyWith("integer")->unfoldUsing($this->start)) {
-                return str_split($using);
+        } elseif (Type::isTuple()->unfoldUsing($using)) {
+            return static::fromTuple($using);
 
-            } elseif (TypeIs::applyWith("string")->unfoldUsing($this->start)) {
-                $array = explode($this->start, $using, $this->limit);
-                $array = ($this->includeEmpties) ? $array : array_filter($array);
-                return array_values($array);
-
-            }
-
-        } elseif (TypeIs::applyWith("arrayable")->unfoldUsing($using)) {
-            $args = $this->args(true);
-            if (count($args) === 0) {
-                return $using->efToArray();
-
-            }
-            return $using->array(...$args);
-
-        } elseif (TypeIs::applyWith("object")->unfoldUsing($using)) {
-            if (is_a($using, Arrayable::class)) {
-                return $using->efToArray();
-            }
-            $dictionary = TypeAsDictionary::apply()->unfoldUsing($using);
-            return TypeAsArray::apply()->unfoldUsing($dictionary);
+        } elseif (Type::isObject()->unfoldUsing($using)) {
+            return static::fromObject($using);
 
         }
     }

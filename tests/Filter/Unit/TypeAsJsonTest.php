@@ -160,7 +160,7 @@ class TypeAsJsonTest extends TestCase
         AssertEquals::applyWith(
             '{"member":false}',
             "string",
-            0.01,
+            0.03, // 0.01,
             1
         )->unfoldUsing(
             AsJson::fromJson('{"member":false}')
@@ -198,7 +198,7 @@ class TypeAsJsonTest extends TestCase
         AssertEquals::applyWith(
             '{"public":"content"}',
             "string",
-            0.01,
+            0.02, // 0.01,
             1
         )->unfoldUsing(
             AsJson::fromObject(

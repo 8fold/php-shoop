@@ -7,6 +7,7 @@ use Eightfold\Foldable\Filter;
 
 use Eightfold\Shoop\Shoop;
 
+use Eightfold\Shoop\Filter\Type;
 use Eightfold\Shoop\Filter\RetainUsing;
 
 use Eightfold\Shoop\FilterContracts\Interfaces\Stringable;
@@ -15,33 +16,24 @@ class AsString extends Filter
 {
     public function __invoke($using): string
     {
-        if (TypeIs::applyWith("boolean")->unfoldUsing($using)) {
+        if (Type::isBoolean()->unfoldUsing($using)) {
+            return static::fromBoolean($using);
 
+        } elseif (Type::isNumber()->unfoldUsing($using)) {
+            return static::fromNumber($using);
 
-        } elseif (TypeIs::applyWith("number")->unfoldUsing($using)) {
-            return strval($using);
+        } elseif (Type::isString()->unfoldUsing($using)) {
+            return static::fromString($using);
 
-        } elseif (TypeIs::applyWith("string")->unfoldUsing($using) or
-            TypeIs::applyWith("json")->unfoldUsing($using)
-        ) {
-            return $using;
+        } elseif (Type::isList()->unfoldUsing($using)) {
+            return static::fromList($using);
 
-        } elseif (TypeIs::applyWith("list")->unfoldUsing($using)) {
-            if (TypeIs::applyWith("dictionary")->unfoldUsing($using)) {
-                $using = TypeAsDictionary::apply()->unfoldUsing($using);
-            }
-            $strings = MinusUsing::applyWith("is_string")->unfoldUsing($using);
-            // $strings = array_filter($using, "is_string"); // TODO: Move to Minus
-            return implode($this->glue, $strings);
+        } elseif (Type::isTuple()->unfoldUsing($using)) {
+            return static::fromTuple($using);
 
-        } elseif (TypeIs::applyWith("tuple")->unfoldUsing($using)) {
-            if (TypeIs::applyWith("jsong")->unfoldUsing($using)) {
-                return TypeAsJson::apply()->unfoldUsing($using);
-            }
-            return Shoop::pipe($using,
-                TypeAsDictionary::apply(),
-                TypeAsString::apply()
-            )->unfold();
+        } elseif (Type::isObject()->unfoldUsing($using)) {
+            return static::fromObject($using);
+
         }
     }
 
