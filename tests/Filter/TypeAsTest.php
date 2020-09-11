@@ -57,7 +57,7 @@ class TypeAsTest extends TestCase
         AssertEquals::applyWith(
             1,
             "integer",
-            0.18, // 0.17, // 0.15, // 0.14,
+            0.19, // 0.18, // 0.17, // 0.15, // 0.14,
             5 // 4
         )->unfoldUsing(
             Type::asNumber()->unfoldUsing(1)

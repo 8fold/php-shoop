@@ -102,7 +102,7 @@ class TypeIsIntegerTest extends TestCase
         AssertEquals::applyWith(
             false,
             "boolean",
-            0.03,
+            0.04, // 0.03,
             1
         )->unfoldUsing(
             IsInteger::apply()->unfoldUsing(new class {
