@@ -28,7 +28,7 @@ class TypeAsNumberTest extends TestCase
             1,
             "integer",
             0.39, // 0.38, // 0.35, // 0.34, // 0.26,
-            70 // 23 // 17
+            73 // 70 // 23 // 17
         )->unfoldUsing(
             AsNumber::fromBoolean(true)
         );
@@ -158,7 +158,7 @@ class TypeAsNumberTest extends TestCase
         AssertEquals::applyWith(
             0,
             "integer",
-            0.01,
+            0.07, // 0.01,
             1
         )->unfoldUsing(
             AsNumber::fromTuple('{}')

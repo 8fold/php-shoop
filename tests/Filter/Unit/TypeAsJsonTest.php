@@ -71,7 +71,7 @@ class TypeAsJsonTest extends TestCase
         AssertEquals::applyWith(
             '{"0.0":1.1}',
             "string",
-            0.01, // 0.005, // 0.004,
+            0.02, // 0.01, // 0.005, // 0.004,
             1
         )->unfoldUsing(
             AsJson::fromNumber(1.1)
@@ -128,7 +128,7 @@ class TypeAsJsonTest extends TestCase
         AssertEquals::applyWith(
             '{"a":1,"b":2,"c":3}',
             "string",
-            0.002,
+            0.01, // 0.002,
             1
         )->unfoldUsing(
             AsJson::fromList(["a" => 1, "b" => 2, "c" => 3])

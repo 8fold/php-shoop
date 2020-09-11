@@ -73,7 +73,7 @@ class TypeAsArrayTest extends TestCase
         AssertEquals::applyWith(
             [1.1],
             "array",
-            0.001,
+            0.004,
             1
         )->unfoldUsing(
             AsArray::fromNumber(1.1)
@@ -106,7 +106,7 @@ class TypeAsArrayTest extends TestCase
         AssertEquals::applyWith(
             ["8", "f", "o", "l", "d", "!"],
             "array",
-            0.01, // 0.003,
+            0.03, // 0.01, // 0.003,
             1
         )->unfoldUsing(
             AsArray::fromString("8fold!")
@@ -139,7 +139,7 @@ class TypeAsArrayTest extends TestCase
         AssertEquals::applyWith(
             [1, 2, 3],
             "array",
-            0.003, // 0.001,
+            0.004, // 0.003,
             1
         )->unfoldUsing(
             AsArray::fromList(["a" => 1, "b" => 2, "c" => 3])
@@ -171,7 +171,7 @@ class TypeAsArrayTest extends TestCase
         AssertEquals::applyWith(
             [false],
             "array",
-            0.31, // 0.21,
+            0.54, // 0.31, // 0.21,
             10
         )->unfoldUsing(
             AsArray::fromJson('{"member":false}')
@@ -228,7 +228,7 @@ class TypeAsArrayTest extends TestCase
             [],
             "array",
             1.47, // 1.35,
-            60
+            127 // 60
         )->unfoldUsing(
             AsArray::fromObject(
                 new class implements Arrayable {

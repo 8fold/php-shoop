@@ -149,7 +149,7 @@ class TypeAsBooleanTest extends TestCase
         AssertEquals::applyWith(
             false,
             "boolean",
-            0.1, // 0.01,
+            0.12, // 0.1, // 0.01,
             1
         )->unfoldUsing(
             AsBoolean::fromTuple('{}')
@@ -158,7 +158,7 @@ class TypeAsBooleanTest extends TestCase
         AssertEquals::applyWith(
             true,
             "boolean",
-            0.02,
+            0.05, // 0.02,
             1
         )->unfoldUsing(
             AsBoolean::fromTuple('{"member":false}')
