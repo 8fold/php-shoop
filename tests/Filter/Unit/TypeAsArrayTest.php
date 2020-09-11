@@ -73,7 +73,7 @@ class TypeAsArrayTest extends TestCase
         AssertEquals::applyWith(
             [1.1],
             "array",
-            0.004,
+            0.02, // 0.004,
             1
         )->unfoldUsing(
             AsArray::fromNumber(1.1)

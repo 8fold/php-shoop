@@ -95,7 +95,7 @@ class TypeAsJsonTest extends TestCase
         AssertEquals::applyWith(
             '{"content":"8fold!"}',
             "string",
-            0.02, // 0.01,
+            0.03, // 0.02, // 0.01,
             1
         )->unfoldUsing(
             AsJson::fromString("8fold!")
