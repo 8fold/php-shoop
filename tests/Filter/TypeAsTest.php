@@ -178,7 +178,7 @@ class TypeAsTest extends TestCase
         AssertEquals::applyWith(
             [],
             "array",
-            0.01,
+            0.06, // 0.01,
             1
         )->unfoldUsing(
             Type::asDictionary()->unfoldUsing(new stdClass)
