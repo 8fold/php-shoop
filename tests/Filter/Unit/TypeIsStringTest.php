@@ -35,7 +35,7 @@ class TypeIsStringTest extends TestCase
         AssertEquals::applyWith(
             $expected,
             "boolean",
-            0.01,
+            0.02, // 0.01,
             1
         )->unfoldUsing(
             IsString::apply()->unfoldUsing("hello")

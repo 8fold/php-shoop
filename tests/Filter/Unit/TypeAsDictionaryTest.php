@@ -39,7 +39,7 @@ class TypeAsDictionaryTest extends TestCase
         AssertEquals::applyWith(
             ["false" => true, "true" => false],
             "array",
-            0.002,
+            0.004, // 0.002,
             1
         )->unfoldUsing(
             AsDictionary::fromBoolean(false)
@@ -87,7 +87,7 @@ class TypeAsDictionaryTest extends TestCase
         AssertEquals::applyWith(
             ["content" => "8fold!"],
             "array",
-            0.003,
+            0.005, // 0.003,
             1
         )->unfoldUsing(
             AsDictionary::fromString("8fold!")
@@ -120,7 +120,7 @@ class TypeAsDictionaryTest extends TestCase
         AssertEquals::applyWith(
             ["a" => 1, "b" => 2, "c" => 3],
             "array",
-            0.005,
+            0.03, // 0.005,
             1
         )->unfoldUsing(
             AsDictionary::fromList(["a" => 1, "b" => 2, "c" => 3])
@@ -190,7 +190,7 @@ class TypeAsDictionaryTest extends TestCase
         AssertEquals::applyWith(
             ["public" => "content"],
             "array",
-            0.01,
+            0.02, // 0.01,
             1
         )->unfoldUsing(
             AsDictionary::fromObject(

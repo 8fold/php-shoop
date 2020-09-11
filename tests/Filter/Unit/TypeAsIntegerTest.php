@@ -51,7 +51,7 @@ class TypeAsIntegerTest extends TestCase
         AssertEquals::applyWith(
             0,
             "integer",
-            0.003,
+            0.005, // 0.003,
             1
         )->unfoldUsing(
             AsInteger::fromNumber(0.0)
@@ -126,7 +126,7 @@ class TypeAsIntegerTest extends TestCase
         AssertEquals::applyWith(
             1,
             "integer",
-            0.002,
+            0.004, // 0.002,
             1
         )->unfoldUsing(
             AsInteger::fromList(["a" => 1, "b" => 2, "c" => 3])

@@ -33,7 +33,7 @@ class TypeIsTest extends TestCase
         AssertEquals::applyWith(
             true,
             "boolean",
-            0.01,
+            0.02, // 0.01,
             1
         )->unfoldUsing(
             Type::isBoolean()->unfoldUsing(false)
@@ -99,7 +99,7 @@ class TypeIsTest extends TestCase
         AssertEquals::applyWith(
             true,
             "boolean",
-            0.006,
+            0.02, // 0.006,
             1
         )->unfoldUsing(
             Type::isString()->unfoldUsing("8fold!")
@@ -132,7 +132,7 @@ class TypeIsTest extends TestCase
         AssertEquals::applyWith(
             true,
             "boolean",
-            0.005, // 0.004,
+            0.02, // 0.005, // 0.004,
             1
         )->unfoldUsing(
             Type::isList()->unfoldUsing([0, 1, 2])

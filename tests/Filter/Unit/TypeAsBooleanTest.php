@@ -51,7 +51,7 @@ class TypeAsBooleanTest extends TestCase
         AssertEquals::applyWith(
             false,
             "boolean",
-            0.002,
+            0.004, // 0.002,
             1
         )->unfoldUsing(
             AsBoolean::fromNumber(0.0)
@@ -75,7 +75,7 @@ class TypeAsBooleanTest extends TestCase
         AssertEquals::applyWith(
             true,
             "boolean",
-            0.002,
+            0.005, // 0.002,
             1
         )->unfoldUsing(
             AsBoolean::fromString("8fold!")
@@ -108,7 +108,7 @@ class TypeAsBooleanTest extends TestCase
         AssertEquals::applyWith(
             true,
             "boolean",
-            0.001,
+            0.004,
             1
         )->unfoldUsing(
             AsBoolean::fromList(["a" => 1, "b" => 2, "c" => 3])
@@ -187,7 +187,7 @@ class TypeAsBooleanTest extends TestCase
         AssertEquals::applyWith(
             true,
             "boolean",
-            0.01,
+            0.03, // 0.01,
             1
         )->unfoldUsing(
             AsBoolean::fromObject(

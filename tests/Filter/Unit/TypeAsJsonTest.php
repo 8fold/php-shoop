@@ -38,7 +38,7 @@ class TypeAsJsonTest extends TestCase
         AssertEquals::applyWith(
             '{"false":true,"true":false}',
             "string",
-            0.004,
+            0.01, // 0.004,
             1
         )->unfoldUsing(
             AsJson::fromBoolean(false)
@@ -62,7 +62,7 @@ class TypeAsJsonTest extends TestCase
         AssertEquals::applyWith(
             '{"0.0":0}',
             "string",
-            0.01,
+            0.02, // 0.01,
             1
         )->unfoldUsing(
             AsJson::fromNumber(0.0)
@@ -95,7 +95,7 @@ class TypeAsJsonTest extends TestCase
         AssertEquals::applyWith(
             '{"content":"8fold!"}',
             "string",
-            0.01,
+            0.02, // 0.01,
             1
         )->unfoldUsing(
             AsJson::fromString("8fold!")
@@ -119,7 +119,7 @@ class TypeAsJsonTest extends TestCase
         AssertEquals::applyWith(
             '{"3":4,"5":6}',
             "string",
-            0.005, // 0.004,
+            0.01, // 0.005, // 0.004,
             1
         )->unfoldUsing(
             AsJson::fromList([3 => 4, 5 => 6])

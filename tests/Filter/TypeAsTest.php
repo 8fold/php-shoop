@@ -25,7 +25,7 @@ class TypeAsTest extends TestCase
             true,
             "boolean",
             0.74,
-            16
+            17 // 16
         )->unfoldUsing(
             Type::asBoolean()->unfoldUsing(true)
         );
@@ -49,7 +49,7 @@ class TypeAsTest extends TestCase
             0,
             "integer",
             0.38, // 0.36, // 0.34, // 0.29,
-            20 // 19 // 15
+            22 // 20 // 19 // 15
         )->unfoldUsing(
             Type::asNumber()->unfoldUsing(false)
         );
@@ -91,7 +91,7 @@ class TypeAsTest extends TestCase
             "",
             "string",
             0.37, // 0.34,
-            18
+            21 // 18
         )->unfoldUsing(
             Type::asString()->unfoldUsing("")
         );
@@ -132,7 +132,7 @@ class TypeAsTest extends TestCase
         AssertEquals::applyWith(
             [0, 1, 2],
             "array",
-            0.01,
+            0.02, // 0.01,
             1
         )->unfoldUsing(
             Type::asArray()->unfoldUsing([0, 1, 2])
