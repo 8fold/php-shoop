@@ -6,6 +6,9 @@ use Eightfold\Foldable\Tests\PerformantEqualsTestFilter as AssertEquals;
 
 use Eightfold\Shoop\Shooped;
 
+/**
+ * @group current
+ */
 trait Falsifiable
 {
     /**
@@ -16,21 +19,26 @@ trait Falsifiable
         AssertEquals::applyWith(
             true,
             "boolean",
-            2.3
+            14.66, // 5.05,
+            234
         )->unfoldUsing(
             Shooped::fold(true)->asBoolean()
         );
 
         AssertEquals::applyWith(
             false,
-            "boolean"
+            "boolean",
+            1.36, // 0.2, // 0.18, // 0.14,
+            4
         )->unfoldUsing(
             Shooped::fold(0)->asBoolean()
         );
 
         AssertEquals::applyWith(
             true,
-            "boolean"
+            "boolean",
+            0.02,
+            1
         )->unfoldUsing(
             Shooped::fold(2.5)->asBoolean()
         );
@@ -38,7 +46,8 @@ trait Falsifiable
         AssertEquals::applyWith(
             true,
             "boolean",
-            0.69
+            0.82, // 0.08, // 0.07,
+            2
         )->unfoldUsing(
             Shooped::fold([3, 1, 3])->asBoolean()
         );
@@ -46,13 +55,17 @@ trait Falsifiable
         AssertEquals::applyWith(
             false,
             "boolean",
+            0.02,
+            1
         )->unfoldUsing(
             Shooped::fold([])->asBoolean()
         );
 
         AssertEquals::applyWith(
             false,
-            "boolean"
+            "boolean",
+            0.81, // 0.09, // 0.08,
+            4
         )->unfoldUsing(
             Shooped::fold("")->asBoolean()
         );
@@ -60,7 +73,8 @@ trait Falsifiable
         AssertEquals::applyWith(
             true,
             "boolean",
-            0.88
+            3.44, // 0.51, // 0.47,
+            29
         )->unfoldUsing(
             Shooped::fold((object) ["a" => 1, "c" => 3])->asBoolean()
         );
@@ -76,21 +90,26 @@ trait Falsifiable
         AssertEquals::applyWith(
             true,
             "boolean",
-            2.5
+            3.19, // 2.88, // 2.52,
+            234
         )->unfoldUsing(
             Shooped::fold(true)->efToBoolean()
         );
 
         AssertEquals::applyWith(
             false,
-            "boolean"
+            "boolean",
+            0.19, // 0.16, // 0.14,
+            4
         )->unfoldUsing(
             Shooped::fold(0)->efToBoolean()
         );
 
         AssertEquals::applyWith(
             true,
-            "boolean"
+            "boolean",
+            0.02,
+            1
         )->unfoldUsing(
             Shooped::fold(2.5)->efToBoolean()
         );
@@ -98,7 +117,8 @@ trait Falsifiable
         AssertEquals::applyWith(
             true,
             "boolean",
-            0.7
+            0.11, // 0.07,
+            1
         )->unfoldUsing(
             Shooped::fold([3, 1, 3])->efToBoolean()
         );
@@ -106,6 +126,8 @@ trait Falsifiable
         AssertEquals::applyWith(
             false,
             "boolean",
+            0.02,
+            1
         )->unfoldUsing(
             Shooped::fold([])->efToBoolean()
         );
@@ -113,7 +135,8 @@ trait Falsifiable
         AssertEquals::applyWith(
             false,
             "boolean",
-            0.44
+            0.1, // 0.09,
+            4
         )->unfoldUsing(
             Shooped::fold("")->efToBoolean()
         );
@@ -121,7 +144,8 @@ trait Falsifiable
         AssertEquals::applyWith(
             true,
             "boolean",
-            0.88
+            0.6,
+            29
         )->unfoldUsing(
             Shooped::fold((object) ["a" => 1, "c" => 3])->efToBoolean()
         );

@@ -67,7 +67,7 @@ class TypeAsArrayTest extends TestCase
             [],
             "array",
             9.66, // 1.27,
-            60
+            123 // 60
         )->unfoldUsing(
             AsArray::fromObject(
                 new class implements Arrayable {

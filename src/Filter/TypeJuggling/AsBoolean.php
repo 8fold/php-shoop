@@ -7,20 +7,40 @@ use Eightfold\Foldable\Filter;
 
 use Eightfold\Shoop\Shoop;
 
-use Eightfold\Shoop\Filter\Type;
+use Eightfold\Shoop\Filter\Is;
 
-use Eightfold\Shoop\Filter\Is\Not\IsNotEmpty;
+use Eightfold\Shoop\Filter\Is\IsNotEmpty;
 
 use Eightfold\Shoop\Filter\Implementing\IsFalsifiable;
 
 /**
- * @todo invocation
+ * @todo invocation - done ??
  */
 class AsBoolean extends Filter
 {
     public function __invoke($using): bool
     {
+        if (Is::object(false)->unfoldUsing($using)) {
+            if (Is::object()->unfoldUsing($using)) {
+                return static::fromObject($using);
+            }
+            return static::fromTuple($using);
 
+        } elseif (Is::boolean()->unfoldUsing($using)) {
+            return static::fromBoolean($using);
+
+        } elseif (Is::number()->unfoldUsing($using)) {
+            return static::fromNumber($using);
+
+        } elseif (Is::list()->unfoldUsing($using)) {
+            return static::fromList($using);
+
+        } elseif (Is::string()->unfoldUsing($using)) {
+            if (Is::json()->unfoldUsing($using)) {
+                return static::fromJson($using);
+            }
+            return static::fromString($using);
+        }
     }
 
     static public function fromBoolean(bool $using): bool
@@ -58,7 +78,6 @@ class AsBoolean extends Filter
     static public function fromObject(object $using): bool
     {
         if (IsFalsifiable::apply()->unfoldUsing($using)) {
-        // if (is_a($using, Falsifiable::class)) {
             return $using->efToBoolean();
         }
         return IsNotEmpty::fromObject($using);

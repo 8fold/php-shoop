@@ -73,4 +73,9 @@ class Prepend extends Filter
 
         // }
     }
+
+    static public function fromString(string $using, string $prefix): string
+    {
+        return $prefix . $using;
+    }
 }

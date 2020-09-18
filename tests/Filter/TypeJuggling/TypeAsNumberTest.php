@@ -30,7 +30,7 @@ class TypeAsNumberTest extends TestCase
         AssertEquals::applyWith(
             1,
             "integer",
-            0.79, // 0.7, // 0.47,
+            0.94, // 79, // 0.7, // 0.47,
             75 // 21
         )->unfoldUsing(
             AsNumber::fromBoolean(true)
@@ -138,7 +138,6 @@ class TypeAsNumberTest extends TestCase
 
     /**
      * @test
-     * @group current
      */
     public function objects()
     {

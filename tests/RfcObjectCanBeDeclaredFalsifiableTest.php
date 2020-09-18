@@ -18,6 +18,7 @@ use Eightfold\Shoop\Filter\Is\IsEmpty;
 /**
  * @group AsBoolean
  * @group IsEmpty
+ * @group 1.0.0
  *
  * In Php, a valid object instance is always `true` and never `empty`. There
  * is no mechanism as of PHP 8.0 for an `object` type to be false; instead,
@@ -192,9 +193,9 @@ class RfcObjectCanBeDeclaredFalsifiableTest extends TestCase
         $this->assertTrue($bool);
         $this->assertFalse($empty);
 
-        // Shoop (deviation) - true|true
+        // Shoop (deviation) - false|true
         AssertEquals::applyWith(
-            true,
+            false,
             "boolean",
             0.31
         )->unfoldUsing(
@@ -251,7 +252,7 @@ class RfcObjectCanBeDeclaredFalsifiableTest extends TestCase
 
         // Shoop (deviation) - false|true
         AssertEquals::applyWith(
-            true,
+            false,
             "boolean",
             1 // 0.41 // 0.32
         )->unfoldUsing(

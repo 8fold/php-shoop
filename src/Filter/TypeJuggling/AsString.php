@@ -11,17 +11,39 @@ use Eightfold\Shoop\Filter\Divide;
 use Eightfold\Shoop\Filter\Type;
 use Eightfold\Shoop\Filter\RetainUsing;
 
+use Eightfold\Shoop\Filter\Is;
 use Eightfold\Shoop\Filter\Implementing\IsStringable;
 
 use Eightfold\Shoop\FilterContracts\Interfaces\Stringable;
 
 /**
- * @todo invocation
+ * @todo invocation - done ??
  */
 class AsString extends Filter
 {
     public function __invoke($using): string
     {
+        if (Is::object(false)->unfoldUsing($using)) {
+            if (Is::object()->unfoldUsing($using)) {
+                return static::fromObject($using);
+            }
+            return static::fromTuple($using);
+
+        } elseif (Is::boolean()->unfoldUsing($using)) {
+            return static::fromBoolean($using);
+
+        } elseif (Is::number()->unfoldUsing($using)) {
+            return static::fromNumber($using);
+
+        } elseif (Is::list()->unfoldUsing($using)) {
+            return static::fromList($using);
+
+        } elseif (Is::string()->unfoldUsing($using)) {
+            if (Is::json()->unfoldUsing($using)) {
+                return static::fromJson($using);
+            }
+            return static::fromString($using);
+        }
     }
 
     static public function fromBoolean(bool $using): string

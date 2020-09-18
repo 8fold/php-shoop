@@ -77,7 +77,7 @@ class TypeAsTupleTest extends TestCase
         AssertEquals::applyWith(
             $float,
             "object",
-            0.02, // 0.01,
+            0.03, // 0.02, // 0.01,
             1
         )->unfoldUsing(
             AsTuple::fromNumber(1.2)
@@ -129,7 +129,7 @@ class TypeAsTupleTest extends TestCase
         AssertEquals::applyWith(
             $dictionary,
             "object",
-            0.01,
+            0.02, // 0.01,
             1
         )->unfoldUsing(
             AsTuple::fromList(["first" => 1, "second" => 2, "third" => 3])

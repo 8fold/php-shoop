@@ -7,6 +7,8 @@ use Eightfold\Foldable\Filter;
 
 use Eightfold\Shoop\Filter\Is\IsIdentical;
 
+use Eightfold\Shoop\Filter\TypeJuggling\AsString;
+
 /**
  * @todo - invocation
  */

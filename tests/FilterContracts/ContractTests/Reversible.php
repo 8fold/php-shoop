@@ -11,49 +11,49 @@ trait Reversible
     /**
      * @test
      */
-    public function reverse()
+    public function reversed()
     {
         AssertEquals::applyWith(
             true,
             "boolean",
             2.46 // 2.13 // 1.93
         )->unfoldUsing(
-            Shooped::fold(false)->reverse()
+            Shooped::fold(false)->reversed()
         );
 
         AssertEquals::applyWith(
             -3,
             "integer"
         )->unfoldUsing(
-            Shooped::fold(3)->reverse()
+            Shooped::fold(3)->reversed()
         );
 
         AssertEquals::applyWith(
             2.0,
             "double"
         )->unfoldUsing(
-            Shooped::fold(-2.0)->reverse()
+            Shooped::fold(-2.0)->reversed()
         );
 
         AssertEquals::applyWith(
             [1, 2, 3],
             "array"
         )->unfoldUsing(
-            Shooped::fold([3, 2, 1])->reverse()
+            Shooped::fold([3, 2, 1])->reversed()
         );
 
         AssertEquals::applyWith(
             ["b" => 3, "a" => 1],
             "array"
         )->unfoldUsing(
-            Shooped::fold(["a" => 1, "b" => 3])->reverse()
+            Shooped::fold(["a" => 1, "b" => 3])->reversed()
         );
 
         AssertEquals::applyWith(
             "8fold!",
             "string"
         )->unfoldUsing(
-            Shooped::fold("!dlof8")->reverse()
+            Shooped::fold("!dlof8")->reversed()
         );
 
         AssertEquals::applyWith(
@@ -61,7 +61,7 @@ trait Reversible
             "object",
             3.66
         )->unfoldUsing(
-            Shooped::fold((object) ["a" => 1, "c" => 3])->reverse()
+            Shooped::fold((object) ["a" => 1, "c" => 3])->reversed()
         );
 
         // TODO: Objects

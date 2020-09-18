@@ -9,6 +9,8 @@ use Eightfold\Shoop\Filter\Reversed;
 
 /**
  * @group Reversed
+ *
+ * @group 1.0.0
  */
 class ReversedTest extends TestCase
 {
@@ -21,7 +23,7 @@ class ReversedTest extends TestCase
             -1,
             "integer",
             1.99,
-            13
+            23 // 13
         )->unfoldUsing(
             Reversed::fromNumber(1)
         );
@@ -44,7 +46,7 @@ class ReversedTest extends TestCase
         AssertEquals::applyWith(
             "8fold!",
             "string",
-            0.41, // 0.36,
+            1.44, // 0.41, // 0.36,
             24
         )->unfoldUsing(
             Reversed::fromString("!dlof8")
@@ -53,7 +55,7 @@ class ReversedTest extends TestCase
         AssertEquals::applyWith(
             "👆👆👍👇👇",
             "string",
-            0.004,
+            0.005, // 0.004,
             1
         )->unfoldUsing(
             Reversed::fromString("👇👇👍👆👆")

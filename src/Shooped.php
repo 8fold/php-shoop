@@ -234,7 +234,7 @@ class Shooped implements ShoopedInterface
     public function asBoolean(): Falsifiable
     {
         return static::fold(
-            Apply::typeAsBoolean()->unfoldUsing($this->main)
+            Apply::asBoolean()->unfoldUsing($this->main)
         );
     }
 
@@ -247,7 +247,7 @@ class Shooped implements ShoopedInterface
     public function asString(string $glue = ""): Stringable
     {
         return static::fold(
-            Apply::typeAsString($glue)->unfoldUsing($this->main)
+            Apply::asString($glue)->unfoldUsing($this->main)
         );
     }
 
@@ -265,7 +265,7 @@ class Shooped implements ShoopedInterface
     public function asTuple(): Tupleable
     {
         return static::fold(
-            Apply::typeAsTuple()->unfoldUsing($this->main)
+            Apply::asTuple()->unfoldUsing($this->main)
         );
     }
 
@@ -277,7 +277,7 @@ class Shooped implements ShoopedInterface
     public function asJson(): Tupleable
     {
         return static::fold(
-            Apply::typeAsJson()->unfoldUsing($this->main)
+            Apply::asJson()->unfoldUsing($this->main)
         );
     }
 
@@ -295,7 +295,7 @@ class Shooped implements ShoopedInterface
     public function asInteger(): Countable
     {
         return static::fold(
-            Apply::typeAsInteger()->unfoldUsing($this->main)
+            Apply::asInteger()->unfoldUsing($this->main)
         );
     }
 
@@ -306,7 +306,7 @@ class Shooped implements ShoopedInterface
 
     public function count(): int // Countable
     {
-        return $this->efToInteger()->unfold();
+        return $this->efToInteger();
     }
 
 // - Comparable

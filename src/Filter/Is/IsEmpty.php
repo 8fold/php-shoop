@@ -5,9 +5,7 @@ namespace Eightfold\Shoop\Filter\Is;
 
 use Eightfold\Foldable\Filter;
 
-use Eightfold\Shoop\Filter\Reversed;
-use Eightfold\Shoop\Filter\Members;
-use Eightfold\Shoop\Filter\Count;
+use Eightfold\Shoop\Filter\Is;
 
 use Eightfold\Shoop\Filter\TypeJuggling\AsDictionary;
 use Eightfold\Shoop\Filter\TypeJuggling\AsTuple;
@@ -21,6 +19,27 @@ class IsEmpty extends Filter
 {
     public function __invoke($using): bool
     {
+        if (Is::object(false)->unfoldUsing($using)) {
+            if (Is::object()->unfoldUsing($using)) {
+                return static::fromObject($using);
+            }
+            return static::fromTuple($using);
+
+        } elseif (Is::boolean()->unfoldUsing($using)) {
+            return static::fromBoolean($using);
+
+        } elseif (Is::number()->unfoldUsing($using)) {
+            return static::fromNumber($using);
+
+        } elseif (Is::list()->unfoldUsing($using)) {
+            return static::fromList($using);
+
+        } elseif (Is::string()->unfoldUsing($using)) {
+            if (Is::json()->unfoldUsing($using)) {
+                return static::fromJson($using);
+            }
+            return static::fromString($using);
+        }
     }
 
     static public function fromBoolean(bool $using): bool
