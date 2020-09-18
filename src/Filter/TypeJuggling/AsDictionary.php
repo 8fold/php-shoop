@@ -19,7 +19,7 @@ use Eightfold\Shoop\Filter\Implementing\IsTupleable;
 use Eightfold\Shoop\Filter\Implementing\IsAssociable;
 
 /**
- * @todo invocation
+ * @todo invocation - done ??
  */
 class AsDictionary extends Filter
 {

@@ -10,7 +10,7 @@ use Eightfold\Shoop\Filter\Is;
 use Eightfold\Shoop\Filter\Implementing\IsCountable;
 
 /**
- * @todo invocation
+ * @todo invocation - done ??
  */
 class AsInteger extends Filter
 {

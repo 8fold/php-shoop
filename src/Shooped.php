@@ -74,15 +74,10 @@ class Shooped implements ShoopedInterface
     }
 
 // - Arrayable
-    public function asArray(
-        $start = 0, // int|string
-        bool $includeEmpties = true,
-        int $limit = PHP_INT_MAX
-    ): Arrayable
+    public function asArray(): Arrayable
     {
         return static::fold(
-            Apply::typeAsArray($start, $includeEmpties, $limit)
-                ->unfoldUsing($this->main)
+            Apply::asArray()->unfoldUsing($this->main)
         );
     }
 
