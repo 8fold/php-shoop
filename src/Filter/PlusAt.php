@@ -60,13 +60,4 @@ class PlusAt extends Filter
 
         // }
     }
-
-    static private function fromString(
-        string $using,
-        string $characters = "",
-        bool $prepend = false
-    ): string
-    {
-        return ($prepend) ? $characters . $using : $using . $characters;
-    }
 }

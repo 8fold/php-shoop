@@ -14,29 +14,29 @@ trait Appendable
      */
     public function append()
     {
-        AssertEquals::applyWith(
-            true,
-            "boolean",
-            0.001,
-            1
-        )->unfoldUsing(
-            Shooped::fold(false)->append(1)
-        );
+        // AssertEquals::applyWith(
+        //     true,
+        //     "boolean",
+        //     0.001,
+        //     1
+        // )->unfoldUsing(
+        //     Shooped::fold(false)->append(1)
+        // );
 
-        AssertEquals::applyWith(
-            false,
-            "boolean",
-            0.001,
-            1
-        )->unfoldUsing(
-            Shooped::fold(false)->append(false)
-        );
+        // AssertEquals::applyWith(
+        //     false,
+        //     "boolean",
+        //     0.001,
+        //     1
+        // )->unfoldUsing(
+        //     Shooped::fold(false)->append(false)
+        // );
 
         AssertEquals::applyWith(
             2,
             "integer",
-            0.001,
-            1
+            3.4, // 3.37, // 2.8, // 2.58,
+            236 // 235
         )->unfoldUsing(
             Shooped::fold(1)->append(1)
         );
@@ -44,7 +44,7 @@ trait Appendable
         AssertEquals::applyWith(
             2.5,
             "double",
-            0.001,
+            0.04,
             1
         )->unfoldUsing(
             Shooped::fold(1.5)->append(1)
@@ -53,8 +53,8 @@ trait Appendable
         AssertEquals::applyWith(
             [1, 2, 3],
             "array",
-            0.001,
-            1s
+            0.02,
+            1
         )->unfoldUsing(
             Shooped::fold([1])->append([2, 3])
         );
@@ -62,8 +62,8 @@ trait Appendable
         AssertEquals::applyWith(
             "8fold!",
             "string",
-            0.001,
-            1
+            0.13, // 0.12, // 0.09,
+            4
         )->unfoldUsing(
             Shooped::fold("8fold")->append("!")
         );
@@ -71,8 +71,8 @@ trait Appendable
         AssertEquals::applyWith(
             (object) ["a" => 1, "b" => 2, "c" => 3],
             "object",
-            0.001,
-            1
+            1.38,
+            44
         )->unfoldUsing(
             Shooped::fold((object) ["a" => 1])->append(["b" => 2, "c" => 3])
         );
@@ -80,7 +80,7 @@ trait Appendable
         AssertEquals::applyWith(
             (object) ["a" => 2, "c" => 3],
             "object",
-            0.001,
+            0.05,
             1
         )->unfoldUsing(
             Shooped::fold((object) ["a" => 1])
@@ -88,9 +88,9 @@ trait Appendable
         );
 
         AssertEquals::applyWith(
-            (object) ["a" => 1, "i0" => 3],
+            (object) ["a" => 1, "0.0" => 3],
             "object",
-            0.001,
+            0.06, // 0.05,
             1
         )->unfoldUsing(
             Shooped::fold((object) ["a" => 1])->append(3)

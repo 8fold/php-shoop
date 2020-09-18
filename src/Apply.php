@@ -5,6 +5,7 @@ namespace Eightfold\Shoop;
 
 use Eightfold\Foldable\Apply as BaseApply;
 
+use Eightfold\Shoop\Filter\Append;
 use Eightfold\Shoop\Filter\StartsWith;
 
 class Apply extends BaseApply
@@ -12,14 +13,14 @@ class Apply extends BaseApply
     static public function classNameForFilter($filterName)
     {
         $filterName = ucfirst($filterName);
-        $namespace = __NAMESPACE__ ."\\Filter\\";
+        $namespace = Append::fromString(__NAMESPACE__, "\\Filter\\");
         if (StartsWith::fromString($filterName, "Is")) {
-            $namespace = $namespace ."Is\\";
+            $namespace = Append::fromString($namespace, "Is\\");
 
         } elseif (StartsWith::fromString($filterName, "As")) {
-            $namespace = $namespace ."TypeJuggling\\";
+            $namespace = Append::fromString($namespace, "TypeJuggling\\");
 
         }
-        return $namespace . $filterName;
+        return Append::fromString($namespace, $filterName);
     }
 }

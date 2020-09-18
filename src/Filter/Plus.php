@@ -9,6 +9,8 @@ use Eightfold\Foldable\Filter;
 use Eightfold\Shoop\Shoop;
 use Eightfold\Shoop\Apply;
 
+use Eightfold\Shoop\Filter\Is\IsList;
+
 /**
  * @todo - invocation
  */
@@ -73,5 +75,21 @@ class Plus extends Filter
         //     )->unfold();
 
         // }
+    }
+
+    // TODO: PHP 8 - int|float -> int|float
+    static public function fromNumber($using, ...$addends)
+    {
+        $addends = RetainUsing::fromList($addends, "is_int");
+        if (IsList::apply()->unfoldUsing($using)) {
+            $allNumbers = Append::fromList($using, $addends);
+
+        } else {
+            $using      = Apply::asArray()->unfoldUsing($using);
+            $allNumbers = Append::fromList($using, $addends);
+
+        }
+
+        return array_sum($allNumbers);
     }
 }
