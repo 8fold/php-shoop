@@ -7,7 +7,7 @@ use Eightfold\Foldable\Tests\PerformantEqualsTestFilter as AssertEquals;
 
 use \stdClass;
 
-use Eightfold\Shoop\Filter\TypeFilters\IsArray;
+use Eightfold\Shoop\Filter\Is\IsArray;
 
 /**
  * @group TypeChecking
@@ -26,8 +26,8 @@ class TypeIsArrayTest extends TestCase
         AssertEquals::applyWith(
             $expected,
             "boolean",
-            1.2, // 1.11, // 0.94, // 0.91, // 0.68, // 0.01,
-            126 // 123 // 113 // 111 // 109 // 108
+            1.68, // 1.52, // 1.2, // 1.11, // 0.94, // 0.91, // 0.68, // 0.01,
+            145 // 126 // 123 // 113 // 111 // 109 // 108
         )->unfoldUsing(
             IsArray::apply()->unfoldUsing([1, 2, 3])
         );

@@ -8,6 +8,8 @@ use Eightfold\Foldable\Filter;
 use Eightfold\Shoop\Shoop;
 
 /**
+ * @todo invocation, implement __callStatic to reach HasMethods: Has::methods()->unfoldUsing($using)
+ *
  * Return whether a given sequence `Has` a given value.
  *
  * All non-list types are converted to their `array` representation.
@@ -20,14 +22,10 @@ class Has extends Filter
 {
     public function __invoke($using)
     {
-        if (TypeIs::applyWith("list")->unfoldUsing($using)) {
-            return in_array($this->main, $using, true);
+    }
 
-        }
-
-        return Shoop::pipe($using,
-            TypeAsArray::apply(),
-            Has::applyWith($this->main)
-        )->unfold();
+    static public function fromString(string $using, string $needle): bool
+    {
+        return strpos($using, $needle) !== false;
     }
 }

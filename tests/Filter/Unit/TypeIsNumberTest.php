@@ -7,7 +7,7 @@ use Eightfold\Foldable\Tests\PerformantEqualsTestFilter as AssertEquals;
 
 use \stdClass;
 
-use Eightfold\Shoop\Filter\TypeFilters\IsNumber;
+use Eightfold\Shoop\Filter\Is\IsNumber;
 
 /**
  * @group TypeChecking
@@ -25,8 +25,8 @@ class TypeIsNumberTest extends TestCase
         AssertEquals::applyWith(
             true,
             "boolean",
-            0.38,
-            9
+            2.07, // 0.38,
+            11 // 9
         )->unfoldUsing(
             IsNumber::apply()->unfoldUsing(1)
         );

@@ -7,7 +7,7 @@ use Eightfold\Foldable\Tests\PerformantEqualsTestFilter as AssertEquals;
 
 use \stdClass;
 
-use Eightfold\Shoop\Filter\TypeFilters\IsDictionary;
+use Eightfold\Shoop\Filter\Is\IsDictionary;
 
 /**
  * @group TypeChecking
@@ -27,7 +27,7 @@ class TypeIsDictionaryTest extends TestCase
             $expected,
             "boolean",
             // jumps are from adding filter use
-            0.8, // 0.68, // 0.61, // 0.58, // 0.51, // 0.46, // 0.39, // 0.36, // 0.27,
+            0.94, // 0.8, // 0.68, // 0.61, // 0.58, // 0.51, // 0.46, // 0.39, // 0.36, // 0.27,
             40 // 37 // 35 // 31 // 21 // 11
         )->unfoldUsing(
             IsDictionary::apply()->unfoldUsing(["a" => 1, "b" => 2, "c" => 3])

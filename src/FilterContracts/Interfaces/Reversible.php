@@ -4,5 +4,5 @@ namespace Eightfold\Shoop\FilterContracts\Interfaces;
 
 interface Reversible
 {
-    public function reverse(): Reversible;
+    public function reversed(): Reversible;
 }

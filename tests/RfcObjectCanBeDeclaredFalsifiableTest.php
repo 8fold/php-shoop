@@ -12,8 +12,8 @@ use Eightfold\Shoop\Shooped;
 use Eightfold\Shoop\FilterContracts\Interfaces\Falsifiable;
 use Eightfold\Shoop\FilterContracts\Interfaces\Emptiable;
 
-use Eightfold\Shoop\Filter\TypeAsBoolean;
-use Eightfold\Shoop\Filter\IsEmpty;
+use Eightfold\Shoop\Filter\TypeJuggling\AsBoolean;
+use Eightfold\Shoop\Filter\Is\IsEmpty;
 
 /**
  * @group AsBoolean
@@ -33,7 +33,7 @@ use Eightfold\Shoop\Filter\IsEmpty;
  * future magic method proprosed in PHP RFC: Objects can be declared
  * falsifiable. The `Falsifiable` interface can be found in
  * `/src/FilterContracts/Interfaces/Falsifiable.php`. The Shoop check and response
- * can be found in `/src/Filter/TypeAsBoolean.php`.
+ * can be found in `/src/Filter/TypeJuggling/AsBoolean.php`.
  *
  * The former would be similar to the interface added to PHP. The latter could be
  * similar to the check and work performed by PHP when a `boolean` type is assumed,
@@ -61,10 +61,10 @@ class RfcObjectCanBeDeclaredFalsifiableTest extends TestCase
         AssertEquals::applyWith(
             false,
             "boolean",
-            0.94, // 0.88, // 0.75 // 0.43
-            42
+            4.03, // 2.89, // 0.94, // 0.88, // 0.75 // 0.43
+            107 // 43 // 42
         )->unfoldUsing(
-            TypeAsBoolean::apply() // Represents the PHP boolean responder script.
+            AsBoolean::apply() // Represents the PHP boolean responder script.
                 ->unfoldUsing($using)
         );
 
@@ -100,7 +100,7 @@ class RfcObjectCanBeDeclaredFalsifiableTest extends TestCase
             "boolean",
             0.45
         )->unfoldUsing(
-            TypeAsBoolean::apply()->unfoldUsing($using)
+            AsBoolean::apply()->unfoldUsing($using)
         );
 
         AssertEquals::applyWith(
@@ -147,9 +147,10 @@ class RfcObjectCanBeDeclaredFalsifiableTest extends TestCase
         AssertEquals::applyWith(
             false,
             "boolean",
-            1.58 // 1.09
+            6.13, // 5.89, // 5.37, // 1.58 // 1.09
+            121
         )->unfoldUsing(
-            TypeAsBoolean::apply()->unfoldUsing($using)
+            AsBoolean::apply()->unfoldUsing($using)
         );
 
         AssertEquals::applyWith(
@@ -173,7 +174,7 @@ class RfcObjectCanBeDeclaredFalsifiableTest extends TestCase
         $using = new class implements Emptiable {
             public $property = "8fold";
 
-            public function isEmpty(): Falsifiable
+            public function isEmpty(): Emptiable
             {
                 return Shooped::fold(true);
             }
@@ -197,7 +198,7 @@ class RfcObjectCanBeDeclaredFalsifiableTest extends TestCase
             "boolean",
             0.31
         )->unfoldUsing(
-            TypeAsBoolean::apply()->unfoldUsing($using)
+            AsBoolean::apply()->unfoldUsing($using)
         );
 
         AssertEquals::applyWith(
@@ -217,7 +218,7 @@ class RfcObjectCanBeDeclaredFalsifiableTest extends TestCase
      */
     public function instance_can_specify_emptiness_and_falsiness_achieving_false_and_empty()
     {
-        $using = new class implements Emptiable {
+        $using = new class implements Falsifiable, Emptiable {
             public $property = "8fold";
 
             public function asBoolean(): Falsifiable
@@ -230,7 +231,7 @@ class RfcObjectCanBeDeclaredFalsifiableTest extends TestCase
                 return $this->asBoolean()->unfold();
             }
 
-            public function isEmpty(): Falsifiable
+            public function isEmpty(): Emptiable
             {
                 return Shooped::fold(true);
             }
@@ -254,7 +255,7 @@ class RfcObjectCanBeDeclaredFalsifiableTest extends TestCase
             "boolean",
             1 // 0.41 // 0.32
         )->unfoldUsing(
-            TypeAsBoolean::apply()->unfoldUsing($using)
+            AsBoolean::apply()->unfoldUsing($using)
         );
 
         AssertEquals::applyWith(

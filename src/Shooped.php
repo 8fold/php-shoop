@@ -218,7 +218,7 @@ class Shooped implements ShoopedInterface
     }
 
 // - Emptiable TODO: create interface
-    public function isEmpty(): Falsifiable
+    public function isEmpty(): Emptiable
     {
         return static::fold(
             Apply::isEmpty()->unfoldUsing($this->main)
@@ -332,7 +332,7 @@ class Shooped implements ShoopedInterface
     }
 
 // - Reversible
-    public function reverse(): Reversible
+    public function reversed(): Reversible
     {
         return static::fold(
             Apply::reversed()->unfoldUsing($this->main)

@@ -66,7 +66,7 @@ class TypeIsTest extends TestCase
         AssertEquals::applyWith(
             true,
             "boolean",
-            0.12,
+            0.37, // 0.12,
             66 // 2
         )->unfoldUsing(
             Type::isInteger()->unfoldUsing(1.0)
@@ -75,7 +75,7 @@ class TypeIsTest extends TestCase
         AssertEquals::applyWith(
             true,
             "boolean",
-            0.17, // 0.11, // 0.1, // 0.09, // 0.08,
+            0.83, // 0.17, // 0.11, // 0.1, // 0.09, // 0.08,
             66
         )->unfoldUsing(
             Type::isFloat()->unfoldUsing(1.0)
@@ -141,7 +141,7 @@ class TypeIsTest extends TestCase
         AssertEquals::applyWith(
             true,
             "boolean",
-            0.88, // 0.78, // 0.77, // 0.72,
+            3.37, // 0.88, // 0.78, // 0.77, // 0.72,
             39
         )->unfoldUsing(
             Type::isArray()->unfoldUsing([0, 1, 2])

@@ -7,7 +7,7 @@ use Eightfold\Foldable\Tests\PerformantEqualsTestFilter as AssertEquals;
 
 use \stdClass;
 
-use Eightfold\Shoop\Filter\TypeFilters\IsString;
+use Eightfold\Shoop\Filter\Is\IsString;
 
 /**
  * @group TypeChecking
@@ -39,6 +39,15 @@ class TypeIsStringTest extends TestCase
             1
         )->unfoldUsing(
             IsString::apply()->unfoldUsing("hello")
+        );
+
+        AssertEquals::applyWith(
+            $expected,
+            "boolean",
+            0.32, // 0.02,
+            1
+        )->unfoldUsing(
+            IsString::apply()->unfoldUsing('{}')
         );
     }
 
@@ -121,15 +130,6 @@ class TypeIsStringTest extends TestCase
             IsString::apply()->unfoldUsing(new class {
                 public $hello = "world";
             })
-        );
-
-        AssertEquals::applyWith(
-            $expected,
-            "boolean",
-            0.02,
-            1
-        )->unfoldUsing(
-            IsString::apply()->unfoldUsing('{}')
         );
 
         AssertEquals::applyWith(

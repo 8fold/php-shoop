@@ -5,6 +5,9 @@ namespace Eightfold\Shoop\Filter;
 
 use Eightfold\Foldable\Filter;
 
+/**
+ * @todo - invocation
+ */
 class RetainUsing extends Filter
 {
     public function __invoke(string $using): bool

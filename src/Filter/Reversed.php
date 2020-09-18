@@ -7,43 +7,61 @@ use Eightfold\Foldable\Filter;
 
 use Eightfold\Shoop\Shoop;
 
+use Eightfold\Shoop\Filter\MultipliedBy;
+
+use Eightfold\Shoop\Filter\TypeJuggling\AsString;
+
+/**
+ * @todo - invocation
+ */
 class Reversed extends Filter
 {
     public function __invoke($using)
     {
-        if (TypeIs::applyWith("boolean")->unfoldUsing($using)) {
-            return ! $using;
+    }
 
-        } elseif (TypeIs::applyWith("number")->unfoldUsing($using)) {
-            return $using * -1;
+    static public function fromBoolean(bool $using): bool
+    {
+        return ! $using;
+    }
 
-        } elseif (TypeIs::applyWith("list")->unfoldUsing($using)) {
-            return array_reverse($using);
+    // TODO: PHP 8 - int|float -> int|float
+    static public function fromNumber($using)
+    {
+        return MultipliedBy::fromNumber($using, -1);
+    }
 
-        } elseif (TypeIs::applyWith("string")->unfoldUsing($using) and
-            ! TypeIs::applyWith("json")->unfoldUsing($using)
-        ) {
-            return strrev($using);
+    static public function fromString(string $using): string
+    {
+        $array = Divide::fromString($using);
+        $array = static::fromList($array);
 
-        } elseif (TypeIs::applyWith("tuple")->unfoldUsing($using) or
-            TypeIs::applyWith("object")->unfoldUsing($using)
-        ) {
-            $initial = Shoop::pipe($using,
-                TypeAsDictionary::apply(),
-                Reversed::apply(),
-                TypeAsTuple::apply()
-            )->unfold();
-            if (TypeIs::applyWith("json")->unfoldUsing($using)) {
-                return TypeAsJson::apply()->unfoldUsing($initial);
-
-            }
-            return $initial;
-
-        }
+        return AsString::fromList($array);
     }
 
     static public function fromList(array $array): array
     {
         return array_reverse($array);
+    }
+
+    static public function fromTuple($using): array
+    {
+        $dictionary = AsDictionary::fromTuple($using);
+        $reversed   = static::fromList($array);
+        return AsTuple::fromList($reversed);
+    }
+
+    static public function fromJson(string $using): string
+    {
+        $dictionary = static::fromTuple($using);
+        return AsJson::fromList($dictionary);
+    }
+
+    static public function fromObject(object $using): object
+    {
+        if (IsReversible::apply()->unfoldUsing($using)) {
+            return $using->reversed();
+        }
+        return static::fromTuple($using);
     }
 }

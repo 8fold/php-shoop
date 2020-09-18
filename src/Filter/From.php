@@ -10,8 +10,9 @@ use Eightfold\Shoop\Apply;
 
 use Eightfold\Shoop\Contracts\Falsifiable;
 
-// TODO: rename to "From(start, length, fromEnd)"
 /**
+ * @todo - invocation
+ *
  * Return a sequence of values less than or equal to `length` `From` a given `start` position integer.
  *
  * If `main` is a string, the result will be a string of the given length starting with character at the given `start` position. All other types are converted to their `array` representations.
@@ -40,22 +41,23 @@ class From extends Filter
 
     public function __invoke($using)
     {
-        if (TypeIs::applyWith("string")->unfoldUsing($using)) {
-            return substr($using, $this->start, $this->length);
+    }
 
-        } elseif (TypeIs::applyWith("array")->unfoldUsing($using)) {
-            $result = array_slice($using, $this->start, $this->length);
+    static public function fromString(
+        string $using,
+        int $start,
+        int $length
+    ): string
+    {
+        return substr($using, $start, $length);
+    }
 
-            return ($this->length === 1 or count($result) === 1)
-                ? array_shift($result)
-                : Apply::typeAsArray()->unfoldUsing($result); // array_values($result);
-
-        } else {
-            return Shoop::pipe($using,
-                TypeAsArray::apply(),
-                From::applyWith($this->start, $this->length)
-            )->unfold();
-
-        }
+    static public function fromList(
+        array $using,
+        int $start,
+        int $length
+    ): array
+    {
+        return array_slice($using, $start, $length);
     }
 }

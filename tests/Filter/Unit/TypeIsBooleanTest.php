@@ -7,7 +7,7 @@ use Eightfold\Foldable\Tests\PerformantEqualsTestFilter as AssertEquals;
 
 use \stdClass;
 
-use Eightfold\Shoop\Filter\TypeFilters\IsBoolean;
+use Eightfold\Shoop\Filter\Is\IsBoolean;
 
 /**
  * @group TypeChecking

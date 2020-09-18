@@ -22,7 +22,7 @@ class FromTest extends TestCase
         AssertEquals::applyWith(
             [false, true],
             "array",
-            1.18, // 0.66, // 0.61, // 0.6, // 0.42, // 0.34
+            2.23, // 1.18, // 0.66, // 0.61, // 0.6, // 0.42, // 0.34
             88 // 83
         )->unfoldUsing(
             From::apply()->unfoldUsing(true)

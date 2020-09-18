@@ -59,21 +59,157 @@ Shooped::fold(2)->plus(1)->divide(2)->unfold();
 
 ### Types and type juggling
 
-- Content (abstract):
-  - Boolean (`boolean`, Shoop `sequential`): same as PHP.
-  - Number (`float` or `integer`, Shoop `sequential`): all real numbers.
-    - Integer (`integer`, Shoop `sequential`): all whole numbers.
-  - String (`string` not `JSON`, Shoop `sequential`): sequence of characters.
-- Collection (abstract): contains mixed content, collections, or objects accessible using members.
-  - List (abstract - `array`): A PHP `array` that does not comply with being a Shoop Dictionary or Array
-    - Dictionary (`array`): non-sequential string keys or empty, values accessed using array notion. ex. $var[]
-    - Array (`array`, Shoop `sequential`): sequential integer keys.
-  		- Range (`array`): A Shoop `array` with a starting integer, ending integer, and optional gap between numbers.
-  - Tuple (`stdClass` or `object`): non-sequential string members, accessed using object notation, not string notation, and contains no methods. ex. $var->
-    - JSON (`string`): longer than two characters, begins with opening curly-brace, ends with closing curly-brace, and can be decoded without error.
-- Object (`object`): contains at least one public method.
+Shoop defines abstract and concrete types.
 
-Abstract Shoop types can be juggled *from* but not *to*. Juggling from abstract type to concrete using Shoop method applies the type rules. ex. Juggling from Object to Dictionary removes methods and private properties.
+Abstract Shoop types map directly to PHP types.
+
+|Type name  |PHP type(s)                                           |
+|:----------|:-----------------------------------------------------|
+|Content    |PHP boolean, float, integer, and string.              |
+|Collection |PHP array, stdClass, object without public methods.   |
+|List       |PHP array.                                            |
+|Sequential |PHP indexed array, integer, string.                   |
+|Object     |PHP object that can only be juggled *from*, not *to*. |
+
+Concrete Shoop types:
+
+1. MUST be self-defined as what they *are* or are *like* as opposed to what they are *not*.
+2. MUST juggle reasonably to all other Shoop concrete types except object.
+
+|Type name  |Abstract type(s)    |Definition                                                                                |
+|:----------|:-------------------|:-----------------------------------------------------------------------------------------|
+|Boolean    |Content             |same as PHP                                                                               |
+|Number     |''                  |all real numbers                                                                          |
+|Integer    |''                  |all whole numbers                                                                         |
+|String     |''                  |same as PHP                                                                               |
+|Dictionary |Collection, List    |a PHP array with string keys (associative array)                                          |
+|Array      |Collection, List    |a PHP array with integer indeces (indexed array) in sequential order starting from 0      |
+|Tuple      |Collection          |a PHP object containing only public properties with non-null values                       |
+|JSON       |Content, Collection |see String and Tuple                                                                      |
+|Object     |Object              |see Tuple, with at least one defined public method - or implementing Shoop type interfaces|
+
+Note: Rather than being implemented as PHP classes, Shoop types are *interpretations* of PHP types you implement. Shoop types facilitate type juggling, transformations, and the application of filters.
+
+### Filters
+
+Filters are PHP classes inheriting from the Shoop abstract filter and implementing the interface methods required by that inheritance.
+
+Filters generally act as a bridge between Shoopland and PHP. They can be viewed as low-level functions used to manipulate PHP types. For a manipulation to become a filter, it MUST meet AT LEAST three of the following:
+
+1. Used at least three times in a production project, which MAY include Shoop itself. ex. Reversed::fromBoolean
+2. Fully testing the proposed filter results in testing multiple other filters. ex. IsEmpty::fromTuple
+3. The proposed filter DOES NOT require testing because it uses PHP directly. ex. IsEmpty::fromString
+4. The proposed filter DOES NOT require testing because it uses approved filters that do not require testing. ex. AsBoolean::*
+
+Note: If the fourth item is used as a reason for the proposed filter to be approved, it SHOULD be accompanied by a specific reason. For example, the AsBoolean filter facilitates juggling to that concrete type and returns the result of IsNotEmpty, which returns the result of IsEmpty that is Reversed. Neither AsBoolean nor IsNotEmpty require testing; however, it is a DRY way of implementing the PHP bool casting operation for most PHP types.
+
+By complying with the previous, the following requirement should be met automatically:
+
+1. The proposed filter MUST be fully tested, directly or inderectly.
+
+Note: With Shoop, objects are fully specifiable PHP types, as you can implement their representation as any and all Shoop-supported PHP types.
+
+### Deviations from PHP
+
+In order to make Shoop easy to adopt we try not to deviate too much from what you're accustomed to. The following details the known deviations from PHP standard behavior:
+
+|Shoop |PHP |
+|:-----|:---|
+|You can transform (cast) any Shoop type to any other Shoop type, except object. |Some castings result in error; array to string, for example. |
+|Interfaces exist to define the PHP type representation of custom types or instances implementing the interface. |PHP is limited in this regard: see the Stringable and JsonSerializable interfaces as well as some magic methods. |
+|Boolean as string returns the english-equivalent. ex. "true" |PHP converts to an integer, then stringify that result. ex. "1" |
+|Boolean as dictionary returns a two-key dictionary holding both true and false values. |PHP uses the boolean value as the first index. |
+|Boolean as array uses the array values of the dictionary where zero holds the value of false. |PHP does not differentiate between dictionaries and arrays. |
+|JSON can be converted to a dictionary but not created that way. The transformation is non-recursive; so, inner objects remain objects. The string representation MUST start and end with opening and closing curly braces, respectively. |The PHP json_decode() function can return a PHP associative array where inner objects are converted to associative arrays. The string representation can start and end using opening and closing square brackets. |
+
+### Performance
+
+Each test we write covers performance for speed and memory usage.
+
+When it comes to speed, our goal is that every filter can be applied and returned in less than one millisecond (represented as 1.0 in our tests).
+
+Our starting point for speed checks is one microsecond (0.001 in our tests). If a test goes over one microsecond, but less than 5 microseconds, we bump the speed check by one microsecond (ex. 0.001001 becomes 0.002) while leaving the previous, shorter run(s) as comment notes. If a test goes over five microseconds (0.005) we switch to 10 microsecond intervals (ex. 0.005 becomes 0.01). In all other cases, we round up to the nearest 10 microsecond mark (ex. 0.010001 becomes 0.02).
+
+When it comes to memory, our goal is that every filter can be applied and returned using less than 1 kilobyte of memory (1 in our tests). This will be based somewhat on what is passed to the filter. Our tests are measured with a bare miminum value passed in to verify the test delivers the expected result.
+
+Our tests are also written using the filter pattern:
+
+```php
+AssertEquals::applyWith(
+	// expected return value
+	// expected return type
+	// max time allowed in milliseconds
+	// max memory allowed in kilobytes
+)->unfoldUsing(
+	// the filter being tested
+);
+```
+
+## Project
+
+### Goals
+
+The primary goals for Shoop, in no particular order:
+
+* Plain language (approachable): PHP is pretty accessible to new developers who maybe don't have a computer science background; Shoop continues this theme.
+* Syntactically and semantically light: PHP is understandably heavy on syntax (special characters to help the parser) and semantically expansive when it comes to capabilities (short function names, but many of them). We review Filters and capabilities based on production need, not gut feel and "because we can."
+* Immutable: Whenever possible, we return new instances and values as opposed to altering the state.
+* Type-safe: The flexibility of Shoop means we don't check types every step along the way, but do check types before returning the result of a request.
+* Defer processing: Whenever possible we defer processing until the last possible moment.
+* Ubiquity across types: We favor a small number of filters that can then be minimally configured using arguments.
+* DRY (don't repeat yourself): We strive to leverage capabilities already available in Shoop rather than implementing PHP solutions; most of the Filters came from developing a different Filter.
+* Let nothing mean nothing: As developers, we spend a lot of time accounting for, working around, and defending against things that represent nothing. `null` is arguably the most known thing representing nothing, Shoop doesn't use nor account for `null`. `false` also equates to zero, which represents nothing. The idea that zero represents nothing is the primary argument for Shoop arrays to start at one, as requesting the "nothing index" should always result in receiving nothing...something cannot be contained by nothing.
+
+An oft cited criticism of PHP is its inconsistent API. PHP's creator, [Rasmus, has explained it](https://youtu.be/Qa_xVjTiOUw) this way (paraphrased):
+
+> PHP is perfectly consistent, just not the way you expect. It's vertically consistent. So, for every function in PHP,  if you look at what's underneath it, the `libc` function under some of the string functions, for example, the argument order and naming matches what they're built upon. So, there's not consistency horitzontally, but there's perfect consistency vertically digging down into the stack.
+
+If you use classes from the [Illuminate Support](https://laravel.com/api/5.5/Illuminate/Support.html) portion of Laravel or some of the [Symfony Components](https://symfony.com/doc/current/components/index.html), you're familiar with the desire for horizontally consistent APIs problem (even beyond PHP itself).
+
+While this immplementation is language-specific, the fundamental concepts, patterns, and naming strive to be language agnostic.
+
+PHP is extremely [simple for new developers](https://www.php.net/manual/en/intro-whatis.php), Shoop follows this tradition.
+
+### Contributing
+
+For more general advice see our [Contributing](https://github.com/8fold/php-shoop/blob/master/.github/CONTRIBUTING.md) documentation.
+
+### What's in a name?
+
+Shoop, as an acronym, points to the insipirations of the library:
+
+- Swift, Smalltalk, and Squeak;
+- Haskell (functional programming and immutability);
+- Object-Oriented (encapsulation, composition, and communication); and
+- Procedural (sequential, logical programming).
+
+Shoop, as a word, is akin to "photoshopping" (and sounds nicer than "Foops").
+
+Shoop, as a name, is the title of a song by Salt-N-Pepa released in 1993 and used in the first installment of the [Deadpool](https://youtu.be/FOJWJmlYxlE) franchise in 2016.
+
+### Other
+
+- [Versioning](https://github.com/8fold/php-shoop/blob/master/.github/VERSIONING.md)
+- [Governance](https://github.com/8fold/php-shoop/blob/master/.github/GOVERNANCE.md)
+
+## History
+
+This library has been under development since the beginning of 2019 and has been used in the majority of 8fold projects since the middle of 2019. With every new project created we tried to go without it but found ourselves becoming annoyed, which is why we've decided to make it a more formal project and library consumable by others.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+***
 
 We offer multiple Interfaces and default Implementations for juggling between the supported, concrete types. Each interface offers two methods: one returns an object implementing the interface and the other returns the PHP types. The former are prefixed with "as" for use in Fluent Interfaces. The latter are prefixed with "ef" and can be thought of as similar to [PHP Magic Methods](https://www.php.net/manual/en/language.oop5.magic.php) which are prefixed with a double-underscore (`__`).
 
@@ -160,60 +296,3 @@ ex. `$using = new class {}`
 |`TypeAsString::apply()->unfoldUsing($using)   |"" (concatenated string properties), can be overridden |`(string) $using` |''                          |
 |`TypeAsArray::apply()->unfoldUsing($using)    |[]                                                   |`(array) $using`  |[]                          |
 |`TypeAsTuple::apply()->unfoldUsing($using)    |object(): all methods and private properties removed |`(object) $using` |object(): all methods are removed, private properties remain |
-
-### What's in a name?
-
-Shoop, as an acronym, points to the insipirations of the library:
-
-- Swift, Smalltalk, and Squeak;
-- Haskell (functional programming and immutability);
-- Object-Oriented (encapsulation, composition, and communication); and
-- Procedural (sequential, logical programming).
-
-Shoop, as a word, is akin to "photoshopping" (and sounds nicer than "Foops").
-
-Shoop, as a name, is the title of a song by Salt-N-Pepa released in 1993 and used in the first installment of the [Deadpool](https://youtu.be/FOJWJmlYxlE) franchise in 2016.
-
-## Project
-
-A `Filter` should only return a PHP data type, not an object.
-
-`Shooped` methods MUST have a rational default for all Shoop types.
-
-The `Shooped` object MAY contain functions that take advantage of filters; however, filters should never use an instance of `Shooped`.
-
-The `Shooped` object MAY contain functions that do not have an equivalent filter.
-
-For more general advice see our [Contributing](https://github.com/8fold/php-shoop/blob/master/.github/CONTRIBUTING.md) documentation.
-
-### Goals
-
-The primary goals for Shoop, in no particular order:
-
-* Plain language (approachable): PHP is pretty accessible to new developers who maybe don't have a computer science background; Shoop continues this theme.
-* Syntactically and semantically light: PHP is understandably heavy on syntax (special characters to help the parser) and semantically expansive when it comes to capabilities (short function names, but many of them). We review Filters and capabilities based on production need, not gut feel and "because we can."
-* Immutable: Whenever possible, we return new instances and values as opposed to altering the state.
-* Type-safe: The flexibility of Shoop means we don't check types every step along the way, but do check types before returning the result of a request.
-* Defer processing: Whenever possible we defer processing until the last possible moment.
-* Ubiquity across types: We favor a small number of filters that can then be minimally configured using arguments.
-* DRY (don't repeat yourself): We strive to leverage capabilities already available in Shoop rather than implementing PHP solutions; most of the Filters came from developing a different Filter.
-* Let nothing mean nothing: As developers, we spend a lot of time accounting for, working around, and defending against things that represent nothing. `null` is arguably the most known thing representing nothing, Shoop doesn't use nor account for `null`. `false` also equates to zero, which represents nothing. The idea that zero represents nothing is the primary argument for Shoop arrays to start at one, as requesting the "nothing index" should always result in receiving nothing...something cannot be contained by nothing.
-
-An oft cited criticism of PHP is its inconsistent API. PHP's creator, [Rasmus, has explained it](https://youtu.be/Qa_xVjTiOUw) this way (paraphrased):
-
-> PHP is perfectly consistent, just not the way you expect. It's vertically consistent. So, for every function in PHP,  if you look at what's underneath it, the `libc` function under some of the string functions, for example, the argument order and naming matches what they're built upon. So, there's not consistency horitzontally, but there's perfect consistency vertically digging down into the stack.
-
-If you use classes from the [Illuminate Support](https://laravel.com/api/5.5/Illuminate/Support.html) portion of Laravel or some of the [Symfony Components](https://symfony.com/doc/current/components/index.html), you're familiar with the desire for horizontally consistent APIs problem (even beyond PHP itself).
-
-While this immplementation is language-specific, the fundamental concepts, patterns, and naming strive to be language agnostic.
-
-PHP is extremely [simple for new developers](https://www.php.net/manual/en/intro-whatis.php), Shoop follows this tradition.
-
-### Other
-
-- [Versioning](https://github.com/8fold/php-shoop/blob/master/.github/VERSIONING.md)
-- [Governance](https://github.com/8fold/php-shoop/blob/master/.github/GOVERNANCE.md)
-
-## History
-
-This library has been under development since the beginning of 2019 and has been used in the majority of 8fold projects since the middle of 2019. With every new project created we tried to go without it but found ourselves becoming annoyed, which is why we've decided to make it a more formal project and library consumable by others.

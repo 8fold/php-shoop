@@ -8,39 +8,35 @@ use Eightfold\Foldable\Filter;
 use Eightfold\Shoop\Shoop;
 use Eightfold\Shoop\Apply;
 
+/**
+ * @todo - deprecate - ??
+ */
 class Shared extends Filter
 {
-    private $comparing = [];
-
-    public function __construct($comparing)
-    {
-        $this->comparing = $comparing;
-    }
-
     public function __invoke($using)
     {
-        if (TypeIs::applyWith("sequential")->unfoldUsing($using) or
-            TypeIs::applyWith("boolean")->unfoldUsing($using)
-        ) {
-            $using = Apply::typeAsArray()->unfoldUsing($using);
-            $this->comparing = Apply::typeAsArray()
-                ->unfoldUsing($this->comparing);
+        // if (TypeIs::applyWith("sequential")->unfoldUsing($using) or
+        //     TypeIs::applyWith("boolean")->unfoldUsing($using)
+        // ) {
+        //     $using = Apply::typeAsArray()->unfoldUsing($using);
+        //     $this->comparing = Apply::typeAsArray()
+        //         ->unfoldUsing($this->comparing);
 
-            $result = array_intersect($using, $this->comparing);
-            return Apply::typeAsArray()->unfoldUsing($result);
-        }
+        //     $result = array_intersect($using, $this->comparing);
+        //     return Apply::typeAsArray()->unfoldUsing($result);
+        // }
 
-        $using = Apply::typeAsDictionary()->unfoldUsing($using);
-        $this->comparing = Apply::typeAsDictionary()
-            ->unfoldUsing($this->comparing);
+        // $using = Apply::typeAsDictionary()->unfoldUsing($using);
+        // $this->comparing = Apply::typeAsDictionary()
+        //     ->unfoldUsing($this->comparing);
 
-        $build = [];
-        foreach ($this->comparing as $value) {
-            $member = array_search($value, $using);
-            if ($member !== null) {
-                $build[$member] = $using[$member];
-            }
-        }
-        return $build;
+        // $build = [];
+        // foreach ($this->comparing as $value) {
+        //     $member = array_search($value, $using);
+        //     if ($member !== null) {
+        //         $build[$member] = $using[$member];
+        //     }
+        // }
+        // return $build;
     }
 }
