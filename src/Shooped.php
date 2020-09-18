@@ -95,7 +95,7 @@ class Shooped implements ShoopedInterface
     public function asDictionary(): Associable
     {
         return static::fold(
-            Apply::typeAsDictionary()->unfoldUsing($this->main)
+            Apply::asDictionary()->unfoldUsing($this->main)
         );
     }
 

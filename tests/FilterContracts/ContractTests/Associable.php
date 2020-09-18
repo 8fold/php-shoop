@@ -11,14 +11,15 @@ trait Associable
 {
     /**
      * @test
+     * @version 1.0.0
      */
     public function asDictionary()
     {
         AssertEquals::applyWith(
-            // if no 0 - [true, false]
             ["false" => false, "true" => true],
             "array",
-            6.98 // 2.47
+            6.58,
+            226
         )->unfoldUsing(
             Shooped::fold(true)->asDictionary()
         );
@@ -26,26 +27,29 @@ trait Associable
         // TODO: Should arrays start at 1
         AssertEquals::applyWith(
             // ["i1" => 1, "i2" => 2, "i3" => 3]
-            ["i0" => 0, "i1" => 1, "i2" => 2, "i3" => 3],
+            ["0.0" => 3],
             "array",
-            3.98
+            0.3, // 0.26, // 0.24,
+            10
         )->unfoldUsing(
             Shooped::fold(3)->asDictionary()
         );
 
         // TODO: Should arrays start at 1
         AssertEquals::applyWith(
-            // ["i1" => 1, "i2" => 2]
-            ["i0" => 0, "i1" => 1, "i2" => 2],
+            ["0.0" => 2.5],
             "array",
-            0.72
+            0.04, // 0.03,
+            1
         )->unfoldUsing(
             Shooped::fold(2.5)->asDictionary()
         );
 
         AssertEquals::applyWith(
-            ["i0" => 3, "i1" => 1, "i2" => 3],
-            "array"
+            ["0.0" => 3, "1.0" => 1, "2.0" => 3],
+            "array",
+            0.09, // 0.08, // 0.08,
+            2
         )->unfoldUsing(
             Shooped::fold([3, 1, 3])->asDictionary()
         );
@@ -53,21 +57,26 @@ trait Associable
         AssertEquals::applyWith(
             ["a" => 1, "b" => 3, "c" => 1],
             "array",
-            0.66
+            0.03,
+            1
         )->unfoldUsing(
             Shooped::fold(["a" => 1, "b" => 3, "c" => 1])->asDictionary()
         );
 
         AssertEquals::applyWith(
             ["content" => "Hi!"],
-            "array"
+            "array",
+            1.22,
+            5
         )->unfoldUsing(
             Shooped::fold("Hi!")->asDictionary()
         );
 
         AssertEquals::applyWith(
             ["a" => 1, "c" => 3],
-            "array"
+            "array",
+            3.25,
+            16
         )->unfoldUsing(
             Shooped::fold((object) ["a" => 1, "c" => 3])->asDictionary()
         );
@@ -77,24 +86,25 @@ trait Associable
 
     /**
      * @test
+     * @version 1.0.0
      */
     public function efToDictionary()
     {
         AssertEquals::applyWith(
-            // if no 0 - [true, false]
             ["false" => false, "true" => true],
             "array",
-            2.05
+            3.1, // 2.97, // 2.86, // 2.85, // 2.69, // 2.52, // 2.5, // 2.39,
+            226
         )->unfoldUsing(
             Shooped::fold(true)->efToDictionary()
         );
 
         // TODO: Should arrays start at 1
         AssertEquals::applyWith(
-            // ["i1" => 1, "i2" => 2, "i3" => 3]
-            ["i0" => 0, "i1" => 1, "i2" => 2, "i3" => 3],
+            ["0.0" => 3],
             "array",
-            2.35 // 0.92
+            0.27, // 0.26, // 0.24,
+            10
         )->unfoldUsing(
             Shooped::fold(3)->efToDictionary()
         );
@@ -102,37 +112,46 @@ trait Associable
         // TODO: Should arrays start at 1
         AssertEquals::applyWith(
             // ["i1" => 1, "i2" => 2]
-            ["i0" => 0, "i1" => 1, "i2" => 2],
+            ["0.0" => 2.5],
             "array",
-            0.48
+            0.03,
+            1
         )->unfoldUsing(
             Shooped::fold(2.5)->efToDictionary()
         );
 
         AssertEquals::applyWith(
-            ["i0" => 3, "i1" => 1, "i2" => 3],
-            "array"
+            ["0.0" => 3, "1.0" => 1, "2.0" => 3],
+            "array",
+            0.09, // 0.08,
+            2
         )->unfoldUsing(
             Shooped::fold([3, 1, 3])->efToDictionary()
         );
 
         AssertEquals::applyWith(
             ["a" => 1, "b" => 3, "c" => 1],
-            "array"
+            "array",
+            0.03,
+            1
         )->unfoldUsing(
             Shooped::fold(["a" => 1, "b" => 3, "c" => 1])->efToDictionary()
         );
 
         AssertEquals::applyWith(
             ["content" => "Hi!"],
-            "array"
+            "array",
+            0.12, // 0.11, // 0.95,
+            5
         )->unfoldUsing(
             Shooped::fold("Hi!")->efToDictionary()
         );
 
         AssertEquals::applyWith(
             ["a" => 1, "c" => 3],
-            "array"
+            "array",
+            0.41, // 0.35,
+            16
         )->unfoldUsing(
             Shooped::fold((object) ["a" => 1, "c" => 3])->efToDictionary()
         );
