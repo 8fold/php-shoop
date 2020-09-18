@@ -1,20 +1,20 @@
 <?php
 
-namespace Eightfold\Shoop\Tests\Filter\Unit;
+namespace Eightfold\Shoop\Tests\Filter\Is;
 
 use PHPUnit\Framework\TestCase;
 use Eightfold\Foldable\Tests\PerformantEqualsTestFilter as AssertEquals;
 
 use \stdClass;
 
-use Eightfold\Shoop\Filter\Is\IsDictionary;
+use Eightfold\Shoop\Filter\Is\IsList;
 
 /**
  * @group TypeChecking
  *
- * @group  IsDictionary
+ * @group  IsList
  */
-class TypeIsDictionaryTest extends TestCase
+class TypeIsListTest extends TestCase
 {
     /**
      * @test
@@ -23,14 +23,31 @@ class TypeIsDictionaryTest extends TestCase
     {
         $expected = true;
 
+       AssertEquals::applyWith(
+            $expected,
+            "boolean",
+            1.09,
+            9
+        )->unfoldUsing(
+            IsList::apply()->unfoldUsing([])
+        );
+
         AssertEquals::applyWith(
             $expected,
             "boolean",
-            // jumps are from adding filter use
-            0.94, // 0.8, // 0.68, // 0.61, // 0.58, // 0.51, // 0.46, // 0.39, // 0.36, // 0.27,
-            40 // 37 // 35 // 31 // 21 // 11
+            0.003,
+            1
         )->unfoldUsing(
-            IsDictionary::apply()->unfoldUsing(["a" => 1, "b" => 2, "c" => 3])
+            IsList::apply()->unfoldUsing([1, 2, 3])
+        );
+
+        AssertEquals::applyWith(
+            $expected,
+            "boolean",
+            0.002,
+            1
+        )->unfoldUsing(
+            IsList::apply()->unfoldUsing(["a" => 1, "b" => 2, "c" => 3])
         );
     }
 
@@ -44,100 +61,82 @@ class TypeIsDictionaryTest extends TestCase
         AssertEquals::applyWith(
             $expected,
             "boolean",
-            0.02, // 0.01,
+            0.004,
             1
         )->unfoldUsing(
-            IsDictionary::apply()->unfoldUsing(1)
+            IsList::apply()->unfoldUsing(1)
         );
 
         AssertEquals::applyWith(
             $expected,
             "boolean",
-            0.03, // 0.01,
+            0.002,
             1
         )->unfoldUsing(
-            IsDictionary::apply()->unfoldUsing(1.0)
+            IsList::apply()->unfoldUsing(1.0)
         );
 
         AssertEquals::applyWith(
             $expected,
             "boolean",
-            0.02, // 0.01,
+            0.001,
             1
         )->unfoldUsing(
-            IsDictionary::apply()->unfoldUsing(1.1)
+            IsList::apply()->unfoldUsing(1.1)
         );
 
         AssertEquals::applyWith(
             $expected,
             "boolean",
-            0.02, // 0.01,
+            0.001,
             1
         )->unfoldUsing(
-            IsDictionary::apply()->unfoldUsing(true)
+            IsList::apply()->unfoldUsing(true)
         );
 
         AssertEquals::applyWith(
             $expected,
             "boolean",
-            0.02, // 0.01,
+            0.001,
             1
         )->unfoldUsing(
-            IsDictionary::apply()->unfoldUsing(false)
+            IsList::apply()->unfoldUsing(false)
         );
 
         AssertEquals::applyWith(
             $expected,
             "boolean",
-            0.44, // 0.36,
-            14
+            0.001,
+            1
         )->unfoldUsing(
-            IsDictionary::apply()->unfoldUsing("")
+            IsList::apply()->unfoldUsing("")
         );
 
         AssertEquals::applyWith(
             $expected,
             "boolean",
-            0.02, // 0.01,
+            0.002,
             1
         )->unfoldUsing(
-            IsDictionary::apply()->unfoldUsing("hello")
+            IsList::apply()->unfoldUsing("hello")
         );
 
         AssertEquals::applyWith(
             $expected,
             "boolean",
-            0.1, // 0.02, // 0.01,
+            0.002,
             1
         )->unfoldUsing(
-            IsDictionary::apply()->unfoldUsing([])
+            IsList::apply()->unfoldUsing(new stdClass)
         );
 
         AssertEquals::applyWith(
             $expected,
             "boolean",
-            0.02, // 0.01,
+            0.002,
             1
         )->unfoldUsing(
-            IsDictionary::apply()->unfoldUsing([1, 2, 3])
-        );
-
-        AssertEquals::applyWith(
-            $expected,
-            "boolean",
-            0.02, // 0.01,
-            1
-        )->unfoldUsing(
-            IsDictionary::apply()->unfoldUsing(new stdClass)
-        );
-
-        AssertEquals::applyWith(
-            $expected,
-            "boolean",
-            0.02, // 0.01,
-            1
-        )->unfoldUsing(
-            IsDictionary::apply()->unfoldUsing(new class {
+            IsList::apply()->unfoldUsing(new class {
                 public $hello = "world";
             })
         );
@@ -145,19 +144,19 @@ class TypeIsDictionaryTest extends TestCase
         AssertEquals::applyWith(
             $expected,
             "boolean",
-            0.02, // 0.01,
+            0.001,
             1
         )->unfoldUsing(
-            IsDictionary::apply()->unfoldUsing('{}')
+            IsList::apply()->unfoldUsing('{}')
         );
 
         AssertEquals::applyWith(
             $expected,
             "boolean",
-            0.02, // 0.01,
+            0.002,
             1
         )->unfoldUsing(
-            IsDictionary::apply()->unfoldUsing(new class {
+            IsList::apply()->unfoldUsing(new class {
                 private $hello = "world";
             })
         );
@@ -165,10 +164,10 @@ class TypeIsDictionaryTest extends TestCase
         AssertEquals::applyWith(
             $expected,
             "boolean",
-            0.02, // 0.01,
+            0.001,
             1
         )->unfoldUsing(
-            IsDictionary::apply()->unfoldUsing(
+            IsList::apply()->unfoldUsing(
                 new class {
                     public function test(): void
                     {}

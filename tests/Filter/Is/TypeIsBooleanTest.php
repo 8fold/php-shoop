@@ -1,6 +1,6 @@
 <?php
 
-namespace Eightfold\Shoop\Tests\Filter\Unit;
+namespace Eightfold\Shoop\Tests\Filter\Is;
 
 use PHPUnit\Framework\TestCase;
 use Eightfold\Foldable\Tests\PerformantEqualsTestFilter as AssertEquals;
