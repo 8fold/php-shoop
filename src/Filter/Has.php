@@ -7,6 +7,12 @@ use Eightfold\Foldable\Filter;
 
 use Eightfold\Shoop\Shoop;
 
+use Eightfold\Shoop\Filter\TypeJuggling\AsDictionary;
+
+use Eightfold\Shoop\Filter\Is;
+use Eightfold\Shoop\Filter\Is\IsIdenticalTo;
+use Eightfold\Shoop\Filter\Is\IsGreaterThan;
+
 /**
  * @todo invocation, implement __callStatic to reach HasMethods: Has::methods()->unfoldUsing($using)
  *
@@ -22,10 +28,56 @@ class Has extends Filter
 {
     public function __invoke($using)
     {
+        if (Is::object(false)->unfoldUsing($using)) {
+            if (Is::object()->unfoldUsing($using)) {
+                return static::fromObject($using);
+            }
+            return static::fromTuple($using, ...$this->args(true));
+
+        // } elseif (Is::boolean()->unfoldUsing($using)) {
+        //     return static::fromBoolean($using);
+
+        } elseif (Is::number()->unfoldUsing($using)) {
+            return static::fromNumber($using, ...$this->args(true));
+
+        } elseif (Is::list()->unfoldUsing($using)) {
+            return static::fromList($using, ...$this->args(true));
+
+        } elseif (Is::string()->unfoldUsing($using)) {
+            if (Is::json()->unfoldUsing($using)) {
+                return static::fromJson($using);
+            }
+            return static::fromString($using, ...$this->args(true));
+        }
+    }
+
+    // TODO: PHP 8 - int|float, int|float
+    static public function fromNumber($using, $compare): bool
+    {
+        if (IsIdenticalTo::fromNumber($using, $compare)) {
+            return true;
+
+        } elseif (IsGreaterThan::fromNumber($using, $compare)) {
+            return true;
+
+        }
+        return false;
     }
 
     static public function fromString(string $using, string $needle): bool
     {
         return strpos($using, $needle) !== false;
+    }
+
+    // TODO: PHP 8 - , mixed
+    static public function fromList(array $using, $needle): bool
+    {
+        return in_array($needle, $using, true);
+    }
+
+    static public function fromTuple($using, $needle): bool
+    {
+        $dictionary = AsDictionary::fromTuple($using);
+        return static::fromList($dictionary, $needle);
     }
 }

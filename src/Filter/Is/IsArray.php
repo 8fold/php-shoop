@@ -29,12 +29,12 @@ class IsArray extends Filter
         $members       = Members::fromList($using);
         $intMembers    = RetainUsing::fromList($members, "is_int");
         $membersCount  = Count::fromList($intMembers);
-        if (IsIdentical::fromNumber($membersCount, 0)) {
+        if (IsIdenticalTo::fromNumber($membersCount, 0)) {
             return false;
         }
 
         $firstIndex = First::fromList($members);
-        if (! IsIdentical::fromNumber($firstIndex, 0)) {
+        if (! IsIdenticalTo::fromNumber($firstIndex, 0)) {
             return false;
         }
 
@@ -42,6 +42,6 @@ class IsArray extends Filter
 
         $range = range($firstIndex, $lastIndex);
 
-        return IsIdentical::fromList($members, $range);
+        return IsIdenticalTo::fromList($members, $range);
     }
 }

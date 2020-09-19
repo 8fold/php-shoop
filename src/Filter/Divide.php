@@ -7,7 +7,7 @@ use Eightfold\Foldable\Filter;
 
 use Eightfold\Shoop\Shoop;
 
-use Eightfold\Shoop\Filter\Is\IsIdentical;
+use Eightfold\Shoop\Filter\Is\IsIdenticalTo;
 
 /**
  * @todo - invocation, rename to DivideBy
@@ -33,7 +33,7 @@ class Divide extends Filter
         int $count           = PHP_INT_MAX
     ): array
     {
-        if (IsIdentical::fromString($divisor, "")) {
+        if (IsIdenticalTo::fromString($divisor, "")) {
             return mb_str_split($using);
         }
         // $fromStartAndEnd = ($fromStart and $fromEnd) ? true : false;

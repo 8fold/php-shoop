@@ -26,7 +26,7 @@ class IsJson extends Filter
         ) {
             $lastError     = json_last_error();
             $expectedError = JSON_ERROR_NONE;
-            return IsIdentical::fromNumber($lastError, $expectedError);
+            return IsIdenticalTo::fromNumber($lastError, $expectedError);
         }
         return false;
     }

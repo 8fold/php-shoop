@@ -6,32 +6,16 @@ use Eightfold\Foldable\Tests\PerformantEqualsTestFilter as AssertEquals;
 
 use Eightfold\Shoop\Shooped;
 
+/**
+ * @version 1.0.0
+ */
 trait Appendable
 {
     /**
      * @test
-     * @group current
      */
     public function append()
     {
-        // AssertEquals::applyWith(
-        //     true,
-        //     "boolean",
-        //     0.001,
-        //     1
-        // )->unfoldUsing(
-        //     Shooped::fold(false)->append(1)
-        // );
-
-        // AssertEquals::applyWith(
-        //     false,
-        //     "boolean",
-        //     0.001,
-        //     1
-        // )->unfoldUsing(
-        //     Shooped::fold(false)->append(false)
-        // );
-
         AssertEquals::applyWith(
             2,
             "integer",

@@ -5,7 +5,7 @@ namespace Eightfold\Shoop\Filter;
 
 use Eightfold\Foldable\Filter;
 
-use Eightfold\Shoop\Filter\Is\IsIdentical;
+use Eightfold\Shoop\Filter\Is\IsIdenticalTo;
 
 /**
  * @todo - invocation
@@ -20,6 +20,6 @@ class StartsWith extends Filter
     {
         $prefixLength = Count::fromString($prefix);
         $usingFirst   = First::fromString($using, $prefixLength);
-        return IsIdentical::fromString($usingFirst, $prefix);
+        return IsIdenticalTo::fromString($usingFirst, $prefix);
     }
 }

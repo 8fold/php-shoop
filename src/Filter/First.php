@@ -5,7 +5,7 @@ namespace Eightfold\Shoop\Filter;
 
 use Eightfold\Foldable\Filter;
 
-use Eightfold\Shoop\Filter\Is\IsIdentical;
+use Eightfold\Shoop\Filter\Is\IsIdenticalTo;
 
 use Eightfold\Shoop\Filter\TypeJuggling\AsString;
 
@@ -23,7 +23,7 @@ class First extends Filter
         $array = Divide::fromString($using);
 
         $first = static::fromList($array, $length);
-        if (IsIdentical::fromNumber($length, 1)) {
+        if (IsIdenticalTo::fromNumber($length, 1)) {
             return $first;
         }
 
@@ -33,6 +33,6 @@ class First extends Filter
     static public function fromList(array $using, int $length = 1)
     {
         $build = From::fromList($using, 0, $length);
-        return (IsIdentical::fromNumber($length, 1)) ? $build[0] : $build;
+        return (IsIdenticalTo::fromNumber($length, 1)) ? $build[0] : $build;
     }
 }

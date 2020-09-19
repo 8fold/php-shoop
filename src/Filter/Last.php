@@ -5,7 +5,7 @@ namespace Eightfold\Shoop\Filter;
 
 use Eightfold\Foldable\Filter;
 
-use Eightfold\Shoop\Filter\Is\IsIdentical;
+use Eightfold\Shoop\Filter\Is\IsIdenticalTo;
 
 /**
  * @todo - invocation
@@ -21,7 +21,7 @@ class Last extends Filter
         $array = Divide::fromString($using);
 
         $last = static::fromList($array, $length);
-        if (IsIdentical::fromNumber($length, 1)) {
+        if (IsIdenticalTo::fromNumber($length, 1)) {
             return $last;
         }
 
@@ -35,6 +35,6 @@ class Last extends Filter
 
         $start = Minus::fromNumber($count, $length);
         $build = From::fromList($using, $start, $length);
-        return (IsIdentical::fromNumber($length, 1)) ? array_pop($build) : $build;
+        return (IsIdenticalTo::fromNumber($length, 1)) ? array_pop($build) : $build;
     }
 }

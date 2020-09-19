@@ -8,7 +8,7 @@ use Eightfold\Foldable\Filter;
 use Eightfold\Shoop\Shoop;
 use Eightfold\Shoop\Apply;
 
-use Eightfold\Shoop\Filter\Is\IsIdentical;
+use Eightfold\Shoop\Filter\Is\IsIdenticalTo;
 
 /**
  * @todo - invocation, applicable type methods
@@ -93,7 +93,7 @@ class At extends Filter
         }
 
         $count = Count::fromList($build);
-        $isOne = IsIdentical::fromNumber($count, 1);
+        $isOne = IsIdenticalTo::fromNumber($count, 1);
         return ($isOne) ? array_pop($build) : $build;
     }
 

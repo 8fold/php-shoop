@@ -5,7 +5,7 @@ namespace Eightfold\Shoop\Filter;
 
 use Eightfold\Foldable\Filter;
 
-use Eightfold\Shoop\Filter\Is\IsIdentical;
+use Eightfold\Shoop\Filter\Is\IsIdenticalTo;
 
 /**
  * @todo - invocation
@@ -20,6 +20,6 @@ class EndsWith extends Filter
     {
         $prefixLength = Count::fromString($suffix);
         $usingFirst   = Last::fromString($using, $prefixLength);
-        return IsIdentical::fromString($usingFirst, $suffix);
+        return IsIdenticalTo::fromString($usingFirst, $suffix);
     }
 }

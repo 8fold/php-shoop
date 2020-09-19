@@ -23,11 +23,11 @@ class IsDictionary extends Filter
         $members       = Members::fromList($using);
         $stringMembers = RetainUsing::fromList($members, "is_string");
         $membersCount  = Count::fromList($stringMembers);
-        if (IsIdentical::fromNumber($membersCount, 0)) {
+        if (IsIdenticalTo::fromNumber($membersCount, 0)) {
             return false;
         }
 
         $usingCount = Count::fromList($using);
-        return IsIdentical::fromNumber($usingCount, $membersCount);
+        return IsIdenticalTo::fromNumber($usingCount, $membersCount);
     }
 }

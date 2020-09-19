@@ -24,9 +24,7 @@ trait Associable
             Shooped::fold(true)->asDictionary()
         );
 
-        // TODO: Should arrays start at 1
         AssertEquals::applyWith(
-            // ["i1" => 1, "i2" => 2, "i3" => 3]
             ["0.0" => 3],
             "array",
             0.3, // 0.26, // 0.24,
@@ -35,7 +33,6 @@ trait Associable
             Shooped::fold(3)->asDictionary()
         );
 
-        // TODO: Should arrays start at 1
         AssertEquals::applyWith(
             ["0.0" => 2.5],
             "array",
@@ -161,58 +158,71 @@ trait Associable
 
     /**
      * @test
+     * @version 1.0.0
+     *
+     * Strict type checking is used
      */
     public function has()
     {
-        AssertEquals::applyWith(
-            // if no 0 - [true, false]
-            false,
-            "boolean",
-            12.66,
-            67
-        )->unfoldUsing(
-            Shooped::fold(true)->has(1)
-        );
+        // AssertEquals::applyWith(
+        //     // if no 0 - [true, false]
+        //     false,
+        //     "boolean",
+        //     12.66,
+        //     67
+        // )->unfoldUsing(
+        //     Shooped::fold(true)->has(1)
+        // );
+
+        // AssertEquals::applyWith(
+        //     true,
+        //     "boolean",
+        //     1.67
+        // )->unfoldUsing(
+        //     Shooped::fold(3)->has(3)
+        // );
 
         AssertEquals::applyWith(
             true,
             "boolean",
-            1.67
-        )->unfoldUsing(
-            Shooped::fold(3)->has(3)
-        );
-
-        AssertEquals::applyWith(
-            false,
-            "boolean"
+            5.68, // 2.67,
+            228 // 227
         )->unfoldUsing(
             Shooped::fold(2.5)->has(2)
         );
 
         AssertEquals::applyWith(
-            true,
-            "boolean"
+            false,
+            "boolean",
+            0.06, // 0.03, // 0.02,
+            1
         )->unfoldUsing(
-            Shooped::fold(2.5)->has(2.0)
+            Shooped::fold(2.5)->has(3.0)
         );
 
         AssertEquals::applyWith(
             true,
-            "boolean"
+            "boolean",
+            0.13,
+            2
         )->unfoldUsing(
             Shooped::fold([3, 1, 3])->has(3)
         );
 
         AssertEquals::applyWith(
             false,
-            "boolean"
+            "boolean",
+            0.02,
+            1
         )->unfoldUsing(
             Shooped::fold(["a" => 1, "b" => 3, "c" => 1])->has(5)
         );
 
         AssertEquals::applyWith(
             true,
-            "boolean"
+            "boolean",
+            0.12,
+            4
         )->unfoldUsing(
             Shooped::fold("Hi!")->has("!")
         );
@@ -220,7 +230,8 @@ trait Associable
         AssertEquals::applyWith(
             false,
             "boolean",
-            0.54
+            0.59,
+            33
         )->unfoldUsing(
             Shooped::fold((object) ["a" => 1, "c" => 3])->has(false)
         );
@@ -233,55 +244,65 @@ trait Associable
      */
     public function efHas()
     {
-        AssertEquals::applyWith(
-            // if no 0 - [true, false]
-            false,
-            "boolean",
-            9.11
-        )->unfoldUsing(
-            Shooped::fold(true)->efHas(1)
-        );
+        // AssertEquals::applyWith(
+        //     // if no 0 - [true, false]
+        //     false,
+        //     "boolean",
+        //     0.001,
+        //     1
+        // )->unfoldUsing(
+        //     Shooped::fold(true)->efHas(1)
+        // );
+
+        // AssertEquals::applyWith(
+        //     true,
+        //     "boolean",
+        //     0.53
+        // )->unfoldUsing(
+        //     Shooped::fold(3)->efHas(3)
+        // );
 
         AssertEquals::applyWith(
             true,
             "boolean",
-            0.53
-        )->unfoldUsing(
-            Shooped::fold(3)->efHas(3)
-        );
-
-        AssertEquals::applyWith(
-            false,
-            "boolean",
-            0.36
+            2.97, // 2.73,
+            228
         )->unfoldUsing(
             Shooped::fold(2.5)->efHas(2)
         );
 
         AssertEquals::applyWith(
-            true,
-            "boolean"
+            false,
+            "boolean",
+            0.03,
+            1
         )->unfoldUsing(
-            Shooped::fold(2.5)->efHas(2.0)
+            Shooped::fold(2.5)->efHas(3.0)
         );
 
         AssertEquals::applyWith(
             true,
-            "boolean"
+            "boolean",
+            0.09,
+            1
         )->unfoldUsing(
             Shooped::fold([3, 1, 3])->efHas(3)
         );
 
         AssertEquals::applyWith(
             false,
-            "boolean"
+            "boolean",
+            0.04, // 0.02,
+            1
         )->unfoldUsing(
             Shooped::fold(["a" => 1, "b" => 3, "c" => 1])->efHas(5)
         );
 
         AssertEquals::applyWith(
             true,
-            "boolean"
+            "boolean",
+            0.15, // 0.1,
+            4
         )->unfoldUsing(
             Shooped::fold("Hi!")->efHas("!")
         );
@@ -289,7 +310,8 @@ trait Associable
         AssertEquals::applyWith(
             false,
             "boolean",
-            0.96
+            0.55, // 0.46,
+            33
         )->unfoldUsing(
             Shooped::fold((object) ["a" => 1, "c" => 3])->efHas(false)
         );
@@ -302,27 +324,28 @@ trait Associable
      */
     public function hasAt()
     {
+        // AssertEquals::applyWith(
+        //     true,
+        //     "boolean",
+        //     3.38, // 3.35 // 3.03
+        //     81 // 79 // 16 // 15
+        // )->unfoldUsing(
+        //     Shooped::fold(true)->hasAt(1)
+        // );
+
+        // AssertEquals::applyWith(
+        //     false,
+        //     "boolean",
+        //     1.5 // 1.16 // 0.92 // 0.9 // 0.59 // 0.52 // 0.51 // 0.5 // 0.48
+        // )->unfoldUsing(
+        //     Shooped::fold(3)->hasAt(4)
+        // );
+
         AssertEquals::applyWith(
             true,
             "boolean",
-            3.38, // 3.35 // 3.03
-            81 // 79 // 16 // 15
-        )->unfoldUsing(
-            Shooped::fold(true)->hasAt(1)
-        );
-
-        AssertEquals::applyWith(
-            false,
-            "boolean",
-            1.5 // 1.16 // 0.92 // 0.9 // 0.59 // 0.52 // 0.51 // 0.5 // 0.48
-        )->unfoldUsing(
-            Shooped::fold(3)->hasAt(4)
-        );
-
-        AssertEquals::applyWith(
-            true,
-            "boolean",
-            1.57 // 0.75 // 0.7 // 0.63
+            16.14,
+            239 // 238
         )->unfoldUsing(
             Shooped::fold(2.5)->hasAt(2)
         );
@@ -330,7 +353,8 @@ trait Associable
         AssertEquals::applyWith(
             false,
             "boolean",
-            1.16 // 0.78 // 0.69
+            1.82, // 0.79,
+            16 // 6
         )->unfoldUsing(
             Shooped::fold([3, 1, 3])->hasAt(4)
         );
@@ -338,7 +362,8 @@ trait Associable
         AssertEquals::applyWith(
             true,
             "boolean",
-            0.85, // 0.84 // 0.59 // 0.54 // 0.53 // 0.52 // 0.5 // 0.46 // 0.4
+            0.94, // 0.03,
+            17
         )->unfoldUsing(
             Shooped::fold(["a" => 1, "b" => 3, "c" => 1])->hasAt("c")
         );
@@ -346,23 +371,17 @@ trait Associable
         AssertEquals::applyWith(
             true,
             "boolean",
-            1.82 // 1.19 // 1.15 // 1.04 // 0.81 // 0.8 // 0.55
+            0.13, // 0.12, // 0.11,
+            4
         )->unfoldUsing(
             Shooped::fold("Hi!")->hasAt(2)
         );
 
         AssertEquals::applyWith(
-            true,
-            "boolean",
-            1.06, // 0.98 // 0.95 // 0.82 // 0.78 // 0.72 // 0.69 // 0.59 // 0.56 // 0.53
-        )->unfoldUsing(
-            Shooped::fold("Hi!")->hasAt("content")
-        );
-
-        AssertEquals::applyWith(
             false,
             "boolean",
-            1.12, // 1.03 // 0.61 // 0.51 // 0.5
+            0.31, // 0.3,
+            11
         )->unfoldUsing(
             Shooped::fold((object) ["a" => 1, "c" => 3])->hasAt("b")
         );

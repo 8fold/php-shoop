@@ -18,7 +18,7 @@ class IsInteger extends Filter
             }
 
             $floor = floor($using);
-            return IsIdentical::fromNumber($using, $floor);
+            return IsIdenticalTo::fromNumber($using, $floor);
         }
         return false;
     }
