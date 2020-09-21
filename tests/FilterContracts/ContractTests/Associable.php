@@ -394,18 +394,20 @@ trait Associable
      */
     public function offsetExists()
     {
-        AssertEquals::applyWith(
-            true,
-            "boolean",
-            16.54 // 11.44
-        )->unfoldUsing(
-            Shooped::fold(true)->offsetExists(1)
-        );
+        // AssertEquals::applyWith(
+        //     true,
+        //     "boolean",
+        //     0.001,
+        //     1
+        // )->unfoldUsing(
+        //     Shooped::fold(true)->offsetExists(1)
+        // );
 
         AssertEquals::applyWith(
             true,
             "boolean",
-            4.27 // 1.46 // 1.03 // 0.9 // 0.82 // 0.68
+            12.57,
+            239
         )->unfoldUsing(
             Shooped::fold(3)->offsetExists(3)
         );
@@ -413,7 +415,8 @@ trait Associable
         AssertEquals::applyWith(
             false,
             "boolean",
-            2.58 // 1.16 // 1.12 // 0.66 // 0.61 // 0.59 // 0.51 // 0.4
+            0.03, // 0.02,
+            1
         )->unfoldUsing(
             Shooped::fold(2.5)->offsetExists(3)
         );
@@ -421,7 +424,8 @@ trait Associable
         AssertEquals::applyWith(
             true,
             "boolean",
-            0.99, // 0.84, // 0.83 // 0.64 // 0.62 // 0.59 // 0.54 // 0.51
+            1.58,
+            16
         )->unfoldUsing(
             Shooped::fold([3, 1, 3])->offsetExists(2)
         );
@@ -429,7 +433,8 @@ trait Associable
         AssertEquals::applyWith(
             false,
             "boolean",
-            0.8, // 0.68 // 0.67 // 0.63 // 0.52
+            0.95,
+            17
         )->unfoldUsing(
             Shooped::fold(["a" => 1, "b" => 3, "c" => 1])->offsetExists("d")
         );
@@ -437,7 +442,8 @@ trait Associable
         AssertEquals::applyWith(
             false,
             "boolean",
-            1.19, // 1.18, // 1.15, // 1.14, // 1.09 // 0.87 // 0.54 // 0.52 // 0.48
+            0.13,
+            4
         )->unfoldUsing(
             Shooped::fold("Hi!")->offsetExists(4)
         );
@@ -445,7 +451,8 @@ trait Associable
         AssertEquals::applyWith(
             true,
             "boolean",
-            1.47, // 1.18 // 0.94 // 0.79 // 0.78 // 0.72 // 0.67
+            0.03,
+            1
         )->unfoldUsing(
             Shooped::fold("Hi!")->offsetExists(0)
         );
@@ -453,7 +460,8 @@ trait Associable
         AssertEquals::applyWith(
             true,
             "boolean",
-            1.33 // 0.81 // 0.75 // 0.63 // 0.61
+            1.61,
+            11
         )->unfoldUsing(
             Shooped::fold((object) ["a" => 1, "c" => 3])->offsetExists("a")
         );
@@ -466,42 +474,44 @@ trait Associable
      */
     public function _at()
     {
-        AssertEquals::applyWith(
-            true,
-            "boolean",
-            10.5,
-            230
-        )->unfoldUsing(
-            Shooped::fold(true)->at(1)
-        );
+        // AssertEquals::applyWith(
+        //     true,
+        //     "boolean",
+        //     10.5,
+        //     230
+        // )->unfoldUsing(
+        //     Shooped::fold(true)->at(1)
+        // );
 
-        AssertEquals::applyWith(
-            3,
-            "integer",
-            0.61 // 0.6 // 0.51
-        )->unfoldUsing(
-            Shooped::fold(3)->at(3)
-        );
+        // AssertEquals::applyWith(
+        //     3,
+        //     "integer",
+        //     0.61 // 0.6 // 0.51
+        // )->unfoldUsing(
+        //     Shooped::fold(3)->at(3)
+        // );
 
-        AssertEquals::applyWith(
-            2.0,
-            "double",
-            0.38 // 0.35
-        )->unfoldUsing(
-            Shooped::fold(2.5)->at([2, 3])
-        );
+        // AssertEquals::applyWith(
+        //     2.0,
+        //     "double",
+        //     0.38 // 0.35
+        // )->unfoldUsing(
+        //     Shooped::fold(2.5)->at([2, 3])
+        // );
 
-        AssertEquals::applyWith(
-            [1.0, 2.0],
-            "array",
-            2.01 // 0.44 // 0.35 // 0.32
-        )->unfoldUsing(
-            Shooped::fold(2.5)->at([1, 2, 3])
-        );
+        // AssertEquals::applyWith(
+        //     [1.0, 2.0],
+        //     "array",
+        //     2.01 // 0.44 // 0.35 // 0.32
+        // )->unfoldUsing(
+        //     Shooped::fold(2.5)->at([1, 2, 3])
+        // );
 
         AssertEquals::applyWith(
             1,
-            "integer"
+            "integer",
+            5.23, // 3.42, // 2.95, // 2.93, // 2.76, // 2.53,
+            223
         )->unfoldUsing(
             Shooped::fold([3, 1, 3])->at(1)
         );
@@ -509,8 +519,8 @@ trait Associable
         AssertEquals::applyWith(
             3,
             "integer",
-            2.6, // 2.3 // 2.17
-            210
+            0.03,
+            1
         )->unfoldUsing(
             Shooped::fold(["a" => 1, "b" => 3, "c" => 1])->at("b")
         );
@@ -518,25 +528,17 @@ trait Associable
         AssertEquals::applyWith(
             "H",
             "string",
-            0.57,
-            19
+            0.2,
+            6
         )->unfoldUsing(
             Shooped::fold("Hi!")->at(0)
         );
 
         AssertEquals::applyWith(
-            "Hi!",
-            "string",
-            3.83,
-            11
-        )->unfoldUsing(
-            Shooped::fold("Hi!")->at("content")
-        );
-
-        AssertEquals::applyWith(
             1,
             "integer",
-            0.47, // 0.45, // 0.44 // 0.43 // 0.42 // 0.41 // 0.37
+            2.99,
+            257
         )->unfoldUsing(
             Shooped::fold((object) ["a" => 1, "c" => 3])->at("a")
         );
@@ -549,41 +551,43 @@ trait Associable
      */
     public function offsetGet()
     {
-        AssertEquals::applyWith(
-            true,
-            "boolean",
-            3.51
-        )->unfoldUsing(
-            Shooped::fold(true)->offsetGet(1)
-        );
+        // AssertEquals::applyWith(
+        //     true,
+        //     "boolean",
+        //     3.51
+        // )->unfoldUsing(
+        //     Shooped::fold(true)->offsetGet(1)
+        // );
 
-        AssertEquals::applyWith(
-            3,
-            "integer",
-            0.38 // 0.35 // 0.34 // 0.32
-        )->unfoldUsing(
-            Shooped::fold(3)->offsetGet(3)
-        );
+        // AssertEquals::applyWith(
+        //     3,
+        //     "integer",
+        //     0.38 // 0.35 // 0.34 // 0.32
+        // )->unfoldUsing(
+        //     Shooped::fold(3)->offsetGet(3)
+        // );
 
-        AssertEquals::applyWith(
-            2.0,
-            "double",
-            0.41 // 0.31
-        )->unfoldUsing(
-            Shooped::fold(2.5)->offsetGet([2, 3])
-        );
+        // AssertEquals::applyWith(
+        //     2.0,
+        //     "double",
+        //     0.41 // 0.31
+        // )->unfoldUsing(
+        //     Shooped::fold(2.5)->offsetGet([2, 3])
+        // );
 
-        AssertEquals::applyWith(
-            [1.0, 2.0],
-            "array",
-            0.64 // 0.51 // 0.36
-        )->unfoldUsing(
-            Shooped::fold(2.5)->offsetGet([1, 2, 3])
-        );
+        // AssertEquals::applyWith(
+        //     [1.0, 2.0],
+        //     "array",
+        //     0.64 // 0.51 // 0.36
+        // )->unfoldUsing(
+        //     Shooped::fold(2.5)->offsetGet([1, 2, 3])
+        // );
 
         AssertEquals::applyWith(
             1,
-            "integer"
+            "integer",
+            2.91,
+            223
         )->unfoldUsing(
             Shooped::fold([3, 1, 3])->offsetGet(1)
         );
@@ -591,7 +595,8 @@ trait Associable
         AssertEquals::applyWith(
             3,
             "integer",
-            0.32 // 0.31
+            0.02,
+            1
         )->unfoldUsing(
             Shooped::fold(["a" => 1, "b" => 3, "c" => 1])->offsetGet("b")
         );
@@ -599,23 +604,26 @@ trait Associable
         AssertEquals::applyWith(
             "H",
             "string",
-            0.34, // 0.33 // 0.31
+            0.16,
+            6
         )->unfoldUsing(
             Shooped::fold("Hi!")->offsetGet(0)
         );
 
-        AssertEquals::applyWith(
-            "Hi!",
-            "string",
-            0.52 // 0.31
-        )->unfoldUsing(
-            Shooped::fold("Hi!")->offsetGet("content")
-        );
+        // AssertEquals::applyWith(
+        //     "Hi!",
+        //     "string",
+        //     0.001,
+        //     1
+        // )->unfoldUsing(
+        //     Shooped::fold("Hi!")->offsetGet("content")
+        // );
 
         AssertEquals::applyWith(
             1,
             "integer",
-            3.66 // 0.33
+            0.46, // 0.39,
+            29
         )->unfoldUsing(
             Shooped::fold((object) ["a" => 1, "c" => 3])->offsetGet("a")
         );
@@ -626,94 +634,96 @@ trait Associable
     /**
      * @test
      */
-    public function plusAt()
+    public function insertAt()
     {
-        AssertEquals::applyWith(
-            true,
-            "boolean",
-            4.58,
-            103 // 39
-        )->unfoldUsing(
-            Shooped::fold(false)->plusAt(1)
-        );
+        // AssertEquals::applyWith(
+        //     true,
+        //     "boolean",
+        //     4.58,
+        //     103 // 39
+        // )->unfoldUsing(
+        //     Shooped::fold(false)->insertAt(1)
+        // );
+
+        // AssertEquals::applyWith(
+        //     false,
+        //     "boolean"
+        // )->unfoldUsing(
+        //     Shooped::fold(true)->insertAt(-1)
+        // );
+
+        // AssertEquals::applyWith(
+        //     6,
+        //     "integer"
+        // )->unfoldUsing(
+        //     Shooped::fold(3)->insertAt(3)
+        // );
+
+        // AssertEquals::applyWith(
+        //     3.5,
+        //     "double"
+        // )->unfoldUsing(
+        //     Shooped::fold(2.5)->insertAt(1)
+        // );
 
         AssertEquals::applyWith(
-            false,
-            "boolean"
-        )->unfoldUsing(
-            Shooped::fold(true)->plusAt(-1)
-        );
-
-        AssertEquals::applyWith(
-            6,
-            "integer"
-        )->unfoldUsing(
-            Shooped::fold(3)->plusAt(3)
-        );
-
-        AssertEquals::applyWith(
-            3.5,
-            "double"
-        )->unfoldUsing(
-            Shooped::fold(2.5)->plusAt(1)
-        );
-
-        AssertEquals::applyWith(
-            [3, 1, 3, 1],
+            [1, 3, 1, 3],
             "array",
-            9.52,
-            78 // 14
+            3.39, // 3.24, // 3.07, // 2.88, // 2.79,
+            254 // 253
         )->unfoldUsing(
-            Shooped::fold([3, 1, 3])->plusAt(1)
+            Shooped::fold([3, 1, 3])->insertAt(1, -1)
         );
 
-        AssertEquals::applyWith(
-            [1, 1, 3],
-            "array",
-            3.42 // 3.26
-        )->unfoldUsing(
-            Shooped::fold([3, 1, 3])->plusAt(1, 0)
-        );
+        // AssertEquals::applyWith(
+        //     [1, 1, 3],
+        //     "array",
+        //     3.42 // 3.26
+        // )->unfoldUsing(
+        //     Shooped::fold([3, 1, 3])->insertAt(1, 0)
+        // );
 
-        AssertEquals::applyWith(
-            [1, 1, 3],
-            "array",
-            1.19
-        )->unfoldUsing(
-            Shooped::fold([3, 1, 3])->plusAt(1, 0, true)
-        );
+        // AssertEquals::applyWith(
+        //     [1, 1, 3],
+        //     "array",
+        //     1.19
+        // )->unfoldUsing(
+        //     Shooped::fold([3, 1, 3])->insertAt(1, 0)
+        // );
 
-        AssertEquals::applyWith(
-            ["a" => 1, "c" => 3, "b" => 2],
-            "array",
-            1.88
-        )->unfoldUsing(
-            Shooped::fold(["a" => 1, "c" => 3])->plusAt(2, "b")
-        );
+        // AssertEquals::applyWith(
+        //     ["a" => 1, "c" => 3, "b" => 2],
+        //     "array",
+        //     1.88
+        // )->unfoldUsing(
+        //     Shooped::fold(["a" => 1, "c" => 3])->insertAt(2, "b")
+        // );
 
         AssertEquals::applyWith(
             "Hi!",
             "string",
-            1.14 // 1.12
+            0.39, // 0.31,
+            21
         )->unfoldUsing(
-            Shooped::fold("H!")->plusAt("Hi", 0)
+            Shooped::fold("!")->insertAt("Hi", -1)
         );
 
         AssertEquals::applyWith(
             "Ho!",
             "string",
-            1.83 // 0.71 // 0.68 // 0.6
+            0.04, // 0.03,
+            1
         )->unfoldUsing(
-            Shooped::fold("Hi!")->plusAt("o", 1, true)
+            Shooped::fold("Hi!")->insertAt("o", 1)
         );
 
         AssertEquals::applyWith(
             (object) ["a" => 2, "c" => 3],
             "object",
-            0.71,
-            12
+            1.24,
+            29
         )->unfoldUsing(
-            Shooped::fold((object) ["a" => 1, "c" => 3])->plusAt(2, "a", true)
+            Shooped::fold((object) ["a" => 1, "c" => 3])->insertAt(2, "a")
         );
 
         // TODO: Objects
@@ -731,77 +741,87 @@ trait Associable
     /**
      * @test
      */
-    public function minusAt()
+    public function removeAt()
     {
-        AssertEquals::applyWith(
-            true,
-            "boolean",
-            3.46,
-            77 // 13
-        )->unfoldUsing(
-            Shooped::fold(false)->minusAt(1)
-        );
+        // AssertEquals::applyWith(
+        //     true,
+        //     "boolean",
+        //     0.001,
+        //     1
+        // )->unfoldUsing(
+        //     Shooped::fold(false)->removeAt(1)
+        // );
 
-        AssertEquals::applyWith(
-            false,
-            "boolean",
-            0.58 // 0.41 // 0.35 // 0.33
-        )->unfoldUsing(
-            Shooped::fold(true)->minusAt("true")
-        );
+        // AssertEquals::applyWith(
+        //     false,
+        //     "boolean",
+        //     0.001,
+        //     1
+        // )->unfoldUsing(
+        //     Shooped::fold(true)->removeAt("true")
+        // );
 
-        AssertEquals::applyWith(
-            false,
-            "boolean",
-            0.76 // 0.42 // 0.34 // 0.33
-        )->unfoldUsing(
-            Shooped::fold(false)->minusAt(0)
-        );
+        // AssertEquals::applyWith(
+        //     false,
+        //     "boolean",
+        //     0.001,
+        //     1
+        // )->unfoldUsing(
+        //     Shooped::fold(false)->removeAt(0)
+        // );
 
-        AssertEquals::applyWith(
-            0,
-            "integer",
-            0.84, // 0.71 // 0.62
-            88 // 24 // 19
-        )->unfoldUsing(
-            Shooped::fold(3)->minusAt(3)
-        );
+        // AssertEquals::applyWith(
+        //     0,
+        //     "integer",
+        //     0.001,
+        //     1
+        // )->unfoldUsing(
+        //     Shooped::fold(3)->removeAt(3)
+        // );
 
-        AssertEquals::applyWith(
-            1.5,
-            "double"
-        )->unfoldUsing(
-            Shooped::fold(2.5)->minusAt(1)
-        );
+        // AssertEquals::applyWith(
+        //     1.5,
+        //     "double",
+        //     0.001,
+        //     1
+        // )->unfoldUsing(
+        //     Shooped::fold(2.5)->removeAt(1)
+        // );
 
         AssertEquals::applyWith(
             [3, 3],
-            "array"
+            "array",
+            4.41, // 3.45, // 3.09, // 2.94, // 2.76, // 2.75, // 2.65, // 2.43,
+            257 // 254 // 253 // 252
         )->unfoldUsing(
-            Shooped::fold([3, 1, 3])->minusAt(1)
+            Shooped::fold([3, 1, 3])->removeAt(1)
         );
 
         AssertEquals::applyWith(
             ["a" => 1],
-            "array"
+            "array",
+            0.03,
+            1
         )->unfoldUsing(
-            Shooped::fold(["a" => 1, "c" => 3])->minusAt("c")
+            Shooped::fold(["a" => 1, "c" => 3])->removeAt("c")
         );
 
         AssertEquals::applyWith(
             "H!",
             "string",
-            0.53 // 0.5 // 0.41 // 0.4 // 0.37 // 0.31
+            0.13, // 0.11,
+            4
         )->unfoldUsing(
-            Shooped::fold("Hi!")->minusAt(1)
+            Shooped::fold("Hi!")->removeAt(1)
         );
 
         AssertEquals::applyWith(
             (object) ["c" => 3],
             "object",
-            1.11
+            0.71,
+            46
         )->unfoldUsing(
-            Shooped::fold((object) ["a" => 1, "c" => 3])->minusAt("a")
+            Shooped::fold((object) ["a" => 1, "c" => 3])->removeAt("a")
         );
 
         // TODO: Objects
@@ -818,6 +838,7 @@ trait Associable
 
     /**
      * @test
+     * @group current
      */
     public function php_iterator()
     {

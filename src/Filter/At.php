@@ -10,6 +10,10 @@ use Eightfold\Shoop\Apply;
 
 use Eightfold\Shoop\Filter\Is\IsIdenticalTo;
 
+use Eightfold\Shoop\Filter\TypeJuggling\AsDictionary;
+use Eightfold\Shoop\Filter\TypeJuggling\AsArray;
+use Eightfold\Shoop\Filter\TypeJuggling\AsString;
+
 /**
  * @todo - invocation, applicable type methods
  */
@@ -17,95 +21,46 @@ class At extends Filter
 {
     public function __invoke($using)
     {
-        // $main = $this->main;
-        // if (! TypeIs::applyWith("list")->unfoldUsing($this->main)) {
-        //     $main = [$this->main];
-        // }
+        if (Is::object(false)->unfoldUsing($using)) {
+            if (Is::object()->unfoldUsing($using)) {
+                return static::fromObject($using);
+            }
+            return static::fromTuple($using, $this->main);
 
-        // if (TypeIs::applyWith("boolean")->unfoldUsing($using) or
-        //     TypeIs::applyWith("number")->unfoldUsing($using)
-        // ) {
-        //     // TODO: There should be a way to make this generic -
-        //     //      casting to array for dictionary based on whether a given
-        //     //      key is an integer or string
-        //     return Shoop::pipe($using,
-        //         (is_int($main[0]))
-        //             ? TypeAsArray::apply()
-        //             : TypeAsDictionary::apply(),
-        //         At::applyWith($main),
-        //     )->unfold();
+        // } elseif (Is::boolean()->unfoldUsing($using)) {
+        //     return static::fromBoolean($using);
 
-        // } elseif (TypeIs::applyWith("list")->unfoldUsing($using)) {
-        //     $result = $this->atFromList($using, $main);
-        //     if (TypeAsInteger::apply()->unfoldUsing($result) === 1) {
-        //         return Apply::from(0, 1)->unfoldUsing($result);
-        //         // return array_shift($result); // TODO: Make Filter - First
+        // } elseif (Is::number()->unfoldUsing($using)) {
+        //     return static::fromNumber($using, ...$this->args(true));
 
-        //     } elseif (TypeIs::applyWith("array")->unfoldUsing($using)) {
-        //         return TypeAsArray::apply()->unfoldUsing($result);
+        } elseif (Is::list()->unfoldUsing($using)) {
+            return static::fromList($using, $this->main);
 
-        //     }
-        //     return $result;
-
-        // } elseif (TypeIs::applyWith("string")->unfoldUsing($using)) {
-        //     if (is_string($this->main)) {
-        //         return Shoop::pipe($using,
-        //             TypeAsDictionary::apply(),
-        //             At::applyWith($main)
-        //         )->unfold();
-        //     }
-        //     return Shoop::pipe($using,
-        //         TypeAsArray::apply(),
-        //         At::applyWith($main)
-        //     )->unfold();
-
-        // } elseif (TypeIs::applyWith("tuple")->unfoldUsing($using)) {
-        //     $result = Shoop::pipe($using,
-        //         (is_int($main[0]))
-        //             ? TypeAsArray::apply()
-        //             : TypeAsDictionary::apply(),
-        //         At::applyWith($main)
-        //     )->unfold();
-
-        //     if (TypeAsInteger::apply()->unfoldUsing($result) === 1) {
-        //         return $result; // TODO: Make Filter - First
-
-        //     }
-        //     return TypeAsTuple::apply()->unfoldUsing($result);
-
-        // } else {
-        //     return Shoop::pipe($using,
-        //         TypeAsArray::apply(),
-        //         At::applyWith($this->main)
-        //     )->unfold();
-
-        // }
+        } elseif (Is::string()->unfoldUsing($using)) {
+            if (Is::json()->unfoldUsing($using)) {
+                return static::fromTuple($using, $this->main);
+            }
+            return static::fromString($using, $this->main);
+        }
     }
 
-    static public function fromDictionary(array $using, array $members)
+    static public function fromString(string $using, int $position)
     {
-        $build = [];
-        foreach ($members as $member) {
-            if (isset($using[$member])) {
-                $build[$member] = $using[$member];
-
-            }
-        }
-
-        $count = Count::fromList($build);
-        $isOne = IsIdenticalTo::fromNumber($count, 1);
-        return ($isOne) ? array_pop($build) : $build;
+        $string = Divide::fromString($using);
+        return static::fromList($string, $position);
     }
 
-    static private function fromList(array $using, array $members)
+    /**
+     * @todo PHP 8 - , int|string
+     */
+    static public function fromList(array $using, $member)
     {
-        $build = [];
-        foreach ($members as $member) {
-            if (isset($using[$member])) {
-                $build[$member] = $using[$member];
+        return $using[$member];
+    }
 
-            }
-        }
-        return $build;
+    static public function fromTuple($using, string $member)
+    {
+        $dictionary = AsDictionary::fromTuple($using);
+        return static::fromList($dictionary, $member);
     }
 }

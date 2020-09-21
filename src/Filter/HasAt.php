@@ -12,7 +12,7 @@ use Eightfold\Shoop\Filter\TypeJuggling\AsArray;
 use Eightfold\Shoop\Filter\TypeJuggling\AsDictionary;
 
 /**
- * @todo - invocation (use Members -> Has::fromList)
+ * @todo - rename HasMember
  *
  * Return whether a content or collection type `Has` one or more values `At` the specified location(s).
  *

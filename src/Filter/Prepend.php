@@ -10,7 +10,7 @@ use Eightfold\Shoop\Shoop;
 use Eightfold\Shoop\Apply;
 
 /**
- * @todo Test - rename PlusAt to InsertAt with default of PHP_MAX_INT, invocation; call from here w/ -1
+ * @todo Test
  */
 class Prepend extends Filter
 {
@@ -76,6 +76,11 @@ class Prepend extends Filter
 
     static public function fromString(string $using, string $prefix): string
     {
-        return $prefix . $using;
+        return Append::fromString($prefix, $using);
+    }
+
+    static public function fromList(array $using, array $prefix)
+    {
+        return Append::fromList($prefix, $using);
     }
 }

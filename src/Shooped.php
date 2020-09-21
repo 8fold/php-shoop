@@ -138,13 +138,12 @@ class Shooped implements ShoopedInterface
         return $this->at($offset)->unfold();
     }
 
-    public function plusAt(
+    public function insertAt(
         $value, // mixed
-        $member = PHP_INT_MAX, // int|string
-        bool $overwrite = false
+        $member = PHP_INT_MAX // int|string
     ): Associable
     {
-        $this->main = Apply::plusAt($value, $member, $overwrite)
+        $this->main = Apply::insertAt($value, $member)
             ->unfoldUsing($this->main);
         return $this;
     }
@@ -154,15 +153,15 @@ class Shooped implements ShoopedInterface
         $this->plusAt($value, $offset);
     }
 
-    public function minusAt($member): Associable
+    public function removeAt($member): Associable
     {
-        $this->main = Apply::minusAt($member)->unfoldUsing($this->main);
+        $this->main = Apply::removeAt($member)->unfoldUsing($this->main);
         return $this;
     }
 
     public function offsetUnset($offset): void // ArrayAcces
     {
-        $this->main = $this->minusAt($member);
+        $this->main = $this->removeAt($member);
     }
 
     private $temp;

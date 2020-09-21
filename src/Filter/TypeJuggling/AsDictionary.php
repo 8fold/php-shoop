@@ -111,7 +111,7 @@ class AsDictionary extends Filter
         }
 
         $members = Members::fromObject($using);
-        $props   = At::fromDictionary($members, ["properties"]);
+        $props   = At::fromList($members, "properties");
 
         $filter = function($v, $k) {
             return $v !== null and ! is_a($v, Closure::class);
