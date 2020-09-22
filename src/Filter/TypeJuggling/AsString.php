@@ -9,7 +9,8 @@ use Eightfold\Shoop\Shoop;
 
 use Eightfold\Shoop\Filter\Divide;
 use Eightfold\Shoop\Filter\Type;
-use Eightfold\Shoop\Filter\RetainUsing;
+
+use Eightfold\Shoop\Filter\Traverse\RetainUsing;
 
 use Eightfold\Shoop\Filter\Is;
 use Eightfold\Shoop\Filter\Implementing\IsStringable;

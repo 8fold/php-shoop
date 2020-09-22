@@ -93,6 +93,9 @@ class InsertAt extends Filter
             } elseif (IsIdenticalTo::applyWith(-1)->unfoldUsing($member)) {
                 return Prepend::fromList($using, $value);
 
+            } else {
+                $value = First::fromList($value);
+
             }
         }
         $using[$member] = $value;

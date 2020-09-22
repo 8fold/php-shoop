@@ -12,6 +12,7 @@ trait Associable
     /**
      * @test
      * @version 1.0.0
+     * @group Associable
      */
     public function asDictionary()
     {
@@ -19,7 +20,7 @@ trait Associable
             ["false" => false, "true" => true],
             "array",
             6.58,
-            226
+            253 // 226
         )->unfoldUsing(
             Shooped::fold(true)->asDictionary()
         );
@@ -27,8 +28,8 @@ trait Associable
         AssertEquals::applyWith(
             ["0.0" => 3],
             "array",
-            0.3, // 0.26, // 0.24,
-            10
+            0.43, // 0.41, // 0.37, // 0.3, // 0.26, // 0.24,
+            23 // 10
         )->unfoldUsing(
             Shooped::fold(3)->asDictionary()
         );
@@ -73,7 +74,7 @@ trait Associable
             ["a" => 1, "c" => 3],
             "array",
             3.25,
-            16
+            18 // 16
         )->unfoldUsing(
             Shooped::fold((object) ["a" => 1, "c" => 3])->asDictionary()
         );
@@ -84,6 +85,7 @@ trait Associable
     /**
      * @test
      * @version 1.0.0
+     * @group Associable
      */
     public function efToDictionary()
     {
@@ -100,7 +102,7 @@ trait Associable
         AssertEquals::applyWith(
             ["0.0" => 3],
             "array",
-            0.27, // 0.26, // 0.24,
+            0.45, // 0.27, // 0.26, // 0.24,
             10
         )->unfoldUsing(
             Shooped::fold(3)->efToDictionary()
@@ -120,7 +122,7 @@ trait Associable
         AssertEquals::applyWith(
             ["0.0" => 3, "1.0" => 1, "2.0" => 3],
             "array",
-            0.09, // 0.08,
+            0.1, // 0.09, // 0.08,
             2
         )->unfoldUsing(
             Shooped::fold([3, 1, 3])->efToDictionary()
@@ -148,7 +150,7 @@ trait Associable
             ["a" => 1, "c" => 3],
             "array",
             0.41, // 0.35,
-            16
+            18 // 16
         )->unfoldUsing(
             Shooped::fold((object) ["a" => 1, "c" => 3])->efToDictionary()
         );
@@ -159,6 +161,7 @@ trait Associable
     /**
      * @test
      * @version 1.0.0
+     * @group Associable
      *
      * Strict type checking is used
      */
@@ -241,6 +244,8 @@ trait Associable
 
     /**
      * @test
+     * @version 1.0.0
+     * @group Associable
      */
     public function efHas()
     {
@@ -321,6 +326,8 @@ trait Associable
 
     /**
      * @test
+     * @version 1.0.0
+     * @group Associable
      */
     public function hasAt()
     {
@@ -391,6 +398,8 @@ trait Associable
 
     /**
      * @test
+     * @version 1.0.0
+     * @group Associable
      */
     public function offsetExists()
     {
@@ -471,68 +480,37 @@ trait Associable
 
     /**
      * @test
+     * @version 1.0.0
+     * @group Associable
      */
     public function _at()
     {
         // AssertEquals::applyWith(
-        //     true,
-        //     "boolean",
-        //     10.5,
-        //     230
+        //     1,
+        //     "integer",
+        //     5.23, // 3.42, // 2.95, // 2.93, // 2.76, // 2.53,
+        //     242 // 223
         // )->unfoldUsing(
-        //     Shooped::fold(true)->at(1)
+        //     Shooped::fold([3, 1, 3])->at(1)
         // );
 
         // AssertEquals::applyWith(
         //     3,
         //     "integer",
-        //     0.61 // 0.6 // 0.51
+        //     0.03,
+        //     1
         // )->unfoldUsing(
-        //     Shooped::fold(3)->at(3)
+        //     Shooped::fold(["a" => 1, "b" => 3, "c" => 1])->at("b")
         // );
 
         // AssertEquals::applyWith(
-        //     2.0,
-        //     "double",
-        //     0.38 // 0.35
+        //     "H",
+        //     "string",
+        //     0.2,
+        //     6
         // )->unfoldUsing(
-        //     Shooped::fold(2.5)->at([2, 3])
+        //     Shooped::fold("Hi!")->at(0)
         // );
-
-        // AssertEquals::applyWith(
-        //     [1.0, 2.0],
-        //     "array",
-        //     2.01 // 0.44 // 0.35 // 0.32
-        // )->unfoldUsing(
-        //     Shooped::fold(2.5)->at([1, 2, 3])
-        // );
-
-        AssertEquals::applyWith(
-            1,
-            "integer",
-            5.23, // 3.42, // 2.95, // 2.93, // 2.76, // 2.53,
-            223
-        )->unfoldUsing(
-            Shooped::fold([3, 1, 3])->at(1)
-        );
-
-        AssertEquals::applyWith(
-            3,
-            "integer",
-            0.03,
-            1
-        )->unfoldUsing(
-            Shooped::fold(["a" => 1, "b" => 3, "c" => 1])->at("b")
-        );
-
-        AssertEquals::applyWith(
-            "H",
-            "string",
-            0.2,
-            6
-        )->unfoldUsing(
-            Shooped::fold("Hi!")->at(0)
-        );
 
         AssertEquals::applyWith(
             1,
@@ -548,6 +526,8 @@ trait Associable
 
     /**
      * @test
+     * @version 1.0.0
+     * @group Associable
      */
     public function offsetGet()
     {
@@ -595,7 +575,7 @@ trait Associable
         AssertEquals::applyWith(
             3,
             "integer",
-            0.02,
+            0.03, // 0.02,
             1
         )->unfoldUsing(
             Shooped::fold(["a" => 1, "b" => 3, "c" => 1])->offsetGet("b")
@@ -633,6 +613,8 @@ trait Associable
 
     /**
      * @test
+     * @version 1.0.0
+     * @group Associable
      */
     public function insertAt()
     {
@@ -731,6 +713,8 @@ trait Associable
 
     /**
      * @test
+     * @version 1.0.0
+     * @group Associable
      */
     public function offsetSet()
     {
@@ -740,6 +724,8 @@ trait Associable
 
     /**
      * @test
+     * @version 1.0.0
+     * @group Associable
      */
     public function removeAt()
     {
@@ -829,6 +815,8 @@ trait Associable
 
     /**
      * @test
+     * @version 1.0.0
+     * @group Associable
      */
     public function offsetUnset()
     {
@@ -838,65 +826,168 @@ trait Associable
 
     /**
      * @test
-     * @group current
+     * @version 1.0.0
+     * @group Associable
      */
-    public function php_iterator()
+    public function each()
     {
-        $expectedKeys   = ["false", "true"];
-        $expectedValues = [false, true];
-        $actualKeys   = [];
-        $actualValues = [];
-        foreach (Shoop::this(true) as $key => $value) {
-            $actualKeys[]   = $key;
-            $actualValues[] = $value;
-        }
-        $this->assertEquals($expectedKeys, $actualKeys);
-        $this->assertEquals($expectedValues, $actualValues);
+        AssertEquals::applyWith(
+            [2, 3, 4],
+            "array",
+            6.27, // 2.9,
+            238 // 237 // 236 // 235
+        )->unfoldUsing(
+            Shoop::this([1, 2, 3])->each(function($v) {
+                return $v + 1;
+            })
+        );
 
-        $expectedKeys   = [0, 1, 2];
-        $expectedValues = [0, 1, 2];
-        $actualKeys   = [];
-        $actualValues = [];
-        foreach (Shoop::this(2) as $key => $value) {
-            $actualKeys[]   = $key;
-            $actualValues[] = $value;
-        }
-        $this->assertEquals($expectedKeys, $actualKeys);
-        $this->assertEquals($expectedValues, $actualValues);
+        AssertEquals::applyWith(
+            ["a" => "2a", "b" => "3b"],
+            "array",
+            0.03,
+            1
+        )->unfoldUsing(
+            Shoop::this(["a" => 1, "b" => 2])->each(function($v, $m) {
+                return $v + 1 . $m;
+            })
+        );
 
-        $expectedKeys   = ["a", "b"];
-        $expectedValues = [1, 2];
-        $actualKeys   = [];
-        $actualValues = [];
-        foreach (Shoop::this(["a" => 1, "b" => 2]) as $key => $value) {
-            $actualKeys[]   = $key;
-            $actualValues[] = $value;
-        }
-        $this->assertEquals($expectedKeys, $actualKeys);
-        $this->assertEquals($expectedValues, $actualValues);
+        AssertEquals::applyWith(
+            ["a2" => 2, "b3" => 3],
+            "array",
+            0.17,
+            1
+        )->unfoldUsing(
+            Shoop::this(["a" => 1, "b" => 2])->each(function($v, $m, &$build) {
+                $v = $v + 1;
+                $m = $m . $v;
+                $build[$m] = $v;
+            })
+        );
 
-        $expectedKeys   = [0, 1, 2, 3, 4, 5];
-        $expectedValues = ["8", "f", "o", "l", "d", "!"];
-        $actualKeys   = [];
-        $actualValues = [];
-        foreach (Shoop::this("8fold!") as $key => $value) {
-            $actualKeys[]   = $key;
-            $actualValues[] = $value;
-        }
-        $this->assertEquals($expectedKeys, $actualKeys);
-        $this->assertEquals($expectedValues, $actualValues);
+        AssertEquals::applyWith(
+            "8fold",
+            "string",
+            0.19, // 0.16,
+            6
+        )->unfoldUsing(
+            Shoop::this("8fold!")->each(function(
+                $v,
+                $m,
+                &$build,
+                &$break
+            ) {
+                if ($v === "!") {
+                    $break = true;
 
-        $expectedKeys   = ["a", "c"];
-        $expectedValues = [1, 3];
-        $actualKeys   = [];
-        $actualValues = [];
-        foreach (Shoop::this((object) ["a" => 1, "c" => 3]) as $key => $value) {
-            $actualKeys[]   = $key;
-            $actualValues[] = $value;
-        }
-        $this->assertEquals($expectedKeys, $actualKeys);
-        $this->assertEquals($expectedValues, $actualValues);
+                } else {
+                    $build[$m] = $v;
+
+                }
+            })
+        );
 
         // TODO: Objects
+    }
+
+    /**
+     * @test
+     * @version 1.0.0
+     * @group Associable
+     */
+    public function retain()
+    {
+        AssertEquals::applyWith(
+            [1, 3],
+            "array",
+            5.25,
+            258 // 257
+        )->unfoldUsing(
+            Shoop::this([1, null, 3])->retain("is_int")
+        );
+
+        AssertEquals::applyWith(
+            [],
+            "array",
+            0.05,
+            1
+        )->unfoldUsing(
+            Shoop::this(["a" => 1, "b" => 2])->retain(function($v, $m) {
+                return $m === "c";
+            })
+        );
+
+        AssertEquals::applyWith(
+            ["b" => 2],
+            "array",
+            0.03,
+            1
+        )->unfoldUsing(
+            Shoop::this(["a" => 1, "b" => 2])->retain(function($v, $m) {
+                return $m === "b";
+            })
+        );
+
+        AssertEquals::applyWith(
+            "8",
+            "string",
+            0.15, // 0.14, // 0.13,
+            4
+        )->unfoldUsing(
+            Shoop::this("8fold!")->retain(function($v) {
+                return $v === "8";
+            })
+        );
+    }
+
+    /**
+     * @test
+     * @version 1.0.0
+     * @group Associable
+     */
+    public function remove()
+    {
+        AssertEquals::applyWith(
+            [null],
+            "array",
+            4.27, // 3.47,
+            270
+        )->unfoldUsing(
+            Shoop::this([1, null, 3])->remove("is_int")
+        );
+
+        AssertEquals::applyWith(
+            [],
+            "array",
+            0.06, // 0.05, // 0.04,
+            1
+        )->unfoldUsing(
+            Shoop::this(["a" => 1, "b" => 2])->remove(function($v, $m) {
+                return is_string($m);
+            })
+        );
+
+        AssertEquals::applyWith(
+            ["a" => 1],
+            "array",
+            0.03,
+            1
+        )->unfoldUsing(
+            Shoop::this(["a" => 1, "b" => 2])->remove(function($v, $m) {
+                return $m === "b";
+            })
+        );
+
+        AssertEquals::applyWith(
+            "fold!",
+            "string",
+            0.19, // 0.15,
+            4
+        )->unfoldUsing(
+            Shoop::this("8fold!")->remove(function($v) {
+                return $v === "8";
+            })
+        );
     }
 }

@@ -33,8 +33,8 @@ class TypeAsDictionaryTest extends TestCase
         AssertEquals::applyWith(
             ["public" => "tuple"],
             "array",
-            1.97, // 1.67,
-            173
+            2.2, // 1.97, // 1.67,
+            184 // 173
         )->unfoldUsing(
             AsDictionary::fromObject(
                 new class {
@@ -66,7 +66,7 @@ class TypeAsDictionaryTest extends TestCase
             ["dictionary" => true],
             "array",
             8.69,
-            60
+            61 // 60
         )->unfoldUsing(
             AsDictionary::fromObject(
                 new class implements Associable {
@@ -118,7 +118,10 @@ class TypeAsDictionaryTest extends TestCase
                         return $this->at($offset)->unfold();
                     }
 
-                    public function plusAt($value, $member): Associable
+                    public function insertAt(
+                        $value,
+                        $member = PHP_INT_MAX
+                    ): Associable
                     {
                         $this->main[$member] = $value;
                         return $this;
@@ -129,7 +132,7 @@ class TypeAsDictionaryTest extends TestCase
                         $this->plusAt($value, $offset);
                     }
 
-                    public function minusAt($member): Associable
+                    public function removeAt($member): Associable
                     {
                         unset($this->main[$member]);
                         return $this;

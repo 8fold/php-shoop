@@ -164,6 +164,27 @@ class Shooped implements ShoopedInterface
         $this->main = $this->removeAt($member);
     }
 
+    public function each(callable $callable): Associable
+    {
+        return Shoop::this(
+            Apply::eachUsing($callable)->unfoldUsing($this->main)
+        );
+    }
+
+    public function retain(callable $callable): Associable
+    {
+        return Shoop::this(
+            Apply::retainUsing($callable)->unfoldUsing($this->main)
+        );
+    }
+
+    public function remove(callable $callable): Associable
+    {
+        return Shoop::this(
+            Apply::removeUsing($callable)->unfoldUsing($this->main)
+        );
+    }
+
     private $temp;
 
     /**

@@ -19,7 +19,7 @@ class HasMethods extends Filter
     public function __invoke($using): bool
     {
         $members = Members::fromObject($using);
-        $methods = At::fromDictionary($members, ["methods"]);
+        $methods = At::fromList($members, "methods");
         return IsNotEmpty::fromNumber($methods);
     }
 }

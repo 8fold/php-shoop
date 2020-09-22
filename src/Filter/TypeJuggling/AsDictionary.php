@@ -7,8 +7,10 @@ use Eightfold\Foldable\Filter;
 
 use Eightfold\Shoop\Filter\Members;
 use Eightfold\Shoop\Filter\Reversed;
-use Eightfold\Shoop\Filter\RetainUsing;
 use Eightfold\Shoop\Filter\At;
+
+use Eightfold\Shoop\Filter\Traverse\RetainUsing;
+use Eightfold\Shoop\Filter\Traverse\EachUsing;
 
 use Eightfold\Shoop\Filter\Is;
 use Eightfold\Shoop\Filter\Is\IsJson;
@@ -77,20 +79,7 @@ class AsDictionary extends Filter
             $build[$member] = $value;
         };
 
-        return static::each($using, $callable);
-    }
-
-    static private function each(array &$using, callable $callable): array
-    {
-        $build = [];
-        $break = false;
-        foreach ($using as $member => $value) {
-            if ($break) {
-                break;
-            }
-            $callable($value, $member, $build, $break);
-        }
-        return $build;
+        return EachUsing::fromList($using, $callable);
     }
 
     // TODO: PHP 8 - string|object
@@ -113,11 +102,14 @@ class AsDictionary extends Filter
         $members = Members::fromObject($using);
         $props   = At::fromList($members, "properties");
 
-        $filter = function($v, $k) {
-            return $v !== null and ! is_a($v, Closure::class);
+        $callable = function($v, $m, &$build) {
+            if ($v !== null and ! is_a($v, Closure::class)) {
+                $build[$m] = $v;
+
+            }
         };
 
-        return RetainUsing::fromList($props, $filter, true, true);
+        return RetainUsing::fromList($props, $callable);
     }
 
     static public function fromJson(string $using): array
