@@ -30,9 +30,15 @@ interface Associable extends ArrayAccess, Iterator, Addable, Subtractable
 
     public function offsetSet($offset, $value): void; // ArrayAccess
 
-    public function removeAt($member);
+    public function dropAt($member);
 
     public function offsetUnset($offset): void; // ArrayAcces
+
+    public function each(callable $callable): Associable;
+
+    public function retain(callable $callable): Associable;
+
+    public function drop(callable $callable): Associable;
 
 // - Iterator
     public function rewind(): void;

@@ -153,15 +153,15 @@ class Shooped implements ShoopedInterface
         $this->plusAt($value, $offset);
     }
 
-    public function removeAt($member): Associable
+    public function dropAt($member): Associable
     {
-        $this->main = Apply::removeAt($member)->unfoldUsing($this->main);
+        $this->main = Apply::dropAt($member)->unfoldUsing($this->main);
         return $this;
     }
 
     public function offsetUnset($offset): void // ArrayAcces
     {
-        $this->main = $this->removeAt($member);
+        $this->main = $this->dropAt($member);
     }
 
     public function each(callable $callable): Associable
@@ -178,10 +178,10 @@ class Shooped implements ShoopedInterface
         );
     }
 
-    public function remove(callable $callable): Associable
+    public function drop(callable $callable): Associable
     {
         return Shoop::this(
-            Apply::removeUsing($callable)->unfoldUsing($this->main)
+            Apply::dropUsing($callable)->unfoldUsing($this->main)
         );
     }
 

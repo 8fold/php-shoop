@@ -20,7 +20,7 @@ use Eightfold\Shoop\Filter\Is\IsIdenticalTo;
 /**
  * @todo - invocation
  */
-class RemoveUsing extends Filter
+class DropUsing extends Filter
 {
     public function __invoke($using)
     {

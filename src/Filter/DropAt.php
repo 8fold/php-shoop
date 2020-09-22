@@ -15,7 +15,7 @@ use Eightfold\Shoop\Filter\TypeJuggling\AsTuple;
 /**
  * @todo invocation, type-specific methods
  */
-class RemoveAt extends Filter
+class DropAt extends Filter
 {
     public function __invoke($using)
     {

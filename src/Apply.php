@@ -28,7 +28,7 @@ class Apply extends BaseApply
         } elseif (IsIdenticalTo::fromString($filterName, "RetainUsing")) {
             $namespace = Append::fromString($namespace, "Traverse\\");
 
-        } elseif (IsIdenticalTo::fromString($filterName, "RemoveUsing")) {
+        } elseif (IsIdenticalTo::fromString($filterName, "DropUsing")) {
             $namespace = Append::fromString($namespace, "Traverse\\");
 
         }

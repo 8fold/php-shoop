@@ -19,7 +19,7 @@ trait Associable
         AssertEquals::applyWith(
             ["false" => false, "true" => true],
             "array",
-            6.58,
+            16.51, // 6.58,
             253 // 226
         )->unfoldUsing(
             Shooped::fold(true)->asDictionary()
@@ -46,7 +46,7 @@ trait Associable
         AssertEquals::applyWith(
             ["0.0" => 3, "1.0" => 1, "2.0" => 3],
             "array",
-            0.09, // 0.08, // 0.08,
+            0.1, // 0.09, // 0.08, // 0.08,
             2
         )->unfoldUsing(
             Shooped::fold([3, 1, 3])->asDictionary()
@@ -102,7 +102,7 @@ trait Associable
         AssertEquals::applyWith(
             ["0.0" => 3],
             "array",
-            0.45, // 0.27, // 0.26, // 0.24,
+            2.08, // 0.45, // 0.27, // 0.26, // 0.24,
             10
         )->unfoldUsing(
             Shooped::fold(3)->efToDictionary()
@@ -140,7 +140,7 @@ trait Associable
         AssertEquals::applyWith(
             ["content" => "Hi!"],
             "array",
-            0.12, // 0.11, // 0.95,
+            0.13, // 0.12, // 0.11, // 0.95,
             5
         )->unfoldUsing(
             Shooped::fold("Hi!")->efToDictionary()
@@ -206,7 +206,7 @@ trait Associable
         AssertEquals::applyWith(
             true,
             "boolean",
-            0.13,
+            0.35, // 0.13,
             2
         )->unfoldUsing(
             Shooped::fold([3, 1, 3])->has(3)
@@ -306,7 +306,7 @@ trait Associable
         AssertEquals::applyWith(
             true,
             "boolean",
-            0.15, // 0.1,
+            0.54, // 0.15, // 0.1,
             4
         )->unfoldUsing(
             Shooped::fold("Hi!")->efHas("!")
@@ -387,7 +387,7 @@ trait Associable
         AssertEquals::applyWith(
             false,
             "boolean",
-            0.31, // 0.3,
+            1.65, // 0.31, // 0.3,
             11
         )->unfoldUsing(
             Shooped::fold((object) ["a" => 1, "c" => 3])->hasAt("b")
@@ -727,7 +727,7 @@ trait Associable
      * @version 1.0.0
      * @group Associable
      */
-    public function removeAt()
+    public function dropAt()
     {
         // AssertEquals::applyWith(
         //     true,
@@ -735,7 +735,7 @@ trait Associable
         //     0.001,
         //     1
         // )->unfoldUsing(
-        //     Shooped::fold(false)->removeAt(1)
+        //     Shooped::fold(false)->dropAt(1)
         // );
 
         // AssertEquals::applyWith(
@@ -744,7 +744,7 @@ trait Associable
         //     0.001,
         //     1
         // )->unfoldUsing(
-        //     Shooped::fold(true)->removeAt("true")
+        //     Shooped::fold(true)->dropAt("true")
         // );
 
         // AssertEquals::applyWith(
@@ -753,7 +753,7 @@ trait Associable
         //     0.001,
         //     1
         // )->unfoldUsing(
-        //     Shooped::fold(false)->removeAt(0)
+        //     Shooped::fold(false)->dropAt(0)
         // );
 
         // AssertEquals::applyWith(
@@ -762,7 +762,7 @@ trait Associable
         //     0.001,
         //     1
         // )->unfoldUsing(
-        //     Shooped::fold(3)->removeAt(3)
+        //     Shooped::fold(3)->dropAt(3)
         // );
 
         // AssertEquals::applyWith(
@@ -771,7 +771,7 @@ trait Associable
         //     0.001,
         //     1
         // )->unfoldUsing(
-        //     Shooped::fold(2.5)->removeAt(1)
+        //     Shooped::fold(2.5)->dropAt(1)
         // );
 
         AssertEquals::applyWith(
@@ -780,7 +780,7 @@ trait Associable
             4.41, // 3.45, // 3.09, // 2.94, // 2.76, // 2.75, // 2.65, // 2.43,
             257 // 254 // 253 // 252
         )->unfoldUsing(
-            Shooped::fold([3, 1, 3])->removeAt(1)
+            Shooped::fold([3, 1, 3])->dropAt(1)
         );
 
         AssertEquals::applyWith(
@@ -789,7 +789,7 @@ trait Associable
             0.03,
             1
         )->unfoldUsing(
-            Shooped::fold(["a" => 1, "c" => 3])->removeAt("c")
+            Shooped::fold(["a" => 1, "c" => 3])->dropAt("c")
         );
 
         AssertEquals::applyWith(
@@ -798,7 +798,7 @@ trait Associable
             0.13, // 0.11,
             4
         )->unfoldUsing(
-            Shooped::fold("Hi!")->removeAt(1)
+            Shooped::fold("Hi!")->dropAt(1)
         );
 
         AssertEquals::applyWith(
@@ -807,7 +807,7 @@ trait Associable
             0.71,
             46
         )->unfoldUsing(
-            Shooped::fold((object) ["a" => 1, "c" => 3])->removeAt("a")
+            Shooped::fold((object) ["a" => 1, "c" => 3])->dropAt("a")
         );
 
         // TODO: Objects
@@ -946,7 +946,7 @@ trait Associable
      * @version 1.0.0
      * @group Associable
      */
-    public function remove()
+    public function drop()
     {
         AssertEquals::applyWith(
             [null],
@@ -954,7 +954,7 @@ trait Associable
             4.27, // 3.47,
             270
         )->unfoldUsing(
-            Shoop::this([1, null, 3])->remove("is_int")
+            Shoop::this([1, null, 3])->drop("is_int")
         );
 
         AssertEquals::applyWith(
@@ -963,7 +963,7 @@ trait Associable
             0.06, // 0.05, // 0.04,
             1
         )->unfoldUsing(
-            Shoop::this(["a" => 1, "b" => 2])->remove(function($v, $m) {
+            Shoop::this(["a" => 1, "b" => 2])->drop(function($v, $m) {
                 return is_string($m);
             })
         );
@@ -974,7 +974,7 @@ trait Associable
             0.03,
             1
         )->unfoldUsing(
-            Shoop::this(["a" => 1, "b" => 2])->remove(function($v, $m) {
+            Shoop::this(["a" => 1, "b" => 2])->drop(function($v, $m) {
                 return $m === "b";
             })
         );
@@ -985,7 +985,7 @@ trait Associable
             0.19, // 0.15,
             4
         )->unfoldUsing(
-            Shoop::this("8fold!")->remove(function($v) {
+            Shoop::this("8fold!")->drop(function($v) {
                 return $v === "8";
             })
         );
