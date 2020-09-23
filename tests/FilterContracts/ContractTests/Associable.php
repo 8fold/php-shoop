@@ -20,7 +20,7 @@ trait Associable
             ["false" => false, "true" => true],
             "array",
             16.51, // 6.58,
-            253 // 226
+            255 // 253 // 226
         )->unfoldUsing(
             Shooped::fold(true)->asDictionary()
         );
@@ -103,7 +103,7 @@ trait Associable
             ["0.0" => 3],
             "array",
             2.08, // 0.45, // 0.27, // 0.26, // 0.24,
-            10
+            22 // 10
         )->unfoldUsing(
             Shooped::fold(3)->efToDictionary()
         );
@@ -727,6 +727,97 @@ trait Associable
      * @version 1.0.0
      * @group Associable
      */
+   public function dropAt()
+    {
+        // AssertEquals::applyWith(
+        //     true,
+        //     "boolean",
+        //     3.46,
+        //     77 // 13
+        // )->unfoldUsing(
+        //     Shooped::fold(false)->dropAt(1)
+        // );
+
+        // AssertEquals::applyWith(
+        //     false,
+        //     "boolean",
+        //     0.58, // 0.41 // 0.35 // 0.33
+        //     1
+        // )->unfoldUsing(
+        //     Shooped::fold(true)->dropAt("true")
+        // );
+
+        // AssertEquals::applyWith(
+        //     false,
+        //     "boolean",
+        //     0.76, // 0.42 // 0.34 // 0.33
+        //     1
+        // )->unfoldUsing(
+        //     Shooped::fold(false)->dropAt(0)
+        // );
+
+        // AssertEquals::applyWith(
+        //     0,
+        //     "integer",
+        //     0.84, // 0.71 // 0.62
+        //     88 // 24 // 19
+        // )->unfoldUsing(
+        //     Shooped::fold(3)->dropAt(3)
+        // );
+
+        // AssertEquals::applyWith(
+        //     1.5,
+        //     "double"
+        // )->unfoldUsing(
+        //     Shooped::fold(2.5)->dropAt(1)
+        // );
+
+        AssertEquals::applyWith(
+            [3, 3],
+            "array",
+            5.25,
+            258 // 257
+        )->unfoldUsing(
+            Shooped::fold([3, 1, 3])->dropAt(1)
+        );
+
+        AssertEquals::applyWith(
+            ["a" => 1],
+            "array",
+            0.05,
+            1
+        )->unfoldUsing(
+            Shooped::fold(["a" => 1, "c" => 3])->dropAt("c")
+        );
+
+
+        AssertEquals::applyWith(
+            "H!",
+            "string",
+            0.53, // 0.5 // 0.41 // 0.4 // 0.37 // 0.31
+            1
+        )->unfoldUsing(
+            Shooped::fold("Hi!")->dropAt(1)
+        );
+
+
+        AssertEquals::applyWith(
+            (object) ["c" => 3],
+            "object",
+            1.11,
+            4
+        )->unfoldUsing(
+            Shooped::fold((object) ["a" => 1, "c" => 3])->dropAt("a")
+        );
+
+        // TODO: Objects
+    }
+
+    /**
+     * @test
+     * @group 1.0.0
+     * @group Associable
+     */
     public function dropFirst()
     {
         // AssertEquals::applyWith(
@@ -777,8 +868,8 @@ trait Associable
         AssertEquals::applyWith(
             [3],
             "array",
-            0.001,
-            1
+            6.28, // 3.4,
+            277
         )->unfoldUsing(
             Shooped::fold([3, 1, 3])->dropFirst(2)
         );
@@ -786,7 +877,7 @@ trait Associable
         AssertEquals::applyWith(
             ["c" => 3],
             "array",
-            0.001,
+            0.04, // 0.03,
             1
         )->unfoldUsing(
             Shooped::fold(["a" => 1, "c" => 3])->dropFirst()
@@ -795,8 +886,8 @@ trait Associable
         AssertEquals::applyWith(
             "!",
             "string",
-            0.001,
-            1
+            0.18, // 0.16,
+            64 // 6
         )->unfoldUsing(
             Shooped::fold("Hi!")->dropFirst(2)
         );
@@ -804,8 +895,8 @@ trait Associable
         AssertEquals::applyWith(
             (object) ["c" => 3],
             "object",
-            0.001,
-            1
+            0.84, // 0.79,
+            117
         )->unfoldUsing(
             Shooped::fold((object) ["a" => 1, "c" => 3])->dropFirst()
         );
@@ -815,6 +906,8 @@ trait Associable
 
     /**
      * @test
+     * @group 1.0.0
+     * @group Associable
      */
     public function dropLast()
     {

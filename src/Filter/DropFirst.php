@@ -5,6 +5,7 @@ namespace Eightfold\Shoop\Filter;
 
 use Eightfold\Foldable\Filter;
 
+use Eightfold\Shoop\Filter\TypeJuggling\AsArray;
 use Eightfold\Shoop\Filter\TypeJuggling\AsDictionary;
 use Eightfold\Shoop\Filter\TypeJuggling\AsString;
 use Eightfold\Shoop\Filter\TypeJuggling\AsTuple;
@@ -12,7 +13,7 @@ use Eightfold\Shoop\Filter\TypeJuggling\AsTuple;
 /**
  * @todo invocation, type-specific methods
  */
-class DropLast extends Filter
+class DropFirst extends Filter
 {
     public function __invoke($using)
     {
@@ -51,9 +52,10 @@ class DropLast extends Filter
      */
     static public function fromList(array $using, int $length = 1): array
     {
-        $count  = Count::fromList($using);
-        $length = Minus::fromNumber($count, $length);
-        return From::fromList($using, 0, $length);
+        $array = Reversed::fromList($using);
+        $array = DropLast::fromList($array, $length);
+        return Reversed::fromList($array);
+        return AsArray::fromList($array);
     }
 
     static public function fromTuple($using, int $length = 1): object
