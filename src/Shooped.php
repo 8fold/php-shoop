@@ -159,6 +159,20 @@ class Shooped implements ShoopedInterface
         return $this;
     }
 
+    public function dropFirst($length = 1): Associable
+    {
+        return Shoop::this(
+            Apply::dropFirst($length)->unfoldUsing($this->main)
+        );
+    }
+
+    public function dropLast($length = 1): Associable
+    {
+        return Shoop::this(
+            Apply::dropLast($length)->unfoldUsing($this->main)
+        );
+    }
+
     public function offsetUnset($offset): void // ArrayAcces
     {
         $this->main = $this->dropAt($member);

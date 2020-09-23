@@ -727,7 +727,7 @@ trait Associable
      * @version 1.0.0
      * @group Associable
      */
-    public function dropAt()
+    public function dropFirst()
     {
         // AssertEquals::applyWith(
         //     true,
@@ -735,7 +735,7 @@ trait Associable
         //     0.001,
         //     1
         // )->unfoldUsing(
-        //     Shooped::fold(false)->dropAt(1)
+        //     Shooped::fold(false)->dropFirst(1)
         // );
 
         // AssertEquals::applyWith(
@@ -744,7 +744,7 @@ trait Associable
         //     0.001,
         //     1
         // )->unfoldUsing(
-        //     Shooped::fold(true)->dropAt("true")
+        //     Shooped::fold(true)->dropFirst("true")
         // );
 
         // AssertEquals::applyWith(
@@ -753,7 +753,7 @@ trait Associable
         //     0.001,
         //     1
         // )->unfoldUsing(
-        //     Shooped::fold(false)->dropAt(0)
+        //     Shooped::fold(false)->dropFirst(0)
         // );
 
         // AssertEquals::applyWith(
@@ -762,7 +762,7 @@ trait Associable
         //     0.001,
         //     1
         // )->unfoldUsing(
-        //     Shooped::fold(3)->dropAt(3)
+        //     Shooped::fold(3)->dropFirst(3)
         // );
 
         // AssertEquals::applyWith(
@@ -771,43 +771,132 @@ trait Associable
         //     0.001,
         //     1
         // )->unfoldUsing(
-        //     Shooped::fold(2.5)->dropAt(1)
+        //     Shooped::fold(2.5)->dropFirst(1)
         // );
 
         AssertEquals::applyWith(
-            [3, 3],
+            [3],
             "array",
-            4.41, // 3.45, // 3.09, // 2.94, // 2.76, // 2.75, // 2.65, // 2.43,
-            257 // 254 // 253 // 252
-        )->unfoldUsing(
-            Shooped::fold([3, 1, 3])->dropAt(1)
-        );
-
-        AssertEquals::applyWith(
-            ["a" => 1],
-            "array",
-            0.03,
+            0.001,
             1
         )->unfoldUsing(
-            Shooped::fold(["a" => 1, "c" => 3])->dropAt("c")
+            Shooped::fold([3, 1, 3])->dropFirst(2)
         );
 
         AssertEquals::applyWith(
-            "H!",
-            "string",
-            0.13, // 0.11,
-            4
+            ["c" => 3],
+            "array",
+            0.001,
+            1
         )->unfoldUsing(
-            Shooped::fold("Hi!")->dropAt(1)
+            Shooped::fold(["a" => 1, "c" => 3])->dropFirst()
+        );
+
+        AssertEquals::applyWith(
+            "!",
+            "string",
+            0.001,
+            1
+        )->unfoldUsing(
+            Shooped::fold("Hi!")->dropFirst(2)
         );
 
         AssertEquals::applyWith(
             (object) ["c" => 3],
             "object",
-            0.71,
-            46
+            0.001,
+            1
         )->unfoldUsing(
-            Shooped::fold((object) ["a" => 1, "c" => 3])->dropAt("a")
+            Shooped::fold((object) ["a" => 1, "c" => 3])->dropFirst()
+        );
+
+        // TODO: Objects
+    }
+
+    /**
+     * @test
+     */
+    public function dropLast()
+    {
+        // AssertEquals::applyWith(
+        //     true,
+        //     "boolean",
+        //     0.001,
+        //     1
+        // )->unfoldUsing(
+        //     Shooped::fold(false)->dropLast(1)
+        // );
+
+        // AssertEquals::applyWith(
+        //     false,
+        //     "boolean",
+        //     0.001,
+        //     1
+        // )->unfoldUsing(
+        //     Shooped::fold(true)->dropLast("true")
+        // );
+
+        // AssertEquals::applyWith(
+        //     false,
+        //     "boolean",
+        //     0.001,
+        //     1
+        // )->unfoldUsing(
+        //     Shooped::fold(false)->dropLast(0)
+        // );
+
+        // AssertEquals::applyWith(
+        //     0,
+        //     "integer",
+        //     0.001,
+        //     1
+        // )->unfoldUsing(
+        //     Shooped::fold(3)->dropLast(3)
+        // );
+
+        // AssertEquals::applyWith(
+        //     1.5,
+        //     "double",
+        //     0.001,
+        //     1
+        // )->unfoldUsing(
+        //     Shooped::fold(2.5)->dropLast(1)
+        // );
+
+        AssertEquals::applyWith(
+            [3, 1],
+            "array",
+            3.61, // 3.39,
+            264
+        )->unfoldUsing(
+            Shooped::fold([3, 1, 2])->dropLast()
+        );
+
+        AssertEquals::applyWith(
+            [],
+            "array",
+            0.03,
+            1
+        )->unfoldUsing(
+            Shooped::fold(["a" => 1, "c" => 3])->dropLast(2)
+        );
+
+        AssertEquals::applyWith(
+            "H",
+            "string",
+            3.39, // 3.37, // 3.16,
+            270
+        )->unfoldUsing(
+            Shooped::fold("Hi!")->dropLast(2)
+        );
+
+        AssertEquals::applyWith(
+            (object) ["a" => 1],
+            "object",
+            2.14,
+            53
+        )->unfoldUsing(
+            Shooped::fold((object) ["a" => 1, "c" => 3])->dropLast()
         );
 
         // TODO: Objects
