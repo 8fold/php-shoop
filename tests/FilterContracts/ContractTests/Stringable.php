@@ -119,7 +119,7 @@ trait Stringable
         AssertEquals::applyWith(
             "",
             "string",
-            0.02,
+            0.03, // 0.02,
             1
         )->unfoldUsing(
             Shooped::fold(["a" => 1, "b" => 3, "c" => 1])->efToString()
