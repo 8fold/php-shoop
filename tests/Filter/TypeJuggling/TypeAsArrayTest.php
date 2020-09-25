@@ -67,7 +67,7 @@ class TypeAsArrayTest extends TestCase
             [],
             "array",
             9.66, // 1.27,
-            123 // 60
+            128 // 123 // 60
         )->unfoldUsing(
             AsArray::fromObject(
                 new class implements Arrayable {
@@ -129,7 +129,10 @@ class TypeAsArrayTest extends TestCase
                         return $this->at($offset)->unfold();
                     }
 
-                    public function plusAt($value, $member): Associable
+                    public function insertAt(
+                        $value,
+                        $member = PHP_INT_MAX
+                    ): Associable
                     {
                         $this->main[$member] = $value;
                         return $this;
@@ -140,7 +143,7 @@ class TypeAsArrayTest extends TestCase
                         $this->plusAt($value, $offset);
                     }
 
-                    public function minusAt($member): Associable
+                    public function dropAt($member): Associable
                     {
                         unset($this->main[$member]);
                         return $this;
@@ -149,6 +152,31 @@ class TypeAsArrayTest extends TestCase
                     public function offsetUnset($offset): void
                     {
                         $this->minusAt($offset);
+                    }
+
+                    public function dropFirst($length = 1): Associable
+                    {
+                        return Shoop::this("");
+                    }
+
+                    public function dropLast($length = 1): Associable
+                    {
+                        return Shoop::this("");
+                    }
+
+                    public function each(callable $callable): Associable
+                    {
+                        return Shoop::this("");
+                    }
+
+                    public function retain(callable $callable): Associable
+                    {
+                        return Shoop::this("");
+                    }
+
+                    public function drop(callable $callable): Associable
+                    {
+                        return Shoop::this("");
                     }
 
                     public function rewind(): void

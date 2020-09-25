@@ -132,7 +132,7 @@ class TypeAsDictionaryTest extends TestCase
                         $this->plusAt($value, $offset);
                     }
 
-                    public function removeAt($member): Associable
+                    public function dropAt($member): Associable
                     {
                         unset($this->main[$member]);
                         return $this;
@@ -141,6 +141,31 @@ class TypeAsDictionaryTest extends TestCase
                     public function offsetUnset($offset): void
                     {
                         $this->minusAt($offset);
+                    }
+
+                    public function dropFirst($length = 1): Associable
+                    {
+                        return Shoop::this("");
+                    }
+
+                    public function dropLast($length = 1): Associable
+                    {
+                        return Shoop::this("");
+                    }
+
+                    public function each(callable $callable): Associable
+                    {
+                        return Shoop::this("");
+                    }
+
+                    public function retain(callable $callable): Associable
+                    {
+                        return Shoop::this("");
+                    }
+
+                    public function drop(callable $callable): Associable
+                    {
+                        return Shoop::this("");
                     }
 
                     public function rewind(): void

@@ -11,7 +11,7 @@ trait Associable
 {
     /**
      * @test
-     * @version 1.0.0
+     * @group 1.0.0
      * @group Associable
      */
     public function asDictionary()
@@ -19,7 +19,7 @@ trait Associable
         AssertEquals::applyWith(
             ["false" => false, "true" => true],
             "array",
-            16.51, // 6.58,
+            18.55, // 16.51, // 6.58,
             255 // 253 // 226
         )->unfoldUsing(
             Shooped::fold(true)->asDictionary()
@@ -46,7 +46,7 @@ trait Associable
         AssertEquals::applyWith(
             ["0.0" => 3, "1.0" => 1, "2.0" => 3],
             "array",
-            0.1, // 0.09, // 0.08, // 0.08,
+            0.36, // 0.1, // 0.09, // 0.08, // 0.08,
             2
         )->unfoldUsing(
             Shooped::fold([3, 1, 3])->asDictionary()
@@ -84,7 +84,7 @@ trait Associable
 
     /**
      * @test
-     * @version 1.0.0
+     * @group 1.0.0
      * @group Associable
      */
     public function efToDictionary()
@@ -122,7 +122,7 @@ trait Associable
         AssertEquals::applyWith(
             ["0.0" => 3, "1.0" => 1, "2.0" => 3],
             "array",
-            0.1, // 0.09, // 0.08,
+            0.44, // 0.1, // 0.09, // 0.08,
             2
         )->unfoldUsing(
             Shooped::fold([3, 1, 3])->efToDictionary()
@@ -160,7 +160,7 @@ trait Associable
 
     /**
      * @test
-     * @version 1.0.0
+     * @group 1.0.0
      * @group Associable
      *
      * Strict type checking is used
@@ -224,7 +224,7 @@ trait Associable
         AssertEquals::applyWith(
             true,
             "boolean",
-            0.12,
+            0.56, // 0.12,
             4
         )->unfoldUsing(
             Shooped::fold("Hi!")->has("!")
@@ -244,7 +244,7 @@ trait Associable
 
     /**
      * @test
-     * @version 1.0.0
+     * @group 1.0.0
      * @group Associable
      */
     public function efHas()
@@ -315,7 +315,7 @@ trait Associable
         AssertEquals::applyWith(
             false,
             "boolean",
-            0.55, // 0.46,
+            2.33, // 0.55, // 0.46,
             33
         )->unfoldUsing(
             Shooped::fold((object) ["a" => 1, "c" => 3])->efHas(false)
@@ -326,7 +326,7 @@ trait Associable
 
     /**
      * @test
-     * @version 1.0.0
+     * @group 1.0.0
      * @group Associable
      */
     public function hasAt()
@@ -398,7 +398,7 @@ trait Associable
 
     /**
      * @test
-     * @version 1.0.0
+     * @group 1.0.0
      * @group Associable
      */
     public function offsetExists()
@@ -480,7 +480,7 @@ trait Associable
 
     /**
      * @test
-     * @version 1.0.0
+     * @group 1.0.0
      * @group Associable
      */
     public function _at()
@@ -526,7 +526,7 @@ trait Associable
 
     /**
      * @test
-     * @version 1.0.0
+     * @group 1.0.0
      * @group Associable
      */
     public function offsetGet()
@@ -613,7 +613,7 @@ trait Associable
 
     /**
      * @test
-     * @version 1.0.0
+     * @group 1.0.0
      * @group Associable
      */
     public function insertAt()
@@ -713,7 +713,7 @@ trait Associable
 
     /**
      * @test
-     * @version 1.0.0
+     * @group 1.0.0
      * @group Associable
      */
     public function offsetSet()
@@ -724,7 +724,7 @@ trait Associable
 
     /**
      * @test
-     * @version 1.0.0
+     * @group 1.0.0
      * @group Associable
      */
    public function dropAt()
@@ -877,7 +877,7 @@ trait Associable
         AssertEquals::applyWith(
             ["c" => 3],
             "array",
-            0.04, // 0.03,
+            0.08, // 0.04, // 0.03,
             1
         )->unfoldUsing(
             Shooped::fold(["a" => 1, "c" => 3])->dropFirst()
@@ -997,7 +997,7 @@ trait Associable
 
     /**
      * @test
-     * @version 1.0.0
+     * @group 1.0.0
      * @group Associable
      */
     public function offsetUnset()
@@ -1008,7 +1008,7 @@ trait Associable
 
     /**
      * @test
-     * @version 1.0.0
+     * @group 1.0.0
      * @group Associable
      */
     public function each()
@@ -1075,7 +1075,7 @@ trait Associable
 
     /**
      * @test
-     * @version 1.0.0
+     * @group 1.0.0
      * @group Associable
      */
     public function retain()
@@ -1125,7 +1125,7 @@ trait Associable
 
     /**
      * @test
-     * @version 1.0.0
+     * @group 1.0.0
      * @group Associable
      */
     public function drop()

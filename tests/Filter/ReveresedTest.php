@@ -46,8 +46,8 @@ class ReversedTest extends TestCase
         AssertEquals::applyWith(
             "8fold!",
             "string",
-            1.44, // 0.41, // 0.36,
-            24
+            2.09, // 1.99, // 1.44, // 0.41, // 0.36,
+            44 // 24
         )->unfoldUsing(
             Reversed::fromString("!dlof8")
         );
@@ -55,7 +55,7 @@ class ReversedTest extends TestCase
         AssertEquals::applyWith(
             "👆👆👍👇👇",
             "string",
-            0.005, // 0.004,
+            0.01, // 0.005, // 0.004,
             1
         )->unfoldUsing(
             Reversed::fromString("👇👇👍👆👆")
@@ -64,7 +64,7 @@ class ReversedTest extends TestCase
         AssertEquals::applyWith(
             "👆👆👇👇",
             "string",
-            0.003,
+            0.004, // 0.003,
             1
         )->unfoldUsing(
             Reversed::fromString("👇👇👆👆")
