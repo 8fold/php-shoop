@@ -6,21 +6,20 @@ use Eightfold\Foldable\Tests\PerformantEqualsTestFilter as AssertEquals;
 
 use Eightfold\Shoop\Shooped;
 
-/**
- * @version 1.0.0
- */
 trait Countable
 {
     /**
      * @test
+     * @group Countable
+     * @group 1.0.0
      */
     public function asInteger()
     {
         AssertEquals::applyWith(
             1,
             "integer",
-            2.85, // 2.79, // 2.72, // 2.7, // 2.68, // 2.6,
-            218
+            21.87,
+            261
         )->unfoldUsing(
             Shooped::fold(true)->asInteger()
         );
@@ -28,7 +27,7 @@ trait Countable
         AssertEquals::applyWith(
             3,
             "integer",
-            0.15,
+            1.26,
             4
         )->unfoldUsing(
             Shooped::fold(3)->asInteger()
@@ -37,7 +36,7 @@ trait Countable
         AssertEquals::applyWith(
             3,
             "integer",
-            0.02,
+            0.03,
             1
         )->unfoldUsing(
             Shooped::fold(2.5)->asInteger()
@@ -46,7 +45,7 @@ trait Countable
         AssertEquals::applyWith(
             1,
             "integer",
-            0.09,
+            0.45,
             2
         )->unfoldUsing(
             Shooped::fold([3, 1, 3, 1])->asInteger()
@@ -64,7 +63,7 @@ trait Countable
         AssertEquals::applyWith(
             0,
             "integer",
-            0.09,
+            0.81,
             4
         )->unfoldUsing(
             Shooped::fold("Hi!")->asInteger()
@@ -73,8 +72,8 @@ trait Countable
         AssertEquals::applyWith(
             1,
             "integer",
-            0.53, // 0.49, // 0.43,
-            29
+            3.09,
+            42
         )->unfoldUsing(
             Shooped::fold((object) ["a" => 1, "c" => 3])->asInteger()
         );
@@ -84,14 +83,16 @@ trait Countable
 
     /**
      * @test
+     * @group Countable
+     * @group 1.0.0
      */
     public function efToInteger()
     {
         AssertEquals::applyWith(
             1,
             "integer",
-            3.1, // 2.77, // 2.5, // 2.49,
-            218
+            3, // 2.95, // 2.91, // 2.76,
+            261
         )->unfoldUsing(
             Shooped::fold(true)->efToInteger()
         );
@@ -99,7 +100,7 @@ trait Countable
         AssertEquals::applyWith(
             3,
             "integer",
-            0.25, // 0.18, // 0.16, // 0.15, // 0.14,
+            0.18, // 0.16, // 0.15,
             4
         )->unfoldUsing(
             Shooped::fold(3)->efToInteger()
@@ -108,7 +109,7 @@ trait Countable
         AssertEquals::applyWith(
             3,
             "integer",
-            0.02,
+            0.06, // 0.03,
             1
         )->unfoldUsing(
             Shooped::fold(2.5)->efToInteger()
@@ -117,7 +118,7 @@ trait Countable
         AssertEquals::applyWith(
             1,
             "integer",
-            0.08, // 0.02, // 0.08, // 0.07,
+            0.08,
             1
         )->unfoldUsing(
             Shooped::fold([3, 1, 3, 1])->efToInteger()
@@ -135,7 +136,7 @@ trait Countable
         AssertEquals::applyWith(
             0,
             "integer",
-            0.19, // 0.11, // 0.09,
+            0.44,
             4
         )->unfoldUsing(
             Shooped::fold("Hi!")->efToInteger()
@@ -144,8 +145,8 @@ trait Countable
         AssertEquals::applyWith(
             1,
             "integer",
-            0.63, // 0.5,
-            29
+            3,
+            42
         )->unfoldUsing(
             Shooped::fold((object) ["a" => 1, "c" => 3])->efToInteger()
         );
