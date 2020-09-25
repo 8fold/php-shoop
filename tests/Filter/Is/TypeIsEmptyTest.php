@@ -19,8 +19,9 @@ use Eightfold\Shoop\FilterContracts\Interfaces\Falsifiable;
 /**
  * @group TypeChecking
  *
- * @group  IsEmpty
- * @group  IsEmptyOnly
+ * @group IsEmpty
+ * @group IsEmptyOnly
+ * @group 1.0.0
  */
 class TypeIsEmptyTest extends TestCase
 {
@@ -53,7 +54,7 @@ class TypeIsEmptyTest extends TestCase
             true,
             "boolean",
             0.93, // 0.68, // 0.67, // 0.51, // 0.04, // 0.03, // 0.02,
-            5
+            9 // 5
         )->unfoldUsing(
             IsEmpty::fromTuple(
                 new class {}
@@ -194,7 +195,7 @@ class TypeIsEmptyTest extends TestCase
             true,
             "boolean",
             9.17, // 7.6, // 1.74,
-            124 // 61
+            128 // 124 // 61
         )->unfoldUsing(
             IsEmpty::fromObject(
                 new class implements Emptiable {
