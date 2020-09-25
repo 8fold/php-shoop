@@ -96,7 +96,7 @@ Filters are PHP classes inheriting from the Shoop abstract filter and implementi
 
 Filters generally act as a bridge between Shoopland and PHP. They can be viewed as low-level functions used to manipulate PHP types. For a manipulation to become a filter, it MUST meet AT LEAST three of the following:
 
-1. Used at least three times in a production project, which MAY include Shoop itself. ex. Reversed::fromBoolean
+1. Used at least three times in one or more production project(s), which MAY include Shoop itself. ex. Reversed::fromBoolean
 2. Fully testing the proposed filter results in testing multiple other filters. ex. IsEmpty::fromTuple
 3. The proposed filter DOES NOT require testing because it uses PHP directly. ex. IsEmpty::fromString
 4. The proposed filter DOES NOT require testing because it uses approved filters that do not require testing. ex. AsBoolean::*

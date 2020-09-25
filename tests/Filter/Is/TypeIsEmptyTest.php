@@ -35,7 +35,7 @@ class TypeIsEmptyTest extends TestCase
             true,
             "boolean",
             10.8, // 9.37, // 6.9, // 6.77,
-            180 // 179
+            184 // 180 // 179
         )->unfoldUsing(
             IsEmpty::fromTuple($tuple)
         );
@@ -195,7 +195,7 @@ class TypeIsEmptyTest extends TestCase
             true,
             "boolean",
             9.17, // 7.6, // 1.74,
-            128 // 124 // 61
+            129 // 128 // 124 // 61
         )->unfoldUsing(
             IsEmpty::fromObject(
                 new class implements Emptiable {
@@ -246,7 +246,7 @@ class TypeIsEmptyTest extends TestCase
         AssertEquals::applyWith(
             true,
             "boolean",
-            0.46, // 0.45, // 0.42,
+            3.04, // 0.46, // 0.45, // 0.42,
             31
         )->unfoldUsing(
             IsJson::apply()->unfoldUsing('{}')

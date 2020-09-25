@@ -11,7 +11,7 @@ use Eightfold\Shoop\Filter\TypeJuggling\AsString;
 use Eightfold\Shoop\Filter\TypeJuggling\AsTuple;
 
 /**
- * @todo invocation, type-specific methods
+ * @version 1.0.0
  */
 class DropFirst extends Filter
 {
@@ -55,7 +55,6 @@ class DropFirst extends Filter
         $array = Reversed::fromList($using);
         $array = DropLast::fromList($array, $length);
         return Reversed::fromList($array);
-        return AsArray::fromList($array);
     }
 
     static public function fromTuple($using, int $length = 1): object

@@ -12,7 +12,8 @@ use Eightfold\Shoop\Filter\First;
 use Eightfold\Shoop\Filter\Last;
 
 /**
- * @todo deprecate - ??
+ * @todo get type of first value and make sure all values in the array are of
+ *       the same type - ??
  */
 class IsArray extends Filter
 {

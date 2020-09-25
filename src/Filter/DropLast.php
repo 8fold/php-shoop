@@ -10,7 +10,7 @@ use Eightfold\Shoop\Filter\TypeJuggling\AsString;
 use Eightfold\Shoop\Filter\TypeJuggling\AsTuple;
 
 /**
- * @todo invocation, type-specific methods
+ * @version 1.0.0
  */
 class DropLast extends Filter
 {

@@ -39,19 +39,29 @@ class IsIdenticalTo extends Filter
         }
     }
 
+    static public function fromBoolean(bool $using, $comparison): bool
+    {
+        return $using === $comparison;
+    }
+
     // TODO: PHP 8.0 int|float, int|float
-    static public function fromNumber($number, $comparison): bool
+    static public function fromNumber($using, $comparison): bool
     {
-        return $number === $comparison;
+        return $using === $comparison;
     }
 
-    static public function fromString(string $number, string $comparison): bool
+    static public function fromString(string $using, $comparison): bool
     {
-        return $number === $comparison;
+        return $using === $comparison;
     }
 
-    static public function fromList(array $first, array $comparison): bool
+    static public function fromList(array $using, $comparison): bool
     {
-        return $first === $comparison;
+        return $using === $comparison;
+    }
+
+    static public function fromTuple($using, $comparison): bool
+    {
+        return $using === $comparison;
     }
 }

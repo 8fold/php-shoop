@@ -8,7 +8,7 @@ use Eightfold\Foldable\Filter;
 use Eightfold\Shoop\Shoop;
 
 /**
- * @todo - deprecate - ??
+ * @todo - update for 1.0.0
  */
 class Random extends Filter
 {

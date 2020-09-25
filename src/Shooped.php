@@ -342,7 +342,7 @@ class Shooped implements ShoopedInterface
     public function is($compare): Falsifiable
     {
         return static::fold(
-            Apply::is($compare)->unfoldUsing($this->main)
+            Apply::isIdenticalTo($compare)->unfoldUsing($this->main)
         );
     }
 
@@ -355,9 +355,21 @@ class Shooped implements ShoopedInterface
 
     public function isGreaterThanOrEqualTo($compare): Falsifiable
     {
-        return static::fold(
-            Apply::isGreaterThanOrEqualTo($compare)->unfoldUsing($this->main)
-        );
+        $is = $this->is($compare);
+        if ($is->efToBoolean()) {
+            return Shoop::this(
+                $is->unfold()
+            );
+        }
+
+        $isGreaterThan = $this->isGreaterThan($compare);
+        if ($isGreaterThan->efToBoolean()) {
+            return Shoop::this(
+                $isGreaterThan->unfold()
+            );
+        }
+
+        return static::fold(false);
     }
 
 // - Reversible
