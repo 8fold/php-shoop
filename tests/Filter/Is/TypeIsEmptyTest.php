@@ -53,7 +53,7 @@ class TypeIsEmptyTest extends TestCase
         AssertEquals::applyWith(
             true,
             "boolean",
-            0.93, // 0.68, // 0.67, // 0.51, // 0.04, // 0.03, // 0.02,
+            1.17, // 0.93, // 0.68, // 0.67, // 0.51, // 0.04, // 0.03, // 0.02,
             9 // 5
         )->unfoldUsing(
             IsEmpty::fromTuple(
