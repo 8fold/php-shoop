@@ -36,7 +36,7 @@ trait Subtractable
         AssertEquals::applyWith(
             0.5,
             "double",
-            0.03,
+            0.08, // 0.03,
             1
         )->unfoldUsing(
             Shooped::fold(1.5)->minus(1)

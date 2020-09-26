@@ -101,7 +101,7 @@ class TypeIsEmptyTest extends TestCase
             true,
             "boolean",
             6.18, // 4.66, // 3.6, // 0.67, // 0.64,
-            54 // 42 // 40
+            96 // 54 // 42 // 40
         )->unfoldUsing(
             IsEmpty::fromTuple('{}')
         );

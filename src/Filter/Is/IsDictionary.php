@@ -6,7 +6,7 @@ namespace Eightfold\Shoop\Filter\Is;
 use Eightfold\Foldable\Filter;
 
 use Eightfold\Shoop\Filter\Members;
-use Eightfold\Shoop\Filter\RetainUsing;
+use Eightfold\Shoop\Filter\Traverse\RetainUsing;
 use Eightfold\Shoop\Filter\Count;
 
 /**

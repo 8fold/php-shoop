@@ -6,10 +6,11 @@ namespace Eightfold\Shoop\Filter\Is;
 use Eightfold\Foldable\Filter;
 
 use Eightfold\Shoop\Filter\Members;
-use Eightfold\Shoop\Filter\RetainUsing;
 use Eightfold\Shoop\Filter\Count;
 use Eightfold\Shoop\Filter\First;
 use Eightfold\Shoop\Filter\Last;
+
+use Eightfold\Shoop\Filter\Traverse\RetainUsing;
 
 /**
  * @todo get type of first value and make sure all values in the array are of

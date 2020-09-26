@@ -12,7 +12,8 @@ use Eightfold\Shoop\Filter\Is\IsList;
 /**
  * @group TypeChecking
  *
- * @group  IsList
+ * @group IsList
+ * @group 1.0.0
  */
 class TypeIsListTest extends TestCase
 {
@@ -164,7 +165,7 @@ class TypeIsListTest extends TestCase
         AssertEquals::applyWith(
             $expected,
             "boolean",
-            0.001,
+            0.002,
             1
         )->unfoldUsing(
             IsList::apply()->unfoldUsing(
