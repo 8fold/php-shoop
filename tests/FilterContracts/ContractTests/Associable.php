@@ -460,7 +460,7 @@ trait Associable
         AssertEquals::applyWith(
             true,
             "boolean",
-            0.11, // 0.1, // 0.04, // 0.03,
+            0.15, // 0.11, // 0.1, // 0.04, // 0.03,
             1
         )->unfoldUsing(
             Shooped::fold("Hi!")->offsetExists(0)
@@ -693,7 +693,7 @@ trait Associable
         AssertEquals::applyWith(
             "Ho!",
             "string",
-            0.3, // 0.23, // 0.22, // 0.04, // 0.03,
+            0.4, // 0.3, // 0.23, // 0.22, // 0.04, // 0.03,
             1
         )->unfoldUsing(
             Shooped::fold("Hi!")->insertAt("o", 1)
