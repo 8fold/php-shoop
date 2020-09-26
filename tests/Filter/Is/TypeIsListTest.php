@@ -116,7 +116,7 @@ class TypeIsListTest extends TestCase
         AssertEquals::applyWith(
             $expected,
             "boolean",
-            0.002,
+            0.01, // 0.002,
             1
         )->unfoldUsing(
             IsList::apply()->unfoldUsing("hello")

@@ -144,7 +144,7 @@ trait Arrayable
         AssertEquals::applyWith(
             ["Hi!"],
             "array",
-            0.11, // 0.1, // 0.09, // 0.08,
+            0.14, // 0.11, // 0.1, // 0.09, // 0.08,
             5
         )->unfoldUsing(
             Shooped::fold("Hi!")->efToArray()
