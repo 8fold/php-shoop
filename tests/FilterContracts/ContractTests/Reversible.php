@@ -36,7 +36,7 @@ trait Reversible
         AssertEquals::applyWith(
             2.0,
             "double",
-            0.03, // 0.02,
+            0.07, // 0.03, // 0.02,
             1
         )->unfoldUsing(
             Shooped::fold(-2.0)->reversed()

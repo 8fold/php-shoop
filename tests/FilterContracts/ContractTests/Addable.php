@@ -35,7 +35,7 @@ trait Addable
         AssertEquals::applyWith(
             2.5,
             "double",
-            0.04,
+            0.13, // 0.04,
             1
         )->unfoldUsing(
             Shooped::fold(1.5)->plus(1)

@@ -39,7 +39,7 @@ class TypeAsStringTest extends TestCase
         AssertEquals::applyWith(
             "false",
             "string",
-            0.002,
+            0.003, // 0.002,
             1
         )->unfoldUsing(
             AsString::fromBoolean(false)
@@ -63,7 +63,7 @@ class TypeAsStringTest extends TestCase
         AssertEquals::applyWith(
             "8fold!",
             "string",
-            0.01, // 0.005, // 0.004, // 0.003,
+            0.02, // 0.01, // 0.005, // 0.004, // 0.003,
             1
         )->unfoldUsing(
             AsString::fromString("8fold!")
@@ -96,7 +96,7 @@ class TypeAsStringTest extends TestCase
         AssertEquals::applyWith(
             "hello",
             "string",
-            0.05,
+            0.17, // 0.05,
             1
         )->unfoldUsing(
             AsString::fromTuple('{"member":"hello"}')
@@ -131,7 +131,7 @@ class TypeAsStringTest extends TestCase
         AssertEquals::applyWith(
             "hello, world!",
             "string",
-            0.05, // 0.04,
+            0.1, // 0.05, // 0.04,
             1
         )->unfoldUsing(
             AsString::fromObject(

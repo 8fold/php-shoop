@@ -91,7 +91,7 @@ trait Tupleable
         AssertEquals::applyWith(
             (object) ["a" => 1, "b" => 3],
             "object",
-            0.03,
+            0.1, // 0.03,
             1
         )->unfoldUsing(
             Shooped::fold(["a" => 1, "b" => 3])->efToTuple()
@@ -137,7 +137,7 @@ trait Tupleable
         AssertEquals::applyWith(
             '{"a":1,"b":3}',
             "string",
-            0.03,
+            0.16, // 0.03,
             1
         )->unfoldUsing(
             Shooped::fold(["a" => 1, "b" => 3])->asJson()
@@ -183,7 +183,7 @@ trait Tupleable
         AssertEquals::applyWith(
             '{"a":1,"b":3}',
             "string",
-            0.1, // 0.03,
+            0.13, // 0.1, // 0.03,
             1
         )->unfoldUsing(
             Shooped::fold(["a" => 1, "b" => 3])->efToJson()

@@ -31,7 +31,7 @@ class ReversedTest extends TestCase
         AssertEquals::applyWith(
             1.0,
             "double",
-            0.002,
+            0.004, // 0.002,
             1
         )->unfoldUsing(
             Reversed::fromNumber(-1.0)
@@ -55,7 +55,7 @@ class ReversedTest extends TestCase
         AssertEquals::applyWith(
             "👆👆👍👇👇",
             "string",
-            0.01, // 0.005, // 0.004,
+            0.02, // 0.01, // 0.005, // 0.004,
             1
         )->unfoldUsing(
             Reversed::fromString("👇👇👍👆👆")
