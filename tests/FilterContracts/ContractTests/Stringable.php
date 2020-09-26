@@ -46,7 +46,7 @@ trait Stringable
         AssertEquals::applyWith(
             "Hi!",
             "string",
-            0.09, // 0.08, // 0.07,
+            0.12, // 0.09, // 0.08, // 0.07,
             2
         )->unfoldUsing(
             Shooped::fold(["H", 1, "i", true, "!"])->asString()
@@ -101,7 +101,7 @@ trait Stringable
         AssertEquals::applyWith(
             "2.5",
             "string",
-            0.1, // 0.08, // 0.04, // 0.03,
+            0.11, // 0.1, // 0.08, // 0.04, // 0.03,
             1
         )->unfoldUsing(
             Shooped::fold(2.5)->efToString()

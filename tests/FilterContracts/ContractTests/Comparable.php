@@ -47,7 +47,7 @@ trait Comparable
         AssertEquals::applyWith(
             false,
             "boolean",
-            0.08, // 0.07,
+            0.09, // 0.08, // 0.07,
             2
         )->unfoldUsing(
             Shooped::fold([3, 1, 3])->is(false)
@@ -130,7 +130,7 @@ trait Comparable
         AssertEquals::applyWith(
             true,
             "boolean",
-            0.07, // 0.06, // 0.03, // 0.02,
+            0.1, // 0.07, // 0.06, // 0.03, // 0.02,
             1
         )->unfoldUsing(
             Shooped::fold(["a" => 1, "b" => 3, "c" => 1])
@@ -215,7 +215,7 @@ trait Comparable
         AssertEquals::applyWith(
             true,
             "boolean",
-            0.29, // 0.27, // 0.04,
+            0.32, // 0.29, // 0.27, // 0.04,
             1
         )->unfoldUsing(
             Shooped::fold(["a" => 1, "b" => 3, "c" => 1])

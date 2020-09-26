@@ -55,7 +55,7 @@ trait Arrayable
         AssertEquals::applyWith(
             [1, 3, 1],
             "array",
-            0.08, // 0.02,
+            0.11, // 0.08, // 0.02,
             1
         )->unfoldUsing(
             Shooped::fold(["a" => 1, "b" => 3, "c" => 1])->asArray()
@@ -126,7 +126,7 @@ trait Arrayable
         AssertEquals::applyWith(
             [3, 1, 3],
             "array",
-            0.1, // 0.08,
+            0.11, // 0.1, // 0.08,
             1
         )->unfoldUsing(
             Shooped::fold([3, 1, 3])->efToArray()
