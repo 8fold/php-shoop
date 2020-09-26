@@ -59,7 +59,7 @@ class TypeIsNumberTest extends TestCase
         AssertEquals::applyWith(
             false,
             "boolean",
-            0.01,
+            0.1, // 0.01,
             1
         )->unfoldUsing(
             IsNumber::apply()->unfoldUsing(false)
