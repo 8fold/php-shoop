@@ -47,7 +47,7 @@ class TypeAsDictionaryTest extends TestCase
         AssertEquals::applyWith(
             ["public" => "object"],
             "array",
-            0.09, // 0.04,
+            0.16, // 0.09, // 0.04,
             1
         )->unfoldUsing(
             AsDictionary::fromObject(

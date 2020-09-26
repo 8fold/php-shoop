@@ -98,7 +98,7 @@ class TypeIsDictionaryTest extends TestCase
         AssertEquals::applyWith(
             $expected,
             "boolean",
-            0.02, // 0.01,
+            0.03, // 0.02, // 0.01,
             1
         )->unfoldUsing(
             IsDictionary::apply()->unfoldUsing("hello")

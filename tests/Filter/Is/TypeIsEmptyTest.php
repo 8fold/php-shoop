@@ -54,7 +54,7 @@ class TypeIsEmptyTest extends TestCase
             true,
             "boolean",
             1.17, // 0.93, // 0.68, // 0.67, // 0.51, // 0.04, // 0.03, // 0.02,
-            9 // 5
+            10 // 9 // 5
         )->unfoldUsing(
             IsEmpty::fromTuple(
                 new class {}
@@ -92,7 +92,7 @@ class TypeIsEmptyTest extends TestCase
             true,
             "boolean",
             4.76, // 2.28, // 0.67, // 0.6, // 0.59, // 0.52,
-            21
+            76 // 21
         )->unfoldUsing(
             IsEmpty::fromTuple('')
         );
@@ -176,7 +176,7 @@ class TypeIsEmptyTest extends TestCase
         AssertEquals::applyWith(
             false,
             "boolean",
-            0.18, // 0.04, // 0.03,
+            0.21, // 0.18, // 0.04, // 0.03,
             1
         )->unfoldUsing(
             IsEmpty::fromObject(
@@ -237,7 +237,7 @@ class TypeIsEmptyTest extends TestCase
         AssertEquals::applyWith(
             false,
             "boolean",
-            0.32, // 0.25,
+            0.62, // 0.32, // 0.25,
             14
         )->unfoldUsing(
             IsJson::apply()->unfoldUsing('xx')
@@ -264,7 +264,7 @@ class TypeIsEmptyTest extends TestCase
         AssertEquals::applyWith(
             false,
             "boolean",
-            0.02, // 0.01,
+            0.04, // 0.02, // 0.01,
             1
         )->unfoldUsing(
             IsJson::apply()->unfoldUsing('{"member":"bad json}')
