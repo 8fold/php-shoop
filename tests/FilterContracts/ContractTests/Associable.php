@@ -37,7 +37,7 @@ trait Associable
         AssertEquals::applyWith(
             ["0.0" => 2.5],
             "array",
-            0.16, // 0.13, // 0.1, // 0.04, // 0.03,
+            0.17, // 0.16, // 0.13, // 0.1, // 0.04, // 0.03,
             1
         )->unfoldUsing(
             Shooped::fold(2.5)->asDictionary()
@@ -784,7 +784,7 @@ trait Associable
         AssertEquals::applyWith(
             ["a" => 1],
             "array",
-            0.13, // 0.09, // 0.05,
+            0.19, // 0.13, // 0.09, // 0.05,
             1
         )->unfoldUsing(
             Shooped::fold(["a" => 1, "c" => 3])->dropAt("c")

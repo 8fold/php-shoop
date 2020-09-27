@@ -55,7 +55,7 @@ trait Stringable
         AssertEquals::applyWith(
             "",
             "string",
-            0.1, // 0.08, // 0.02,
+            0.15, // 0.1, // 0.08, // 0.02,
             1
         )->unfoldUsing(
             Shooped::fold(["a" => 1, "b" => 3, "c" => 1])->asString()
