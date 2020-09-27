@@ -5,18 +5,19 @@ namespace Eightfold\Shoop\Filter;
 
 use Eightfold\Foldable\Filter;
 
-// TODO: Increase type-safety by using established type-check pattern
+use Eightfold\Shoop\Shoop;
+use Eightfold\Shoop\Apply;
+
 class Is extends Filter
 {
-    private $compare = "";
-
-    public function __construct($compare = "")
+    static public function __callStatic(string $name, array $arguments)
     {
-        $this->compare = $compare;
-    }
+        $className = ucfirst($name);
+        $className = Prepend::fromString($className, "Is");
+        $className = __NAMESPACE__ ."\\Is\\". $className;
 
-    public function __invoke($using): bool
-    {
-        return $using === $this->compare;
+        return (CountIsGreaterThan::fromList($arguments, 0))
+            ? $className::applyWith(...$arguments)
+            : $className::apply();
     }
 }

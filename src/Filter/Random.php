@@ -7,7 +7,9 @@ use Eightfold\Foldable\Filter;
 
 use Eightfold\Shoop\Shoop;
 
-// TODO: tests
+/**
+ * @todo - update for 1.0.0
+ */
 class Random extends Filter
 {
     private $count = 1;

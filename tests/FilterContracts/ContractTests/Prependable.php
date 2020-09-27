@@ -10,49 +10,61 @@ trait Prependable
 {
     /**
      * @test
+     * @group Prependable
+     * @group 1.0.0
      */
     public function prepend()
     {
-        AssertEquals::applyWith(
-            true,
-            "boolean",
-            1.4, // 0.35, // 0.3,
-            14
-        )->unfoldUsing(
-            Shooped::fold(false)->prepend(1)
-        );
+        // AssertEquals::applyWith(
+        //     true,
+        //     "boolean",
+        //     0.001,
+        //     1
+        // )->unfoldUsing(
+        //     Shooped::fold(false)->prepend(1)
+        // );
 
-        AssertEquals::applyWith(
-            false,
-            "boolean"
-        )->unfoldUsing(
-            Shooped::fold(false)->prepend(false)
-        );
+        // AssertEquals::applyWith(
+        //     false,
+        //     "boolean",
+        //     0.001,
+        //     1
+        // )->unfoldUsing(
+        //     Shooped::fold(false)->prepend(false)
+        // );
 
-        AssertEquals::applyWith(
-            2,
-            "integer"
-        )->unfoldUsing(
-            Shooped::fold(1)->prepend(1)
-        );
+        // AssertEquals::applyWith(
+        //     2,
+        //     "integer",
+        //     0.001,
+        //     1
+        // )->unfoldUsing(
+        //     Shooped::fold(1)->prepend(1)
+        // );
 
-        AssertEquals::applyWith(
-            0.5,
-            "double"
-        )->unfoldUsing(
-            Shooped::fold(1.5)->prepend(-1)
-        );
+        // AssertEquals::applyWith(
+        //     0.5,
+        //     "double",
+        //     0.001,
+        //     1
+        // )->unfoldUsing(
+        //     Shooped::fold(1.5)->prepend(-1)
+        // );
 
         AssertEquals::applyWith(
             [2, 3, 1],
-            "array"
+            "array",
+            21.32, // 6,
+            257 // 256 // 255
         )->unfoldUsing(
             Shooped::fold([1])->prepend([2, 3])
         );
 
         AssertEquals::applyWith(
             "!8fold",
-            "string"
+            "string",
+            1.21, // 0.9,
+            6
         )->unfoldUsing(
             Shooped::fold("8fold")->prepend("!")
         );
@@ -60,23 +72,26 @@ trait Prependable
         AssertEquals::applyWith(
             (object) ["b" => 2, "c" => 3, "a" => 1],
             "object",
-            0.39 // 0.37 // 0.36
+            2.23,
+            121
         )->unfoldUsing(
             Shooped::fold((object) ["a" => 1])->prepend(["b" => 2, "c" => 3])
         );
 
         AssertEquals::applyWith(
-            (object) ["a" => 1, "c" => 3],
+            (object) ["a" => 2, "c" => 3],
             "object",
-            0.4 // 0.34 // 0.33
+            0.29, // 0.26, // 0.24, // 0.2, // 0.07, // 0.05,
+            1
         )->unfoldUsing(
             Shooped::fold((object) ["a" => 1])->prepend((object) ["a" => 2, "c" => 3])
         );
 
         AssertEquals::applyWith(
-            (object) ["a" => 1, "i0" => 3],
+            (object) ["a" => 1, "0.0" => 3],
             "object",
-            0.49 // 0.4 // 0.36 // 0.32
+            0.58,
+            10
         )->unfoldUsing(
             Shooped::fold((object) ["a" => 1])->prepend(3)
         );

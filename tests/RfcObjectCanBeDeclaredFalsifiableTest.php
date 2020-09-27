@@ -12,12 +12,13 @@ use Eightfold\Shoop\Shooped;
 use Eightfold\Shoop\FilterContracts\Interfaces\Falsifiable;
 use Eightfold\Shoop\FilterContracts\Interfaces\Emptiable;
 
-use Eightfold\Shoop\Filter\TypeAsBoolean;
-use Eightfold\Shoop\Filter\IsEmpty;
+use Eightfold\Shoop\Filter\TypeJuggling\AsBoolean;
+use Eightfold\Shoop\Filter\Is\IsEmpty;
 
 /**
  * @group AsBoolean
  * @group IsEmpty
+ * @group 1.0.0
  *
  * In Php, a valid object instance is always `true` and never `empty`. There
  * is no mechanism as of PHP 8.0 for an `object` type to be false; instead,
@@ -33,7 +34,7 @@ use Eightfold\Shoop\Filter\IsEmpty;
  * future magic method proprosed in PHP RFC: Objects can be declared
  * falsifiable. The `Falsifiable` interface can be found in
  * `/src/FilterContracts/Interfaces/Falsifiable.php`. The Shoop check and response
- * can be found in `/src/Filter/TypeAsBoolean.php`.
+ * can be found in `/src/Filter/TypeJuggling/AsBoolean.php`.
  *
  * The former would be similar to the interface added to PHP. The latter could be
  * similar to the check and work performed by PHP when a `boolean` type is assumed,
@@ -61,16 +62,18 @@ class RfcObjectCanBeDeclaredFalsifiableTest extends TestCase
         AssertEquals::applyWith(
             false,
             "boolean",
-            0.88 // 0.75 // 0.43
+            4.03, // 2.89, // 0.94, // 0.88, // 0.75 // 0.43
+            107 // 43 // 42
         )->unfoldUsing(
-            TypeAsBoolean::apply() // Represents the PHP boolean responder script.
+            AsBoolean::apply() // Represents the PHP boolean responder script.
                 ->unfoldUsing($using)
         );
 
         AssertEquals::applyWith(
             true,
             "boolean",
-            0.71
+            0.71,
+            17
         )->unfoldUsing(
             IsEmpty::apply()->unfoldUsing($using)
         );
@@ -96,14 +99,17 @@ class RfcObjectCanBeDeclaredFalsifiableTest extends TestCase
         AssertEquals::applyWith(
             true,
             "boolean",
-            0.45
+            0.65, // 0.45,
+            1
         )->unfoldUsing(
-            TypeAsBoolean::apply()->unfoldUsing($using)
+            AsBoolean::apply()->unfoldUsing($using)
         );
 
         AssertEquals::applyWith(
             false,
-            "boolean"
+            "boolean",
+            0.43,
+            17
         )->unfoldUsing(
             IsEmpty::apply()->unfoldUsing($using)
         );
@@ -143,15 +149,17 @@ class RfcObjectCanBeDeclaredFalsifiableTest extends TestCase
         AssertEquals::applyWith(
             false,
             "boolean",
-            1.58 // 1.09
+            6.13, // 5.89, // 5.37, // 1.58 // 1.09
+            121
         )->unfoldUsing(
-            TypeAsBoolean::apply()->unfoldUsing($using)
+            AsBoolean::apply()->unfoldUsing($using)
         );
 
         AssertEquals::applyWith(
             false,
             "boolean",
-            0.73
+            1.74, // 0.79, // 0.73,
+            35
         )->unfoldUsing(
             IsEmpty::apply()->unfoldUsing($using)
         );
@@ -168,64 +176,7 @@ class RfcObjectCanBeDeclaredFalsifiableTest extends TestCase
         $using = new class implements Emptiable {
             public $property = "8fold";
 
-            public function isEmpty(): Falsifiable
-            {
-                return Shooped::fold(true);
-            }
-
-            public function efIsEmpty(): bool
-            {
-                return $this->isEmpty()->unfold();
-            }
-        };
-
-        // PHP - true|false
-        $bool  = (bool) $using;
-        $empty = empty($using);
-
-        $this->assertTrue($bool);
-        $this->assertFalse($empty);
-
-        // Shoop (deviation) - true|true
-        AssertEquals::applyWith(
-            true,
-            "boolean",
-            0.31
-        )->unfoldUsing(
-            TypeAsBoolean::apply()->unfoldUsing($using)
-        );
-
-        AssertEquals::applyWith(
-            true,
-            "boolean",
-            1.14 // 1.05 // 1.02
-        )->unfoldUsing(
-            IsEmpty::apply()->unfoldUsing($using)
-        );
-    }
-
-    /**
-     * Not related to RFC as submitted; however, is related given the coupling
-     * between falsiness and emptiness in PHP.
-     *
-     * @test
-     */
-    public function instance_can_specify_emptiness_and_falsiness_achieving_false_and_empty()
-    {
-        $using = new class implements Emptiable {
-            public $property = "8fold";
-
-            public function asBoolean(): Falsifiable
-            {
-                return Shooped::fold(false);
-            }
-
-            public function efToBoolean(): bool
-            {
-                return $this->asBoolean()->unfold();
-            }
-
-            public function isEmpty(): Falsifiable
+            public function isEmpty(): Emptiable
             {
                 return Shooped::fold(true);
             }
@@ -245,11 +196,68 @@ class RfcObjectCanBeDeclaredFalsifiableTest extends TestCase
 
         // Shoop (deviation) - false|true
         AssertEquals::applyWith(
+            false,
+            "boolean",
+            0.31
+        )->unfoldUsing(
+            AsBoolean::apply()->unfoldUsing($using)
+        );
+
+        AssertEquals::applyWith(
             true,
+            "boolean",
+            1.14 // 1.05 // 1.02
+        )->unfoldUsing(
+            IsEmpty::apply()->unfoldUsing($using)
+        );
+    }
+
+    /**
+     * Not related to RFC as submitted; however, is related given the coupling
+     * between falsiness and emptiness in PHP.
+     *
+     * @test
+     */
+    public function instance_can_specify_emptiness_and_falsiness_achieving_false_and_empty()
+    {
+        $using = new class implements Falsifiable, Emptiable {
+            public $property = "8fold";
+
+            public function asBoolean(): Falsifiable
+            {
+                return Shooped::fold(false);
+            }
+
+            public function efToBoolean(): bool
+            {
+                return $this->asBoolean()->unfold();
+            }
+
+            public function isEmpty(): Emptiable
+            {
+                return Shooped::fold(true);
+            }
+
+            public function efIsEmpty(): bool
+            {
+                return $this->isEmpty()->unfold();
+            }
+        };
+
+        // PHP - true|false
+        $bool  = (bool) $using;
+        $empty = empty($using);
+
+        $this->assertTrue($bool);
+        $this->assertFalse($empty);
+
+        // Shoop (deviation) - false|true
+        AssertEquals::applyWith(
+            false,
             "boolean",
             1 // 0.41 // 0.32
         )->unfoldUsing(
-            TypeAsBoolean::apply()->unfoldUsing($using)
+            AsBoolean::apply()->unfoldUsing($using)
         );
 
         AssertEquals::applyWith(

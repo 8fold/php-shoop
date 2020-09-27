@@ -10,35 +10,43 @@ trait Tupleable
 {
     /**
      * @test
+     * @group Tupleable
+     * @group 1.0.0
      */
     public function asTuple()
     {
         AssertEquals::applyWith(
             (object) ["false" => false, "true" => true],
             "object",
-            9.25
+            3.67, // 3.17, // 3.15,
+            301
         )->unfoldUsing(
             Shooped::fold(true)->asTuple()
         );
 
         AssertEquals::applyWith(
-            (object) ["i0" => 0, "i1" => 1],
+            (object) ["0.0" => 1],
             "object",
-            0.39 // 0.34
+            0.25, // 0.23,
+            12
         )->unfoldUsing(
             Shooped::fold(1)->asTuple()
         );
 
         AssertEquals::applyWith(
             (object) ["content" => "Hi!"],
-            "object"
+            "object",
+            0.3, // 0.2,
+            7
         )->unfoldUsing(
             Shooped::fold("Hi!")->asTuple()
         );
 
         AssertEquals::applyWith(
             (object) ["a" => 1, "b" => 3],
-            "object"
+            "object",
+            0.25, // 0.2, // 0.16, // 0.14, // 0.13, // 0.11, // 0.03,
+            1
         )->unfoldUsing(
             Shooped::fold(["a" => 1, "b" => 3])->asTuple()
         );
@@ -48,35 +56,43 @@ trait Tupleable
 
     /**
      * @test
+     * @group Tupleable
+     * @group 1.0.0
      */
     public function efToTuple()
     {
         AssertEquals::applyWith(
             (object) ["false" => false, "true" => true],
             "object",
-            3.39 // 2.95
+            19.19,
+            301
         )->unfoldUsing(
             Shooped::fold(true)->efToTuple()
         );
 
         AssertEquals::applyWith(
-            (object) ["i0" => 0, "i1" => 1],
+            (object) ["0.0" => 1],
             "object",
-            0.33 // 0.32
+            1.95,
+            12
         )->unfoldUsing(
             Shooped::fold(1)->efToTuple()
         );
 
         AssertEquals::applyWith(
             (object) ["content" => "Hi!"],
-            "object"
+            "object",
+            1.57,
+            6
         )->unfoldUsing(
             Shooped::fold("Hi!")->efToTuple()
         );
 
         AssertEquals::applyWith(
             (object) ["a" => 1, "b" => 3],
-            "object"
+            "object",
+            0.19, // 0.14, // 0.1, // 0.03,
+            1
         )->unfoldUsing(
             Shooped::fold(["a" => 1, "b" => 3])->efToTuple()
         );
@@ -86,35 +102,43 @@ trait Tupleable
 
     /**
      * @test
+     * @group Tupleable
+     * @group 1.0.0
      */
     public function asJson()
     {
         AssertEquals::applyWith(
             '{"false":false,"true":true}',
             "string",
-            3.41 // 2.69 // 2.66
+            20.79,
+            336
         )->unfoldUsing(
             Shooped::fold(true)->asJson()
         );
 
         AssertEquals::applyWith(
-            '{"i0":0,"i1":1}',
+            '{"0.0":1}',
             "string",
-            0.48
+            1.3,
+            10
         )->unfoldUsing(
             Shooped::fold(1)->asJson()
         );
 
         AssertEquals::applyWith(
             '{"content":"Hi!"}',
-            "string"
+            "string",
+            0.85,
+            2
         )->unfoldUsing(
             Shooped::fold("Hi!")->asJson()
         );
 
         AssertEquals::applyWith(
             '{"a":1,"b":3}',
-            "string"
+            "string",
+            0.31, // 0.16, // 0.03,
+            1
         )->unfoldUsing(
             Shooped::fold(["a" => 1, "b" => 3])->asJson()
         );
@@ -124,21 +148,25 @@ trait Tupleable
 
     /**
      * @test
+     * @group Tupleable
+     * @group 1.0.0
      */
     public function efToJson()
     {
         AssertEquals::applyWith(
             '{"false":false,"true":true}',
             "string",
-            3.55 // 2.59
+            4.08, // 4.02, // 3.76,
+            336
         )->unfoldUsing(
             Shooped::fold(true)->efToJson()
         );
 
         AssertEquals::applyWith(
-            '{"i0":0,"i1":1}',
+            '{"0.0":1}',
             "string",
-            0.34
+            0.52,
+            10
         )->unfoldUsing(
             Shooped::fold(1)->efToJson()
         );
@@ -146,14 +174,17 @@ trait Tupleable
         AssertEquals::applyWith(
             '{"content":"Hi!"}',
             "string",
-            0.49
+            1.07,
+            2
         )->unfoldUsing(
             Shooped::fold("Hi!")->efToJson()
         );
 
         AssertEquals::applyWith(
             '{"a":1,"b":3}',
-            "string"
+            "string",
+            0.2, // 0.19, // 0.18, // 0.13, // 0.1, // 0.03,
+            1
         )->unfoldUsing(
             Shooped::fold(["a" => 1, "b" => 3])->efToJson()
         );

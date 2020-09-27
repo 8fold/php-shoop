@@ -11,27 +11,34 @@ trait Stringable
 {
     /**
      * @test
+     * @group Stringable
+     * @group 1.0.0
      */
     public function asString()
     {
         AssertEquals::applyWith(
             "true",
             "string",
-            10.05 // 6.48
+            3.49, // 3.02, // 2.95, // 2.82,
+            264
         )->unfoldUsing(
             Shooped::fold(true)->asString()
         );
 
         AssertEquals::applyWith(
-            "3",
-            "string"
+            "3.0",
+            "string",
+            0.27, // 0.23,
+            4
         )->unfoldUsing(
             Shooped::fold(3)->asString()
         );
 
         AssertEquals::applyWith(
             "2.5",
-            "string"
+            "string",
+            0.1, // 0.09, // 0.07, // 0.05, // 0.04, // 0.03,
+            1
         )->unfoldUsing(
             Shooped::fold(2.5)->asString()
         );
@@ -39,7 +46,8 @@ trait Stringable
         AssertEquals::applyWith(
             "Hi!",
             "string",
-            1.62
+            0.13, // 0.12, // 0.09, // 0.08, // 0.07,
+            2
         )->unfoldUsing(
             Shooped::fold(["H", 1, "i", true, "!"])->asString()
         );
@@ -47,7 +55,8 @@ trait Stringable
         AssertEquals::applyWith(
             "",
             "string",
-            0.91
+            0.15, // 0.1, // 0.08, // 0.02,
+            1
         )->unfoldUsing(
             Shooped::fold(["a" => 1, "b" => 3, "c" => 1])->asString()
         );
@@ -55,7 +64,8 @@ trait Stringable
         AssertEquals::applyWith(
             "8fold!",
             "string",
-            4.05
+            0.8, // 0.74, // 0.7,
+            46
         )->unfoldUsing(
             Shooped::fold((object) ["a" => 1, "b" => "8fold!", "c" => 3])->asString()
         );
@@ -65,27 +75,34 @@ trait Stringable
 
     /**
      * @test
+     * @group Stringable
+     * @group 1.0.0
      */
     public function efToString()
     {
         AssertEquals::applyWith(
             "true",
             "string",
-            2.24 // 2.04 // 1.65
+            13.15,
+            264
         )->unfoldUsing(
             Shooped::fold(true)->efToString()
         );
 
         AssertEquals::applyWith(
-            "3",
-            "string"
+            "3.0",
+            "string",
+            0.22, // 0.18,
+            4
         )->unfoldUsing(
             Shooped::fold(3)->efToString()
         );
 
         AssertEquals::applyWith(
             "2.5",
-            "string"
+            "string",
+            0.12, // 0.11, // 0.1, // 0.08, // 0.04, // 0.03,
+            1
         )->unfoldUsing(
             Shooped::fold(2.5)->efToString()
         );
@@ -93,7 +110,8 @@ trait Stringable
         AssertEquals::applyWith(
             "Hi!",
             "string",
-            1.64
+            0.15, // 0.14, // 0.09, // 0.08,
+            1
         )->unfoldUsing(
             Shooped::fold(["H", 1, "i", true, "!"])->efToString()
         );
@@ -101,7 +119,8 @@ trait Stringable
         AssertEquals::applyWith(
             "",
             "string",
-            0.91
+            0.12, // 0.11, // 0.09, // 0.08, // 0.03, // 0.02,
+            1
         )->unfoldUsing(
             Shooped::fold(["a" => 1, "b" => 3, "c" => 1])->efToString()
         );
@@ -109,7 +128,8 @@ trait Stringable
         AssertEquals::applyWith(
             "8fold!",
             "string",
-            2.18
+            0.86, // 0.82, // 0.78, // 0.77,
+            46
         )->unfoldUsing(
             Shooped::fold((object) ["a" => 1, "b" => "8fold!", "c" => 3])->efToString()
         );

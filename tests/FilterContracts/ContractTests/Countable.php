@@ -10,13 +10,16 @@ trait Countable
 {
     /**
      * @test
+     * @group Countable
+     * @group 1.0.0
      */
     public function asInteger()
     {
         AssertEquals::applyWith(
             1,
             "integer",
-            5.28
+            21.87,
+            261
         )->unfoldUsing(
             Shooped::fold(true)->asInteger()
         );
@@ -24,43 +27,53 @@ trait Countable
         AssertEquals::applyWith(
             3,
             "integer",
-            0.94
+            1.26,
+            4
         )->unfoldUsing(
             Shooped::fold(3)->asInteger()
         );
 
         AssertEquals::applyWith(
-            2,
-            "integer"
+            3,
+            "integer",
+            0.13, // 0.1, // 0.09, // 0.07, // 0.03,
+            1
         )->unfoldUsing(
             Shooped::fold(2.5)->asInteger()
         );
 
         AssertEquals::applyWith(
-            4,
+            1,
             "integer",
-            0.61
+            0.45,
+            2
         )->unfoldUsing(
             Shooped::fold([3, 1, 3, 1])->asInteger()
         );
 
         AssertEquals::applyWith(
-            3,
+            1,
             "integer",
+            0.1, // 0.09, // 0.08, // 0.03, // 0.02,
+            1
         )->unfoldUsing(
             Shooped::fold(["a" => 1, "b" => 3, "c" => 1])->asInteger()
         );
 
         AssertEquals::applyWith(
-            3,
-            "integer"
+            0,
+            "integer",
+            0.81,
+            4
         )->unfoldUsing(
             Shooped::fold("Hi!")->asInteger()
         );
 
         AssertEquals::applyWith(
-            2,
-            "integer"
+            1,
+            "integer",
+            3.09,
+            42
         )->unfoldUsing(
             Shooped::fold((object) ["a" => 1, "c" => 3])->asInteger()
         );
@@ -70,55 +83,70 @@ trait Countable
 
     /**
      * @test
+     * @group Countable
+     * @group 1.0.0
      */
     public function efToInteger()
     {
         AssertEquals::applyWith(
             1,
             "integer",
-            1.93
+            3, // 2.95, // 2.91, // 2.76,
+            261
         )->unfoldUsing(
             Shooped::fold(true)->efToInteger()
         );
 
         AssertEquals::applyWith(
             3,
-            "integer"
+            "integer",
+            0.18, // 0.16, // 0.15,
+            4
         )->unfoldUsing(
             Shooped::fold(3)->efToInteger()
         );
 
         AssertEquals::applyWith(
-            2,
-            "integer"
+            3,
+            "integer",
+            0.1, // 0.09, // 0.06, // 0.03,
+            1
         )->unfoldUsing(
             Shooped::fold(2.5)->efToInteger()
         );
 
         AssertEquals::applyWith(
-            4,
-            "integer"
+            1,
+            "integer",
+            0.11, // 0.09, // 0.08,
+            1
         )->unfoldUsing(
             Shooped::fold([3, 1, 3, 1])->efToInteger()
         );
 
         AssertEquals::applyWith(
-            3,
-            "integer"
+            1,
+            "integer",
+            0.13, // 0.1, // 0.09, // 0.07, // 0.02,
+            1
         )->unfoldUsing(
             Shooped::fold(["a" => 1, "b" => 3, "c" => 1])->efToInteger()
         );
 
         AssertEquals::applyWith(
-            3,
-            "integer"
+            0,
+            "integer",
+            0.44,
+            4
         )->unfoldUsing(
             Shooped::fold("Hi!")->efToInteger()
         );
 
         AssertEquals::applyWith(
-            2,
-            "integer"
+            1,
+            "integer",
+            3,
+            42
         )->unfoldUsing(
             Shooped::fold((object) ["a" => 1, "c" => 3])->efToInteger()
         );

@@ -9,86 +9,54 @@ use Eightfold\Foldable\Filter;
 use Eightfold\Shoop\Shoop;
 use Eightfold\Shoop\Apply;
 
-// TODO: tests ??
+use Eightfold\Shoop\Filter\Is\IsList;
+
+use Eightfold\Shoop\Filter\Traverse\RetainUsing;
+
+/**
+ * @version 1.0.0
+ */
 class Plus extends Filter
 {
-    private $value;
-
-    public function __construct($value)
-    {
-        if (is_a($this->value, Foldable::class)) {
-            $value = $value->unfold();
-        }
-        $this->value = $value;
-    }
-
     public function __invoke($using)
     {
-        if (TypeIs::applyWith("boolean")->unfoldUsing($using)) {
-            return Shoop::pipe($using,
-                TypeAsInteger::apply(),
-                Plus::applyWith($this->value),
-                TypeAsBoolean::apply()
-            )->unfold();
+        if (Is::object(false)->unfoldUsing($using)) {
+            // if (Is::object()->unfoldUsing($using)) {
+            //     return static::fromObject($using);
+            // }
+            // return static::fromTuple($using, $this->main);
 
-        } elseif (TypeIs::applyWith("number")->unfoldUsing($using)) {
-            if (! TypeIs::applyWith("list")->unfoldUsing($this->value)) {
-                $this->value = [$this->value];
-            }
+        // } elseif (Is::boolean()->unfoldUsing($using)) {
+        //     return static::fromBoolean($using);
 
-            $int = array_sum($this->value);
-            return $using + $int;
+        } elseif (Is::number()->unfoldUsing($using)) {
+            return static::fromNumber($using, ...$this->args(true));
 
-        } elseif (TypeIs::applyWith("list")->unfoldUsing($using) or
-            TypeIs::applyWith("string")->unfoldUsing($using) or
-            TypeIs::applyWith("tuple")->unfoldUsing($using) or
-            TypeIs::applyWith("object")->unfoldUsing($using)
-        ) {
-            return Apply::append($this->value)->unfoldUsing($using);
+        // } elseif (Is::list()->unfoldUsing($using)) {
+        //     return static::fromList($using, $this->main);
 
-        } elseif (TypeIs::applyWith("tuple")->unfoldUsing($using)) {
-            // TODO: Use Append
-            if (TypeIs::applyWith("tuple")->unfoldUsing($this->value)) {
-                return Shoop::pipe($using,
-                    TypeAsDictionary::apply(),
-                    Plus::applyWith(
-                        TypeAsDictionary::apply()->unfoldUsing($this->value)
-                    ),
-                    TypeAsTuple::apply()
-                )->unfold();
-
-            } elseif (! is_array($this->value)) {
-                $this->value = [$this->value];
-
-            }
-
-            return Shoop::pipe($using,
-                TypeAsDictionary::apply(),
-                Plus::applyWith(
-                    TypeAsDictionary::apply()->unfoldUsing($this->value)
-                ),
-                TypeAsTuple::apply()
-            )->unfold();
-
-        } elseif (TypeIs::applyWith("object")->unfoldUsing($using)) {
-            // TODO: Use Append
-            if (! is_array($this->value)) {
-                $this->value = [$this->value];
-            }
-            return Shoop::pipe($using,
-                TypeAsTuple::apply(),
-                Plus::applyWith($this->value)
-            )->unfold();
+        // } elseif (Is::string()->unfoldUsing($using)) {
+        //     if (Is::json()->unfoldUsing($using)) {
+        //         return static::fromTuple($using, $this->main);
+        //     }
+        //     return static::fromString($using, $this->main);
 
         }
     }
 
-    static private function fromString(
-        string $using,
-        string $characters = "",
-        bool $prepend = false
-    ): string
+    // TODO: PHP 8 - int|float -> int|float
+    static public function fromNumber($using, ...$addends)
     {
-        return ($prepend) ? $characters . $using : $using . $characters;
+        $addends = RetainUsing::fromList($addends, "is_int");
+        if (IsList::apply()->unfoldUsing($using)) {
+            $allNumbers = Append::fromList($using, $addends);
+
+        } else {
+            $using      = Apply::asArray()->unfoldUsing($using);
+            $allNumbers = Append::fromList($using, $addends);
+
+        }
+
+        return array_sum($allNumbers);
     }
 }

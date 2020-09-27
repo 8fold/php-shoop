@@ -74,15 +74,10 @@ class Shooped implements ShoopedInterface
     }
 
 // - Arrayable
-    public function asArray(
-        $start = 0, // int|string
-        bool $includeEmpties = true,
-        int $limit = PHP_INT_MAX
-    ): Arrayable
+    public function asArray(): Arrayable
     {
         return static::fold(
-            Apply::typeAsArray($start, $includeEmpties, $limit)
-                ->unfoldUsing($this->main)
+            Apply::asArray()->unfoldUsing($this->main)
         );
     }
 
@@ -95,7 +90,7 @@ class Shooped implements ShoopedInterface
     public function asDictionary(): Associable
     {
         return static::fold(
-            Apply::typeAsDictionary()->unfoldUsing($this->main)
+            Apply::asDictionary()->unfoldUsing($this->main)
         );
     }
 
@@ -143,13 +138,12 @@ class Shooped implements ShoopedInterface
         return $this->at($offset)->unfold();
     }
 
-    public function plusAt(
+    public function insertAt(
         $value, // mixed
-        $member = PHP_INT_MAX, // int|string
-        bool $overwrite = false
+        $member = PHP_INT_MAX // int|string
     ): Associable
     {
-        $this->main = Apply::plusAt($value, $member, $overwrite)
+        $this->main = Apply::insertAt($value, $member)
             ->unfoldUsing($this->main);
         return $this;
     }
@@ -159,15 +153,50 @@ class Shooped implements ShoopedInterface
         $this->plusAt($value, $offset);
     }
 
-    public function minusAt($member): Associable
+    public function dropAt($member): Associable
     {
-        $this->main = Apply::minusAt($member)->unfoldUsing($this->main);
+        $this->main = Apply::dropAt($member)->unfoldUsing($this->main);
         return $this;
+    }
+
+    public function dropFirst($length = 1): Associable
+    {
+        return Shoop::this(
+            Apply::dropFirst($length)->unfoldUsing($this->main)
+        );
+    }
+
+    public function dropLast($length = 1): Associable
+    {
+        return Shoop::this(
+            Apply::dropLast($length)->unfoldUsing($this->main)
+        );
     }
 
     public function offsetUnset($offset): void // ArrayAcces
     {
-        $this->main = $this->minusAt($member);
+        $this->main = $this->dropAt($member);
+    }
+
+    public function each(callable $callable): Associable
+    {
+        return Shoop::this(
+            Apply::eachUsing($callable)->unfoldUsing($this->main)
+        );
+    }
+
+    public function retain(callable $callable): Associable
+    {
+        return Shoop::this(
+            Apply::retainUsing($callable)->unfoldUsing($this->main)
+        );
+    }
+
+    public function drop(callable $callable): Associable
+    {
+        return Shoop::this(
+            Apply::dropUsing($callable)->unfoldUsing($this->main)
+        );
     }
 
     private $temp;
@@ -218,7 +247,7 @@ class Shooped implements ShoopedInterface
     }
 
 // - Emptiable TODO: create interface
-    public function isEmpty(): Falsifiable
+    public function isEmpty(): Emptiable
     {
         return static::fold(
             Apply::isEmpty()->unfoldUsing($this->main)
@@ -234,7 +263,7 @@ class Shooped implements ShoopedInterface
     public function asBoolean(): Falsifiable
     {
         return static::fold(
-            Apply::typeAsBoolean()->unfoldUsing($this->main)
+            Apply::asBoolean()->unfoldUsing($this->main)
         );
     }
 
@@ -247,7 +276,7 @@ class Shooped implements ShoopedInterface
     public function asString(string $glue = ""): Stringable
     {
         return static::fold(
-            Apply::typeAsString($glue)->unfoldUsing($this->main)
+            Apply::asString($glue)->unfoldUsing($this->main)
         );
     }
 
@@ -265,7 +294,7 @@ class Shooped implements ShoopedInterface
     public function asTuple(): Tupleable
     {
         return static::fold(
-            Apply::typeAsTuple()->unfoldUsing($this->main)
+            Apply::asTuple()->unfoldUsing($this->main)
         );
     }
 
@@ -277,7 +306,7 @@ class Shooped implements ShoopedInterface
     public function asJson(): Tupleable
     {
         return static::fold(
-            Apply::typeAsJson()->unfoldUsing($this->main)
+            Apply::asJson()->unfoldUsing($this->main)
         );
     }
 
@@ -295,7 +324,7 @@ class Shooped implements ShoopedInterface
     public function asInteger(): Countable
     {
         return static::fold(
-            Apply::typeAsInteger()->unfoldUsing($this->main)
+            Apply::asInteger()->unfoldUsing($this->main)
         );
     }
 
@@ -306,14 +335,14 @@ class Shooped implements ShoopedInterface
 
     public function count(): int // Countable
     {
-        return $this->efToInteger()->unfold();
+        return $this->efToInteger();
     }
 
 // - Comparable
     public function is($compare): Falsifiable
     {
         return static::fold(
-            Apply::is($compare)->unfoldUsing($this->main)
+            Apply::isIdenticalTo($compare)->unfoldUsing($this->main)
         );
     }
 
@@ -326,13 +355,25 @@ class Shooped implements ShoopedInterface
 
     public function isGreaterThanOrEqualTo($compare): Falsifiable
     {
-        return static::fold(
-            Apply::isGreaterThanOrEqualTo($compare)->unfoldUsing($this->main)
-        );
+        $is = $this->is($compare);
+        if ($is->efToBoolean()) {
+            return Shoop::this(
+                $is->unfold()
+            );
+        }
+
+        $isGreaterThan = $this->isGreaterThan($compare);
+        if ($isGreaterThan->efToBoolean()) {
+            return Shoop::this(
+                $isGreaterThan->unfold()
+            );
+        }
+
+        return static::fold(false);
     }
 
 // - Reversible
-    public function reverse(): Reversible
+    public function reversed(): Reversible
     {
         return static::fold(
             Apply::reversed()->unfoldUsing($this->main)

@@ -6,78 +6,54 @@ namespace Eightfold\Shoop\Filter;
 use Eightfold\Foldable\Foldable;
 use Eightfold\Foldable\Filter;
 
-use Eightfold\Shoop\Shoop;
-use Eightfold\Shoop\Apply;
+use Eightfold\Shoop\Filter\TypeJuggling\AsDictionary;
+use Eightfold\Shoop\Filter\TypeJuggling\AsTuple;
 
+/**
+ * @todo Test
+ */
 class Prepend extends Filter
 {
-    private $value;
-
-    public function __construct($value)
-    {
-        if (is_a($this->value, Foldable::class)) {
-            $value = $value->unfold();
-        }
-        $this->value = $value;
-    }
-
     public function __invoke($using)
     {
-        if (TypeIs::applyWith("boolean")->unfoldUsing($using) or
-            TypeIs::applyWith("number")->unfoldUsing($using)
-        ) {
-            return Apply::plus($this->value)->unfoldUsing($using);
-
-        } elseif (TypeIs::applyWith("list")->unfoldUsing($using)) {
-            if (! TypeIs::applyWith("list")->unfoldUsing($this->value)) {
-                $this->value = [$this->value];
+        if (Is::object(false)->unfoldUsing($using)) {
+            if (Is::object()->unfoldUsing($using)) {
+                return static::fromObject($using, $this->main);
             }
-            return Apply::concatenate($using)->unfoldUsing($this->value);
+            return static::fromTuple($using, $this->main);
 
-        } elseif (TypeIs::applyWith("string")->unfoldUsing($using)) {
-            return Apply::concatenate($using)->unfoldUsing($this->value);
+        // } elseif (Is::boolean()->unfoldUsing($using)) {
+        //     return static::fromBoolean($using, $this->main);
 
-        } elseif (TypeIs::applyWith("json")->unfoldUsing($using)) {
-            if (TypeIs::applyWith("number")->unfoldUsing($this->value)) {
-                $this->value = [$this->value];
+        // } elseif (Is::number()->unfoldUsing($using)) {
+        //     return static::fromNumber($using, $this->main);
 
+        } elseif (Is::list()->unfoldUsing($using)) {
+            return static::fromList($using, $this->main);
+
+        } elseif (Is::string()->unfoldUsing($using)) {
+            if (Is::json()->unfoldUsing($using)) {
+                return static::fromTuple($using, $this->main);
             }
-
-            if (! TypeIs::applyWith("dictionary")->unfoldUsing($this->value)) {
-                $this->value = Apply::typeAsDictionary()
-                    ->unfoldUsing($this->value);
-            }
-
-            return Shoop::pipe($using,
-                TypeAsDictionary::apply(),
-                Prepend::applyWith($this->value),
-                TypeAsJson::apply()
-            )->unfold();
-
-        } elseif (TypeIs::applyWith("tuple")->unfoldUsing($using)) {
-            if (TypeIs::applyWith("number")->unfoldUsing($this->value)) {
-                $this->value = [$this->value];
-
-            }
-
-            if (! TypeIs::applyWith("dictionary")->unfoldUsing($this->value)) {
-                $this->value = Apply::typeAsDictionary()
-                    ->unfoldUsing($this->value);
-
-            }
-
-            return Shoop::pipe($using,
-                TypeAsDictionary::apply(),
-                Prepend::applyWith($this->value),
-                TypeAsTuple::apply()
-            )->unfold();
-
-        } elseif (TypeIs::applyWith("object")->unfoldUsing($using)) {
-            return Shoop::pipe($using,
-                TypeAsTuple::apply(),
-                Prepend::applyWith($this->value)
-            )->unfold();
-
+            return static::fromString($using, $this->main);
         }
+    }
+
+    static public function fromString(string $using, string $prefix): string
+    {
+        return Append::fromString($prefix, $using);
+    }
+
+    static public function fromList(array $using, array $prefix): array
+    {
+        return Append::fromList($prefix, $using);
+    }
+
+    static public function fromTuple($using, $prefix): object
+    {
+        $using  = AsDictionary::fromTuple($using);
+        $prefix = AsDictionary::apply()->unfoldUsing($prefix);
+        $dictionary = static::fromList($prefix, $using);
+        return AsTuple::fromList($dictionary);
     }
 }

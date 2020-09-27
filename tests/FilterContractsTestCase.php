@@ -72,7 +72,7 @@ abstract class FilterContractsTestCase extends TestCase
             $sutMethods,
         );
         $sutMethods = array_values(array_filter($sutMethods));
-        $sutMethods[] = "php_iterator";
+        // $sutMethods[] = "php_iterator";
 
         $notTested = array_diff($sutMethods, $caseMethods);
         sort($notTested);
