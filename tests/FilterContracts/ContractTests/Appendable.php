@@ -46,7 +46,7 @@ trait Appendable
         AssertEquals::applyWith(
             "8fold!",
             "string",
-            0.13, // 0.12, // 0.09,
+            0.14, // 0.13, // 0.12, // 0.09,
             4
         )->unfoldUsing(
             Shooped::fold("8fold")->append("!")
