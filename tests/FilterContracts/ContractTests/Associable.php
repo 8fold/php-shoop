@@ -1103,7 +1103,7 @@ trait Associable
         AssertEquals::applyWith(
             ["b" => 2],
             "array",
-            0.1, // 0.08, // 0.03,
+            0.11, // 0.1, // 0.08, // 0.03,
             1
         )->unfoldUsing(
             Shoop::this(["a" => 1, "b" => 2])->retain(function($v, $m) {
@@ -1142,7 +1142,7 @@ trait Associable
         AssertEquals::applyWith(
             [],
             "array",
-            0.12, // 0.11, // 0.1, // 0.06, // 0.05, // 0.04,
+            0.16, // 0.12, // 0.11, // 0.1, // 0.06, // 0.05, // 0.04,
             1
         )->unfoldUsing(
             Shoop::this(["a" => 1, "b" => 2])->drop(function($v, $m) {

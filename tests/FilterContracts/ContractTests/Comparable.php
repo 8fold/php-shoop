@@ -215,7 +215,7 @@ trait Comparable
         AssertEquals::applyWith(
             true,
             "boolean",
-            0.32, // 0.29, // 0.27, // 0.04,
+            0.33, // 0.32, // 0.29, // 0.27, // 0.04,
             1
         )->unfoldUsing(
             Shooped::fold(["a" => 1, "b" => 3, "c" => 1])
