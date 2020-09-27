@@ -197,7 +197,7 @@ trait Associable
         AssertEquals::applyWith(
             false,
             "boolean",
-            0.13, // 0.12, // 0.07, // 0.06, // 0.03, // 0.02,
+            0.18, // 0.13, // 0.12, // 0.07, // 0.06, // 0.03, // 0.02,
             1
         )->unfoldUsing(
             Shooped::fold(2.5)->has(3.0)
