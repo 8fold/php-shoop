@@ -37,7 +37,7 @@ trait Associable
         AssertEquals::applyWith(
             ["0.0" => 2.5],
             "array",
-            0.17, // 0.16, // 0.13, // 0.1, // 0.04, // 0.03,
+            0.19, // 0.17, // 0.16, // 0.13, // 0.1, // 0.04, // 0.03,
             1
         )->unfoldUsing(
             Shooped::fold(2.5)->asDictionary()
@@ -113,7 +113,7 @@ trait Associable
             // ["i1" => 1, "i2" => 2]
             ["0.0" => 2.5],
             "array",
-            0.16, // 0.13, // 0.11, // 0.09, // 0.03,
+            0.17, // 0.16, // 0.13, // 0.11, // 0.09, // 0.03,
             1
         )->unfoldUsing(
             Shooped::fold(2.5)->efToDictionary()
@@ -1153,7 +1153,7 @@ trait Associable
         AssertEquals::applyWith(
             ["a" => 1],
             "array",
-            0.1, // 0.08, // 0.04, // 0.03,
+            0.15, // 0.1, // 0.08, // 0.04, // 0.03,
             1
         )->unfoldUsing(
             Shoop::this(["a" => 1, "b" => 2])->drop(function($v, $m) {
