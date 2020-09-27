@@ -158,7 +158,7 @@ class RfcObjectCanBeDeclaredFalsifiableTest extends TestCase
         AssertEquals::applyWith(
             false,
             "boolean",
-            0.79, // 0.73,
+            1.74, // 0.79, // 0.73,
             35
         )->unfoldUsing(
             IsEmpty::apply()->unfoldUsing($using)
