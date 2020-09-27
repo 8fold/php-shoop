@@ -127,7 +127,7 @@ class TypeIsEmptyTest extends TestCase
         AssertEquals::applyWith(
             true,
             "boolean",
-            0.04,
+            0.19, // 0.04,
             1
         )->unfoldUsing(
             IsEmpty::fromJson('{}')
@@ -255,7 +255,7 @@ class TypeIsEmptyTest extends TestCase
         AssertEquals::applyWith(
             true,
             "boolean",
-            0.07, // 0.06, // 0.05, // 0.04, // 0.02,
+            0.08, // 0.07, // 0.06, // 0.05, // 0.04, // 0.02,
             1
         )->unfoldUsing(
             IsJson::apply()->unfoldUsing('{"member":"good json"}')

@@ -39,7 +39,7 @@ class TypeAsNumberTest extends TestCase
         AssertEquals::applyWith(
             0,
             "integer",
-            0.01, // 0.004, // 0.003, // 0.002,
+            0.03, // 0.01, // 0.004, // 0.003, // 0.002,
             1
         )->unfoldUsing(
             AsNumber::fromBoolean(false)

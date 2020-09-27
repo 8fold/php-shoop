@@ -63,7 +63,7 @@ class TypeAsStringTest extends TestCase
         AssertEquals::applyWith(
             "8fold!",
             "string",
-            0.02, // 0.01, // 0.005, // 0.004, // 0.003,
+            0.04, // 0.02, // 0.01, // 0.005, // 0.004, // 0.003,
             1
         )->unfoldUsing(
             AsString::fromString("8fold!")

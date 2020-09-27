@@ -75,7 +75,7 @@ trait Comparable
         AssertEquals::applyWith(
             false,
             "boolean",
-            0.1, // 0.09,
+            0.19, // 0.1, // 0.09,
             3
         )->unfoldUsing(
             Shooped::fold((object) ["a" => 1, "c" => 3])->is(["a" => 1, "c" => 3])
