@@ -28,7 +28,7 @@ trait Appendable
         AssertEquals::applyWith(
             2.5,
             "double",
-            0.2, // 0.15, // 0.14, // 0.04,
+            0.29, // 0.2, // 0.15, // 0.14, // 0.04,
             1
         )->unfoldUsing(
             Shooped::fold(1.5)->append(1)
