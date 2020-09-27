@@ -131,7 +131,7 @@ class TypeAsStringTest extends TestCase
         AssertEquals::applyWith(
             "hello, world!",
             "string",
-            0.15, // 0.14, // 0.12, // 0.1, // 0.05, // 0.04,
+            0.17, // 0.15, // 0.14, // 0.12, // 0.1, // 0.05, // 0.04,
             1
         )->unfoldUsing(
             AsString::fromObject(
