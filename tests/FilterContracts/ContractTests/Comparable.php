@@ -112,7 +112,7 @@ trait Comparable
         AssertEquals::applyWith(
             true,
             "boolean",
-            0.1, // 0.09, // 0.06, // 0.04, // 0.03,
+            0.11, // 0.1, // 0.09, // 0.06, // 0.04, // 0.03,
             1
         )->unfoldUsing(
             Shooped::fold(2.0)->isGreaterThan(1.9)
