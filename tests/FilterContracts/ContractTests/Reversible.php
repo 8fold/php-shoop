@@ -45,7 +45,7 @@ trait Reversible
         AssertEquals::applyWith(
             [1, 2, 3],
             "array",
-            0.13, // 0.12, // 0.11, // 0.09, // 0.08,
+            0.21, // 0.13, // 0.12, // 0.11, // 0.09, // 0.08,
             2
         )->unfoldUsing(
             Shooped::fold([3, 2, 1])->reversed()
@@ -54,7 +54,7 @@ trait Reversible
         AssertEquals::applyWith(
             ["b" => 3, "a" => 1],
             "array",
-            0.21, // 0.1, // 0.08, // 0.03, // 0.02,
+            0.35, // 0.21, // 0.1, // 0.08, // 0.03, // 0.02,
             1
         )->unfoldUsing(
             Shooped::fold(["a" => 1, "b" => 3])->reversed()
@@ -63,7 +63,7 @@ trait Reversible
         AssertEquals::applyWith(
             "8fold!",
             "string",
-            0.16, // 0.11, // 0.1,
+            0.18, // 0.16, // 0.11, // 0.1,
             4
         )->unfoldUsing(
             Shooped::fold("!dlof8")->reversed()

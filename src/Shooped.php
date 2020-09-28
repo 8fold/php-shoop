@@ -20,6 +20,7 @@ use Eightfold\Shoop\FilterContracts\Interfaces\Arrayable;
 use Eightfold\Shoop\FilterContracts\Interfaces\Associable;
 use Eightfold\Shoop\FilterContracts\Interfaces\Comparable;
 use Eightfold\Shoop\FilterContracts\Interfaces\Countable;
+use Eightfold\Shoop\FilterContracts\Interfaces\Divisible;
 use Eightfold\Shoop\FilterContracts\Interfaces\Emptiable;
 use Eightfold\Shoop\FilterContracts\Interfaces\Falsifiable;
 use Eightfold\Shoop\FilterContracts\Interfaces\Prependable;
@@ -70,6 +71,18 @@ class Shooped implements ShoopedInterface
     {
         return static::fold(
             Apply::minus($items, $fromStart, $fromEnd)->unfoldUsing($this->main)
+        );
+    }
+
+    public function divide(
+        $divisor,
+        $includeEmpties = true,
+        $limit = PHP_INT_MAX
+    ): Divisible
+    {
+        return static::fold(
+            Apply::divide($divisor, $includeEmpties, $limit)
+                ->unfoldUsing($this->main)
         );
     }
 

@@ -36,7 +36,7 @@ class TypeIsListTest extends TestCase
         AssertEquals::applyWith(
             $expected,
             "boolean",
-            0.04, // 0.01, // 0.003,
+            0.06, // 0.04, // 0.01, // 0.003,
             1
         )->unfoldUsing(
             IsList::apply()->unfoldUsing([1, 2, 3])
@@ -71,7 +71,7 @@ class TypeIsListTest extends TestCase
         AssertEquals::applyWith(
             $expected,
             "boolean",
-            0.01, // 0.002,
+            0.21, // 0.01, // 0.002,
             1
         )->unfoldUsing(
             IsList::apply()->unfoldUsing(1.0)
@@ -80,7 +80,7 @@ class TypeIsListTest extends TestCase
         AssertEquals::applyWith(
             $expected,
             "boolean",
-            0.01, // 0.001,
+            0.03, // 0.01, // 0.001,
             1
         )->unfoldUsing(
             IsList::apply()->unfoldUsing(1.1)
@@ -154,7 +154,7 @@ class TypeIsListTest extends TestCase
         AssertEquals::applyWith(
             $expected,
             "boolean",
-            0.01, // 0.002,
+            0.02, // 0.01, // 0.002,
             1
         )->unfoldUsing(
             IsList::apply()->unfoldUsing(new class {

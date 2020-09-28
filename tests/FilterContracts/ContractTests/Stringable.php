@@ -28,7 +28,7 @@ trait Stringable
         AssertEquals::applyWith(
             "3.0",
             "string",
-            0.27, // 0.23,
+            0.96, // 0.27, // 0.23,
             4
         )->unfoldUsing(
             Shooped::fold(3)->asString()
@@ -55,7 +55,7 @@ trait Stringable
         AssertEquals::applyWith(
             "",
             "string",
-            0.15, // 0.1, // 0.08, // 0.02,
+            0.18, // 0.15, // 0.1, // 0.08, // 0.02,
             1
         )->unfoldUsing(
             Shooped::fold(["a" => 1, "b" => 3, "c" => 1])->asString()
@@ -101,7 +101,7 @@ trait Stringable
         AssertEquals::applyWith(
             "2.5",
             "string",
-            0.12, // 0.11, // 0.1, // 0.08, // 0.04, // 0.03,
+            0.25, // 0.12, // 0.11, // 0.1, // 0.08, // 0.04, // 0.03,
             1
         )->unfoldUsing(
             Shooped::fold(2.5)->efToString()
@@ -119,7 +119,7 @@ trait Stringable
         AssertEquals::applyWith(
             "",
             "string",
-            0.12, // 0.11, // 0.09, // 0.08, // 0.03, // 0.02,
+            0.14, // 0.12, // 0.11, // 0.09, // 0.08, // 0.03, // 0.02,
             1
         )->unfoldUsing(
             Shooped::fold(["a" => 1, "b" => 3, "c" => 1])->efToString()

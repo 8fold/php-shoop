@@ -64,7 +64,7 @@ trait Arrayable
         AssertEquals::applyWith(
             ["Hi!"],
             "array",
-            0.16, // 0.08,
+            0.25, // 0.16, // 0.08,
             5
         )->unfoldUsing(
             Shooped::fold("Hi!")->asArray()
@@ -73,7 +73,7 @@ trait Arrayable
         AssertEquals::applyWith(
             ["!H!i!"],
             "array",
-            0.15, // 0.14, // 0.13, // 0.03, // 0.02,
+            0.23, // 0.18, // 0.15, // 0.14, // 0.13, // 0.03, // 0.02,
             1
         )->unfoldUsing(
             Shooped::fold("!H!i!")->asArray()
@@ -135,7 +135,7 @@ trait Arrayable
         AssertEquals::applyWith(
             [1, 3, 1],
             "array",
-            0.12, // 0.08, // 0.02,
+            0.21, // 0.12, // 0.08, // 0.02,
             1
         )->unfoldUsing(
             Shooped::fold(["a" => 1, "b" => 3, "c" => 1])->efToArray()

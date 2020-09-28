@@ -113,7 +113,7 @@ trait Associable
             // ["i1" => 1, "i2" => 2]
             ["0.0" => 2.5],
             "array",
-            0.17, // 0.16, // 0.13, // 0.11, // 0.09, // 0.03,
+            0.21, // 0.17, // 0.16, // 0.13, // 0.11, // 0.09, // 0.03,
             1
         )->unfoldUsing(
             Shooped::fold(2.5)->efToDictionary()
@@ -140,7 +140,7 @@ trait Associable
         AssertEquals::applyWith(
             ["content" => "Hi!"],
             "array",
-            0.14, // 0.13, // 0.12, // 0.11, // 0.95,
+            0.2, // 0.14, // 0.13, // 0.12, // 0.11, // 0.95,
             5
         )->unfoldUsing(
             Shooped::fold("Hi!")->efToDictionary()
@@ -224,7 +224,7 @@ trait Associable
         AssertEquals::applyWith(
             true,
             "boolean",
-            0.56, // 0.12,
+            1.49, // 0.56, // 0.12,
             4
         )->unfoldUsing(
             Shooped::fold("Hi!")->has("!")
@@ -288,7 +288,7 @@ trait Associable
         AssertEquals::applyWith(
             true,
             "boolean",
-            0.13, // 0.09,
+            0.21, // 0.13, // 0.09,
             1
         )->unfoldUsing(
             Shooped::fold([3, 1, 3])->efHas(3)
@@ -306,7 +306,7 @@ trait Associable
         AssertEquals::applyWith(
             true,
             "boolean",
-            0.54, // 0.15, // 0.1,
+            1.64, // 0.54, // 0.15, // 0.1,
             4
         )->unfoldUsing(
             Shooped::fold("Hi!")->efHas("!")
@@ -584,7 +584,7 @@ trait Associable
         AssertEquals::applyWith(
             "H",
             "string",
-            0.16,
+            0.17, // 0.16,
             6
         )->unfoldUsing(
             Shooped::fold("Hi!")->offsetGet(0)
