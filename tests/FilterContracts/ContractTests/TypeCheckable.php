@@ -291,7 +291,7 @@ trait TypeCheckable
         AssertEquals::applyWith(
             true,
             "boolean",
-            0.02,
+            0.09, // 0.02,
             1
         )->unfoldUsing(
             Shooped::fold('{}')->efIsTuple()
