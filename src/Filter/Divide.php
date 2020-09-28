@@ -9,6 +9,8 @@ use Eightfold\Shoop\Shoop;
 
 use Eightfold\Shoop\Filter\Is\IsIdenticalTo;
 
+use Eightfold\Shoop\Filter\Traverse\DropUsing;
+
 /**
  * @todo - invocation, rename to DivideBy
  */
@@ -16,6 +18,27 @@ class Divide extends Filter
 {
     public function __invoke($using)
     {
+        if (Is::object(false)->unfoldUsing($using)) {
+            // if (Is::object()->unfoldUsing($using)) {
+            //     return static::fromObject($using, $this->main);
+            // }
+            // return static::fromTuple($using, $this->main);
+
+        // } elseif (Is::boolean()->unfoldUsing($using)) {
+        //     return static::fromBoolean($using, $this->main);
+
+        } elseif (Is::number()->unfoldUsing($using)) {
+            return static::fromNumber($using, $this->main);
+
+        // } elseif (Is::list()->unfoldUsing($using)) {
+        //     return static::fromList($using, $this->main);
+
+        } elseif (Is::string()->unfoldUsing($using)) {
+            // if (Is::json()->unfoldUsing($using)) {
+            //     return static::fromTuple($using, $this->main);
+            // }
+            return static::fromString($using, ...$this->args(true));
+        }
     }
 
     /**
@@ -30,80 +53,23 @@ class Divide extends Filter
         string $using,
         string $divisor      = "",
         bool $includeEmpties = true,
-        int $count           = PHP_INT_MAX
+        int $limit           = PHP_INT_MAX
     ): array
     {
         if (IsIdenticalTo::fromString($divisor, "")) {
             return mb_str_split($using);
         }
-        // $fromStartAndEnd = ($fromStart and $fromEnd) ? true : false;
-        // $all             = (! $fromStart and ! $fromEnd) ? true : false;
 
-        // if ($fromStartAndEnd) {
-        //     $charMask = TypeAsString::apply()->unfoldUsing($charMask);
-        //     return trim($using, $charMask);
-
-        // } elseif ($fromStart) {
-        //     $charMask = TypeAsString::apply()->unfoldUsing($charMask);
-        //     return ltrim($using, $charMask);
-
-        // } elseif ($fromEnd) {
-        //     $charMask = TypeAsString::apply()->unfoldUsing($charMask);
-        //     return rtrim($using, $charMask);
-
-        // } elseif ($all) {
-        //     return str_replace($charMask, "", $using);
-
-        // }
+        $base = explode($divisor, $using, $limit);
+        if ($includeEmpties) {
+            return $base;
+        }
+        return DropUsing::fromList($base, function($v) { return empty($v); });
     }
 
     // TODO: PHP 8 - int|float, int|float -> int|float
-    static public function fromNumber($using, $subtracter)
+    static public function fromNumber($using, $divisor)
     {
-        return $using - $subtracter;
-    }
-
-    /**
-     * true, true  : back and front
-     * true, false : front only
-     * false, true : back only
-     * false, false: all occurrences
-     */
-    private function fromList(
-        array $using,
-        $count          = 1, // TODO: PHP 8 - int|array
-        bool $fromStart = true,
-        bool $fromEnd   = true
-    ): array
-    {
-        if ($fromStart and $fromEnd and $count >= count($using)) {
-            return [];
-
-        } elseif (! $fromStart and ! $fromEnd) {
-            if (! is_array($count)) {
-                $count = [$count];
-            }
-            return array_filter($using, function($v, $k) use ($count) {
-                return ! in_array($v, $count, true);
-            }, ARRAY_FILTER_USE_BOTH);
-
-        } elseif ($fromStart and $fromEnd) {
-            $length = count($using) - (2 * $count);
-            return array_slice($using, $count, $length, true);
-
-        }
-
-        if ($fromStart) {
-            $length = count($using) - $count;
-            $using = array_slice($using, -$length, $length, true);
-
-        }
-
-        if ($fromEnd) {
-            $length = count($using) - $count;
-            $using = array_slice($using, 0, $length, true);
-
-        }
-        return $using;
+        return $using/$divisor;
     }
 }
