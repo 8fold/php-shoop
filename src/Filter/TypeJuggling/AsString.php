@@ -34,16 +34,16 @@ class AsString extends Filter
             return static::fromBoolean($using);
 
         } elseif (Is::number()->unfoldUsing($using)) {
-            return static::fromNumber($using);
+            return static::fromNumber($using, ...$this->args(true));
 
         } elseif (Is::list()->unfoldUsing($using)) {
-            return static::fromList($using);
+            return static::fromList($using, ...$this->args(true));
 
         } elseif (Is::string()->unfoldUsing($using)) {
             if (Is::json()->unfoldUsing($using)) {
                 return static::fromJson($using);
             }
-            return static::fromString($using);
+            return static::fromString($using, ...$this->args(true));
         }
     }
 
