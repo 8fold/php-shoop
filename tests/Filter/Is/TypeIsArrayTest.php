@@ -115,7 +115,7 @@ class TypeIsArrayTest extends TestCase
         AssertEquals::applyWith(
             $expected,
             "boolean",
-            0.91, // 0.68, // 0.01,
+            0.94, // 0.91, // 0.68, // 0.01,
             108
         )->unfoldUsing(
             IsArray::apply()->unfoldUsing([2 => 1, 3 => 2, 4 => 3])
