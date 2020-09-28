@@ -460,7 +460,7 @@ trait Associable
         AssertEquals::applyWith(
             true,
             "boolean",
-            0.33, // 0.15, // 0.11, // 0.1, // 0.04, // 0.03,
+            0.55, // 0.33, // 0.15, // 0.11, // 0.1, // 0.04, // 0.03,
             1
         )->unfoldUsing(
             Shooped::fold("Hi!")->offsetExists(0)

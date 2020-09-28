@@ -137,7 +137,7 @@ trait TypeCheckable
         AssertEquals::applyWith(
             true,
             "boolean",
-            0.05, // 0.02,
+            0.07, // 0.05, // 0.02,
             1
         )->unfoldUsing(
             Shooped::fold(3.1)->efIsNumber()
@@ -154,7 +154,7 @@ trait TypeCheckable
         AssertEquals::applyWith(
             false,
             "boolean",
-            0.02,
+            0.06, // 0.02,
             1
         )->unfoldUsing(
             Shooped::fold(3.1)->isInteger()
@@ -248,7 +248,7 @@ trait TypeCheckable
         AssertEquals::applyWith(
             true,
             "boolean",
-            0.01,
+            0.06, // 0.01,
             1
         )->unfoldUsing(
             Shooped::fold('{}')->efIsString()
@@ -265,7 +265,7 @@ trait TypeCheckable
         AssertEquals::applyWith(
             false,
             "boolean",
-            0.09, // 0.02,
+            0.25, // 0.09, // 0.02,
             1
         )->unfoldUsing(
             Shooped::fold("Hello")->isTuple()
@@ -282,7 +282,7 @@ trait TypeCheckable
         AssertEquals::applyWith(
             true,
             "boolean",
-            0.05, // 0.02,
+            0.06, // 0.05, // 0.02,
             1
         )->unfoldUsing(
             Shooped::fold((object) ["a", "b", "c"])->efIsTuple()
