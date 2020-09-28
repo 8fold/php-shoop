@@ -101,7 +101,7 @@ trait Stringable
         AssertEquals::applyWith(
             "2.5",
             "string",
-            0.12, // 0.11, // 0.1, // 0.08, // 0.04, // 0.03,
+            0.25, // 0.12, // 0.11, // 0.1, // 0.08, // 0.04, // 0.03,
             1
         )->unfoldUsing(
             Shooped::fold(2.5)->efToString()
