@@ -288,7 +288,7 @@ trait Associable
         AssertEquals::applyWith(
             true,
             "boolean",
-            0.13, // 0.09,
+            0.21, // 0.13, // 0.09,
             1
         )->unfoldUsing(
             Shooped::fold([3, 1, 3])->efHas(3)
