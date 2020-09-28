@@ -7,7 +7,7 @@ use Eightfold\Foldable\Filter;
 
 use Eightfold\Shoop\Filter\CountIsGreaterThan;
 
-use Eightfold\Shoop\Filter\Count;
+use Eightfold\Shoop\Filter\Length;
 use Eightfold\Shoop\Filter\StartsWith;
 use Eightfold\Shoop\Filter\EndsWith;
 

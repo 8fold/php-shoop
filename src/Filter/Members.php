@@ -61,12 +61,12 @@ class Members extends Filter
 
         // TODO: Move to a fromTuple method - ??
         $properties    = get_object_vars($using);
-        $count         = Count::fromList($properties);
+        $count         = Length::fromList($properties);
         $hasProperties = IsGreaterThan::fromNumber($count, 0);
 
 
         $methods    = get_class_methods($using);
-        $count      = Count::fromList($methods);
+        $count      = Length::fromList($methods);
         $hasMethods = IsGreaterThan::fromNumber($count, 0);
 
         $build["properties"] = ($hasProperties) ? $properties : [];

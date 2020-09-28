@@ -346,9 +346,16 @@ class Shooped implements ShoopedInterface
         return $this->asInteger()->unfold();
     }
 
-    public function count(): int // Countable
+    public function length(): Countable
     {
-        return $this->efToInteger();
+        return static::fold(
+            Apply::length()->unfoldUsing($this->main)
+        );
+    }
+
+    public function count(): int
+    {
+        return $this->length()->unfold();
     }
 
 // - Comparable

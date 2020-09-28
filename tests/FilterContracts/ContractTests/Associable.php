@@ -28,7 +28,7 @@ trait Associable
         AssertEquals::applyWith(
             ["0.0" => 3],
             "array",
-            0.43, // 0.41, // 0.37, // 0.3, // 0.26, // 0.24,
+            0.48, // 0.43, // 0.41, // 0.37, // 0.3, // 0.26, // 0.24,
             23 // 10
         )->unfoldUsing(
             Shooped::fold(3)->asDictionary()
@@ -215,7 +215,7 @@ trait Associable
         AssertEquals::applyWith(
             false,
             "boolean",
-            0.13, // 0.03, // 0.02,
+            0.18, // 0.13, // 0.03, // 0.02,
             1
         )->unfoldUsing(
             Shooped::fold(["a" => 1, "b" => 3, "c" => 1])->has(5)
@@ -584,7 +584,7 @@ trait Associable
         AssertEquals::applyWith(
             "H",
             "string",
-            0.17, // 0.16,
+            0.2, // 0.17, // 0.16,
             6
         )->unfoldUsing(
             Shooped::fold("Hi!")->offsetGet(0)
@@ -886,7 +886,7 @@ trait Associable
         AssertEquals::applyWith(
             "!",
             "string",
-            0.18, // 0.16,
+            0.19, // 0.18, // 0.16,
             64 // 6
         )->unfoldUsing(
             Shooped::fold("Hi!")->dropFirst(2)
@@ -1092,7 +1092,7 @@ trait Associable
         AssertEquals::applyWith(
             [],
             "array",
-            0.12, // 0.11, // 0.1, // 0.08, // 0.05,
+            0.14, // 0.12, // 0.11, // 0.1, // 0.08, // 0.05,
             1
         )->unfoldUsing(
             Shoop::this(["a" => 1, "b" => 2])->retain(function($v, $m) {
@@ -1164,7 +1164,7 @@ trait Associable
         AssertEquals::applyWith(
             "fold!",
             "string",
-            0.19, // 0.15,
+            0.27, // 0.19, // 0.15,
             4
         )->unfoldUsing(
             Shoop::this("8fold!")->drop(function($v) {

@@ -7,7 +7,7 @@ use Eightfold\Foldable\Filter;
 
 use Eightfold\Shoop\Filter\Members;
 use Eightfold\Shoop\Filter\Traverse\RetainUsing;
-use Eightfold\Shoop\Filter\Count;
+use Eightfold\Shoop\Filter\Length;
 
 /**
  * @todo deprecate - ??
@@ -22,12 +22,12 @@ class IsDictionary extends Filter
 
         $members       = Members::fromList($using);
         $stringMembers = RetainUsing::fromList($members, "is_string");
-        $membersCount  = Count::fromList($stringMembers);
+        $membersCount  = Length::fromList($stringMembers);
         if (IsIdenticalTo::fromNumber($membersCount, 0)) {
             return false;
         }
 
-        $usingCount = Count::fromList($using);
+        $usingCount = Length::fromList($using);
         return IsIdenticalTo::fromNumber($usingCount, $membersCount);
     }
 }

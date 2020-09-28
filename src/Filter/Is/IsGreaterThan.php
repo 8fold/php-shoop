@@ -5,7 +5,7 @@ namespace Eightfold\Shoop\Filter\Is;
 
 use Eightfold\Foldable\Filter;
 
-use Eightfold\Shoop\Filter\Count;
+use Eightfold\Shoop\Filter\Length;
 use Eightfold\Shoop\Filter\Is;
 
 use Eightfold\Shoop\Filter\TypeJuggling\AsDictionary;
@@ -61,8 +61,8 @@ class IsGreaterThan extends Filter
 
     static public function fromList(array $using, array $compare): bool
     {
-        $using   = Count::fromList($using);
-        $compare = Count::fromList($compare);
+        $using   = Length::fromList($using);
+        $compare = Length::fromList($compare);
         return static::fromNumber($using, $compare);
     }
 

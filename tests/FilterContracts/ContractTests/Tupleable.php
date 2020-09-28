@@ -91,7 +91,7 @@ trait Tupleable
         AssertEquals::applyWith(
             (object) ["a" => 1, "b" => 3],
             "object",
-            0.19, // 0.14, // 0.1, // 0.03,
+            0.22, // 0.19, // 0.14, // 0.1, // 0.03,
             1
         )->unfoldUsing(
             Shooped::fold(["a" => 1, "b" => 3])->efToTuple()

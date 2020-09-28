@@ -204,9 +204,16 @@ class TypeAsNumberTest extends TestCase
                         return $this->asInteger()->unfold();
                     }
 
+                    public function length(): Countable
+                    {
+                        return Shoop::this(
+                            Apply::count()->unfoldUsing(10)
+                        );
+                    }
+
                     public function count(): int
                     {
-                        return $this->efToInteger();
+                        return $this->length()->unfold();
                     }
                 }
             )
