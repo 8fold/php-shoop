@@ -63,7 +63,7 @@ trait Reversible
         AssertEquals::applyWith(
             "8fold!",
             "string",
-            0.22, // 0.18, // 0.16, // 0.11, // 0.1,
+            0.26, // 0.22, // 0.18, // 0.16, // 0.11, // 0.1,
             4
         )->unfoldUsing(
             Shooped::fold("!dlof8")->reversed()
