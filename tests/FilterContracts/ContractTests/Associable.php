@@ -684,7 +684,7 @@ trait Associable
         AssertEquals::applyWith(
             "Hi!",
             "string",
-            0.39, // 0.31,
+            1.22, // 0.39, // 0.31,
             21
         )->unfoldUsing(
             Shooped::fold("!")->insertAt("Hi", -1)
