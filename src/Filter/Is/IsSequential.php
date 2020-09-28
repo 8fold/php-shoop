@@ -5,6 +5,8 @@ namespace Eightfold\Shoop\Filter\Is;
 
 use Eightfold\Foldable\Filter;
 
+use Eightfold\Shoop\Filter\Is;
+
 class IsSequential extends Filter
 {
     public function __invoke($using): bool
