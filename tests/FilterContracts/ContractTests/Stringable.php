@@ -28,7 +28,7 @@ trait Stringable
         AssertEquals::applyWith(
             "3.0",
             "string",
-            0.27, // 0.23,
+            0.96, // 0.27, // 0.23,
             4
         )->unfoldUsing(
             Shooped::fold(3)->asString()

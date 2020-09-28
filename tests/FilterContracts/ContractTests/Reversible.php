@@ -54,7 +54,7 @@ trait Reversible
         AssertEquals::applyWith(
             ["b" => 3, "a" => 1],
             "array",
-            0.21, // 0.1, // 0.08, // 0.03, // 0.02,
+            0.35, // 0.21, // 0.1, // 0.08, // 0.03, // 0.02,
             1
         )->unfoldUsing(
             Shooped::fold(["a" => 1, "b" => 3])->reversed()
