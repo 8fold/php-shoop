@@ -45,7 +45,7 @@ trait Emptiable
         AssertEquals::applyWith(
             false,
             "boolean",
-            0.11, // 0.1, // 0.08,
+            0.13, // 0.11, // 0.1, // 0.08,
             2
         )->unfoldUsing(
             Shooped::fold([3, 1, 3])->isEmpty()
@@ -100,7 +100,7 @@ trait Emptiable
         AssertEquals::applyWith(
             true,
             "boolean",
-            0.15, // 0.14,
+            0.16, // 0.15, // 0.14,
             4
         )->unfoldUsing(
             Shooped::fold(0)->efIsEmpty()

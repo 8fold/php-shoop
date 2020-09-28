@@ -48,7 +48,7 @@ class TypeAsArrayTest extends TestCase
         AssertEquals::applyWith(
             ["content"],
             "array",
-            0.15, // 0.14, // 0.12, // 0.09, // 0.05, // 0.04,
+            0.18, // 0.15, // 0.14, // 0.12, // 0.09, // 0.05, // 0.04,
             1
         )->unfoldUsing(
             AsArray::fromObject(
