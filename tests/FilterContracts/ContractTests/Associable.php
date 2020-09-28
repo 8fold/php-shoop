@@ -1164,7 +1164,7 @@ trait Associable
         AssertEquals::applyWith(
             "fold!",
             "string",
-            0.19, // 0.15,
+            0.27, // 0.19, // 0.15,
             4
         )->unfoldUsing(
             Shoop::this("8fold!")->drop(function($v) {

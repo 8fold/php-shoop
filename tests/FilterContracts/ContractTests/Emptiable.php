@@ -136,7 +136,7 @@ trait Emptiable
         AssertEquals::applyWith(
             true,
             "boolean",
-            0.17, // 0.1,
+            0.2, // 0.17, // 0.1,
             4
         )->unfoldUsing(
             Shooped::fold("")->efIsEmpty()
