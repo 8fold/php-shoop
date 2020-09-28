@@ -15,6 +15,7 @@ use Eightfold\Shoop\FilterContracts\Interfaces\Prependable;
 use Eightfold\Shoop\FilterContracts\Interfaces\Reversible;
 use Eightfold\Shoop\FilterContracts\Interfaces\Stringable;
 use Eightfold\Shoop\FilterContracts\Interfaces\Tupleable;
+use Eightfold\Shoop\FilterContracts\Interfaces\TypeCheckable;
 
 interface Shooped extends
     Foldable,
@@ -28,7 +29,8 @@ interface Shooped extends
     Prependable,
     Reversible,
     Stringable,
-    Tupleable
+    Tupleable,
+    TypeCheckable
 {
     public function __construct($main);
 }

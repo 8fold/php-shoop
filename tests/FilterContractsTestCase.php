@@ -51,6 +51,9 @@ abstract class FilterContractsTestCase extends TestCase
                     } elseif ($reflectionMethod->name === "_isEmpty") {
                         return "isEmpty";
 
+                    } elseif ($reflectionMethod->name === "_isJson") {
+                        return "isJson";
+
                     }
                     return $reflectionMethod->name;
                 }
