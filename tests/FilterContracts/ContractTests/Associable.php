@@ -140,7 +140,7 @@ trait Associable
         AssertEquals::applyWith(
             ["content" => "Hi!"],
             "array",
-            0.14, // 0.13, // 0.12, // 0.11, // 0.95,
+            0.2, // 0.14, // 0.13, // 0.12, // 0.11, // 0.95,
             5
         )->unfoldUsing(
             Shooped::fold("Hi!")->efToDictionary()
