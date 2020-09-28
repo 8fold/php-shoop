@@ -73,7 +73,7 @@ trait Arrayable
         AssertEquals::applyWith(
             ["!H!i!"],
             "array",
-            0.18, // 0.15, // 0.14, // 0.13, // 0.03, // 0.02,
+            0.23, // 0.18, // 0.15, // 0.14, // 0.13, // 0.03, // 0.02,
             1
         )->unfoldUsing(
             Shooped::fold("!H!i!")->asArray()
