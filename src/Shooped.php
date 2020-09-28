@@ -314,9 +314,10 @@ class Shooped implements ShoopedInterface
      */
     public function rewind(): void // Iterator
     {
-        $this->temp = (TypeIs::applyWith("sequential")->unfoldUsing($this->main))
-            ? Apply::typeAsArray()->unfoldUsing($this->main)
-            : Apply::typeAsDictionary()->unfoldUsing($this->main);
+        $this->temp = (Apply::isSequential()->unfoldUsing($this->main))
+        // $this->temp = (TypeIs::applyWith("sequential")->unfoldUsing($this->main))
+            ? Apply::asArray()->unfoldUsing($this->main)
+            : Apply::asDictionary()->unfoldUsing($this->main);
     }
 
     public function valid(): bool // Iterator
