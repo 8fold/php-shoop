@@ -5,7 +5,7 @@ namespace Eightfold\Shoop\Filter\TypeJuggling;
 
 use Eightfold\Foldable\Filter;
 
-class AsString extends Filter
+class IsSequential extends Filter
 {
     public function __invoke($using): bool
     {
