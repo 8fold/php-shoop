@@ -7,7 +7,7 @@ use Eightfold\Foldable\Filter;
 
 use Eightfold\Shoop\Filter\Members;
 use Eightfold\Shoop\Filter\At;
-use Eightfold\Shoop\Filter\Count;
+use Eightfold\Shoop\Filter\Length;
 
 use Eightfold\Shoop\Filter\Is\IsNotEmpty;
 

@@ -12,5 +12,7 @@ interface Countable extends PhpCountable
 
     public function efToInteger(): int;
 
+    public function length(): Countable;
+
     public function count(): int; // Countable
 }

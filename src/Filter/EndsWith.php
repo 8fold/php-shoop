@@ -18,7 +18,7 @@ class EndsWith extends Filter
 
     static public function fromString(string $using, string $suffix): bool
     {
-        $prefixLength = Count::fromString($suffix);
+        $prefixLength = Length::fromString($suffix);
         $usingFirst   = Last::fromString($using, $prefixLength);
         return IsIdenticalTo::fromString($usingFirst, $suffix);
     }

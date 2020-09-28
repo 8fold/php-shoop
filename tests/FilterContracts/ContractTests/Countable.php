@@ -153,4 +153,77 @@ trait Countable
 
         // TODO: Objects
     }
+
+    /**
+     * @test
+     * @group Countable
+     * @group 1.0.0
+     */
+    public function length()
+    {
+        // AssertEquals::applyWith(
+        //     1,
+        //     "integer",
+        //     0.001,
+        //     1
+        // )->unfoldUsing(
+        //     Shooped::fold(true)->efToInteger()
+        // );
+
+        AssertEquals::applyWith(
+            3,
+            "integer",
+            0.02,
+            1
+        )->unfoldUsing(
+            Shooped::fold(3)->length()
+        );
+
+        AssertEquals::applyWith(
+            3,
+            "integer",
+            0.02, // 0.01,
+            1
+        )->unfoldUsing(
+            Shooped::fold(2.5)->efToInteger()
+        );
+
+        AssertEquals::applyWith(
+            4,
+            "integer",
+            0.03,
+            1
+        )->unfoldUsing(
+            Shooped::fold([3, 1, 3, 1])->length()
+        );
+
+        AssertEquals::applyWith(
+            3,
+            "integer",
+            0.01,
+            1
+        )->unfoldUsing(
+            Shooped::fold(["a" => 1, "b" => 3, "c" => 1])->length()
+        );
+
+        AssertEquals::applyWith(
+            3,
+            "integer",
+            0.02,
+            1
+        )->unfoldUsing(
+            Shooped::fold("Hi!")->length()
+        );
+
+        // AssertEquals::applyWith(
+        //     1,
+        //     "integer",
+        //     3,
+        //     42
+        // )->unfoldUsing(
+        //     Shooped::fold((object) ["a" => 1, "c" => 3])->efToInteger()
+        // );
+
+        // TODO: Objects
+    }
 }

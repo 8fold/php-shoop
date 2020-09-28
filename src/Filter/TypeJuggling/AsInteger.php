@@ -39,7 +39,6 @@ class AsInteger extends Filter
         }
     }
 
-    // TODO: PHP 8 -> int|float
     static public function fromBoolean(bool $using): int
     {
         return (int) $using;

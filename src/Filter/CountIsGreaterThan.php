@@ -5,7 +5,7 @@ namespace Eightfold\Shoop\Filter;
 
 use Eightfold\Foldable\Filter;
 
-use Eightfold\Shoop\Filter\Count;
+use Eightfold\Shoop\Filter\Length;
 use Eightfold\Shoop\Filter\Is\IsGreaterThan;
 
 /**
@@ -20,13 +20,13 @@ class CountIsGreaterThan extends Filter
     // TODO: PHP 8 - , int|float
     static public function fromString(string $using, $target): bool
     {
-        $count = Count::fromString($using);
+        $count = Length::fromString($using);
         return IsGreaterThan::fromNumber($count, $target);
     }
 
     static public function fromList(array $using, $target): bool
     {
-        $count = Count::fromList($using);
+        $count = Length::fromList($using);
         return IsGreaterThan::fromNumber($count, $target);
     }
 }

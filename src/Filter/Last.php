@@ -31,7 +31,7 @@ class Last extends Filter
 
     static public function fromList(array $using, int $length = 1)
     {
-        $count = Count::fromList($using);
+        $count = Length::fromList($using);
 
         $start = Minus::fromNumber($count, $length);
         $build = From::fromList($using, $start, $length);

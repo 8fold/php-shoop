@@ -7,7 +7,7 @@ use Eightfold\Foldable\Filter;
 
 use \ReflectionFunction;
 
-use Eightfold\Shoop\Filter\Count;
+use Eightfold\Shoop\Filter\Length;
 use Eightfold\Shoop\Filter\Divide;
 use Eightfold\Shoop\Filter\Is;
 use Eightfold\Shoop\Filter\Reversed;
@@ -61,7 +61,7 @@ class DropUsing extends Filter
     {
         $reflect = new ReflectionFunction($callable);
         $params  = $reflect->getParameters();
-        $count   = Count::fromList($params);
+        $count   = Length::fromList($params);
         $build   = [];
         if (IsIdenticalTo::fromNumber($count, 1)) {
             foreach ($using as $v) {

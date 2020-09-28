@@ -51,7 +51,7 @@ class DropLast extends Filter
      */
     static public function fromList(array $using, int $length = 1): array
     {
-        $count  = Count::fromList($using);
+        $count  = Length::fromList($using);
         $length = Minus::fromNumber($count, $length);
         return From::fromList($using, 0, $length);
     }

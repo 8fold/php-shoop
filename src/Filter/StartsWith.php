@@ -18,7 +18,7 @@ class StartsWith extends Filter
 
     static public function fromString(string $using, string $prefix): bool
     {
-        $prefixLength = Count::fromString($prefix);
+        $prefixLength = Length::fromString($prefix);
         $usingFirst   = First::fromString($using, $prefixLength);
         return IsIdenticalTo::fromString($usingFirst, $prefix);
     }
