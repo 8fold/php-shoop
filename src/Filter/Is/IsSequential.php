@@ -1,7 +1,7 @@
 <?php
 declare(strict_types=1);
 
-namespace Eightfold\Shoop\Filter\TypeJuggling;
+namespace Eightfold\Shoop\Filter\Is;
 
 use Eightfold\Foldable\Filter;
 
