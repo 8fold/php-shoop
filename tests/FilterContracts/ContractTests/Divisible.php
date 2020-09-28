@@ -45,7 +45,7 @@ trait Divisible
         AssertEquals::applyWith(
             ["key", "content with a space"],
             "array",
-            0.13, // 0.12, // 0.11, // 0.02,
+            0.17, // 0.13, // 0.12, // 0.11, // 0.02,
             1
         )->unfoldUsing(
             Shooped::fold("key content with a space")->divide(" ", false, 2)
