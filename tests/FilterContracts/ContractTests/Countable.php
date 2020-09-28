@@ -118,7 +118,7 @@ trait Countable
         AssertEquals::applyWith(
             1,
             "integer",
-            0.11, // 0.09, // 0.08,
+            0.12, // 0.11, // 0.09, // 0.08,
             1
         )->unfoldUsing(
             Shooped::fold([3, 1, 3, 1])->efToInteger()
