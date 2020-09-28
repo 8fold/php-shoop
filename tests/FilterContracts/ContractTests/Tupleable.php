@@ -183,7 +183,7 @@ trait Tupleable
         AssertEquals::applyWith(
             '{"a":1,"b":3}',
             "string",
-            0.2, // 0.19, // 0.18, // 0.13, // 0.1, // 0.03,
+            0.23, // 0.2, // 0.19, // 0.18, // 0.13, // 0.1, // 0.03,
             1
         )->unfoldUsing(
             Shooped::fold(["a" => 1, "b" => 3])->efToJson()

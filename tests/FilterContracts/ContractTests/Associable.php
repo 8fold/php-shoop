@@ -224,7 +224,7 @@ trait Associable
         AssertEquals::applyWith(
             true,
             "boolean",
-            0.56, // 0.12,
+            1.49, // 0.56, // 0.12,
             4
         )->unfoldUsing(
             Shooped::fold("Hi!")->has("!")
