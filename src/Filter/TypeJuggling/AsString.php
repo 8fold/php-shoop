@@ -34,6 +34,9 @@ class AsString extends Filter
             return static::fromBoolean($using);
 
         } elseif (Is::number()->unfoldUsing($using)) {
+            if (Is::string()->unfoldUsing($this->main)) {
+                $this->main = 1;
+            }
             return static::fromNumber($using, ...$this->args(true));
 
         } elseif (Is::list()->unfoldUsing($using)) {
