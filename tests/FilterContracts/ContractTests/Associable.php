@@ -46,7 +46,7 @@ trait Associable
         AssertEquals::applyWith(
             ["0.0" => 3, "1.0" => 1, "2.0" => 3],
             "array",
-            0.4, // 0.36, // 0.1, // 0.09, // 0.08, // 0.08,
+            0.67, // 0.4, // 0.36, // 0.1, // 0.09, // 0.08, // 0.08,
             2
         )->unfoldUsing(
             Shooped::fold([3, 1, 3])->asDictionary()
@@ -288,7 +288,7 @@ trait Associable
         AssertEquals::applyWith(
             true,
             "boolean",
-            0.21, // 0.13, // 0.09,
+            6.82, // 0.21, // 0.13, // 0.09,
             1
         )->unfoldUsing(
             Shooped::fold([3, 1, 3])->efHas(3)
@@ -460,7 +460,7 @@ trait Associable
         AssertEquals::applyWith(
             true,
             "boolean",
-            0.33, // 0.15, // 0.11, // 0.1, // 0.04, // 0.03,
+            0.55, // 0.33, // 0.15, // 0.11, // 0.1, // 0.04, // 0.03,
             1
         )->unfoldUsing(
             Shooped::fold("Hi!")->offsetExists(0)

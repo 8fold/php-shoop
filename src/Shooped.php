@@ -9,9 +9,6 @@ use Eightfold\Foldable\FoldableImp;
 use Eightfold\Shoop\Shoop;
 use Eightfold\Shoop\Apply;
 
-use Eightfold\Shoop\Filter\TypesOf;
-use Eightfold\Shoop\Filter\TypeIs;
-
 use Eightfold\Shoop\FilterContracts\Shooped as ShoopedInterface;
 
 use Eightfold\Shoop\FilterContracts\Interfaces\Addable;
@@ -28,6 +25,7 @@ use Eightfold\Shoop\FilterContracts\Interfaces\Reversible;
 use Eightfold\Shoop\FilterContracts\Interfaces\Stringable;
 use Eightfold\Shoop\FilterContracts\Interfaces\Subtractable;
 use Eightfold\Shoop\FilterContracts\Interfaces\Tupleable;
+use Eightfold\Shoop\FilterContracts\Interfaces\TypeCheckable;
 
 class Shooped implements ShoopedInterface
 {
@@ -51,6 +49,103 @@ class Shooped implements ShoopedInterface
         return static::fold(
             Apply::prepend($value)->unfoldUsing($this->main)
         );
+    }
+
+// - TypeCheckable
+    public function isArray(): TypeCheckable
+    {
+        return static::fold(
+            Apply::isArray()->unfoldUsing($this->main)
+        );
+    }
+
+    public function efIsArray(): bool
+    {
+        return $this->isArray()->unfold();
+    }
+
+    public function isBoolean(): TypeCheckable
+    {
+        return static::fold(
+            Apply::isBoolean()->unfoldUsing($this->main)
+        );
+    }
+
+    public function efIsBoolean(): bool
+    {
+        return $this->isBoolean()->unfold();
+    }
+
+    public function isDictionary(): TypeCheckable
+    {
+        return static::fold(
+            Apply::isDictionary()->unfoldUsing($this->main)
+        );
+    }
+
+    public function efIsDictionary(): bool
+    {
+        return $this->isDictionary()->unfold();
+    }
+
+    public function isNumber(): TypeCheckable
+    {
+        return static::fold(
+            Apply::isNumber()->unfoldUsing($this->main)
+        );
+    }
+
+    public function efIsNumber(): bool
+    {
+        return $this->isNumber()->unfold();
+    }
+
+    public function isInteger(): TypeCheckable
+    {
+        return static::fold(
+            Apply::isInteger()->unfoldUsing($this->main)
+        );
+    }
+
+    public function efIsInteger(): bool
+    {
+        return $this->isInteger()->unfold();
+    }
+
+    public function isJson(): TypeCheckable
+    {
+        return static::fold(
+            Apply::isJson()->unfoldUsing($this->main)
+        );
+    }
+
+    public function efIsJson(): bool
+    {
+        return $this->isJson()->unfold();
+    }
+
+    public function isString(): TypeCheckable
+    {
+        return static::fold(
+            Apply::isString()->unfoldUsing($this->main)
+        );
+    }
+
+    public function efIsString(): bool
+    {
+        return $this->isString()->unfold();
+    }
+
+    public function isTuple(): TypeCheckable
+    {
+        return static::fold(
+            Apply::isTuple()->unfoldUsing($this->main)
+        );
+    }
+
+    public function efIsTuple(): bool
+    {
+        return $this->isTuple()->unfold();
     }
 
 // - Maths
@@ -174,14 +269,14 @@ class Shooped implements ShoopedInterface
 
     public function dropFirst($length = 1): Associable
     {
-        return Shoop::this(
+        return static::fold(
             Apply::dropFirst($length)->unfoldUsing($this->main)
         );
     }
 
     public function dropLast($length = 1): Associable
     {
-        return Shoop::this(
+        return static::fold(
             Apply::dropLast($length)->unfoldUsing($this->main)
         );
     }
@@ -193,21 +288,21 @@ class Shooped implements ShoopedInterface
 
     public function each(callable $callable): Associable
     {
-        return Shoop::this(
+        return static::fold(
             Apply::eachUsing($callable)->unfoldUsing($this->main)
         );
     }
 
     public function retain(callable $callable): Associable
     {
-        return Shoop::this(
+        return static::fold(
             Apply::retainUsing($callable)->unfoldUsing($this->main)
         );
     }
 
     public function drop(callable $callable): Associable
     {
-        return Shoop::this(
+        return static::fold(
             Apply::dropUsing($callable)->unfoldUsing($this->main)
         );
     }
@@ -377,14 +472,14 @@ class Shooped implements ShoopedInterface
     {
         $is = $this->is($compare);
         if ($is->efToBoolean()) {
-            return Shoop::this(
+            return static::fold(
                 $is->unfold()
             );
         }
 
         $isGreaterThan = $this->isGreaterThan($compare);
         if ($isGreaterThan->efToBoolean()) {
-            return Shoop::this(
+            return static::fold(
                 $isGreaterThan->unfold()
             );
         }
