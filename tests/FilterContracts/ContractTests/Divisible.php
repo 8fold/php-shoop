@@ -27,7 +27,7 @@ trait Divisible
         AssertEquals::applyWith(
             1,
             "integer",
-            0.1, // 0.03, // 0.02,
+            0.12, // 0.1, // 0.03, // 0.02,
             1
         )->unfoldUsing(
             Shooped::fold(1)->divide(1)

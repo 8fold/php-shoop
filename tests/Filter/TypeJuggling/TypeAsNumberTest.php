@@ -72,7 +72,7 @@ class TypeAsNumberTest extends TestCase
         AssertEquals::applyWith(
             1.1,
             "double",
-            0.02, // 0.004, // 0.003,
+            0.03, // 0.02, // 0.004, // 0.003,
             1
         )->unfoldUsing(
             AsNumber::fromNumber(1.1)

@@ -306,7 +306,7 @@ trait Associable
         AssertEquals::applyWith(
             true,
             "boolean",
-            0.54, // 0.15, // 0.1,
+            1.64, // 0.54, // 0.15, // 0.1,
             4
         )->unfoldUsing(
             Shooped::fold("Hi!")->efHas("!")
