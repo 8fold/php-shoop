@@ -33,7 +33,7 @@ class TypeIsBooleanTest extends TestCase
         AssertEquals::applyWith(
             true,
             "boolean",
-            0.03, // 0.01,
+            0.11, // 0.03, // 0.01,
             1
         )->unfoldUsing(
             IsBoolean::apply()->unfoldUsing(false)
