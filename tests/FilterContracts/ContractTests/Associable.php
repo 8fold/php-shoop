@@ -877,7 +877,7 @@ trait Associable
         AssertEquals::applyWith(
             ["c" => 3],
             "array",
-            0.15, // 0.12, // 0.08, // 0.04, // 0.03,
+            0.16, // 0.15, // 0.12, // 0.08, // 0.04, // 0.03,
             1
         )->unfoldUsing(
             Shooped::fold(["a" => 1, "c" => 3])->dropFirst()
