@@ -105,7 +105,7 @@ class TypeAsStringTest extends TestCase
         AssertEquals::applyWith(
             "hello, world!",
             "string",
-            0.3, // 0.29, // 0.04, // 0.03,
+            0.88, // 0.3, // 0.29, // 0.04, // 0.03,
             1
         )->unfoldUsing(
             AsString::fromTuple('{"a":"hello","b":", ","c":"world!"}')
