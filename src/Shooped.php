@@ -44,11 +44,35 @@ class Shooped implements ShoopedInterface
         );
     }
 
+    public function endsWith($value): Appendable
+    {
+        return static::fold(
+            Apply::endsWith($value)->unfoldUsing($this->main)
+        );
+    }
+
+    public function efEndsWith($value): bool
+    {
+        return $this->endsWith($value)->unfold();
+    }
+
     public function prepend($value): Prependable
     {
         return static::fold(
             Apply::prepend($value)->unfoldUsing($this->main)
         );
+    }
+
+    public function startsWith($value): Prependable
+    {
+        return static::fold(
+            Apply::startsWith($value)->unfoldUsing($this->main)
+        );
+    }
+
+    public function efStartsWith($value): bool
+    {
+        return $this->startsWith($value)->unfold();
     }
 
 // - TypeCheckable

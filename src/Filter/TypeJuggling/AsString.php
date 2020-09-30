@@ -86,6 +86,9 @@ class AsString extends Filter
         return static::fromList($array, $glue);
     }
 
+    /**
+     * @todo - Move to a different filter called Join, AsString, never takes glue.
+     */
     static public function fromList(array $using, string $glue = ""): string
     {
         $array = RetainUsing::fromList($using, "is_string");

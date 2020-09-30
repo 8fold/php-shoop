@@ -88,7 +88,7 @@ class TypeAsNumberTest extends TestCase
             0,
             "integer",
             1.66,
-            23
+            72 // 23
         )->unfoldUsing(
             AsNumber::fromString("")
         );
