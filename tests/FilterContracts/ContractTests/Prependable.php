@@ -126,7 +126,7 @@ trait Prependable
         AssertEquals::applyWith(
             false,
             "boolean",
-            0.09, // 0.02,
+            0.11, // 0.09, // 0.02,
             1
         )->unfoldUsing(
             Shooped::fold("8fold")->efStartsWith("fold")
