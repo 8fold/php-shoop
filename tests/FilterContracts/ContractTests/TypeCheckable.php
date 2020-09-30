@@ -86,7 +86,7 @@ trait TypeCheckable
         AssertEquals::applyWith(
             false,
             "boolean",
-            0.05, // 0.03, // 0.02,
+            0.08, // 0.05, // 0.03, // 0.02,
             1
         )->unfoldUsing(
             Shooped::fold("Hello")->isDictionary()

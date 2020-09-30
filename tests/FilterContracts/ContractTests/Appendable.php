@@ -109,7 +109,7 @@ trait Appendable
         AssertEquals::applyWith(
             false,
             "boolean",
-            0.1, // 0.03, // 0.02,
+            0.11, // 0.1, // 0.03, // 0.02,
             1
         )->unfoldUsing(
             Shooped::fold("8fold")->efEndsWith("8")
