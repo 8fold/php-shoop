@@ -424,7 +424,7 @@ trait Associable
         AssertEquals::applyWith(
             false,
             "boolean",
-            0.15, // 0.09, // 0.07, // 0.03, // 0.02,
+            0.2, // 0.15, // 0.09, // 0.07, // 0.03, // 0.02,
             1
         )->unfoldUsing(
             Shooped::fold(2.5)->offsetExists(3)
@@ -877,7 +877,7 @@ trait Associable
         AssertEquals::applyWith(
             ["c" => 3],
             "array",
-            0.16, // 0.15, // 0.12, // 0.08, // 0.04, // 0.03,
+            0.17, // 0.16, // 0.15, // 0.12, // 0.08, // 0.04, // 0.03,
             1
         )->unfoldUsing(
             Shooped::fold(["a" => 1, "c" => 3])->dropFirst()
