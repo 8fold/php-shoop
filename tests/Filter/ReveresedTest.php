@@ -65,7 +65,7 @@ class ReversedTest extends TestCase
             "👆👆👇👇",
             "string",
             0.03, // 0.02, // 0.004, // 0.003,
-            1
+            80
         )->unfoldUsing(
             Reversed::fromString("👇👇👆👆")
         );
