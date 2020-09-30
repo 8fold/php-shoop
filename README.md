@@ -28,8 +28,8 @@ Pipe multiple filters.
 
 ```php
 Shoop::pipe(2,
-  Apply::plus(1),
-  Apply::divide(1)
+	Apply::plus(1),
+	Apply::divide(1)
 )->unfold();
 // output: 3
 ```
@@ -38,11 +38,11 @@ Nesting pipes and filters. (Variation on part of the `PlusAt` Filter.)
 
 ```php
 Shoop::pipe([1, 2, 3],
-  Apply::from(0, 1), // output: [1, 2]
-  Apply::plus("hello"), // output: [1, 2, "hello"]
-  Apply::plus(
-    Apply::from(1)->unfoldUsing([1, 2, 3]) // output: [3]
-  )
+	Apply::from(0, 1), // output: [1, 2]
+	Apply::plus("hello"), // output: [1, 2, "hello"]
+	Apply::plus(
+		Apply::from(1)->unfoldUsing([1, 2, 3]) // output: [3]
+	)
 )->unfold();
 // output [1, 2, "hello", 3]
 ```

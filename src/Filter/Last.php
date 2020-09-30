@@ -5,6 +5,8 @@ namespace Eightfold\Shoop\Filter;
 
 use Eightfold\Foldable\Filter;
 
+use Eightfold\Shoop\Filter\TypeJuggling\AsString;
+
 use Eightfold\Shoop\Filter\Is\IsIdenticalTo;
 
 /**
@@ -25,8 +27,7 @@ class Last extends Filter
             return $last;
         }
 
-        $array = Reversed::fromList($last);
-        return AsString::fromList($array);
+        return AsString::fromList($last);
     }
 
     static public function fromList(array $using, int $length = 1)

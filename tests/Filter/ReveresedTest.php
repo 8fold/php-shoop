@@ -47,7 +47,7 @@ class ReversedTest extends TestCase
             "8fold!",
             "string",
             2.09, // 1.99, // 1.44, // 0.41, // 0.36,
-            44 // 24
+            80 // 44 // 24
         )->unfoldUsing(
             Reversed::fromString("!dlof8")
         );
@@ -65,7 +65,7 @@ class ReversedTest extends TestCase
             "👆👆👇👇",
             "string",
             0.03, // 0.02, // 0.004, // 0.003,
-            1
+            80
         )->unfoldUsing(
             Reversed::fromString("👇👇👆👆")
         );

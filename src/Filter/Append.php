@@ -9,6 +9,7 @@ use Eightfold\Foldable\Filter;
 use Eightfold\Shoop\Shoop;
 use Eightfold\Shoop\Apply;
 
+use Eightfold\Shoop\Filter\TypeJuggling\AsArray;
 use Eightfold\Shoop\Filter\TypeJuggling\AsDictionary;
 use Eightfold\Shoop\Filter\TypeJuggling\AsString;
 use Eightfold\Shoop\Filter\TypeJuggling\AsTuple;
@@ -34,7 +35,7 @@ class Append extends Filter
             return static::fromNumber($using, ...$this->args(true));
 
         } elseif (Is::list()->unfoldUsing($using)) {
-            return static::fromList($using, ...$this->args(true));
+            return static::fromList($using, $this->main);
 
         } elseif (Is::string()->unfoldUsing($using)) {
             if (Is::json()->unfoldUsing($using)) {
@@ -59,6 +60,12 @@ class Append extends Filter
         return $using . $characters;
     }
 
+    /**
+     * @todo PHP 8 - , mixed variadic
+     *
+     * if count is 1 and array - use array merge
+     * otherwise, append using[] = suffix
+     */
     static public function fromList(array $using, array $suffix): array
     {
         return array_merge($using, $suffix);

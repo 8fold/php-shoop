@@ -98,4 +98,38 @@ trait Prependable
 
         // TODO: Objects
     }
+
+    /**
+     * @test
+     * @group Prependable
+     * @group 1.0.0
+     */
+    public function startsWith()
+    {
+        AssertEquals::applyWith(
+            true,
+            "boolean",
+            0.13, // 0.12, // 0.03,
+            1
+        )->unfoldUsing(
+            Shooped::fold("8fold")->startsWith("8")
+        );
+    }
+
+    /**
+     * @test
+     * @group Prependable
+     * @group 1.0.0
+     */
+    public function efStartsWith()
+    {
+        AssertEquals::applyWith(
+            false,
+            "boolean",
+            0.14, // 0.11, // 0.09, // 0.02,
+            1
+        )->unfoldUsing(
+            Shooped::fold("8fold")->efStartsWith("fold")
+        );
+    }
 }

@@ -109,7 +109,7 @@ trait Countable
         AssertEquals::applyWith(
             3,
             "integer",
-            0.18, // 0.1, // 0.09, // 0.06, // 0.03,
+            0.53, // 0.18, // 0.1, // 0.09, // 0.06, // 0.03,
             1
         )->unfoldUsing(
             Shooped::fold(2.5)->efToInteger()
@@ -127,7 +127,7 @@ trait Countable
         AssertEquals::applyWith(
             1,
             "integer",
-            0.13, // 0.1, // 0.09, // 0.07, // 0.02,
+            0.21, // 0.13, // 0.1, // 0.09, // 0.07, // 0.02,
             1
         )->unfoldUsing(
             Shooped::fold(["a" => 1, "b" => 3, "c" => 1])->efToInteger()
@@ -182,7 +182,7 @@ trait Countable
         AssertEquals::applyWith(
             3,
             "integer",
-            0.11, // 0.1, // 0.02, // 0.01,
+            0.12, // 0.11, // 0.1, // 0.02, // 0.01,
             1
         )->unfoldUsing(
             Shooped::fold(2.5)->efToInteger()
@@ -191,7 +191,7 @@ trait Countable
         AssertEquals::applyWith(
             4,
             "integer",
-            0.1, // 0.09, // 0.03,
+            0.25, // 0.11, // 0.1, // 0.09, // 0.03,
             1
         )->unfoldUsing(
             Shooped::fold([3, 1, 3, 1])->length()
@@ -200,7 +200,7 @@ trait Countable
         AssertEquals::applyWith(
             3,
             "integer",
-            0.1, // 0.09, // 0.08, // 0.01,
+            0.14, // 0.1, // 0.09, // 0.08, // 0.01,
             1
         )->unfoldUsing(
             Shooped::fold(["a" => 1, "b" => 3, "c" => 1])->length()
