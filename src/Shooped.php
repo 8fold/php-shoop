@@ -265,6 +265,20 @@ class Shooped implements ShoopedInterface
         );
     }
 
+    public function first($length = 1)
+    {
+        return static::fold(
+            Apply::first($length)->unfoldUsing($this->main)
+        );
+    }
+
+    public function last($length = 1)
+    {
+        return static::fold(
+            Apply::last($length)->unfoldUsing($this->main)
+        );
+    }
+
     public function offsetGet($offset) // ArrayAccess
     {
         return $this->at($offset)->unfold();
