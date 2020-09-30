@@ -127,7 +127,7 @@ trait Countable
         AssertEquals::applyWith(
             1,
             "integer",
-            0.13, // 0.1, // 0.09, // 0.07, // 0.02,
+            0.21, // 0.13, // 0.1, // 0.09, // 0.07, // 0.02,
             1
         )->unfoldUsing(
             Shooped::fold(["a" => 1, "b" => 3, "c" => 1])->efToInteger()
@@ -182,7 +182,7 @@ trait Countable
         AssertEquals::applyWith(
             3,
             "integer",
-            0.11, // 0.1, // 0.02, // 0.01,
+            0.12, // 0.11, // 0.1, // 0.02, // 0.01,
             1
         )->unfoldUsing(
             Shooped::fold(2.5)->efToInteger()
