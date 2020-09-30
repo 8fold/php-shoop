@@ -103,7 +103,7 @@ trait TypeCheckable
         AssertEquals::applyWith(
             true,
             "boolean",
-            0.08, // 0.07, // 0.06, // 0.02,
+            0.1, // 0.08, // 0.07, // 0.06, // 0.02,
             1
         )->unfoldUsing(
             Shooped::fold(["a" => 1, "b" => 2, "c" => 3])->efIsDictionary()

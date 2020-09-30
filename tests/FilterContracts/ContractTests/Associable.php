@@ -113,7 +113,7 @@ trait Associable
             // ["i1" => 1, "i2" => 2]
             ["0.0" => 2.5],
             "array",
-            0.21, // 0.17, // 0.16, // 0.13, // 0.11, // 0.09, // 0.03,
+            2.19, // 0.21, // 0.17, // 0.16, // 0.13, // 0.11, // 0.09, // 0.03,
             1
         )->unfoldUsing(
             Shooped::fold(2.5)->efToDictionary()
@@ -1164,7 +1164,7 @@ trait Associable
         AssertEquals::applyWith(
             "fold!",
             "string",
-            0.27, // 0.19, // 0.15,
+            1.63, // 0.27, // 0.19, // 0.15,
             4
         )->unfoldUsing(
             Shoop::this("8fold!")->drop(function($v) {
