@@ -529,6 +529,98 @@ trait Associable
      * @group 1.0.0
      * @group Associable
      */
+    public function first()
+    {
+        AssertEquals::applyWith(
+            3,
+            "integer",
+            3.48, // 3.47, // 3.32, // 3.1, // 2.99,
+            368
+        )->unfoldUsing(
+            Shooped::fold([3, 1, 3])->first(1)
+        );
+
+        AssertEquals::applyWith(
+            ["a" => 1, "b" => 3],
+            "array",
+            0.04, // 0.03,
+            1
+        )->unfoldUsing(
+            Shooped::fold(["a" => 1, "b" => 3, "c" => 1])->first(2)
+        );
+
+        AssertEquals::applyWith(
+            "Hi",
+            "string",
+            0.08,
+            2
+        )->unfoldUsing(
+            Shooped::fold("Hi!")->first(2)
+        );
+
+        // AssertEquals::applyWith(
+        //     (object) ["a" => 1],
+        //     "object",
+        //     0.001,
+        //     1
+        // )->unfoldUsing(
+        //     Shooped::fold((object) ["a" => 1, "c" => 3])->first()
+        // );
+
+        // TODO: Objects
+    }
+
+    /**
+     * @test
+     * @group 1.0.0
+     * @group Associable
+     */
+    public function last()
+    {
+        AssertEquals::applyWith(
+            3,
+            "integer",
+            3.67,
+            377
+        )->unfoldUsing(
+            Shooped::fold([3, 1, 3])->last()
+        );
+
+        AssertEquals::applyWith(
+            ["b" => 3, "c" => 1],
+            "array",
+            0.03,
+            1
+        )->unfoldUsing(
+            Shooped::fold(["a" => 1, "b" => 3, "c" => 1])->last(2)
+        );
+
+        AssertEquals::applyWith(
+            "!",
+            "string",
+            0.11,
+            2
+        )->unfoldUsing(
+            Shooped::fold("Hi!")->last()
+        );
+
+        // AssertEquals::applyWith(
+        //     1,
+        //     "integer",
+        //     2.99,
+        //     257
+        // )->unfoldUsing(
+        //     Shooped::fold((object) ["a" => 1, "c" => 3])->at("a")
+        // );
+
+        // TODO: Objects
+    }
+
+    /**
+     * @test
+     * @group 1.0.0
+     * @group Associable
+     */
     public function offsetGet()
     {
         // AssertEquals::applyWith(

@@ -113,6 +113,16 @@ class TypeAsDictionaryTest extends TestCase
                         return false;
                     }
 
+                    public function first($length = 1)
+                    {
+                        return false;
+                    }
+
+                    public function last($length = 1)
+                    {
+                        return false;
+                    }
+
                     public function offsetGet($offset)
                     {
                         return $this->at($offset)->unfold();
