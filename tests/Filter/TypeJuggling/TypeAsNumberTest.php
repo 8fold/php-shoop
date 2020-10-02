@@ -31,7 +31,7 @@ class TypeAsNumberTest extends TestCase
             1,
             "integer",
             1.74, // 1.28, // 0.94, // 79, // 0.7, // 0.47,
-            79 // 75 // 21
+            81 // 79 // 75 // 21
         )->unfoldUsing(
             AsNumber::fromBoolean(true)
         );
