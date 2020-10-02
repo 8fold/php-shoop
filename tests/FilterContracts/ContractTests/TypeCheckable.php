@@ -69,7 +69,7 @@ trait TypeCheckable
         AssertEquals::applyWith(
             true,
             "boolean",
-            0.05, // 0.02,
+            0.08, // 0.05, // 0.02,
             1
         )->unfoldUsing(
             Shooped::fold(false)->efIsBoolean()
