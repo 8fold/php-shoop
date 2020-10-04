@@ -978,7 +978,7 @@ trait Associable
         AssertEquals::applyWith(
             "!",
             "string",
-            0.23, // 0.19, // 0.18, // 0.16,
+            0.37, // 0.23, // 0.19, // 0.18, // 0.16,
             64 // 6
         )->unfoldUsing(
             Shooped::fold("Hi!")->dropFirst(2)
