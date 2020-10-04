@@ -23,6 +23,10 @@ interface Associable extends ArrayAccess, Iterator, Addable, Subtractable
 
     public function at($member);
 
+    public function first($length = 1);
+
+    public function last($length = 1);
+
     public function offsetGet($offset); // ArrayAccess
 
     // TODO: PHP 8.0 - mixed, string|int, bool|Falsifiable

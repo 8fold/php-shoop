@@ -19,7 +19,7 @@ trait TypeCheckable
             false,
             "boolean",
             0.47, // 0.02,
-            1
+            64
         )->unfoldUsing(
             Shooped::fold("Hello")->isArray()
         );
@@ -36,7 +36,7 @@ trait TypeCheckable
             true,
             "boolean",
             0.12, // 0.11, // 0.16, // 0.12, // 0.1, // 0.03,
-            1
+            64
         )->unfoldUsing(
             Shooped::fold(["a", "b", "c"])->efIsArray()
         );
@@ -69,7 +69,7 @@ trait TypeCheckable
         AssertEquals::applyWith(
             true,
             "boolean",
-            0.05, // 0.02,
+            0.08, // 0.05, // 0.02,
             1
         )->unfoldUsing(
             Shooped::fold(false)->efIsBoolean()

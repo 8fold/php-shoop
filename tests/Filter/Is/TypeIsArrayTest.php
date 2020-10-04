@@ -27,7 +27,7 @@ class TypeIsArrayTest extends TestCase
             $expected,
             "boolean",
             6.97, // 1.93, // 1.68, // 1.52, // 1.2, // 1.11, // 0.94, // 0.91, // 0.68, // 0.01,
-            145 // 126 // 123 // 113 // 111 // 109 // 108
+            148 // 145 // 126 // 123 // 113 // 111 // 109 // 108
         )->unfoldUsing(
             IsArray::apply()->unfoldUsing([1, 2, 3])
         );

@@ -30,8 +30,8 @@ class TypeAsNumberTest extends TestCase
         AssertEquals::applyWith(
             1,
             "integer",
-            1.28, // 0.94, // 79, // 0.7, // 0.47,
-            75 // 21
+            1.74, // 1.28, // 0.94, // 79, // 0.7, // 0.47,
+            81 // 79 // 75 // 21
         )->unfoldUsing(
             AsNumber::fromBoolean(true)
         );
