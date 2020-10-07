@@ -26,7 +26,7 @@ class TypeIsNumberTest extends TestCase
             true,
             "boolean",
             2.07, // 0.38,
-            11 // 9
+            66 // 11 // 9
         )->unfoldUsing(
             IsNumber::apply()->unfoldUsing(1)
         );

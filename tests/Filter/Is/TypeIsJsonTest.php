@@ -35,7 +35,7 @@ class TypeIsJsonTest extends TestCase
         AssertEquals::applyWith(
             $expected,
             "boolean",
-            0.01,
+            0.05, // 0.01,
             1
         )->unfoldUsing(
             IsJson::apply()->unfoldUsing('{"@type":"Thing"}')
@@ -52,7 +52,7 @@ class TypeIsJsonTest extends TestCase
         AssertEquals::applyWith(
             $expected,
             "boolean",
-            0.01,
+            0.04, // 0.01,
             1
         )->unfoldUsing(
             IsJson::apply()->unfoldUsing("Hello")
