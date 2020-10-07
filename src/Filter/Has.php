@@ -45,7 +45,7 @@ class Has extends Filter
 
         } elseif (Is::string()->unfoldUsing($using)) {
             if (Is::json()->unfoldUsing($using)) {
-                return static::fromJson($using);
+                return static::fromJson($using, ...$this->args(true));
             }
             return static::fromString($using, ...$this->args(true));
         }
@@ -79,5 +79,15 @@ class Has extends Filter
     {
         $dictionary = AsDictionary::fromTuple($using);
         return static::fromList($dictionary, $needle);
+    }
+
+    static public function fromJson(string $using, $needle): bool
+    {
+        $dictionary = AsDictionary::fromJson($using);
+        var_dump($dictionary);
+        die(var_dump(
+            static::fromList($dictionary, $needle)
+        ));
+        return static::fromTuple($tuple, $needle);
     }
 }
