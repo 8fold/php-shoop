@@ -174,7 +174,7 @@ trait Tupleable
         AssertEquals::applyWith(
             '{"content":"Hi!"}',
             "string",
-            1.07,
+            5.88, // 1.07,
             2
         )->unfoldUsing(
             Shooped::fold("Hi!")->efToJson()
