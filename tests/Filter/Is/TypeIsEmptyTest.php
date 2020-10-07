@@ -228,8 +228,8 @@ class TypeIsEmptyTest extends TestCase
         AssertEquals::applyWith(
             false,
             "boolean",
-            1.16, // 0.81, // 0.7, // 0.68,
-            34
+            2.6, // 1.16, // 0.81, // 0.7, // 0.68,
+            126 // 34
         )->unfoldUsing(
             IsJson::apply()->unfoldUsing('')
         );

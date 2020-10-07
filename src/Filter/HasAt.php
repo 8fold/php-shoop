@@ -46,52 +46,10 @@ class HasAt extends Filter
 
         } elseif (Is::string()->unfoldUsing($using)) {
             if (Is::json()->unfoldUsing($using)) {
-                return static::fromJson($using);
+                return static::fromJson($using, ...$this->args(true));
             }
             return static::fromString($using, ...$this->args(true));
         }
-        // if (! TypeIs::applyWith("list")->unfoldUsing($this->membersSearch)) {
-        //     $this->membersSearch = [$this->membersSearch];
-
-        // }
-
-        // if (! TypeIsArrayOfStrings::apply()->unfoldUsing($this->membersSearch) and
-        //     ! TypeIsArrayOfIntegers::apply()->unfoldUsing($this->membersSearch)
-        // ) {
-        //     $this->membersSearch = Apply::retainUsing("is_string")
-        //         ->unfoldUsing($this->membersSearch);
-        // }
-
-        // $useDictionary = true;
-        // if (TypeIsArrayOfIntegers::apply()->unfoldUsing($this->membersSearch)) {
-        //     $useDictionary = false;
-        // }
-
-
-        // // TODO: Filter - TypeIsArrayOfStrings, TypeIsArrayOfIntegers
-        // if (! TypeIs::applyWith("list")->unfoldUsing($using)) {
-        //     if ($useDictionary) {
-        //         return Shoop::pipe($using,
-        //             TypeAsDictionary::apply(),
-        //             HasAt::applyWith($this->membersSearch)
-        //         )->unfold();
-        //     }
-
-        //     return Shoop::pipe($using,
-        //         TypeAsArray::apply(),
-        //         HasAt::applyWith($this->membersSearch)
-        //     )->unfold();
-
-        // }
-
-        // return Shoop::pipe($using,
-        //     ($useDictionary) ? Apply::typeAsDictionary() : Apply::typeAsArray(),
-        //     Apply::members(),
-        //     Apply::shared($this->membersSearch), // TODO: unique
-        //     Apply::typeAsInteger(),
-        //     Apply::is(0),
-        //     Apply::reversed()
-        // )->unfold();
     }
 
     /**
@@ -131,6 +89,12 @@ class HasAt extends Filter
     }
 
     static public function fromTuple($using, string $member)
+    {
+        $dictionary = AsDictionary::fromTuple($using);
+        return static::fromDictionary($dictionary, $member);
+    }
+
+    static public function fromJson(string $using, string $member)
     {
         $dictionary = AsDictionary::fromTuple($using);
         return static::fromDictionary($dictionary, $member);
