@@ -174,7 +174,7 @@ trait Countable
             3,
             "integer",
             0.14, // 0.11, // 0.09, // 0.02,
-            1
+            64
         )->unfoldUsing(
             Shooped::fold(3)->length()
         );
