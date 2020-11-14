@@ -174,7 +174,7 @@ trait Countable
             3,
             "integer",
             0.14, // 0.11, // 0.09, // 0.02,
-            1
+            64
         )->unfoldUsing(
             Shooped::fold(3)->length()
         );
@@ -200,7 +200,7 @@ trait Countable
         AssertEquals::applyWith(
             3,
             "integer",
-            0.14, // 0.1, // 0.09, // 0.08, // 0.01,
+            0.15, // 0.14, // 0.1, // 0.09, // 0.08, // 0.01,
             1
         )->unfoldUsing(
             Shooped::fold(["a" => 1, "b" => 3, "c" => 1])->length()

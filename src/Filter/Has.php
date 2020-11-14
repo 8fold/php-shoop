@@ -84,10 +84,6 @@ class Has extends Filter
     static public function fromJson(string $using, $needle): bool
     {
         $dictionary = AsDictionary::fromJson($using);
-        var_dump($dictionary);
-        die(var_dump(
-            static::fromList($dictionary, $needle)
-        ));
         return static::fromTuple($tuple, $needle);
     }
 }

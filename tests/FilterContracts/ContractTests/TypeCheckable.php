@@ -35,7 +35,7 @@ trait TypeCheckable
         AssertEquals::applyWith(
             true,
             "boolean",
-            0.12, // 0.11, // 0.16, // 0.12, // 0.1, // 0.03,
+            0.15, //  0.12, // 0.11, // 0.16, // 0.12, // 0.1, // 0.03,
             64
         )->unfoldUsing(
             Shooped::fold(["a", "b", "c"])->efIsArray()
