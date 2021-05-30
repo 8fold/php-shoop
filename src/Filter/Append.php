@@ -39,7 +39,7 @@ class Append extends Filter
 
         } elseif (Is::string()->unfoldUsing($using)) {
             if (Is::json()->unfoldUsing($using)) {
-                return static::fromJson($using);
+                return static::fromTuple($using, $this->main);
             }
             $suffix = AsString::fromList($this->args(true));
             return static::fromString($using, $suffix);
