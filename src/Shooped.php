@@ -182,6 +182,7 @@ class Shooped implements ShoopedInterface
     }
 
     // TODO: PHP 8 - array|int
+    // TODO: fromString not implemented
     public function minus(
         $items = [" ", "\t", "\n", "\r", "\0", "\x0B"],
         bool $fromStart = true,
