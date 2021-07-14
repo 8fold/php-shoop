@@ -68,7 +68,7 @@ trait Sortable
         AssertEquals::applyWith(
             [1, 3, 3],
             "array",
-            0.17 // 0.11,
+            0.17, // 0.11,
             1
         )->unfoldUsing(
             Shooped::fold([3, 1, 3])->sort()->asArray()
