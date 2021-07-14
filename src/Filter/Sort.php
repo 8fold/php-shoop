@@ -37,7 +37,8 @@ class Sort extends Filter
         }
     }
 
-    static public function fromList(array $using, int|callable $flags): array
+    // static public function fromList(array $using, int|callable $flags): array
+    static public function fromList(array $using, $flags): array
     {
         if (is_int($flags)) {
             asort($using, $flags);
