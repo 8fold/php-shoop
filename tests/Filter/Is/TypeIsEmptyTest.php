@@ -195,7 +195,7 @@ class TypeIsEmptyTest extends TestCase
             true,
             "boolean",
             9.84, // 9.49, // 9.17, // 7.6, // 1.74,
-            142 // 141 // 138 // 129 // 128 // 124 // 61
+            164 // 142 // 141 // 138 // 129 // 128 // 124 // 61
         )->unfoldUsing(
             IsEmpty::fromObject(
                 new class implements Emptiable {
