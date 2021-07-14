@@ -13,6 +13,7 @@ use Eightfold\Shoop\FilterContracts\Interfaces\Emptiable;
 use Eightfold\Shoop\FilterContracts\Interfaces\Falsifiable;
 use Eightfold\Shoop\FilterContracts\Interfaces\Prependable;
 use Eightfold\Shoop\FilterContracts\Interfaces\Reversible;
+use Eightfold\Shoop\FilterContracts\Interfaces\Sortable;
 use Eightfold\Shoop\FilterContracts\Interfaces\Stringable;
 use Eightfold\Shoop\FilterContracts\Interfaces\Tupleable;
 use Eightfold\Shoop\FilterContracts\Interfaces\TypeCheckable;
@@ -28,6 +29,7 @@ interface Shooped extends
     Falsifiable,
     Prependable,
     Reversible,
+    Sortable,
     Stringable,
     Tupleable,
     TypeCheckable

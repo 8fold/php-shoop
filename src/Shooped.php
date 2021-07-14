@@ -22,6 +22,7 @@ use Eightfold\Shoop\FilterContracts\Interfaces\Emptiable;
 use Eightfold\Shoop\FilterContracts\Interfaces\Falsifiable;
 use Eightfold\Shoop\FilterContracts\Interfaces\Prependable;
 use Eightfold\Shoop\FilterContracts\Interfaces\Reversible;
+use Eightfold\Shoop\FilterContracts\Interfaces\Sortable;
 use Eightfold\Shoop\FilterContracts\Interfaces\Stringable;
 use Eightfold\Shoop\FilterContracts\Interfaces\Subtractable;
 use Eightfold\Shoop\FilterContracts\Interfaces\Tupleable;
@@ -391,6 +392,14 @@ class Shooped implements ShoopedInterface
             $this->rewind();
         }
         next($this->temp);
+    }
+
+// - Sortable
+    public function sort(int|callable $flag = SORT_REGULAR): Sortable
+    {
+        return static::fold(
+            Apply::sort($flag)->unfoldUsing($this->main)
+        );
     }
 
 // - Emptiable TODO: create interface

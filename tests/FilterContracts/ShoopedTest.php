@@ -25,6 +25,7 @@ use Eightfold\Shoop\Tests\FilterContracts\ContractTests\Falsifiable;
 use Eightfold\Shoop\Tests\FilterContracts\ContractTests\Emptiable;
 use Eightfold\Shoop\Tests\FilterContracts\ContractTests\Comparable;
 use Eightfold\Shoop\Tests\FilterContracts\ContractTests\Reversible;
+use Eightfold\Shoop\Tests\FilterContracts\ContractTests\Sortable;
 
 use Eightfold\Shoop\Shooped;
 
@@ -35,7 +36,7 @@ class ShoopedTest extends FilterContractsTestCase
 {
     use Arrayable, Associable, Countable, Stringable, Tupleable, TypeCheckable, Emptiable,
         Falsifiable, Comparable, Reversible, Addable, Subtractable, Divisible, Appendable,
-        Prependable;
+        Prependable, Sortable;
 
     static public function sutClassName(): string
     {
