@@ -53,7 +53,7 @@ trait TypeCheckable
             false,
             "boolean",
             0.09, // 0.05, // 0.02,
-            1
+            64
         )->unfoldUsing(
             Shooped::fold("Hello")->isBoolean()
         );
