@@ -395,7 +395,8 @@ class Shooped implements ShoopedInterface
     }
 
 // - Sortable
-    public function sort(int|callable $flag = SORT_REGULAR): Sortable
+    // public function sort(int|callable $flag = SORT_REGULAR): Sortable
+    public function sort($flag = SORT_REGULAR): Sortable
     {
         return static::fold(
             Apply::sort($flag)->unfoldUsing($this->main)
